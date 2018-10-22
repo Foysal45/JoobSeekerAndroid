@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_shortlisted_jobs"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:title="ShortList" />
+
+    <item
+        android:id="@+id/navigation_hotjobs"
+        android:icon="@drawable/ic_hotjob"
+        android:title="Hotjobs" />
+
+    <item
+        android:id="@+id/navigation_more"
+        android:icon="@drawable/ic_more_horiz_black_24dp"
+        android:title="More" />
+
+</menu>

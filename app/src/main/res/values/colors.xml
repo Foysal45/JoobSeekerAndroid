@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2F64A3</color>
+    <color name="colorPrimaryDark">#2F64A3</color>
+    <color name="colorAccent">#2F64A3</color>
+    <color name="colorBdjobsMajenta">#B1097C</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorUnselected">#979797</color>
+
+    <color name="colorAsh">#E0E0E0</color>
+</resources>

@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.bdjobs.app"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 603
+        versionName "600.0.3"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
+
+    //----androidx for design and others
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation 'androidx.core:core-ktx:1.0.0'
+    implementation "com.google.android.material:material:1.0.0"
+
+    //----firebase
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    //implementation "com.google.firebase:firebase-ads:17.0.0"
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation "com.google.firebase:firebase-auth:16.0.5"
+    implementation 'com.google.firebase:firebase-perf:16.1.2'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+
+    //----image & animation related
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.airbnb.android:lottie:2.8.0"
+    implementation 'com.github.fondesa:kpermissions:1.0.0'
+
+    //network call and json parsing
+    implementation "com.google.code.gson:gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    //----jetbrains kotlin extension
+    implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.4"
+
+    //----room database
+    implementation 'androidx.room:room-runtime:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
+    implementation 'androidx.room:room-rxjava2:2.0.0'
+    testImplementation 'androidx.room:room-testing:2.0.0'
+
+    //------linkedIn SDK
+    implementation project(':linkedin-sdk')
+
+    //----facebook
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
+}
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,246 @@
+package com.bdjobs.app.Databases.External
+
+import android.content.Context
+import android.database.Cursor
+import android.database.SQLException
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
+import android.database.sqlite.SQLiteOpenHelper
+import java.io.FileOutputStream
+import java.io.IOException
+
+
+internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myContext, DB_NAME, null, DATABASE_VERSION) {
+    //************************************************************************************************//
+
+
+    private var myDataBase: SQLiteDatabase? = null
+
+    private val isDatabaseExist: Boolean
+        get() {
+            var kontrol: SQLiteDatabase? = null
+
+            try {
+                val myPath = DB_PATH + DB_NAME
+                kontrol = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY)
+
+            } catch (e: SQLiteException) {
+                kontrol = null
+            }
+
+            if (kontrol != null) {
+                kontrol.close()
+            }
+            return if (kontrol != null) true else false
+        }
+
+    @Throws(IOException::class)
+    fun crateDatabase() {
+        val vtVarMi = isDatabaseExist
+
+        if (!vtVarMi) {
+            this.readableDatabase
+            try {
+                copyDataBase()
+            } catch (e: Exception) {
+                // throw new Error("Error copying database");
+                e.printStackTrace()
+            }
+
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun copyDataBase() {
+
+        // Open your local db as the input stream
+        try {
+            val myInput = myContext.assets.open(DB_NAME)
+
+            // Path to the just created empty db
+            val outFileName = DB_PATH + DB_NAME
+
+            // Open the empty db as the output stream
+            val myOutput = FileOutputStream(outFileName)
+
+            // transfer bytes from the inputfile to the outputfile
+            val buffer = ByteArray(1024)
+            var length: Int =myInput.read(buffer)
+            while (length > 0) {
+                myOutput.write(buffer, 0, length)
+                length=myInput.read(buffer)
+            }
+
+            // Close the streams
+            myOutput.flush()
+            myOutput.close()
+            myInput.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    @Throws(SQLException::class)
+    fun openDataBase() {
+        // Open the database
+        try {
+            val myPath = DB_PATH + DB_NAME
+            myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    fun dataBase(): SQLiteDatabase? {
+        return myDataBase
+    }
+
+    fun getCursor(query: String): Cursor {
+
+        return myDataBase!!.rawQuery(query, null)
+    }
+
+    @Synchronized
+    override fun close() {
+        if (myDataBase != null)
+            myDataBase!!.close()
+        super.close()
+    }
+
+    override fun onCreate(db: SQLiteDatabase) {}
+
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
+
+    companion object {
+
+        val DB_PATH = "/data/data/com.bdjobs.app/databases/"
+        val DB_NAME = "bdjobs.sqlite"
+        val DATABASE_VERSION = 1
+
+        //-----------------------------------JobRoleInfo------------------------------------------------//
+        val TABLE_NAME_JOB_ROLE_INFO = "JobRoleInfo"
+        val JOB_ROLE_INFO_COL_SL = "Sl"
+        val JOB_ROLE_INFO_COL_JOB_ROLE_ID = "JObRoleID"
+        val JOB_ROLE_INFO_CAT_NAME = "Cat_Name"
+        val JOB_ROLE_INFO_COL_JOB_ROLE = "JobRole"
+        val JOB_ROLE_INFO_COL_MODULE_NAME = "ModuleName"
+        val JOB_ROLE_INFO_COL_MODULE_DESCRIPTION = "ModuleDescription"
+        val JOB_ROLE_INFO_COL_DURATION = "Duration"
+        val JOB_ROLE_INFO_COL_SAMPLE_LINK = "SampleLink"
+        val JOB_ROLE_INFO_COL_CATEGORY_ID = "categoryid"
+        val JOB_ROLE_INFO_COL_PRIORITY = "priority"
+        //************************************************************************************************//
+
+        //-----------------------------------Org_Types----------------------------------------------------//
+        val TABLE_NAME_ORG_TYPES = "Org_Types"
+        val ORG_TYPES_COL_ORG_TYPE_ID = "ORG_TYPE_ID"
+        val ORG_TYPES_COL_ORG_TYPE_NAME = "ORG_TYPE_NAME"
+        val ORG_TYPES_COL_IndustryId = "IndustryId"
+        val ORG_TYPES_COL_ORG_TYPE_NAME_BNG = "ORG_TYPE_NAME_BNG"
+        //************************************************************************************************//
+
+        //-----------------------------EDU_LEVELS---------------------------------------------------------//
+        val TABLE_NAME_EDU_LEVELS = "EDUCATION_LEVELS"
+        val EDU_LEVELS_COL_EDU_LEVEL = "EDU_LEVEL"
+        val EDU_LEVELS_COL_EDU_ID = "EDU_ID"
+        //************************************************************************************************//
+
+        //-------------------------------EDU_TYPES--------------------------------------------------------//
+        val TABLE_NAME_EDU_TYPES = "EDUCATION_TYPES"
+        val EDU_TYPES_COL_EDU_TYPES = "EDU_TYPES"
+        val EDU_TYPES_COL_EDU_TYPES_ID = "EDU_TYPE_ID"
+        val EDU_TYPES_COL_EDU_TYPES_TAG = "TAG"
+        //************************************************************************************************//
+
+        //-----------------------------LOCATIONS----------------------------------------------------------//
+        val TABLE_NAME_LOCATIONS = "Locations"
+        val LOCATIONS_COL_LOCATION_ID = "L_ID"
+        val LOCATIONS_COL_LOCATION_TYPE = "L_TYPE"
+        val LOCATIONS_COL_LOCATION_NAME = "L_Name"
+        val LOCATIONS_COL_LOCATION_NAME_BANGLA = "L_NameBangla"
+        val LOCATIONS_COL_LOCATION_PARENT_ID = "ParentId"
+        val LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH = "OutsideBangladesh"
+        val LOCATIONS_COL_LOCATION_COUNTRY_CODE = "CountryCode"
+        val LOCATIONS_COL_LOCATION_CODE_TYPE = "CodeType"
+
+        //************************************************************************************************//
+
+        //-----------------------------CATEGORY-----------------------------------------------------------//
+        val TABLE_NAME_CATEGORY = "CATEGORY"
+        val CATEGORY_COL_CAT_ID = "CAT_ID"
+        val CATEGORY_COL_CAT_NAME = "CAT_NAME"
+        val CATEGORY_COL_CAT_NAME_BANGLA = "CAT_NAME_Bangla"
+        val CATEGORY_COL_CAT_ORD = "Ord"
+        //************************************************************************************************//
+
+        //-----------------------------INSTITUTES---------------------------------------------------------//
+        val TABLE_NAME_INSTITUTES = "INSTITUTES"
+        val INSTITUTES_COL_INSTITUTE_ID = "INST_ID"
+        val INSTITUTES_COL_INSTITUTE_NAME = "INST_Name"
+        //************************************************************************************************//
+
+        //-------------------------MAJOR_SUBJECTS---------------------------------------------------------//
+        val TABLE_NAME_MAJOR_SUBJECTS = "MAJOR_SUBJECT"
+        val MAJOR_SUBJECTS_COL_MAJOR_ID = "MAJOR_Id"
+        val MAJOR_SUBJECTS_COL_MAJOR_NAME = "MAJOR_Name"
+        //************************************************************************************************//
+
+        //--------------------------------RESULTS---------------------------------------------------------//
+        val TABLE_NAME_RESULTS = "Results"
+        val RESULTS_COL_RESULT = "Result"
+        val RESULTS_COL_RESULT_ID = "Result_ID"
+        //************************************************************************************************//
+
+        //--------------------------------MARITAL---------------------------------------------------------//
+        val TABLE_NAME_MARITAL = "Marital_Status"
+        val MARITAL_COL_MARITAL_STATUS = "MRTL_ST"
+        val MARITAL_COL_MARITAL_ID = "MRTL_ID"
+        //************************************************************************************************//
+
+        //---------------------------------GENDER---------------------------------------------------------//
+        val TABLE_NAME_GENDER = "Gender"
+        val GENDER_COL_GENDER = "Gender"
+        val GENDER_COL_GENDER_ID = "G_ID"
+        //************************************************************************************************//
+
+        //--------------------------------LOOKING---------------------------------------------------------//
+        val TABLE_NAME_LOOKING = "Looking_For"
+        val LOOKING_COL_LOOKING_FOR = "LK_Name"
+        val LOOKING_COL_LOOKING_ID = "LK_ID"
+        //************************************************************************************************//
+
+        //--------------------------------EDUCATION_DEGREES---------------------------------------------//
+        val TABLE_NAME_EDUCATION_DEGREES = "educationDegrees"
+        val EDUCATION_DEGREES_COL_EDU_LEVEL = "EduLevel"
+        val EDUCATION_DEGREES_COL_DEGREE_NAME = "DegreeName"
+        val EDUCATION_DEGREES_COL_EDUCATION_TYPE = "EducationType"
+        //************************************************************************************************//
+
+
+        //--------------------------------SUB_CATEGORY -------------------------------------------------//
+        val TABLE_NAME_SUB_CATEGORY = "sub_category"
+        val SUB_CATEGORY_SUB_CAT_ID = "SUB_CAT_ID"
+        val SUB_CATEGORY_COL_CAT_ID = "CAT_ID"
+        val SUB_CATEGORY_COL_SUB_NAME = "SUB_NAME"
+        val SUB_CATEGORY_COL_SUB_TYPE = "SUB_TYPE"
+        val SUB_CATEGORY_COL_SNO = "SNO"
+        val SUB_CATEGORY_COL_Sub_NAME_BNG = "Sub_NAME_BNG"
+        val SUB_CATEGORY_COL_User_Defined = "UserDefined"
+        val SUB_CATEGORY_COL_Verified_On = "VerifiedOn"
+
+        //************************************************************************************************//
+
+        //---------------------------------NEWSPAPER----------------------------------------------------//
+        val TABLE_NAME_NEWSPAPER = "newspaper"
+        val NEWSPAPER_COL_NEWSPAPER_NAME = "name"
+        val NEWSPAPER_COL_NEWSPAPER_ID = "id"
+        //************************************************************************************************//
+
+        //---------------------------------AGERANGE-----------------------------------------------------//
+        val TABLE_NAME_AGERANGE = "ageRange"
+        val AGERANGE_COL_AGE_RANGE = "age_range"
+        val AGERANGE_COL_AGE_ID = "id"
+    }
+}

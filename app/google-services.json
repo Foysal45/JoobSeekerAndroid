@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "538810570838",
+    "firebase_url": "https://project-6941745170292304370.firebaseio.com",
+    "project_id": "project-6941745170292304370",
+    "storage_bucket": "project-6941745170292304370.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538810570838:android:160fa4ce582a8db1",
+        "android_client_info": {
+          "package_name": "com.bdjobs.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538810570838-nroh4cfs5f2oafi0dvopu3ee4b2cmr1q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "6e23155c0ffc276d93db6b8e469424ab79d17f59"
+          }
+        },
+        {
+          "client_id": "538810570838-qmic7j95g3mb1ds87s0iqgv40frle1c3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "8c483c2e57776d2699977fb29b1a1067bfd4439e"
+          }
+        },
+        {
+          "client_id": "538810570838-itm5qi6ca8bqduhr9mkb9nh5fgqe6ve9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "af4efd13bdd3e063ac72abd288dd2a043ed02424"
+          }
+        },
+        {
+          "client_id": "538810570838-kga72juof0d6vfru2v81jkaldu182pv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "6038683f458538aded40a8f98e9b36ca5268c105"
+          }
+        },
+        {
+          "client_id": "538810570838-dcpe3u97gtq21i9h1e7ju1quug4fdl3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "133ee65e869c1501e08a6183f1453acf82463975"
+          }
+        },
+        {
+          "client_id": "538810570838-g58930ita5m31fse6mr8v3jmhiq7ui7j.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "538810570838-2u4ecb19a0kl7789girooesoq9rsfhdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC6QckjcDgPSjTq7SXXZj9eOzVPYt3L4I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

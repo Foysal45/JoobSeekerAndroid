@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Bdjobs</string>
+    <string name="hint.keyword">Job title, Keyword</string>
+    <string name="hint.location">Location</string>
+    <string name="hint.Category">Category</string>
+    <string name="field_empty_error_message_common">This field can not be empty!</string>
+    <string name="title_activity_main_landing">MainLandingActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main22">MainActivity22</string>
+    <string name="hint.voiceInput">Say something</string>
+</resources>
