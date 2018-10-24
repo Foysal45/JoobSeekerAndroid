@@ -33,14 +33,11 @@
         <activity android:name=".Login.LoginBaseActivity" />
         <activity android:name=".SuggestiveSearch.SuggestiveSearchActivity" />
 
-        <service android:name=".Notification.MyFirebaseMessagingService">
+        <service
+            android:name=".Notification.BdjobsFirebaseMessagingService"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".Notification.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 

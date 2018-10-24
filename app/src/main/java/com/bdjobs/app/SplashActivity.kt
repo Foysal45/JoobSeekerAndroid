@@ -24,6 +24,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Utilities.debug
+import com.bdjobs.app.Utilities.info
 import com.bdjobs.app.Utilities.logException
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -36,6 +37,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.security.MessageDigest
+import com.google.firebase.internal.FirebaseAppHelper.getToken
+import com.google.firebase.iid.InstanceIdResult
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.iid.FirebaseInstanceId
+
+
 
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -47,6 +54,14 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         registerReceiver(ConnectivityReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         generateKeyHash()
+        getFCMtoken()
+    }
+
+    private fun getFCMtoken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this@SplashActivity) { instanceIdResult ->
+            val token = instanceIdResult.token
+            info("newToken $token")
+        }
     }
 
     override fun onResume() {

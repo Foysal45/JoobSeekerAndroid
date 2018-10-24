@@ -18,7 +18,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.fragment_login_landing.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

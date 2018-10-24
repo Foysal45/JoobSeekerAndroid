@@ -1,6 +1,6 @@
 package com.bdjobs.app.API.ModelClasses
-import com.google.gson.annotations.SerializedName
 
+import com.google.gson.annotations.SerializedName
 
 
 data class DatabaseUpdateModel(

@@ -35,7 +35,7 @@ import kotlin.collections.ArrayList
 class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     private lateinit var textData: String
     private lateinit var from: String
-    private lateinit var searchTextWatcher: TextWatcher
+
     private lateinit var dataStorage: DataStorage
     private val suggestionList = ArrayList<String>()
     private var adapter: SuggestionAdapter? = null
@@ -93,7 +93,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     clearAllBTN.hide()
                 }
                 historyAdapter = HistoryAdapter(historyList, this@SuggestiveSearchActivity)
-                historyRV.layoutManager = LinearLayoutManager(this@SuggestiveSearchActivity, LinearLayout.VERTICAL, false)
+                historyRV.layoutManager = LinearLayoutManager(this@SuggestiveSearchActivity)
                 historyRV.adapter = historyAdapter
                 historyRV.recycledViewPool.clear();
                 historyAdapter.notifyDataSetChanged()
@@ -122,7 +122,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             suggestionList.add(item)
         }
         adapter = SuggestionAdapter(suggestionList, this)
-        filterRV.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        filterRV.layoutManager = LinearLayoutManager(this@SuggestiveSearchActivity)
         filterRV.adapter = adapter
     }
 
