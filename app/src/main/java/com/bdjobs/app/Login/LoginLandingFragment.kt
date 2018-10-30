@@ -17,7 +17,6 @@ import com.bdjobs.app.Utilities.CommonMethods.Companion.stopProgressBar
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.fragment_login_landing.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,8 +40,10 @@ class LoginLandingFragment : Fragment() {
 
 
     private fun onClicks() {
-        backBtnIMGV.onClick { loginCommunicator?.backButtonClicked() }
-        nextButtonFAB.onClick {
+        backBtnIMGV.setOnClickListener {
+            loginCommunicator?.backButtonClicked()
+        }
+        nextButtonFAB.setOnClickListener {
             doLogin()
         }
     }
@@ -51,7 +52,6 @@ class LoginLandingFragment : Fragment() {
         if (!validateUserName()) {
             return
         } else {
-
 
 
             val userName = userNameTIET.getString()

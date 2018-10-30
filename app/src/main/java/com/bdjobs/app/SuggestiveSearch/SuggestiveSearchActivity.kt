@@ -25,7 +25,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_loacationET
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import kotlinx.android.synthetic.main.activity_suggestive_search.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.sdk27.coroutines.onClick
+
+
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.util.*
@@ -132,7 +133,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     }
 
     private fun onClicks() {
-        backIMGV.onClick { onBackPressed() }
+        backIMGV.setOnClickListener { onBackPressed() }
 
         suggestiveSearchET.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 
@@ -144,8 +145,8 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         })
 
 
-        filterIMGV.onClick { promptSpeechInput() }
-        clearAllBTN.onClick {
+        filterIMGV.setOnClickListener { promptSpeechInput() }
+        clearAllBTN.setOnClickListener {
             clearHistory(from)
         }
 

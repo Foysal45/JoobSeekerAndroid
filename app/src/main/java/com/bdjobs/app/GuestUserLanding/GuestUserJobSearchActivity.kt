@@ -12,7 +12,6 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.CommonMethods
 import com.bdjobs.app.Utilities.Constants.Companion.guestUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
@@ -24,7 +23,6 @@ import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
 class GuestUserJobSearchActivity : Activity() {
@@ -48,21 +46,21 @@ class GuestUserJobSearchActivity : Activity() {
     }
 
     private fun onClicks() {
-        profileIMGV.onClick {
+        profileIMGV.setOnClickListener {
             startActivity(intentFor<LoginBaseActivity>())
         }
 
-        jobtitleET.onClick {
+        jobtitleET.setOnClickListener {
             goToSuggestiveSearchActivityForResult(key_jobtitleET, jobtitleET)
         }
-        loacationET.onClick {
+        loacationET.setOnClickListener {
             goToSuggestiveSearchActivityForResult(key_loacationET, loacationET)
         }
-        categoryET.onClick {
+        categoryET.setOnClickListener {
             goToSuggestiveSearchActivityForResult(key_categoryET, categoryET)
         }
 
-        guestSearchBTN.onClick {
+        guestSearchBTN.setOnClickListener {
            startActivity<JobBaseActivity>()
             //CommonMethods.setLanguage(this@GuestUserJobSearchActivity,"bn")
         }
