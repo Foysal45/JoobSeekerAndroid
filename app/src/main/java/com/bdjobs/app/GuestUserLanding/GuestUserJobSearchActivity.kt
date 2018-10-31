@@ -59,8 +59,6 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         } else {
             mSnackBar?.dismiss()
         }
-
-
     }
 
     override fun onPostResume() {
