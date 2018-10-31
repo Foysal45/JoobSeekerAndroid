@@ -3,6 +3,10 @@ package com.bdjobs.app.Utilities
 
 import android.app.Activity
 import android.app.Fragment
+import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.content.Intent
+import android.net.ConnectivityManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,18 +16,64 @@ import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.R
+import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
+import java.util.*
+
 
 fun Any.simpleClassName(fragment: Fragment): String {
     return fragment::class.java.simpleName
 }
 
-fun Activity.transitFragment(fragment: Fragment,holderID:Int, addToBackStack: Boolean) {
+
+fun Activity.showProgressBar(progressBar: ProgressBar) {
+    progressBar.show()
+    disableUserInteraction()
+
+}
+
+fun Activity.stopProgressBar(progressBar: ProgressBar) {
+    progressBar.hide()
+    enableUserInteraction()
+}
+
+
+
+fun Context.isOnline(): Boolean {
+    val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = cm.activeNetworkInfo
+    if (activeNetwork != null) {
+        // connected to the internet
+        if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
+            // connected to wifi
+            return true
+        } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
+            // connected to mobile data
+            return true
+        }
+    }
+    // not connected to the internet
+    return false
+
+}
+
+fun Context.setLanguage(localeName: String) {
+    val myLocale = Locale(localeName)
+    val res = resources
+    val dm = res.displayMetrics
+    val conf = res.configuration
+    conf.locale = myLocale
+    res.updateConfiguration(conf, dm)
+    val refresh = Intent(this, SplashActivity::class.java)
+    startActivity(refresh)
+}
+
+fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: Boolean) {
     val transaction = fragmentManager.beginTransaction()
 
     if (addToBackStack) {
@@ -34,7 +84,7 @@ fun Activity.transitFragment(fragment: Fragment,holderID:Int, addToBackStack: Bo
     transaction.commit()
 }
 
-fun Activity.transitFragment(fragment: Fragment,holderID:Int) {
+fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
 
     val transaction = fragmentManager.beginTransaction()
     transaction.replace(holderID, fragment, simpleClassName(fragment))

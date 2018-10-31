@@ -9,6 +9,7 @@
     android:fitsSystemWindows="true"
     android:isScrollContainer="true"
     android:minHeight="250dp"
+    android:id="@+id/userNameBaseCL"
     tools:context=".Login.LoginBaseActivity"
     tools:layout_editor_absoluteY="25dp">
 

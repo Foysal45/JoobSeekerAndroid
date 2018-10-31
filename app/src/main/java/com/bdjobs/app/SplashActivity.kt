@@ -29,6 +29,7 @@ import com.bdjobs.app.Utilities.logException
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.no_internet.*
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
@@ -37,21 +38,17 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.security.MessageDigest
-import com.google.firebase.internal.FirebaseAppHelper.getToken
-import com.google.firebase.iid.InstanceIdResult
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.iid.FirebaseInstanceId
-
-
 
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
     lateinit var pref: SharedPreferences
     private lateinit var bdjobsUserSession: BdjobsUserSession
 
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerReceiver(ConnectivityReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         generateKeyHash()
         getFCMtoken()
@@ -107,16 +104,16 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     private fun doWork(connected: Boolean) {
-
         var mSnackBar: Snackbar? = null
         if (!connected) {
             setContentView(R.layout.no_internet)
             mSnackBar = Snackbar
-                    .make(noInternet, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Open Wifi settings") {
+                    .make(noInternet, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.turn_on_wifi)) {
                         startActivity(Intent(Settings.ACTION_WIFI_SETTINGS));
                     }
-            mSnackBar.show()
+                    .setActionTextColor(resources.getColor(R.color.colorWhite))
+            mSnackBar?.show()
 
         } else {
             mSnackBar?.dismiss()
@@ -262,5 +259,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(internetBroadCastReceiver)
+    }
 }

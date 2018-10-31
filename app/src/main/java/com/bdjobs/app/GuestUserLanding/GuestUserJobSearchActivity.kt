@@ -3,10 +3,14 @@ package com.bdjobs.app.GuestUserLanding
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity
@@ -21,14 +25,16 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.bdjobs.app.Utilities.clearTextOnDrawableRightClick
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.getString
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 
-class GuestUserJobSearchActivity : Activity() {
-
+class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
     private lateinit var dataStorage: DataStorage
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+    private var mSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +43,35 @@ class GuestUserJobSearchActivity : Activity() {
         dataStorage = DataStorage(applicationContext)
         initialization()
         onClicks()
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (!isConnected) {
+            mSnackBar = Snackbar
+                    .make(root, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.turn_on_wifi)) {
+                        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                    }
+                    .setActionTextColor(resources.getColor(R.color.colorWhite))
+
+            mSnackBar?.show()
+
+        } else {
+            mSnackBar?.dismiss()
+        }
+
+
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        ConnectivityReceiver.connectivityReceiverListener = this
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(internetBroadCastReceiver)
     }
 
     private fun initialization() {
@@ -61,7 +96,7 @@ class GuestUserJobSearchActivity : Activity() {
         }
 
         guestSearchBTN.setOnClickListener {
-           startActivity<JobBaseActivity>()
+            startActivity<JobBaseActivity>()
             //CommonMethods.setLanguage(this@GuestUserJobSearchActivity,"bn")
         }
     }

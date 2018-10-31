@@ -10,4 +10,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_main22">MainActivity22</string>
     <string name="hint.voiceInput">Say something</string>
+    <string name="turn_on_wifi">Turn Wifi on</string>
+    <string name="alert_no_internet">No internet connection!</string>
 </resources>

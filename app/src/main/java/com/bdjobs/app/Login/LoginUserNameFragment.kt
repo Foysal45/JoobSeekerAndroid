@@ -12,17 +12,19 @@ import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.CommonMethods.Companion.showProgressBar
-import com.bdjobs.app.Utilities.CommonMethods.Companion.stopProgressBar
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.getString
+import com.bdjobs.app.Utilities.isOnline
+import com.bdjobs.app.Utilities.showProgressBar
+import com.bdjobs.app.Utilities.stopProgressBar
 import kotlinx.android.synthetic.main.fragment_login_landing.*
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
 
-class LoginLandingFragment : Fragment() {
+class LoginUserNameFragment : Fragment() {
 
     lateinit var loginCommunicator: LoginCommunicator
     lateinit var symbol: String
@@ -56,17 +58,17 @@ class LoginLandingFragment : Fragment() {
 
             val userName = userNameTIET.getString()
 
-            showProgressBar(userNameProgressBar, activity)
+            activity.showProgressBar(userNameProgressBar)
 
             ApiServiceMyBdjobs.create().getLoginUserDetails(userName).enqueue(object : Callback<LoginUserModel> {
 
 
                 override fun onFailure(call: Call<LoginUserModel>?, t: Throwable?) {
-                    stopProgressBar(userNameProgressBar, activity)
+                    activity.stopProgressBar(userNameProgressBar)
                 }
 
                 override fun onResponse(call: Call<LoginUserModel>?, response: Response<LoginUserModel>?) {
-                    stopProgressBar(userNameProgressBar, activity)
+                    activity.stopProgressBar(userNameProgressBar)
                     if (response?.body()?.statuscode == api_request_result_code_ok) {
                         userNameTIL.isErrorEnabled = false
 
