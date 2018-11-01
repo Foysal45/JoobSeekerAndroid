@@ -22,12 +22,14 @@ class JoblistFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity);
+        session = BdjobsUserSession(activity)
+
         if(session?.isLoggedIn!!){
-            homeIMGV.hide()
-        }else{
             homeIMGV.show()
+        }else{
+            homeIMGV.hide()
         }
+
         shimmer_view_container.startShimmerAnimation()
 
     }

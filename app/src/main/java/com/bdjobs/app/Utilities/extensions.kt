@@ -22,12 +22,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import java.util.*
 
 
 fun Any.simpleClassName(fragment: Fragment): String {
     return fragment::class.java.simpleName
+}
+
+fun TextInputLayout.showError(errorMessage:String?){
+    isErrorEnabled = true
+    error = errorMessage
+}
+
+fun TextInputLayout.hideError(){
+    isErrorEnabled = false
 }
 
 

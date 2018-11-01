@@ -12,11 +12,8 @@ import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.getString
-import com.bdjobs.app.Utilities.isOnline
-import com.bdjobs.app.Utilities.showProgressBar
-import com.bdjobs.app.Utilities.stopProgressBar
 import kotlinx.android.synthetic.main.fragment_login_landing.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -36,7 +33,6 @@ class LoginUserNameFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loginCommunicator = activity as LoginCommunicator
-        userNameTIET.addTextChangedListener(LoginTextWatcher(userNameTIET))
         onClicks()
     }
 
@@ -48,20 +44,20 @@ class LoginUserNameFragment : Fragment() {
         nextButtonFAB.setOnClickListener {
             doLogin()
         }
+
+        userNameTIET.easyOnTextChangedListener { charSequence ->
+            validateUserName(charSequence.toString())
+        }
     }
 
     private fun doLogin() {
-        if (!validateUserName()) {
+
+        val userName = userNameTIET.getString()
+        if (!validateUserName(userName)) {
             return
         } else {
-
-
-            val userName = userNameTIET.getString()
-
             activity.showProgressBar(userNameProgressBar)
-
             ApiServiceMyBdjobs.create().getLoginUserDetails(userName).enqueue(object : Callback<LoginUserModel> {
-
 
                 override fun onFailure(call: Call<LoginUserModel>?, t: Throwable?) {
                     activity.stopProgressBar(userNameProgressBar)
@@ -70,11 +66,10 @@ class LoginUserNameFragment : Fragment() {
                 override fun onResponse(call: Call<LoginUserModel>?, response: Response<LoginUserModel>?) {
                     activity.stopProgressBar(userNameProgressBar)
                     if (response?.body()?.statuscode == api_request_result_code_ok) {
-                        userNameTIL.isErrorEnabled = false
+                        userNameTIL.hideError()
 
                     } else {
-                        userNameTIL.isErrorEnabled = true
-                        userNameTIL.error = response?.body()?.message
+                        userNameTIL.showError(response?.body()?.message)
                         requestFocus(userNameTIET)
                     }
                 }
@@ -83,25 +78,22 @@ class LoginUserNameFragment : Fragment() {
     }
 
 
-    private fun validateUserName(): Boolean {
-        val user = userNameTIET.text.toString()
-        if (TextUtils.isEmpty(user)) {
-            userNameTIL.isErrorEnabled = true
-            userNameTIL.error = getString(R.string.field_empty_error_message_common)
+    private fun validateUserName(userName: String): Boolean {
+
+        if (TextUtils.isEmpty(userName)) {
+            userNameTIL.showError(getString(R.string.field_empty_error_message_common))
             requestFocus(userNameTIET)
             return false
-        } else if (checkStringHasSymbol(user)) {
-            userNameTIL.isErrorEnabled = true
-            userNameTIL.error = "Username can not contain $symbol"
+        } else if (checkStringHasSymbol(userName)) {
+            userNameTIL.showError("Username can not contain $symbol")
             requestFocus(userNameTIET)
             return false
-        } else if (user.trim { it <= ' ' }.length < 5 || user.trim { it <= ' ' }.length > 15) {
-            userNameTIL.isErrorEnabled = true
-            userNameTIL.error = "Username should be 5 to 15 character long!"
+        } else if (userName.trim { it <= ' ' }.length < 5 || userName.trim { it <= ' ' }.length > 15) {
+            userNameTIL.showError("Username should be 5 to 15 character long!")
             requestFocus(userNameTIET)
             return false
         } else {
-            userNameTIL.isErrorEnabled = false
+            userNameTIL.hideError()
         }
         return true
     }
@@ -123,19 +115,6 @@ class LoginUserNameFragment : Fragment() {
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
             activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        }
-    }
-
-    private inner class LoginTextWatcher(private val view: View) : TextWatcher {
-
-        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-        override fun afterTextChanged(editable: Editable) {
-            when (view.id) {
-                R.id.userNameTIET -> validateUserName()
-            }
         }
     }
 
