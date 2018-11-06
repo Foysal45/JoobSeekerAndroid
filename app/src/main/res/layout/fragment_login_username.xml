@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/backBtnIMGV" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/userNameTIL"
+        android:id="@+id/useNameTIL"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userNameTIET"
+            android:id="@+id/usernameTIET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -130,7 +130,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/userNameTIL" />
+        app:layout_constraintTop_toBottomOf="@+id/useNameTIL" />
 
     <TextView
         android:id="@+id/textView3"
@@ -232,7 +232,7 @@
     <ProgressBar
         android:theme="@style/BdjobsLinearProgress"
         android:visibility="gone"
-        android:id="@+id/userNameProgressBar"
+        android:id="@+id/loadingProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

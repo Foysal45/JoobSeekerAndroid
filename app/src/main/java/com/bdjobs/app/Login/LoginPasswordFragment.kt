@@ -1,4 +1,102 @@
 package com.bdjobs.app.Login
 
-class LoginPasswordFragment {
+import android.app.Fragment
+import android.os.Bundle
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.*
+import kotlinx.android.synthetic.main.fragment_login_password.*
+import java.util.regex.Pattern
+
+
+class LoginPasswordFragment : Fragment() {
+
+    lateinit var loginCommunicator: LoginCommunicator
+    lateinit var symbol: String
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater?.inflate(R.layout.fragment_login_password, container, false)!!
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        loginCommunicator = activity as LoginCommunicator
+        onClicks()
+        setData()
+    }
+
+    private fun setData() {
+        profilePicIMGV.loadCircularImageFromUrl(loginCommunicator.getImageUrl())
+    }
+
+    private fun onClicks() {
+        backBtnIMGV.setOnClickListener {
+            loginCommunicator?.backButtonClicked()
+        }
+
+        passwordTIET.easyOnTextChangedListener { charSequence ->
+            validatePassword(charSequence.toString())
+        }
+
+        nextButtonFAB.setOnClickListener {
+            doLogin()
+        }
+    }
+
+    private fun doLogin() {
+        val password = passwordTIET.getString()
+        if (!validatePassword(password)) {
+            return
+        }else{
+
+        }
+    }
+
+    private fun validatePassword(password:String): Boolean {
+
+        when {
+            TextUtils.isEmpty(password) -> {
+                passwordTIL.showError(getString(R.string.field_empty_error_message_common))
+                requestFocus(passwordTIET)
+                return false
+            }
+            checkStringHasSymbol(password) -> {
+                passwordTIL.showError("Password can not contain $symbol")
+                requestFocus(passwordTIET)
+                return false
+            }
+            password.trim { it <= ' ' }.length < 5 || password.trim().length > 12 -> {
+                passwordTIL.showError("Password should be 8 to 12 character long!")
+                requestFocus(passwordTIET)
+                return false
+            }
+            else -> passwordTIL.hideError()
+        }
+        return true
+    }
+
+    private fun checkStringHasSymbol(s: String): Boolean {
+
+        val p = Pattern.compile("[:`!@#$%&*()_ +/=;|'\"<>?{}\\[\\]~-]")
+
+
+        for (i in 0 until s.length) {
+            symbol = s[i].toString()
+            val m = p.matcher(symbol)
+            if (m.matches()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun requestFocus(view: View) {
+        if (view.requestFocus()) {
+            activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
+    }
 }

@@ -18,25 +18,58 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
 import java.util.*
+
+
+fun String.equalIgnoreCase(string:String):Boolean{
+   return equals(string,true)
+}
+
+
+fun Activity.getFCMtoken() {
+    FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
+        val token = instanceIdResult.token
+        info("newToken $token")
+    }
+}
+
+fun Activity.subscribeToFCMTopic(topicName: String) {
+
+    FirebaseMessaging.getInstance().subscribeToTopic(topicName)
+            .addOnCompleteListener(object : OnCompleteListener<Void> {
+                override fun onComplete(@NonNull task: Task<Void>) {
+                    var msg = "Firebase topic subscription on : $topicName is Successful"
+                    if (!task.isSuccessful) {
+                        msg = "Firebase topic subscription on : $topicName is NOT Successful"
+                    }
+                    wtf(msg)
+                    //toast(msg)
+                }
+            })
+}
 
 
 fun Any.simpleClassName(fragment: Fragment): String {
     return fragment::class.java.simpleName
 }
 
-fun TextInputLayout.showError(errorMessage:String?){
+fun TextInputLayout.showError(errorMessage: String?) {
     isErrorEnabled = true
     error = errorMessage
 }
 
-fun TextInputLayout.hideError(){
+fun TextInputLayout.hideError() {
     isErrorEnabled = false
 }
 
@@ -51,7 +84,6 @@ fun Activity.stopProgressBar(progressBar: ProgressBar) {
     progressBar.hide()
     enableUserInteraction()
 }
-
 
 
 fun Context.isOnline(): Boolean {
@@ -126,6 +158,14 @@ fun ImageView.loadImageFromUrl(url: String) {
         logException(e)
     }
 }
+fun ImageView.loadCircularImageFromUrl(url: String?) {
+    try {
+        Picasso.get().load(url).transform(CircleTransform()).into(this)
+    } catch (e: Exception) {
+        logException(e)
+    }
+}
+
 
 fun EditText.clearText() {
     text?.clear()

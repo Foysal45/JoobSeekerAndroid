@@ -2,6 +2,8 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
+        const val key_true = "true"
+        const val key_false = "false"
         const val name_sharedPref = "bdjobs"
         const val key_db_update = "dbupdatedate"
         const val dfault_date_db_update = "3/09/2016 5:08:00 PM"

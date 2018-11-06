@@ -20,12 +20,10 @@ import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.info
-import com.bdjobs.app.Utilities.logException
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -52,14 +50,12 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         generateKeyHash()
         getFCMtoken()
+        subscribeToFCMTopic("Kamol")
+
+
     }
 
-    private fun getFCMtoken() {
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this@SplashActivity) { instanceIdResult ->
-            val token = instanceIdResult.token
-            info("newToken $token")
-        }
-    }
+
 
     override fun onResume() {
         super.onResume()
