@@ -218,16 +218,26 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
 
-    <View
-        android:id="@+id/imageView3"
+    <LinearLayout
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:id="@+id/LL1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ic_welcome_bg"
-        android:scaleType="centerCrop"
+        android:layout_height="114dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="1.0" >
+        
+        <ImageView
+            android:id="@+id/footerIMGV"
+            android:background="@drawable/ic_login_foot_bg"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="114dp" />
+        
+    </LinearLayout>
 
     <ProgressBar
         android:theme="@style/BdjobsLinearProgress"

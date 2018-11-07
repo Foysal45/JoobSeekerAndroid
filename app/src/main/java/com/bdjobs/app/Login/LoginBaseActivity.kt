@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_login_base.*
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
 
 
+
     private val loginUserNameFragment = LoginUserNameFragment()
     private val loginPasswordFragment = LoginPasswordFragment()
     private val loginOTPFragment = LoginOTPFragment()
@@ -75,6 +76,9 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
 
     override fun getImageUrl(): String? {
         return imageUrl
+    }
+    override fun getUserName(): String? {
+        return userName
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {

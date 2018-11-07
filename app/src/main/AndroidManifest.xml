@@ -30,7 +30,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".GuestUserLanding.GuestUserJobSearchActivity" />
-        <activity android:name=".Login.LoginBaseActivity" />
+        <activity
+            android:name=".Login.LoginBaseActivity"
+          />
         <activity android:name=".SuggestiveSearch.SuggestiveSearchActivity" />
 
         <service

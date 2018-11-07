@@ -34,29 +34,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="16dp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:focusableInTouchMode="true"
-        android:text="Welcome"
-        android:textColor="#2F64A3"
-        android:textSize="24sp"
-        android:typeface="normal"
-        app:fontFamily="@font/roboto_medium"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/backBtnIMGV" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTIL"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:passwordToggleEnabled="true"
+        android:layout_marginTop="20dp"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
@@ -64,14 +47,15 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicIMGV">
+        app:layout_constraintTop_toBottomOf="@+id/otpMsgTV">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordTIET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textWebPassword"
+            android:hint="Type Code"
+            android:inputType="numberSigned"
+            android:maxLength="6"
             android:singleLine="true"
             android:typeface="normal"
             app:fontFamily="@font/roboto" />
@@ -83,22 +67,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="16dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/textView2"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:text="Forgot password?"
-        android:textAlignment="viewStart"
-        android:textAllCaps="false"
-        android:textColor="#909092"
-        app:fontFamily="@font/roboto"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/passwordTIL" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -133,15 +101,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/counterTV"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/footerIMGV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_login_foot_bg" />
-
+            android:layout_height="114dp"
+            android:background="@drawable/ic_login_foot_bg"
+            android:foregroundGravity="bottom"
+            android:scaleType="centerCrop" />
     </LinearLayout>
 
     <ProgressBar
@@ -162,11 +131,63 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_otp_placeholder_bg"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/backBtnIMGV" />
+
+    <TextView
+        android:id="@+id/otpMsgTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_horizontal"
+        android:text="TextView"
+        android:textColor="#393939"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicIMGV"
+        tools:text="Please type the verification code sent to +8801711223344" />
+
+    <TextView
+        android:id="@+id/counterTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:drawableLeft="@drawable/ic_watch_ic"
+        android:drawablePadding="6dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_vertical"
+        android:text="00:30"
+        android:textColor="#1565C0"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTIL"
+        tools:text="00:30" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/resendOtpTV"
+        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:icon="@drawable/ic_refresh_black_24dp"
+        android:drawablePadding="6dp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_vertical"
+        android:text="Resend Code"
+        android:textColor="#1565C0"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTIL"
+        tools:text="Resend Code" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

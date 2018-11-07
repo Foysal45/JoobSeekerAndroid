@@ -12,4 +12,5 @@
     <string name="hint.voiceInput">Say something</string>
     <string name="turn_on_wifi">Turn Wifi on</string>
     <string name="alert_no_internet">No internet connection!</string>
+    <string name="otp_message">Please type the verification code sent to +88</string>
 </resources>

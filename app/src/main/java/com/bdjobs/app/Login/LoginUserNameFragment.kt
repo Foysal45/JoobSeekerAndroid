@@ -1,6 +1,7 @@
 package com.bdjobs.app.Login
 
 import android.app.Fragment
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -25,8 +26,11 @@ class LoginUserNameFragment : Fragment() {
     lateinit var loginCommunicator: LoginCommunicator
     lateinit var symbol: String
 
+    lateinit var rootView: View
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_login_username, container, false)!!
+        rootView = inflater?.inflate(R.layout.fragment_login_username, container, false)!!
+        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -46,6 +50,24 @@ class LoginUserNameFragment : Fragment() {
 
         usernameTIET.easyOnTextChangedListener { charSequence ->
             validateUserName(charSequence.toString())
+        }
+
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            try {
+                val r = Rect()
+                rootView.getWindowVisibleDisplayFrame(r)
+                val heightDiff = rootView.rootView.height - (r.bottom - r.top)
+
+                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
+                    footerIMGV.hide()
+                } else {
+                    //ok now we know the keyboard is down...
+                    footerIMGV.show()
+
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
     }
 

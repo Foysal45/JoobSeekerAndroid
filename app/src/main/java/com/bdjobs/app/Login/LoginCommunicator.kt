@@ -7,4 +7,5 @@ interface LoginCommunicator {
     fun getFullName():String?
     fun getUserId():String?
     fun getImageUrl():String?
+    fun getUserName():String?
 }

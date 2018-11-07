@@ -2,6 +2,7 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
+        const val counterTimeLimit = 30000
         const val key_true = "true"
         const val key_false = "false"
         const val name_sharedPref = "bdjobs"

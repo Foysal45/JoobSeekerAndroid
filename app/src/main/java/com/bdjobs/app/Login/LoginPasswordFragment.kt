@@ -1,6 +1,7 @@
 package com.bdjobs.app.Login
 
 import android.app.Fragment
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -18,13 +19,23 @@ class LoginPasswordFragment : Fragment() {
     lateinit var loginCommunicator: LoginCommunicator
     lateinit var symbol: String
 
+    private lateinit var rootView: View
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_login_password, container, false)!!
+       rootView = inflater?.inflate(R.layout.fragment_login_password, container, false)!!
+
+        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loginCommunicator = activity as LoginCommunicator
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         onClicks()
         setData()
     }
@@ -44,6 +55,24 @@ class LoginPasswordFragment : Fragment() {
 
         nextButtonFAB.setOnClickListener {
             doLogin()
+        }
+
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            try {
+                val r = Rect()
+                rootView.getWindowVisibleDisplayFrame(r)
+                val heightDiff = rootView.rootView.height - (r.bottom - r.top)
+
+                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
+                    footerIMGV.hide()
+                } else {
+                    //ok now we know the keyboard is down...
+                    footerIMGV.show()
+
+                }
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
     }
 
