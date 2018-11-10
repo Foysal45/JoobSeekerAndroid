@@ -1,6 +1,13 @@
 <resources>
+
+    <!--facebook login related data start-->
+    <string name="facebook_app_id">1117783308285421</string>
+    <string name="fb_login_protocol_scheme">fb1117783308285421</string>
+    <!--facebook login related data end-->
+
+
     <string name="app_name">Bdjobs</string>
-    <string name="hint.keyword">Job title, Keyword</string>
+    <string name="hint_keyword">Job title, Keyword</string>
     <string name="hint.location">Location</string>
     <string name="hint.Category">Category</string>
     <string name="field_empty_error_message_common">This field can not be empty!</string>

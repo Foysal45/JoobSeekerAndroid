@@ -36,15 +36,6 @@ interface ApiServiceMyBdjobs {
 
 
 
-
-
-
-
-
-
-
-
-
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

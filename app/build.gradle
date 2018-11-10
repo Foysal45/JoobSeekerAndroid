@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 603
-        versionName "600.0.3"
+        versionCode 604
+        versionName "600.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,20 +34,24 @@ dependencies {
     //----androidx for design and others
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation "androidx.recyclerview:recyclerview:1.0.0"
-    implementation 'androidx.core:core-ktx:1.0.0'
+    implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.google.android.material:material:1.0.0"
 
     //----firebase
-    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
     implementation "com.google.firebase:firebase-messaging:17.3.4"
-    implementation "com.google.firebase:firebase-auth:16.0.5"
     implementation 'com.google.firebase:firebase-perf:16.2.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
+
+    //google sign in
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //----image & animation related
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.airbnb.android:lottie:2.8.0"
+
+    //permission related
     implementation 'com.github.fondesa:kpermissions:1.0.0'
 
     //network call and json parsing
@@ -70,6 +74,8 @@ dependencies {
 
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'com.facebook.android:facebook-login:4.38.1'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -6,10 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB

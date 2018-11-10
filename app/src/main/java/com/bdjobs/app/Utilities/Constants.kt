@@ -2,7 +2,7 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
-
+        const val RC_SIGN_IN = 9001
         const val counterTimeLimit = 60000
         const val key_true = "true"
         const val key_false = "false"

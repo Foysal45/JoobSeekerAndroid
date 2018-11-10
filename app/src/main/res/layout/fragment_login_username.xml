@@ -14,7 +14,7 @@
     tools:layout_editor_absoluteY="25dp">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/linkedInSignInIMGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -25,11 +25,11 @@
         android:src="@drawable/ic_linkedin"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        app:layout_constraintStart_toEndOf="@+id/facebookLoginIMGV"
+        app:layout_constraintTop_toTopOf="@+id/facebookLoginIMGV" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/facebookLoginIMGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -39,12 +39,11 @@
         android:layout_marginRight="2dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-
         android:scaleType="center"
         android:src="@drawable/ic_facebook"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/linkedInSignInIMGV"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/googleSignInIMGV"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <ImageView
@@ -146,7 +145,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/googleSignInIMGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
@@ -155,11 +154,11 @@
         android:clickable="true"
         android:scaleType="center"
         android:src="@drawable/ic_google"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/facebookLoginIMGV"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        app:layout_constraintTop_toTopOf="@+id/facebookLoginIMGV" />
 
     <TextView
         android:id="@+id/textView4"
@@ -173,7 +172,7 @@
         app:fontFamily="@font/roboto"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/facebookLoginIMGV" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/textView5"
