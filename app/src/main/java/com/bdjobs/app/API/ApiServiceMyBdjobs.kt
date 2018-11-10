@@ -1,7 +1,9 @@
 package com.bdjobs.app.API
 
+import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -15,7 +17,32 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST(api_mybdjobs_app_signinprocess)
-    fun getLoginUserDetails(@Field("username") username: String): Call<LoginUserModel>
+    fun getLoginUserDetails(@Field("username") username: String?): Call<LoginUserModel>
+
+    @FormUrlEncoded
+    @POST(api_mybdjobs_app_agent_log)
+    fun doLogin(@Field("username") username: String?,
+                @Field("password") password: String?="",
+                @Field("userId") userId: String?="",
+                @Field("decodId") decodId: String?="",
+                @Field("susername") susername: String?="",
+                @Field("fullName") fullName: String?="",
+                @Field("socialMediaId") socialMediaId: String?="",
+                @Field("socialMediaName") socialMediaName: String?="",
+                @Field("isMap") isMap: String?="",
+                @Field("email") email: String?="",
+                @Field("otpCode") otpCode: String?=""
+    ): Call<LoginSessionModel>
+
+
+
+
+
+
+
+
+
+
 
 
     companion object Factory {

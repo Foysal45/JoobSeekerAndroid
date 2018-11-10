@@ -2,7 +2,8 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
-        const val counterTimeLimit = 30000
+
+        const val counterTimeLimit = 60000
         const val key_true = "true"
         const val key_false = "false"
         const val name_sharedPref = "bdjobs"
@@ -37,6 +38,8 @@ class Constants {
         const val session_key_userPicUrl = "userPicUrl"
         const val session_key_loggedIn= "loggedIn"
         const val api_mybdjobs_app_signinprocess ="mybdjobs/v1/app_signinprocess.asp"
+        const val api_mybdjobs_app_agent_log ="mybdjobs/v1/apps_agent_log.asp"
+
         const val api_jobs_db_update ="dbupdate.asp"
         const val key_recent_search_keyword ="keyword"
         const val internal_database_name ="BdjobsInternal.db"

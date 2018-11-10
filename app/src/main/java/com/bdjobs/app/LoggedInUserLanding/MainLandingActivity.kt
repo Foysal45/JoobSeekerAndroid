@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.debug
@@ -31,6 +32,22 @@ class MainLandingActivity : Activity() {
         session =BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
         transitFragment(homeFragment,R.id.landingPageFragmentHolderFL)
+
+        Log.d("hdaahd","\nisCvPosted = ${session.isCvPosted}\n" +
+                "userPicUrl = ${session.userPicUrl}\n" +
+                "name = ${session.fullName}\n" +
+                "email = ${session.email}\n" +
+                "userId = ${session.userId}\n" +
+                "decodId = ${session.decodId}\n" +
+                "userName = ${session.userName}\n" +
+                "AppsDate = ${session.AppsDate}\n" +
+                "age = ${session.age}\n" +
+                "exp = ${session.exp}\n" +
+                "catagoryId = ${session.catagoryId}\n" +
+                "gender = ${session.gender}\n" +
+                "resumeUpdateON = ${session.resumeUpdateON}\n" +
+                "IsResumeUpdate = ${session.IsResumeUpdate}\n" +
+                "trainingId = ${session.trainingId}\n")
     }
 
 

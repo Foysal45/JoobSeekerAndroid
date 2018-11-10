@@ -4,25 +4,35 @@ import android.app.Fragment
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_login_password.*
+import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.regex.Pattern
 
 
 class LoginPasswordFragment : Fragment() {
 
-    lateinit var loginCommunicator: LoginCommunicator
-    lateinit var symbol: String
+    private lateinit var loginCommunicator: LoginCommunicator
+    private lateinit var symbol: String
+
 
     private lateinit var rootView: View
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-       rootView = inflater?.inflate(R.layout.fragment_login_password, container, false)!!
+        rootView = inflater?.inflate(R.layout.fragment_login_password, container, false)!!
 
         return rootView
     }
@@ -41,6 +51,7 @@ class LoginPasswordFragment : Fragment() {
     }
 
     private fun setData() {
+
         profilePicIMGV.loadCircularImageFromUrl(loginCommunicator.getImageUrl())
     }
 
@@ -80,12 +91,37 @@ class LoginPasswordFragment : Fragment() {
         val password = passwordTIET.getString()
         if (!validatePassword(password)) {
             return
-        }else{
+        } else {
+            activity.showProgressBar(progressBar)
+            ApiServiceMyBdjobs.create().doLogin(username = loginCommunicator.getUserName(), password = password, userId = loginCommunicator.getUserId(), fullName = loginCommunicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
+                override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
+                    activity.stopProgressBar(progressBar)
+                    error("onFailure", t)
+                }
 
+                override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
+                    activity.stopProgressBar(progressBar)
+                    if (response.isSuccessful) {
+
+                        if (response?.body()?.statuscode!!.equalIgnoreCase("0")) {
+                            passwordTIL.hideError()
+                            val bdjobsUserSession = BdjobsUserSession(activity)
+                            bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+
+
+                        } else {
+                            passwordTIL.showError(response?.body()?.message)
+                        }
+
+                    }
+
+                }
+
+            })
         }
     }
 
-    private fun validatePassword(password:String): Boolean {
+    private fun validatePassword(password: String): Boolean {
 
         when {
             TextUtils.isEmpty(password) -> {

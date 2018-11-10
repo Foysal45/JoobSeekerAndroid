@@ -3,26 +3,31 @@ package com.bdjobs.app.Login
 import android.app.Fragment
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
-import kotlinx.android.synthetic.main.fragment_login_otp.*
-import android.os.CountDownTimer
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.counterTimeLimit
 import com.bdjobs.app.Utilities.Constants.Companion.timer_countDownInterval
+import kotlinx.android.synthetic.main.fragment_login_otp.*
+import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class LoginOTPFragment : Fragment() {
 
     lateinit var loginCommunicator: LoginCommunicator
     private lateinit var rootView: View
+    private lateinit var counter: CountDownTimer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         rootView = inflater?.inflate(R.layout.fragment_login_otp, container, false)!!
         return rootView
     }
@@ -30,20 +35,21 @@ class LoginOTPFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loginCommunicator = activity as LoginCommunicator
-
+        setTime()
     }
 
     override fun onResume() {
         super.onResume()
         onClicks()
         setData()
-        setTime()
+
+
     }
 
     private fun setTime() {
         counterTV.show()
         resendOtpTV.hide()
-        object : CountDownTimer(counterTimeLimit.toLong(), timer_countDownInterval.toLong()) {
+        counter = object : CountDownTimer(counterTimeLimit.toLong(), timer_countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 val second = millisUntilFinished / 1000 % 60
                 val minute = millisUntilFinished / (1000 * 60) % 60
@@ -61,7 +67,6 @@ class LoginOTPFragment : Fragment() {
         }.start()
     }
 
-
     private fun setData() {
         val message = getString(R.string.otp_message) + loginCommunicator.getUserName()
         otpMsgTV.text = message
@@ -71,6 +76,12 @@ class LoginOTPFragment : Fragment() {
         backBtnIMGV.setOnClickListener {
             loginCommunicator?.backButtonClicked()
         }
+
+        otpTIET.easyOnTextChangedListener { charSequence ->
+            validateOtpCode(charSequence.toString())
+        }
+
+
 
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
             try {
@@ -89,7 +100,56 @@ class LoginOTPFragment : Fragment() {
                 logException(e)
             }
         }
+
+        nextButtonFAB.setOnClickListener {
+            doLogin()
+        }
+
     }
 
+    private fun doLogin() {
+        val otpCode = otpTIET.getString()
+        if (validateOtpCode(otpCode)) {
+            activity.showProgressBar(progressBar)
+            ApiServiceMyBdjobs.create().doLogin(username = loginCommunicator.getUserName(), otpCode = otpCode, userId = loginCommunicator.getUserId(), fullName = loginCommunicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
+                override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
+                    activity.stopProgressBar(progressBar)
+                    error("onFailure", t)
+                }
 
+                override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
+                    activity.stopProgressBar(progressBar)
+                    if (response.isSuccessful) {
+                       if(response?.body()?.statuscode!!.equalIgnoreCase("0")){
+                           otpTIL.hideError()
+                           val bdjobsUserSession = BdjobsUserSession(activity)
+                           bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                       }else{
+                           otpTIL.showError(response?.body()?.message)
+                       }
+                    }
+                }
+            })
+
+        } else {
+            return
+        }
+    }
+
+    private fun validateOtpCode(otpCode: String?): Boolean {
+        when {
+            otpCode?.isBlank()!! -> {
+                otpTIL.showError(getString(R.string.field_empty_error_message_common))
+                return false
+            }
+
+        }
+        otpTIL.hideError()
+        return true
+    }
+
+    override fun onStop() {
+        counter.cancel()
+        super.onStop()
+    }
 }

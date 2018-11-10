@@ -3,6 +3,7 @@ package com.bdjobs.app.SessionManger
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 
@@ -49,6 +50,30 @@ class BdjobsUserSession(context: Context) {
         }
 
     }
+
+    fun createSession(sessionData: DataLoginPasswordModel) {
+
+        pref?.edit {
+            putString(Constants.session_key_isCvPosted, sessionData.isCvPosted)
+            putString(Constants.session_key_name, sessionData.name)
+            putString(Constants.session_key_email, sessionData.email)
+            putString(Constants.session_key_userId, sessionData.userId)
+            putString(Constants.session_key_decodId, sessionData.decodId)
+            putString(Constants.session_key_userName, sessionData.userName)
+            putString(Constants.session_key_AppsDate, sessionData.appsDate)
+            putString(Constants.session_key_age, sessionData.age)
+            putString(Constants.session_key_exp, sessionData.exp)
+            putString(Constants.session_key_catagoryId, sessionData.catagoryId)
+            putString(Constants.session_key_gender, sessionData.gender)
+            putString(Constants.session_key_resumeUpdateON, sessionData.resumeUpdateON)
+            putString(Constants.session_key_IsResumeUpdate, sessionData.isResumeUpdate)
+            putString(Constants.session_key_trainingId, sessionData.trainingId)
+            putString(Constants.session_key_userPicUrl, sessionData.isCvPosted)
+            putBoolean(Constants.session_key_loggedIn, true)
+        }
+
+    }
+
     val isCvPosted = pref?.getString(Constants.session_key_isCvPosted, null)
     val fullName = pref?.getString(Constants.session_key_name, null)
     val email = pref?.getString(Constants.session_key_email, null)
