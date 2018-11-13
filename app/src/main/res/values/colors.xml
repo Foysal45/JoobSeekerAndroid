@@ -6,6 +6,6 @@
     <color name="colorBdjobsMajenta">#B1097C</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorUnselected">#979797</color>
-
+    <color name="card_background">#F8F6EA</color>
     <color name="colorAsh">#E0E0E0</color>
 </resources>

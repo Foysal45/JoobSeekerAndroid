@@ -1,16 +1,64 @@
 package com.bdjobs.app.Jobs
 
+import com.google.gson.annotations.SerializedName
 
-data class User(val name: String, val address: String)
-data class ItemDrafted(val job_title: String,
-                       val job_status: String,
-                       val applications: String,
-                       val view_status: String,
-                       val date_posted_on: String,
-                       val deadline: String,
-                       val assessment_status: String)
+data class JobDetailJsonModel(
+        @SerializedName("statuscode") val statuscode: String?,
+        @SerializedName("message") val message: String?,
+        @SerializedName("data") val data: List<Data?>?,
+        @SerializedName("common") val common: Any?
+)
 
-// JobList Data classes started
+data class Data(
+        @SerializedName("JobId") val jobId: String?,
+        @SerializedName("JobFound") val jobFound: String?,
+        @SerializedName("CompnayName") val compnayName: String?,
+        @SerializedName("JobTitle") val jobTitle: String?,
+        @SerializedName("PostedOn") val postedOn: String?,
+        @SerializedName("Deadline") val deadline: String?,
+        @SerializedName("JobVacancies") val jobVacancies: String?,
+        @SerializedName("JobDescription") val jobDescription: String?,
+        @SerializedName("JobNature") val jobNature: String?,
+        @SerializedName("EducationRequirements") val educationRequirements: String?,
+        @SerializedName("Publication(s)") val publications: String?,
+        @SerializedName("Age") val age: String?,
+        @SerializedName("experience") val experience: String?,
+        @SerializedName("Gender") val gender: String?,
+        @SerializedName("AdditionJobRequirements") val additionJobRequirements: String?,
+        @SerializedName("JobLocation") val jobLocation: String?,
+        @SerializedName("OnlineApply") val onlineApply: String?,
+        @SerializedName("CompanyBusiness") val companyBusiness: String?,
+        @SerializedName("CompanyAddress") val companyAddress: String?,
+        @SerializedName("CompanyHideAddress") val companyHideAddress: String?,
+        @SerializedName("CompanyWeb") val companyWeb: String?,
+        @SerializedName("JobAppliedEmail") val jobAppliedEmail: String?,
+        @SerializedName("JobSource") val jobSource: String?,
+        @SerializedName("JobOtherBenifits") val jobOtherBenifits: String?,
+        @SerializedName("JobSalaryRange") val jobSalaryRange: String?,
+        @SerializedName("JobSalaryRangeText") val jobSalaryRangeText: String?,
+        @SerializedName("overseasnote") val overseasnote: String?,
+        @SerializedName("JobAdType") val jobAdType: String?,
+        @SerializedName("JobLOgoName") val jobLOgoName: String?,
+        @SerializedName("JobKeyPoints") val jobKeyPoints: String?,
+        @SerializedName("ApplyInstruction") val applyInstruction: String?,
+        @SerializedName("userID") val userID: String?,
+        @SerializedName("Photograph") val photograph: String?,
+        @SerializedName("PhotographMsg") val photographMsg: String?,
+        @SerializedName("JObIMage") val jObIMage: String?,
+        @SerializedName("upcoming") val upcoming: String?,
+        @SerializedName("upcomingln") val upcomingln: String?,
+        @SerializedName("CompanyOtherJ0bs") val companyOtherJ0bs: String?,
+        @SerializedName("CompanyID") val companyID: String?,
+        @SerializedName("CompanyNameENG") val companyNameENG: String?,
+        @SerializedName("AssessmentRequired") val assessmentRequired: String?,
+        @SerializedName("Context") val context: String?,
+        @SerializedName("error") val error: String?
+)
+
+
+
+
+
 
 data class GetResponseJobLIst(
         val statuscode: String? = null,
@@ -19,13 +67,12 @@ data class GetResponseJobLIst(
         val message: String? = null
 )
 
-
-data class GetJobDetailModel(
-        val statuscode: String?,
-        val message: String?,
-        val data: List<DataJobDetail?>?,
-        val common: Any?
+data class CommonOld(
+        val totalRecordsFound: Int? = null,
+        val showad: String? = null,
+        val totalpages: Int? = null
 )
+
 
 data class DataItem(
         val jobid: String? = null,
@@ -40,71 +87,7 @@ data class DataItem(
         val experience: String? = null
 )
 
-data class DataJobDetail(
-
-        val jobId: String?,
-        val jobFound: String?,
-        val compnayName: String?,
-        val jobTitle: String?,
-        val postedOn: String?,
-        val deadline: String?,
-        val jobVacancies: String?,
-        val jobDescription: String?,
-        val jobNature: String?,
-        val educationRequirements: String?,
-        val publications: String?,
-        val age: String?,
-        val experience: String?,
-        val gender: String?,
-        val additionJobRequirements: String?,
-        val jobLocation: String?,
-        val onlineApply: String?,
-        val companyBusiness: String?,
-        val companyAddress: String?,
-        val companyHideAddress: String?,
-        val companyWeb: String?,
-        val jobAppliedEmail: String?,
-        val jobSource: String?,
-        val jobOtherBenifits: String?,
-        val jobSalaryRange: String?,
-        val jobSalaryRangeText: String?,
-        val overseasnote: String?,
-        val jobAdType: String?,
-        val jobLOgoName: String?,
-        val jobKeyPoints: String?,
-        val applyInstruction: String?,
-        val userID: String?,
-        val photograph: String?,
-        val photographMsg: String?,
-        val jObIMage: String?,
-        val upcoming: String?,
-        val upcomingln: String?,
-        val companyOtherJ0bs: String?,
-        val companyID: String?,
-        val companyNameENG: String?,
-        val assessmentRequired: String?,
-        val context: String?,
-        val error: String?
-)
-
-data class CommonOld(
-        val totalRecordsFound: Int? = null,
-        val showad: String? = null,
-        val totalpages: Int? = null
-)
 
 
-data class JobDetailItem (
-        var jobid: String? = null,
-        var lantype: String? = null
 
-)
 
-/*@Parcelize
-data class JobDetailItem (
-        var jobid: String? = null,
-        var lantype: String? = null
-
-):Parcelable*/
-
-// JobList Data classes ends
