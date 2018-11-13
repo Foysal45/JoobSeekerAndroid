@@ -15,6 +15,11 @@ class JoblistFragment : Fragment() {
 
     private lateinit var session:BdjobsUserSession
 
+
+
+
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_joblist_layout, container, false)!!
 

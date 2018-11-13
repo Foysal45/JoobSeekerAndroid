@@ -2,6 +2,17 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
+
+        const val FB_KEY_EMAIL = "email"
+        const val FB_KEY_ID = "id"
+        const val SOCIAL_MEDIA_GOOGLE = "G"
+        const val SOCIAL_MEDIA_FACEBOOK = "F"
+        const val SOCIAL_MEDIA_LINKEDIN = "L"
+        const val FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING = "id,name,email,gender,picture.type(large),first_name,last_name"
+        const val FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY ="fields"
+
+        const val LINKEDIN_REQUEST_URL = "https://api.linkedin.com/v1/people/~:(email-address,id,first-name,last-name,formatted-name,phone-numbers,public-profile-url,picture-url,picture-urls::(original))"
+
         const val RC_SIGN_IN = 9001
         const val counterTimeLimit = 60000
         const val key_true = "true"
@@ -14,7 +25,6 @@ class Constants {
         const val key_jobtitleET = "jobtitleET"
         const val key_loacationET = "loacationET"
         const val key_categoryET = "categoryET"
-        const val splash_screen_timeout = 1000
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/"

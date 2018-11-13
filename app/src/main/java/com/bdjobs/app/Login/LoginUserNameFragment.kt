@@ -1,6 +1,7 @@
 package com.bdjobs.app.Login
 
 import android.app.Fragment
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -14,6 +15,11 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY
+import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING
+import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_EMAIL
+import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_ID
+import com.bdjobs.app.Utilities.Constants.Companion.LINKEDIN_REQUEST_URL
 import com.bdjobs.app.Utilities.Constants.Companion.RC_SIGN_IN
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.key_false
@@ -24,6 +30,14 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
+import com.linkedin.platform.APIHelper
+import com.linkedin.platform.LISessionManager
+import com.linkedin.platform.errors.LIApiError
+import com.linkedin.platform.errors.LIAuthError
+import com.linkedin.platform.listeners.ApiListener
+import com.linkedin.platform.listeners.ApiResponse
+import com.linkedin.platform.listeners.AuthListener
+import com.linkedin.platform.utils.Scope
 import kotlinx.android.synthetic.main.fragment_login_username.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -67,21 +81,21 @@ class LoginUserNameFragment : Fragment() {
                         val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
                             Log.d("LoginActivity", response.toString())
                             try {
-                                var semail = ""
-                                var sMid = ""
+                                var semail: String? = null
+                                var sMid: String? = null
 
                                 try {
-                                    if (profileData.has("email")) {
-                                        semail = profileData.getString("email")
+                                    if (profileData.has(FB_KEY_EMAIL)) {
+                                        semail = profileData.getString(FB_KEY_EMAIL)
                                     }
-                                    if (profileData.has("id")) {
-                                        sMid = profileData.getString("id")
+                                    if (profileData.has(FB_KEY_ID)) {
+                                        sMid = profileData.getString(FB_KEY_ID)
                                     }
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
 
-                                val sType = "F"
+
 
                                 signOutFromFacebook()
                                 //socialMediaMapping(sMid, semail, sType, "EN")
@@ -94,7 +108,7 @@ class LoginUserNameFragment : Fragment() {
                             }
                         }
                         val parameters = Bundle()
-                        parameters.putString("fields", "id,name,email,gender,picture.type(large),first_name,last_name")
+                        parameters.putString(FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY, FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING)
                         request.parameters = parameters
                         request.executeAsync()
                     }
@@ -105,13 +119,9 @@ class LoginUserNameFragment : Fragment() {
 
                     override fun onError(exception: FacebookException) {
                         logException(exception)
-                        if (exception is FacebookAuthorizationException) {
-                            if (AccessToken.getCurrentAccessToken() != null) {
 
-                            }
-                        } else {
-                            toast(exception.toString())
-                        }
+                        toast(exception.toString())
+
                     }
                 })
     }
@@ -125,7 +135,6 @@ class LoginUserNameFragment : Fragment() {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build()
     }
-
 
     private fun onClicks() {
         backBtnIMGV.setOnClickListener {
@@ -176,7 +185,66 @@ class LoginUserNameFragment : Fragment() {
         }
     }
 
+    private fun buildScope(): Scope {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
+    }
+
     private fun signInWithLinkedIn() {
+
+        LISessionManager.getInstance(activity.applicationContext).init(activity, buildScope(), object : AuthListener {
+
+            override fun onAuthSuccess() {
+
+                val apiHelper = APIHelper.getInstance(activity)
+
+                apiHelper.getRequest(activity, LINKEDIN_REQUEST_URL, object : ApiListener {
+
+                    override fun onApiSuccess(result: ApiResponse) {
+                        val response = result.responseDataAsJson
+                        try {
+                            var lemail = ""
+                            var sMid = ""
+                            if (response.has("emailAddress")) {
+                                lemail = response.getString("emailAddress")
+                            }
+
+
+                            if (response.has("id")) {
+                                sMid = response.getString("id")
+                            }
+
+                            // socialMediaMapping(sMid, lemail, "L", "EN")
+                            Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
+
+
+                        } catch (e: Exception) {
+                            logException(e)
+
+                            e.printStackTrace()
+                            toast(e.toString())
+                            toast("Some internal errors have been occurred,please try again later!")
+                        }
+
+
+                    }
+
+                    override fun onApiError(error: LIApiError) {
+                        logException(error)
+                        toast(error.toString())
+
+                    }
+                })
+
+
+            }
+
+            override fun onAuthError(error: LIAuthError) {
+                error(error)
+                toast(error.toString())
+
+            }
+        }, true)
+
 
     }
 
@@ -184,16 +252,14 @@ class LoginUserNameFragment : Fragment() {
         LoginManager.getInstance().logInWithReadPermissions(this@LoginUserNameFragment, Arrays.asList("public_profile", "email"))
     }
 
-
     private fun signInWithGoogle() {
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager?.onActivityResult(requestCode, resultCode, data)
-
+        LISessionManager.getInstance(activity.applicationContext).onActivityResult(activity, requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
 
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -228,14 +294,12 @@ class LoginUserNameFragment : Fragment() {
         super.onStop()
     }
 
-
     private fun signOutFromFacebook() {
         if (AccessToken.getCurrentAccessToken() == null) {
             return; // already logged out
         }
         val request = GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
     }
-
 
     private fun signOutFromGoogle() {
         if (mGoogleSignInClient?.isConnected!!) {
