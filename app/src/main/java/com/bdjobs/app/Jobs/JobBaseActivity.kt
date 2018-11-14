@@ -85,7 +85,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun onItemClicked(position: Int) {
-        toast("Clicked Position $position")
+
         clickedPosition = position
         transitFragment(jobDetailsFragment, R.id.jobFragmentHolder,true)
     }
