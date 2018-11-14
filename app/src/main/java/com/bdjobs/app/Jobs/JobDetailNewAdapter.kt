@@ -30,10 +30,10 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
         private val STANDOUT = 2
         private val BASIC_AD = 3
         private val STANDOUT_AD = 4
-        private var showAD =true
+        private var showAD = true
     }
 
-    private var jobCommunicator:JobCommunicator?=null
+    private var jobCommunicator: JobCommunicator? = null
     private var jobList: MutableList<DataItem>? = null
     var call: JobCommunicator? = null
     private var isLoadingAdded = false
@@ -43,7 +43,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
     var jobContextData = ""
     var jobDescriptionData = ""
     var jobNatureData = ""
-    var educationData =""
+    var educationData = ""
     var experienceData = ""
     var requirmentsData = ""
     var salaryData = ""
@@ -55,12 +55,9 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
     var companyLogoUrl = ""
 
 
-
-
-
     init {
         jobList = java.util.ArrayList()
-        jobCommunicator =context as JobCommunicator
+        jobCommunicator = context as JobCommunicator
     }
 
 
@@ -124,6 +121,8 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                 jobsVH.shimmer_view_container.startShimmerAnimation()
 
 
+
+
                 ApiServiceJobs.create().getJobdetailData("11JBSJ6251402", jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", "2335238", "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
                         Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
@@ -131,22 +130,22 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                     override fun onResponse(call: Call<JobDetailJsonModel>, response: Response<JobDetailJsonModel>) {
                         Log.d("ApiServiceJobs", "onResponse: ${response?.body()?.data?.get(0)?.jobTitle}")
-                        Log.d("ApiServiceJobs", "onResponse: " +response?.body())
+                        Log.d("ApiServiceJobs", "onResponse: " + response?.body())
                         jobsVH.shimmer_view_container.hide()
                         jobsVH.shimmer_view_container.stopShimmerAnimation()
 
                         jobKeyPointsData = response.body()?.data?.get(0)?.jobKeyPoints!!
                         jobContextData = response.body()?.data?.get(0)?.context!!
                         jobDescriptionData = response.body()?.data?.get(0)?.jobDescription!!
-                        jobNatureData =  response.body()?.data?.get(0)?.jobNature!!
+                        jobNatureData = response.body()?.data?.get(0)?.jobNature!!
                         educationData = response.body()?.data?.get(0)?.educationRequirements!!
                         experienceData = response.body()?.data?.get(0)?.experience!!
-                        requirmentsData =response.body()?.data?.get(0)?.additionJobRequirements!!
+                        requirmentsData = response.body()?.data?.get(0)?.additionJobRequirements!!
                         salaryData = response.body()?.data?.get(0)?.jobSalaryRange!!
                         otherBenifitsData = response.body()?.data?.get(0)?.jobOtherBenifits!!
                         jobSourceData = response.body()?.data?.get(0)?.jobSource!!
                         readApplyData = response.body()?.data?.get(0)?.applyInstruction!!
-                        companyName =  response.body()?.data?.get(0)?.compnayName!!
+                        companyName = response.body()?.data?.get(0)?.compnayName!!
                         companyAddress = response.body()?.data?.get(0)?.companyAddress!!
                         companyLogoUrl = response.body()?.data?.get(0)?.jobLOgoName!!
 
@@ -160,7 +159,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                         //Job Information Checking Start
 
-                        if (jobKeyPointsData.isBlank()){
+                        if (jobKeyPointsData.isBlank()) {
 
                             jobsVH.tvKeyPoints.visibility = View.GONE
                             jobsVH.keyPonits.visibility = View.GONE
@@ -171,36 +170,36 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                             jobsVH.tvKeyPoints.text = response.body()?.data?.get(0)?.jobKeyPoints
                         }
 
-                        if(jobContextData.isBlank()){
+                        if (jobContextData.isBlank()) {
 
                             jobsVH.tvJobContext.visibility = View.GONE
                             jobsVH.tvJobContextValue.visibility = View.GONE
 
-                        } else{
+                        } else {
 
                             jobsVH.tvJobContext.visibility = View.VISIBLE
                             jobsVH.tvJobContextValue.visibility = View.VISIBLE
                             jobsVH.tvJobContextValue.text = jobContextData
                         }
 
-                        if(jobDescriptionData.isBlank()){
+                        if (jobDescriptionData.isBlank()) {
 
                             jobsVH.tvJobResponsibility.visibility = View.GONE
                             jobsVH.tvJobResponsibilityValue.visibility = View.GONE
 
-                        } else{
+                        } else {
                             jobsVH.tvJobResponsibilityValue.text = jobDescriptionData
                             jobsVH.tvJobResponsibility.visibility = View.VISIBLE
                             jobsVH.tvJobResponsibilityValue.visibility = View.VISIBLE
 
                         }
 
-                        if(jobNatureData.isBlank()){
+                        if (jobNatureData.isBlank()) {
 
                             jobsVH.tvJobNature.visibility = View.GONE
                             jobsVH.tvJobNatureValue.visibility = View.GONE
 
-                        } else{
+                        } else {
                             jobsVH.tvJobNatureValue.text = jobNatureData
                             jobsVH.tvJobNature.visibility = View.VISIBLE
                             jobsVH.tvJobNatureValue.visibility = View.VISIBLE
@@ -212,7 +211,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                         // Job Requirements Checking Start
 
-                        if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()){
+                        if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()) {
 
 
                             jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
@@ -225,36 +224,36 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                         } else {
 
-                            if(educationData.isBlank()){
+                            if (educationData.isBlank()) {
 
                                 jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
                                 jobsVH.tvEducationalRequirments.visibility = View.GONE
 
-                            } else{
+                            } else {
                                 jobsVH.tvEducationalRequirmentsValue.text = educationData
                                 jobsVH.tvEducationalRequirmentsValue.visibility = View.VISIBLE
                                 jobsVH.tvEducationalRequirments.visibility = View.VISIBLE
 
                             }
 
-                            if(experienceData.isBlank()){
+                            if (experienceData.isBlank()) {
 
                                 jobsVH.tvExperienceReq.visibility = View.GONE
                                 jobsVH.tvExperienceReqValue.visibility = View.GONE
 
-                            } else{
+                            } else {
                                 jobsVH.tvExperienceReqValue.text = experienceData
                                 jobsVH.tvExperienceReq.visibility = View.VISIBLE
                                 jobsVH.tvExperienceReqValue.visibility = View.VISIBLE
 
                             }
 
-                            if(requirmentsData.isBlank()){
+                            if (requirmentsData.isBlank()) {
 
                                 jobsVH.tvJobReqValue.visibility = View.GONE
                                 jobsVH.tvJobReq.visibility = View.GONE
 
-                            } else{
+                            } else {
                                 jobsVH.tvJobReqValue.text = requirmentsData
                                 jobsVH.tvJobReqValue.visibility = View.VISIBLE
                                 jobsVH.tvJobReq.visibility = View.VISIBLE
@@ -268,7 +267,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                         // Salary Compensation Checking Start
 
-                        if (salaryData.isBlank() && otherBenifitsData.isBlank()){
+                        if (salaryData.isBlank() && otherBenifitsData.isBlank()) {
 
                             jobsVH.tvSalaryRange.visibility = View.GONE
                             jobsVH.tvSalaryRangeData.visibility = View.GONE
@@ -277,26 +276,26 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                             jobsVH.tvSalaryAndCompensation.visibility = View.GONE
 
 
-                        }else{
+                        } else {
 
-                            if(salaryData.isBlank()){
+                            if (salaryData.isBlank()) {
 
                                 jobsVH.tvSalaryRange.visibility = View.GONE
                                 jobsVH.tvSalaryRangeData.visibility = View.GONE
 
-                            } else{
+                            } else {
 
                                 jobsVH.tvSalaryRange.visibility = View.VISIBLE
                                 jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
                                 jobsVH.tvSalaryRangeData.text = salaryData
                             }
 
-                            if(otherBenifitsData.isBlank()){
+                            if (otherBenifitsData.isBlank()) {
 
                                 jobsVH.tvOtherBenifits.visibility = View.GONE
                                 jobsVH.tvOtherBenifitsData.visibility = View.GONE
 
-                            } else{
+                            } else {
 
                                 jobsVH.tvOtherBenifitsData.text = otherBenifitsData
                                 jobsVH.tvOtherBenifits.visibility = View.VISIBLE
@@ -310,14 +309,14 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                         // Salary Compensation Checking End
 
                         //read&apply checking start
-                        if(readApplyData.isBlank()){
+                        if (readApplyData.isBlank()) {
 
                             jobsVH.tvReadBefApply.visibility = View.GONE
                             jobsVH.tvReadBefApplyData.visibility = View.GONE
 
-                        } else{
+                        } else {
 
-                            jobsVH.tvReadBefApplyData.text = Html.fromHtml( readApplyData )
+                            jobsVH.tvReadBefApplyData.text = Html.fromHtml(readApplyData)
                             jobsVH.tvReadBefApply.visibility = View.VISIBLE
                             jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
 
@@ -326,12 +325,12 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                         //companyLogo checking start
 
-                        if(companyLogoUrl.isBlank()){
+                        if (companyLogoUrl.isBlank()) {
 
-                          /*  jobsVH.companyLogo.visibility = View.GONE*/
+                            /*  jobsVH.companyLogo.visibility = View.GONE*/
 
 
-                        } else{
+                        } else {
                             jobsVH.companyLogo.visibility = View.VISIBLE
                             Picasso.get().load(companyLogoUrl).into(jobsVH.companyLogo)
 
@@ -340,8 +339,6 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                         jobsVH.tvJobSource.text = jobSourceData
                         jobsVH.tvCompanyAddress.text = companyAddress
                         jobsVH.tvCompanyName.text = companyName
-
-
 
 
                     }
@@ -383,10 +380,10 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
     override fun getItemViewType(position: Int): Int {
 
-
+        jobCommunicator?.scrolledJobsNumber(position)
         /*   Log.d("Hello","Position: $position")*/
 
-        if(showAD && (position%3==0)){
+        if (showAD && (position % 3 == 0)) {
             /*   Log.d("Hello","Position: AD= $position")*/
             if (position == jobList!!.size - 1 && isLoadingAdded) {
 
@@ -401,8 +398,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                 return BASIC
             }
 
-        }
-        else{
+        } else {
             if (position == jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
@@ -511,7 +507,6 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
         val tvEducationalRequirments: TextView = viewItem?.findViewById(R.id.education) as TextView
 
 
-
         val tvExperienceReqValue: TextView = viewItem?.findViewById(R.id.experienceTV) as TextView
         val tvExperienceReq: TextView = viewItem?.findViewById(R.id.Experience) as TextView
 
@@ -540,13 +535,11 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
     }
 
 
-
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         internal var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
         private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
         internal var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
         internal var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
-
 
 
         override fun onClick(view: View) {

@@ -18,25 +18,30 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
 
+    private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
     private val jobDetailsFragment = JobDetailsFragment()
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
     //new
-
     private var jobList1: MutableList<DataItem>? = null
-    var manager : android.app.FragmentManager? = null
     var clickedPosition : Int = 0
     var pgNumber : Int? = 1
     var totalPages: Int? = 0
     var isLastPage : Boolean = false
     var isLoading : Boolean = false
 
-
-
-
     /////////
+
+    override fun totalJobCount(totalJobFound: Int?) {
+        totalRecordsFound = totalJobFound
+    }
+
+    override fun getTotalJobCount(): Int? {
+        return totalRecordsFound
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,62 +76,46 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
 
+
+    override fun scrolledJobsNumber(position: Int) {
+        Log.d("scrolledJobNumber","scrolledJobNumber: $position")
+         jobDetailsFragment.changeJobNumber(position)
+
+    }
+
     override fun onItemClicked(position: Int) {
-
         toast("Clicked Position $position")
-
         clickedPosition = position
-
-        /* gotoJobDetail()*/
         transitFragment(jobDetailsFragment, R.id.jobFragmentHolder,true)
-
-
-
     }
 
-    override fun gotoJobList() {
-
-    }
-
-    override fun gotoJobDetail() {
-
-
-
-    }
 
     override fun getJobList(): MutableList<DataItem>? {
         return jobList1
     }
 
     override fun setJobList(jobList: MutableList<DataItem>?) {
-
         jobList1 = jobList
-
         Log.d("setJobList","setJobList: ${jobList?.size}")
     }
 
     override fun setPosition(position: Int) {
-
         clickedPosition = position
     }
 
     override fun getItemClickPosition(): Int {
-
         return clickedPosition
     }
 
     override fun setpageNumber(pageNumber: Int) {
-
         pgNumber = pageNumber
     }
 
     override fun getCurrentPageNumber(): Int {
-
         return pgNumber!!
     }
 
     override fun setTotalPage(totalPage: Int) {
-
         totalPages = totalPage
 
     }
@@ -136,12 +125,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun setIsLoading(value: Boolean) {
-
         isLoading = value
     }
 
     override fun getTotalPage(): Int {
-
         return totalPages!!
     }
 
@@ -150,7 +137,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun getIsLoading(): Boolean {
-
         return isLoading
     }
 

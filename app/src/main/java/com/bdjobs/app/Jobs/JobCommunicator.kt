@@ -5,8 +5,6 @@ package com.bdjobs.app.Jobs
 interface JobCommunicator {
 
     fun onItemClicked(position: Int)
-    fun gotoJobList()
-    fun gotoJobDetail()
     fun setJobList(jobList: MutableList<DataItem>?)
     fun getJobList(): MutableList<DataItem>?
     fun setPosition(position : Int)
@@ -19,6 +17,10 @@ interface JobCommunicator {
     fun getTotalPage() : Int
     fun getLastPasge(): Boolean
     fun getIsLoading() : Boolean
+    fun scrolledJobsNumber(position:Int)
+    fun totalJobCount(totalJobFound:Int?)
+    fun getTotalJobCount():Int?
+
 
 
 

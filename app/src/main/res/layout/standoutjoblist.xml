@@ -72,7 +72,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCompanyNameStandOut"
-                app:srcCompat="@drawable/ic_dead_line" />
+                android:src="@drawable/ic_dead_line" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -109,7 +109,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCompanyNameStandOut"
-                app:srcCompat="@drawable/ic_experience_icon" />
+                android:src="@drawable/ic_experience_icon" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -145,7 +145,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewDeadlineDateStandOut"
-                app:srcCompat="@drawable/ic_education_icon" />
+                android:src="@drawable/ic_education_icon" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -193,7 +193,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_star" />
+                android:src="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/imageViewCompanyLogoStandOut"
@@ -212,7 +212,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/google_logo" />
+                android:src="@drawable/google_logo" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

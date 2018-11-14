@@ -116,6 +116,8 @@ class JoblistFragment : Fragment() {
                     val c_name: String = response.body()?.data?.get(1)?.companyName.toString()
 
                     TOTAL_PAGES = resp_jobs?.common?.totalpages
+                    communicator.totalJobCount(resp_jobs?.common?.totalpages)
+
                     Log.d("TAG", "page count...: $currentPage")
                     Log.d("TAG", "TOTAL_PAGES...: $TOTAL_PAGES")
 

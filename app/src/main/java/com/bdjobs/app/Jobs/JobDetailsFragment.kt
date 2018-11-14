@@ -29,6 +29,7 @@ class JobDetailsFragment : Fragment() {
     private var snapHelper: SnapHelper? = null
     private var jobListGet: MutableList<DataItem>? = null
     private var TOTAL_PAGES: Int? = null
+    private var totalRecordsFound: Int? = null
     private var isLoadings = false
     private var isLastPages = false
 
@@ -43,7 +44,7 @@ class JobDetailsFragment : Fragment() {
         jobListGet = communicator.getJobList()!!
         val lastPosition = jobListGet?.size!! - 1
         jobListGet!!.removeAt(lastPosition)
-
+        totalRecordsFound = communicator.getTotalJobCount()
         currentPage = communicator.getCurrentPageNumber()
         TOTAL_PAGES = communicator.getTotalPage()
         isLastPages = communicator.getLastPasge()
@@ -86,6 +87,11 @@ class JobDetailsFragment : Fragment() {
 
     }
 
+    fun changeJobNumber(position: Int) {
+        Log.d("scrolledJobNumber", "Fragment: $position")
+        suggestiveSearchET.text = "Job $position/$totalRecordsFound"
+    }
+
 
     private fun loadNextPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
         Log.d("ArrayTest", " loadNextPage called")
@@ -98,7 +104,7 @@ class JobDetailsFragment : Fragment() {
                 if (response.isSuccessful) {
 
                     try {
-                        val c_name: String = response.body()?.data?.get(1)?.companyName.toString()
+
 
                         jobDetailNewAdapter?.removeLoadingFooter()
                         isLoadings = false
@@ -141,8 +147,6 @@ class JobDetailsFragment : Fragment() {
 
 
     private fun loadFirstPage() {
-
-
         jobDetailNewAdapter?.addAll(jobListGet as List<DataItem>)
         if (currentPage <= TOTAL_PAGES!!)
         /* jobDetailNewAdapter?.addLoadingFooter()*/
