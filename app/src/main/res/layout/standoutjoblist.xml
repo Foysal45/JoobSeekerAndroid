@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:layout_editor_absoluteY="81dp">
-
-
-    <androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         app:cardBackgroundColor="@color/card_background"
         android:id="@+id/cardViewStandOut"
         android:layout_width="match_parent"
@@ -32,6 +26,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_shape_yello">
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/linearLayout"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/shortlist_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textViewPositionNameStandOut"
@@ -168,8 +177,10 @@
                 tools:text="BBA/MBA in marketing " />
 
             <ImageView
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:padding="5dp"
-                android:id="@+id/imageView4"
+                android:id="@+id/shortlist_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -201,4 +212,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -175,14 +175,14 @@
                 android:text="BBA/MBA in marketing "
                 android:textColor="#393939"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintEnd_toStartOf="@+id/shortlist_icon"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView13"
                 tools:text="BBA/MBA in marketing " />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/shortlist_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

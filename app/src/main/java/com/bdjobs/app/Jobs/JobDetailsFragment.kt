@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.transitFragment
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class JobDetailsFragment : Fragment() {
 
@@ -58,7 +60,7 @@ class JobDetailsFragment : Fragment() {
         jobDetailNewAdapter = JobDetailNewAdapter(activity!!)
         jobDetailRecyclerView?.adapter = jobDetailNewAdapter
 
-
+        onClick()
         loadFirstPage()
 
         Handler().postDelayed({ jobDetailRecyclerView?.scrollToPosition(communicator.getItemClickPosition()) }, 200)
@@ -156,5 +158,18 @@ class JobDetailsFragment : Fragment() {
         handler.postDelayed({
             jobDetailNewAdapter?.addLoadingFooter()
         }, 100)
+    }
+
+
+    private fun onClick(){
+
+
+        BackIMGV.setOnClickListener {
+
+            val joblistFragment = JoblistFragment()
+
+           activity.transitFragment(joblistFragment,R.id.jobFragmentHolder,true)
+
+        }
     }
 }

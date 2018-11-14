@@ -43,11 +43,11 @@
                 android:transitionName="robot"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/filterIMGV"
-                app:layout_constraintStart_toEndOf="@+id/backIMGV"
+                app:layout_constraintStart_toEndOf="@+id/BACKIMGV"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/backIMGV"
+                android:id="@+id/BACKIMGV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"

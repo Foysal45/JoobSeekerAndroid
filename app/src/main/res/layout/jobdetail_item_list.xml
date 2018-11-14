@@ -655,7 +655,7 @@
                     android:text="XYZ International Limited."
                     android:textColor="#000000"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/textView6"
+                    app:layout_constraintEnd_toStartOf="@+id/followTV"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -689,7 +689,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/address" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/followTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"

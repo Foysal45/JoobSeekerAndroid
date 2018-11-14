@@ -105,9 +105,19 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvEducation.text = result?.eduRec
                 jobsVH.tvExperience.text = result?.experience
 
-                jobsVH.itemView.setOnClickListener {
 
-                    call?.onItemClicked(position)
+
+                 jobsVH.linearLayout.setOnClickListener {
+
+                   call?.onItemClicked(position)
+
+               }
+
+
+                jobsVH.shortListIconIV.setOnClickListener {
+
+                Toast.makeText(context,"Shortlist JobList Clicked",Toast.LENGTH_LONG).show()
+
 
                 }
 
@@ -147,11 +157,16 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvExperience.text = result?.experience
 
 
-                jobsVH.itemView.setOnClickListener {
+                jobsVH.linearLayout.setOnClickListener {
                     call?.onItemClicked(position)
                 }
 
+                jobsVH.shortListIconIV.setOnClickListener {
 
+                    Toast.makeText(context,"Shortlist Standout Clicked ",Toast.LENGTH_LONG).show()
+
+
+                }
                 if (result?.logo != null) {
                     jobsVH.logoImageView.visibility = View.VISIBLE
                     Picasso.get().load(result.logo).into(jobsVH.logoImageView)
@@ -357,8 +372,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearNewJob) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameNewJob) as TextView
         /*  val constraintLayout : ConstraintLayout = itemView.findViewById(R.id.constraintLayoutStandOut) as ConstraintLayout*/
-        val logoImageView: ImageView = itemView.findViewById(R.id.imageViewCompanyLogoNewJob) as ImageView
-        /* var cardView : CardView  = itemView.findViewById(R.id.cardViewStandOutN) as CardView*/
+        val shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+
 
 
     }
@@ -382,11 +397,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDate) as TextView
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYear) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationName) as TextView
-        val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.constraintLayout) as ConstraintLayout
-        val logoImageView: ImageView = itemView.findViewById(R.id.imageViewCompanyLogo) as ImageView
-        var cardView: CardView = itemView.findViewById(R.id.cardView) as CardView
-
-
+        var shortListIconIV : ImageView  =  viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        var linearLayout : LinearLayout  =  viewItem?.findViewById(R.id.linearLayout) as LinearLayout
     }
 
     private class StandOutListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
@@ -395,10 +407,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDateStandOut) as TextView
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearStandOut) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameStandOut) as TextView
-        val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.constraintLayoutStandOut) as ConstraintLayout
-        val logoImageView: ImageView = itemView.findViewById(R.id.imageViewCompanyLogoStandOut) as ImageView
-        var cardView: CardView = itemView.findViewById(R.id.cardViewStandOut) as CardView
-
+        val logoImageView: ImageView = viewItem?.findViewById(R.id.imageViewCompanyLogoStandOut) as ImageView
+        var shortListIconIV : ImageView  = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        var linearLayout : LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
 
     }
 

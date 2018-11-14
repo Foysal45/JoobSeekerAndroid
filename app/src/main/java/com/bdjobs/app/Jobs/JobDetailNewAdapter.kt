@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.R
@@ -113,6 +114,19 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                 }
 
+
+                jobsVH.allJobsButtonLayout.setOnClickListener {
+
+                   Toast.makeText(context," View all jobs Button clicked ",Toast.LENGTH_LONG).show()
+
+                }
+
+
+                jobsVH.followTV.setOnClickListener {
+
+                    Toast.makeText(context," follow Button clicked ",Toast.LENGTH_LONG).show()
+
+                }
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
 
@@ -532,6 +546,10 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
         val keyPonits: TextView = viewItem?.findViewById(R.id.keyPoints) as TextView
 
         val companyLogo: ImageView = viewItem?.findViewById(R.id.company_icon) as ImageView
+
+        val allJobsButtonLayout: ConstraintLayout = viewItem?.findViewById(R.id.buttonLayout) as ConstraintLayout
+
+        val followTV: TextView = viewItem?.findViewById(R.id.followTV) as TextView
     }
 
 

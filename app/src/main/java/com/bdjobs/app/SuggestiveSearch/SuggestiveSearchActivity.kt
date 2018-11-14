@@ -131,7 +131,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     }
 
     private fun onClicks() {
-        backIMGV.setOnClickListener { onBackPressed() }
+        BACKIMGV.setOnClickListener { onBackPressed() }
 
         suggestiveSearchET.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 

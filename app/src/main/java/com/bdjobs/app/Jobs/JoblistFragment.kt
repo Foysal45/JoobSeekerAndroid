@@ -15,6 +15,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -45,9 +46,9 @@ class JoblistFragment : Fragment() {
         session = BdjobsUserSession(activity)
 
         if (session?.isLoggedIn!!) {
-            homeIMGV.show()
+            HomeIMGV.show()
         } else {
-            homeIMGV.hide()
+            HomeIMGV.hide()
         }
 
 
@@ -59,6 +60,7 @@ class JoblistFragment : Fragment() {
         joblistAdapter = JoblistAdapter(activity)
         jobListRecyclerView?.adapter = joblistAdapter
 
+        onClick()
 
         loadFirstPage("", "", "", "", "", "02041526JSBJ2", "", "", "", "", "", "", "", "", "", "", "", "", 1, "", "", "", "", "")
 
@@ -97,8 +99,8 @@ class JoblistFragment : Fragment() {
 
     private fun loadFirstPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
         jobListRecyclerView.hide()
-        shimmer_view_container.show()
-        shimmer_view_container.startShimmerAnimation()
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
 
         val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
         call?.enqueue(object : Callback<GetResponseJobLIst> {
@@ -107,8 +109,8 @@ class JoblistFragment : Fragment() {
                 if (response.isSuccessful) {
 
                     jobListRecyclerView.show()
-                    shimmer_view_container.hide()
-                    shimmer_view_container.stopShimmerAnimation()
+                    shimmer_view_container_JobList.hide()
+                    shimmer_view_container_JobList.stopShimmerAnimation()
 
 
                     val resp_jobs = response.body()
@@ -207,4 +209,17 @@ class JoblistFragment : Fragment() {
             }
         })
     }
+
+    private fun onClick(){
+
+
+       backIV.setOnClickListener {
+
+           toast("Back Pressed")
+           activity.finish()
+
+        }
+    }
+
+
 }
