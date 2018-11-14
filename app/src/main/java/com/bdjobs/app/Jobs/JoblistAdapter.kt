@@ -218,8 +218,11 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
         /*   Log.d("Hello","Position: $position")*/
 
-        if (showAD && (position % 3 == 0)) {
-            /*   Log.d("Hello","Position: AD= $position")*/
+
+
+
+       /* if (showAD && (position % 3 == 0)) {
+            *//*   Log.d("Hello","Position: AD= $position")*//*
             if (position == jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
@@ -231,6 +234,36 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             } else if (jobList!![position].standout.equals("0")) {
 
                 return BASIC_AD
+            }
+
+        } else {
+            if (position == jobList!!.size - 1 && isLoadingAdded) {
+
+                return LOADING
+
+            } else if (jobList!![position].standout.equals("1")) {
+
+                return STANDOUT
+
+            } else if (jobList!![position].standout.equals("0")) {
+
+                return BASIC
+            }
+        }*/
+
+        if (showAD && (position % 3 == 0)) {
+            /*   Log.d("Hello","Position: AD= $position")*/
+            if (position == jobList!!.size - 1 && isLoadingAdded) {
+
+                return LOADING
+
+            } else if (jobList!![position].standout.equals("1")) {
+
+                return BASIC
+
+            } else if (jobList!![position].standout.equals("0")) {
+
+                return BASIC
             }
 
         } else {
