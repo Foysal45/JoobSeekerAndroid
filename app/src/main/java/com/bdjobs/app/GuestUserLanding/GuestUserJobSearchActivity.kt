@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
@@ -29,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
@@ -94,8 +96,27 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         }
 
         guestSearchBTN.setOnClickListener {
-            startActivity<JobBaseActivity>()
-            //CommonMethods.setLanguage(this@GuestUserJobSearchActivity,"bn")
+            val keyWord = jobtitleET.getString()
+            val locationName = loacationET.getString()
+            val categoryName = categoryET.getString()
+
+
+            val locationId = locationName.let { it ->
+                dataStorage.getLocationIDByName(it)
+            }
+
+            val catID = categoryName.let { it ->
+                dataStorage.getCategoryIDByName(it)
+            }
+
+
+            Log.d("wtji", "keyWord: $keyWord \n locationName: $locationName \n categoryName: $categoryName \n locationId: $locationId \n catID: $catID")
+
+
+            startActivity<JobBaseActivity>(
+                    key_jobtitleET to keyWord,
+                    key_loacationET to locationId,
+                    key_categoryET to catID)
         }
     }
 
