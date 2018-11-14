@@ -30,7 +30,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
@@ -101,12 +100,12 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
             val categoryName = categoryET.getString()
 
 
-            val locationId = locationName.let { it ->
-                dataStorage.getLocationIDByName(it)
+            val locationId = locationName.let {string ->
+                dataStorage.getLocationIDByName(string)
             }
 
-            val catID = categoryName.let { it ->
-                dataStorage.getCategoryIDByName(it)
+            val catID = categoryName.let { string ->
+                dataStorage.getCategoryIDByName(string)
             }
 
 
