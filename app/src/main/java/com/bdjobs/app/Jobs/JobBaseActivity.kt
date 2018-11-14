@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.util.Log
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_job_landing.*
