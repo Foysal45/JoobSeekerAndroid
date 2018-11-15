@@ -116,7 +116,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         return pgNumber!!
     }
 
-    override fun setTotalPage(totalPage: Int) {
+    override fun setTotalJob(totalPage: Int) {
         totalPages = totalPage
 
     }

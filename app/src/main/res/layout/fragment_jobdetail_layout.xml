@@ -27,10 +27,9 @@
             tools:layout_editor_absoluteX="16dp">
 
             <TextView
-                android:id="@+id/suggestiveSearchET"
+                android:id="@+id/counterTV"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -91,7 +90,7 @@
                 android:src="@drawable/ic_home_white_24dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/BACKIMGV"
-                app:layout_constraintEnd_toStartOf="@+id/suggestiveSearchET"
+                app:layout_constraintEnd_toStartOf="@+id/counterTV"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/BACKIMGV"
                 app:layout_constraintTop_toTopOf="@+id/BACKIMGV" />

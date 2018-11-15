@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
-import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -32,8 +32,10 @@ class JoblistFragment : Fragment() {
     private var TOTAL_PAGES: Int? = null
     private var isLoadings = false
     private var isLastPages = false
-
     private lateinit var communicator: JobCommunicator
+    private var keyword = ""
+    private var location = ""
+    private var category = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,8 +63,9 @@ class JoblistFragment : Fragment() {
         jobListRecyclerView?.adapter = joblistAdapter
 
         onClick()
+        getData()
 
-        loadFirstPage("", "", "", "", "", "02041526JSBJ2", "", "", "", "", "", "", "", "", "", "", "", "", 1, "", "", "", "", "")
+
 
 
         jobListRecyclerView!!.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
@@ -80,7 +83,7 @@ class JoblistFragment : Fragment() {
 
                 communicator.setpageNumber(currentPage)
 
-                loadNextPage("", "", "", "", "", "02041526JSBJ2", "", "", "", "", "", "", "", "", "", "", "", "", currentPage, "", "", "", "", "")
+                loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
 
             }
 
@@ -96,6 +99,21 @@ class JoblistFragment : Fragment() {
         return topRatedMovies.data
     }
 
+    private fun getData(){
+
+        val intent = activity.intent
+        keyword = intent.getStringExtra(Constants.key_jobtitleET)
+        location = intent.getStringExtra(Constants.key_loacationET)
+        category = intent.getStringExtra(Constants.key_categoryET)
+
+        suggestiveSearchET.text = keyword
+
+
+        loadFirstPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
+
+
+
+    }
 
     private fun loadFirstPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
         jobListRecyclerView.hide()
@@ -118,9 +136,9 @@ class JoblistFragment : Fragment() {
                     val c_name: String = response.body()?.data?.get(1)?.companyName.toString()
 
                     TOTAL_PAGES = resp_jobs?.common?.totalpages
-                    communicator.totalJobCount(resp_jobs?.common?.totalpages)
+                    communicator.totalJobCount(resp_jobs?.common?.totalRecordsFound)
 
-                    Log.d("TAG", "page count...: $currentPage")
+                    Log.d("scrolledJobNumber", "Job  count...: ${response.body()?.common?.totalRecordsFound}")
                     Log.d("TAG", "TOTAL_PAGES...: $TOTAL_PAGES")
 
                     /* progressBar.visibility = View.GONE*/
@@ -139,7 +157,7 @@ class JoblistFragment : Fragment() {
                     }, 100)
 
 
-                    communicator.setTotalPage(TOTAL_PAGES!!)
+                    communicator.totalJobCount(TOTAL_PAGES)
                     communicator.setIsLoading(isLoadings)
                     communicator.setLastPasge(isLastPages)
 
@@ -188,7 +206,7 @@ class JoblistFragment : Fragment() {
 
 
                         communicator.setIsLoading(isLoadings)
-                        communicator.setTotalPage(TOTAL_PAGES!!)
+                        communicator.setTotalJob(TOTAL_PAGES!!)
                         communicator.setLastPasge(isLastPages)
 
                     } catch (e: Exception) {
@@ -215,7 +233,7 @@ class JoblistFragment : Fragment() {
 
        backIV.setOnClickListener {
 
-           toast("Back Pressed")
+
            activity.finish()
 
         }

@@ -742,7 +742,6 @@
                     android:text="View all jobs of this Company (10)"
                     android:textColor="#2F64A3"
                     android:textSize="13sp"
-
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imageView6"
                     app:layout_constraintHorizontal_bias="0.0"

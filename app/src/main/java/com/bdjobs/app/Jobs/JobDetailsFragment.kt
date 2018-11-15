@@ -90,8 +90,8 @@ class JobDetailsFragment : Fragment() {
     }
 
     fun changeJobNumber(position: Int) {
-        Log.d("scrolledJobNumber", "Fragment: $position")
-        suggestiveSearchET.text = "Job $position/$totalRecordsFound"
+        Log.d("scrolledJobNumber", "Fragment: $position    totalRecordsFound  $totalRecordsFound ")
+        counterTV.text = "Job $position/$totalRecordsFound"
     }
 
 

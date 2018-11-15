@@ -54,6 +54,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
     var companyName = ""
     var companyAddress = ""
     var companyLogoUrl = ""
+    var companyOtherJobs = ""
 
 
     init {
@@ -162,6 +163,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                         companyName = response.body()?.data?.get(0)?.compnayName!!
                         companyAddress = response.body()?.data?.get(0)?.companyAddress!!
                         companyLogoUrl = response.body()?.data?.get(0)?.jobLOgoName!!
+                        companyOtherJobs = response.body()?.data?.get(0)?.companyOtherJ0bs!!
 
                         jobsVH.tvPosName.text = response.body()?.data?.get(0)?.jobTitle
                         jobsVH.tvComName.text = response.body()?.data?.get(0)?.compnayName
@@ -341,7 +343,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
                         if (companyLogoUrl.isBlank()) {
 
-                            /*  jobsVH.companyLogo.visibility = View.GONE*/
+                              jobsVH.companyLogo.visibility = View.GONE
 
 
                         } else {
@@ -353,6 +355,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                         jobsVH.tvJobSource.text = jobSourceData
                         jobsVH.tvCompanyAddress.text = companyAddress
                         jobsVH.tvCompanyName.text = companyName
+                        jobsVH.viewAllJobsTV.text = "View all jobs of this Company ($companyOtherJobs)"
 
 
                     }
@@ -550,6 +553,8 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
         val allJobsButtonLayout: ConstraintLayout = viewItem?.findViewById(R.id.buttonLayout) as ConstraintLayout
 
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as TextView
+
+        val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
     }
 
 
