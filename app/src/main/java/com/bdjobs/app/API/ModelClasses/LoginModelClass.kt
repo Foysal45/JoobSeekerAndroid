@@ -60,3 +60,46 @@ data class DataLoginPasswordModel(
     @SerializedName("userPicUrl")
     val userPicUrl: String?
 )
+
+data class SocialLoginAccountListModel(
+    @SerializedName("common")
+    val common: SocialLoginAccountListDataCommon?,
+    @SerializedName("data")
+    val `data`: List<SocialLoginAccountListData?>?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("statuscode")
+    val statuscode: String?
+)
+
+data class SocialLoginAccountListData(
+    @SerializedName("decodId")
+    val decodId: String?,
+    @SerializedName("email")
+    val email: String?,
+    @SerializedName("fullName")
+    val fullName: String?,
+    @SerializedName("isMap")
+    val isMap: String?,
+    @SerializedName("photo")
+    val photo: String?,
+    @SerializedName("smId")
+    val smId: String?,
+    @SerializedName("socialMediaId")
+    val socialMediaId: String?,
+    @SerializedName("socialMediaName")
+    val socialMediaName: String?,
+    @SerializedName("susername")
+    val susername: String?,
+    @SerializedName("total")
+    val total: String?,
+    @SerializedName("userId")
+    val userId: String?
+)
+
+data class SocialLoginAccountListDataCommon(
+    @SerializedName("isMap")
+    val isMap: String?,
+    @SerializedName("total")
+    val total: String?
+)

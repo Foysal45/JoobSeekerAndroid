@@ -12,6 +12,7 @@ import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.counterTimeLimit
 import com.bdjobs.app.Utilities.Constants.Companion.timer_countDownInterval
 import kotlinx.android.synthetic.main.fragment_login_otp.*
@@ -120,7 +121,7 @@ class LoginOTPFragment : Fragment() {
                 override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
                     activity.stopProgressBar(progressBar)
                     if (response.isSuccessful) {
-                       if(response?.body()?.statuscode!!.equalIgnoreCase("0")){
+                       if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
                            otpTIL.hideError()
                            val bdjobsUserSession = BdjobsUserSession(activity)
                            bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)

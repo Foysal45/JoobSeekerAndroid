@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.debug
@@ -16,18 +17,17 @@ import kotlinx.android.synthetic.main.activity_login_base.*
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
 
 
-
     private val loginUserNameFragment = LoginUserNameFragment()
     private val loginPasswordFragment = LoginPasswordFragment()
     private val loginOTPFragment = LoginOTPFragment()
+    private val socialAccountListFragment = SocialAccountListFragment()
     private var mSnackBar: Snackbar? = null
-
     private val internetBroadCastReceiver = ConnectivityReceiver()
-
     private var userId: String? = null
     private var fullName: String? = null
     private var imageUrl: String? = null
     private var userName: String? = null
+    private var socialLoginAccountDataList: List<SocialLoginAccountListData?>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,22 +40,32 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         onBackPressed()
     }
 
-    override fun goToPasswordFragment(userName:String?,userId: String?, fullName: String?, imageUrl: String?) {
+    override fun goToPasswordFragment(userName: String?, userId: String?, fullName: String?, imageUrl: String?) {
         this.userName = userName
         this.fullName = fullName
         this.userId = userId
         this.imageUrl = imageUrl
         debug("goToPasswordFragment, userName:$userName \n fullName:$fullName \n userId:$userId \n imageUrl:$imageUrl \n")
-        transitFragment(loginPasswordFragment, R.id.loginFragmentHolderFL,true)
+        transitFragment(loginPasswordFragment, R.id.loginFragmentHolderFL, true)
     }
 
-    override fun goToOtpFragment(userName:String?,userId: String?, fullName: String?, imageUrl: String?) {
+    override fun getSocialLoginAccountDataList(): List<SocialLoginAccountListData?>? {
+        return socialLoginAccountDataList
+    }
+
+    override fun goToSocialAccountListFragment(socialLoginAccountDataList: List<SocialLoginAccountListData?>?) {
+        this.socialLoginAccountDataList = socialLoginAccountDataList
+        transitFragment(socialAccountListFragment, R.id.loginFragmentHolderFL, true)
+    }
+
+
+    override fun goToOtpFragment(userName: String?, userId: String?, fullName: String?, imageUrl: String?) {
         this.userName = userName
         this.fullName = fullName
         this.userId = userId
         this.imageUrl = imageUrl
         debug("goToOtpFragment, userName:$userName \n fullName:$fullName \n userId:$userId \n imageUrl:$imageUrl \n")
-        transitFragment(loginOTPFragment, R.id.loginFragmentHolderFL,true)
+        transitFragment(loginOTPFragment, R.id.loginFragmentHolderFL, true)
     }
 
 
@@ -77,6 +87,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     override fun getImageUrl(): String? {
         return imageUrl
     }
+
     override fun getUserName(): String? {
         return userName
     }
