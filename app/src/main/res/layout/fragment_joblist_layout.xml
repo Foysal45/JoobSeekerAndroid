@@ -46,21 +46,18 @@
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/filterIMGV"
-                app:layout_constraintStart_toEndOf="@+id/homeIMGV"
+                app:layout_constraintStart_toEndOf="@+id/HomeIMGV"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/backIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="5dp"
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/suggestiveSearchET"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,20 +76,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/HomeIMGV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="5dp"
                 android:src="@drawable/ic_home_white_24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/BACKIMGV"
-                app:layout_constraintEnd_toStartOf="@+id/suggestiveSearchET"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/BACKIMGV"
-                app:layout_constraintTop_toTopOf="@+id/BACKIMGV" />
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backIV"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>

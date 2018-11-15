@@ -29,14 +29,16 @@
             <TextView
                 android:id="@+id/suggestiveSearchET"
                 android:layout_width="0dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="0dp"
 
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:drawablePadding="5dp"
                 android:ems="10"
                 android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|center_horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
@@ -45,21 +47,20 @@
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView5"
-                app:layout_constraintStart_toEndOf="@+id/homeIMGV"
+                app:layout_constraintStart_toEndOf="@+id/BackIMGV"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/BackIMGV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="5dp"
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/suggestiveSearchET"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,7 +69,9 @@
                 android:id="@+id/filterIMGV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="11dp"
+                android:layout_marginBottom="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="5dp"
@@ -78,7 +81,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/homeIMGV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
                 android:clickable="true"
                 android:padding="5dp"
                 android:src="@drawable/ic_home_white_24dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/BACKIMGV"
                 app:layout_constraintEnd_toStartOf="@+id/suggestiveSearchET"
                 app:layout_constraintHorizontal_bias="0.0"
