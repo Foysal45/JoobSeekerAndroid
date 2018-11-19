@@ -7,13 +7,12 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_job_landing.*
-import org.jetbrains.anko.toast
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener ,JobCommunicator{
 
@@ -26,7 +25,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var mSnackBar: Snackbar? = null
 
     //new
-    private var jobList1: MutableList<DataItem>? = null
+    private var jobList1: MutableList<JobListModelData>? = null
     var clickedPosition : Int = 0
     var pgNumber : Int? = 1
     var totalPages: Int? = 0
@@ -35,19 +34,32 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     /////////
 
-    override fun totalJobCount(totalJobFound: Int?) {
-        totalRecordsFound = totalJobFound
-    }
 
-    override fun getTotalJobCount(): Int? {
-        return totalRecordsFound
-    }
+    private var keyword = ""
+    private var location = ""
+    private var category = ""
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_landing)
+        getData()
+
         transitFragment(joblistFragment, R.id.jobFragmentHolder)
+    }
+
+
+    private fun getData(){
+
+        val intent = this.intent
+        keyword = intent.getStringExtra(Constants.key_jobtitleET)
+        location = intent.getStringExtra(Constants.key_loacationET)
+        category = intent.getStringExtra(Constants.key_categoryET)
+
+
+
     }
 
     override fun onPostResume() {
@@ -76,6 +88,29 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
+    override fun setLocation(location: String) {
+       this.location = location
+    }
+
+    override fun getLocation(): String {
+      return location
+    }
+
+    override fun setKeyword(keyword: String) {
+       this.keyword = keyword
+    }
+
+    override fun getKeyword(): String {
+      return keyword
+    }
+
+    override fun getCategory(): String {
+        return category
+    }
+
+    override fun setCategory(category: String) {
+       this.category = category
+    }
 
 
     override fun scrolledJobsNumber(position: Int) {
@@ -91,11 +126,11 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
-    override fun getJobList(): MutableList<DataItem>? {
+    override fun getJobList(): MutableList<JobListModelData>? {
         return jobList1
     }
 
-    override fun setJobList(jobList: MutableList<DataItem>?) {
+    override fun setJobList(jobList: MutableList<JobListModelData>?) {
         jobList1 = jobList
         Log.d("setJobList","setJobList: ${jobList?.size}")
     }
@@ -145,4 +180,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+    override fun totalJobCount(totalJobFound: Int?) {
+        totalRecordsFound = totalJobFound
+    }
+
+    override fun getTotalJobCount(): Int? {
+        return totalRecordsFound
+    }
+
+
 }

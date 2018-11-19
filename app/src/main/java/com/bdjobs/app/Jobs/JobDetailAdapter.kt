@@ -12,6 +12,8 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
+import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -21,7 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     companion object {
@@ -35,7 +37,7 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
     }
 
     private var jobCommunicator: JobCommunicator? = null
-    private var jobList: MutableList<DataItem>? = null
+    private var jobList: MutableList<JobListModelData>? = null
     var call: JobCommunicator? = null
     private var isLoadingAdded = false
     private var retryPageLoad = false
@@ -106,6 +108,8 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
                     jobsVH.tvComName.justificationMode = JUSTIFICATION_MODE_INTER_WORD
 
                 }
+
+
 
 
 
@@ -435,20 +439,20 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
     }
 
 
-    fun add(r: DataItem) {
+    fun add(r: JobListModelData) {
         jobList?.add(r)
         notifyItemInserted(jobList!!.size - 1)
 
     }
 
-    fun addAll(moveResults: List<DataItem>) {
+    fun addAll(moveResults: List<JobListModelData>) {
         for (result in moveResults) {
             add(result)
         }
         jobCommunicator?.setJobList(jobList)
     }
 
-    private fun remove(r: DataItem?) {
+    private fun remove(r: JobListModelData?) {
         val position = jobList!!.indexOf(r)
         if (position > -1) {
             jobList!!.removeAt(position)
@@ -467,24 +471,30 @@ class JobDetailNewAdapter(private val context: Context) : RecyclerView.Adapter<R
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        add(DataItem())
+        add(JobListModelData())
 
     }
 
     fun removeLoadingFooter() {
         isLoadingAdded = false
 
-        val position = jobList!!.size - 1
+        val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        if (result != null) {
-            jobList!!.removeAt(position)
+        Log.d("riuhghugr","getItemViewType" + getItemViewType(position))
+
+        Log.d("riuhghugr"," result: $result")
+        if (result?.jobid.isNullOrBlank() ) {
+            this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
+
+
+
         }
 
     }
 
-    private fun getItem(position: Int): DataItem? {
+    private fun getItem(position: Int): JobListModelData? {
         return jobList!![position]
     }
 

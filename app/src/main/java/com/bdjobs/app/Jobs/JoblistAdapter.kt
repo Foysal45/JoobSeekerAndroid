@@ -5,13 +5,13 @@ import android.os.Build
 
 
 import android.text.Layout.JUSTIFICATION_MODE_INTER_WORD
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.squareup.picasso.Picasso
 
@@ -29,15 +29,14 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     private var jobCommunicator: JobCommunicator? = null
-    private var jobList: MutableList<DataItem>? = null
-    var call: JobCommunicator? = null
+    private var jobList: MutableList<JobListModelData>? = null
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
 
 
     init {
-        jobList = java.util.ArrayList()
+        this.jobList = java.util.ArrayList()
         jobCommunicator = context as JobCommunicator
     }
 
@@ -46,7 +45,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         var viewHolder: RecyclerView.ViewHolder? = null
         var inflater = LayoutInflater.from(parent.context)
 
-        call = context as JobCommunicator
+        jobCommunicator = context as JobCommunicator
         when (viewType) {
             BASIC -> {
                 val viewItem = inflater.inflate(R.layout.joblist_item_new_layout, parent, false)
@@ -83,13 +82,13 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         /* Log.d("Check"," on Bind View holder Position " + position)
          Log.d("Check"," getItemViewType(position) " + getItemViewType(position))*/
 
-        var result = jobList?.get(position) // jobs
+        var result = this.jobList?.get(position) // jobs
 
 
         when (getItemViewType(position)) {
             BASIC -> {
 
-                /*   Log.d("Check", " BASIC $BASIC")*/
+                   Log.d("jobTitle", " BASIC $result?.jobTitle")
 
                 val jobsVH = holder as JobsListVH
 
@@ -109,7 +108,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                  jobsVH.linearLayout.setOnClickListener {
 
-                   call?.onItemClicked(position)
+                     jobCommunicator?.onItemClicked(position)
 
                }
 
@@ -158,7 +157,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
 
                 jobsVH.linearLayout.setOnClickListener {
-                    call?.onItemClicked(position)
+                    jobCommunicator?.onItemClicked(position)
                 }
 
                 jobsVH.shortListIconIV.setOnClickListener {
@@ -191,7 +190,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 jobsVH.itemView.setOnClickListener {
 
-                    call?.onItemClicked(position)
+                    jobCommunicator?.onItemClicked(position)
 
                 }
             }
@@ -213,7 +212,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 jobsVH.itemView.setOnClickListener {
 
-                    call?.onItemClicked(position)
+                    jobCommunicator?.onItemClicked(position)
 
                 }
 
@@ -225,7 +224,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
 
     override fun getItemCount(): Int {
-        return if (jobList == null) 0 else jobList!!.size
+        return if (this.jobList == null) 0 else this.jobList!!.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -268,29 +267,29 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
         if (showAD && (position % 3 == 0)) {
             /*   Log.d("Hello","Position: AD= $position")*/
-            if (position == jobList!!.size - 1 && isLoadingAdded) {
+            if (position == this.jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
 
-            } else if (jobList!![position].standout.equals("1")) {
+            } else if (this.jobList!![position].standout.equals("1")) {
 
                 return BASIC
 
-            } else if (jobList!![position].standout.equals("0")) {
+            } else if (this.jobList!![position].standout.equals("0")) {
 
                 return BASIC
             }
 
         } else {
-            if (position == jobList!!.size - 1 && isLoadingAdded) {
+            if (position == this.jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
 
-            } else if (jobList!![position].standout.equals("1")) {
+            } else if (this.jobList!![position].standout.equals("1")) {
 
                 return STANDOUT
 
-            } else if (jobList!![position].standout.equals("0")) {
+            } else if (this.jobList!![position].standout.equals("0")) {
 
                 return BASIC
             }
@@ -301,23 +300,31 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
 
-    fun add(r: DataItem) {
-        jobList?.add(r)
-        notifyItemInserted(jobList!!.size - 1)
+    fun add(item: JobListModelData) {
+        this.jobList?.add(item)
+        notifyItemInserted(this.jobList!!.size - 1)
 
     }
 
-    fun addAll(moveResults: List<DataItem>) {
+  /*  fun addAll(moveResults: List<DataItem>) {
         for (result in moveResults) {
             add(result)
         }
         jobCommunicator?.setJobList(jobList)
+    }*/
+
+
+    fun addAllTest(moveResults: List<JobListModelData>) {
+        for (result in moveResults) {
+            add(result)
+        }
+        jobCommunicator?.setJobList(this.jobList)
     }
 
-    private fun remove(r: DataItem?) {
-        val position = jobList!!.indexOf(r)
+    private fun remove(item: JobListModelData?) {
+        val position = this.jobList!!.indexOf(item)
         if (position > -1) {
-            jobList!!.removeAt(position)
+            this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
         }
 
@@ -333,34 +340,34 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        add(DataItem())
+        add(JobListModelData())
 
     }
 
     fun removeLoadingFooter() {
         isLoadingAdded = false
 
-        val position = jobList!!.size - 1
+        val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        if (result != null) {
-            jobList!!.removeAt(position)
+        Log.d("riuhghugr","getItemViewType" + getItemViewType(position))
+
+        Log.d("riuhghugr"," result: $result")
+        if (result?.jobid.isNullOrBlank() ) {
+            this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
+
+
+
         }
 
     }
 
-    private fun getItem(position: Int): DataItem? {
-        return jobList!![position]
+    private fun getItem(position: Int): JobListModelData? {
+        return this.jobList!![position]
     }
 
 
-    fun showRetry(show: Boolean, errorMsg: String?) {
-        retryPageLoad = show
-        jobList?.size?.minus(1)?.let { notifyItemChanged(it) }
-
-        if (errorMsg != null) this.errorMsg = errorMsg
-    }
 
     /**
      * Main list's content ViewHolder

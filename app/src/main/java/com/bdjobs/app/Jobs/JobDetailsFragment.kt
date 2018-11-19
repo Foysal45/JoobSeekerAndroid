@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.JobListModel
+import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
@@ -25,15 +27,18 @@ import retrofit2.Response
 class JobDetailsFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var jobDetailNewAdapter: JobDetailNewAdapter? = null
+    private var jobDetailAdapter: JobDetailAdapter? = null
     private var currentPage = 1
     private lateinit var communicator: JobCommunicator
     private var snapHelper: SnapHelper? = null
-    private var jobListGet: MutableList<DataItem>? = null
+    private var jobListGet: MutableList<JobListModelData>? = null
     private var TOTAL_PAGES: Int? = null
     private var totalRecordsFound: Int? = null
     private var isLoadings = false
     private var isLastPages = false
+    private var keyword = ""
+    private var location = ""
+    private var category = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_jobdetail_layout, container, false)!!
@@ -43,13 +48,7 @@ class JobDetailsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as JobCommunicator
 
-        jobListGet = communicator.getJobList()!!
-        val lastPosition = jobListGet?.size!! - 1
-        jobListGet!!.removeAt(lastPosition)
-        totalRecordsFound = communicator.getTotalJobCount()
-        currentPage = communicator.getCurrentPageNumber()
-        TOTAL_PAGES = communicator.getTotalPage()
-        isLastPages = communicator.getLastPasge()
+        getData()
 
         snapHelper = PagerSnapHelper()
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
@@ -57,8 +56,8 @@ class JobDetailsFragment : Fragment() {
 
         layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
-        jobDetailNewAdapter = JobDetailNewAdapter(activity!!)
-        jobDetailRecyclerView?.adapter = jobDetailNewAdapter
+        jobDetailAdapter = JobDetailAdapter(activity!!)
+        jobDetailRecyclerView?.adapter = jobDetailAdapter
 
         onClick()
         loadFirstPage()
@@ -79,7 +78,15 @@ class JobDetailsFragment : Fragment() {
                 currentPage += 1
 
                 Log.d("loadMoreItemsgfjfg", " Called ")
-                loadNextPage("", "", "", "", "", "02041526JSBJ2", "", "", "", "", "", "", "", "", "", "", "", "", currentPage, "", "", "", "", "")
+
+                Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
+
+
+                    loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
+
+
+
+
 
             }
 
@@ -91,40 +98,80 @@ class JobDetailsFragment : Fragment() {
 
     fun changeJobNumber(position: Int) {
         Log.d("scrolledJobNumber", "Fragment: $position    totalRecordsFound  $totalRecordsFound ")
-        counterTV.text = "Job $position/$totalRecordsFound"
+        counterTV?.let {tv->
+            tv.text = "Job $position/$totalRecordsFound" }
     }
 
 
-    private fun loadNextPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
-        Log.d("ArrayTest", " loadNextPage called")
-        val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
-        call?.enqueue(object : Callback<GetResponseJobLIst> {
+    private fun getData() {
 
-            override fun onResponse(call: Call<GetResponseJobLIst>?, response: Response<GetResponseJobLIst>) {
+        jobListGet = communicator.getJobList()!!
+
+
+        Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
+
+        Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
+
+        Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+        /* val lastPosition = jobListGet?.size!!-1
+         jobListGet!!.removeAt(lastPosition)*/
+
+        Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+
+
+
+        totalRecordsFound = communicator.getTotalJobCount()
+        currentPage = communicator.getCurrentPageNumber()
+        TOTAL_PAGES = communicator.getTotalPage()
+        isLastPages = communicator.getLastPasge()
+
+        keyword = communicator.getKeyword()
+        location = communicator.getLocation()
+        category = communicator.getCategory()
+
+        Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
+
+
+    }
+
+    private fun loadNextPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+        Log.d("ArrayTestJobdetail", " loadNextPage called")
+
+
+        val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
+        call?.enqueue(object : Callback<JobListModel> {
+
+            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
 
                 if (response.isSuccessful) {
 
-                    try {
+                    Log.d("ArrayTestJobdetail", " response.isSuccessful")
 
+                    val resp_jobs = response.body()
 
-                        jobDetailNewAdapter?.removeLoadingFooter()
-                        isLoadings = false
+                    jobDetailAdapter?.removeLoadingFooter()
+                    isLoadings = false
 
-                        val results = fetchResults(response)
-                        jobDetailNewAdapter?.addAll(results as List<DataItem>)
+                    val results = response.body()?.data
 
-                        if (currentPage != TOTAL_PAGES)
-                            jobDetailNewAdapter?.addLoadingFooter()
-                        else {
-                            isLastPages = true
+                    if (!results.isNullOrEmpty()) {
 
-                        }
+                        jobDetailAdapter?.addAll(results)
 
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
+
+
+                    if (currentPage == TOTAL_PAGES) {
+
+                        isLastPages = true
+
+                    } else {
+
+                        jobDetailAdapter?.addLoadingFooter()
+                    }
+
+
                 } else {
                     Log.d("TAG", "not successful: ")
 
@@ -133,7 +180,7 @@ class JobDetailsFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<GetResponseJobLIst>?, t: Throwable?) {
+            override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
                 toast("On Failure")
                 Log.d("TAG", "not successful!! onFail")
 
@@ -142,33 +189,32 @@ class JobDetailsFragment : Fragment() {
     }
 
 
-    private fun fetchResults(response: Response<GetResponseJobLIst>): List<DataItem?>? {
-        val topRatedMovies = response.body() as GetResponseJobLIst
-        return topRatedMovies.data
-    }
-
-
     private fun loadFirstPage() {
-        jobDetailNewAdapter?.addAll(jobListGet as List<DataItem>)
-        if (currentPage <= TOTAL_PAGES!!)
-        /* jobDetailNewAdapter?.addLoadingFooter()*/
-        else
+
+        jobDetailAdapter?.addAll(jobListGet as List<JobListModelData>)
+        if (currentPage == TOTAL_PAGES!!) {
+
             isLastPages = true
-        val handler = Handler()
-        handler.postDelayed({
-            jobDetailNewAdapter?.addLoadingFooter()
-        }, 100)
+        }
+
+        /*else{
+
+            jobDetailAdapter?.addLoadingFooter()
+
+        }*/
+
+
     }
 
 
-    private fun onClick(){
+    private fun onClick() {
 
 
         BackIMGV.setOnClickListener {
 
             val joblistFragment = JoblistFragment()
 
-           activity.transitFragment(joblistFragment,R.id.jobFragmentHolder,true)
+            activity.transitFragment(joblistFragment, R.id.jobFragmentHolder, true)
 
         }
     }

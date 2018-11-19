@@ -1,8 +1,8 @@
 package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
-import com.bdjobs.app.Jobs.GetResponseJobLIst
-import com.bdjobs.app.Jobs.JobDetailJsonModel
+import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
+import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_jobs_db_update
 import com.google.gson.GsonBuilder
@@ -19,10 +19,9 @@ interface ApiServiceJobs {
     @GET(api_jobs_db_update)
     fun getDbInfo(@Query("lastUpdateDate") lastUpdateDate: String): Call<DatabaseUpdateModel>
 
+    ///Test method
 
-
-
-    @GET("v1/joblist.asp?")
+    @GET("v1/joblist.asp")
     fun getJobList(
             @Query("Newspaper") Newspaper: String?="",
             @Query("armyp") armyp: String?="",
@@ -42,7 +41,7 @@ interface ApiServiceJobs {
             @Query("location") location: String?="",
             @Query("org") org: String?="",
             @Query("pageid") pageid: String?="",
-            @Query("pg") pg: Int?=0,
+            @Query("pg") pg: Int?=1,
             @Query("postedWithin") postedWithin: String?="",
             @Query("qAge") qAge: String?="",
             @Query("rpp") rpp: String?="",
@@ -50,7 +49,7 @@ interface ApiServiceJobs {
             @Query("version") version: String?=""
 
 
-    ): Call<GetResponseJobLIst>
+    ): Call<JobListModel>
 
 
     ///new

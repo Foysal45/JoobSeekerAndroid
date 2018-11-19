@@ -1,4 +1,4 @@
-package com.bdjobs.app.Jobs
+package com.bdjobs.app.API.ModelClasses
 
 import com.google.gson.annotations.SerializedName
 
@@ -59,8 +59,7 @@ data class Data(
 
 
 
-
-data class GetResponseJobLIst(
+/*data class GetResponseJobLIst(
         val statuscode: String? = null,
         val data: List<DataItem>? = null,
         val common: CommonOld? = null,
@@ -85,9 +84,36 @@ data class DataItem(
         val eduRec: String? = null,
         val deadline: String? = null,
         val experience: String? = null
+)*/
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+data class JobListModel(
+        @SerializedName("statuscode") val statuscode: String?,
+        @SerializedName("message") val message: String?,
+        @SerializedName("data") val data: List<JobListModelData>?,
+        @SerializedName("common") val common: Common?
 )
 
+data class JobListModelData(
+    @SerializedName("jobid") val jobid: String? = "",
+    @SerializedName("jobTitle") val jobTitle: String?= "",
+    @SerializedName("companyName") val companyName: String?= "",
+    @SerializedName("deadline") val deadline: String?= "",
+    @SerializedName("publishDate") val publishDate: String?= "",
+    @SerializedName("eduRec") val eduRec: String?= "",
+    @SerializedName("experience") val experience: String?= "",
+    @SerializedName("standout") val standout: String?= "",
+    @SerializedName("logo") val logo: String?= "",
+    @SerializedName("lantype") val lantype: String?= ""
+)
 
-
-
-
+data class Common(
+    @SerializedName("total_records_found") val totalRecordsFound: Int?,
+    @SerializedName("showad") val showad: String?,
+    @SerializedName("totalpages") val totalpages: Int?
+)
