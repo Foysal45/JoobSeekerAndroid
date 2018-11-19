@@ -27,7 +27,7 @@ class Constants {
         const val key_categoryET = "categoryET"
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
-        const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/"
+        const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/"
         const val guestUserRequestCode = 1
         const val REQ_CODE_SPEECH_INPUT = 100
@@ -47,8 +47,10 @@ class Constants {
         const val session_key_trainingId = "trainingId"
         const val session_key_userPicUrl = "userPicUrl"
         const val session_key_loggedIn= "loggedIn"
-        const val api_mybdjobs_app_signinprocess ="mybdjobs/v1/app_signinprocess.asp"
-        const val api_mybdjobs_app_agent_log ="mybdjobs/v1/apps_agent_log.asp"
+        const val api_mybdjobs_app_signinprocess ="app_signinprocess.asp"
+        const val api_mybdjobs_app_agent_log ="apps_agent_log.asp"
+
+        const val api_mybdjobs_app_social_agent_log ="app_social_agent_log.asp"
 
         const val api_jobs_db_update ="dbupdate.asp"
         const val key_recent_search_keyword ="keyword"

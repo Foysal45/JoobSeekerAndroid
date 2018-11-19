@@ -12,8 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
+import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY
 import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING
@@ -21,6 +24,9 @@ import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_EMAIL
 import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_ID
 import com.bdjobs.app.Utilities.Constants.Companion.LINKEDIN_REQUEST_URL
 import com.bdjobs.app.Utilities.Constants.Companion.RC_SIGN_IN
+import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_FACEBOOK
+import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_GOOGLE
+import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_LINKEDIN
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.key_false
 import com.bdjobs.app.Utilities.Constants.Companion.key_true
@@ -98,7 +104,7 @@ class LoginUserNameFragment : Fragment() {
 
 
                                 signOutFromFacebook()
-                                //socialMediaMapping(sMid, semail, sType, "EN")
+                                socialMediaMapping(sMid, semail, SOCIAL_MEDIA_FACEBOOK)
 
 
                                 Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
@@ -124,6 +130,95 @@ class LoginUserNameFragment : Fragment() {
 
                     }
                 })
+    }
+
+    private fun socialMediaMapping(sMid: String?, semail: String?, sType: String?) {
+
+        Log.d("socialMediaMapping", "sMid:$sMid \n semail:$semail  \n sType: $sType")
+
+        activity.showProgressBar(loadingProgressBar)
+
+        ApiServiceMyBdjobs.create().getSocialAccountList(SocialMediaId = sMid, email = semail, MediaName = sType).enqueue(object : Callback<SocialLoginAccountListModel> {
+            override fun onFailure(call: Call<SocialLoginAccountListModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
+                error("onFailure", t)
+
+            }
+
+            override fun onResponse(call: Call<SocialLoginAccountListModel>, response: Response<SocialLoginAccountListModel>) {
+                activity.stopProgressBar(loadingProgressBar)
+                if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok))
+                {
+
+                    var mappedAccountNumber: Int? = null
+                    var hasMappedAccount = false
+
+                    response.body()?.data?.let {dataList->
+                        for ((index, value) in dataList.withIndex()) {
+                            if (value?.isMap?.equalIgnoreCase(key_true)!!) {
+                                mappedAccountNumber = index
+                                hasMappedAccount = true
+                            }
+                        }
+
+                    }
+
+                    Log.d("mappedAccountNumber", "mappedAccountNumber: $mappedAccountNumber")
+
+                    if(hasMappedAccount){
+                        val mappedAccount = response.body()?.data?.get(mappedAccountNumber!!)
+                        ApiServiceMyBdjobs.create().doLogin(socialMediaId = mappedAccount?.socialMediaId,
+                                socialMediaName = mappedAccount?.socialMediaName,
+                                susername = mappedAccount?.susername,
+                                email = mappedAccount?.email,
+                                fullName = mappedAccount?.fullName,
+                                userId = mappedAccount?.userId,
+                                isMap = mappedAccount?.isMap,
+                                smId = mappedAccount?.smId
+                        ).enqueue(object : Callback<LoginSessionModel> {
+
+                            override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
+                                error("onFailure", t)
+                            }
+
+                            override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
+
+                                if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+
+                                    response.body()?.data?.get(0)?.let { sessionData ->
+                                        val bdjobsUserSession = BdjobsUserSession(activity)
+                                        bdjobsUserSession.createSession(sessionData)
+                                    }
+
+                                } else {
+                                    toast(response.body()?.message!!)
+                                }
+                            }
+                        })
+                    }
+                    else if (!hasMappedAccount) {
+                        val totalNumberofAccounts = response.body()?.common?.total?.let { total ->
+                            total.toInt()
+                        }
+
+                        Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $totalNumberofAccounts")
+
+                        totalNumberofAccounts?.let { number ->
+                            if (number > 0) {
+                                loginCommunicator.goToSocialAccountListFragment(response.body()?.data)
+                            }
+                        }
+                    }
+                }
+                else {
+                    toast(response.body()?.message!!)
+                }
+
+            }
+
+        })
+
+
     }
 
     private fun initializeGoogleSignIN() {
@@ -213,7 +308,7 @@ class LoginUserNameFragment : Fragment() {
                                 sMid = response.getString("id")
                             }
 
-                            // socialMediaMapping(sMid, lemail, "L", "EN")
+                            socialMediaMapping(sMid, lemail, SOCIAL_MEDIA_LINKEDIN)
                             Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
 
 
@@ -271,8 +366,7 @@ class LoginUserNameFragment : Fragment() {
                 val name = account?.displayName
                 Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
                 signOutFromGoogle()
-                val sType = "F"
-                //socialMediaMapping(sid, semial, sType, "EN")
+                socialMediaMapping(sid, semial, SOCIAL_MEDIA_GOOGLE)
 
             } else {
                 // Google Sign In failed, update UI appropriately
