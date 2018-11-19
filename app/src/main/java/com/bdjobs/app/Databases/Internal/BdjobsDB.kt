@@ -8,11 +8,12 @@ import android.content.Context
 import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
 
 
-@Database(entities = [(Suggestion::class)], version = 1, exportSchema = false)
+@Database(entities = [Suggestion::class,FavouriteSearch::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
     abstract fun suggestionDAO(): SuggestionDAO
+    abstract fun favouriteSearchFilterDao():FavouriteSearchFilterDao
 
     companion object {
         @Volatile

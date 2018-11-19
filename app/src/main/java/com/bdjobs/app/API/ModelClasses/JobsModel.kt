@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 data class JobDetailJsonModel(
         @SerializedName("statuscode") val statuscode: String?,
         @SerializedName("message") val message: String?,
-        @SerializedName("data") val data: List<Data?>?,
+        @SerializedName("data") val data: List<JobDetailData?>?,
         @SerializedName("common") val common: Any?
 )
 
-data class Data(
+data class JobDetailData(
         @SerializedName("JobId") val jobId: String?,
         @SerializedName("JobFound") val jobFound: String?,
         @SerializedName("CompnayName") val compnayName: String?,
@@ -55,40 +55,6 @@ data class Data(
         @SerializedName("error") val error: String?
 )
 
-
-
-
-
-/*data class GetResponseJobLIst(
-        val statuscode: String? = null,
-        val data: List<DataItem>? = null,
-        val common: CommonOld? = null,
-        val message: String? = null
-)
-
-data class CommonOld(
-        val totalRecordsFound: Int? = null,
-        val showad: String? = null,
-        val totalpages: Int? = null
-)
-
-
-data class DataItem(
-        val jobid: String? = null,
-        val standout: String? = null,
-        val jobTitle: String? = null,
-        val companyName: String? = null,
-        val publishDate: String? = null,
-        val lantype: String? = null,
-        val logo: String? = null,
-        val eduRec: String? = null,
-        val deadline: String? = null,
-        val experience: String? = null
-)*/
-
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -96,7 +62,7 @@ data class JobListModel(
         @SerializedName("statuscode") val statuscode: String?,
         @SerializedName("message") val message: String?,
         @SerializedName("data") val data: List<JobListModelData>?,
-        @SerializedName("common") val common: Common?
+        @SerializedName("common") val common: JobListCommon?
 )
 
 data class JobListModelData(
@@ -112,7 +78,7 @@ data class JobListModelData(
     @SerializedName("lantype") val lantype: String?= ""
 )
 
-data class Common(
+data class JobListCommon(
     @SerializedName("total_records_found") val totalRecordsFound: Int?,
     @SerializedName("showad") val showad: String?,
     @SerializedName("totalpages") val totalpages: Int?

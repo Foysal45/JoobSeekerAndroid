@@ -13,9 +13,71 @@ data class Suggestion(@ColumnInfo(name = "Suggestions")
                       @ColumnInfo(name = "Flag")
                       val flag: String,
                       @ColumnInfo(name = "UserID")
-                      val userID: String?=null,
+                      val userID: String? = null,
                       @ColumnInfo(name = "InsertTime")
                       val time: Date) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+
+@Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyID"], unique = true))])
+data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
+                            val CompanyID: String,
+                            @ColumnInfo(name = "CompanyName")
+                            val CompanyName: String,
+                            @ColumnInfo(name = "JobCount")
+                            val JobCount: String? = null) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+
+@Entity(tableName = "FavouriteSearch", indices = [(Index(value = ["filterid"], unique = true))])
+data class FavouriteSearch(
+        @ColumnInfo(name = "filterid")
+        val filterid: String?,
+        @ColumnInfo(name = "filtername")
+        val filtername: String?,
+        @ColumnInfo(name = "industrialCat")
+        val industrialCat: String? = null,
+        @ColumnInfo(name = "functionalCat")
+        val functionalCat: String?,
+        @ColumnInfo(name = "location")
+        val location: String?,
+        @ColumnInfo(name = "organization")
+        val organization: String?,
+        @ColumnInfo(name = "jobnature")
+        val jobnature: String? = null,
+        @ColumnInfo(name = "joblevel")
+        val joblevel: String?,
+        @ColumnInfo(name = "postedon")
+        val postedon: String?,
+        @ColumnInfo(name = "deadline")
+        val deadline: String?,
+        @ColumnInfo(name = "keyword")
+        val keyword: String? = null,
+        @ColumnInfo(name = "newspaper")
+        val newspaper: String?,
+        @ColumnInfo(name = "gender")
+        val gender: String?,
+        @ColumnInfo(name = "genderb")
+        val genderb: String?,
+        @ColumnInfo(name = "experience")
+        val experience: String? = null,
+        @ColumnInfo(name = "age")
+        val age: String?,
+        @ColumnInfo(name = "jobtype")
+        val jobtype: String?,
+        @ColumnInfo(name = "retiredarmy")
+        val retiredarmy: String?,
+        @ColumnInfo(name = "createdon")
+        val createdon: String? = null,
+        @ColumnInfo(name = "updatedon")
+        val updatedon: String?,
+        @ColumnInfo(name = "totaljobs")
+        val totaljobs: String?
+) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }

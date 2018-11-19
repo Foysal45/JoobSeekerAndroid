@@ -1,7 +1,6 @@
 package com.bdjobs.app.Login
 
 import android.app.Fragment
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -197,15 +196,14 @@ class LoginUserNameFragment : Fragment() {
                         })
                     }
                     else if (!hasMappedAccount) {
-                        val totalNumberofAccounts = response.body()?.common?.total?.let { total ->
-                            total.toInt()
-                        }
-
-                        Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $totalNumberofAccounts")
-
-                        totalNumberofAccounts?.let { number ->
-                            if (number > 0) {
-                                loginCommunicator.goToSocialAccountListFragment(response.body()?.data)
+                        response.body()?.common?.total?.let { total ->
+                        Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
+                            try {
+                                if ( total.toInt() > 0) {
+                                    loginCommunicator.goToSocialAccountListFragment(response.body()?.data)
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
                             }
                         }
                     }

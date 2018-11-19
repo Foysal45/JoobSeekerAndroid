@@ -1,6 +1,7 @@
 package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
+import com.bdjobs.app.API.ModelClasses.FavouritSearchFilterModelClass
 import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.Utilities.Constants
@@ -19,9 +20,10 @@ interface ApiServiceJobs {
     @GET(api_jobs_db_update)
     fun getDbInfo(@Query("lastUpdateDate") lastUpdateDate: String): Call<DatabaseUpdateModel>
 
-    ///Test method
 
-    @GET("v1/joblist.asp")
+
+
+    @GET("joblist.asp")
     fun getJobList(
             @Query("Newspaper") Newspaper: String?="",
             @Query("armyp") armyp: String?="",
@@ -53,7 +55,7 @@ interface ApiServiceJobs {
 
 
     ///new
-    @GET("v1/jobdetailsscreen.asp")
+    @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
             @Query("encoded") encoded : String,
             @Query("jobId") jobId : String,
@@ -63,6 +65,16 @@ interface ApiServiceJobs {
             @Query ("userId") userId: String,
             @Query ("version") version : String
     ):Call<JobDetailJsonModel>
+
+
+
+
+    @GET("viewfilters.asp")
+    fun getFavouriteSearchFilters(
+            @Query("encoded") encoded : String?,
+            @Query("user") user : String?
+
+    ):Call<FavouritSearchFilterModelClass>
 
 
 

@@ -13,6 +13,8 @@ class Constants {
 
         const val LINKEDIN_REQUEST_URL = "https://api.linkedin.com/v1/people/~:(email-address,id,first-name,last-name,formatted-name,phone-numbers,public-profile-url,picture-url,picture-urls::(original))"
 
+        const val ENCODED_JOBS ="02041526JSBJ2"
+
         const val RC_SIGN_IN = 9001
         const val counterTimeLimit = 60000
         const val key_true = "true"
@@ -28,7 +30,7 @@ class Constants {
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"
-        const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/"
+        const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val guestUserRequestCode = 1
         const val REQ_CODE_SPEECH_INPUT = 100
         const val session_key_isCvPosted = "isCvPosted"

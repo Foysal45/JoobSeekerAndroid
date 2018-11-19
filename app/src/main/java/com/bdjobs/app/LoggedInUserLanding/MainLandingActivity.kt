@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.debug
@@ -16,6 +18,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 class MainLandingActivity : Activity() {
 
@@ -25,15 +30,17 @@ class MainLandingActivity : Activity() {
     private val shortListedJobFragment = ShortListedJobFragment()
     private lateinit var session: BdjobsUserSession
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
         disableShiftMode(bottom_navigation)
-        session =BdjobsUserSession(applicationContext)
+        session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
-        transitFragment(homeFragment,R.id.landingPageFragmentHolderFL)
 
-        Log.d("hdaahd","\nisCvPosted = ${session.isCvPosted}\n" +
+        transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
+
+        Log.d("hdaahd", "\nisCvPosted = ${session.isCvPosted}\n" +
                 "userPicUrl = ${session.userPicUrl}\n" +
                 "name = ${session.fullName}\n" +
                 "email = ${session.email}\n" +
@@ -66,7 +73,7 @@ class MainLandingActivity : Activity() {
                 (menuView.getChildAt(i) as BottomNavigationItemView).also { item ->
                     item.setShifting(false) // shifting animation
                     item.setChecked(item.itemData.isChecked)
-                   debug("navigation position is : $i")
+                    debug("navigation position is : $i")
                 }
             }
         } catch (e: Exception) {

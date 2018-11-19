@@ -17,8 +17,8 @@ import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
-import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
@@ -27,7 +27,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.no_internet.*
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
@@ -44,6 +43,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
 
+    private lateinit var bdjobsInternalDB: BdjobsDB
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
@@ -54,7 +55,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
 
     }
-
 
 
     override fun onResume() {
@@ -177,11 +177,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 finish()
             }
         } else {
-            if (!isFinishing) {
-                startActivity<MainLandingActivity>()
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
-            }
+            val databaseSync = DatabaseSync(this@SplashActivity)
+            databaseSync.insertDataAndGoToHomepage()
         }
     }
 
