@@ -15,6 +15,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -57,6 +58,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var companyAddress = ""
     var companyLogoUrl = ""
     var companyOtherJobs = ""
+    var applyOnline = ""
 
 
     init {
@@ -137,6 +139,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
                 jobsVH.shimmer_view_container.show()
+                jobsVH.applyButton.visibility = View.GONE
                 jobsVH.shimmer_view_container.startShimmerAnimation()
 
 
@@ -153,29 +156,41 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         jobsVH.shimmer_view_container.hide()
                         jobsVH.shimmer_view_container.stopShimmerAnimation()
 
-                        jobKeyPointsData = response.body()?.data?.get(0)?.jobKeyPoints!!
-                        jobContextData = response.body()?.data?.get(0)?.context!!
-                        jobDescriptionData = response.body()?.data?.get(0)?.jobDescription!!
-                        jobNatureData = response.body()?.data?.get(0)?.jobNature!!
-                        educationData = response.body()?.data?.get(0)?.educationRequirements!!
-                        experienceData = response.body()?.data?.get(0)?.experience!!
-                        requirmentsData = response.body()?.data?.get(0)?.additionJobRequirements!!
-                        salaryData = response.body()?.data?.get(0)?.jobSalaryRange!!
-                        otherBenifitsData = response.body()?.data?.get(0)?.jobOtherBenifits!!
-                        jobSourceData = response.body()?.data?.get(0)?.jobSource!!
-                        readApplyData = response.body()?.data?.get(0)?.applyInstruction!!
-                        companyName = response.body()?.data?.get(0)?.compnayName!!
-                        companyAddress = response.body()?.data?.get(0)?.companyAddress!!
-                        companyLogoUrl = response.body()?.data?.get(0)?.jobLOgoName!!
-                        companyOtherJobs = response.body()?.data?.get(0)?.companyOtherJ0bs!!
+                        val jobDetailResponseAll = response.body()?.data?.get(0)
 
-                        jobsVH.tvPosName.text = response.body()?.data?.get(0)?.jobTitle
-                        jobsVH.tvComName.text = response.body()?.data?.get(0)?.compnayName
-                        jobsVH.tvSalary.text = response.body()?.data?.get(0)?.jobSalaryRange
-                        jobsVH.tvDeadline.text = response.body()?.data?.get(0)?.deadline
-                        jobsVH.tvLocation.text = response.body()?.data?.get(0)?.jobLocation
-                        jobsVH.tvVacancies.text = response.body()?.data?.get(0)?.jobVacancies
+                        jobKeyPointsData = jobDetailResponseAll!!.jobKeyPoints!!
+                        jobContextData =  jobDetailResponseAll.context!!
+                        jobDescriptionData =  jobDetailResponseAll.jobDescription!!
+                        jobNatureData = jobDetailResponseAll.jobNature!!
+                        educationData = jobDetailResponseAll.educationRequirements!!
+                        experienceData =jobDetailResponseAll.experience!!
+                        requirmentsData = jobDetailResponseAll.additionJobRequirements!!
+                        salaryData = jobDetailResponseAll.jobSalaryRange!!
+                        otherBenifitsData = jobDetailResponseAll.jobOtherBenifits!!
+                        jobSourceData = jobDetailResponseAll.jobSource!!
+                        readApplyData = jobDetailResponseAll.applyInstruction!!
+                        companyName = jobDetailResponseAll.compnayName!!
+                        companyAddress = jobDetailResponseAll.companyAddress!!
+                        companyLogoUrl =jobDetailResponseAll.jobLOgoName!!
+                        companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
+                        applyOnline = jobDetailResponseAll.onlineApply!!
 
+                        jobsVH.tvPosName.text =jobDetailResponseAll.jobTitle
+                        jobsVH.tvComName.text = jobDetailResponseAll.compnayName
+                        jobsVH.tvSalary.text = jobDetailResponseAll.jobSalaryRange
+                        jobsVH.tvDeadline.text = jobDetailResponseAll.deadline
+                        jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
+                        jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
+
+
+                        if (applyOnline.equalIgnoreCase("True")){
+
+                            jobsVH.applyButton.visibility = View.VISIBLE
+
+                        } else {
+
+                            jobsVH.applyButton.visibility = View.GONE
+                        }
 
                         //Job Information Checking Start
 
@@ -565,6 +580,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as TextView
 
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
+        val applyButton: Button = viewItem?.findViewById(R.id.applyButton) as Button
     }
 
 

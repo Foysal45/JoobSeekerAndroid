@@ -59,6 +59,8 @@ class JobDetailsFragment : Fragment() {
         jobDetailAdapter = JobDetailAdapter(activity!!)
         jobDetailRecyclerView?.adapter = jobDetailAdapter
 
+
+
         onClick()
         loadFirstPage()
 
@@ -94,7 +96,12 @@ class JobDetailsFragment : Fragment() {
         })
 
 
+
+
+
     }
+
+
 
     fun changeJobNumber(position: Int) {
         Log.d("scrolledJobNumber", "Fragment: $position    totalRecordsFound  $totalRecordsFound ")

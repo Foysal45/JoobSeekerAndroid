@@ -129,6 +129,7 @@ class JoblistFragment : Fragment() {
       Log.d("Paramtest","First page Page Number $currentPage  category: $category" )
 
       jobListRecyclerView.hide()
+      filterLayout.hide()
       shimmer_view_container_JobList.show()
       shimmer_view_container_JobList.startShimmerAnimation()
 
@@ -138,11 +139,12 @@ class JoblistFragment : Fragment() {
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
                 if (response.isSuccessful) {
-                       jobListRecyclerView.show()
-                        shimmer_view_container_JobList.hide()
-                        shimmer_view_container_JobList.stopShimmerAnimation()
+                   jobListRecyclerView.show()
+                   filterLayout.show()
+                    shimmer_view_container_JobList.hide()
+                   shimmer_view_container_JobList.stopShimmerAnimation()
 
-                        val jobResponse = response.body()
+                   val jobResponse = response.body()
 
                     TOTAL_PAGES = jobResponse?.common?.totalpages
 
@@ -175,7 +177,9 @@ class JoblistFragment : Fragment() {
                         }
 
 
+                    val totalJobs = jobResponse!!.common!!.totalRecordsFound
 
+                        jobCounterTV.text = "$totalJobs Jobs"
 
                         communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
                         communicator.setIsLoading(isLoadings)
