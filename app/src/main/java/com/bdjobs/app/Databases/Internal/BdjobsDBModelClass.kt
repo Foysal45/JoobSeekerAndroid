@@ -23,14 +23,43 @@ data class Suggestion(@ColumnInfo(name = "Suggestions")
 
 @Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyID"], unique = true))])
 data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
-                            val CompanyID: String,
+                            val CompanyID: String?,
                             @ColumnInfo(name = "CompanyName")
-                            val CompanyName: String,
+                            val CompanyName: String?,
                             @ColumnInfo(name = "JobCount")
                             val JobCount: String? = null) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }
+
+
+@Entity(tableName = "ShortListedJobs", indices = [(Index(value = ["jobid"], unique = true))])
+data class ShortListedJobs(@ColumnInfo(name = "jobid")
+                           val jobid: String?,
+                           @ColumnInfo(name = "jobtitle")
+                           val jobtitle: String?,
+                           @ColumnInfo(name = "companyname")
+                           val companyname: String?,
+                           @ColumnInfo(name = "deadline")
+                           val deadline: String?,
+                           @ColumnInfo(name = "eduRec")
+                           val eduRec: String?,
+                           @ColumnInfo(name = "experience")
+                           val experience: String? = null,
+                           @ColumnInfo(name = "standout")
+                           val standout: String?,
+                           @ColumnInfo(name = "logo")
+                           val logo: String?,
+                           @ColumnInfo(name = "lantype")
+                           val lantype: String?) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+
+
+
+
 
 
 @Entity(tableName = "FavouriteSearch", indices = [(Index(value = ["filterid"], unique = true))])

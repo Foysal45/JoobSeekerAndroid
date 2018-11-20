@@ -1,9 +1,6 @@
 package com.bdjobs.app.API
 
-import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
-import com.bdjobs.app.API.ModelClasses.FavouritSearchFilterModelClass
-import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
-import com.bdjobs.app.API.ModelClasses.JobListModel
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_jobs_db_update
 import com.google.gson.GsonBuilder
@@ -19,9 +16,6 @@ import retrofit2.http.Url
 interface ApiServiceJobs {
     @GET(api_jobs_db_update)
     fun getDbInfo(@Query("lastUpdateDate") lastUpdateDate: String): Call<DatabaseUpdateModel>
-
-
-
 
     @GET("joblist.asp")
     fun getJobList(
@@ -53,7 +47,6 @@ interface ApiServiceJobs {
 
     ): Call<JobListModel>
 
-
     ///new
     @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
@@ -66,24 +59,37 @@ interface ApiServiceJobs {
             @Query ("version") version : String
     ):Call<JobDetailJsonModel>
 
-
-
-
     @GET("viewfilters.asp")
     fun getFavouriteSearchFilters(
             @Query("encoded") encoded : String?,
-            @Query("user") user : String?
+            @Query("user") userID : String?
 
     ):Call<FavouritSearchFilterModelClass>
 
+    @GET("CompnayListFollowEmployer.asp")
+    fun getFollowEmployerList(
+            @Query("userID") userID : String?,
+            @Query("decodeId") decodeId : String?,
+            @Query("encoded") encoded : String?
+    ):Call<FollowEmployerListModelClass>
 
 
 
-
-
+    @GET("storedjobsDetails.asp")
+    fun getShortListedJobs(
+            @Query("p_id") p_id : String?,
+            @Query("encoded") encoded : String?
+    ):Call<JobListModel>
 
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
+
+
+
+
+
+
+
 
     companion object Factory {
 

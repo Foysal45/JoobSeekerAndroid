@@ -6,7 +6,7 @@ data class FavouritSearchFilterModelClass(
     @SerializedName("common")
     val common: Any?,
     @SerializedName("data")
-    val `data`: List<FavouritSearchFilterData?>?,
+    val `data`: List<FavouritSearchFilterData>,
     @SerializedName("message")
     val message: String?,
     @SerializedName("statuscode")

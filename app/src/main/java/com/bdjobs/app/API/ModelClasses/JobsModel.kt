@@ -81,5 +81,7 @@ data class JobListModelData(
 data class JobListCommon(
     @SerializedName("total_records_found") val totalRecordsFound: Int?,
     @SerializedName("showad") val showad: String?,
-    @SerializedName("totalpages") val totalpages: Int?
+    @SerializedName("totalpages") val totalpages: Int?,
+    @SerializedName("appliedid") val appliedid: List<String?>?,
+    @SerializedName("totalcount") val totalcount: String?
 )

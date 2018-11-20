@@ -177,7 +177,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 finish()
             }
         } else {
-            val databaseSync = DatabaseSync(this@SplashActivity)
+            val databaseSync = DatabaseSync(context = this@SplashActivity)
             databaseSync.insertDataAndGoToHomepage()
         }
     }
