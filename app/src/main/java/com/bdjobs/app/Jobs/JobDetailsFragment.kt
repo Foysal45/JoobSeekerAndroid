@@ -1,5 +1,4 @@
 package com.bdjobs.app.Jobs
-
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
+
 class JobDetailsFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -39,6 +39,9 @@ class JobDetailsFragment : Fragment() {
     private var keyword = ""
     private var location = ""
     private var category = ""
+    var currentJobPosition = 0
+    var shareJobPosition = 0
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_jobdetail_layout, container, false)!!
@@ -48,17 +51,50 @@ class JobDetailsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as JobCommunicator
 
+
+        shareJobPosition = communicator.getItemClickPosition()
+
         getData()
 
         snapHelper = PagerSnapHelper()
+        jobDetailRecyclerView.setOnFlingListener(null);
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
 
         layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
+        Log.d("PositionTest","snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}"  )
         jobDetailAdapter = JobDetailAdapter(activity!!)
         jobDetailRecyclerView?.adapter = jobDetailAdapter
 
+        jobDetailRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    currentJobPosition = getCurrentItem()
+                    Log.d("PositionTest","snapHelper   $currentJobPosition"  )
+
+                    shareJobPosition = currentJobPosition
+
+                    counterTV?.let {tv->
+                        tv.text = "Job ${currentJobPosition+1}/$totalRecordsFound" }
+
+                  /*  object : CountDownTimer(500, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+
+                        }
+                        override fun onFinish() {
+
+                        }
+                    }.start()*/
+
+
+
+
+
+                }
+            }
+        })
 
 
         onClick()
@@ -99,15 +135,22 @@ class JobDetailsFragment : Fragment() {
 
 
 
+
     }
 
 
-
-    fun changeJobNumber(position: Int) {
-        Log.d("scrolledJobNumber", "Fragment: $position    totalRecordsFound  $totalRecordsFound ")
-        counterTV?.let {tv->
-            tv.text = "Job $position/$totalRecordsFound" }
+    private fun getCurrentItem(): Int {
+        return (jobDetailRecyclerView.getLayoutManager() as LinearLayoutManager)
+                .findFirstVisibleItemPosition()
     }
+
+    fun SnapHelper.getSnapPosition(recyclerView: RecyclerView): Int {
+        val layoutManager = recyclerView.layoutManager ?: return RecyclerView.SCROLL_STATE_IDLE
+        val snapView = findSnapView(layoutManager) ?: return RecyclerView.SCROLL_STATE_IDLE
+        return layoutManager.getPosition(snapView)
+    }
+
+
 
 
     private fun getData() {
@@ -204,18 +247,15 @@ class JobDetailsFragment : Fragment() {
             isLastPages = true
         }
 
-        /*else{
 
-            jobDetailAdapter?.addLoadingFooter()
 
-        }*/
-
+        counterTV?.let {tv->
+            tv.text = "Job ${communicator.getItemClickPosition()+1}/$totalRecordsFound" }
 
     }
 
 
     private fun onClick() {
-
 
         BackIMGV.setOnClickListener {
 
@@ -224,5 +264,13 @@ class JobDetailsFragment : Fragment() {
             activity.transitFragment(joblistFragment, R.id.jobFragmentHolder, true)
 
         }
+
+        filterIMGV.setOnClickListener {
+
+            jobDetailAdapter!!.shareJobs(shareJobPosition)
+            Log.d("ShareJob","currentJobPosition $shareJobPosition")
+        }
+
+
     }
 }

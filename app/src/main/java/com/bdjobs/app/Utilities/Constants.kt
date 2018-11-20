@@ -57,6 +57,7 @@ class Constants {
         const val api_jobs_db_update ="dbupdate.asp"
         const val key_recent_search_keyword ="keyword"
         const val internal_database_name ="BdjobsInternal.db"
+        const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="
     }
 
 }

@@ -23,6 +23,10 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import com.bdjobs.app.Utilities.Constants
+
 
 class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -416,7 +420,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     override fun getItemViewType(position: Int): Int {
 
-        jobCommunicator?.scrolledJobsNumber(position)
+
         /*   Log.d("Hello","Position: $position")*/
 
         if (showAD && (position % 3 == 0)) {
@@ -543,42 +547,27 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val tvJobResponsibility: TextView = viewItem?.findViewById(R.id.responsibility) as TextView
         val tvJobNatureValue: TextView = viewItem?.findViewById(R.id.jobNatureTv) as TextView
         val tvJobNature: TextView = viewItem?.findViewById(R.id.jobNature) as TextView
-
-
         val tvEducationalRequirmentsValue: TextView = viewItem?.findViewById(R.id.educationTV) as TextView
         val tvEducationalRequirments: TextView = viewItem?.findViewById(R.id.education) as TextView
-
-
         val tvExperienceReqValue: TextView = viewItem?.findViewById(R.id.experienceTV) as TextView
         val tvExperienceReq: TextView = viewItem?.findViewById(R.id.Experience) as TextView
-
         val tvJobReqValue: TextView = viewItem?.findViewById(R.id.jobRequirementsTV) as TextView
         val tvJobReq: TextView = viewItem?.findViewById(R.id.jobRequirements) as TextView
         val tvRequirementsHead: TextView = viewItem?.findViewById(R.id.requirements) as TextView
-
         val tvSalaryRangeData: TextView = viewItem?.findViewById(R.id.salaryRangeTV) as TextView
         val tvSalaryRange: TextView = viewItem?.findViewById(R.id.salaryRange) as TextView
-
         val tvOtherBenifitsData: TextView = viewItem?.findViewById(R.id.otherBenefitsTV) as TextView
         val tvOtherBenifits: TextView = viewItem?.findViewById(R.id.otherBenefits) as TextView
-
         val tvSalaryAndCompensation: TextView = viewItem?.findViewById(R.id.salaryAndCompensation) as TextView
-
-
         val tvJobSource: TextView = viewItem?.findViewById(R.id.jobSourceTV) as TextView
-
         val tvReadBefApplyData: TextView = viewItem?.findViewById(R.id.readAndApplyTV) as TextView
         val tvReadBefApply: TextView = viewItem?.findViewById(R.id.readAndApply) as TextView
         val tvCompanyName: TextView = viewItem?.findViewById(R.id.companyAddressNameTV) as TextView
         val tvCompanyAddress: TextView = viewItem?.findViewById(R.id.companyAddressTV) as TextView
         val keyPonits: TextView = viewItem?.findViewById(R.id.keyPoints) as TextView
-
         val companyLogo: ImageView = viewItem?.findViewById(R.id.company_icon) as ImageView
-
         val allJobsButtonLayout: ConstraintLayout = viewItem?.findViewById(R.id.buttonLayout) as ConstraintLayout
-
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as TextView
-
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
         val applyButton: Button = viewItem?.findViewById(R.id.applyButton) as Button
     }
@@ -602,5 +591,26 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     }
 
+
+    fun shareJobs(position: Int){
+
+        Log.d("ShareJob","position $position")
+
+        var shareBody = ""
+        if (jobList!!.get(position).lantype.equals("2")){
+            shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}&ln=${jobList!!.get(position).lantype}"
+        } else {
+            shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}"
+        }
+
+
+
+        val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "${jobList!!.get(position).jobTitle}")
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
+        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
+
+    }
 
 }

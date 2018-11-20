@@ -113,15 +113,12 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
-    override fun scrolledJobsNumber(position: Int) {
-        Log.d("scrolledJobNumber","scrolledJobNumber: $position")
-         jobDetailsFragment.changeJobNumber(position)
 
-    }
 
     override fun onItemClicked(position: Int) {
 
         clickedPosition = position
+
         transitFragment(jobDetailsFragment, R.id.jobFragmentHolder,true)
     }
 
