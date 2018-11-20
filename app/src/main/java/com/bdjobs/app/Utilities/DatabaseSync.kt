@@ -10,6 +10,7 @@ import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
+import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
@@ -129,12 +130,35 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
 
             override fun onResponse(call: Call<JobListModel>, response: Response<JobListModel>) {
                 try {
-                    Log.d("insertShortListedJobs", "insertShortListedJobs Size: ${response.body()?.common?.appliedid?.size}")
-                    goToHomepage()
+                    Log.d("insertShortListedJobs", "insertShortListedJobs Size: ${response.body()?.data?.size}")
+
+                    doAsync {
+                        bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
+                        for (item in response.body()?.data!!) {
+                            val shortlistedJob = ShortListedJobs(
+                                    jobid= item?.jobid,
+                                    jobtitle = item?.jobTitle,
+                                    companyname= item?.companyName,
+                                    deadline = item?.deadline,
+                                    eduRec= item?.eduRec,
+                                    experience = item?.experience,
+                                    standout= item?.standout,
+                                    logo = item?.logo,
+                                    lantype= item?.lantype
+                            )
+
+                            bdjobsInternalDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
+                        }
+
+                        uiThread {
+                           goToHomepage()
+                        }
+                    }
                 } catch (e: Exception) {
                     logException(e)
-                    goToHomepage()
+                   goToHomepage()
                 }
+
             }
 
         })

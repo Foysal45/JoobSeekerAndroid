@@ -9,7 +9,7 @@ interface FollowedEmployerDao {
     fun insertFollowedEmployer(employer: FollowedEmployer)
 
     @Query("SELECT * FROM FollowedEmployer ORDER BY CompanyName")
-    fun getFollowedEmployerList(): List<FollowedEmployer>
+    fun getAllFollowedEmployer(): List<FollowedEmployer>
 
     @Query("DELETE FROM FollowedEmployer")
     fun deleteAllFollowedEmployer()

@@ -55,6 +55,19 @@ class MainLandingActivity : Activity() {
                 "resumeUpdateON = ${session.resumeUpdateON}\n" +
                 "IsResumeUpdate = ${session.IsResumeUpdate}\n" +
                 "trainingId = ${session.trainingId}\n")
+        testDB()
+    }
+
+    fun testDB(){
+
+        val db = BdjobsDB.getInstance(applicationContext)
+        doAsync {
+            Log.d("dbTest","\nShorListed jobs: ${db.shortListedJobDao().getAllShortListedJobs().size}" +
+                    "\nFollowed  Employer: ${db.followedEmployerDao().getAllFollowedEmployer().size}" +
+                    "\nfavourite Search: ${db.favouriteSearchFilterDao().getAllFavouriteSearchFilter().size}"
+                  )
+
+        }
     }
 
 
