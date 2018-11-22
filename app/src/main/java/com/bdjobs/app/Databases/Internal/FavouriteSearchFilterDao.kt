@@ -5,14 +5,14 @@ import androidx.room.*
 @Dao
 interface FavouriteSearchFilterDao {
 
-    @Query("SELECT * FROM FavouriteSearch ORDER BY filtername")
+    @Query("SELECT * FROM FavouriteSearch")
     fun getAllFavouriteSearchFilter(): List<FavouriteSearch>
 
     @Query("SELECT * FROM FavouriteSearch ORDER BY filtername DESC LIMIT 2")
     fun getLatest2FavouriteSearchFilter(): List<FavouriteSearch>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavouriteSearchFilter(favouriteSearch: FavouriteSearch)
+    fun insertFavouriteSearchFilter(favouriteSearch: FavouriteSearch):Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateFavouriteSearchFilter(favouriteSearch: FavouriteSearch)

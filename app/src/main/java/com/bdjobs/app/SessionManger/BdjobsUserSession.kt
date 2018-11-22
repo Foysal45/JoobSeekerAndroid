@@ -68,7 +68,7 @@ class BdjobsUserSession(context: Context) {
             putString(Constants.session_key_resumeUpdateON, sessionData.resumeUpdateON)
             putString(Constants.session_key_IsResumeUpdate, sessionData.isResumeUpdate)
             putString(Constants.session_key_trainingId, sessionData.trainingId)
-            putString(Constants.session_key_userPicUrl, sessionData.isCvPosted)
+            putString(Constants.session_key_userPicUrl, sessionData.userPicUrl)
             putBoolean(Constants.session_key_loggedIn, true)
         }
 

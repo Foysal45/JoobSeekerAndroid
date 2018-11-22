@@ -10,6 +10,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Base64
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.bdjobs.app.API.ApiServiceJobs
@@ -170,6 +171,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     fun goToNextActivity() {
+        Log.d("XZXfg","goToNextActivity :${bdjobsUserSession?.isLoggedIn!!}")
         if (!bdjobsUserSession?.isLoggedIn!!) {
             if (!isFinishing) {
                 startActivity<GuestUserJobSearchActivity>()

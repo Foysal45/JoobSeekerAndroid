@@ -125,6 +125,7 @@ class LoginOTPFragment : Fragment() {
                            otpTIL.hideError()
                            val bdjobsUserSession = BdjobsUserSession(activity)
                            bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                           loginCommunicator.goToHomePage()
                        }else{
                            otpTIL.showError(response?.body()?.message)
                        }

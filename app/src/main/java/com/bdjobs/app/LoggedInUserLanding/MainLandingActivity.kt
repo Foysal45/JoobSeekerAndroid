@@ -40,7 +40,7 @@ class MainLandingActivity : Activity() {
 
         transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
 
-        Log.d("hdaahd", "\nisCvPosted = ${session.isCvPosted}\n" +
+        Log.d("XZXfg", "\nisCvPosted = ${session.isCvPosted}\n" +
                 "userPicUrl = ${session.userPicUrl}\n" +
                 "name = ${session.fullName}\n" +
                 "email = ${session.email}\n" +
@@ -58,14 +58,15 @@ class MainLandingActivity : Activity() {
         testDB()
     }
 
-    fun testDB(){
+    fun testDB() {
 
         val db = BdjobsDB.getInstance(applicationContext)
         doAsync {
-            Log.d("dbTest","\nShorListed jobs: ${db.shortListedJobDao().getAllShortListedJobs().size}" +
+            Log.d("XZXfg", "\nShorListed jobs: ${db.shortListedJobDao().getAllShortListedJobs().size}" +
                     "\nFollowed  Employer: ${db.followedEmployerDao().getAllFollowedEmployer().size}" +
                     "\nfavourite Search: ${db.favouriteSearchFilterDao().getAllFavouriteSearchFilter().size}"
-                  )
+                    + "\nApplied job: ${db.appliedJobDao().getAllAppliedJobs().size}"
+            )
 
         }
     }

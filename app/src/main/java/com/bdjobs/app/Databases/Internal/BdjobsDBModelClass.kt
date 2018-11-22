@@ -20,7 +20,6 @@ data class Suggestion(@ColumnInfo(name = "Suggestions")
     var id: Int? = null
 }
 
-
 @Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyID"], unique = true))])
 data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
                             val CompanyID: String?,
@@ -32,6 +31,12 @@ data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
     var id: Int? = null
 }
 
+@Entity(tableName = "AppliedJobs", indices = [(Index(value = ["appliedid"], unique = true))])
+data class AppliedJobs(@ColumnInfo(name = "appliedid")
+                            val appliedid: String?) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
 
 @Entity(tableName = "ShortListedJobs", indices = [(Index(value = ["jobid"], unique = true))])
 data class ShortListedJobs(@ColumnInfo(name = "jobid")
@@ -41,7 +46,7 @@ data class ShortListedJobs(@ColumnInfo(name = "jobid")
                            @ColumnInfo(name = "companyname")
                            val companyname: String?,
                            @ColumnInfo(name = "deadline")
-                           val deadline: String?,
+                           val deadline: Date?,
                            @ColumnInfo(name = "eduRec")
                            val eduRec: String?,
                            @ColumnInfo(name = "experience")
@@ -56,12 +61,6 @@ data class ShortListedJobs(@ColumnInfo(name = "jobid")
     var id: Int? = null
 }
 
-
-
-
-
-
-
 @Entity(tableName = "FavouriteSearch", indices = [(Index(value = ["filterid"], unique = true))])
 data class FavouriteSearch(
         @ColumnInfo(name = "filterid")
@@ -69,7 +68,7 @@ data class FavouriteSearch(
         @ColumnInfo(name = "filtername")
         val filtername: String?,
         @ColumnInfo(name = "industrialCat")
-        val industrialCat: String? = null,
+        val industrialCat: String?,
         @ColumnInfo(name = "functionalCat")
         val functionalCat: String?,
         @ColumnInfo(name = "location")
@@ -77,7 +76,7 @@ data class FavouriteSearch(
         @ColumnInfo(name = "organization")
         val organization: String?,
         @ColumnInfo(name = "jobnature")
-        val jobnature: String? = null,
+        val jobnature: String?,
         @ColumnInfo(name = "joblevel")
         val joblevel: String?,
         @ColumnInfo(name = "postedon")
@@ -85,7 +84,7 @@ data class FavouriteSearch(
         @ColumnInfo(name = "deadline")
         val deadline: String?,
         @ColumnInfo(name = "keyword")
-        val keyword: String? = null,
+        val keyword: String?,
         @ColumnInfo(name = "newspaper")
         val newspaper: String?,
         @ColumnInfo(name = "gender")
@@ -93,7 +92,7 @@ data class FavouriteSearch(
         @ColumnInfo(name = "genderb")
         val genderb: String?,
         @ColumnInfo(name = "experience")
-        val experience: String? = null,
+        val experience: String?,
         @ColumnInfo(name = "age")
         val age: String?,
         @ColumnInfo(name = "jobtype")
@@ -101,9 +100,9 @@ data class FavouriteSearch(
         @ColumnInfo(name = "retiredarmy")
         val retiredarmy: String?,
         @ColumnInfo(name = "createdon")
-        val createdon: String? = null,
+        val createdon: Date?,
         @ColumnInfo(name = "updatedon")
-        val updatedon: String?,
+        val updatedon: Date?,
         @ColumnInfo(name = "totaljobs")
         val totaljobs: String?
 ) {

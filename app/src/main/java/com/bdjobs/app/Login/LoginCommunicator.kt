@@ -14,4 +14,6 @@ interface LoginCommunicator {
     fun getUserId():String?
     fun getImageUrl():String?
     fun getUserName():String?
+
+    fun goToHomePage()
 }

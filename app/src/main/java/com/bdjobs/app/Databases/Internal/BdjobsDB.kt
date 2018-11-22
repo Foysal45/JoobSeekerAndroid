@@ -8,14 +8,19 @@ import android.content.Context
 import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
 
 
-@Database(entities = [Suggestion::class,FavouriteSearch::class,FollowedEmployer::class,ShortListedJobs::class], version = 1, exportSchema = false)
+@Database(entities = [Suggestion::class,
+    FavouriteSearch::class,
+    FollowedEmployer::class,
+    ShortListedJobs::class,
+    AppliedJobs::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
     abstract fun suggestionDAO(): SuggestionDAO
-    abstract fun favouriteSearchFilterDao():FavouriteSearchFilterDao
-    abstract fun followedEmployerDao():FollowedEmployerDao
-    abstract fun shortListedJobDao():ShortListedJobDao
+    abstract fun favouriteSearchFilterDao(): FavouriteSearchFilterDao
+    abstract fun followedEmployerDao(): FollowedEmployerDao
+    abstract fun shortListedJobDao(): ShortListedJobDao
+    abstract fun appliedJobDao(): AppliedJobDao
 
 
     companion object {

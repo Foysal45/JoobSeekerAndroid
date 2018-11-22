@@ -108,7 +108,7 @@ class LoginPasswordFragment : Fragment() {
                             passwordTIL.hideError()
                             val bdjobsUserSession = BdjobsUserSession(activity)
                             bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
-
+                            loginCommunicator.goToHomePage()
 
                         } else {
                             passwordTIL.showError(response?.body()?.message)

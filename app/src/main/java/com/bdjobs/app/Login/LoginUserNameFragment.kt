@@ -145,7 +145,7 @@ class LoginUserNameFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<SocialLoginAccountListModel>, response: Response<SocialLoginAccountListModel>) {
-                activity.stopProgressBar(loadingProgressBar)
+
                 if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok))
                 {
 
@@ -181,12 +181,13 @@ class LoginUserNameFragment : Fragment() {
                             }
 
                             override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
-
+                                activity.stopProgressBar(loadingProgressBar)
                                 if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
 
                                     response.body()?.data?.get(0)?.let { sessionData ->
                                         val bdjobsUserSession = BdjobsUserSession(activity)
                                         bdjobsUserSession.createSession(sessionData)
+                                        loginCommunicator.goToHomePage()
                                     }
 
                                 } else {
@@ -196,6 +197,7 @@ class LoginUserNameFragment : Fragment() {
                         })
                     }
                     else if (!hasMappedAccount) {
+                        activity.stopProgressBar(loadingProgressBar)
                         response.body()?.common?.total?.let { total ->
                         Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
                             try {

@@ -8,13 +8,17 @@ import android.os.Bundle
 import android.provider.Settings
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.DatabaseSync
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_base.*
+import org.jetbrains.anko.startActivity
 
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
+
 
 
     private val loginUserNameFragment = LoginUserNameFragment()
@@ -47,6 +51,11 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         this.imageUrl = imageUrl
         debug("goToPasswordFragment, userName:$userName \n fullName:$fullName \n userId:$userId \n imageUrl:$imageUrl \n")
         transitFragment(loginPasswordFragment, R.id.loginFragmentHolderFL, true)
+    }
+
+    override fun goToHomePage() {
+        val databaseSync = DatabaseSync(context = this@LoginBaseActivity)
+        databaseSync.insertDataAndGoToHomepage()
     }
 
     override fun getSocialLoginAccountDataList(): List<SocialLoginAccountListData?>? {
