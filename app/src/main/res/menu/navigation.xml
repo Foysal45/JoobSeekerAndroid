@@ -17,6 +17,11 @@
         android:title="Hotjobs" />
 
     <item
+        android:id="@+id/navigation_mybdjobs"
+        android:icon="@drawable/ic_hotjob"
+        android:title="Mybdjobs" />
+
+    <item
         android:id="@+id/navigation_more"
         android:icon="@drawable/ic_more_horiz_black_24dp"
         android:title="More" />

@@ -3,6 +3,7 @@ package com.bdjobs.app.Utilities
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import android.widget.ProgressBar
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.FavouritSearchFilterModelClass
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListModelClass
@@ -13,13 +14,18 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.content.ContextCompat.startActivity
+import android.content.Intent
 
-class DatabaseSync(private val context: Context, private var goToHome: Boolean = true) {
+
+
+class DatabaseSync(private val context: Context, private var goToHome: Boolean = true, private val progressBar: ProgressBar?=null) {
 
     private val bdjobsUserSession = BdjobsUserSession(context)
     val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(context)
@@ -34,15 +40,13 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
             }
 
             override fun onResponse(call: Call<FavouritSearchFilterModelClass>, response: Response<FavouritSearchFilterModelClass>) {
+                doAsync {
+                    response.body()?.data?.let { items ->
+                        Log.d("XZXfg", "insertFavourite Size: ${items.size}")
 
-                response.body()?.data?.size?.let {
-                    doAsync {
                         bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
-                        for (item in response.body()?.data!!) {
-                            Log.d("insertFavourite", "insertFavourite Size: ${item?.filtername}")
+                        for (item in items) {
 
-                            val createdOn = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH).parse(item?.createdon)
-                            val updatedOn = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH).parse(item?.updatedon)
 
                             val favouriteSearch = FavouriteSearch(
                                     filterid = item?.filterid,
@@ -63,19 +67,20 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                                     age = item?.age,
                                     jobtype = item?.jobtype,
                                     retiredarmy = item?.retiredarmy,
-                                    createdon = createdOn,
-                                    updatedon = updatedOn,
+                                    createdon = item?.createdon,
+                                    updatedon = item?.updatedon,
                                     totaljobs = item?.totaljobs
                             )
 
-                            val a = bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
-                            Log.d("insertFavourite", "insert: $a")
+                            bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
+
 
                         }
 
                     }
+                    uiThread { insertFollowedEmployers() }
                 }
-                insertFollowedEmployers()
+
 
             }
         })
@@ -86,9 +91,13 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
         Log.d("XZXfg", "goToHomepage :${goToHome}")
         if (goToHome) {
             val activity = context as Activity
-            activity.startActivity<MainLandingActivity>()
-            activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            activity.finish()
+            progressBar?.let {pbar->
+               activity.stopProgressBar(pbar)
+            }
+            val intent = Intent(activity, MainLandingActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            activity.startActivity(intent)
+            activity.finishAffinity()
         }
     }
 
@@ -103,11 +112,13 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
-                response.body()?.data?.size.let {
-                    Log.d("insertFollowedEmployers", "insertFollowedEmployers Size: ${response.body()?.data?.size}")
-                    doAsync {
+
+                doAsync {
+                    response.body()?.data?.let { items ->
+                        Log.d("XZXfg", "insertFollowedEmployers Size: ${items.size}")
+
                         bdjobsInternalDB.followedEmployerDao().deleteAllFollowedEmployer()
-                        for (item in response.body()?.data!!) {
+                        for (item in items) {
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item?.companyID,
                                     CompanyName = item?.companyName,
@@ -116,8 +127,9 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                         }
 
                     }
+                    uiThread { insertShortListedJobs() }
                 }
-                insertShortListedJobs()
+
 
             }
         }
@@ -132,36 +144,34 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
             }
 
             override fun onResponse(call: Call<JobListModel>, response: Response<JobListModel>) {
-                response.body()?.data?.size?.let {
-                    Log.d("insertShortListedJobs", "insertShortListedJobs Size: ${response.body()?.data?.size}")
 
-                    doAsync {
+                doAsync {
+                    response.body()?.data?.let {items ->
+                        Log.d("XZXfg", "insertShortListedJobs Size: ${items.size}")
                         bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
-                        for (item in response.body()?.data!!) {
+                        for (item in items) {
                             val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(item?.deadline)
                             Log.d("deadline", "deadline: $deadline")
                             val shortlistedJob = ShortListedJobs(
-                                    jobid = item?.jobid,
-                                    jobtitle = item?.jobTitle,
-                                    companyname = item?.companyName,
+                                    jobid = item.jobid,
+                                    jobtitle = item.jobTitle,
+                                    companyname = item.companyName,
                                     deadline = deadline,
-                                    eduRec = item?.eduRec,
-                                    experience = item?.experience,
-                                    standout = item?.standout,
-                                    logo = item?.logo,
-                                    lantype = item?.lantype
+                                    eduRec = item.eduRec,
+                                    experience = item.experience,
+                                    standout = item.standout,
+                                    logo = item.logo,
+                                    lantype = item.lantype
                             )
 
                             bdjobsInternalDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                         }
                     }
-                }
+                    response.body()?.common?.appliedid?.let { items ->
+                        Log.d("XZXfg", "appliedid Size: ${items.size}")
 
-                response.body()?.common?.appliedid?.size.let {
-
-                    doAsync {
                         bdjobsInternalDB.appliedJobDao().deleteAllAppliedJobs()
-                        for (item in response.body()?.common?.appliedid!!) {
+                        for (item in items) {
                             val appliedJobs = AppliedJobs(
                                     appliedid = item
                             )
@@ -169,8 +179,10 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                             bdjobsInternalDB.appliedJobDao().insertAppliedJobs(appliedJobs)
                         }
                     }
+
+                    uiThread { goToHomepage() }
                 }
-                goToHomepage()
+
             }
 
         })

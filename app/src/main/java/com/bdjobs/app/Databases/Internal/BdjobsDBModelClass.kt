@@ -100,9 +100,9 @@ data class FavouriteSearch(
         @ColumnInfo(name = "retiredarmy")
         val retiredarmy: String?,
         @ColumnInfo(name = "createdon")
-        val createdon: Date?,
+        val createdon: String?,
         @ColumnInfo(name = "updatedon")
-        val updatedon: Date?,
+        val updatedon: String?,
         @ColumnInfo(name = "totaljobs")
         val totaljobs: String?
 ) {

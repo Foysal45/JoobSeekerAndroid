@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.ProgressBar
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
@@ -53,8 +54,8 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         transitFragment(loginPasswordFragment, R.id.loginFragmentHolderFL, true)
     }
 
-    override fun goToHomePage() {
-        val databaseSync = DatabaseSync(context = this@LoginBaseActivity)
+    override fun goToHomePage(progressBar: ProgressBar) {
+        val databaseSync = DatabaseSync(context = this@LoginBaseActivity,progressBar = progressBar)
         databaseSync.insertDataAndGoToHomepage()
     }
 

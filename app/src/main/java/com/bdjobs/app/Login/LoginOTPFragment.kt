@@ -119,14 +119,15 @@ class LoginOTPFragment : Fragment() {
                 }
 
                 override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
-                    activity.stopProgressBar(progressBar)
+
                     if (response.isSuccessful) {
                        if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
                            otpTIL.hideError()
                            val bdjobsUserSession = BdjobsUserSession(activity)
                            bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
-                           loginCommunicator.goToHomePage()
+                           loginCommunicator.goToHomePage(progressBar)
                        }else{
+                           activity.stopProgressBar(progressBar)
                            otpTIL.showError(response?.body()?.message)
                        }
                     }
