@@ -21,7 +21,6 @@ import org.jetbrains.anko.startActivity
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
 
 
-
     private val loginUserNameFragment = LoginUserNameFragment()
     private val loginPasswordFragment = LoginPasswordFragment()
     private val loginOTPFragment = LoginOTPFragment()
@@ -33,12 +32,16 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     private var imageUrl: String? = null
     private var userName: String? = null
     private var socialLoginAccountDataList: List<SocialLoginAccountListData?>? = null
+    private var goToHome = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_base)
         transitFragment(loginUserNameFragment, R.id.loginFragmentHolderFL)
+        intent?.extras?.getBoolean("goToHome")?.let { goHome ->
+            goToHome = goHome
+        }
     }
 
     override fun backButtonClicked() {
@@ -54,13 +57,17 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         transitFragment(loginPasswordFragment, R.id.loginFragmentHolderFL, true)
     }
 
-    override fun goToHomePage(progressBar: ProgressBar) {
-        val databaseSync = DatabaseSync(context = this@LoginBaseActivity,progressBar = progressBar)
+    override fun goToHomePage(progressBar: ProgressBar?) {
+        val databaseSync = DatabaseSync(context = this@LoginBaseActivity, progressBar = progressBar,goToHome = goToHome)
         databaseSync.insertDataAndGoToHomepage()
     }
 
     override fun getSocialLoginAccountDataList(): List<SocialLoginAccountListData?>? {
         return socialLoginAccountDataList
+    }
+
+    override fun getGoToHome(): Boolean? {
+        return goToHome
     }
 
     override fun goToSocialAccountListFragment(socialLoginAccountDataList: List<SocialLoginAccountListData?>?) {

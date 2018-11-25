@@ -24,8 +24,7 @@ import androidx.core.content.ContextCompat.startActivity
 import android.content.Intent
 
 
-
-class DatabaseSync(private val context: Context, private var goToHome: Boolean = true, private val progressBar: ProgressBar?=null) {
+class DatabaseSync(private val context: Context, private var goToHome: Boolean = true, private val progressBar: ProgressBar? = null) {
 
     private val bdjobsUserSession = BdjobsUserSession(context)
     val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(context)
@@ -87,17 +86,19 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
     }
 
     private fun goToHomepage() {
-
+        val activity = context as Activity
+        progressBar?.let { pbar ->
+            activity.stopProgressBar(pbar)
+        }
         Log.d("XZXfg", "goToHomepage :${goToHome}")
         if (goToHome) {
-            val activity = context as Activity
-            progressBar?.let {pbar->
-               activity.stopProgressBar(pbar)
-            }
             val intent = Intent(activity, MainLandingActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             activity.startActivity(intent)
             activity.finishAffinity()
+
+        } else {
+            activity.finish()
         }
     }
 
@@ -146,7 +147,7 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
             override fun onResponse(call: Call<JobListModel>, response: Response<JobListModel>) {
 
                 doAsync {
-                    response.body()?.data?.let {items ->
+                    response.body()?.data?.let { items ->
                         Log.d("XZXfg", "insertShortListedJobs Size: ${items.size}")
                         bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
                         for (item in items) {

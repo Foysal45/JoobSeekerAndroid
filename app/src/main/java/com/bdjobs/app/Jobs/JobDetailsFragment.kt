@@ -78,20 +78,6 @@ class JobDetailsFragment : Fragment() {
 
                     counterTV?.let {tv->
                         tv.text = "Job ${currentJobPosition+1}/$totalRecordsFound" }
-
-                  /*  object : CountDownTimer(500, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-
-                        }
-                        override fun onFinish() {
-
-                        }
-                    }.start()*/
-
-
-
-
-
                 }
             }
         })
@@ -119,13 +105,7 @@ class JobDetailsFragment : Fragment() {
 
                 Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
 
-
                     loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
-
-
-
-
-
             }
 
 

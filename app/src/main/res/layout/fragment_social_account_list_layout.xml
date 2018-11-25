@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="29dp"
 
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginEnd="8dp"
                 android:drawablePadding="5dp"
                 android:ems="10"
@@ -39,9 +39,9 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:text="Social Accounts"
+                android:text="Social media sign in"
                 android:textColor="#FFFFFF"
-                android:textSize="16dp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/backIV"
@@ -56,7 +56,6 @@
                 android:padding="5dp"
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -71,13 +70,41 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/accountMsgTv" />
 
+    <ProgressBar
+        android:visibility="gone"
+        android:theme="@style/BdjobsLinearProgress"
+        android:indeterminate="true"
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    <TextView
+
+        android:id="@+id/accountMsgTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:textColor="#393939"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:text="There are 3 accounts found by this email address rofik28@yahoo.com. Please select your account to sign in." />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.bdjobs.app.Login
 
 import android.app.Fragment
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,16 @@ class SocialAccountListFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+        var account_key = "account"
+        if(loginCommunicator.getSocialLoginAccountDataList()?.size!!>1) {
+            account_key = "accounts"
+        }
+
+        val message = "There are <b><font color='#1565C0'>${loginCommunicator.getSocialLoginAccountDataList()?.size}</font></b> $account_key found by this email address <b><font color='#1565C0'>${loginCommunicator.getSocialLoginAccountDataList()?.get(0)?.email}</font></b>. Please select your account to sign in."
+        accountMsgTv.text = Html.fromHtml(message)
+
         socialAccountsRecyclerView?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        val socialAccountAdapter = SocialRVadapter(items = loginCommunicator.getSocialLoginAccountDataList(),context = activity)
+        val socialAccountAdapter = SocialRVadapter(items = loginCommunicator.getSocialLoginAccountDataList(),context = activity,loadingProgressBar = progressBar)
         socialAccountsRecyclerView.adapter = socialAccountAdapter
 
     }

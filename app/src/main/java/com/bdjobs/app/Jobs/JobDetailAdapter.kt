@@ -1,5 +1,6 @@
 package com.bdjobs.app.Jobs
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.text.Html
@@ -25,11 +26,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
+import com.bdjobs.app.Login.LoginBaseActivity
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import org.jetbrains.anko.intentFor
 
 
 class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
 
     companion object {
         // View Types
@@ -190,6 +193,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         if (applyOnline.equalIgnoreCase("True")){
 
                             jobsVH.applyButton.visibility = View.VISIBLE
+                            jobsVH.applyButton.setOnClickListener {
+                                val bdjobsUserSession = BdjobsUserSession(context)
+                                if(!bdjobsUserSession.isLoggedIn!!){
+                                    val activity = context as Activity
+                                    val intent = Intent(activity, LoginBaseActivity::class.java)
+                                    intent.putExtra("goToHome",false)
+                                    activity.startActivity(intent)
+                                }
+                            }
 
                         } else {
 
