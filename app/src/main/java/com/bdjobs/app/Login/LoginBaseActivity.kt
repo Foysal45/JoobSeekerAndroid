@@ -6,17 +6,17 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.ProgressBar
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
-import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Utilities.DatabaseSync
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_base.*
-import org.jetbrains.anko.startActivity
 
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
 
@@ -39,8 +39,9 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_base)
         transitFragment(loginUserNameFragment, R.id.loginFragmentHolderFL)
-        intent?.extras?.getBoolean("goToHome")?.let { goHome ->
+        intent?.extras?.getBoolean(key_go_to_home)?.let { goHome ->
             goToHome = goHome
+            Log.d("goToHome","goToHome: ${goToHome}")
         }
     }
 
@@ -58,7 +59,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     }
 
     override fun goToHomePage(progressBar: ProgressBar?) {
-        val databaseSync = DatabaseSync(context = this@LoginBaseActivity, progressBar = progressBar,goToHome = goToHome)
+        val databaseSync = DatabaseSync(context = this@LoginBaseActivity, progressBar = progressBar, goToHome = goToHome)
         databaseSync.insertDataAndGoToHomepage()
     }
 

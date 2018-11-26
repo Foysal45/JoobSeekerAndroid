@@ -51,9 +51,7 @@ class JobDetailsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as JobCommunicator
 
-
         shareJobPosition = communicator.getItemClickPosition()
-
         getData()
 
         snapHelper = PagerSnapHelper()
@@ -227,8 +225,6 @@ class JobDetailsFragment : Fragment() {
             isLastPages = true
         }
 
-
-
         counterTV?.let {tv->
             tv.text = "Job ${communicator.getItemClickPosition()+1}/$totalRecordsFound" }
 
@@ -238,15 +234,10 @@ class JobDetailsFragment : Fragment() {
     private fun onClick() {
 
         BackIMGV.setOnClickListener {
-
-            val joblistFragment = JoblistFragment()
-
-            activity.transitFragment(joblistFragment, R.id.jobFragmentHolder, true)
-
+          communicator.backButtonPressesd()
         }
 
         filterIMGV.setOnClickListener {
-
             jobDetailAdapter!!.shareJobs(shareJobPosition)
             Log.d("ShareJob","currentJobPosition $shareJobPosition")
         }

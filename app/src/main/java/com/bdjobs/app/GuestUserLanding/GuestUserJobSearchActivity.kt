@@ -20,6 +20,7 @@ import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.Constants.Companion.guestUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
+import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Utilities.Constants.Companion.key_jobtitleET
 import com.bdjobs.app.Utilities.Constants.Companion.key_loacationET
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
@@ -81,7 +82,7 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
 
     private fun onClicks() {
         profileIMGV.setOnClickListener {
-            startActivity(intentFor<LoginBaseActivity>())
+            startActivity(intentFor<LoginBaseActivity>(key_go_to_home to true))
         }
 
         jobtitleET.setOnClickListener {
@@ -100,7 +101,7 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
             val categoryName = categoryET.getString()
 
 
-            val locationId = locationName.let {string ->
+            val locationId = locationName.let { string ->
                 dataStorage.getLocationIDByName(string)
             }
 

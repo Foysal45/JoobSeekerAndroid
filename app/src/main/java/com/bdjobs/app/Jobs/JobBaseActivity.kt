@@ -9,12 +9,18 @@ import android.provider.Settings
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
+import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.simpleClassName
+import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_job_landing.*
+import org.jetbrains.anko.intentFor
 
-class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener ,JobCommunicator{
+class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
 
 
@@ -26,11 +32,11 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     //new
     private var jobList1: MutableList<JobListModelData>? = null
-    var clickedPosition : Int = 0
-    var pgNumber : Int? = 1
+    var clickedPosition: Int = 0
+    var pgNumber: Int? = 1
     var totalPages: Int? = 0
-    var isLastPage : Boolean = false
-    var isLoading : Boolean = false
+    var isLastPage: Boolean = false
+    var isLoading: Boolean = false
 
     /////////
 
@@ -38,8 +44,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var keyword = ""
     private var location = ""
     private var category = ""
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +55,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
-    private fun getData(){
+    private fun getData() {
 
         val intent = this.intent
         keyword = intent.getStringExtra(Constants.key_jobtitleET)
@@ -59,7 +63,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         category = intent.getStringExtra(Constants.key_categoryET)
 
 
+    }
 
+    override fun backButtonPressesd() {
+        onBackPressed()
+    }
+
+    override fun goToLoginPage() {
+        startActivity(intentFor<LoginBaseActivity>(Constants.key_go_to_home to false))
     }
 
     override fun onPostResume() {
@@ -89,19 +100,19 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     override fun setLocation(location: String) {
-       this.location = location
+        this.location = location
     }
 
     override fun getLocation(): String {
-      return location
+        return location
     }
 
     override fun setKeyword(keyword: String) {
-       this.keyword = keyword
+        this.keyword = keyword
     }
 
     override fun getKeyword(): String {
-      return keyword
+        return keyword
     }
 
     override fun getCategory(): String {
@@ -109,17 +120,13 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun setCategory(category: String) {
-       this.category = category
+        this.category = category
     }
 
 
-
-
     override fun onItemClicked(position: Int) {
-
         clickedPosition = position
-
-        transitFragment(jobDetailsFragment, R.id.jobFragmentHolder,true)
+        transitFragment(jobDetailsFragment, R.id.jobFragmentHolder, true)
     }
 
 
@@ -129,7 +136,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun setJobList(jobList: MutableList<JobListModelData>?) {
         jobList1 = jobList
-        Log.d("setJobList","setJobList: ${jobList?.size}")
+        Log.d("setJobList", "setJobList: ${jobList?.size}")
     }
 
     override fun setPosition(position: Int) {
@@ -175,7 +182,20 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        val bdjobsUserSession = BdjobsUserSession(applicationContext)
+        if (bdjobsUserSession.isLoggedIn!!) {
+            val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
+            if (joblistFragment != null && joblistFragment.isVisible) {
+                val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finishAffinity()
+            } else {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun totalJobCount(totalJobFound: Int?) {

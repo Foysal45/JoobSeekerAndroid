@@ -22,6 +22,10 @@ interface JobCommunicator {
     fun totalJobCount(totalJobFound:Int?)
     fun getTotalJobCount():Int?
 
+    fun goToLoginPage()
+
+    fun backButtonPressesd()
+
 
     // search params
 

@@ -112,11 +112,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                 val jobsVH = holder as JobsListVH
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    jobsVH.tvPosName.justificationMode = JUSTIFICATION_MODE_INTER_WORD
-                    jobsVH.tvComName.justificationMode = JUSTIFICATION_MODE_INTER_WORD
-
-                }
 
 
 
@@ -196,10 +191,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.applyButton.setOnClickListener {
                                 val bdjobsUserSession = BdjobsUserSession(context)
                                 if(!bdjobsUserSession.isLoggedIn!!){
-                                    val activity = context as Activity
+                                    /*val activity = context as Activity
                                     val intent = Intent(activity, LoginBaseActivity::class.java)
                                     intent.putExtra("goToHome",false)
-                                    activity.startActivity(intent)
+                                    activity.startActivity(intent)*/
+                                    jobCommunicator?.goToLoginPage()
                                 }
                             }
 

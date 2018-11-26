@@ -29,8 +29,7 @@ class JoblistFragment : Fragment() {
     private var joblistAdapter: JoblistAdapter? = null
 
 
-
-    private  var currentPage  =1
+    private var currentPage = 1
     private var TOTAL_PAGES: Int? = null
     private var isLoadings = false
     private var isLastPages = false
@@ -52,9 +51,7 @@ class JoblistFragment : Fragment() {
     }
 
 
-
-
-    private fun getData(){
+    private fun getData() {
 
 
         keyword = communicator.getKeyword()
@@ -65,8 +62,8 @@ class JoblistFragment : Fragment() {
 
         joblistAdapter!!.clear()
 
-      /*  loadFirstPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
-*/
+        /*  loadFirstPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
+  */
 
 
         loadFisrtPageTest("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
@@ -123,15 +120,15 @@ class JoblistFragment : Fragment() {
 
     }
 
-  private fun loadFisrtPageTest(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+    private fun loadFisrtPageTest(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
 
 
-      Log.d("Paramtest","First page Page Number $currentPage  category: $category" )
+        Log.d("Paramtest", "First page Page Number $currentPage  category: $category")
 
-      jobListRecyclerView.hide()
-      filterLayout.hide()
-      shimmer_view_container_JobList.show()
-      shimmer_view_container_JobList.startShimmerAnimation()
+        jobListRecyclerView.hide()
+        filterLayout.hide()
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
 
         val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
         call?.enqueue(object : Callback<JobListModel> {
@@ -139,23 +136,23 @@ class JoblistFragment : Fragment() {
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
                 if (response.isSuccessful) {
-                   jobListRecyclerView.show()
-                   filterLayout.show()
+                    jobListRecyclerView.show()
+                    filterLayout.show()
                     shimmer_view_container_JobList.hide()
-                   shimmer_view_container_JobList.stopShimmerAnimation()
+                    shimmer_view_container_JobList.stopShimmerAnimation()
 
-                   val jobResponse = response.body()
+                    val jobResponse = response.body()
 
                     TOTAL_PAGES = jobResponse?.common?.totalpages
 
 
-                    Log.d("dkgjn"," Total page " + jobResponse?.common?.totalpages )
-                    Log.d("dkgjn"," totalRecordsFound " + jobResponse?.common?.totalRecordsFound )
+                    Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                    Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
-                        communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
+                    communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
                     val results = response.body()?.data
 
-                    if (!results.isNullOrEmpty()){
+                    if (!results.isNullOrEmpty()) {
 
                         joblistAdapter?.addAllTest(results)
 
@@ -164,30 +161,29 @@ class JoblistFragment : Fragment() {
 
 
 
-                        if (currentPage == TOTAL_PAGES!!){
+                    if (currentPage == TOTAL_PAGES!!) {
 
-                            isLastPages = true
+                        isLastPages = true
 
-                        } else {
+                    } else {
 
 
+                        joblistAdapter?.addLoadingFooter()
 
-                             joblistAdapter?.addLoadingFooter()
-
-                        }
+                    }
 
 
                     val totalJobs = jobResponse!!.common!!.totalRecordsFound
 
-                        jobCounterTV.text = "$totalJobs Jobs"
+                    jobCounterTV.text = "$totalJobs Jobs"
 
-                        communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
-                        communicator.setIsLoading(isLoadings)
-                        communicator.setLastPasge(isLastPages)
+                    communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
+                    communicator.setIsLoading(isLoadings)
+                    communicator.setLastPasge(isLastPages)
 
-                    } else {
-                        /*Log.d("TAG", "not successful: $TAG")*/
-                    }
+                } else {
+                    /*Log.d("TAG", "not successful: $TAG")*/
+                }
 
             }
 
@@ -202,7 +198,7 @@ class JoblistFragment : Fragment() {
     private fun loadNextPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
         Log.d("ArrayTest", " loadNextPage called")
 
-        Log.d("Paramtest","Next page Page Number $currentPage  category: $category" )
+        Log.d("Paramtest", "Next page Page Number $currentPage  category: $category")
 
 
         val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
@@ -210,25 +206,24 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
-                Log.d("Paramtest","response :   ${response.body().toString()}" )
+                Log.d("Paramtest", "response :   ${response.body().toString()}")
                 if (response.isSuccessful) {
 
                     try {
                         val resp_jobs = response.body()
                         TOTAL_PAGES = resp_jobs?.common?.totalpages
                         joblistAdapter?.removeLoadingFooter()
-                            isLoadings = false
+                        isLoadings = false
 
                         val results = response.body()?.data
                         joblistAdapter?.addAllTest(results as List<JobListModelData>)
 
-                        if (currentPage == TOTAL_PAGES)
-                        {
+                        if (currentPage == TOTAL_PAGES) {
                             isLastPages = true
                         } else {
 
 
-                                joblistAdapter?.addLoadingFooter()
+                            joblistAdapter?.addLoadingFooter()
 
 
                         }
@@ -258,16 +253,9 @@ class JoblistFragment : Fragment() {
     }
 
 
-
-
-    private fun onClick(){
-
-
-       backIV.setOnClickListener {
-
-
-           activity.finish()
-
+    private fun onClick() {
+        backIV.setOnClickListener {
+            communicator.backButtonPressesd()
         }
     }
 

@@ -28,6 +28,7 @@ class MainLandingActivity : Activity() {
     private val hotJobsFragment = HotJobsFragment()
     private val moreFragment = MoreFragment()
     private val shortListedJobFragment = ShortListedJobFragment()
+    private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
 
 
@@ -38,7 +39,42 @@ class MainLandingActivity : Activity() {
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
 
-        transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
+        bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottom_navigation.selectedItemId = R.id.navigation_home
+
+        testDB()
+    }
+
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_shortlisted_jobs -> {
+                transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_hotjobs -> {
+                transitFragment(hotJobsFragment, R.id.landingPageFragmentHolderFL)
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.navigation_mybdjobs -> {
+                transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.navigation_more -> {
+                transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
+    fun testDB() {
 
         Log.d("XZXfg", "\nisCvPosted = ${session.isCvPosted}\n" +
                 "userPicUrl = ${session.userPicUrl}\n" +
@@ -55,10 +91,6 @@ class MainLandingActivity : Activity() {
                 "resumeUpdateON = ${session.resumeUpdateON}\n" +
                 "IsResumeUpdate = ${session.IsResumeUpdate}\n" +
                 "trainingId = ${session.trainingId}\n")
-        testDB()
-    }
-
-    fun testDB() {
 
         val db = BdjobsDB.getInstance(applicationContext)
         doAsync {

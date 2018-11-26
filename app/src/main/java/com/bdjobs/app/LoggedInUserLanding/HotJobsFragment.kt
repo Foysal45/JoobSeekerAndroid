@@ -10,6 +10,6 @@ import com.bdjobs.app.R
 class HotJobsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_home_layout, container, false)!!
+        return inflater?.inflate(R.layout.fragment_hotjobs_layout, container, false)!!
     }
 }
