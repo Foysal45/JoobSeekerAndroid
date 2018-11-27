@@ -54,9 +54,7 @@ class Constants {
         const val session_key_loggedIn= "loggedIn"
         const val api_mybdjobs_app_signinprocess ="app_signinprocess.asp"
         const val api_mybdjobs_app_agent_log ="apps_agent_log.asp"
-
         const val api_mybdjobs_app_social_agent_log ="app_social_agent_log.asp"
-
         const val api_jobs_db_update ="dbupdate.asp"
         const val key_recent_search_keyword ="keyword"
         const val internal_database_name ="BdjobsInternal.db"
