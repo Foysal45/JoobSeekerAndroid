@@ -8,21 +8,23 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/myfavSearchTV"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_home_card">
 
             <TextView
                 android:id="@+id/time1TV"
@@ -33,13 +35,12 @@
                 android:drawableLeft="@drawable/ic_watch_later_black_24px"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
+                android:text="2:02 PM"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView12"
-                app:layout_constraintEnd_toEndOf="@+id/barrier2"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline10"
-                android:text="2:02 PM" />
+                app:layout_constraintStart_toStartOf="@+id/guideline10" />
 
             <TextView
                 android:id="@+id/filter1TV"
@@ -56,12 +57,11 @@
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/barrier2"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/counterTV"
+                android:id="@+id/favcounter1TV"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="56dp"
                 android:layout_height="64dp"
@@ -79,7 +79,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/favTitle1TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -87,8 +87,8 @@
                 android:text="Graphic Design  "
                 android:textColor="#000000"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/counterTV"
-                app:layout_constraintTop_toTopOf="@+id/counterTV" />
+                app:layout_constraintStart_toEndOf="@+id/favcounter1TV"
+                app:layout_constraintTop_toTopOf="@+id/favcounter1TV" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -99,19 +99,13 @@
                 android:drawableLeft="@drawable/ic_date_range_black_24px"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
+                android:text="4/8/2018"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline10"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView8"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
-                android:text="4/8/2018" />
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="left" />
+                app:layout_constraintStart_toStartOf="@+id/favTitle1TV"
+                app:layout_constraintTop_toBottomOf="@+id/favTitle1TV" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline10"
@@ -144,23 +138,24 @@
         android:id="@+id/imageView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/ic_heart_ic_home"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_heart_ic_home" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/myfavSearchTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="@font/roboto"
         android:text="My favourite search filters"
         android:textColor="#393939"
         android:textSize="16sp"
         android:typeface="normal"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -177,7 +172,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_home_card">
 
             <TextView
                 android:id="@+id/time2TV"
@@ -187,11 +183,11 @@
                 android:drawableLeft="@drawable/ic_watch_later_black_24px"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
+                android:text="2:02 PM"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/date2TV"
-                app:layout_constraintStart_toStartOf="@+id/guideline11"
-                android:text="2:02 PM" />
+                app:layout_constraintStart_toStartOf="@+id/guideline11" />
 
             <TextView
                 android:id="@+id/filter2TV"
@@ -251,14 +247,13 @@
                 android:drawableLeft="@drawable/ic_date_range_black_24px"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
+                android:text="4/8/2018"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline11"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/title2TV"
-                app:layout_constraintTop_toBottomOf="@+id/title2TV"
-                android:text="4/8/2018" />
-
+                app:layout_constraintTop_toBottomOf="@+id/title2TV" />
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -273,5 +268,19 @@
 
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:padding="5dp"
+        android:src="@drawable/ic_arrow_forward_blue_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

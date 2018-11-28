@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
         app:layout_constraintGuide_begin="15dp" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -32,7 +31,7 @@
         android:src="@drawable/ic_clock_ic_home" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/myLastSearchMsgTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -47,6 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+
         app:cardCornerRadius="8dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -56,11 +56,12 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/myLastSearchMsgTV"
         app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="@drawable/ic_home_card"
             android:layout_height="match_parent">
 
             <TextView
@@ -75,13 +76,12 @@
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView12"
-                app:layout_constraintEnd_toEndOf="@+id/barrier2"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline10"
                 android:text="2:02 PM" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/allcatTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -90,14 +90,14 @@
                 android:fontFamily="@font/roboto"
                 android:textColor="#767676"
                 android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
+                app:layout_constraintBaseline_toBaselineOf="@+id/locationTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/time1TV"
                 android:text="All Category" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/locationTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -116,7 +116,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/counterTV"
+                android:id="@+id/lastSearchcounterTV"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="56dp"
                 android:layout_height="64dp"
@@ -134,7 +134,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/keywordTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -142,8 +142,8 @@
                 android:text="UI Design"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/counterTV"
-                app:layout_constraintTop_toTopOf="@+id/counterTV" />
+                app:layout_constraintStart_toEndOf="@+id/lastSearchcounterTV"
+                app:layout_constraintTop_toTopOf="@+id/lastSearchcounterTV" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -158,15 +158,11 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline10"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView8"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="@+id/keywordTV"
+                app:layout_constraintTop_toBottomOf="@+id/keywordTV"
                 android:text="4/8/2018" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="left" />
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline10"
