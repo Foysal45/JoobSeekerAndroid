@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_notifications_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_insert_drive_file_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,12 +29,12 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="ffffff" />
-                            <entry key="height" value="150" />
-                            <entry key="outputName" value="ic_home_top_bg" />
+                            <entry key="color" value="767676" />
+                            <entry key="height" value="86" />
+                            <entry key="outputName" value="ic_home_card" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Rubayet\Downloads\home_top_bg.svg" />
-                            <entry key="width" value="360" />
+                            <entry key="sourceFile" value="C:\Users\Rubayet\Downloads\home_card.svg" />
+                            <entry key="width" value="330" />
                           </map>
                         </option>
                       </PersistentState>
