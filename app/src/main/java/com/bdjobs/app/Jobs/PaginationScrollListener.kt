@@ -3,7 +3,6 @@ package com.bdjobs.app.Jobs
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 
 abstract class PaginationScrollListener
 /**
@@ -14,11 +13,9 @@ abstract class PaginationScrollListener
 (internal var layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
 
     abstract val totalPageCount: Int
-
     abstract val isLastPage: Boolean
-
     abstract val isLoading: Boolean
-    private var overallXScroll = 0
+
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 

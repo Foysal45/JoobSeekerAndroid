@@ -612,7 +612,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
 
 
-
         val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "${jobList!!.get(position).jobTitle}")

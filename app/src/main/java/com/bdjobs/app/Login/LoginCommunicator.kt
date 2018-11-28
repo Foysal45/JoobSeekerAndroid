@@ -15,4 +15,5 @@ interface LoginCommunicator {
     fun getUserName(): String?
     fun getGoToHome(): Boolean?
     fun goToHomePage(progressBar: ProgressBar?)
+    fun goToRegistrationActivity()
 }

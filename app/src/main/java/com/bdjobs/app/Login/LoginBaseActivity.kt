@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Utilities.DatabaseSync
 import com.bdjobs.app.Utilities.debug
@@ -19,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_base.*
 
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
+
 
 
     private val loginUserNameFragment = LoginUserNameFragment()
@@ -86,6 +88,10 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         transitFragment(loginOTPFragment, R.id.loginFragmentHolderFL, true)
     }
 
+    override fun goToRegistrationActivity() {
+        val intent = Intent(this, RegistrationBaseActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onPostResume() {
         super.onPostResume()

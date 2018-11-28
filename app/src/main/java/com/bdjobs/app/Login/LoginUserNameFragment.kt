@@ -15,6 +15,7 @@ import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY
@@ -256,6 +257,13 @@ class LoginUserNameFragment : Fragment() {
         linkedInSignInIMGV.setOnClickListener {
             signInWithLinkedIn()
         }
+
+
+        createAccountButton.setOnClickListener{
+
+          loginCommunicator.goToRegistrationActivity()
+        }
+
 
 
 

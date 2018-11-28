@@ -20,4 +20,7 @@
     <string name="turn_on_wifi">Turn Wifi on</string>
     <string name="alert_no_internet">No internet connection!</string>
     <string name="otp_message">Please type the verification code sent to +88</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
