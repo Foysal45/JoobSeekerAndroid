@@ -1,7 +1,6 @@
 package com.bdjobs.app.Databases.Internal
 
 import androidx.room.TypeConverter
-
 import java.util.*
 
 
@@ -13,6 +12,6 @@ class Converters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return (date?.time)!!.toLong()
+        return date?.time
     }
 }

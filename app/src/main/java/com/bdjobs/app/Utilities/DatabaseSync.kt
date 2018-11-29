@@ -46,6 +46,22 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                         bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
                         for (item in items) {
 
+                            Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
+
+                            var cratedOn: Date? =  null
+                            try {
+                                cratedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.createdon)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                            var updatedOn: Date? = null
+                            try {
+                                updatedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.updatedon)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+
+                            Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
 
                             val favouriteSearch = FavouriteSearch(
                                     filterid = item?.filterid,
@@ -66,14 +82,11 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                                     age = item?.age,
                                     jobtype = item?.jobtype,
                                     retiredarmy = item?.retiredarmy,
-                                    createdon = item?.createdon,
-                                    updatedon = item?.updatedon,
+                                    createdon = cratedOn,
+                                    updatedon = updatedOn,
                                     totaljobs = item?.totaljobs
                             )
-
                             bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
-
-
                         }
 
                     }

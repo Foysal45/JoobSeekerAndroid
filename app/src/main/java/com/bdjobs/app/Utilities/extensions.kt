@@ -29,11 +29,22 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 fun String.equalIgnoreCase(string:String):Boolean{
    return equals(string,true)
+}
+
+fun Date.toSimpleDateString() : String {
+    val format = SimpleDateFormat("dd/MM/yyy")
+    return format.format(this)
+}
+
+fun Date.toSimpleTimeString() : String {
+    val format = SimpleDateFormat("h:mm a")
+    return format.format(this)
 }
 
 
@@ -54,7 +65,7 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
                         msg = "Firebase topic subscription on : $topicName is NOT Successful"
                     }
                     wtf(msg)
-                    //toast(msg)
+
                 }
             })
 }

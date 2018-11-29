@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fav1CV"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_home_card">
+
+        <TextView
+            android:id="@+id/time1TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:drawableLeft="@drawable/ic_watch_later_black_24px"
+            android:drawablePadding="3dp"
+            android:fontFamily="@font/roboto"
+            android:text="2:02 PM"
+            android:textColor="#767676"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/createdOnDateTV"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+        <TextView
+            android:id="@+id/filter1TV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="15dp"
+            android:drawableLeft="@drawable/ic_search_black_24px"
+            android:drawablePadding="3dp"
+            android:fontFamily="@font/roboto"
+            android:singleLine="true"
+            android:text="Nurse, NGO, Electronics/ Consumer..."
+            android:textColor="#767676"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/createdOnDateTV"
+            app:layout_constraintTop_toBottomOf="@+id/createdOnDateTV" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favcounter1TV"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="56dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="10"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:backgroundTint="#F7894A"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/favTitle1TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Graphic Design  "
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/favcounter1TV"
+            app:layout_constraintTop_toTopOf="@+id/favcounter1TV" />
+
+        <TextView
+            android:id="@+id/createdOnDateTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:drawableLeft="@drawable/ic_date_range_black_24px"
+            android:drawablePadding="3dp"
+            android:fontFamily="@font/roboto"
+            android:text="4/8/2018"
+            android:textColor="#767676"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline10"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/favTitle1TV"
+            app:layout_constraintTop_toBottomOf="@+id/favTitle1TV" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="214dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
+
