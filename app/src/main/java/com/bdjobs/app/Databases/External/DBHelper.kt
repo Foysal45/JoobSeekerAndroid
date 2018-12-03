@@ -242,5 +242,39 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
         val TABLE_NAME_AGERANGE = "AGE_RANGE"
         val AGERANGE_COL_AGE_RANGE = "AGE_RANGE_NAME"
         val AGERANGE_COL_AGE_ID = "AGE_RANGE_ID"
+
+        //---------------------------------ORG_TYPE_JOB_SEARCH-----------------------------------------------------//
+        val TABLE_NAME_ORG_TYPE_JOB_SEARCH = "Org_types_job_search"
+        val ORG_TYPE_JOB_SEARCH_COL_ORG_TYPE = "orgType"
+        val ORG_TYPE_JOB_SEARCH_COL_ID = "id"
+
+        //---------------------------------ORG_TYPE_JOB_SEARCH-----------------------------------------------------//
+        val TABLE_NAME_INDUSTRY = "Industries"
+        val INDUSTRY_COL_INDUSTRY_NAME_ENGLISH = "IndustryName"
+        val INDUSTRY_COL_INDUSTRY_NAME_BANGLA = "IndustryNameBng"
+        val INDUSTRY_COL_ID = "IndustryId"
+
+
+        //---------------------------------JOB_NATURE-----------------------------------------------------//
+        val TABLE_NAME_JOB_NATURE = "JOB_NATURE"
+        val JOB_NATURE_COL_JOB_NATURE_NAME = "JOB_NATURE_NAME"
+        val JOB_NATURE_COL_JOB_NATURE_ID = "JOB_NATURE_ID"
+
+        //---------------------------------EXPERIENCE-----------------------------------------------------//
+        val TABLE_NAME_EXPERIENCE = "Experinece"
+        val EXPERIENCE_COL_EXPERIENCE_NAME = "EXP_NAME"
+        val EXPERIENCE_COL_EXPERIENCE_ID = "EXP_ID"
+
+        //---------------------------------JOB_LEVEL-----------------------------------------------------//
+        val TABLE_NAME_JOB_LEVEL = "JOB_LEVEL"
+        val JOB_LEVEL_COL_JOB_LEVEL_NAME = "JOB_LEVEL_NAME"
+        val JOB_LEVEL_COL_JOB_LEVEL_ID = "JOB_LEVEL_ID"
+
+        //---------------------------------JOB_TYPE-----------------------------------------------------//
+        val TABLE_NAME_JOB_TYPE = "JOB_TYPE"
+        val JOB_LEVEL_COL_JOB_TYPE_NAME = "JOB_TYPE_NAME"
+        val JOB_LEVEL_COL_JOB_ID = "JOB_ID"
+
+
     }
 }

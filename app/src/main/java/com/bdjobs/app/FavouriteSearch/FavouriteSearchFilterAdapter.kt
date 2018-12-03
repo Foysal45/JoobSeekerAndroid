@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.R
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
@@ -70,26 +69,21 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         Log.d("favouriteSearch", "favouriteSearch.filterid= ${favouriteSearch.filterid}")
 
-
         val age = dataStorage.getAgeRangeNameByID(favouriteSearch.age)
         val keyword = favouriteSearch.keyword
         val newsPaper = dataStorage.getNewspaperNameById(favouriteSearch.newspaper)
         val functionalCat = dataStorage.getCategoryNameByID(favouriteSearch.functionalCat)
         val location = dataStorage.getLocationNameByID(favouriteSearch.location)
-        //val organization
-        // val jobnature
-        //val joblevel
-        // val industrialCat = dataStorage.
+        val organization = dataStorage.getJobSearcOrgTypeByID(favouriteSearch.organization)
+        val jobNature = dataStorage.getJobNatureByID(favouriteSearch.jobnature)
+        val jobLevel = dataStorage.getJobLevelByID(favouriteSearch.joblevel)
+        val industrialCat = dataStorage.getJobSearcIndustryTypeByID(favouriteSearch.industrialCat)
         // val gender = dataStorage.
-        //val experience = dataStorage.
-        // val jobtype = dataStorage.getjob
+        val experience = dataStorage.getJobExperineceByID(favouriteSearch.experience)
+        val jobtype = dataStorage.getJobTypeByID(favouriteSearch.jobtype)
         //val retiredarmy =
 
-
-        /* var allValues = (keyword+ "," +functionalCat + "," + organization + "," + industrialCategory + "," + location + "," + bcJobType + "," +
-                 gender + "," + genderB + "," + experience + "," + jobLevel + "," + jobType + ","
-                 + postedOn + "," + deadline + "," + age + "," + newspaper + "," + retiredArmy)*/
-        var allValues = ("$keyword,$functionalCat,$location,$age,$newsPaper")
+        var allValues = ("$keyword,$functionalCat,$organization,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$newsPaper")
         Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
