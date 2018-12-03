@@ -963,6 +963,35 @@ class DataStorage(context: Context) {
         return s
     }
 
+
+    fun getLocationNameByID(name: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_ID + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+
+
     fun getBanglaLocationIDByName(name: String): String? {
 
         var s: String? = null
@@ -1118,7 +1147,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getCategoryNameByID(ID: String): String {
+    fun getCategoryNameByID(ID: String?): String {
 
         var s = ""
         try {
@@ -1382,7 +1411,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getNewspaperNameById(ID: String): String? {
+    fun getNewspaperNameById(ID: String?): String? {
 
         var s: String? = null
         try {
@@ -1432,7 +1461,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getAgeRangeNameByID(ID: String): String? {
+    fun getAgeRangeNameByID(ID: String?): String? {
 
         var s: String? = null
         try {
@@ -1456,4 +1485,9 @@ class DataStorage(context: Context) {
 
         return s
     }
+
+
+
 }
+
+

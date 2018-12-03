@@ -1,10 +1,12 @@
 package com.bdjobs.app.API
 
+import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
+import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import retrofit2.Call
@@ -47,6 +49,14 @@ interface ApiServiceMyBdjobs {
             @Field("SystemName") SystemName: String? = "com.bdjobs.app"
 
     ): Call<SocialLoginAccountListModel>
+
+    @FormUrlEncoded
+    @POST(api_mybdjobs_app_favouritejob_count)
+    fun getFavFilterCount(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("intFId") intFId: String?
+    ): Call<FavouriteSearchCountModel>
 
 
     companion object Factory {

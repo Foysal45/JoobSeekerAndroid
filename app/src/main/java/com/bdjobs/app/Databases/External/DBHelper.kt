@@ -239,8 +239,8 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
         //************************************************************************************************//
 
         //---------------------------------AGERANGE-----------------------------------------------------//
-        val TABLE_NAME_AGERANGE = "ageRange"
-        val AGERANGE_COL_AGE_RANGE = "age_range"
-        val AGERANGE_COL_AGE_ID = "id"
+        val TABLE_NAME_AGERANGE = "AGE_RANGE"
+        val AGERANGE_COL_AGE_RANGE = "AGE_RANGE_NAME"
+        val AGERANGE_COL_AGE_ID = "AGE_RANGE_ID"
     }
 }

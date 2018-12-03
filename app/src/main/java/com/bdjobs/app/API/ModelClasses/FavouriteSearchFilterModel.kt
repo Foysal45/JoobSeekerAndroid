@@ -56,4 +56,20 @@ data class FavouritSearchFilterData(
     val totaljobs: String?,
     @SerializedName("updatedon")
     val updatedon: String?
+
 )
+
+data class FavouriteSearchCountModel(
+    @SerializedName("data")
+    val `data`: List<FavouriteSearchCountDataModel?>?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("statuscode")
+    val statuscode: String?
+)
+
+data class FavouriteSearchCountDataModel(
+    @SerializedName("intCount")
+    val intCount: String?
+)
+

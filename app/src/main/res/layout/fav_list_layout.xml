@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="15dp"
             android:drawableLeft="@drawable/ic_search_black_24px"
             android:drawablePadding="3dp"
@@ -48,11 +48,12 @@
             android:textColor="#767676"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/createdOnDateTV"
             app:layout_constraintTop_toBottomOf="@+id/createdOnDateTV" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/favcounter1TV"
+            android:id="@+id/favcounter1BTN"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="56dp"
             android:layout_height="64dp"
@@ -60,7 +61,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="10"
+            tools:text="0"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:backgroundTint="#F7894A"
@@ -78,8 +79,8 @@
             android:text="Graphic Design  "
             android:textColor="#000000"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/favcounter1TV"
-            app:layout_constraintTop_toTopOf="@+id/favcounter1TV" />
+            app:layout_constraintStart_toEndOf="@+id/favcounter1BTN"
+            app:layout_constraintTop_toTopOf="@+id/favcounter1BTN" />
 
         <TextView
             android:id="@+id/createdOnDateTV"
@@ -104,6 +105,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="214dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/favcounter1BTN"
+            app:layout_constraintEnd_toEndOf="@+id/favcounter1BTN"
+            app:layout_constraintStart_toStartOf="@+id/favcounter1BTN"
+            app:layout_constraintTop_toTopOf="@+id/favcounter1BTN" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

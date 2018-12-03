@@ -136,7 +136,7 @@ class JoblistFragment : Fragment() {
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
                 if (response.isSuccessful) {
-                    jobListRecyclerView.show()
+                    jobListRecyclerView?.show()
                     filterLayout.show()
                     shimmer_view_container_JobList.hide()
                     shimmer_view_container_JobList.stopShimmerAnimation()

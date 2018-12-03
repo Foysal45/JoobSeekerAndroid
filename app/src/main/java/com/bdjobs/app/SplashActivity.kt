@@ -118,6 +118,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
             val dbUpdateDate = pref.getString(key_db_update, dfault_date_db_update)
             debug("getDbInfo: Update_date = $dbUpdateDate")
+
             ApiServiceJobs.create().getDbInfo(dbUpdateDate!!).enqueue(object : Callback<DatabaseUpdateModel> {
                 override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
                     debug("getDbInfo: ${t?.message!!}")
@@ -125,6 +126,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 }
 
                 override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {
+
                     if (response?.body()?.messageType == "1") {
                         if (response.body()?.update == "1") {
                             downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
