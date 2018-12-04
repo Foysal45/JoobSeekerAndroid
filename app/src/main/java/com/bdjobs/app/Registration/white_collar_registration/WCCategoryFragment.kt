@@ -1,101 +1,88 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
-import android.content.Context
-import android.net.Uri
+
 import android.os.Bundle
 import android.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Jobs.JoblistAdapter
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.SuggestiveSearch.HistoryAdapter
+import kotlinx.android.synthetic.main.fragment_joblist_layout.*
+import kotlinx.android.synthetic.main.fragment_wc_category.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [WC_CategoryFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [WC_CategoryFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-class WC_CategoryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var listener: OnFragmentInteractionListener? = null
+class WCCategoryFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+    private lateinit var returnview : View
+    private lateinit var registrationCommunicator : RegistrationCommunicator
+    private lateinit var dataStorage: DataStorage
+    private lateinit var categories: ArrayList<String>
+    private lateinit var categoryAdapter: WCCategoryAdapter
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+        intialization()
+
+        onClick()
+
+
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wc_category, container, false)
+
+        returnview = inflater.inflate(R.layout.fragment_wc_category, container, false)
+
+        return returnview
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+
+    private fun onClick(){
+
+        floatingActionButton.setOnClickListener {
+            registrationCommunicator.wcGoToStepSocialInfo()
         }
+
+
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
+    private fun intialization(){
+        registrationCommunicator = activity as RegistrationCommunicator
+        dataStorage = DataStorage(activity)
+        categories = dataStorage.allWhiteCollarCategories
+
+        Log.d("elkgjtsdlg","Size ${categories.size}")
+
+        categoryAdapter = WCCategoryAdapter(activity,categories)
+
+
+        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        categoryList?.layoutManager = layoutManager
+
+        categoryList.adapter = categoryAdapter
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WC_CategoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                WC_CategoryFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
-    }
+
+
+
+
+
+
 }
