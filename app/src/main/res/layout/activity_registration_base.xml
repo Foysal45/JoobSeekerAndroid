@@ -33,31 +33,31 @@
 
         <ProgressBar
 
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
             android:id="@+id/progressBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
             android:progress="10"
-            android:textAlignment="center"
-
             android:progressDrawable="@drawable/progress_limit"
-            />
+
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
         <FrameLayout
             android:id="@+id/registrationFragmentHolderFL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4">
+            app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
 
         </FrameLayout>

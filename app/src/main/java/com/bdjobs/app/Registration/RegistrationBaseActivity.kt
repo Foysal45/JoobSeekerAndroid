@@ -32,7 +32,7 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
     }
 
     override fun gotToStepWhiteCollar() {
-        transitFragment(wccategoryFragment, R.id.registrationFragmentHolderFL)
+        transitFragment(wccategoryFragment, R.id.registrationFragmentHolderFL,true)
     }
 
     override fun onBackPressed() {
@@ -45,13 +45,13 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
 
 
     override fun wcGoToStepSocialInfo() {
-        transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL)
+        transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL,true)
     }
 
 
     override fun wcGoToStepName() {
 
-        transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL)
+        transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL,true)
 
     }
 

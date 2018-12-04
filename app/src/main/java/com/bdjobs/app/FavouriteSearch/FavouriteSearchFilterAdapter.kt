@@ -78,12 +78,26 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         val jobNature = dataStorage.getJobNatureByID(favouriteSearch.jobnature)
         val jobLevel = dataStorage.getJobLevelByID(favouriteSearch.joblevel)
         val industrialCat = dataStorage.getJobSearcIndustryTypeByID(favouriteSearch.industrialCat)
-        // val gender = dataStorage.
         val experience = dataStorage.getJobExperineceByID(favouriteSearch.experience)
         val jobtype = dataStorage.getJobTypeByID(favouriteSearch.jobtype)
-        //val retiredarmy =
 
-        var allValues = ("$keyword,$functionalCat,$organization,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$newsPaper")
+        var retiredArmy = ""
+        favouriteSearch.retiredarmy?.let { string ->
+            if (string == "1")
+                retiredArmy = "Preferred Retired Army"
+        }
+
+        var gender =""
+
+        favouriteSearch.gender?.let{string ->
+            val result: List<String> = string.split(",").map { it.trim()}
+            result.forEach {
+                gender +=dataStorage.getGenderByID(it)+","
+            }
+        }
+        Log.d("gender","gender: $gender")
+
+        var allValues = ("$keyword,$functionalCat,$organization,$gender,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
         Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")

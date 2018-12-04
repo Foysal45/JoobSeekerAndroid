@@ -1224,17 +1224,17 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getGenderIDByGender(name: String): String {
+    fun getGenderByID(name: String): String {
 
         dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER_ID + " FROM " + DBHelper.TABLE_NAME_GENDER + " WHERE " + DBHelper.GENDER_COL_GENDER + " = '" + name + "'"
+        val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER + " WHERE " + DBHelper.GENDER_COL_GENDER_ID + " = '" + name + "'"
         Log.d("selectQuery", selectQuery)
         val cursor = dbHelper.getCursor(selectQuery)
         var s = ""
 
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.GENDER_COL_GENDER_ID))
+            s = cursor.getString(cursor.getColumnIndex(DBHelper.GENDER_COL_GENDER))
             cursor.moveToNext()
         }
         dbHelper.close()
