@@ -1224,7 +1224,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getGenderByID(name: String): String {
+    fun getGenderByID(name: String?): String {
 
         dbHelper.openDataBase()
         val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER + " WHERE " + DBHelper.GENDER_COL_GENDER_ID + " = '" + name + "'"

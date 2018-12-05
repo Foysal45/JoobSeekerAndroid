@@ -1,9 +1,6 @@
 package com.bdjobs.app.API
 
-import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
-import com.bdjobs.app.API.ModelClasses.LoginSessionModel
-import com.bdjobs.app.API.ModelClasses.LoginUserModel
-import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
@@ -57,6 +54,13 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId: String?,
             @Field("intFId") intFId: String?
     ): Call<FavouriteSearchCountModel>
+
+    @FormUrlEncoded
+    @POST("app_invite_interview_list.asp")
+    fun getJobInvitationList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<JobInvitationListModel>
 
 
     companion object Factory {

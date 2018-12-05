@@ -76,7 +76,8 @@
             android:name=".LoggedInUserLanding.MainLandingActivity"
             android:label="@string/title_activity_main_landing" />
         <activity android:name=".Jobs.JobBaseActivity" />
-        <activity android:name=".Registration.RegistrationBaseActivity"></activity>
+        <activity android:name=".Registration.RegistrationBaseActivity" />
+        <activity android:name=".FavouriteSearch.FavouriteSearchBaseActivity"></activity>
     </application>
 
 </manifest>

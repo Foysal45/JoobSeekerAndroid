@@ -65,7 +65,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/counterTV"
+                android:id="@+id/jobInvitationcounterTV"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="56dp"
                 android:layout_height="64dp"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="10"
+                tools:text="10"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:backgroundTint="#C7268C"
@@ -95,11 +95,12 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/counterTV"
-                app:layout_constraintTop_toTopOf="@+id/counterTV" />
+                app:layout_constraintStart_toEndOf="@+id/jobInvitationcounterTV"
+                app:layout_constraintTop_toTopOf="@+id/jobInvitationcounterTV" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:singleLine="true"
+                android:id="@+id/jobInvitedCompanyNameTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -108,7 +109,7 @@
                 android:drawableLeft="@drawable/ic_bank_ic_home"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
-                android:text="Bkash Limited, EDISON Group, Adobe..."
+                tools:text="Bkash Limited, EDISON Group, Adobe..."
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -40,10 +40,9 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
 
             override fun onResponse(call: Call<FavouritSearchFilterModelClass>, response: Response<FavouritSearchFilterModelClass>) {
                 doAsync {
+                    bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
                     response.body()?.data?.let { items ->
                         Log.d("XZXfg", "insertFavourite Size: ${items.size}")
-
-                        bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
                         for (item in items) {
 
                             Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
@@ -128,10 +127,11 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
 
                 doAsync {
+                    bdjobsInternalDB.followedEmployerDao().deleteAllFollowedEmployer()
                     response.body()?.data?.let { items ->
                         Log.d("XZXfg", "insertFollowedEmployers Size: ${items.size}")
 
-                        bdjobsInternalDB.followedEmployerDao().deleteAllFollowedEmployer()
+
                         for (item in items) {
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item?.companyID,
@@ -160,9 +160,10 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
             override fun onResponse(call: Call<JobListModel>, response: Response<JobListModel>) {
 
                 doAsync {
+                    bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
                     response.body()?.data?.let { items ->
                         Log.d("XZXfg", "insertShortListedJobs Size: ${items.size}")
-                        bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
+
                         for (item in items) {
                             val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(item?.deadline)
                             Log.d("deadline", "deadline: $deadline")

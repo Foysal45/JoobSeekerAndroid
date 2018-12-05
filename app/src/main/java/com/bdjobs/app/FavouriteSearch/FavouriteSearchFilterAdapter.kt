@@ -29,7 +29,6 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
     val dataStorage = DataStorage(context)
     val bdjobsUserSession = BdjobsUserSession(context)
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fav_list_layout, parent, false))
     }
@@ -52,6 +51,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     response.body()?.statuscode?.let { status ->
                         if (status.equalIgnoreCase(api_request_result_code_ok)) {
                             holder.progressBar.hide()
+                            holder.favcounter1BTN.textSize = 18.0F
+                            if(response.body()?.data?.get(0)?.intCount?.length!!>3){
+                                holder.favcounter1BTN.textSize = 14.0F
+                            }
                             holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
                             Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
                         }
@@ -61,8 +64,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 }
             }
         })
+    }
 
-
+    override fun getItemCount(): Int {
+        return items?.size!!
     }
 
     private fun getFilterString(favouriteSearch: FavouriteSearch): String? {
@@ -80,24 +85,27 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         val industrialCat = dataStorage.getJobSearcIndustryTypeByID(favouriteSearch.industrialCat)
         val experience = dataStorage.getJobExperineceByID(favouriteSearch.experience)
         val jobtype = dataStorage.getJobTypeByID(favouriteSearch.jobtype)
-
+        val genderb = dataStorage.getGenderByID(favouriteSearch.genderb)
         var retiredArmy = ""
+
         favouriteSearch.retiredarmy?.let { string ->
             if (string == "1")
                 retiredArmy = "Preferred Retired Army"
         }
 
-        var gender =""
-
-        favouriteSearch.gender?.let{string ->
-            val result: List<String> = string.split(",").map { it.trim()}
+        var gender = ""
+        favouriteSearch.gender?.let { string ->
+            val result: List<String> = string.split(",").map { it.trim() }
             result.forEach {
-                gender +=dataStorage.getGenderByID(it)+","
+                gender += dataStorage.getGenderByID(it) + ","
             }
         }
-        Log.d("gender","gender: $gender")
 
-        var allValues = ("$keyword,$functionalCat,$organization,$gender,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
+        Log.d("gender", "gender:  ${favouriteSearch.gender}")
+
+        Log.d("gender", "genderb: ${favouriteSearch.genderb}")
+
+        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
         Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
@@ -112,12 +120,6 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         return allValues
     }
-
-    override fun getItemCount(): Int {
-        return items?.size!!
-    }
-
-
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

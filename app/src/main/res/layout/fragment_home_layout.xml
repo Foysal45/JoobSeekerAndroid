@@ -184,6 +184,7 @@
                     android:layout_marginTop="24dp" />
 
                 <include
+                    android:visibility="gone"
                     android:layout_marginBottom="5dp"
                     android:id="@+id/favSearchView"
                     layout="@layout/my_favourite_search_filter_layout"
@@ -191,16 +192,22 @@
                     android:layout_height="wrap_content" />
 
                 <include
+                    android:visibility="gone"
+                    android:id="@+id/jobInvitationView"
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <include
+                    android:visibility="gone"
+                    android:id="@+id/assesmentView"
                     layout="@layout/my_assessment_filter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <include
+                    android:visibility="gone"
+                    android:id="@+id/followedEmployerView"
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

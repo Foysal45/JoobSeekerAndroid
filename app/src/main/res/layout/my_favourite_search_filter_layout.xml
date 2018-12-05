@@ -42,12 +42,12 @@
         android:textColor="#393939"
         android:textSize="16sp"
         android:typeface="normal"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/showAllFavIMGV"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/showAllFavIMGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackgroundBorderless"
