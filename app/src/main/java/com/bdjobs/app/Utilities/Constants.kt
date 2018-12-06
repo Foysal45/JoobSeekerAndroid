@@ -3,6 +3,7 @@ package com.bdjobs.app.Utilities
 class Constants {
     companion object {
 
+        var loadFirstTime= true
         const val FB_KEY_EMAIL = "email"
         const val FB_KEY_ID = "id"
         const val SOCIAL_MEDIA_GOOGLE = "G"

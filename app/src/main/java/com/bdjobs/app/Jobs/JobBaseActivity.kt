@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.JobListModelData
-import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R

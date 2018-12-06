@@ -2,11 +2,8 @@ package com.bdjobs.app.LoggedInUserLanding
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.debug
@@ -18,11 +15,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
 class MainLandingActivity : Activity() {
+
 
     private val homeFragment = HomeFragment()
     private val hotJobsFragment = HotJobsFragment()
@@ -30,6 +25,8 @@ class MainLandingActivity : Activity() {
     private val shortListedJobFragment = ShortListedJobFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +39,7 @@ class MainLandingActivity : Activity() {
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation.selectedItemId = R.id.navigation_home
 
-        testDB()
+        tetsLog()
     }
 
 
@@ -74,7 +71,10 @@ class MainLandingActivity : Activity() {
         false
     }
 
-    fun testDB() {
+
+
+
+    fun tetsLog() {
 
         Log.d("XZXfg", "\nisCvPosted = ${session.isCvPosted}\n" +
                 "userPicUrl = ${session.userPicUrl}\n" +
@@ -91,16 +91,6 @@ class MainLandingActivity : Activity() {
                 "resumeUpdateON = ${session.resumeUpdateON}\n" +
                 "IsResumeUpdate = ${session.IsResumeUpdate}\n" +
                 "trainingId = ${session.trainingId}\n")
-
-        val db = BdjobsDB.getInstance(applicationContext)
-        doAsync {
-            Log.d("XZXfg", "\nShorListed jobs: ${db.shortListedJobDao().getAllShortListedJobs().size}" +
-                    "\nFollowed  Employer: ${db.followedEmployerDao().getAllFollowedEmployer().size}" +
-                    "\nfavourite Search: ${db.favouriteSearchFilterDao().getAllFavouriteSearchFilter().size}"
-                    + "\nApplied job: ${db.appliedJobDao().getAllAppliedJobs().size}"
-            )
-
-        }
     }
 
 

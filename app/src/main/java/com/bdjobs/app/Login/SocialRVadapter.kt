@@ -76,7 +76,7 @@ class SocialRVadapter(private val items: List<SocialLoginAccountListData?>?, val
                     response.body()?.data?.get(0)?.let { sessionData ->
                         val bdjobsUserSession = BdjobsUserSession(activity)
                         bdjobsUserSession.createSession(sessionData)
-                        loginCommunicator.goToHomePage(progressBar = loadingProgressBar)
+                        loginCommunicator.goToHomePage()
                     }
 
                 } else {

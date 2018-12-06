@@ -14,6 +14,6 @@ interface LoginCommunicator {
     fun getImageUrl(): String?
     fun getUserName(): String?
     fun getGoToHome(): Boolean?
-    fun goToHomePage(progressBar: ProgressBar?)
+    fun goToHomePage()
     fun goToRegistrationActivity()
 }

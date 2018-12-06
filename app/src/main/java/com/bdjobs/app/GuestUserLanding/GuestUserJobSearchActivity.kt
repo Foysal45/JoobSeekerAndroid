@@ -11,7 +11,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
-import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity

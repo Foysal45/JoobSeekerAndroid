@@ -186,7 +186,7 @@ class LoginUserNameFragment : Fragment() {
                                     response.body()?.data?.get(0)?.let { sessionData ->
                                         val bdjobsUserSession = BdjobsUserSession(activity)
                                         bdjobsUserSession.createSession(sessionData)
-                                        loginCommunicator.goToHomePage(progressBar = loadingProgressBar)
+                                        loginCommunicator.goToHomePage()
                                     }
 
                                 } else {

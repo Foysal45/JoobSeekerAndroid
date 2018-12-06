@@ -15,11 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
-import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
+import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
@@ -41,10 +43,7 @@ import java.security.MessageDigest
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
     lateinit var pref: SharedPreferences
     private lateinit var bdjobsUserSession: BdjobsUserSession
-
     private val internetBroadCastReceiver = ConnectivityReceiver()
-
-    private lateinit var bdjobsInternalDB: BdjobsDB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +52,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         generateKeyHash()
         getFCMtoken()
         subscribeToFCMTopic("Kamol")
-
+        if (bdjobsUserSession.isLoggedIn!!) {
+            DatabaseUpdateJob.runJobImmediately()
+        }
 
     }
 
@@ -173,7 +174,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     fun goToNextActivity() {
-        Log.d("XZXfg","goToNextActivity :${bdjobsUserSession?.isLoggedIn!!}")
+        Log.d("XZXfg", "goToNextActivity :${bdjobsUserSession?.isLoggedIn!!}")
         if (!bdjobsUserSession?.isLoggedIn!!) {
             if (!isFinishing) {
                 startActivity<GuestUserJobSearchActivity>()
@@ -181,8 +182,13 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 finish()
             }
         } else {
-            val databaseSync = DatabaseSync(context = this@SplashActivity)
-            databaseSync.insertDataAndGoToHomepage()
+            /* val databaseSync = DatabaseSync(context = this@SplashActivity)
+             databaseSync.insertDataAndGoToHomepage()*/
+
+            val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finishAffinity()
         }
     }
 

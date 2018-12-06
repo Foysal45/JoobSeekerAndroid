@@ -12,7 +12,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     FavouriteSearch::class,
     FollowedEmployer::class,
     ShortListedJobs::class,
-    AppliedJobs::class], version = 1, exportSchema = false)
+    AppliedJobs::class,
+    JobInvitation::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -21,6 +22,7 @@ abstract class BdjobsDB : RoomDatabase() {
     abstract fun followedEmployerDao(): FollowedEmployerDao
     abstract fun shortListedJobDao(): ShortListedJobDao
     abstract fun appliedJobDao(): AppliedJobDao
+    abstract fun jobInvitationDao():JobInvitationDao
 
 
     companion object {

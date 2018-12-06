@@ -125,7 +125,7 @@ class LoginOTPFragment : Fragment() {
                            otpTIL.hideError()
                            val bdjobsUserSession = BdjobsUserSession(activity)
                            bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
-                           loginCommunicator.goToHomePage(progressBar)
+                           loginCommunicator.goToHomePage()
                        }else{
                            activity.stopProgressBar(progressBar)
                            otpTIL.showError(response?.body()?.message)

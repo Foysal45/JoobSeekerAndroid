@@ -33,7 +33,7 @@ data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
 
 @Entity(tableName = "AppliedJobs", indices = [(Index(value = ["appliedid"], unique = true))])
 data class AppliedJobs(@ColumnInfo(name = "appliedid")
-                            val appliedid: String?) {
+                       val appliedid: String?) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }
@@ -105,6 +105,23 @@ data class FavouriteSearch(
         val updatedon: Date?,
         @ColumnInfo(name = "totaljobs")
         val totaljobs: String?
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+
+@Entity(tableName = "JobInvitation",indices = [(Index(value = ["jobId"], unique = true))])
+data class JobInvitation(@ColumnInfo(name = "companyName")
+                         val companyName: String?,
+                         @ColumnInfo(name = "inviteDate")
+                         val inviteDate: String?,
+                         @ColumnInfo(name = "jobId")
+                         val jobId: String? = null,
+                         @ColumnInfo(name = "jobTitle")
+                         val jobTitle: String? = null,
+                         @ColumnInfo(name = "seen")
+                         val seen: String? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

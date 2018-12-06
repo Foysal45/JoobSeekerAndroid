@@ -9,11 +9,12 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.ProgressBar
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
-import com.bdjobs.app.ConnectivityCheck.ConnectivityReceiver
+import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
-import com.bdjobs.app.Utilities.DatabaseSync
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
@@ -60,9 +61,17 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         transitFragment(loginPasswordFragment, R.id.loginFragmentHolderFL, true)
     }
 
-    override fun goToHomePage(progressBar: ProgressBar?) {
-        val databaseSync = DatabaseSync(context = this@LoginBaseActivity, progressBar = progressBar, goToHome = goToHome)
-        databaseSync.insertDataAndGoToHomepage()
+    override fun goToHomePage() {
+        DatabaseUpdateJob.runJobImmediately()
+        if(goToHome) {
+            val intent = Intent(this@LoginBaseActivity, MainLandingActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finishAffinity()
+        }
+        else{
+            finish()
+        }
     }
 
     override fun getSocialLoginAccountDataList(): List<SocialLoginAccountListData?>? {

@@ -1,41 +1,69 @@
-package com.bdjobs.app.Utilities
+package com.bdjobs.app.BackgroundJob
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.widget.ProgressBar
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouritSearchFilterModelClass
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListModelClass
+import com.bdjobs.app.API.ModelClasses.JobInvitationListModel
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.Databases.Internal.*
-import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.Utilities.error
+import com.evernote.android.job.Job
+import com.evernote.android.job.JobRequest
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.core.content.ContextCompat.startActivity
-import android.content.Intent
 
 
-class DatabaseSync(private val context: Context, private var goToHome: Boolean = true, private val progressBar: ProgressBar? = null) {
+class DatabaseUpdateJob(private val appContext: Context) : Job() {
+    private val bdjobsUserSession = BdjobsUserSession(appContext)
+    val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(appContext)
 
-    private val bdjobsUserSession = BdjobsUserSession(context)
-    val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(context)
 
-    fun insertDataAndGoToHomepage() {
-        Log.d("XZXfg", "insertFavouriteSearchFilters :${goToHome}")
 
-        ApiServiceJobs.create().getFavouriteSearchFilters(encoded = ENCODED_JOBS, userID = bdjobsUserSession.userId).enqueue(object : Callback<FavouritSearchFilterModelClass> {
+    companion object {
+        const val TAG = "database_update_job"
+        fun runJobImmediately() {
+            val jobId = JobRequest.Builder(DatabaseUpdateJob.TAG)
+                    .startNow()
+                    .build()
+                    .schedule()
+        }
+    }
+
+
+
+
+
+    override fun onRunJob(params: Params): Result {
+        Log.d("DatabaseUpdateJob", "DatabaseUpdateJob Start : ${Calendar.getInstance().time}")
+        insertFavouriteSearchFilter()
+        insertJobInvitation()
+        insertCertificationList()
+        insertFollowedEmployers()
+        insertShortListedJobs()
+        return Result.SUCCESS
+    }
+
+    private fun insertCertificationList() {
+
+    }
+
+
+    private fun insertFavouriteSearchFilter() {
+        Log.d("XZXfg", "insertFavourite")
+        ApiServiceJobs.create().getFavouriteSearchFilters(encoded = Constants.ENCODED_JOBS, userID = bdjobsUserSession.userId).enqueue(object : Callback<FavouritSearchFilterModelClass> {
             override fun onFailure(call: Call<FavouritSearchFilterModelClass>, t: Throwable) {
                 error("onFailure", t)
-                insertFollowedEmployers()
             }
 
             override fun onResponse(call: Call<FavouritSearchFilterModelClass>, response: Response<FavouritSearchFilterModelClass>) {
@@ -47,7 +75,7 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
 
                             Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
 
-                            var cratedOn: Date? =  null
+                            var cratedOn: Date? = null
                             try {
                                 cratedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.createdon)
                             } catch (e: Exception) {
@@ -89,7 +117,10 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                         }
 
                     }
-                    uiThread { insertFollowedEmployers() }
+
+                    uiThread {
+                        Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
+                    }
                 }
 
 
@@ -97,35 +128,15 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
         })
     }
 
-    private fun goToHomepage() {
-        val activity = context as Activity
-        progressBar?.let { pbar ->
-            activity.stopProgressBar(pbar)
-        }
-        Log.d("XZXfg", "goToHomepage :${goToHome}")
-        if (goToHome) {
-            val intent = Intent(activity, MainLandingActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            activity.startActivity(intent)
-            activity.finishAffinity()
-
-        } else {
-            activity.finish()
-        }
-    }
-
     private fun insertFollowedEmployers() {
-
-        Log.d("XZXfg", "insertFollowedEmployers :${goToHome}")
-
-        ApiServiceJobs.create().getFollowEmployerList(userID = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, encoded = ENCODED_JOBS).enqueue(object : Callback<FollowEmployerListModelClass> {
+        ApiServiceJobs.create().getFollowEmployerList(userID = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<FollowEmployerListModelClass> {
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
                 error("onFailure", t)
-                insertShortListedJobs()
+
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
-
+                Log.d("XZXfg", "insertFollowedEmployers")
                 doAsync {
                     bdjobsInternalDB.followedEmployerDao().deleteAllFollowedEmployer()
                     response.body()?.data?.let { items ->
@@ -141,7 +152,10 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                         }
 
                     }
-                    uiThread { insertShortListedJobs() }
+
+                    uiThread {
+                        Log.d("DatabaseUpdateJob", "insertFollowedEmployers Finish : ${Calendar.getInstance().time}")
+                    }
                 }
 
 
@@ -151,8 +165,8 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
     }
 
     private fun insertShortListedJobs() {
-        Log.d("XZXfg", "insertShortListedJobs :${goToHome}")
-        ApiServiceJobs.create().getShortListedJobs(p_id = bdjobsUserSession.userId, encoded = ENCODED_JOBS).enqueue(object : Callback<JobListModel> {
+        Log.d("XZXfg", "insertShortListedJobs")
+        ApiServiceJobs.create().getShortListedJobs(p_id = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<JobListModel> {
             override fun onFailure(call: Call<JobListModel>, t: Throwable) {
                 error("onFailure", t)
             }
@@ -195,7 +209,9 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
                         }
                     }
 
-                    uiThread { goToHomepage() }
+                    uiThread {
+                        Log.d("DatabaseUpdateJob", "insertShortListedJobs Finish : ${Calendar.getInstance().time}")
+                    }
                 }
 
             }
@@ -205,8 +221,38 @@ class DatabaseSync(private val context: Context, private var goToHome: Boolean =
 
     }
 
-    private fun insertMyBdJobsStats() {
+    private fun insertJobInvitation() {
 
+        ApiServiceMyBdjobs.create().getJobInvitationList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<JobInvitationListModel> {
+            override fun onFailure(call: Call<JobInvitationListModel>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<JobInvitationListModel>, response: Response<JobInvitationListModel>) {
+                response.body()?.statuscode?.let { status ->
+                    if (status == api_request_result_code_ok) {
+                        response.body()?.data?.let { items ->
+                            doAsync {
+                                for (item in items) {
+                                    val jobInvitation = JobInvitation(companyName = item?.companyName,
+                                            inviteDate = item?.inviteDate,
+                                            jobId = item?.jobId,
+                                            jobTitle = item?.jobTitle,
+                                            seen = item?.seen)
+
+                                    bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
+
+                                }
+                                uiThread {
+                                    Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
 
     }
 

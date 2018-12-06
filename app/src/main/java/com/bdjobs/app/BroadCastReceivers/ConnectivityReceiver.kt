@@ -1,4 +1,4 @@
-package com.bdjobs.app.ConnectivityCheck
+package com.bdjobs.app.BroadCastReceivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
