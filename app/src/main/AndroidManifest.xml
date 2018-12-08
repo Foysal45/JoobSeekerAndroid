@@ -79,6 +79,14 @@
         <activity android:name=".Jobs.JobBaseActivity" />
         <activity android:name=".Registration.RegistrationBaseActivity" />
         <activity android:name=".FavouriteSearch.FavouriteSearchBaseActivity"></activity>
+
+        <receiver android:name=".BroadCastReceivers.BackgroundJobBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.bdjobs.dataBaseUpdateJob.jobComplete" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

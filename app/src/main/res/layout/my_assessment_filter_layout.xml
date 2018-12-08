@@ -65,7 +65,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/counterTV"
+                android:id="@+id/certificationCounterTV"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="56dp"
                 android:layout_height="64dp"
@@ -95,24 +95,25 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/counterTV"
-                app:layout_constraintTop_toTopOf="@+id/counterTV" />
+                app:layout_constraintStart_toEndOf="@+id/certificationCounterTV"
+                app:layout_constraintTop_toTopOf="@+id/certificationCounterTV" />
 
             <TextView
-                android:drawableLeft="@drawable/ic_insert_drive_file_black_24dp"
-                android:id="@+id/textView12"
+                android:id="@+id/jobRolesTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
+                android:drawableLeft="@drawable/ic_insert_drive_file_black_24dp"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
+                android:singleLine="true"
+                android:text="Software Engineering, Database Administ..."
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView8"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
-                android:text="Software Engineering, Database Administ..." />
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

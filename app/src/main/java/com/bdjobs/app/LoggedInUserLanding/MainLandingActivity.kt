@@ -2,10 +2,13 @@ package com.bdjobs.app.LoggedInUserLanding
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
@@ -29,18 +32,22 @@ class MainLandingActivity : Activity() {
 
 
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
+
         disableShiftMode(bottom_navigation)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
-
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation.selectedItemId = R.id.navigation_home
 
         tetsLog()
     }
+
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

@@ -63,6 +63,7 @@ class Constants {
         const val key_recent_search_keyword ="keyword"
         const val internal_database_name ="BdjobsInternal.db"
         const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="
+        const val BROADCAST_DATABASE_UPDATE_JOB = "com.bdjobs.dataBaseUpdateJob.jobComplete"
 
     }
 

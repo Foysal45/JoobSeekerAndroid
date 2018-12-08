@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.FavouritSearchFilterModelClass
-import com.bdjobs.app.API.ModelClasses.FollowEmployerListModelClass
-import com.bdjobs.app.API.ModelClasses.JobInvitationListModel
-import com.bdjobs.app.API.ModelClasses.JobListModel
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
@@ -22,12 +19,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Intent
+import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 
 
 class DatabaseUpdateJob(private val appContext: Context) : Job() {
     private val bdjobsUserSession = BdjobsUserSession(appContext)
     val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(appContext)
-
 
 
     companion object {
@@ -41,9 +39,6 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
     }
 
 
-
-
-
     override fun onRunJob(params: Params): Result {
         Log.d("DatabaseUpdateJob", "DatabaseUpdateJob Start : ${Calendar.getInstance().time}")
         insertFavouriteSearchFilter()
@@ -54,10 +49,47 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         return Result.SUCCESS
     }
 
+
+
     private fun insertCertificationList() {
+        Log.d("XZXfg", "insertCertificationList")
+        ApiServiceMyBdjobs.create().getAssesmentCompleteList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<AssesmentCompleteModel> {
+            override fun onFailure(call: Call<AssesmentCompleteModel>, t: Throwable) {
+                error("onFailure", t)
+            }
 
+            override fun onResponse(call: Call<AssesmentCompleteModel>, response: Response<AssesmentCompleteModel>) {
+                response.body()?.statuscode?.let { status ->
+                    if (status == api_request_result_code_ok) {
+                        response.body()?.data?.let { items ->
+                            doAsync {
+                                for (item in items) {
+                                    val b2CCertification = B2CCertification(
+                                            jobRole = item?.jobRole,
+                                            testDate = item?.testDate,
+                                            sid = item?.sid,
+                                            jid = item?.jid,
+                                            jrid = item?.jrid,
+                                            aid = item?.aid,
+                                            sType = item?.sType,
+                                            ajid = item?.ajid,
+                                            res = item?.res)
+                                    bdjobsInternalDB.b2CCertificationDao().insertB2CCertification(b2CCertification)
+                                }
+                                uiThread {
+                                    val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                                    intent.putExtra("job","insertCertificationList")
+                                    appContext.sendBroadcast(intent)
+                                    Log.d("DatabaseUpdateJob", "insertCertificationList Finish : ${Calendar.getInstance().time}")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
     }
-
 
     private fun insertFavouriteSearchFilter() {
         Log.d("XZXfg", "insertFavourite")
@@ -119,6 +151,9 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                     }
 
                     uiThread {
+                        val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                        intent.putExtra("job","insertFavouriteSearchFilter")
+                        appContext.sendBroadcast(intent)
                         Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
                     }
                 }
@@ -142,11 +177,19 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                     response.body()?.data?.let { items ->
                         Log.d("XZXfg", "insertFollowedEmployers Size: ${items.size}")
 
-
                         for (item in items) {
+                            var followedOn: Date? = null
+                            try {
+                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.followedOn)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                            Log.d("followedOn", "followedOn on: $followedOn")
+
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item?.companyID,
                                     CompanyName = item?.companyName,
+                                    FollowedOn = followedOn,
                                     JobCount = item?.jobCount)
                             bdjobsInternalDB.followedEmployerDao().insertFollowedEmployer(followedEmployer)
                         }
@@ -154,6 +197,9 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                     }
 
                     uiThread {
+                        val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                        intent.putExtra("job","insertFollowedEmployers")
+                        appContext.sendBroadcast(intent)
                         Log.d("DatabaseUpdateJob", "insertFollowedEmployers Finish : ${Calendar.getInstance().time}")
                     }
                 }
@@ -210,6 +256,9 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                     }
 
                     uiThread {
+                        val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                        intent.putExtra("job","insertShortListedJobs")
+                        appContext.sendBroadcast(intent)
                         Log.d("DatabaseUpdateJob", "insertShortListedJobs Finish : ${Calendar.getInstance().time}")
                     }
                 }
@@ -244,6 +293,9 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
                                 }
                                 uiThread {
+                                    val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                                    intent.putExtra("job","insertJobInvitation")
+                                    appContext.sendBroadcast(intent)
                                     Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
                                 }
                             }

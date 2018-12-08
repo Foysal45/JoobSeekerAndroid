@@ -70,6 +70,7 @@ interface ApiServiceJobs {
     fun getFollowEmployerList(
             @Query("userID") userID : String?,
             @Query("decodeId") decodeId : String?,
+            @Query("Apstyp") Apstyp : String?="M",
             @Query("encoded") encoded : String?
     ):Call<FollowEmployerListModelClass>
 

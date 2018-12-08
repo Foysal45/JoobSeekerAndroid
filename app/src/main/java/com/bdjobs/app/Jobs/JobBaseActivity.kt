@@ -14,6 +14,7 @@ import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.loadFirstTime
 import com.bdjobs.app.Utilities.simpleClassName
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
@@ -188,6 +189,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             if (joblistFragment != null && joblistFragment.isVisible) {
                 val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                loadFirstTime = false
                 startActivity(intent)
                 finishAffinity()
             } else {

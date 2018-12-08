@@ -177,6 +177,7 @@
 
 
                 <include
+                    android:visibility="gone"
                     android:id="@+id/lastSearchView"
                     layout="@layout/my_last_search_filter_layout"
                     android:layout_width="match_parent"

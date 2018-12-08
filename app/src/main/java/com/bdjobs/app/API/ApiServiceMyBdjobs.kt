@@ -63,6 +63,14 @@ interface ApiServiceMyBdjobs {
     ): Call<JobInvitationListModel>
 
 
+    @FormUrlEncoded
+    @POST("assessment/apps_smnt_certification_complete_examlist.asp")
+    fun getAssesmentCompleteList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<AssesmentCompleteModel>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

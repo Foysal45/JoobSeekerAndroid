@@ -25,6 +25,8 @@ data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
                             val CompanyID: String?,
                             @ColumnInfo(name = "CompanyName")
                             val CompanyName: String?,
+                            @ColumnInfo(name = "FollowedOn")
+                            val FollowedOn: Date?,
                             @ColumnInfo(name = "JobCount")
                             val JobCount: String? = null) {
     @PrimaryKey(autoGenerate = true)
@@ -111,7 +113,7 @@ data class FavouriteSearch(
 }
 
 
-@Entity(tableName = "JobInvitation",indices = [(Index(value = ["jobId"], unique = true))])
+@Entity(tableName = "JobInvitation", indices = [(Index(value = ["jobId"], unique = true))])
 data class JobInvitation(@ColumnInfo(name = "companyName")
                          val companyName: String?,
                          @ColumnInfo(name = "inviteDate")
@@ -122,6 +124,31 @@ data class JobInvitation(@ColumnInfo(name = "companyName")
                          val jobTitle: String? = null,
                          @ColumnInfo(name = "seen")
                          val seen: String? = null
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+
+@Entity(tableName = "B2CCertification", indices = [(Index(value = ["aid"], unique = true))])
+data class B2CCertification(@ColumnInfo(name = "jobRole")
+                            val jobRole: String?,
+                            @ColumnInfo(name = "testDate")
+                            val testDate: String?,
+                            @ColumnInfo(name = "sid")
+                            val sid: String? = null,
+                            @ColumnInfo(name = "jid")
+                            val jid: String? = null,
+                            @ColumnInfo(name = "jrid")
+                            val jrid: String? = null,
+                            @ColumnInfo(name = "aid")
+                            val aid: String?=null,
+                            @ColumnInfo(name = "sType")
+                            val sType: String? = null,
+                            @ColumnInfo(name = "ajid")
+                            val ajid: String? = null,
+                            @ColumnInfo(name = "res")
+                            val res: String? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
