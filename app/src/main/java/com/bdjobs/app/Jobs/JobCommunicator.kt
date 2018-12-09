@@ -26,6 +26,8 @@ interface JobCommunicator {
 
     fun backButtonPressesd()
 
+    fun goToAdvanceSearch()
+
 
     // search params
 

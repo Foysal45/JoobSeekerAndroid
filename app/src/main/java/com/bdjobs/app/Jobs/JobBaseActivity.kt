@@ -23,9 +23,11 @@ import org.jetbrains.anko.intentFor
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
 
+
     private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
     private val jobDetailsFragment = JobDetailsFragment()
+    private val advanceSearchFragment = AdvanceSearchFragment()
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
@@ -51,6 +53,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         getData()
 
         transitFragment(joblistFragment, R.id.jobFragmentHolder)
+    }
+
+    override fun goToAdvanceSearch() {
+        transitFragment(advanceSearchFragment, R.id.jobFragmentHolder, true)
     }
 
 

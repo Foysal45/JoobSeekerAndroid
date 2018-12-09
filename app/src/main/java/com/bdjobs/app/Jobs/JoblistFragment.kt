@@ -252,6 +252,10 @@ class JoblistFragment : Fragment() {
         backIV.setOnClickListener {
             communicator.backButtonPressesd()
         }
+        filterIMGV.setOnClickListener {
+            communicator.goToAdvanceSearch()
+        }
+
     }
 
 
