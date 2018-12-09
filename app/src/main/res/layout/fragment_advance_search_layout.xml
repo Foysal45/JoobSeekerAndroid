@@ -236,17 +236,97 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Organization Type"
                 android:textColor="#2F64A3"
                 android:textSize="16sp" />
-            <com.google.android.material.chip.ChipGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
+            <com.google.android.material.chip.ChipGroup
+                app:singleSelection="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:chipSpacing="10dp">
+
+                <com.google.android.material.chip.Chip
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Government"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    app:chipCornerRadius="8dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    android:text="NGO"
+                    app:chipCornerRadius="8dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    android:text="Semi Government"
+                    app:chipCornerRadius="8dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    android:text="Private Firm/ Company"
+                    app:chipCornerRadius="8dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    android:text="International Agencies"
+                    app:chipCornerRadius="8dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    android:text="Others"
+                    app:chipCornerRadius="8dp" />
 
             </com.google.android.material.chip.ChipGroup>
 
