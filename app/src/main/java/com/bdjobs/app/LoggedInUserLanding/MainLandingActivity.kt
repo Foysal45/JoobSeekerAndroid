@@ -2,24 +2,29 @@ package com.bdjobs.app.LoggedInUserLanding
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.IntentFilter
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
+import android.widget.Toast
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
+import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
+import com.bdjobs.app.Utilities.Constants.Companion.key_from
+import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
-class MainLandingActivity : Activity() {
+class MainLandingActivity : Activity() ,HomeCommunicator{
+
 
 
     private val homeFragment = HomeFragment()
@@ -46,6 +51,26 @@ class MainLandingActivity : Activity() {
         bottom_navigation.selectedItemId = R.id.navigation_home
 
         tetsLog()
+    }
+
+    override fun goToKeywordSuggestion() {
+        val intent = Intent(this@MainLandingActivity, SuggestiveSearchActivity::class.java)
+        intent.putExtra(Constants.key_from, Constants.key_jobtitleET)
+        intent.putExtra(key_typedData, "")
+        window.exitTransition = null
+        startActivityForResult(intent, BdjobsUserRequestCode)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == BdjobsUserRequestCode) {
+            if (resultCode == Activity.RESULT_OK) {
+                val typedData = data?.getStringExtra(key_typedData)
+                val from = data?.getStringExtra(key_from)
+                startActivity<JobBaseActivity>(
+                        Constants.key_jobtitleET to typedData)
+            }
+        }
     }
 
 

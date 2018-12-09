@@ -44,6 +44,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var jobInvitations: List<JobInvitation>? = null
     private var favouriteSearchFilters: List<FavouriteSearch>? = null
     private var b2CCertificationList: List<B2CCertification>? = null
+    private lateinit var homeCommunicator: HomeCommunicator
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,12 +55,19 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         super.onActivityCreated(savedInstanceState)
         bdjobsUserSession = BdjobsUserSession(activity)
         bdjobsDB = BdjobsDB.getInstance(activity)
+        homeCommunicator = activity as HomeCommunicator
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
         nameTV.text = bdjobsUserSession.fullName
         emailTV.text = bdjobsUserSession.email
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
-        showData()
+        onClickListeners()
 
+    }
+
+    private fun onClickListeners() {
+        searchIMGV.setOnClickListener {
+            homeCommunicator.goToKeywordSuggestion()
+        }
     }
 
     private fun showData() {
@@ -78,6 +86,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         super.onResume()
         activity.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
+        showData()
     }
 
     override fun onPause() {

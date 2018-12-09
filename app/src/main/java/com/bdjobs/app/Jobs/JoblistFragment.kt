@@ -75,11 +75,6 @@ class JoblistFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         currentPage = 1
-        if (session?.isLoggedIn!!) {
-            HomeIMGV.show()
-        } else {
-            HomeIMGV.hide()
-        }
 
 
         jobListRecyclerView?.setHasFixedSize(true)

@@ -17,7 +17,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.Constants.Companion.guestUserRequestCode
+import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
@@ -127,12 +127,12 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         intent.putExtra(key_typedData, editText?.getString())
         val options = ActivityOptions.makeSceneTransitionAnimation(this, editText!!, "robot")
         window.exitTransition = null
-        startActivityForResult(intent, guestUserRequestCode, options.toBundle())
+        startActivityForResult(intent, BdjobsUserRequestCode, options.toBundle())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == guestUserRequestCode) {
+        if (requestCode == BdjobsUserRequestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 val typedData = data?.getStringExtra(key_typedData)
                 val from = data?.getStringExtra(key_from)

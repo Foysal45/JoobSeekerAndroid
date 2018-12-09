@@ -39,7 +39,7 @@ class Constants {
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
 
         const val key_go_to_home= "goToHome"
-        const val guestUserRequestCode = 1
+        const val BdjobsUserRequestCode = 1
         const val REQ_CODE_SPEECH_INPUT = 100
         const val session_key_isCvPosted = "isCvPosted"
         const val session_key_name = "name"

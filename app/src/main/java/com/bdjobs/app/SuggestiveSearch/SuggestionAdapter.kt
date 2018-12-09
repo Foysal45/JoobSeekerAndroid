@@ -10,6 +10,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
 
 class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Context) : RecyclerView.Adapter<SuggestionAdapter.ViewHolder>(), Filterable {
 
@@ -26,9 +27,14 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemTV.text = filteredItems!![position]
-        holder.itemTV.setOnClickListener {
-            communicator?.suggestionSelected(holder.itemTV.text.toString())
+        try {
+            holder.itemTV.text = filteredItems!![position]
+            holder.itemTV.setOnClickListener {
+                communicator?.suggestionSelected(holder.itemTV.text.toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
         }
     }
 

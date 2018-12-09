@@ -23,7 +23,6 @@ import org.jetbrains.anko.intentFor
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
 
-
     private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
     private val jobDetailsFragment = JobDetailsFragment()
@@ -58,9 +57,21 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private fun getData() {
 
         val intent = this.intent
-        keyword = intent.getStringExtra(Constants.key_jobtitleET)
-        location = intent.getStringExtra(Constants.key_loacationET)
-        category = intent.getStringExtra(Constants.key_categoryET)
+        try {
+            keyword = intent.getStringExtra(Constants.key_jobtitleET)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            location = intent.getStringExtra(Constants.key_loacationET)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            category = intent.getStringExtra(Constants.key_categoryET)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
 
     }
