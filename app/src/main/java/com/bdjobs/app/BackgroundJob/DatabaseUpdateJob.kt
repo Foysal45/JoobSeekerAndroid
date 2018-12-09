@@ -21,6 +21,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.content.Intent
 import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
+import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
+import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
+import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 
 
 class DatabaseUpdateJob(private val appContext: Context) : Job() {
@@ -80,6 +84,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                                     val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
                                     intent.putExtra("job","insertCertificationList")
                                     appContext.sendBroadcast(intent)
+                                    certificationSynced = true
                                     Log.d("DatabaseUpdateJob", "insertCertificationList Finish : ${Calendar.getInstance().time}")
                                 }
                             }
@@ -154,6 +159,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                         val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
                         intent.putExtra("job","insertFavouriteSearchFilter")
                         appContext.sendBroadcast(intent)
+                        favSearchFiltersSynced = true
                         Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
                     }
                 }
@@ -200,6 +206,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                         val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
                         intent.putExtra("job","insertFollowedEmployers")
                         appContext.sendBroadcast(intent)
+                        followedEmployerSynced = true
                         Log.d("DatabaseUpdateJob", "insertFollowedEmployers Finish : ${Calendar.getInstance().time}")
                     }
                 }
@@ -297,6 +304,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                                     intent.putExtra("job","insertJobInvitation")
                                     appContext.sendBroadcast(intent)
                                     Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
+                                    jobInvitationSynced = true
                                 }
                             }
                         }

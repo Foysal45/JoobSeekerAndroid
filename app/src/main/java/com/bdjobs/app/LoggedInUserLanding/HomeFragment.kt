@@ -16,7 +16,10 @@ import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.loadFirstTime
+import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
+import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
+import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.Utilities.show
@@ -33,10 +36,14 @@ import java.util.*
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
 
 
-    lateinit var bdjobsUserSession: BdjobsUserSession
-    lateinit var bdjobsDB: BdjobsDB
+    private lateinit var bdjobsUserSession: BdjobsUserSession
+    private lateinit var bdjobsDB: BdjobsDB
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
     private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+    private var followedEmployerList: List<FollowedEmployer>? = null
+    private var jobInvitations: List<JobInvitation>? = null
+    private var favouriteSearchFilters: List<FavouriteSearch>? = null
+    private var b2CCertificationList: List<B2CCertification>? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,18 +58,20 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         nameTV.text = bdjobsUserSession.fullName
         emailTV.text = bdjobsUserSession.email
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        showData()
 
-        if (!loadFirstTime) {
-            showData()
-        }
     }
 
     private fun showData() {
         Log.i("DatabaseUpdateJob", "Home Fragment Start: ${Calendar.getInstance().time}")
-        showFavouriteSearchFilters()
-        showJobInvitation()
-        showCertificationInfo()
-        showFollowedEmployers()
+        if (favSearchFiltersSynced)
+            showFavouriteSearchFilters()
+        if (jobInvitationSynced)
+            showJobInvitation()
+        if (certificationSynced)
+            showCertificationInfo()
+        if (followedEmployerSynced)
+            showFollowedEmployers()
     }
 
     override fun onResume() {
@@ -98,73 +107,66 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showFollowedEmployers() {
         doAsync {
-            val followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
             val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
             uiThread {
-
-
+                showBlankLayout()
                 followedEmployerView.hide()
-                if (followedEmployerList.isNotEmpty()) {
+                if (!followedEmployerList.isNullOrEmpty()) {
                     followEmplowercounterTV.text = followedEmployerJobCount?.toString()
                     Log.d("followEmplowercounterTV", "followEmplowercounterTV: $followedEmployerJobCount")
                     var followedCompanyNames = ""
-                    followedEmployerList.forEach { item ->
+                    followedEmployerList?.forEach { item ->
                         followedCompanyNames += item.CompanyName + ","
                     }
                     followedCompanyNameTV.text = followedCompanyNames
                     blankCL.hide()
                     mainLL.show()
                     followedEmployerView.show()
-                    loadFirstTime = false
                 }
             }
-
         }
+
     }
 
     private fun showJobInvitation() {
         doAsync {
-            val jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
+            jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
             uiThread {
-
+                showBlankLayout()
                 jobInvitationView.hide()
-                if (jobInvitations.isNotEmpty()) {
+                if (!jobInvitations.isNullOrEmpty()) {
                     var companyNames = ""
-                    jobInvitations.forEach { item ->
+                    jobInvitations?.forEach { item ->
                         companyNames += item?.companyName + ","
                     }
                     jobInvitedCompanyNameTV.text = companyNames
-                    jobInvitationcounterTV.text = jobInvitations.size.toString()
+                    jobInvitationcounterTV.text = jobInvitations?.size.toString()
                     blankCL.hide()
                     mainLL.show()
                     jobInvitationView.show()
-                    loadFirstTime = false
                 }
-
             }
         }
     }
 
     private fun showFavouriteSearchFilters() {
-
         doAsync {
-            val favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
+            favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
             uiThread {
-
+                showBlankLayout()
                 favSearchView.hide()
-                if (favouriteSearchFilters.isNotEmpty()) {
+                if (!favouriteSearchFilters.isNullOrEmpty()) {
                     showAllFavIMGV.setOnClickListener {
                         startActivity<FavouriteSearchBaseActivity>()
                     }
                     favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters, context = activity)
+                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters!!, context = activity)
                     favRV?.adapter = favouriteSearchFilterAdapter
                     blankCL.hide()
                     mainLL.show()
                     favSearchView.show()
-                    loadFirstTime = false
                 }
-
             }
         }
 
@@ -172,22 +174,32 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showCertificationInfo() {
         doAsync {
-            val b2CCertificationList = bdjobsDB.b2CCertificationDao().getAllB2CCertification()
+            b2CCertificationList = bdjobsDB.b2CCertificationDao().getAllB2CCertification()
             uiThread {
+                showBlankLayout()
                 assesmentView.hide()
-                if (b2CCertificationList.isNotEmpty()) {
+                if (!b2CCertificationList.isNullOrEmpty()) {
                     var jobRoles = ""
-                    b2CCertificationList.forEach { item ->
+                    b2CCertificationList?.forEach { item ->
                         jobRoles += item?.jobRole + ","
                     }
                     jobRolesTV.text = jobRoles
-                    certificationCounterTV.text = b2CCertificationList.size.toString()
+                    certificationCounterTV.text = b2CCertificationList?.size.toString()
                     blankCL.hide()
                     mainLL.show()
                     assesmentView.show()
-                    loadFirstTime = false
                 }
             }
+        }
+    }
+
+    private fun showBlankLayout() {
+        if (followedEmployerList.isNullOrEmpty()
+                && jobInvitations.isNullOrEmpty()
+                && favouriteSearchFilters.isNullOrEmpty()
+                && b2CCertificationList.isNullOrEmpty()) {
+            mainLL.hide()
+            blankCL.show()
         }
     }
 }

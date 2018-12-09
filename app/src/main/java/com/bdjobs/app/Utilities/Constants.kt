@@ -3,7 +3,11 @@ package com.bdjobs.app.Utilities
 class Constants {
     companion object {
 
-        var loadFirstTime= true
+        var favSearchFiltersSynced =false
+        var jobInvitationSynced =false
+        var certificationSynced =false
+        var followedEmployerSynced =false
+
         const val FB_KEY_EMAIL = "email"
         const val FB_KEY_ID = "id"
         const val SOCIAL_MEDIA_GOOGLE = "G"
