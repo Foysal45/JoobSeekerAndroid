@@ -2,6 +2,7 @@ package com.bdjobs.app.Registration.white_collar_registration
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.ColorSpace
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,10 +49,12 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
         if (selectedPosition == position){
 
-            holder.categoryTV.background
+         holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorPrimary)
+            holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorWhite))
         }else {
 
-
+            holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorWhite)
+            holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorPrimary))
 
         }
 

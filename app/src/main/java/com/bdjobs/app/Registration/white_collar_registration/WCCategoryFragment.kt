@@ -11,12 +11,9 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Jobs.JoblistAdapter
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.SuggestiveSearch.HistoryAdapter
-import kotlinx.android.synthetic.main.fragment_joblist_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_category.*
 
 
@@ -72,9 +69,11 @@ class WCCategoryFragment : Fragment() {
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        categoryList?.layoutManager = layoutManager
+        wcCategoryList?.layoutManager = layoutManager
 
-        categoryList.adapter = categoryAdapter
+        wcCategoryList.adapter = categoryAdapter
+
+
 
     }
 

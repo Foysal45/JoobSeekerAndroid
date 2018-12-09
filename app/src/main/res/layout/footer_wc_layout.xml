@@ -6,17 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="235dp"
     android:background="@drawable/ic_welcome_bg"
+
    >
 
 
     <TextView
-        android:textSize="16sp"
-        android:textColor="#000000"
         android:id="@+id/supportTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
+        android:layout_marginBottom="50dp"
         android:text="Need Any Support ?"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,9 +27,10 @@
 
 
     <LinearLayout
+
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -42,7 +42,7 @@
         android:textColor="#393939"
         android:textSize="16sp"
         android:typeface="normal"
-        app:layout_constraintEnd_toStartOf="@+id/showAllFavIMGV"
+        app:layout_constraintEnd_toStartOf="@+id/backIcon"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="parent" />
 

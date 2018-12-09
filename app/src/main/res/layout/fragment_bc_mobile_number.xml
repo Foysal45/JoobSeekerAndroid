@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Registration.blue_collar_registration.BCMobileNumberFragment">
+
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:fontFamily="@font/roboto"
+                android:textSize="18sp"
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="24dp"
+                android:text="আপনার মোবাইল নাম্বার লিখুন"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bcCountryCodeTIL"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView18">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bcCountryCodeTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bangladesh (+88)"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:typeface="normal"
+                    app:fontFamily="@font/roboto" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bcMobileNumberTIL"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bcCountryCodeTIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bcMobileNumberTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="মোবাইল নাম্বার লিখুন"
+                    android:inputType="text"
+                    android:fontFamily="@font/roboto"
+                    android:singleLine="true"
+                    android:typeface="normal"
+                    app:fontFamily="@font/roboto" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+            <include
+                android:layout_marginTop="130dp"
+                app:layout_constraintTop_toBottomOf="@+id/bcMobileNumberTIL"
+                android:id="@+id/footer"
+                layout="@layout/footer_bc_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:backgroundTint="#13A10E"
+        android:id="@+id/bcMobileNumberFAButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:clickable="true"
+        android:src="@drawable/ic_arrow_floating_white"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView4"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,46 +5,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".Registration.white_collar_registration.WCNameFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/useNameTIL"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/userNameTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:fontFamily="@font/roboto"
+            android:id="@+id/usernameTIET"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameTIET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Your Name"
-                android:inputType="text"
-                android:singleLine="true"
-                android:typeface="normal"
-                app:fontFamily="@font/roboto" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Your Name"
+            android:inputType="text"
+            android:singleLine="true"
+            android:typeface="normal"
+            app:fontFamily="@font/roboto" />
+    </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:fontFamily="@font/roboto"
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="27dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="Please type your name"
@@ -55,42 +57,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/nameFAButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#13A10E"
-            android:clickable="true"
-            android:src="@drawable/ic_arrow_floating_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/useNameTIL"
-            app:layout_constraintVertical_bias="1.0" />
-
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <include
-
-
-        layout="@layout/footer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="235dp"
-        android:layout_marginEnd="384dp"
-        android:layout_marginBottom="567dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nameFAButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:backgroundTint="#13A10E"
+        android:clickable="true"
+        android:src="@drawable/ic_arrow_floating_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/footer_wc_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,27 +12,15 @@ import com.bdjobs.app.R
 class WCCongratulationFragment : Fragment() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
 
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_congratulation, container, false)
+        return inflater.inflate(R.layout.fragment_wc_congratulation, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-
-
-
-
-
-
-
-
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
 }

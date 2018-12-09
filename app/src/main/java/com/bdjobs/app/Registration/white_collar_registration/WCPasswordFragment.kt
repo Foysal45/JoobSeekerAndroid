@@ -9,59 +9,75 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.fragment_wc_password.*
 
 
 class WCPasswordFragment : Fragment() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
+    private lateinit var returnView: View
+    private lateinit var registrationCommunicator: RegistrationCommunicator
 
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wc_password, container, false)
+       returnView = inflater.inflate(R.layout.fragment_wc_password, container, false)
+        return returnView
     }
 
     // TODO: Rename method, update argument and hook method into UI event
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        onClick()
+        initialization()
+
 
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    private fun onClick(){
+
+        passwordFAButton.setOnClickListener {
+
+                registrationCommunicator.wcGoToStepCongratulation()
+
+        }
+
+
+        phone_button.setOnClickListener {
+
+
+            phone_button.iconTint = resources.getColorStateList(R.color.colorWhite)
+            phone_button.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
+            phone_button.setTextColor(resources.getColor(R.color.colorWhite))
+
+
+
+            email_button.iconTint = resources.getColorStateList(R.color.colorPrimary)
+            email_button.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
+            email_button.setTextColor(resources.getColor(R.color.colorPrimary))
+        }
+
+
+        email_button.setOnClickListener {
+
+            email_button.iconTint = resources.getColorStateList(R.color.colorWhite)
+            email_button.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
+            email_button.setTextColor(resources.getColor(R.color.colorWhite))
+
+            phone_button.iconTint = resources.getColorStateList(R.color.colorPrimary)
+            phone_button.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
+            phone_button.setTextColor(resources.getColor(R.color.colorPrimary))
+        }
 
     }
 
+    private fun initialization(){
 
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
+        registrationCommunicator = activity as RegistrationCommunicator
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WCPasswordFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                WCPasswordFragment().apply {
-                    arguments = Bundle().apply {
-
-                    }
-                }
     }
 }

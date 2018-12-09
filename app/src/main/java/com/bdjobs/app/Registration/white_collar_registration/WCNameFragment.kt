@@ -8,13 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.fragment_wc_name.*
 
 
 class WCNameFragment : Fragment() {
 
+   private lateinit var registrationCommunicator: RegistrationCommunicator
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super.onActivityCreated(savedInstanceState)
+        registrationCommunicator = activity as RegistrationCommunicator
+        onClick()
 
     }
 
@@ -25,6 +30,16 @@ class WCNameFragment : Fragment() {
     }
 
 
+
+    private fun onClick(){
+
+        nameFAButton.setOnClickListener {
+
+            registrationCommunicator.wcGoToStepGender()
+
+        }
+
+    }
 
 
 

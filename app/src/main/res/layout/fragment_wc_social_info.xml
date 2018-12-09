@@ -1,189 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Registration.white_collar_registration.WCSocialInfoFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:layout_height="match_parent"
+        tools:context=".Registration.white_collar_registration.WCSocialInfoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <TextView
-            android:layout_marginTop="40dp"
-            android:textColor="#000000"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:id="@+id/headingTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="Create Your Free BdJobs Account"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <com.google.android.material.button.MaterialButton
-            app:iconGravity="textStart"
-            android:gravity="center"
-            android:textColor="#767676"
-            app:iconPadding="10dp"
-            app:icon="@drawable/ic_google_plus"
-            app:iconTint="#F34A38"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:textSize="16sp"
-            android:id="@+id/google_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Import from Google+"
-            android:textAllCaps="false"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headingTV"
-            app:strokeColor="#767676"
-            app:strokeWidth="1dp" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/facebook_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="24dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="Import from Facebook"
-            android:textAllCaps="false"
-            android:textColor="#767676"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            app:icon="@drawable/ic_facebook_logo"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="#3B5998"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/google_button"
-            app:strokeColor="#767676"
-            app:strokeWidth="1dp" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/linkedIn_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="24dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="Import from LinkedIn"
-            android:textAllCaps="false"
-            android:textColor="#767676"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_linkedin_logo"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="#0077B5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.515"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/facebook_button"
-            app:strokeColor="#767676"
-            app:strokeWidth="1dp" />
-
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/linkedIn_button"
-            tools:layout_editor_absoluteX="24dp">
-
-
-            <View
-                android:layout_width="140dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="#767676">
-
-            </View>
+            android:layout_height="wrap_content">
 
 
             <TextView
+                android:id="@+id/headingTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="OR" />
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="24dp"
+                android:text="Create Your Free BdJobs Account"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="140dp"
-                android:layout_height="1dp"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="24dp"
+                android:gravity="center"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Import from Google+"
+                android:textAllCaps="false"
+                android:textColor="#767676"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_google_plus"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="#F34A38"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/headingTV"
+                app:strokeColor="#767676"
+                app:strokeWidth="1dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/facebook_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="10dp"
-                android:background="#767676">
-
-            </View>
-
-        </LinearLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/enterInfoButton"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="24dp"
-            android:backgroundTint="#000000"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="Enter Your Information"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-        <include
-
-            android:id="@+id/footer"
-            layout="@layout/footer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/enterInfoButton"
-            />
+                android:layout_marginEnd="24dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Import from Facebook"
+                android:textAllCaps="false"
+                android:textColor="#767676"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:icon="@drawable/ic_facebook_logo"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="#3B5998"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/google_button"
+                app:strokeColor="#767676"
+                app:strokeWidth="1dp" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/linkedIn_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="24dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Import from LinkedIn"
+                android:textAllCaps="false"
+                android:textColor="#767676"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_linkedin_logo"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="#0077B5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.515"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/facebook_button"
+                app:strokeColor="#767676"
+                app:strokeWidth="1dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enterInfoButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="#000000"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Enter Your Information"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+             <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="24dp"
+                android:background="#767676"
+                app:layout_constraintBottom_toTopOf="@+id/enterInfoButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linkedIn_button" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#FFFFFF"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="OR"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view" />
+
+
+            <include
+                android:layout_marginTop="20dp"
+                android:id="@+id/footer"
+                layout="@layout/footer_wc_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+              app:layout_constraintTop_toBottomOf="@+id/enterInfoButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </ScrollView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:backgroundTint="#13A10E"
         android:id="@+id/socilaInfoFAButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_arrow_floating_white"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="70dp"
-        />
+        android:backgroundTint="#13A10E"
+        android:src="@drawable/ic_arrow_floating_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 
-</FrameLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,10 +28,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_done_black_24dp" />
+                            <entry key="height" value="100" />
+                            <entry key="outputName" value="ic_type_number" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Suriya Sultana\Downloads\info_button\linkedin-logo.svg" />
+                            <entry key="sourceFile" value="C:\Users\Suriya Sultana\Downloads\type_number.svg" />
+                            <entry key="width" value="100" />
                           </map>
                         </option>
                       </PersistentState>

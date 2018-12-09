@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    tools:context=".Registration.blue_collar_registration.BCGenderFragment">
+
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto"
+                android:text="আপনার লিঙ্গ নির্বাচন করুন"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bcMaleButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="left"
+                android:paddingStart="15dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="12dp"
+                app:rippleColor="#ffffff"
+                android:text="পুরুষ"
+                android:textAllCaps="false"
+                android:textColor="#3B5998"
+                android:textSize="16sp"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_gender_male"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView16"
+                app:strokeColor="#DBDBDB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bcFemaleButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="24dp"
+                android:gravity="left"
+                android:fontFamily="@font/roboto"
+                android:paddingStart="15dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="12dp"
+                app:rippleColor="#ffffff"
+                android:text="মহিলা"
+                android:textAllCaps="false"
+                android:textColor="#3B5998"
+                android:textSize="16sp"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_gender_female"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bcMaleButton"
+                app:strokeColor="#DBDBDB"
+                app:strokeWidth="1dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bcOtherButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="left"
+                app:rippleColor="#ffffff"
+                android:paddingStart="15dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="12dp"
+                android:text="অন্যান্য"
+                android:textAllCaps="false"
+                android:textColor="#3B5998"
+                android:textSize="16sp"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_gender_other"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bcFemaleButton"
+                app:strokeColor="#DBDBDB"
+                app:strokeWidth="1dp" />
+
+
+            <include
+
+                android:id="@+id/include2"
+                layout="@layout/footer_bc_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                app:layout_constraintTop_toBottomOf="@+id/bcOtherButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bcGenderFAButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:clickable="true"
+        android:src="@drawable/ic_arrow_forward_black_24dp"
+        app:backgroundTint="#13A10E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView3"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
