@@ -47,15 +47,8 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration_base)
         stepProgressBar.visibility = View.GONE
-      /*  transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)*/
 
-
-        val transaction = fragmentManager.beginTransaction()
-        transaction.add(R.id.registrationFragmentHolderFL, registrationLandingFragment, "registrationLandingFragment")
-        transaction.commit()
-
-
-
+        transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
 
         backIcon.setOnClickListener {
 
@@ -86,39 +79,43 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
 
     override fun wcGoToStepSocialInfo() {
 
-        setProgreesBar()
-        transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL,true)
 
+        transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL,true)
+        setProgreesBar()
 
 
     }
 
 
     override fun wcGoToStepName() {
+
+        transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL,true)
         setProgreesBar()
         stepProgressBar.progress = 20
-        transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL,true)
 
 
     }
 
     override fun wcGoToStepGender() {
+        transitFragment(wcGenderFragment,R.id.registrationFragmentHolderFL,true)
         setProgreesBar()
         stepProgressBar.progress = 40
-        transitFragment(wcGenderFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
     override fun wcGoToStepPhoneEmail() {
+        transitFragment(wcPhoneEmailFragment,R.id.registrationFragmentHolderFL,true)
         setProgreesBar()
         stepProgressBar.progress = 60
-        transitFragment(wcPhoneEmailFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
 
     override fun wcGoToStepPassword() {
+        transitFragment(wcPasswordFragment,R.id.registrationFragmentHolderFL,true)
         setProgreesBar()
         stepProgressBar.progress = 80
-        transitFragment(wcPasswordFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
     override fun wcGoToStepCongratulation() {
@@ -127,74 +124,90 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
 
     // blue Collar
     override fun bcGoToStepName() {
+        transitFragment(bcNameFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 10
-        transitFragment(bcNameFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
     override fun bcGoToStepGender() {
+        transitFragment(bcGenderFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 20
-        transitFragment(bcGenderFragment,R.id.registrationFragmentHolderFL,true)
+
     }
     override fun bcGoToStepMobileNumber() {
+        transitFragment(bcMobileNumberFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 30
-        transitFragment(bcMobileNumberFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
     override fun bcGoToStepOtpCode() {
+        transitFragment(bcOtpCodeFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 40
-        transitFragment(bcOtpCodeFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
     override fun bcGoToStepBirthDate() {
+        transitFragment(bcBirthDateFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 50
-        transitFragment(bcBirthDateFragment,R.id.registrationFragmentHolderFL,true)
+
 
     }
 
 
     override fun bcGoToStepAdress() {
+        transitFragment(bcAdressFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 60
-        transitFragment(bcAdressFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
     override fun bcGoToStepExperience() {
+        transitFragment(bcExperienceFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 70
-        transitFragment(bcExperienceFragment,R.id.registrationFragmentHolderFL,true)
+
     }
     override fun bcGoToStepEducation() {
+        transitFragment(bcEducationFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 80
-        transitFragment(bcEducationFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
 
     override fun bcGoToStepPhotoUpload() {
+        transitFragment(bcPhotoUploadFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 90
-        transitFragment(bcPhotoUploadFragment,R.id.registrationFragmentHolderFL,true)
+
     }
 
 
     override fun bcGoToStepCongratulation() {
+        transitFragment(bcCongratulationFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 100
-        transitFragment(bcCongratulationFragment,R.id.registrationFragmentHolderFL,true)
+
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setProgreesBar()
     }
 
     override fun setProgreesBar() {
        toast("stepChange")
-       if (wcNameFragment.isVisible && wcNameFragment.isResumed){
 
-           Log.d("FragmentTest","current fragment name fragment")
-
-       }
+        val wcCategoryFragment = fragmentManager.findFragmentByTag(simpleClassName(wccategoryFragment))
+        if(wcCategoryFragment!=null && wcCategoryFragment.isVisible){
+            Log.d("stepChange","FragmentLive: ${simpleClassName(wcCategoryFragment)} ")
+        }
 
 
     }
