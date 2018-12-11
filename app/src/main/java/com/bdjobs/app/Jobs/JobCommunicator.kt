@@ -21,12 +21,11 @@ interface JobCommunicator {
 
     fun totalJobCount(totalJobFound:Int?)
     fun getTotalJobCount():Int?
-
     fun goToLoginPage()
-
     fun backButtonPressesd()
-
     fun goToAdvanceSearch()
+
+    fun goToSuggestiveSearch(from:String,typedData:String)
 
 
     // search params

@@ -1,6 +1,7 @@
 package com.bdjobs.app.Jobs
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -9,19 +10,45 @@ import android.provider.Settings
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
+import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.simpleClassName
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.intentFor
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun goToSuggestiveSearch(from: String,typedData:String) {
+        val intent = Intent(this@JobBaseActivity, SuggestiveSearchActivity::class.java)
+        intent.putExtra(Constants.key_from, from)
+        intent.putExtra(Constants.key_typedData, typedData)
+        window.exitTransition = null
+        startActivityForResult(intent, Constants.BdjobsUserRequestCode)
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.BdjobsUserRequestCode) {
+            if (resultCode == Activity.RESULT_OK) {
+                val typedData = data?.getStringExtra(Constants.key_typedData)
+                val from = data?.getStringExtra(Constants.key_from)
+                when (from) {
+                    Constants.key_jobtitleET -> keyword = typedData!!
+                    Constants.key_loacationET -> location = dataStorage.getLocationIDByName(typedData!!)!!
+                    Constants.key_categoryET -> category = dataStorage.getCategoryIDByName(typedData!!)!!
+                }
+            }
+        }
+    }
 
 
     private var totalRecordsFound: Int? = null
@@ -31,27 +58,23 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
-    //new
     private var jobList1: MutableList<JobListModelData>? = null
     var clickedPosition: Int = 0
     var pgNumber: Int? = 1
     var totalPages: Int? = 0
     var isLastPage: Boolean = false
     var isLoading: Boolean = false
-
-    /////////
-
-
     private var keyword = ""
     private var location = ""
     private var category = ""
+    lateinit var dataStorage: DataStorage
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_landing)
+        dataStorage = DataStorage(applicationContext)
         getData()
-
         transitFragment(joblistFragment, R.id.jobFragmentHolder)
     }
 
@@ -81,6 +104,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     }
+
+
 
     override fun backButtonPressesd() {
         onBackPressed()

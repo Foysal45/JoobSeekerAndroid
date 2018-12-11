@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
@@ -52,34 +53,26 @@ class JoblistFragment : Fragment() {
 
 
     private fun getData() {
-
-
         keyword = communicator.getKeyword()
         location = communicator.getLocation()
         category = communicator.getCategory()
 
         suggestiveSearchET.text = keyword
+        suggestiveSearchET.setOnClickListener {et->
+            communicator.goToSuggestiveSearch(Constants.key_jobtitleET,suggestiveSearchET.text.toString())
+        }
 
         joblistAdapter!!.clear()
 
-        /*  loadFirstPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
-  */
-
-
         loadFisrtPageTest("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
-
-
     }
 
 
     override fun onResume() {
         super.onResume()
         currentPage = 1
-
-
         jobListRecyclerView?.setHasFixedSize(true)
         communicator = activity as JobCommunicator
-
         layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         jobListRecyclerView?.layoutManager = layoutManager
         joblistAdapter = JoblistAdapter(activity)
@@ -87,8 +80,6 @@ class JoblistFragment : Fragment() {
 
         onClick()
         getData()
-
-
 
 
         jobListRecyclerView!!.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
@@ -103,14 +94,10 @@ class JoblistFragment : Fragment() {
             override fun loadMoreItems() {
                 isLoading = true
                 currentPage += 1
-
                 communicator.setpageNumber(currentPage)
-
 
                 loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
             }
-
-
         })
 
     }
@@ -148,25 +135,14 @@ class JoblistFragment : Fragment() {
                     val results = response.body()?.data
 
                     if (!results.isNullOrEmpty()) {
-
                         joblistAdapter?.addAllTest(results)
-
                     }
-
-
-
 
                     if (currentPage == TOTAL_PAGES!!) {
-
                         isLastPages = true
-
                     } else {
-
-
                         joblistAdapter?.addLoadingFooter()
-
                     }
-
 
                     val totalJobs = jobResponse!!.common!!.totalRecordsFound
 
@@ -216,13 +192,8 @@ class JoblistFragment : Fragment() {
                         if (currentPage == TOTAL_PAGES) {
                             isLastPages = true
                         } else {
-
-
                             joblistAdapter?.addLoadingFooter()
-
-
                         }
-
 
                         communicator.setIsLoading(isLoadings)
                         communicator.totalJobCount(resp_jobs!!.common!!.totalRecordsFound!!)
@@ -233,16 +204,12 @@ class JoblistFragment : Fragment() {
                     }
                 } else {
                     Log.d("TAG", "not successful: ")
-
-
                 }
 
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
-
                 Log.d("TAG", "not successful!! onFail")
-
             }
         })
     }
