@@ -37,6 +37,7 @@ class RegistrationLandingFragment : Fragment() {
        whiteCollar.setOnClickListener {
 
            registrationCommunicator.gotToStepWhiteCollar()
+           registrationCommunicator.setProgreesBar()
 
 
        }

@@ -9,14 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.fragment_bc_education.*
+import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 
 
 class BCEducationFragment : Fragment() {
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
+    private lateinit var registrationCommunicator : RegistrationCommunicator
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -24,9 +26,31 @@ class BCEducationFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_bc_education, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initialization()
+        onClick()
+    }
 
 
+    private fun initialization(){
+
+        registrationCommunicator = activity as RegistrationCommunicator
+
+
+    }
+
+    private fun onClick(){
+
+        bcEducationFAButton.setOnClickListener {
+
+            registrationCommunicator.bcGoToStepPhotoUpload()
+
+
+        }
+
+
+    }
 
 
 

@@ -9,20 +9,44 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
 
 
 class BCPhotoUploadFragment : Fragment() {
 
 
 
-
+    private lateinit var registrationCommunicator: RegistrationCommunicator
+    private lateinit var returnView: View
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bc_photo_upload, container, false)
+        returnView = inflater.inflate(R.layout.fragment_bc_photo_upload, container, false)
+        return returnView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initialization()
+        onClick()
     }
+
+
+    private fun onClick(){
+
+        completeButton.setOnClickListener {
+
+            registrationCommunicator.bcGoToStepCongratulation()
+
+
+        }
+
+    }
+
+    private fun initialization(){
+
+        registrationCommunicator = activity as RegistrationCommunicator
+
+    }
+
 }

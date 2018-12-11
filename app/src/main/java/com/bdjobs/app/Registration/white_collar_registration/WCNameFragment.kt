@@ -36,6 +36,7 @@ class WCNameFragment : Fragment() {
         nameFAButton.setOnClickListener {
 
             registrationCommunicator.wcGoToStepGender()
+            registrationCommunicator.setProgreesBar()
 
         }
 

@@ -1,5 +1,7 @@
 package com.bdjobs.app.Registration
 
+import org.jetbrains.anko.toast
+
 interface RegistrationCommunicator {
 
     //white collar
@@ -21,6 +23,9 @@ interface RegistrationCommunicator {
     fun bcGoToStepAdress()
     fun bcGoToStepExperience()
     fun bcGoToStepEducation()
+    fun bcGoToStepPhotoUpload()
+    fun bcGoToStepCongratulation()
+    fun setProgreesBar()
 
 
 

@@ -1,14 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Registration.blue_collar_registration.BCEducationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
 
-</FrameLayout>
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+
+           <CheckBox
+               android:fontFamily="@font/roboto"
+               android:textColor="#2F64A3"
+               android:textSize="16sp"
+               android:id="@+id/checkBox"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="8dp"
+               android:text="আমার প্রাতিষ্ঠানিক শিক্ষা আছে"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+           <TextView
+               android:id="@+id/textView16"
+               android:layout_width="0dp"
+               android:layout_height="35dp"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="45dp"
+               android:layout_marginEnd="8dp"
+               android:fontFamily="@font/roboto"
+               android:text="আপনার সর্বশেষ শিক্ষাগত যোগ্যতা"
+               android:textColor="#000000"
+               android:textSize="18sp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" />
+
+           <TextView
+
+               android:id="@+id/textView34"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="8dp"
+               android:layout_marginEnd="8dp"
+
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toEndOf="@+id/checkBox"
+               app:layout_constraintTop_toTopOf="@+id/checkBox" />
+
+
+
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/bcLastEducationTIL"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="18dp"
+               android:layout_marginEnd="24dp"
+               app:boxCornerRadiusBottomEnd="8dp"
+               app:boxCornerRadiusBottomStart="8dp"
+               app:boxCornerRadiusTopEnd="8dp"
+               app:boxCornerRadiusTopStart="8dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/checkBox">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/bcLastEducationTIET"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/roboto"
+                   android:hint="সর্বশেষ শিক্ষা পর্যায়"
+                   android:inputType="text"
+                   android:singleLine="true"
+                   android:typeface="normal"
+                   app:fontFamily="@font/roboto" />
+           </com.google.android.material.textfield.TextInputLayout>
+
+
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/bcExamNameTIL"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="18dp"
+               android:layout_marginEnd="24dp"
+               app:boxCornerRadiusBottomEnd="8dp"
+               app:boxCornerRadiusBottomStart="8dp"
+               app:boxCornerRadiusTopEnd="8dp"
+               app:boxCornerRadiusTopStart="8dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/bcLastEducationTIL">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/bcExamNameTIET"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/roboto"
+                   android:hint="পরীক্ষা/ডিগ্রীর নাম"
+                   android:inputType="text"
+                   android:singleLine="true"
+                   android:typeface="normal"
+                   app:fontFamily="@font/roboto" />
+           </com.google.android.material.textfield.TextInputLayout>
+
+
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/bcInstituteNameTIL"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="18dp"
+               android:layout_marginEnd="24dp"
+               app:boxCornerRadiusBottomEnd="8dp"
+               app:boxCornerRadiusBottomStart="8dp"
+               app:boxCornerRadiusTopEnd="8dp"
+               app:boxCornerRadiusTopStart="8dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/bcExamNameTIL">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/bcInstituteNameTIET"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/roboto"
+                   android:hint="শিক্ষা প্রতিষ্ঠানের নাম"
+                   android:inputType="text"
+                   android:singleLine="true"
+                   android:typeface="normal"
+                   app:fontFamily="@font/roboto" />
+           </com.google.android.material.textfield.TextInputLayout>
+
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/bcPassingYearTIL"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="18dp"
+               android:layout_marginEnd="24dp"
+               app:boxCornerRadiusBottomEnd="8dp"
+               app:boxCornerRadiusBottomStart="8dp"
+               app:boxCornerRadiusTopEnd="8dp"
+               app:boxCornerRadiusTopStart="8dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/bcInstituteNameTIL">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/bcPassingYearTIET"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/roboto"
+                   android:hint="পাশ করার বছর "
+                   android:inputType="text"
+                   android:singleLine="true"
+                   android:typeface="normal"
+                   app:fontFamily="@font/roboto" />
+           </com.google.android.material.textfield.TextInputLayout>
+
+
+           <include
+               android:layout_marginTop="130dp"
+               app:layout_constraintTop_toBottomOf="@+id/bcPassingYearTIL"
+               android:id="@+id/footer"
+               layout="@layout/footer_bc_layout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               />
+
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+   </ScrollView>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bcEducationFAButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:background="#13A10E"
+        android:src="@drawable/ic_arrow_floating_white"
+        app:backgroundTint="#13A10E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@
     tools:context=".Registration.RegistrationBaseActivity">
 
         <ProgressBar
+            android:visibility="gone"
             android:theme="@style/BdjobsLinearProgress"
             android:id="@+id/loadingProgressBar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -34,17 +35,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-
-            android:id="@+id/progressBar"
+            android:visibility="gone"
+            android:id="@+id/stepProgressBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="60dp"
             android:progress="10"
             android:progressDrawable="@drawable/progress_limit"
-
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,12 +54,11 @@
             android:id="@+id/registrationFragmentHolderFL"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+            app:layout_constraintTop_toBottomOf="@+id/stepProgressBar">
 
 
         </FrameLayout>

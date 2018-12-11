@@ -11,7 +11,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,16 +33,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:gravity="center"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:id="@+id/textView28"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="32dp"
+                android:gravity="center"
                 android:text="০১৯১১০০১১২২ নম্বরে এস এম এস এর মাধ্যেমে একটি কোড পাঠানো হয়েছে, দয়াকরে কোডটি লিখুন ।"
+                android:textColor="#000000"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView15" />
@@ -91,14 +92,14 @@
 
                 <TextView
 
-                    android:textColor="#1565C0"
-                    android:textSize="18sp"
                     android:id="@+id/textView30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="8dp"
                     android:text="০০:৩০"
+                    android:textColor="#1565C0"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/imageView16"
@@ -122,17 +123,15 @@
 
 
             <include
-                android:layout_marginTop="130dp"
-                app:layout_constraintTop_toBottomOf="@+id/timeLayout"
                 android:id="@+id/footer"
                 layout="@layout/footer_bc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                />
-
+                app:layout_constraintTop_toBottomOf="@+id/timeLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -150,7 +149,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="70dp"
         android:backgroundTint="#13A10E"
-        android:clickable="true"
+        android:background="#13A10E"
         android:src="@drawable/ic_arrow_floating_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

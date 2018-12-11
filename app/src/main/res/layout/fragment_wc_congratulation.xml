@@ -65,11 +65,13 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/otherButton"
+            android:id="@+id/wcJobSearchButton"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
+            app:iconGravity="textStart"
+            app:icon="@drawable/ic_search_white_24dp"
             android:backgroundTint="#13A10E"
             android:paddingStart="15dp"
             android:paddingTop="12dp"

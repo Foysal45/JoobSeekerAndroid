@@ -38,6 +38,7 @@ class WCSocialInfoFragment : Fragment() {
         socilaInfoFAButton.setOnClickListener {
 
             registrationCommunicator.wcGoToStepName()
+            registrationCommunicator.setProgreesBar()
 
 
         }

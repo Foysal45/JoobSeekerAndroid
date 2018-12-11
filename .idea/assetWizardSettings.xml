@@ -30,11 +30,11 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="height" value="20" />
-                            <entry key="outputName" value="ic_other_ic" />
+                            <entry key="height" value="140" />
+                            <entry key="outputName" value="ic_photo_upload" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Rubayet\Downloads\ic\other_ic.svg" />
-                            <entry key="width" value="20" />
+                            <entry key="sourceFile" value="C:\Users\Suriya Sultana\Downloads\photo_upload.svg" />
+                            <entry key="width" value="140" />
                           </map>
                         </option>
                       </PersistentState>
