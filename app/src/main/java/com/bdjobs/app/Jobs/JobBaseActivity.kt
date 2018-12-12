@@ -27,6 +27,14 @@ import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.intentFor
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun getNewsPaper(): String {
+        return newsPaper
+    }
+
+    override fun getIndustry(): String {
+        return industry
+    }
+
     override fun goToSuggestiveSearch(from: String,typedData:String) {
         val intent = Intent(this@JobBaseActivity, SuggestiveSearchActivity::class.java)
         intent.putExtra(Constants.key_from, from)
@@ -45,6 +53,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     Constants.key_jobtitleET -> keyword = typedData!!
                     Constants.key_loacationET -> location = dataStorage.getLocationIDByName(typedData!!)!!
                     Constants.key_categoryET -> category = dataStorage.getCategoryIDByName(typedData!!)!!
+                    Constants.key_special_categoryET-> category = dataStorage.getCategoryIDByBanglaName(typedData!!)!!
+                    Constants.key_newspaperET-> newsPaper = dataStorage.getNewspaperIDByName(typedData!!)!!
+                    Constants.key_industryET-> industry = dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!
+
                 }
             }
         }
@@ -58,6 +70,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
+
     private var jobList1: MutableList<JobListModelData>? = null
     var clickedPosition: Int = 0
     var pgNumber: Int? = 1
@@ -67,6 +80,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var keyword = ""
     private var location = ""
     private var category = ""
+    private var newsPaper = ""
+    private var industry =""
     lateinit var dataStorage: DataStorage
 
 

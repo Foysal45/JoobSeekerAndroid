@@ -39,6 +39,9 @@ interface JobCommunicator {
     fun getCategory():String
     fun setCategory(category : String)
 
+    fun getNewsPaper():String
+    fun getIndustry():String
+
 
 
 

@@ -32,6 +32,11 @@ class Constants {
         const val key_jobtitleET = "jobtitleET"
         const val key_loacationET = "loacationET"
         const val key_categoryET = "categoryET"
+        const val key_special_categoryET = "specialCategoryET"
+
+        const val key_industryET = "industryET"
+        const val key_newspaperET = "newspaperET"
+
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"

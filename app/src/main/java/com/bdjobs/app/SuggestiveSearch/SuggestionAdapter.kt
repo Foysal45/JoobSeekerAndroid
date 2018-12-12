@@ -77,7 +77,10 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
             override fun publishResults(charSequence: CharSequence, filterResults: Filter.FilterResults) {
                 filteredItems = filterResults.values as ArrayList<String>
                 Log.d("aaa", "Size: ${filterResults.count}")
+                //getRecycledViewPool().clear();
+
                 notifyDataSetChanged()
+                communicator?.clearRecycledViewPool()
             }
         }
     }

@@ -18,8 +18,11 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.REQ_CODE_SPEECH_INPUT
 import com.bdjobs.app.Utilities.Constants.Companion.key_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
+import com.bdjobs.app.Utilities.Constants.Companion.key_industryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_jobtitleET
 import com.bdjobs.app.Utilities.Constants.Companion.key_loacationET
+import com.bdjobs.app.Utilities.Constants.Companion.key_newspaperET
+import com.bdjobs.app.Utilities.Constants.Companion.key_special_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import kotlinx.android.synthetic.main.activity_suggestive_search.*
 import org.jetbrains.anko.doAsync
@@ -32,6 +35,10 @@ import kotlin.collections.ArrayList
 
 
 class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
+    override fun clearRecycledViewPool() {
+        historyRV.recycledViewPool.clear()
+    }
+
     private lateinit var textData: String
     private lateinit var from: String
 
@@ -60,6 +67,8 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
         bdjobsUserSession = BdjobsUserSession(this)
     }
+
+
 
     private fun setTextWatcher() {
 
@@ -115,6 +124,19 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                 suggestiveSearchET.hint = getString(R.string.hint_Category)
                 suggestionItems = dataStorage.allWhiteCollarCategories.toTypedArray()
             }
+            key_special_categoryET->{
+                suggestiveSearchET.hint = getString(R.string.hint_Category)
+                suggestionItems = dataStorage.allBlueCollarCategoriesInBangla.toTypedArray()
+            }
+            key_industryET->{
+                suggestiveSearchET.hint = "Industries"
+                suggestionItems = dataStorage.getAllIndustries
+            }
+            key_newspaperET->{
+                suggestiveSearchET.hint = "NewsPaper"
+                suggestionItems = dataStorage.getAllNewspapers
+            }
+
         }
 
         for (item in suggestionItems!!) {
@@ -201,6 +223,50 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     onBackPressed()
                 } else {
                     toast("Please select a valid category!")
+                }
+            }
+
+            key_special_categoryET -> {
+                if (suggestionList.contains(suggestiveSearchET.text.toString()) || TextUtils.isEmpty(suggestiveSearchET.text.toString())) {
+                    textData = suggestiveSearchET.text.toString()
+                    doAsync {
+                        if (!textData.isBlank()) {
+                            val data = Suggestion(textData, from, bdjobsUserSession.userId, Date())
+                            bdjobsInternalDB.suggestionDAO().insertSuggestion(data)
+                        }
+                    }
+                    onBackPressed()
+                } else {
+                    toast("Please select a valid category!")
+                }
+            }
+            key_newspaperET -> {
+                if (suggestionList.contains(suggestiveSearchET.text.toString()) || TextUtils.isEmpty(suggestiveSearchET.text.toString())) {
+                    textData = suggestiveSearchET.text.toString()
+                    doAsync {
+                        if (!textData.isBlank()) {
+                            val data = Suggestion(textData, from, bdjobsUserSession.userId, Date())
+                            bdjobsInternalDB.suggestionDAO().insertSuggestion(data)
+                        }
+                    }
+                    onBackPressed()
+                } else {
+                    toast("Please select a valid NewsPaper!")
+                }
+            }
+
+            key_industryET -> {
+                if (suggestionList.contains(suggestiveSearchET.text.toString()) || TextUtils.isEmpty(suggestiveSearchET.text.toString())) {
+                    textData = suggestiveSearchET.text.toString()
+                    doAsync {
+                        if (!textData.isBlank()) {
+                            val data = Suggestion(textData, from, bdjobsUserSession.userId, Date())
+                            bdjobsInternalDB.suggestionDAO().insertSuggestion(data)
+                        }
+                    }
+                    onBackPressed()
+                } else {
+                    toast("Please select a valid Industry!")
                 }
             }
 

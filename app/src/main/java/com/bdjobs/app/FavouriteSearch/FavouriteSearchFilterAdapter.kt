@@ -82,7 +82,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         val organization = dataStorage.getJobSearcOrgTypeByID(favouriteSearch.organization)
         val jobNature = dataStorage.getJobNatureByID(favouriteSearch.jobnature)
         val jobLevel = dataStorage.getJobLevelByID(favouriteSearch.joblevel)
-        val industrialCat = dataStorage.getJobSearcIndustryTypeByID(favouriteSearch.industrialCat)
+        val industrialCat = dataStorage.getJobSearcIndustryNameByID(favouriteSearch.industrialCat)
         val experience = dataStorage.getJobExperineceByID(favouriteSearch.experience)
         val jobtype = dataStorage.getJobTypeByID(favouriteSearch.jobtype)
         val genderb = dataStorage.getGenderByID(favouriteSearch.genderb)

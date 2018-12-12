@@ -2,7 +2,6 @@ package com.bdjobs.app.Databases.External
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.database.Cursor
 import android.database.SQLException
 import android.util.Log
 
@@ -515,7 +514,7 @@ class DataStorage(context: Context) {
 
 
     //------------------------------Newspaper---------------------------------------------------//
-    val allNewspapers: Array<String>
+    val getAllNewspapers: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
             try {
@@ -1513,7 +1512,7 @@ class DataStorage(context: Context) {
     }
 
 
-    fun getJobSearcIndustryTypeByID(ID: String?): String? {
+    fun getJobSearcIndustryNameByID(ID: String?): String? {
 
         var s: String? = null
         try {
@@ -1537,6 +1536,63 @@ class DataStorage(context: Context) {
 
         return s
     }
+
+    fun getJobSearcIndustryIDbyName(value: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.INDUSTRY_COL_ID + " FROM " + DBHelper.TABLE_NAME_INDUSTRY + " WHERE " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH + " = '" + value + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.INDUSTRY_COL_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+    val getAllIndustries: Array<String>
+        get() {
+            val OrgTypes = ArrayList<String>()
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH + " FROM " + DBHelper.TABLE_NAME_INDUSTRY + " ORDER BY " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
+
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
+
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH)))
+
+                        cursor.moveToNext()
+                    }
+                }
+                dbHelper.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return OrgTypes.toTypedArray()
+        }
+
+
+
+
 
 
     fun getJobNatureByID(ID: String?): String? {
