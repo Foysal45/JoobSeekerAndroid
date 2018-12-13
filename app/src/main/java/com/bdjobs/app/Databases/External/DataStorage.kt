@@ -1,14 +1,12 @@
 package com.bdjobs.app.Databases.External
 
+
 import android.app.ProgressDialog
 import android.content.Context
 import android.database.SQLException
 import android.util.Log
-
-
-
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 class DataStorage(context: Context) {
 
@@ -989,8 +987,6 @@ class DataStorage(context: Context) {
     }
 
 
-
-
     fun getBanglaLocationIDByName(name: String): String? {
 
         var s: String? = null
@@ -1511,6 +1507,31 @@ class DataStorage(context: Context) {
         return s
     }
 
+    fun getJobSearcOrgTypeIDByName(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.ORG_TYPE_JOB_SEARCH_COL_ID + " FROM " + DBHelper.TABLE_NAME_ORG_TYPE_JOB_SEARCH + " WHERE " + DBHelper.ORG_TYPE_JOB_SEARCH_COL_ORG_TYPE + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.ORG_TYPE_JOB_SEARCH_COL_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
 
     fun getJobSearcIndustryNameByID(ID: String?): String? {
 
@@ -1591,10 +1612,6 @@ class DataStorage(context: Context) {
         }
 
 
-
-
-
-
     fun getJobNatureByID(ID: String?): String? {
 
         var s: String? = null
@@ -1620,6 +1637,32 @@ class DataStorage(context: Context) {
         return s
     }
 
+
+    fun getJobNatureIDByName(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.JOB_NATURE_COL_JOB_NATURE_ID + " FROM " + DBHelper.TABLE_NAME_JOB_NATURE + " WHERE " + DBHelper.JOB_NATURE_COL_JOB_NATURE_NAME + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_NATURE_COL_JOB_NATURE_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
     fun getJobLevelByID(ID: String?): String? {
 
         var s: String? = null
@@ -1633,6 +1676,31 @@ class DataStorage(context: Context) {
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
                 s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_LEVEL_COL_JOB_LEVEL_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+    fun getJobLevelIDByName(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_LEVEL + " WHERE " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_NAME + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_LEVEL_COL_JOB_LEVEL_ID))
                 cursor.moveToNext()
             }
             dbHelper.close()
@@ -1671,20 +1739,19 @@ class DataStorage(context: Context) {
         return s
     }
 
-
-    fun getJobTypeByID(ID: String?): String? {
+    fun getJobExperineceIDByName(ID: String?): String? {
 
         var s: String? = null
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.JOB_LEVEL_COL_JOB_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_TYPE + " WHERE " + DBHelper.JOB_LEVEL_COL_JOB_ID + " = '" + ID + "'"
+            val selectQuery = "SELECT " + DBHelper.EXPERIENCE_COL_EXPERIENCE_ID + " FROM " + DBHelper.TABLE_NAME_EXPERIENCE + " WHERE " + DBHelper.EXPERIENCE_COL_EXPERIENCE_NAME + " = '" + ID + "'"
             Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
-                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_LEVEL_COL_JOB_TYPE_NAME))
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EXPERIENCE_COL_EXPERIENCE_ID))
                 cursor.moveToNext()
             }
             dbHelper.close()
@@ -1698,6 +1765,159 @@ class DataStorage(context: Context) {
     }
 
 
+    fun getJobTypeByID(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.JOB_TYPE_COL_JOB_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_TYPE + " WHERE " + DBHelper.JOB_TYPE_COL_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_TYPE_COL_JOB_TYPE_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+    fun getJobTypeIDByName(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.JOB_TYPE_COL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_TYPE + " WHERE " + DBHelper.JOB_TYPE_COL_JOB_TYPE_NAME + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_TYPE_COL_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+    fun getPostedWithinIDByName(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_ID + " FROM " + DBHelper.TABLE_NAME_POSTED_WITHIN + " WHERE " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_NAME + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+    fun getPostedWithinNameByID(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_NAME + " FROM " + DBHelper.TABLE_NAME_POSTED_WITHIN + " WHERE " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+    fun getDedlineNameByID(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.JOB_DEADLINE_COL_JOB_DEADLINE_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_DEADLINE + " WHERE " + DBHelper.JOB_DEADLINE_COL_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_DEADLINE_COL_JOB_DEADLINE_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+    fun getDeadlineIDByNAme(ID: String?): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.JOB_DEADLINE_COL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_DEADLINE + " WHERE " + DBHelper.JOB_DEADLINE_COL_JOB_DEADLINE_NAME + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.JOB_DEADLINE_COL_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
 
 
 }

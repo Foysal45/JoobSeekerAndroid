@@ -15,6 +15,7 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
@@ -35,9 +36,22 @@ class JoblistFragment : Fragment() {
     private var isLoadings = false
     private var isLastPages = false
     private lateinit var communicator: JobCommunicator
+
     private var keyword = ""
     private var location = ""
     private var category = ""
+    private var newsPaper = ""
+    private var industry = ""
+    private var organization = ""
+    private var gender = ""
+    private var experience = ""
+    private var jobType = ""
+    private var jobLevel = ""
+    private var jobNature = ""
+    private var postedWithin = ""
+    private var deadline = ""
+    private var age = ""
+    private var army = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,15 +70,54 @@ class JoblistFragment : Fragment() {
         keyword = communicator.getKeyword()
         location = communicator.getLocation()
         category = communicator.getCategory()
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getOrganization()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
+
 
         suggestiveSearchET.text = keyword
-        suggestiveSearchET.setOnClickListener {et->
-            communicator.goToSuggestiveSearch(Constants.key_jobtitleET,suggestiveSearchET.text.toString())
+        suggestiveSearchET.setOnClickListener { et ->
+            communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
         joblistAdapter!!.clear()
 
-        loadFisrtPageTest("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", 1, "", "", "", "", "")
+        loadFisrtPageTest(
+                jobLevel = jobLevel,
+                newsPaper = newsPaper,
+                armyp = army,
+                blueColur = "",
+                category = category,
+                deadline = deadline,
+                encoded = ENCODED_JOBS,
+                experince = experience,
+                gender = gender,
+                genderB = "",
+                industry = industry,
+                isFirstRequest = "",
+                jobnature = jobNature,
+                jobType = jobType,
+                keyword = keyword,
+                lastJPD = "",
+                location = location,
+                organization = organization,
+                pageId = "",
+                pageNumber = 1,
+                postedWithIn = postedWithin,
+                age = age,
+                rpp = "",
+                slno = "",
+                version = ""
+        )
     }
 
 
@@ -96,23 +149,73 @@ class JoblistFragment : Fragment() {
                 currentPage += 1
                 communicator.setpageNumber(currentPage)
 
-                loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
+                loadNextPage(
+                        jobLevel = jobLevel,
+                        newsPaper = newsPaper,
+                        armyp = army,
+                        blueColur = "",
+                        category = category,
+                        deadline = deadline,
+                        encoded = ENCODED_JOBS,
+                        experince = experience,
+                        gender = gender,
+                        genderB = "",
+                        industry = industry,
+                        isFirstRequest = "",
+                        jobnature = jobNature,
+                        jobType = jobType,
+                        keyword = keyword,
+                        lastJPD = "",
+                        location = location,
+                        organization = organization,
+                        pageId = "",
+                        pageNumber = currentPage,
+                        postedWithIn = postedWithin,
+                        age = age,
+                        rpp = "",
+                        slno = "",
+                        version = ""
+                )
             }
         })
 
     }
 
-    private fun loadFisrtPageTest(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+    private fun loadFisrtPageTest(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
 
 
-        Log.d("Paramtest", "First page Page Number $currentPage  category: $category")
+        Log.d("Paramtest", "jobLevel: $jobLevel")
 
         jobListRecyclerView.hide()
         filterLayout.hide()
         shimmer_view_container_JobList.show()
         shimmer_view_container_JobList.startShimmerAnimation()
 
-        val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
+        val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
+                Newspaper = newsPaper,
+                armyp = armyp,
+                bc = blueColur,
+                category = category,
+                deadline = deadline,
+                encoded = encoded,
+                experience = experince,
+                gender = gender,
+                genderB = genderB,
+                industry = industry,
+                isFirstRequest = isFirstRequest,
+                jobNature = jobnature,
+                jobType = jobType,
+                keyword = keyword,
+                lastJPD = lastJPD,
+                location = location,
+                org = organization,
+                pageid = pageId,
+                pg = pageNumber,
+                postedWithin = postedWithIn,
+                qAge = age,
+                rpp = rpp,
+                slno = slno,
+                version = version)
         call?.enqueue(object : Callback<JobListModel> {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
@@ -166,13 +269,36 @@ class JoblistFragment : Fragment() {
         })
     }
 
-    private fun loadNextPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+    private fun loadNextPage(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
         Log.d("ArrayTest", " loadNextPage called")
 
-        Log.d("Paramtest", "Next page Page Number $currentPage  category: $category")
+        Log.d("Paramtest", "jobLevel: $jobLevel")
 
-
-        val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
+        val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
+                Newspaper = newsPaper,
+                armyp = armyp,
+                bc = blueColur,
+                category = category,
+                deadline = deadline,
+                encoded = encoded,
+                experience = experince,
+                gender = gender,
+                genderB = genderB,
+                industry = industry,
+                isFirstRequest = isFirstRequest,
+                jobNature = jobnature,
+                jobType = jobType,
+                keyword = keyword,
+                lastJPD = lastJPD,
+                location = location,
+                org = organization,
+                pageid = pageId,
+                pg = pageNumber,
+                postedWithin = postedWithIn,
+                qAge = age,
+                rpp = rpp,
+                slno = slno,
+                version = version)
         call?.enqueue(object : Callback<JobListModel> {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {

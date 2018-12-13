@@ -254,7 +254,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
-                    android:id="@+id/governmentChip"
+
                     android:paddingBottom="12dp"
                     android:text="Government"
                     android:textColor="@drawable/bg_chip_text_state_list"
@@ -269,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:id="@+id/semiGovernmentChip"
+
                     android:text="Semi Government"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -282,7 +282,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
-                    android:id="@+id/ngoChip"
+
                     android:paddingBottom="12dp"
                     android:text="NGO"
                     android:textColor="@drawable/bg_chip_text_state_list"
@@ -298,7 +298,7 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="Private Firm/Company"
-                    android:id="@+id/privateChip"
+
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
@@ -311,7 +311,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:id="@+id/internationalChip"
+
                     android:text="International Agencies"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -325,7 +325,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:id="@+id/othersOrgChip"
+
                     android:text="Others"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -345,6 +345,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/genderCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -416,6 +417,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/experienceCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -500,6 +502,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/jobTypeCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -558,6 +561,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/jobLevelCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -596,7 +600,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:text="Top level"
+                    android:text="Top Level"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
@@ -615,6 +619,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/jobNatureCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -627,7 +632,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:text="Full time"
+                    android:text="Full Time"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
@@ -640,7 +645,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:text="Part time"
+                    android:text="Part Time"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
@@ -686,6 +691,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/postedWithinCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -769,6 +775,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/deadlineCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -878,6 +885,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/ageRangeCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -962,6 +970,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/armyCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"

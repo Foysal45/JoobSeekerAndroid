@@ -1,7 +1,6 @@
 package com.bdjobs.app.Jobs
 
 import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -17,25 +16,60 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
-import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.simpleClassName
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.intentFor
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
-    override fun getNewsPaper(): String {
-        return newsPaper
+
+    private var totalRecordsFound: Int? = null
+    private val joblistFragment = JoblistFragment()
+    private val jobDetailsFragment = JobDetailsFragment()
+    private val advanceSearchFragment = AdvanceSearchFragment()
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+    private var mSnackBar: Snackbar? = null
+
+
+    private var jobList1: MutableList<JobListModelData>? = null
+    var clickedPosition: Int = 0
+    var pgNumber: Int? = 1
+    var totalPages: Int? = 0
+    var isLastPage: Boolean = false
+    var isLoading: Boolean = false
+
+
+    private var keyword = ""
+    private var location = ""
+    private var category = ""
+    private var newsPaper = ""
+    private var industry = ""
+    private var organization = ""
+    private var gender = ""
+    private var experience = ""
+    private var jobType = ""
+    private var jobLevel = ""
+    private var jobNature = ""
+    private var postedWithin = ""
+    private var deadline = ""
+    private var age = ""
+    private var army = ""
+
+
+    lateinit var dataStorage: DataStorage
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_job_landing)
+        dataStorage = DataStorage(applicationContext)
+        getData()
+        transitFragment(joblistFragment, R.id.jobFragmentHolder)
     }
 
-    override fun getIndustry(): String {
-        return industry
-    }
 
-    override fun goToSuggestiveSearch(from: String,typedData:String) {
+    override fun goToSuggestiveSearch(from: String, typedData: String) {
         val intent = Intent(this@JobBaseActivity, SuggestiveSearchActivity::class.java)
         intent.putExtra(Constants.key_from, from)
         intent.putExtra(Constants.key_typedData, typedData)
@@ -53,44 +87,13 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     Constants.key_jobtitleET -> keyword = typedData!!
                     Constants.key_loacationET -> location = dataStorage.getLocationIDByName(typedData!!)!!
                     Constants.key_categoryET -> category = dataStorage.getCategoryIDByName(typedData!!)!!
-                    Constants.key_special_categoryET-> category = dataStorage.getCategoryIDByBanglaName(typedData!!)!!
-                    Constants.key_newspaperET-> newsPaper = dataStorage.getNewspaperIDByName(typedData!!)!!
-                    Constants.key_industryET-> industry = dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!
+                    Constants.key_special_categoryET -> category = dataStorage.getCategoryIDByBanglaName(typedData!!)!!
+                    Constants.key_newspaperET -> newsPaper = dataStorage.getNewspaperIDByName(typedData!!)!!
+                    Constants.key_industryET -> industry = dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!
 
                 }
             }
         }
-    }
-
-
-    private var totalRecordsFound: Int? = null
-    private val joblistFragment = JoblistFragment()
-    private val jobDetailsFragment = JobDetailsFragment()
-    private val advanceSearchFragment = AdvanceSearchFragment()
-    private val internetBroadCastReceiver = ConnectivityReceiver()
-    private var mSnackBar: Snackbar? = null
-
-
-    private var jobList1: MutableList<JobListModelData>? = null
-    var clickedPosition: Int = 0
-    var pgNumber: Int? = 1
-    var totalPages: Int? = 0
-    var isLastPage: Boolean = false
-    var isLoading: Boolean = false
-    private var keyword = ""
-    private var location = ""
-    private var category = ""
-    private var newsPaper = ""
-    private var industry =""
-    lateinit var dataStorage: DataStorage
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_job_landing)
-        dataStorage = DataStorage(applicationContext)
-        getData()
-        transitFragment(joblistFragment, R.id.jobFragmentHolder)
     }
 
     override fun goToAdvanceSearch() {
@@ -119,7 +122,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     }
-
 
 
     override fun backButtonPressesd() {
@@ -156,17 +158,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
-    override fun setLocation(location: String) {
-        this.location = location
-    }
-
     override fun getLocation(): String {
         return location
     }
 
-    override fun setKeyword(keyword: String) {
-        this.keyword = keyword
-    }
 
     override fun getKeyword(): String {
         return keyword
@@ -174,10 +169,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun getCategory(): String {
         return category
-    }
-
-    override fun setCategory(category: String) {
-        this.category = category
     }
 
 
@@ -236,6 +227,95 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     override fun getIsLoading(): Boolean {
         return isLoading
     }
+
+    override fun getOrganization(): String {
+        return organization
+    }
+
+    override fun getGender(): String {
+        return gender
+    }
+
+    override fun getExperience(): String {
+        return experience
+    }
+
+    override fun getJobType(): String {
+        return jobType
+    }
+
+    override fun getJobLevel(): String {
+        return jobLevel
+    }
+
+    override fun getJobNature(): String {
+        return jobNature
+    }
+
+    override fun getPostedWithin(): String {
+        return postedWithin
+    }
+
+    override fun getDeadline(): String {
+        return deadline
+    }
+
+    override fun getAge(): String {
+        return age
+    }
+
+    override fun getArmy(): String {
+        return army
+    }
+
+    override fun setOrganization(value: String) {
+        this.organization = value
+    }
+
+    override fun setGender(value: String) {
+        this.gender = value
+    }
+
+    override fun setExperience(value: String) {
+        this.experience = value
+    }
+
+    override fun setJobType(value: String) {
+        this.jobType = value
+    }
+
+    override fun setJobLevel(value: String) {
+        this.jobLevel = value
+    }
+
+    override fun setJobNature(value: String) {
+        this.jobNature = value
+    }
+
+    override fun setPostedWithin(value: String) {
+        this.postedWithin = value
+    }
+
+    override fun setDeadline(value: String) {
+        this.deadline = value
+    }
+
+    override fun setAge(value: String) {
+        this.age = value
+    }
+
+    override fun setArmy(value: String) {
+        this.army = value
+    }
+
+    override fun getNewsPaper(): String {
+        return newsPaper
+    }
+
+    override fun getIndustry(): String {
+        return industry
+    }
+
 
 
     override fun onBackPressed() {

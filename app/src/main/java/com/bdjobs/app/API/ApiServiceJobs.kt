@@ -19,30 +19,31 @@ interface ApiServiceJobs {
 
     @GET("joblist.asp")
     fun getJobList(
-            @Query("Newspaper") Newspaper: String?="",
-            @Query("armyp") armyp: String?="",
-            @Query("bc") bc: String?="",
-            @Query("category") category: String?="",
-            @Query("deadline") deadline: String?="",
-            @Query("encoded") encoded: String?="",
-            @Query("experience") experience: String?="",
-            @Query("gender") gender: String?="",
-            @Query("genderB") genderB: String?="",
-            @Query("industry") industry: String?="",
-            @Query("isFirstRequest") isFirstRequest: String?="",
-            @Query("jobNature") jobNature: String?="",
-            @Query("jobType") jobType: String?="",
-            @Query("keyword") keyword: String?="",
-            @Query("lastJPD") lastJPD: String?="",
-            @Query("location") location: String?="",
-            @Query("org") org: String?="",
-            @Query("pageid") pageid: String?="",
-            @Query("pg") pg: Int?=1,
-            @Query("postedWithin") postedWithin: String?="",
-            @Query("qAge") qAge: String?="",
-            @Query("rpp") rpp: String?="",
-            @Query("slno") slno: String?="",
-            @Query("version") version: String?=""
+            @Query("jobLevel") jobLevel: String? = "",
+            @Query("Newspaper") Newspaper: String? = "",
+            @Query("armyp") armyp: String? = "",
+            @Query("bc") bc: String? = "",
+            @Query("category") category: String? = "",
+            @Query("deadline") deadline: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("experience") experience: String? = "",
+            @Query("gender") gender: String? = "",
+            @Query("genderB") genderB: String? = "",
+            @Query("industry") industry: String? = "",
+            @Query("isFirstRequest") isFirstRequest: String? = "",
+            @Query("jobNature") jobNature: String? = "",
+            @Query("jobType") jobType: String? = "",
+            @Query("keyword") keyword: String? = "",
+            @Query("lastJPD") lastJPD: String? = "",
+            @Query("location") location: String? = "",
+            @Query("org") org: String? = "",
+            @Query("pageid") pageid: String? = "",
+            @Query("pg") pg: Int? = 1,
+            @Query("postedWithin") postedWithin: String? = "",
+            @Query("qAge") qAge: String? = "",
+            @Query("rpp") rpp: String? = "",
+            @Query("slno") slno: String? = "",
+            @Query("version") version: String? = ""
 
 
     ): Call<JobListModel>
@@ -50,46 +51,39 @@ interface ApiServiceJobs {
     ///new
     @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
-            @Query("encoded") encoded : String,
-            @Query("jobId") jobId : String,
-            @Query ("ln") ln : String,
-            @Query("next") next : String,
-            @Query ("slno") slno : String,
-            @Query ("userId") userId: String,
-            @Query ("version") version : String
-    ):Call<JobDetailJsonModel>
+            @Query("encoded") encoded: String,
+            @Query("jobId") jobId: String,
+            @Query("ln") ln: String,
+            @Query("next") next: String,
+            @Query("slno") slno: String,
+            @Query("userId") userId: String,
+            @Query("version") version: String
+    ): Call<JobDetailJsonModel>
 
     @GET("viewfilters.asp")
     fun getFavouriteSearchFilters(
-            @Query("encoded") encoded : String?,
-            @Query("user") userID : String?
+            @Query("encoded") encoded: String?,
+            @Query("user") userID: String?
 
-    ):Call<FavouritSearchFilterModelClass>
+    ): Call<FavouritSearchFilterModelClass>
 
     @GET("CompnayListFollowEmployer.asp")
     fun getFollowEmployerList(
-            @Query("userID") userID : String?,
-            @Query("decodeId") decodeId : String?,
-            @Query("Apstyp") Apstyp : String?="M",
-            @Query("encoded") encoded : String?
-    ):Call<FollowEmployerListModelClass>
-
+            @Query("userID") userID: String?,
+            @Query("decodeId") decodeId: String?,
+            @Query("Apstyp") Apstyp: String? = "M",
+            @Query("encoded") encoded: String?
+    ): Call<FollowEmployerListModelClass>
 
 
     @GET("storedjobsDetails.asp")
     fun getShortListedJobs(
-            @Query("p_id") p_id : String?,
-            @Query("encoded") encoded : String?
-    ):Call<JobListModel>
+            @Query("p_id") p_id: String?,
+            @Query("encoded") encoded: String?
+    ): Call<JobListModel>
 
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
-
-
-
-
-
-
 
 
     companion object Factory {

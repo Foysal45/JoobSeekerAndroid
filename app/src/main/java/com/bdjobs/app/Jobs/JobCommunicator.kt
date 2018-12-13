@@ -30,17 +30,34 @@ interface JobCommunicator {
 
     // search params
 
-    fun setLocation(location : String)
+
     fun getLocation():String
-
-    fun setKeyword(keyword : String)
     fun getKeyword(): String
-
     fun getCategory():String
-    fun setCategory(category : String)
-
     fun getNewsPaper():String
     fun getIndustry():String
+
+    fun getOrganization():String
+    fun getGender():String
+    fun getExperience():String
+    fun getJobType():String
+    fun getJobLevel():String
+    fun getJobNature():String
+    fun getPostedWithin():String
+    fun getDeadline():String
+    fun getAge():String
+    fun getArmy():String
+
+    fun setOrganization(value:String)
+    fun setGender(value:String)
+    fun setExperience(value:String)
+    fun setJobType(value:String)
+    fun setJobLevel(value:String)
+    fun setJobNature(value:String)
+    fun setPostedWithin(value:String)
+    fun setDeadline(value:String)
+    fun setAge(value:String)
+    fun setArmy(value:String)
 
 
 

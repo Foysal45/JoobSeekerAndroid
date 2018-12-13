@@ -272,8 +272,22 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
 
         //---------------------------------JOB_TYPE-----------------------------------------------------//
         val TABLE_NAME_JOB_TYPE = "JOB_TYPE"
-        val JOB_LEVEL_COL_JOB_TYPE_NAME = "JOB_TYPE_NAME"
-        val JOB_LEVEL_COL_JOB_ID = "JOB_ID"
+        val JOB_TYPE_COL_JOB_TYPE_NAME = "JOB_TYPE_NAME"
+        val JOB_TYPE_COL_ID = "JOB_ID"
+
+
+
+        //---------------------------------POSTED_WITHIN-----------------------------------------------------//
+        val TABLE_NAME_POSTED_WITHIN = "POSTED_WITHIN"
+        val POSTED_WITHIN_COL_POSTED_WITHIN_NAME = "POSTED_WITHIN_NAME"
+        val POSTED_WITHIN_COL_POSTED_WITHIN_ID = "POSTED_WITHIN_ID"
+
+
+
+        //---------------------------------DEADLINE-----------------------------------------------------//
+        val TABLE_NAME_JOB_DEADLINE = "DEADLINE"
+        val JOB_DEADLINE_COL_JOB_DEADLINE_NAME = "DEADLINE_NAME"
+        val JOB_DEADLINE_COL_ID = "DEADLINE_ID"
 
 
     }

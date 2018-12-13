@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.clearTextOnDrawableRightClick
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_advance_search_layout.*
 
 class AdvanceSearchFragment : Fragment() {
@@ -35,7 +33,6 @@ class AdvanceSearchFragment : Fragment() {
         keywordET.easyOnTextChangedListener {
             showHideCrossButton(keywordET)
         }
-
         generalCatET.easyOnTextChangedListener {
             showHideCrossButton(generalCatET)
         }
@@ -52,7 +49,6 @@ class AdvanceSearchFragment : Fragment() {
         industryET.easyOnTextChangedListener {
             showHideCrossButton(industryET)
         }
-
 
 
         backIV.setOnClickListener {
@@ -79,13 +75,82 @@ class AdvanceSearchFragment : Fragment() {
             jobCommunicator.goToSuggestiveSearch(Constants.key_industryET, industryET.text.toString())
         }
 
-        orgCG.setOnCheckedChangeListener { chipGroup, i ->
-            Log.d("chip", "id: $i")
-            if (i >= 0) {
+        getDataFromChipGroup(orgCG)
+        getDataFromChipGroup(experienceCG)
+        getDataFromChipGroup(jobTypeCG)
+        getDataFromChipGroup(jobLevelCG)
+        getDataFromChipGroup(jobNatureCG)
+        getDataFromChipGroup(postedWithinCG)
+        getDataFromChipGroup(deadlineCG)
+        getDataFromChipGroup(ageRangeCG)
+        getDataFromChipGroup(armyCG)
+    }
+
+    fun getDataFromChipGroup(chipGroup: ChipGroup) {
+        chipGroup.setOnCheckedChangeListener { chipGroup, i ->
+            if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip", "text: ${chip.text}")
+                val data = chip.text.toString()
+                when (chipGroup.id) {
+                    R.id.orgCG -> {
+                        jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data)!!)
+                    }
+                    R.id.experienceCG -> {
+                        jobCommunicator.setExperience(dataStorage.getJobExperineceIDByName(data)!!)
+                    }
+                    R.id.jobTypeCG -> {
+                        jobCommunicator.setJobType(dataStorage.getJobTypeIDByName(data)!!)
+                    }
+                    R.id.jobLevelCG -> {
+                        jobCommunicator.setJobLevel(dataStorage.getJobLevelIDByName(data)!!)
+                    }
+                    R.id.jobNatureCG -> {
+                        jobCommunicator.setJobNature(dataStorage.getJobNatureIDByName(data)!!)
+                    }
+                    R.id.postedWithinCG -> {
+                        jobCommunicator.setPostedWithin(dataStorage.getPostedWithinIDByName(data)!!)
+                    }
+                    R.id.deadlineCG -> {
+                        jobCommunicator.setDeadline(dataStorage.getDeadlineIDByNAme(data)!!)
+                    }
+                    R.id.ageRangeCG -> {
+                        jobCommunicator.setAge(dataStorage.getAgeRangeIDByName(data)!!)
+                    }
+                    R.id.armyCG -> {
+                        jobCommunicator.setArmy("1")
+                    }
+                }
             } else {
-                Log.d("chip", "text: nothing is selected")
+                when (chipGroup.id) {
+                    R.id.orgCG -> {
+                        jobCommunicator.setOrganization("")
+                    }
+                    R.id.experienceCG -> {
+                        jobCommunicator.setExperience("")
+                    }
+                    R.id.jobTypeCG -> {
+                        jobCommunicator.setJobType("")
+                    }
+                    R.id.jobLevelCG -> {
+                        jobCommunicator.setJobLevel("")
+                    }
+                    R.id.jobNatureCG -> {
+                        jobCommunicator.setJobNature("")
+                    }
+                    R.id.postedWithinCG -> {
+                        jobCommunicator.setPostedWithin("")
+                    }
+                    R.id.deadlineCG -> {
+                        jobCommunicator.setDeadline("")
+                    }
+                    R.id.ageRangeCG -> {
+                        jobCommunicator.setAge("")
+                    }
+                    R.id.armyCG -> {
+                        jobCommunicator.setArmy("")
+                    }
+                }
             }
         }
     }
@@ -100,8 +165,7 @@ class AdvanceSearchFragment : Fragment() {
             if (jobCommunicator.getCategory().toInt() < 30) {
                 generalCatET.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
                 specialCatET.text?.clear()
-            }
-            else{
+            } else {
                 generalCatET.text?.clear()
             }
         } catch (e: Exception) {
@@ -113,8 +177,7 @@ class AdvanceSearchFragment : Fragment() {
             if (jobCommunicator.getCategory().toInt() > 60) {
                 specialCatET.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
                 generalCatET.text?.clear()
-            }
-            else{
+            } else {
                 specialCatET.text?.clear()
             }
         } catch (e: Exception) {
@@ -125,15 +188,30 @@ class AdvanceSearchFragment : Fragment() {
         loacationET.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
         newsPaperET.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
         industryET.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
+        selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator?.getOrganization())!!)
+        selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator?.getExperience())!!)
+        selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator?.getJobType())!!)
+        selectChip(jobLevelCG, dataStorage.getJobLevelByID(jobCommunicator?.getJobLevel())!!)
+        selectChip(jobNatureCG, dataStorage.getJobNatureByID(jobCommunicator?.getJobNature())!!)
+        selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(jobCommunicator?.getPostedWithin())!!)
+        selectChip(deadlineCG, dataStorage.getDedlineNameByID(jobCommunicator?.getDeadline())!!)
+        selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(jobCommunicator?.getAge())!!)
 
-
-        val count = orgCG.childCount
-        for (i in 0 until count) {
-            Log.d("chip", "text:$i")
-            val chip = orgCG.getChildAt(i) as Chip
-            Log.d("chip", "text: ${chip.text}")
+        if (jobCommunicator.getArmy() == "1") {
+            selectChip(armyCG, "Yes")
         }
+    }
 
+    private fun selectChip(chipGroup: ChipGroup, data: String) {
+        val count = chipGroup.childCount
+        for (i in 0 until count) {
+            val chip = chipGroup.getChildAt(i) as Chip
+            val chipText = chip.text.toString()
+            if (data.equalIgnoreCase(chipText)) {
+                Log.d("chip", "text:$i")
+                chip.isChecked = true
+            }
+        }
     }
 
 

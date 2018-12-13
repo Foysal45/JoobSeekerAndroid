@@ -1,4 +1,5 @@
 package com.bdjobs.app.Jobs
+
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
@@ -15,13 +16,12 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.Constants
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 
 class JobDetailsFragment : Fragment() {
@@ -39,6 +39,19 @@ class JobDetailsFragment : Fragment() {
     private var keyword = ""
     private var location = ""
     private var category = ""
+    private var newsPaper = ""
+    private var industry = ""
+    private var organization = ""
+    private var gender = ""
+    private var experience = ""
+    private var jobType = ""
+    private var jobLevel = ""
+    private var jobNature = ""
+    private var postedWithin = ""
+    private var deadline = ""
+    private var age = ""
+    private var army = ""
+
     var currentJobPosition = 0
     var shareJobPosition = 0
 
@@ -61,7 +74,7 @@ class JobDetailsFragment : Fragment() {
 
         layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
-        Log.d("PositionTest","snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}"  )
+        Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
         jobDetailAdapter = JobDetailAdapter(activity!!)
         jobDetailRecyclerView?.adapter = jobDetailAdapter
 
@@ -70,12 +83,13 @@ class JobDetailsFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     currentJobPosition = getCurrentItem()
-                    Log.d("PositionTest","snapHelper   $currentJobPosition"  )
+                    Log.d("PositionTest", "snapHelper   $currentJobPosition")
 
                     shareJobPosition = currentJobPosition
 
-                    counterTV?.let {tv->
-                        tv.text = "Job ${currentJobPosition+1}/$totalRecordsFound" }
+                    counterTV?.let { tv ->
+                        tv.text = "Job ${currentJobPosition + 1}/$totalRecordsFound"
+                    }
                 }
             }
         })
@@ -102,16 +116,39 @@ class JobDetailsFragment : Fragment() {
                 Log.d("loadMoreItemsgfjfg", " Called ")
 
                 Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
+                loadNextPage(
+                        jobLevel = jobLevel,
+                        newsPaper = newsPaper,
+                        armyp = army,
+                        blueColur = "",
+                        category = category,
+                        deadline = deadline,
+                        encoded = Constants.ENCODED_JOBS,
+                        experince = experience,
+                        gender = gender,
+                        genderB = "",
+                        industry = industry,
+                        isFirstRequest = "",
+                        jobnature = jobNature,
+                        jobType = jobType,
+                        keyword = keyword,
+                        lastJPD = "",
+                        location = location,
+                        organization = organization,
+                        pageId = "",
+                        pageNumber = currentPage,
+                        postedWithIn = postedWithin,
+                        age = age,
+                        rpp = "",
+                        slno = "",
+                        version = ""
+                )
 
-                    loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
+                //loadNextPage("", "", "", category, "", "02041526JSBJ2", "", "", "", "", "", "", "", keyword, "", location, "", "", currentPage, "", "", "", "", "")
             }
 
 
         })
-
-
-
-
 
 
     }
@@ -129,8 +166,6 @@ class JobDetailsFragment : Fragment() {
     }
 
 
-
-
     private fun getData() {
 
         jobListGet = communicator.getJobList()!!
@@ -141,8 +176,6 @@ class JobDetailsFragment : Fragment() {
         Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
 
         Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
-        /* val lastPosition = jobListGet?.size!!-1
-         jobListGet!!.removeAt(lastPosition)*/
 
         Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
 
@@ -162,15 +195,38 @@ class JobDetailsFragment : Fragment() {
 
     }
 
-    private fun loadNextPage(newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+    private fun loadNextPage(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
         Log.d("ArrayTestJobdetail", " loadNextPage called")
 
 
-        val call = ApiServiceJobs.create().getJobList(newsPaper, armyp, blueColur, category, deadline, encoded, experince, gender, genderB, industry, isFirstRequest, jobnature, jobType, keyword, lastJPD, location, organization, pageId, pageNumber, postedWithIn, age, rpp, slno, version)
+        val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
+                Newspaper = newsPaper,
+                armyp = armyp,
+                bc = blueColur,
+                category = category,
+                deadline = deadline,
+                encoded = encoded,
+                experience = experince,
+                gender = gender,
+                genderB = genderB,
+                industry = industry,
+                isFirstRequest = isFirstRequest,
+                jobNature = jobnature,
+                jobType = jobType,
+                keyword = keyword,
+                lastJPD = lastJPD,
+                location = location,
+                org = organization,
+                pageid = pageId,
+                pg = pageNumber,
+                postedWithin = postedWithIn,
+                qAge = age,
+                rpp = rpp,
+                slno = slno,
+                version = version)
         call?.enqueue(object : Callback<JobListModel> {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
-
 
                 if (response.isSuccessful) {
 
@@ -225,8 +281,9 @@ class JobDetailsFragment : Fragment() {
             isLastPages = true
         }
 
-        counterTV?.let {tv->
-            tv.text = "Job ${communicator.getItemClickPosition()+1}/$totalRecordsFound" }
+        counterTV?.let { tv ->
+            tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
+        }
 
     }
 
@@ -234,12 +291,12 @@ class JobDetailsFragment : Fragment() {
     private fun onClick() {
 
         BackIMGV.setOnClickListener {
-          communicator.backButtonPressesd()
+            communicator.backButtonPressesd()
         }
 
         filterIMGV.setOnClickListener {
             jobDetailAdapter!!.shareJobs(shareJobPosition)
-            Log.d("ShareJob","currentJobPosition $shareJobPosition")
+            Log.d("ShareJob", "currentJobPosition $shareJobPosition")
         }
 
 
