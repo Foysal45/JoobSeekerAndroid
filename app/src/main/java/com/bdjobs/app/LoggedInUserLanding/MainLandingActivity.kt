@@ -5,15 +5,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
+import com.bdjobs.app.Utilities.debug
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.transitFragment
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
@@ -21,7 +23,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class MainLandingActivity : Activity() ,HomeCommunicator{
 
@@ -33,12 +34,6 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
     private val shortListedJobFragment = ShortListedJobFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
-
-
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,9 +97,6 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
         }
         false
     }
-
-
-
 
     fun tetsLog() {
 

@@ -221,7 +221,7 @@ fun View.makeUnClickable() {
 
 fun Any.debug(message: String) {
     Log.d(this::class.java.simpleName, message)
-    Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message);
+    Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message)
 }
 
 fun Any.debug(message: String, tr: Throwable) {
@@ -231,7 +231,7 @@ fun Any.debug(message: String, tr: Throwable) {
 
 fun Any.error(message: String) {
     Log.e(this::class.java.simpleName, message)
-    Crashlytics.log(Log.ERROR, this::class.java.simpleName, message);
+    Crashlytics.log(Log.ERROR, this::class.java.simpleName, message)
 }
 
 fun Any.error(message: String, tr: Throwable) {

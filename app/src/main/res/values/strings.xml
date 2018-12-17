@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
 
     <!--facebook login related data start-->
     <string name="facebook_app_id">1117783308285421</string>
@@ -23,4 +23,110 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Edit Resume String resources -->
+    <string name="help_career_summary">The career summary section is an optional customized section of a resume that lists key achievements, skills, and experience relevant to the position for which you are applying.The career summary section of your resume focuses on your relevant experience and lets the prospective employer know that you have taken the time to create a resume that shows how you are qualified for the job.</string>
+    <string name="help_special_qualification">Special Qualifications (Replacing the Objective) is 3-5 concise sentences on a resume. It is a summary of your most pertinent experience and qualifications that is customized for the position in which you are applying. This is also a place where attributes, such as punctuality and honesty, can be conveyed that would otherwise not be appropriate under work experience. Use the job description to help identify the areas of expertise, distinction, traits and related experiences you have without using the words</string>
+    <string name="cv_up_shortcut">CV UPLOAD</string>
+    <string name="err_msg_name">Username can not be empty!</string>
+    <string name="err_msg_password">Password can not be empty!</string>
+    <string name="heading.toolbar.addAcademicQualification">Add Academic</string>
+    <string name="hint.level_of_education">Level of Education</string>
+    <string name="message.checkbox.degreeShow">Show this degree in summary view at employers end</string>
+    <string name="hint.exam_degree_title">Exam / Degree Title</string>
+    <string name="hint.concentration_major_group">Concentration / Major / Group</string>
+    <string name="hint.institute_name">Institute Name *</string>
+    <string name="message.foreign_institute">Is specified institute is a foreign institute?</string>
+    <string name="hint.yes">Yes</string>
+    <string name="message.if_no_then_leave_this_option_blank">[If no then leave this option Blank]</string>
+    <string name="hint.result">Result</string>
+    <string name="hint.passing_year">Passing Year</string>
+    <string name="hint.duration">Duration *</string>
+    <string name="hint.achievement">Achievement</string>
+    <string name="hint.save">Save</string>
+    <string name="heading.toolbar.addProfessionalQualification">Add Professional Qualification</string>
+    <string name="hint.certification">Certification *</string>
+    <string name="hint.start_date">Start Date *</string>
+    <string name="hint.end_date">End Date *</string>
+    <string name="hint.country">Country *</string>
+    <string name="hint.training_title">Title *</string>
+    <string name="hint.topic">Topic</string>
+    <string name="hint.year">Year *</string>
+    <string name="err_msg_experience">You can  not add more than 3 work discipline!</string>
+    <string name="hint.company_name">Company Name *</string>
+    <string name="hint.company_business">Company Business</string>
+    <string name="hint.company_location">Company Location</string>
+    <string name="hint.position_held">Position Held *</string>
+    <string name="hint.department">Department</string>
+    <string name="hint.responsibilities">Responsibilities</string>
+    <string name="hint.currently_working_here">Currently working here.</string>
+    <string name="hint.area_of_experiences">Area of Experiences</string>
+    <string name="msg.you_can_add_maximum_3_work_discipline">*You can add maximum 3 work discipline.</string>
+    <string name="hint.extracurricular_activities">Extracurricular Activities</string>
+    <string name="hint.skill_description">Skill Description</string>
+    <string name="hint.add_your_skills">Add Your skills</string>
+    <string name="hint.language_name">Language Name *</string>
+    <string name="hint.name">Name *</string>
+    <string name="hint.organization">Organization Name *</string>
+    <string name="hint.designation">Designation *</string>
+    <string name="hint.address">Address</string>
+    <string name="hint.phoneOff">Phone (Office)</string>
+    <string name="hint.phoneRes">Phone (Residential)</string>
+    <string name="hint.email">Email Address</string>
+    <string name="hint.mobile">Mobile Number</string>
+    <string name="hint.relation">Relation *</string>
+    <string name="hint.first_name">First name *</string>
+    <string name="hint.last_name">Last name</string>
+    <string name="hint.gender">Gender *</string>
+    <string name="hint.mobile_number">Mobile number *</string>
+    <string name="hint.email_address">Email address *</string>
+    <string name="hint.username">Username</string>
+    <string name="hint.password">Password</string>
+    <string name="hint.retype_password">Retype password</string>
+    <string name="hint.father_name">Father\'s name</string>
+    <string name="hint.mother_name">Mother\'s name</string>
+    <string name="hint.date_of_birth">Date of Birth *</string>
+    <string name="hint.marital_status">Marital Status *</string>
+    <string name="hint.nationality">Nationality *</string>
+    <string name="hint.national_id_no">National Id No</string>
+    <string name="hint.religion">Religion</string>
+    <string name="hint.presentAddress">Present Address *</string>
+    <string name="hint.permanentAddress">Permanent Address</string>
+    <string name="hint.currentLocation">Current Location *</string>
+    <string name="hint.homePhone">Home Phone</string>
+    <string name="hint.officePhone">Office Phone</string>
+    <string name="hint.alter_email">Alternate Email</string>
+    <string name="hint.objective">Objective *</string>
+    <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
+    <string name="hint.expected_salary_tk_month">Expected Salary (TK / Month)</string>
+    <string name="hint.looking_for">Looking For</string>
+    <string name="hint.available_for">Available for</string>
+    <string name="what_is_objective">When writing a resume, some job seekers choose to state an objective on their resume, rather than including it in the body of their cover letter. Stating an objective can convince employers that you know what you want to do and are familiar with the field.</string>
+    <string name="gd_ex_obj">To secure a position with a well-established organization with a stable environment that will lead to a lasting relationship in the field of HealthCare. To obtain a position that will enable the use of my strong organizational skills, Microsoft expertise, and ability to work well with people.</string>
+    <string name="bd_ex_obj">My objective is to deliver my best to satisfy my clients. I am dedicated and hard working. I will be very much active to meet the deadlines of your company.</string>
+    <string name="good_example">Good Example!</string>
+    <string name="objectiove">What is objective?</string>
+    <string name="bad_example">Bad Example!</string>
+    <string name="careerSummary">What is Career?</string>
+    <string name="specialQualification">What is Special Qualification?</string>
+    <string name="keywords">What is Keywords?</string>
+    <string name="what_is_career"><![CDATA[The career summary section is an optional customized section of a resume that lists key achievements, skills, and experience relevant to the position for which you are applying.<br/>The career summary section of your resume focuses on your relevant experience and lets the prospective employer know that you have taken the time to create a resume that shows how you are qualified for the job.]]></string>
+    <string name="sqgex"><![CDATA[\"<strong>Example #1</strong><div style=\'margin-left:5px\'><ul><li>Three years experience working in the_______ (fill in the blank) industry </li><li>Competent at managing responsibilities in a high-volume atmosphere</li><li>Skilled at interacting with customers of all socioeconomic backgrounds </li><li>Hard worker, quick learner, and ability to assume responsibility</li></ul></div><br/><strong>Example2</strong><div style=\'margin-left:5px\'><div style=\'margin-left:5px\'><ul>\\n\"                     + \"                              \\n\"                     + \"                              <li>Work well under pressure as part of a team</li>\\n\"                     + \"                              <li>Well-groomed appearance</li>\\n\"                     + \"                              <li>Polite, respectful, and courteous manners</li>\\n\"                     + \"                              <li>Responsible, efficient, and flexible</li>\\n\"                     + \"                              <li>Ability to work in a fast-paced, intense environment smoothly</li>\\n\"                     + \"                              <li>Ability to elicit confidence and build rapport</li>\\n\"                     + \"                              <li>Talented in problem solving and office system design</li>\\n\"                     + \"                              </ul><br/><strong>Example #3</strong>\\n\"                     + \"                              <ul>\\n\"                     + \"                              <li>Quick learner, eager to further my _____(fill in the blank) knowledge and skills</li>\\n\"                     + \"                              <li>Meticulous worker; attentive to quality and detail</li>\\n\"                     + \"                              <li>Able and willing to assist co-workers, supervisors, and clients in a cooperative manner</li>\\n\"                     + \"                              <li>Committed to providing total quality work</li>\\n\"                     + \"                              <li>Dependable employee with common sense and a variety of skills</li>\\n\"                     + \"                              <li>Work well under pressure to meet deadlines</li>\\n\"                     + \"                              \\n\"                     + \"                              \\n\"                     + \"                              \\n\"                     + \"                              </ul></div>\"]]></string>
+    <string name="what_is_special">"Special Qualifications (Replacing the Objective) is 3-5 concise sentences on a resume.  It is a summary of your most pertinent experience and qualifications that is customized for the position in which you are applying. This is also a place where attributes, such as punctuality and honesty, can be conveyed that would otherwise not be appropriate under work experience.  Use the job description to help identify the areas of expertise, distinction, traits and related experiences you have without using the words "</string>
+    <string name="csbex">I worked for many reputed companies and earned enough knowledge in the field of your given post. I think I am the most eligible candidate for your given post.</string>
+    <string name="sqbex">I am very energetic and dedicated to office work. I am regular and know the very basic of your required field. I have 5 years of experience in the field and I think I am the best candidate for your Job post.</string>
+    <string name="what_is_key"><![CDATA[\"Keywords are specific words or phrases that job seekers use to search for jobs and employers use to find the right candidates. Keywords are used as search criteria in the same way you do research on the Internet. The more keywords you use, the more closely the job will match what you\'re really looking for.Example: <br>\\n\"                     + \"                MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, <br>\\n\"                     + \"                Java, HTML, Photo Shop, AIUB, BUET, DU, IBA, NSU etc \"]]></string>
+    <string name="csgex"><![CDATA[\"<strong>Corporate Real Estate Executive (Your Job title):</strong><br/>Increasing Bottom-Line Profitability through Real Estate Strategies<br/><strong>Professional Profile </strong><br/>Accomplished executive with a proven ability to develop and implement real estate strategies that support business and financial objectives. Have led key initiatives that reduced operating budget by $32 million and contributed to 550 percent stock increase. Recognized as an expert in applying financial concepts to asset management decisions.<br/><strong>Areas of Expertise</strong><br/><div style=\'margin-left:5px\'><ul>   <li> High-Volume, High-Dollar Negotiations  </li>\\n\"                     + \"    <li>Strategic/Tactical Planning  </li>\\n\"                     + \"    <li>Multimillion-Dollar Operating and Capital Budget Administration  </li>\\n\"                     + \"    <li>Analytical and Financial Skills  </li>\\n\"                     + \"   <li> Statistical Modeling and ROI Analyses</li>\\n\"                     + \"</ul></div>\"]]></string>
+    <string name="districtMSG">You ca not add more than 15 district!</string>
+    <string name="countryMSG">You can not add more than 10 country!</string>
+    <string name="orgMSG">You can not add more than 12 organization!</string>
+    <string name="message.common.error">Something went wrong! Please try again.</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="other_exam_degree_title">Other Exam/Degree Title</string>
+    <string name="edit_resume">Edit Resume</string>
+    <string name="date_to">to</string>
+    <string name="employment_history_title">Employment History</string>
+    <string name="title_activity_base">BaseActivity</string>
+
 </resources>
