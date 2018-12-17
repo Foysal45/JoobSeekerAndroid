@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.bdjobs.app.Employers.EmployersBaseActivity
+import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -24,7 +26,13 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MainLandingActivity : Activity() ,HomeCommunicator{
+    override fun goToFavSearchFilters() {
+        startActivity<FavouriteSearchBaseActivity>()
+    }
 
+    override fun goToFollowedEmployerList() {
+        startActivity<EmployersBaseActivity>()
+    }
 
 
     private val homeFragment = HomeFragment()

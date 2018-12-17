@@ -68,6 +68,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         searchIMGV.setOnClickListener {
             homeCommunicator.goToKeywordSuggestion()
         }
+        followedEmployerView.setOnClickListener {
+            homeCommunicator.goToFollowedEmployerList()
+        }
+        showAllFavIMGV.setOnClickListener {
+            homeCommunicator.goToFavSearchFilters()
+        }
     }
 
     private fun showData() {
@@ -166,9 +172,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 showBlankLayout()
                 favSearchView.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
-                    showAllFavIMGV.setOnClickListener {
-                        startActivity<FavouriteSearchBaseActivity>()
-                    }
                     favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
                     val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters!!, context = activity)
                     favRV?.adapter = favouriteSearchFilterAdapter
