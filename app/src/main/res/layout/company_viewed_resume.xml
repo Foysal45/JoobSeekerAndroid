@@ -42,7 +42,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/employers_company_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -65,8 +65,8 @@
                 android:singleLine="true"
                 android:textColor="#393939"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/textView8"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="@+id/employers_company_TV"
+                app:layout_constraintTop_toBottomOf="@+id/employers_company_TV"
                 tools:text="Viewed on:" />
 
             <TextView
@@ -83,7 +83,7 @@
                 android:textColor="#393939"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="@+id/employers_company_TV"
                 app:layout_constraintTop_toBottomOf="@+id/followedCompanyNameTV"
                 tools:text="Deadline:" />
 
@@ -101,7 +101,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/followedCompanyNameTV1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/followedCompanyNameTV"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/employers_company_TV" />
 
             <TextView
                 android:id="@+id/textView38"

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="16dp"
+
+    android:id="@+id/follwEmp_cardview"
+    android:layout_marginBottom="15dp"
     app:cardCornerRadius="8dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/guideline6"
@@ -22,7 +24,7 @@
         android:background="@drawable/ic_home_card">
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/employers_company_TV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -30,10 +32,11 @@
 
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="Bangladesh Technical Education Board"
+            android:text="Bangladesh Technical  Education Board"
             android:textColor="#0078D7"
+
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView36"
+            app:layout_constraintEnd_toStartOf="@+id/follow_unfollow_BTN"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,11 +52,11 @@
             android:textColor="#393939"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintStart_toStartOf="@+id/employers_company_TV"
+            app:layout_constraintTop_toBottomOf="@+id/employers_company_TV" />
 
         <TextView
-            android:id="@+id/textView35"
+            android:id="@+id/offering_jobs_number_TV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -69,7 +72,7 @@
             app:layout_constraintTop_toBottomOf="@+id/followedCompanyNameTV" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/textView36"
+            android:id="@+id/follow_unfollow_BTN"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
