@@ -9,28 +9,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
-import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
+import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
@@ -44,6 +48,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var jobInvitations: List<JobInvitation>? = null
     private var favouriteSearchFilters: List<FavouriteSearch>? = null
     private var b2CCertificationList: List<B2CCertification>? = null
+    private var lastSearch: List<LastSearch>? = null
     private lateinit var homeCommunicator: HomeCommunicator
 
 
@@ -74,6 +79,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         showAllFavIMGV.setOnClickListener {
             homeCommunicator.goToFavSearchFilters()
         }
+        lastSearchView.setOnClickListener {
+            homeCommunicator.goToJoblistFromLastSearch()
+        }
     }
 
     private fun showData() {
@@ -86,6 +94,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showCertificationInfo()
         if (followedEmployerSynced)
             showFollowedEmployers()
+
+        showLastSearch()
     }
 
     override fun onResume() {
@@ -209,9 +219,133 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         if (followedEmployerList.isNullOrEmpty()
                 && jobInvitations.isNullOrEmpty()
                 && favouriteSearchFilters.isNullOrEmpty()
-                && b2CCertificationList.isNullOrEmpty()) {
+                && b2CCertificationList.isNullOrEmpty()
+                && lastSearch.isNullOrEmpty()
+        ) {
             mainLL.hide()
             blankCL.show()
         }
+    }
+
+    private fun showLastSearch() {
+        doAsync {
+            lastSearch = bdjobsDB.lastSearchDao().getLastSearch()
+            uiThread {
+                showBlankLayout()
+                lastSearchView.hide()
+                if (!lastSearch.isNullOrEmpty()) {
+
+                    val searchData = lastSearch?.get(0)
+                    lastPrgrs.show()
+                    ApiServiceJobs.create().getLastSearchCount(
+                            Newspaper = searchData?.newsPaper,
+                            armyp = searchData?.armyp,
+                            bc = searchData?.blueColur,
+                            category = searchData?.category,
+                            deadline = searchData?.deadline,
+                            encoded = ENCODED_JOBS,
+                            experience = searchData?.experince,
+                            gender = searchData?.gender,
+                            genderB = searchData?.genderB,
+                            industry = searchData?.industry,
+                            isFirstRequest = searchData?.isFirstRequest,
+                            jobNature = searchData?.jobnature,
+                            jobType = searchData?.jobType,
+                            keyword = searchData?.keyword,
+                            lastJPD = searchData?.lastJPD,
+                            location = searchData?.location,
+                            org = searchData?.organization,
+                            pageid = searchData?.pageId,
+                            pg = searchData?.pageNumber,
+                            postedWithin = searchData?.postedWithIn,
+                            qAge = searchData?.age,
+                            rpp = searchData?.rpp,
+                            slno = searchData?.slno,
+                            version = searchData?.version
+                    ).enqueue(object : Callback<LastSearchCountModel> {
+                        override fun onFailure(call: Call<LastSearchCountModel>, t: Throwable) {
+                            error("onFailure", t)
+                        }
+
+                        override fun onResponse(call: Call<LastSearchCountModel>, response: Response<LastSearchCountModel>) {
+                            try {
+                                Log.d("jobCount", "jobCount ${response?.body()?.data!![0]?.totaljobs}")
+                                lastPrgrs.hide()
+                                lastSearchcounterTV.text = response?.body()?.data!![0]?.totaljobs
+
+                                if (response.body()?.data?.get(0)?.totaljobs?.length!! > 3) {
+                                    lastSearchcounterTV.textSize = 14.0F
+                                }
+                            } catch (e: Exception) {
+                                lastPrgrs.hide()
+                                lastSearchcounterTV.text = "0"
+                                logException(e)
+                            }
+                        }
+                    })
+
+
+                    searchFilterTV.text = getFilterString(searchData!!)
+                    if (!searchData?.keyword?.isBlank()!!) {
+                        keywordTV.text = searchData?.keyword
+                    } else {
+                        keywordTV.text = "-"
+                    }
+                    srchDateTV.text = searchData?.searchTime?.toSimpleDateString()
+                    srchTimeTV.text = searchData?.searchTime?.toSimpleTimeString()
+                    lastSearchView.show()
+                    blankCL.hide()
+                    mainLL.show()
+                }
+            }
+        }
+    }
+
+    private fun getFilterString(search: LastSearch): String? {
+        val dataStorage = DataStorage(activity)
+        val age = dataStorage.getAgeRangeNameByID(search.age)
+        val newsPaper = dataStorage.getNewspaperNameById(search.newsPaper)
+        val functionalCat = dataStorage.getCategoryNameByID(search.category)
+        val location = dataStorage.getLocationNameByID(search.location)
+        val organization = dataStorage.getJobSearcOrgTypeByID(search.organization)
+        val jobNature = dataStorage.getJobNatureByID(search.jobnature)
+        val jobLevel = dataStorage.getJobLevelByID(search.jobLevel)
+        val industrialCat = dataStorage.getJobSearcIndustryNameByID(search.industry)
+        val experience = dataStorage.getJobExperineceByID(search.experince)
+        val jobtype = dataStorage.getJobTypeByID(search.jobType)
+        val genderb = dataStorage.getGenderByID(search.genderB)
+        var retiredArmy = ""
+
+        search.armyp?.let { string ->
+            if (string == "1")
+                retiredArmy = "Preferred Retired Army"
+        }
+
+        var gender = ""
+        search.gender?.let { string ->
+            val result: List<String> = string.split(",").map { it.trim() }
+            result.forEach {
+                gender += dataStorage.getGenderByID(it) + ","
+            }
+        }
+
+        Log.d("gender", "gender:  ${search.gender}")
+
+        Log.d("gender", "genderb: ${search.genderB}")
+
+        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
+        Log.d("allValuesN", allValues)
+        allValues = allValues.replace("Any".toRegex(), "")
+        allValues = allValues.replace("null".toRegex(), "")
+        Log.d("allValues", allValues)
+        for (i in 0..15) {
+            allValues = allValues.replace(",,".toRegex(), ",")
+        }
+        allValues = allValues.replace(",$".toRegex(), "")
+        allValues = if (allValues.startsWith(",")) allValues.substring(1) else allValues
+
+        Log.d("allValuesN", allValues)
+
+        return allValues.removeLastComma()
     }
 }

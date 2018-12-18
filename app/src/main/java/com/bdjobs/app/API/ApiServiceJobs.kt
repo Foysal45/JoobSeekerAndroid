@@ -86,6 +86,41 @@ interface ApiServiceJobs {
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
 
 
+
+
+    @GET("homescreen.asp")
+    fun getLastSearchCount(
+            @Query("lastSearchedOn ") lastSearchedOn:String="",
+            @Query("jobLevel") jobLevel: String? = "",
+            @Query("Newspaper") Newspaper: String? = "",
+            @Query("armyp") armyp: String? = "",
+            @Query("bc") bc: String? = "",
+            @Query("category") category: String? = "",
+            @Query("deadline") deadline: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("experience") experience: String? = "",
+            @Query("gender") gender: String? = "",
+            @Query("genderB") genderB: String? = "",
+            @Query("industry") industry: String? = "",
+            @Query("isFirstRequest") isFirstRequest: String? = "",
+            @Query("jobNature") jobNature: String? = "",
+            @Query("jobType") jobType: String? = "",
+            @Query("keyword") keyword: String? = "",
+            @Query("lastJPD") lastJPD: String? = "",
+            @Query("location") location: String? = "",
+            @Query("org") org: String? = "",
+            @Query("pageid") pageid: String? = "",
+            @Query("pg") pg: Int? = 1,
+            @Query("postedWithin") postedWithin: String? = "",
+            @Query("qAge") qAge: String? = "",
+            @Query("rpp") rpp: String? = "",
+            @Query("slno") slno: String? = "",
+            @Query("version") version: String? = ""
+    ): Call<LastSearchCountModel>
+
+
+
+
     companion object Factory {
 
         fun create(): ApiServiceJobs {

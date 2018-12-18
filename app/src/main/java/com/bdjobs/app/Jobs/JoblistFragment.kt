@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.LastSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
@@ -19,10 +21,12 @@ import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class JoblistFragment : Fragment() {
 
@@ -52,6 +56,7 @@ class JoblistFragment : Fragment() {
     private var deadline = ""
     private var age = ""
     private var army = ""
+    lateinit var bdjobsDB: BdjobsDB
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,6 +67,7 @@ class JoblistFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
+        bdjobsDB = BdjobsDB.getInstance(activity)
 
     }
 
@@ -83,13 +89,45 @@ class JoblistFragment : Fragment() {
         age = communicator.getAge()
         army = communicator.getArmy()
 
-
         suggestiveSearchET.text = keyword
         suggestiveSearchET.setOnClickListener { et ->
             communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
         joblistAdapter!!.clear()
+
+        if (session.isLoggedIn!!) {
+            val lastSearch = LastSearch(searchTime = Date(),
+                    jobLevel = jobLevel,
+                    newsPaper = newsPaper,
+                    armyp = army,
+                    blueColur = "",
+                    category = category,
+                    deadline = deadline,
+                    encoded = ENCODED_JOBS,
+                    experince = experience,
+                    gender = gender,
+                    genderB = "",
+                    industry = industry,
+                    isFirstRequest = "",
+                    jobnature = jobNature,
+                    jobType = jobType,
+                    keyword = keyword,
+                    lastJPD = "",
+                    location = location,
+                    organization = organization,
+                    pageId = "",
+                    pageNumber = 1,
+                    postedWithIn = postedWithin,
+                    age = age,
+                    rpp = "",
+                    slno = "",
+                    version = "")
+
+            doAsync {
+                bdjobsDB.lastSearchDao().updateLastSearch(lastSearch = lastSearch)
+            }
+        }
 
         loadFisrtPageTest(
                 jobLevel = jobLevel,
@@ -118,6 +156,10 @@ class JoblistFragment : Fragment() {
                 slno = "",
                 version = ""
         )
+    }
+
+    private fun saveSearch(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+
     }
 
 

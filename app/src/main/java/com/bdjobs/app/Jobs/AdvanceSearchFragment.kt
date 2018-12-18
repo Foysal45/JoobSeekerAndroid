@@ -17,7 +17,6 @@ import java.util.*
 import java.util.Arrays.asList
 
 
-
 class AdvanceSearchFragment : Fragment() {
     lateinit var jobCommunicator: JobCommunicator
     lateinit var dataStorage: DataStorage
@@ -36,24 +35,42 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun onClicks() {
-        keywordET.easyOnTextChangedListener {
+        keywordET.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
+            if (text.isEmpty()) {
+                jobCommunicator.setKeyword("")
+            }
         }
-        generalCatET.easyOnTextChangedListener {
+        generalCatET.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
+            if (text.isEmpty()) {
+                jobCommunicator.setCategory("")
+            }
         }
 
-        loacationET.easyOnTextChangedListener {
+        loacationET.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
+            if (text.isEmpty()) {
+                jobCommunicator.setLocation("")
+            }
         }
-        specialCatET.easyOnTextChangedListener {
+        specialCatET.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
+            if (text.isEmpty()) {
+                jobCommunicator.setCategory("")
+            }
         }
-        newsPaperET.easyOnTextChangedListener {
+        newsPaperET.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
+            if (text.isEmpty()) {
+                jobCommunicator.setNewsPaper("")
+            }
         }
-        industryET.easyOnTextChangedListener {
+        industryET.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
+            if (text.isEmpty()) {
+                jobCommunicator.setIndustry("")
+            }
         }
 
 
@@ -247,9 +264,9 @@ class AdvanceSearchFragment : Fragment() {
 
     private fun setGenderData() {
         gender = ""
-        maleChip.isChecked=false
-        femaleChip.isChecked=false
-        otherChip.isChecked=false
+        maleChip.isChecked = false
+        femaleChip.isChecked = false
+        otherChip.isChecked = false
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {

@@ -10,6 +10,7 @@ import android.util.Log
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
@@ -20,9 +21,12 @@ import com.bdjobs.app.Utilities.simpleClassName
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_job_landing.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.uiThread
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+
 
     private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
@@ -58,14 +62,16 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     lateinit var dataStorage: DataStorage
+    lateinit var bdjobsDB: BdjobsDB
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_landing)
         dataStorage = DataStorage(applicationContext)
+        bdjobsDB = BdjobsDB.getInstance(applicationContext)
         getData()
-        transitFragment(joblistFragment, R.id.jobFragmentHolder)
+
     }
 
 
@@ -84,13 +90,12 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
                 when (from) {
-                    Constants.key_jobtitleET -> keyword = typedData!!
-                    Constants.key_loacationET -> location = dataStorage.getLocationIDByName(typedData!!)!!
-                    Constants.key_categoryET -> category = dataStorage.getCategoryIDByName(typedData!!)!!
-                    Constants.key_special_categoryET -> category = dataStorage.getCategoryIDByBanglaName(typedData!!)!!
-                    Constants.key_newspaperET -> newsPaper = dataStorage.getNewspaperIDByName(typedData!!)!!
-                    Constants.key_industryET -> industry = dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!
-
+                    Constants.key_jobtitleET -> setKeyword(typedData!!)
+                    Constants.key_loacationET -> setLocation(dataStorage.getLocationIDByName(typedData!!)!!)
+                    Constants.key_categoryET -> setCategory(dataStorage.getCategoryIDByName(typedData!!)!!)
+                    Constants.key_special_categoryET -> setCategory(dataStorage.getCategoryIDByBanglaName(typedData!!)!!)
+                    Constants.key_newspaperET -> setNewsPaper(dataStorage.getNewspaperIDByName(typedData!!)!!)
+                    Constants.key_industryET -> setIndustry(dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!)
                 }
             }
         }
@@ -118,6 +123,75 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             category = intent.getStringExtra(Constants.key_categoryET)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+        try {
+            val from = intent.getStringExtra("from")
+            if (from == "lastsearch") {
+                doAsync {
+                    val lastSearch = bdjobsDB.lastSearchDao().getLastSearch()[0]
+                    setKeyword(lastSearch.keyword!!)
+                    setCategory(lastSearch.category!!)
+                    setLocation(lastSearch.location!!)
+                    setIndustry(lastSearch.industry!!)
+                    setNewsPaper(lastSearch.newsPaper!!)
+                    setOrganization(lastSearch.organization!!)
+                    setGender(lastSearch.gender!!)
+                    setExperience(lastSearch.experince!!)
+                    setJobType(lastSearch.jobType!!)
+                    setJobLevel(lastSearch.jobLevel!!)
+                    setJobNature(lastSearch.jobnature!!)
+                    setPostedWithin(lastSearch.postedWithIn!!)
+                    setDeadline(lastSearch.deadline!!)
+                    setAge(lastSearch.age!!)
+                    setArmy(lastSearch.armyp!!)
+
+                    uiThread {
+                        transitFragment(joblistFragment, R.id.jobFragmentHolder)
+                    }
+                }
+            } else {
+                transitFragment(joblistFragment, R.id.jobFragmentHolder)
+            }
+
+        } catch (e: Exception) {
+            transitFragment(joblistFragment, R.id.jobFragmentHolder)
+        }
+
+
+        try {
+            val from = intent.getStringExtra("from")
+            if (from == "favsearch") {
+                val filterID = intent.getStringExtra("filterid")
+
+                doAsync {
+                    val lastSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
+                    setKeyword(lastSearch.keyword!!)
+                    setCategory(lastSearch.functionalCat!!)
+                    setLocation(lastSearch.location!!)
+                    setIndustry(lastSearch.industrialCat!!)
+                    setNewsPaper(lastSearch.newspaper!!)
+                    setOrganization(lastSearch.organization!!)
+                    setGender(lastSearch.gender!!)
+                    setExperience(lastSearch.experience!!)
+                    setJobType(lastSearch.jobtype!!)
+                    setJobLevel(lastSearch.joblevel!!)
+                    setJobNature(lastSearch.jobnature!!)
+                    setPostedWithin(lastSearch.postedon!!)
+                    setDeadline(lastSearch.deadline!!)
+                    setAge(lastSearch.age!!)
+                    setArmy(lastSearch.retiredarmy!!)
+
+                    uiThread {
+                        transitFragment(joblistFragment, R.id.jobFragmentHolder)
+                    }
+                }
+            } else {
+                transitFragment(joblistFragment, R.id.jobFragmentHolder)
+            }
+
+        } catch (e: Exception) {
+            transitFragment(joblistFragment, R.id.jobFragmentHolder)
         }
 
 
@@ -159,16 +233,16 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     override fun getLocation(): String {
-        return location
+        return this.location
     }
 
 
     override fun getKeyword(): String {
-        return keyword
+        return this.keyword
     }
 
     override fun getCategory(): String {
-        return category
+        return this.category
     }
 
 
@@ -229,43 +303,43 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun getOrganization(): String {
-        return organization
+        return this.organization
     }
 
     override fun getGender(): String {
-        return gender
+        return this.gender
     }
 
     override fun getExperience(): String {
-        return experience
+        return this.experience
     }
 
     override fun getJobType(): String {
-        return jobType
+        return this.jobType
     }
 
     override fun getJobLevel(): String {
-        return jobLevel
+        return this.jobLevel
     }
 
     override fun getJobNature(): String {
-        return jobNature
+        return this.jobNature
     }
 
     override fun getPostedWithin(): String {
-        return postedWithin
+        return this.postedWithin
     }
 
     override fun getDeadline(): String {
-        return deadline
+        return this.deadline
     }
 
     override fun getAge(): String {
-        return age
+        return this.age
     }
 
     override fun getArmy(): String {
-        return army
+        return this.army
     }
 
     override fun setOrganization(value: String) {
@@ -309,14 +383,32 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun getNewsPaper(): String {
-        return newsPaper
+        return this.newsPaper
     }
 
     override fun getIndustry(): String {
-        return industry
+        return this.industry
     }
 
+    override fun setKeyword(value: String) {
+        this.keyword = value
+    }
 
+    override fun setCategory(value: String) {
+        this.category = value
+    }
+
+    override fun setLocation(value: String) {
+        this.location = value
+    }
+
+    override fun setIndustry(value: String) {
+        this.industry = value
+    }
+
+    override fun setNewsPaper(value: String) {
+        this.newsPaper = value
+    }
 
     override fun onBackPressed() {
         val bdjobsUserSession = BdjobsUserSession(applicationContext)

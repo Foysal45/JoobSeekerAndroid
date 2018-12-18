@@ -4,4 +4,6 @@ interface HomeCommunicator {
     fun goToKeywordSuggestion()
     fun goToFollowedEmployerList()
     fun goToFavSearchFilters()
+    fun goToJoblistFromLastSearch()
+    fun goToJobSearch(favID:String)
 }

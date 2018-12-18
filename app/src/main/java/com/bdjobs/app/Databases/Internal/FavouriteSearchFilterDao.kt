@@ -8,6 +8,10 @@ interface FavouriteSearchFilterDao {
     @Query("SELECT * FROM FavouriteSearch")
     fun getAllFavouriteSearchFilter(): List<FavouriteSearch>
 
+
+    @Query("SELECT * FROM FavouriteSearch WHERE filterid = :filterid")
+    fun getFavouriteSearchByID(filterid:String):FavouriteSearch
+
     @Query("SELECT * FROM FavouriteSearch ORDER BY createdon DESC LIMIT 2")
     fun getLatest2FavouriteSearchFilter(): List<FavouriteSearch>
 

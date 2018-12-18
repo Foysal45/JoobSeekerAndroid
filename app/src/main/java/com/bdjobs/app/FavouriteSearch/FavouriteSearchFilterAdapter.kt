@@ -13,8 +13,11 @@ import com.bdjobs.app.R
 import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
+import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
@@ -25,9 +28,25 @@ import retrofit2.Response
 
 class FavouriteSearchFilterAdapter(private val context: Context, private val items: List<FavouriteSearch>) : RecyclerView.Adapter<ViewHolder>() {
 
-    val activity = context as Activity
+
     val dataStorage = DataStorage(context)
     val bdjobsUserSession = BdjobsUserSession(context)
+    val activity = context as Activity
+    var favCommunicator: FavCommunicator? = null
+    var homeCommunicator: HomeCommunicator? = null
+
+    init {
+
+        if (activity is MainLandingActivity) {
+            homeCommunicator = context as HomeCommunicator
+        }
+
+        if (activity is FavouriteSearchBaseActivity) {
+            favCommunicator = context as FavCommunicator
+        }
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fav_list_layout, parent, false))
@@ -39,6 +58,15 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         holder.dateTV.text = items[position].createdon?.toSimpleDateString()
         holder.timeTV.text = items[position].createdon?.toSimpleTimeString()
         holder.filter1TV.text = getFilterString(items[position])
+
+        holder.parentView.setOnClickListener {
+            favCommunicator?.let { comm ->
+                comm.goToJobSearch(items[position].filterid!!)
+            }
+            homeCommunicator?.let { comm ->
+                comm.goToJobSearch(items[position].filterid!!)
+            }
+        }
 
         holder.progressBar.show()
         ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = items[position].filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
@@ -52,7 +80,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         if (status.equalIgnoreCase(api_request_result_code_ok)) {
                             holder.progressBar.hide()
                             holder.favcounter1BTN.textSize = 18.0F
-                            if(response.body()?.data?.get(0)?.intCount?.length!!>3){
+                            if (response.body()?.data?.get(0)?.intCount?.length!! > 3) {
                                 holder.favcounter1BTN.textSize = 14.0F
                             }
                             holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
@@ -118,7 +146,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         Log.d("allValuesN", allValues)
 
-        return allValues
+        return allValues.removeLastComma()
     }
 }
 
@@ -130,5 +158,6 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val filter1TV = view.findViewById(R.id.filter1TV) as TextView
     val favcounter1BTN = view.findViewById(R.id.favcounter1BTN) as Button
     val progressBar = view.findViewById(R.id.progressBar2) as ProgressBar
+    val parentView = view.findViewById(R.id.itemView) as ConstraintLayout
 
 }
