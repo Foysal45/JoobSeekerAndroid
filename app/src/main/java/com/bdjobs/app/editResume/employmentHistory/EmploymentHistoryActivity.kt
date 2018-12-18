@@ -9,15 +9,22 @@ import android.provider.Settings
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.editResume.callbacks.EmpHisCB
+import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
+import org.jetbrains.anko.toast
 
-class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
+class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
+    override fun setTitle(tit: String?) {
+        setupToolbar(tit)
+    }
 
     private val editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
+    private val armyEditFragment = ArmyEmpHistoryFragment()
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -25,7 +32,23 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emplyment_history)
-        transitFragment(editFragment, R.id.emp_his_container)
+        setupToolbar("Employment History")
+        transitFragment(viewFragment, R.id.emp_his_container)
+        setupOnClicks()
+    }
+
+    private fun setupOnClicks() {
+        iv_delete_data.setOnClickListener {
+            toast("delete button")
+        }
+    }
+
+    private fun setupToolbar(title: String?) {
+        tv_tb_title?.text = title
+        tb_emp_his?.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        tb_emp_his?.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     override fun onPostResume() {

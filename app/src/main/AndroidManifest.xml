@@ -92,7 +92,8 @@
         <activity android:name=".editResume.employmentHistory.EmploymentHistoryActivity" />
         <activity
             android:name=".editResume.BaseActivity"
-            android:label="@string/title_activity_base"></activity>
+            android:label="@string/title_activity_base" />
+        <activity android:name=".editResume.personalInfo.PersonalInfoActivity"></activity>
     </application>
 
 </manifest>

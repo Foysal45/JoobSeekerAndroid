@@ -54,14 +54,14 @@
     <string name="hint.year">Year *</string>
     <string name="err_msg_experience">You can  not add more than 3 work discipline!</string>
     <string name="hint.company_name">Company Name *</string>
-    <string name="hint.company_business">Company Business</string>
+    <string name="hint.company_business">Company Business *</string>
     <string name="hint.company_location">Company Location</string>
-    <string name="hint.position_held">Position Held *</string>
+    <string name="hint.position_held">Designation *</string>
     <string name="hint.department">Department</string>
     <string name="hint.responsibilities">Responsibilities</string>
-    <string name="hint.currently_working_here">Currently working here.</string>
+    <string name="hint.currently_working_here">Currently working</string>
     <string name="hint.area_of_experiences">Area of Experiences</string>
-    <string name="msg.you_can_add_maximum_3_work_discipline">*You can add maximum 3 work discipline.</string>
+    <string name="msg.you_can_add_maximum_3_work_discipline">Max 3 working disciplines</string>
     <string name="hint.extracurricular_activities">Extracurricular Activities</string>
     <string name="hint.skill_description">Skill Description</string>
     <string name="hint.add_your_skills">Add Your skills</string>
@@ -128,5 +128,15 @@
     <string name="date_to">to</string>
     <string name="employment_history_title">Employment History</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="content_desce">content description</string>
+    <string name="hint.ba_type">BA *</string>
+    <string name="hint.ba_no">No *</string>
+    <string name="hint.army_ranks">Ranks *</string>
+    <string name="hint.army_type">Type *</string>
+    <string name="hint.army_arms">Arms *</string>
+    <string name="hint.army_trade">Trade</string>
+    <string name="hint.army_course">Course</string>
+    <string name="hint.army_com_date">Date of Commission *</string>
+    <string name="hint.army_retire">Date of Retirement *</string>
 
 </resources>

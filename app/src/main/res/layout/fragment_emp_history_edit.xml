@@ -1,52 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_employment_history"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".editResume.employmentHistory.fragments.EmpHistoryEditFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/employmentTB"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:focusableInTouchMode="true">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:text="@string/employment_history_title"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
-
-                <Button
-                    android:id="@+id/saveBTN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:background="?attr/selectableItemBackground"
-                    android:text="SAVE"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,17 +18,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/companyNameTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -83,16 +42,13 @@
                 <LinearLayout
 
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/companyBusinessTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -108,17 +64,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/companyLocationTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -135,16 +88,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/positionTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -161,17 +111,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/departmentTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -189,17 +136,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/responsibilitiesTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -216,17 +160,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:orientation="horizontal">
 
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/estartDateTIL"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:textColorHint="#757575">
 
@@ -235,7 +176,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
-                            android:gravity="center"
                             android:hint="@string/hint.start_date"
                             android:inputType="date"
                             android:textColor="#212121" />
@@ -246,25 +186,25 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="0.3"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
+                        android:layout_weight="0.2"
+                        android:textAllCaps="true"
                         android:text="@string/date_to"
                         android:textSize="16sp" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_end_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
-                            android:gravity="center"
                             android:hint="@string/hint.end_date"
                             android:inputType="date"
                             android:textColor="#212121" />
@@ -273,27 +213,29 @@
                 </LinearLayout>
 
                 <CheckBox
-                    android:id="@+id/currentlyWorkingCB"
+                    android:id="@+id/cb_present"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="45dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
                     android:text="@string/hint.currently_working_here" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_height="wrap_content">
 
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/experiencesTIL"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="30dp"
+                        app:helperText="@string/msg.you_can_add_maximum_3_work_discipline"
                         android:textColorHint="#757575">
 
-                        <MultiAutoCompleteTextView
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/experiencesMACTV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -303,46 +245,13 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/msg.you_can_add_maximum_3_work_discipline" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:elevation="1dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/saveEmploymentTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="?attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="Save"
-                        android:textColor="#FFFFFF" />
-                </FrameLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/gExfDELBTN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="#f44336"
-                    android:textColor="#FFFFFF"
-                    android:visibility="gone" />
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_eh"
+        style="@style/FabStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

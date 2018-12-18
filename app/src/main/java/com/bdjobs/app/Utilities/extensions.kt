@@ -2,6 +2,7 @@ package com.bdjobs.app.Utilities
 
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Fragment
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
@@ -70,6 +71,15 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
             })
 }
 
+fun pickDate(c: Context, now: Calendar, listener: DatePickerDialog.OnDateSetListener) {
+    val dpd = DatePickerDialog(c,
+            listener,
+            // set DatePickerDialog to point to today's date when it loads up
+            now.get(Calendar.YEAR),
+            now.get(Calendar.MONTH),
+            now.get(Calendar.DAY_OF_MONTH))
+    dpd.show()
+}
 
 fun Any.simpleClassName(fragment: Fragment): String {
     return fragment::class.java.simpleName

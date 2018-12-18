@@ -19,7 +19,7 @@ class AdvanceSearchFragment : Fragment() {
     lateinit var dataStorage: DataStorage
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_advance_search_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_advance_search_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -188,14 +188,14 @@ class AdvanceSearchFragment : Fragment() {
         loacationET.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
         newsPaperET.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
         industryET.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
-        selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator?.getOrganization())!!)
-        selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator?.getExperience())!!)
-        selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator?.getJobType())!!)
-        selectChip(jobLevelCG, dataStorage.getJobLevelByID(jobCommunicator?.getJobLevel())!!)
-        selectChip(jobNatureCG, dataStorage.getJobNatureByID(jobCommunicator?.getJobNature())!!)
-        selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(jobCommunicator?.getPostedWithin())!!)
-        selectChip(deadlineCG, dataStorage.getDedlineNameByID(jobCommunicator?.getDeadline())!!)
-        selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(jobCommunicator?.getAge())!!)
+        selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator.getOrganization())!!)
+        selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator.getExperience())!!)
+        selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator.getJobType())!!)
+        selectChip(jobLevelCG, dataStorage.getJobLevelByID(jobCommunicator.getJobLevel())!!)
+        selectChip(jobNatureCG, dataStorage.getJobNatureByID(jobCommunicator.getJobNature())!!)
+        selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(jobCommunicator.getPostedWithin())!!)
+        selectChip(deadlineCG, dataStorage.getDedlineNameByID(jobCommunicator.getDeadline())!!)
+        selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(jobCommunicator.getAge())!!)
 
         if (jobCommunicator.getArmy() == "1") {
             selectChip(armyCG, "Yes")
