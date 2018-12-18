@@ -24,8 +24,7 @@ import android.view.Gravity
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
-
-
+import org.jetbrains.anko.toast
 
 
 class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
@@ -52,22 +51,38 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.employerCompany.text = followedEmployerList!![position].CompanyName
         holder.offeringJobs.text = followedEmployerList!![position].JobCount
+
         holder.followUunfollow.setOnClickListener {
-            Toast.makeText(context, "hello",
+            Toast.makeText(context, holder.adapterPosition.toString(),
                     Toast.LENGTH_LONG).show()
 //            val snack = Snackbar.make(it,"This is a simple Snackbar",Snackbar.LENGTH_LONG)
 //            snack.show()
 
-            holder.followemployersCard.visibility = View.GONE
+        //    holder.followemployersCard.visibility = View.GONE
 
 
-            undoReject(it)
+          //  undoReject(it)
+            rmv(position,it)
         }
 
 
         }
 
-    private fun undoReject(v: View) {
+    fun rmv(position: Int, view: View) {
+        if (followedEmployerList?.size != 0) {
+            val deletedItem = followedEmployerList?.get(position)
+            followedEmployerList?.removeAt(position)
+            notifyItemRemoved(position)
+            undoReject(view, deletedItem, position)
+        } else {
+            context.toast("No Applicant left here!")
+        }
+    }
+
+    private fun undoReject(v: View,
+                           deletedItem: FollowedEmployer?,
+                           deletedIndex: Int
+    ) {
 
         val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
 
@@ -78,7 +93,7 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
                     //    "Applicant $name has been restored successfully!".toast(activity!!)
                    // call?.doNothing(page, applyIDs(), applicantStatus())
                   //  Log.d("checkingUndo", "${applyIDs()} and ${applicantStatus()}")
-               //     restoreMe(deletedItem!!, deletedIndex)
+                    restoreMe(deletedItem!!, deletedIndex)
                 }
         snack.setActionTextColor(context.resources.getColor(R.color.undo))
         snack.duration = 5000
@@ -92,6 +107,11 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         tv.gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
         snack.show()
         Log.d("swipe", "dir to LEFT")
+    }
+
+    private fun restoreMe(item: FollowedEmployer, pos: Int) {
+        followedEmployerList?.add(pos, item)
+        notifyItemInserted(pos)
     }
 
     fun add(r: FollowedEmployer) {
