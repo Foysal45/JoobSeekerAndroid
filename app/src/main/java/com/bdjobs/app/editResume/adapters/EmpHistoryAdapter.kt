@@ -18,6 +18,7 @@ import com.bdjobs.app.editResume.adapters.models.sampledata
 class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: Context) : RecyclerView.Adapter<EmpHistoryAdapter.MyViewHolder>() {
 
     private val DURATION = 200
+    private var visibility: Int = View.GONE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_experiece_list, parent, false)
@@ -35,16 +36,18 @@ class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: C
         holder.more.text = dModel.statuscode
         holder.more1.text = dModel.statuscode1
         //holder.moreActionDetails!!
-
-        holder.moreAction!!.setOnClickListener {
+        //ExpandAndCollapseViewUtil.collapse(holder.moreActionDetails!!, 0)
+        holder.imageViewExpand!!.setOnClickListener {
             debug("clicked success")
             toggleDetails(holder)
         }
+        val visibility = holder.moreActionDetails!!.visibility
+        debug("beforetoggleDetails: $visibility")
+        holder.moreActionDetails?.visibility = View.GONE
     }
 
-    fun toggleDetails(holder: MyViewHolder) {
-        var visibility: Int = holder.moreActionDetails!!.visibility
-
+    private fun toggleDetails(holder: MyViewHolder) {
+        var visibility = holder.moreActionDetails!!.visibility
         if (visibility == View.GONE) {
             visibility = View.VISIBLE
             debug("iftoggleDetails: $visibility")

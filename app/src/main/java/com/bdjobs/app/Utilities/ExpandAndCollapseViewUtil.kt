@@ -37,7 +37,7 @@ object ExpandAndCollapseViewUtil {
         } else {
             v.layoutParams.height = initialHeight
         }
-        v.visibility = View.VISIBLE
+        v.visibility = View.GONE
 
         val a = object : Animation() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation) {

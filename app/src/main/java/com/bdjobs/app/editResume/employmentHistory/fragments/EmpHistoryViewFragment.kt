@@ -17,12 +17,12 @@ import kotlinx.android.synthetic.main.fragment_emp_history_view.*
 
 class EmpHistoryViewFragment : Fragment() {
 
-    private lateinit var adapter: EmpHistoryAdapter
+    private var adapter: EmpHistoryAdapter? = null
     private var arr: ArrayList<sampledata>? = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Populatedata()
+        populateData()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,7 @@ class EmpHistoryViewFragment : Fragment() {
         rv_eh_view.adapter = adapter
     }
 
-    fun Populatedata() {
+    private fun populateData() {
         var a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
         arr?.add(a)
         a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
@@ -55,7 +55,7 @@ class EmpHistoryViewFragment : Fragment() {
         arr?.add(a)
         a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
         arr?.add(a)
-        adapter.notifyDataSetChanged()
-    }
 
+        adapter?.notifyDataSetChanged()
+    }
 }

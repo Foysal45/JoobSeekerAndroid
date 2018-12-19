@@ -8,7 +8,7 @@
     android:layout_margin="5dp"
     android:padding="3dp"
     card_view:cardBackgroundColor="@android:color/white"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="8dp"
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
@@ -52,7 +52,6 @@
 
             <RelativeLayout
                 android:id="@+id/rl_expanded"
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/rl_collapsed">
