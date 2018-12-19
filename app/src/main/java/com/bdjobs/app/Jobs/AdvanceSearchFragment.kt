@@ -30,48 +30,58 @@ class AdvanceSearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         jobCommunicator = activity as JobCommunicator
         dataStorage = DataStorage(activity)
-        setGenderData()
+
         onClicks()
     }
 
     private fun onClicks() {
         keywordET.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
-            if (text.isEmpty()) {
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setKeyword("")
             }
         }
         generalCatET.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
-            if (text.isEmpty()) {
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setCategory("")
             }
+
         }
 
         loacationET.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
-            if (text.isEmpty()) {
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setLocation("")
             }
         }
         specialCatET.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
-            if (text.isEmpty()) {
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setCategory("")
             }
+
         }
         newsPaperET.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
-            if (text.isEmpty()) {
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setNewsPaper("")
             }
         }
         industryET.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
-            if (text.isEmpty()) {
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setIndustry("")
             }
         }
+
+
 
 
         backIV.setOnClickListener {
@@ -216,33 +226,27 @@ class AdvanceSearchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        setGenderData()
         keywordET.setText(jobCommunicator.getKeyword())
 
+        Log.d("catTest", "category : ${jobCommunicator.getCategory()}")
 
-        try {
+        if (jobCommunicator.getCategory().isNotBlank()) {
             if (jobCommunicator.getCategory().toInt() < 30) {
                 generalCatET.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
                 specialCatET.text?.clear()
             } else {
                 generalCatET.text?.clear()
             }
-        } catch (e: Exception) {
-            logException(e)
-            generalCatET.text?.clear()
-        }
 
-        try {
             if (jobCommunicator.getCategory().toInt() > 60) {
                 specialCatET.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
                 generalCatET.text?.clear()
             } else {
                 specialCatET.text?.clear()
             }
-        } catch (e: Exception) {
-            logException(e)
-            specialCatET.text?.clear()
         }
+
 
         loacationET.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
         newsPaperET.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))

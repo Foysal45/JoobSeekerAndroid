@@ -30,11 +30,11 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="height" value="140" />
-                            <entry key="outputName" value="ic_photo_upload" />
+                            <entry key="height" value="84" />
+                            <entry key="outputName" value="ic_save_search" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Suriya Sultana\Downloads\photo_upload.svg" />
-                            <entry key="width" value="140" />
+                            <entry key="sourceFile" value="C:\Users\Rubayet\Downloads\save_search.svg" />
+                            <entry key="width" value="84" />
                           </map>
                         </option>
                       </PersistentState>

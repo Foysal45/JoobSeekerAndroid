@@ -17,6 +17,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.simpleClassName
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.android.material.snackbar.Snackbar
@@ -89,6 +90,9 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             if (resultCode == Activity.RESULT_OK) {
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
+
+                Log.d("catTest","typedData : $typedData")
+
                 when (from) {
                     Constants.key_jobtitleET -> setKeyword(typedData!!)
                     Constants.key_loacationET -> setLocation(dataStorage.getLocationIDByName(typedData!!)!!)
@@ -112,17 +116,17 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         try {
             keyword = intent.getStringExtra(Constants.key_jobtitleET)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logException(e)
         }
         try {
             location = intent.getStringExtra(Constants.key_loacationET)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logException(e)
         }
         try {
             category = intent.getStringExtra(Constants.key_categoryET)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logException(e)
         }
 
         try {

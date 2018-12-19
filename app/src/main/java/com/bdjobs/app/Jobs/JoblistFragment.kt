@@ -1,11 +1,13 @@
 package com.bdjobs.app.Jobs
 
+import android.app.Dialog
 import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,6 +70,9 @@ class JoblistFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         bdjobsDB = BdjobsDB.getInstance(activity)
+        saveSearchBtn.setOnClickListener {
+            saveSearch()
+        }
 
     }
 
@@ -389,6 +394,22 @@ class JoblistFragment : Fragment() {
         }
         filterIMGV.setOnClickListener {
             communicator.goToAdvanceSearch()
+        }
+
+    }
+
+    private fun saveSearch() {
+        val saveSearchDialog = Dialog(activity)
+        saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
+        saveSearchDialog.setCancelable(true)
+        saveSearchDialog.show()
+        val saveBTN = saveSearchDialog.findViewById(R.id.saveBTN) as Button
+        val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
+        cancelBTN.setOnClickListener {
+            saveSearchDialog.dismiss()
+        }
+        saveBTN.setOnClickListener {
+
         }
 
     }
