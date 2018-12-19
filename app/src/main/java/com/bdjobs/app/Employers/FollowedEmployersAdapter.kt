@@ -18,13 +18,17 @@ import android.widget.Toast
 import android.R.attr.data
 import android.app.PendingIntent.getActivity
 import android.graphics.Color
+import android.os.Handler
 import android.text.Html
 import android.util.Log
 import android.view.Gravity
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 
 class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
@@ -33,10 +37,13 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
     val dataStorage = DataStorage(context)
     val bdjobsUserSession = BdjobsUserSession(context)
     private var followedEmployerList: ArrayList<FollowedEmployer>? = null
-
+    private lateinit var bdjobsDB: BdjobsDB
+    private lateinit var companyIDFmDB: String
+    private  var undo : Boolean = false
 
     init {
         followedEmployerList = ArrayList()
+        bdjobsDB = BdjobsDB.getInstance(activity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,15 +60,12 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         holder.offeringJobs.text = followedEmployerList!![position].JobCount
 
         holder.followUunfollow.setOnClickListener {
-            Toast.makeText(context, holder.adapterPosition.toString(),
+            /*Toast.makeText(context, holder.adapterPosition.toString(),
+                    Toast.LENGTH_LONG).show()*/
+            companyIDFmDB = followedEmployerList!![position].CompanyID!!
+
+            Toast.makeText(context, companyIDFmDB,
                     Toast.LENGTH_LONG).show()
-//            val snack = Snackbar.make(it,"This is a simple Snackbar",Snackbar.LENGTH_LONG)
-//            snack.show()
-
-        //    holder.followemployersCard.visibility = View.GONE
-
-
-          //  undoReject(it)
             rmv(position,it)
         }
 
@@ -73,13 +77,13 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
             val deletedItem = followedEmployerList?.get(position)
             followedEmployerList?.removeAt(position)
             notifyItemRemoved(position)
-            undoReject(view, deletedItem, position)
+            undoRemove(view, deletedItem, position)
         } else {
-            context.toast("No Applicant left here!")
+            context.toast("No items left here!")
         }
     }
 
-    private fun undoReject(v: View,
+    private fun undoRemove(v: View,
                            deletedItem: FollowedEmployer?,
                            deletedIndex: Int
     ) {
@@ -94,9 +98,11 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
                    // call?.doNothing(page, applyIDs(), applicantStatus())
                   //  Log.d("checkingUndo", "${applyIDs()} and ${applicantStatus()}")
                     restoreMe(deletedItem!!, deletedIndex)
+                    Log.d("comid", "comid")
                 }
         snack.setActionTextColor(context.resources.getColor(R.color.undo))
         snack.duration = 5000
+
 
         val view = snack.view
         //view.layoutParams.height = 100
@@ -107,11 +113,37 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         tv.gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
         snack.show()
         Log.d("swipe", "dir to LEFT")
+
+        delayDeleteFollowedEmployer()
+
+
+
+    }
+
+    private fun delayDeleteFollowedEmployer(){
+        Handler().postDelayed({
+
+            //bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyIDFmDB)
+            doAsync {
+                uiThread {
+                    if(undo == false){
+                        Log.d("comid", "comid")
+                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyIDFmDB)
+                    }
+                }
+
+            }
+
+
+
+
+        }, 5000)
     }
 
     private fun restoreMe(item: FollowedEmployer, pos: Int) {
         followedEmployerList?.add(pos, item)
         notifyItemInserted(pos)
+        undo = true
     }
 
     fun add(r: FollowedEmployer) {
