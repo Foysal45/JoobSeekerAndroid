@@ -4,8 +4,7 @@ import org.jetbrains.anko.toast
 
 interface RegistrationCommunicator {
 
-    //white collar
-
+    //------------white collar-------------//
     fun gotToStepWhiteCollar()
     fun wcGoToStepSocialInfo()
     fun wcGoToStepName()
@@ -13,7 +12,25 @@ interface RegistrationCommunicator {
     fun wcGoToStepPhoneEmail()
     fun wcGoToStepPassword()
     fun wcGoToStepCongratulation()
-    //blue collar
+    fun wcGoToStepMobileVerification()
+    fun wcCategorySelected(category: String, position: Int)
+    fun wcNameSelected(name : String)
+    fun wcGenderSelected(gender: String)
+    fun wcMobileNumberSelected(mobileNumber: String)
+    fun wcEmailSelected(email : String)
+    fun wcGetMobileNumber():String
+    fun wcGetEmail():String
+    fun wcUserNameTypeSelected(userId: String)
+    fun wcSetPassAndConfirmPassword(password:String,confirmPass:String)
+    fun wcCreateAccount()
+    fun wcUserNameSelected(userName: String)
+    fun wcCountrySeledted(countryCode: String)
+    fun wcOtpVerify()
+    fun wcSetOtp(otp: String)
+    fun wcGetOtp():String
+
+
+    //-------------blue collar------------//
     fun goToStepBlueCollar()
     fun bcGoToStepName()
     fun bcGoToStepGender()
@@ -25,7 +42,7 @@ interface RegistrationCommunicator {
     fun bcGoToStepEducation()
     fun bcGoToStepPhotoUpload()
     fun bcGoToStepCongratulation()
-    fun setProgreesBar()
+    /*fun setProgreesBar()*/
 
 
 

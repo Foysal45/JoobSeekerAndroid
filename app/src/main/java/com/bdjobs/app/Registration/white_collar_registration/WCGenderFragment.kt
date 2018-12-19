@@ -48,6 +48,8 @@ class WCGenderFragment : Fragment() {
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
 
+            registrationCommunicator.wcGenderSelected("M")
+
         }
 
 
@@ -64,6 +66,7 @@ class WCGenderFragment : Fragment() {
             otherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
+            registrationCommunicator.wcGenderSelected("F")
 
         }
 
@@ -81,15 +84,11 @@ class WCGenderFragment : Fragment() {
             MaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             MaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
+            registrationCommunicator.wcGenderSelected("O")
 
 
         }
 
-       genderFAButton.setOnClickListener {
-
-           registrationCommunicator.wcGoToStepPhoneEmail()
-       }
 
 
 
@@ -98,6 +97,16 @@ class WCGenderFragment : Fragment() {
     private fun initialization(){
 
         registrationCommunicator = activity as RegistrationCommunicator
+
+    }
+
+    fun goToNextStep(){
+
+        genderFAButton.setOnClickListener {
+
+            registrationCommunicator.wcGoToStepPhoneEmail()
+        }
+
 
     }
 

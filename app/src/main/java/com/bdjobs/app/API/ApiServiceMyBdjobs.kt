@@ -9,9 +9,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agen
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiServiceMyBdjobs {
 
@@ -70,6 +68,42 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId: String?
     ): Call<AssesmentCompleteModel>
 
+
+    @FormUrlEncoded
+    @POST("apps_create_account.asp")
+    fun createAccount(
+            @Field("firstName") firstName: String? = "",
+            @Field("lastName") lastName: String? = "",
+            @Field("gender") gender:String? = "",
+            @Field("email") email:String? = "",
+            @Field("username") username:String? = "",
+            @Field("password") password: String? = "",
+            @Field("confirm") confirm: String? = "",
+            @Field("mobile") mobile: String? = "",
+            @Field("smid") smid: String? = "",
+            @Field("isSMLogin") isSMLogin: String? = "",
+            @Field("categoryType") categoryType:String? = "",
+            @Field("userNameType") userNameType:String? = "",
+            @Field("smediatype") smediatype:String? = "",
+            @Field("prefCat") prefCat: String? = "",
+            @Field("txtCountryCode") txtCountryCode: String? = "",
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion:String? = ""
+
+    ): Call<CreateAccountModel>
+
+
+
+    @FormUrlEncoded
+    @POST("apps_otpVerify.asp")
+    fun sendOtpToVerify(
+            @Field("tmpUserId") tmpUserId: String? = "",
+            @Field("optCode") optCode: String? = "",
+            @Field("packageName") packageName:String? = "",
+            @Field("packageNameVersion") packageNameVersion:String? = ""
+
+
+    ): Call<CreateAccountModel>
 
     companion object Factory {
 

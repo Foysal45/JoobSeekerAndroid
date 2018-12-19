@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registration.blue_collar_registration.BCOtpCodeFragment">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Registration.white_collar_registration.WCMobileVerificationFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-       >
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +37,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="32dp"
                 android:gravity="center"
-                android:text="০১৯১১০০১১২২ নম্বরে এস এম এস এর মাধ্যেমে একটি কোড পাঠানো হয়েছে, দয়াকরে কোডটি লিখুন ।"
+                android:text=" Please type the verification code sent to"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,12 +63,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/wcInfoMobileNumberTV">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/bcOTPCodeTIET"
+                    android:id="@+id/wcOTPCodeTIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:hint="কোড লিখুন"
-                    android:inputType="text"
+                    android:gravity="center"
+                    android:hint="Type Code"
+                    android:maxLength="6"
+                    android:inputType="numberSigned"
                     android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />
@@ -139,7 +139,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bcOTPFAButton"
+        android:id="@+id/wcOTPFAButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -159,3 +159,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

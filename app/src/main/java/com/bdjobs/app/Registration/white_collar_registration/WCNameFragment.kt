@@ -3,18 +3,25 @@ package com.bdjobs.app.Registration.white_collar_registration
 
 import android.os.Bundle
 import android.app.Fragment
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.easyOnTextChangedListener
+import com.bdjobs.app.Utilities.hideError
+import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.fragment_wc_name.*
+import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
 
 
 class WCNameFragment : Fragment() {
 
    private lateinit var registrationCommunicator: RegistrationCommunicator
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
         super.onActivityCreated(savedInstanceState)
@@ -33,16 +40,55 @@ class WCNameFragment : Fragment() {
 
     private fun onClick(){
 
+
+        usernameTIET.easyOnTextChangedListener { charSequence ->
+            nameValidityCheck(charSequence.toString())
+        }
+
+
         nameFAButton.setOnClickListener {
 
-            registrationCommunicator.wcGoToStepGender()
-            registrationCommunicator.setProgreesBar()
 
-        }
+                if(usernameTIET.length() == 0 || usernameTIET.length() < 2 ){
+
+                    userNameTIL.showError("Name can not be empty")
+                } else {
+
+                    registrationCommunicator.wcGoToStepGender()
+                    registrationCommunicator.wcNameSelected(usernameTIET.text.toString())
+                }
+
+
+            }
+
+
+
 
     }
 
 
+    private fun nameValidityCheck(mobileNumber: String): Boolean {
 
+        when {
+            TextUtils.isEmpty(mobileNumber) -> {
+                userNameTIL.showError(getString(R.string.field_empty_error_message_common))
+                requestFocus(usernameTIET)
+                return false
+            }
+            mobileNumber.length < 2  -> {
+                userNameTIL.showError("Your name is too short")
+                requestFocus(usernameTIET)
+                return false
+            }
+            else -> userNameTIL.hideError()
+        }
+        return true
+    }
+
+    private fun requestFocus(view: View) {
+        if (view.requestFocus()) {
+            activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
+    }
 
 }

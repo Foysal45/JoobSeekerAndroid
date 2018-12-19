@@ -5,16 +5,22 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.CreateAccountModel
+
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.blue_collar_registration.*
 import com.bdjobs.app.Registration.white_collar_registration.*
-import com.bdjobs.app.Utilities.simpleClassName
 
 import com.bdjobs.app.Utilities.transitFragment
 import kotlinx.android.synthetic.main.activity_registration_base.*
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
+class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
@@ -27,6 +33,25 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
     private val wcPhoneEmailFragment = WCPhoneEmailFragment()
     private val wcPasswordFragment = WCPasswordFragment()
     private val wcCongratulationFragment = WCCongratulationFragment()
+    private val wcMobileVerificationFragment = WCMobileVerificationFragment()
+    private lateinit var categoryId: String
+    private lateinit var dataStorage: DataStorage
+    private lateinit var name: String
+    private lateinit var gender: String
+    private var mobileNumber: String = ""
+    private var wcEmail: String = ""
+    private var userNameType: String = ""
+    private var wcPassword: String = ""
+    private var wcConfirmPass: String = ""
+    private var userName: String = ""
+    private var socialMediaId : String =""
+    private var isSMediaLogin  = "False"
+    private var socialMediaType : String = ""
+    private var categoryType : String = ""
+    private var wcCountryCode : String = ""
+    private var tempId : String = ""
+    private var otpCode : String = ""
+
 
     // blue Collar
     private val bcCategoryFragment = BCCategoryFragment()
@@ -42,17 +67,18 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
     private val bcCongratulationFragment = BCCongratulationFragment()
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration_base)
         stepProgressBar.visibility = View.GONE
 
+        dataStorage = DataStorage(this)
+
         transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
 
         backIcon.setOnClickListener {
 
-          onBackPressed()
+            onBackPressed()
 
             setProgreesBar()
         }
@@ -63,25 +89,22 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
         setProgreesBar()
     }
 
-    override fun goToStepBlueCollar() {
-        stepProgressBar.progress = 10
-        transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL,true)
-    }
+    //-----------------------  white Collar ------------------------//
+
 
     override fun gotToStepWhiteCollar() {
-        setProgreesBar()
-        stepProgressBar.progress = 10
-        transitFragment(wccategoryFragment, R.id.registrationFragmentHolderFL,true)
+        categoryType = "0"
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 17
+        transitFragment(wccategoryFragment, R.id.registrationFragmentHolderFL, true)
 
     }
-
-    //white Collar
 
     override fun wcGoToStepSocialInfo() {
 
-
-        transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL,true)
-        setProgreesBar()
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 34
+        transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL, true)
 
 
     }
@@ -89,109 +112,339 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
 
     override fun wcGoToStepName() {
 
-        transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL,true)
-        setProgreesBar()
-        stepProgressBar.progress = 20
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 51
+        transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL, true)
 
 
     }
 
     override fun wcGoToStepGender() {
-        transitFragment(wcGenderFragment,R.id.registrationFragmentHolderFL,true)
-        setProgreesBar()
-        stepProgressBar.progress = 40
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 68
+        transitFragment(wcGenderFragment, R.id.registrationFragmentHolderFL, true)
+
 
     }
 
     override fun wcGoToStepPhoneEmail() {
-        transitFragment(wcPhoneEmailFragment,R.id.registrationFragmentHolderFL,true)
-        setProgreesBar()
-        stepProgressBar.progress = 60
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 85
+        transitFragment(wcPhoneEmailFragment, R.id.registrationFragmentHolderFL, true)
+
 
     }
 
 
     override fun wcGoToStepPassword() {
-        transitFragment(wcPasswordFragment,R.id.registrationFragmentHolderFL,true)
-        setProgreesBar()
-        stepProgressBar.progress = 80
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 100
+        transitFragment(wcPasswordFragment, R.id.registrationFragmentHolderFL, true)
+
 
     }
 
     override fun wcGoToStepCongratulation() {
-        transitFragment(wcCongratulationFragment,R.id.registrationFragmentHolderFL,true)
+        stepProgressBar.visibility = View.INVISIBLE
+        transitFragment(wcCongratulationFragment, R.id.registrationFragmentHolderFL, true)
     }
 
-    // blue Collar
-    override fun bcGoToStepName() {
-        transitFragment(bcNameFragment,R.id.registrationFragmentHolderFL,true)
+    override fun wcGoToStepMobileVerification() {
+        stepProgressBar.visibility = View.INVISIBLE
+        transitFragment(wcMobileVerificationFragment, R.id.registrationFragmentHolderFL, true)
+
+    }
+
+    override fun wcCategorySelected(category: String, position: Int) {
+
+        wccategoryFragment.goToNextStep()
+        categoryId = dataStorage.getCategoryIDByName(category)!!
+        Log.d("catagorySelected", "catagory $category")
+        Log.d("catagorySelected", "categoryId $categoryId")
+
+    }
+
+
+    override fun wcNameSelected(name: String) {
+
+        this.name = name
+        Log.d("catagorySelected", "name ${this.name}")
+    }
+
+    override fun wcGenderSelected(gender: String) {
+
+        this.gender = gender
+
+        Log.d("catagorySelected", "gender ${this.gender}")
+        wcGenderFragment.goToNextStep()
+
+    }
+
+    override fun wcMobileNumberSelected(mobileNumber: String) {
+
+        this.mobileNumber = mobileNumber
+        Log.d("catagorySelected", "mobileNumber ${this.mobileNumber}")
+
+    }
+
+    override fun wcEmailSelected(email: String) {
+
+        wcEmail = email
+        Log.d("catagorySelected", "wcEmail $wcEmail")
+    }
+
+    override fun wcGetMobileNumber(): String {
+        return mobileNumber
+    }
+
+    override fun wcGetEmail(): String {
+        return wcEmail
+    }
+
+    override fun wcUserNameTypeSelected(userId: String) {
+
+        userNameType = userId
+        Log.d("catagorySelected", "userNameType test $userNameType")
+
+    }
+
+    override fun wcSetPassAndConfirmPassword(password: String, confirmPass: String) {
+
+
+        wcPassword = password
+        wcConfirmPass = confirmPass
+
+        Log.d("catagorySelected", "wcPassword $wcPassword , wcConfirmPass $wcConfirmPass ")
+
+    }
+
+    override fun wcUserNameSelected( userName :String) {
+
+        this.userName = userName
+        Log.d("catagorySelected", "userName first ${this.userName} ")
+    }
+
+
+    override fun wcCountrySeledted(countryCode: String) {
+        wcCountryCode = countryCode
+        Log.d("catagorySelected", "wcCountryCode  ${this.wcCountryCode} ")
+    }
+
+
+    override fun wcSetOtp(otp: String) {
+
+        this.otpCode = otp
+        Log.d("catagorySelected", "otpCode  ${this.otpCode} ")
+
+    }
+
+    override fun wcGetOtp(): String {
+        return otpCode
+        Log.d("catagorySelected", "otpCode  ${this.otpCode} ")
+    }
+
+    override fun wcCreateAccount() {
+
+        var firstName = name
+        var lastName = ""
+        val splitedName = name.trim({ it <= ' ' }).split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        if (splitedName.size > 0) {
+            firstName = splitedName[0]
+            for (i in 1 until splitedName.size) {
+                lastName = lastName + splitedName[i] + " "
+            }
+            lastName = lastName.trim { it <= ' ' }
+        }
+
+        Log.d("ResponseTesrt",
+                "Name: " + name + "\n" +
+                        "First Name: " + firstName + "\n" +
+                        "Last Name: " + lastName + "\n" +
+                        "CategoryID: " + categoryId + "\n" +
+                        "Gender: " + gender + "\n" +
+                        "CountryCode: " + wcCountryCode + "\n" +
+                        "Mobile: " + mobileNumber + "\n" +
+                        "userName vbcvb " + userName + "\n" +
+                        "password: " + wcPassword + "\n" +
+                        "confirmPassword " + wcConfirmPass + "\n" +
+                        "Mobile: " + mobileNumber + "\n" +
+                        "categoryType " + categoryType + "\n" +
+                        "userNameType dfdf " + userNameType + "\n" +
+                        "countryCode " + "" + "\n" +
+                        "email " + wcEmail + "\n" +
+                        "sMediatype " + socialMediaType + "\n" +
+                        "isSMLogin " + isSMediaLogin + "\n" +
+                        "sMid " + "" + "\n"
+        )
+
+        ApiServiceMyBdjobs.create().createAccount(firstName,  lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin,categoryType, userNameType, socialMediaType,categoryId, "88" ,"","").enqueue(object : Callback<CreateAccountModel> {
+            override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
+                Log.d("ResponseTesrt", " onFailure ${t.message}")
+            }
+
+            override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
+
+                Log.d("ResponseTesrt", " onResponse message ${response.body()!!.message}")
+                Log.d("ResponseTesrt", " onResponse statuscode ${response.body()!!.statuscode}")
+
+                if (response.isSuccessful){
+                    if(response.body()!!.statuscode.equals("0",true)){
+
+                        val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+
+                        Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
+                        if (isCvPosted.equals("null",true)){
+
+                            tempId = response.body()!!.data!!.get(0)!!.tmpId!!
+
+                            Log.d("ResponseTesrt", " tempId $tempId")
+                            Log.d("ResponseTesrt", " in first Condition")
+                            wcGoToStepMobileVerification()
+
+                        } else {
+
+                            wcGoToStepCongratulation()
+                        }
+
+                    } else if (response.body()!!.statuscode.equals("2",true)){
+
+                        toast(response.body()!!.message!!)
+                    }
+
+
+
+
+
+
+
+                }
+
+            }
+
+        })
+
+
+    }
+
+
+    override fun wcOtpVerify() {
+
+
+        ApiServiceMyBdjobs.create().sendOtpToVerify(tempId,otpCode).enqueue(object : Callback<CreateAccountModel> {
+            override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
+                Log.d("ResponseTesrt", " wcOtpVerify onFailure ${t.message}")
+            }
+
+            override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
+
+                Log.d("ResponseTesrt", " wcOtpVerify onResponse message ${response.body()!!.message}")
+                Log.d("ResponseTesrt", " wcOtpVerify onResponse statuscode ${response.body()!!.statuscode}")
+
+                if (response.isSuccessful){
+                    if(response.body()!!.statuscode.equals("0",true)){
+
+                        val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+
+                        Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
+                        if (!isCvPosted.equals("null",true)){
+
+                            wcGoToStepCongratulation()
+
+                        }
+
+                    } else if (response.body()!!.statuscode.equals("3",true)){
+
+                        toast(response.body()!!.message!!)
+                    }
+
+
+
+
+
+
+
+                }
+
+            }
+
+        })
+
+
+
+    }
+
+
+    // -----------------------------  blue Collar start ------------------  //
+    override fun goToStepBlueCollar() {
+        categoryType = "1"
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 10
+        transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL, true)
+    }
+
+    override fun bcGoToStepName() {
+
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 20
+        transitFragment(bcNameFragment, R.id.registrationFragmentHolderFL, true)
 
     }
 
     override fun bcGoToStepGender() {
-        transitFragment(bcGenderFragment,R.id.registrationFragmentHolderFL,true)
-        stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 20
-
-    }
-    override fun bcGoToStepMobileNumber() {
-        transitFragment(bcMobileNumberFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 30
+        transitFragment(bcGenderFragment, R.id.registrationFragmentHolderFL, true)
+    }
 
+    override fun bcGoToStepMobileNumber() {
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 40
+        transitFragment(bcMobileNumberFragment, R.id.registrationFragmentHolderFL, true)
     }
 
     override fun bcGoToStepOtpCode() {
-        transitFragment(bcOtpCodeFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 40
-
+        stepProgressBar.progress = 50
+        transitFragment(bcOtpCodeFragment, R.id.registrationFragmentHolderFL, true)
     }
 
     override fun bcGoToStepBirthDate() {
-        transitFragment(bcBirthDateFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 50
-
-
+        stepProgressBar.progress = 60
+        transitFragment(bcBirthDateFragment, R.id.registrationFragmentHolderFL, true)
     }
 
 
     override fun bcGoToStepAdress() {
-        transitFragment(bcAdressFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 60
-
+        stepProgressBar.progress = 70
+        transitFragment(bcAdressFragment, R.id.registrationFragmentHolderFL, true)
     }
 
     override fun bcGoToStepExperience() {
-        transitFragment(bcExperienceFragment,R.id.registrationFragmentHolderFL,true)
-        stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 70
-
-    }
-    override fun bcGoToStepEducation() {
-        transitFragment(bcEducationFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 80
+        transitFragment(bcExperienceFragment, R.id.registrationFragmentHolderFL, true)
+    }
 
+    override fun bcGoToStepEducation() {
+        stepProgressBar.visibility = View.VISIBLE
+        stepProgressBar.progress = 90
+        transitFragment(bcEducationFragment, R.id.registrationFragmentHolderFL, true)
     }
 
 
     override fun bcGoToStepPhotoUpload() {
-        transitFragment(bcPhotoUploadFragment,R.id.registrationFragmentHolderFL,true)
         stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 90
-
+        stepProgressBar.progress = 100
+        transitFragment(bcPhotoUploadFragment, R.id.registrationFragmentHolderFL, true)
     }
 
 
     override fun bcGoToStepCongratulation() {
-        transitFragment(bcCongratulationFragment,R.id.registrationFragmentHolderFL,true)
-        stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 100
+        stepProgressBar.visibility = View.GONE
+        transitFragment(bcCongratulationFragment, R.id.registrationFragmentHolderFL, true)
+
 
     }
 
@@ -201,14 +454,107 @@ class RegistrationBaseActivity : Activity(),RegistrationCommunicator {
         setProgreesBar()
     }
 
-    override fun setProgreesBar() {
-       toast("stepChange")
+    private fun setProgreesBar() {
+        val currentFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+        Log.d("stepChange", "FragmentLive: $currentFragment")
 
-        val wcCategoryFragment = fragmentManager.findFragmentByTag(simpleClassName(wccategoryFragment))
-        if(wcCategoryFragment!=null && wcCategoryFragment.isVisible){
-            Log.d("stepChange","FragmentLive: ${simpleClassName(wcCategoryFragment)} ")
+        when (currentFragment) {
+
+            registrationLandingFragment -> {
+
+                Log.d("stepChange", " in registrationLandingFragment")
+                stepProgressBar.visibility = View.GONE
+
+            }
+            wccategoryFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 17
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+
+            wcSocialInfoFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 34
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            wcNameFragment -> {
+
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 51
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            wcGenderFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 68
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            wcPhoneEmailFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 85
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            wcPasswordFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 100
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+
+            // blue collar
+
+            bcNameFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 20
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcGenderFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 30
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcMobileNumberFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 40
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcOtpCodeFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 50
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcBirthDateFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 60
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcAdressFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 70
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcExperienceFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 80
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcEducationFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 90
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+            bcPhotoUploadFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 100
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+
+            bcCategoryFragment -> {
+                stepProgressBar.visibility = View.VISIBLE
+                stepProgressBar.progress = 10
+                Log.d("stepChange", " in wccategoryFragment")
+            }
+
+
         }
-
 
     }
 

@@ -86,8 +86,6 @@ interface ApiServiceJobs {
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
 
 
-
-
     @GET("homescreen.asp")
     fun getLastSearchCount(
             @Query("lastSearchedOn ") lastSearchedOn:String="",
@@ -117,9 +115,6 @@ interface ApiServiceJobs {
             @Query("slno") slno: String? = "",
             @Query("version") version: String? = ""
     ): Call<LastSearchCountModel>
-
-
-
 
     companion object Factory {
 

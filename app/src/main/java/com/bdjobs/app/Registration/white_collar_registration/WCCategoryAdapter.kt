@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationBaseActivity
+import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.toSimpleDateString
 import com.bdjobs.app.Utilities.toSimpleTimeString
 
@@ -23,6 +25,8 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
     val activity = context as Activity
     val dataStorage = DataStorage(context)
     private var selectedPosition = -1
+    private  val registrationCommunicator = activity as RegistrationCommunicator
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,16 +39,19 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
         holder.dateTV.text = items[position].createdon?.toSimpleDateString()
         holder.timeTV.text = items[position].createdon?.toSimpleTimeString()*/
 
+
         holder.categoryTV.text = items.get(position)
 
-        Log.d("elkgjtsdlg","Item ${items.get(position)}")
+
 
 
         holder.categoryTV.setOnClickListener {
 
+
+            Log.d("selectedPosition","selectedPosition $selectedPosition  ${items.get(position)}")
+            registrationCommunicator.wcCategorySelected("${items.get(position)}",selectedPosition)
             selectedPosition = position
             notifyDataSetChanged()
-
         }
 
         if (selectedPosition == position){
@@ -65,11 +72,21 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
     }
 
 
+    fun SetCategoryPositionSelected(categoryPositionSelected: Int) {
+        selectedPosition = categoryPositionSelected
+        notifyDataSetChanged()
+
+        Log.d("SetCategory", categoryPositionSelected.toString())
+
+    }
+
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val categoryTV = view.findViewById(R.id.categoryText) as TextView
+
+
 
 
 }

@@ -35,10 +35,10 @@ class WCSocialInfoFragment : Fragment() {
 
     private fun onClick(){
 
-        socilaInfoFAButton.setOnClickListener {
+        enterInfoButton.setOnClickListener {
 
             registrationCommunicator.wcGoToStepName()
-            registrationCommunicator.setProgreesBar()
+           /* registrationCommunicator.setProgreesBar()*/
 
 
         }

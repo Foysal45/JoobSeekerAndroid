@@ -14,6 +14,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_wc_category.*
 
 
@@ -26,6 +27,7 @@ class WCCategoryFragment : Fragment() {
     private lateinit var categories: ArrayList<String>
     private lateinit var categoryAdapter: WCCategoryAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
+    internal var selectedPosition = -1
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -51,9 +53,8 @@ class WCCategoryFragment : Fragment() {
 
     private fun onClick(){
 
-        floatingActionButton.setOnClickListener {
-            registrationCommunicator.wcGoToStepSocialInfo()
-        }
+        Log.d("selectedPosition","selectedPosition in fragment $selectedPosition  }")
+
 
 
     }
@@ -78,10 +79,25 @@ class WCCategoryFragment : Fragment() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+
+        val whiteCollarCategoryAdapter = WCCategoryAdapter(activity, categories)
+        wcCategoryList.setAdapter(whiteCollarCategoryAdapter)
+        whiteCollarCategoryAdapter.SetCategoryPositionSelected(selectedPosition)
+        whiteCollarCategoryAdapter.notifyDataSetChanged()
+        if (selectedPosition != -1) {
+           goToNextStep()
+        }
+
+    }
+
+     fun goToNextStep(){
+
+        floatingActionButton.setOnClickListener {
+            registrationCommunicator.wcGoToStepSocialInfo()
+        }
 
 
-
-
-
-
+    }
 }
