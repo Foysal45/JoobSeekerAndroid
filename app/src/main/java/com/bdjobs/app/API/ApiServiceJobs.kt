@@ -8,9 +8,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 
 interface ApiServiceJobs {
@@ -48,7 +46,7 @@ interface ApiServiceJobs {
 
     ): Call<JobListModel>
 
-    ///new
+
     @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
             @Query("encoded") encoded: String,
@@ -88,7 +86,7 @@ interface ApiServiceJobs {
 
     @GET("homescreen.asp")
     fun getLastSearchCount(
-            @Query("lastSearchedOn ") lastSearchedOn:String="",
+            @Query("lastSearchedOn ") lastSearchedOn: String = "",
             @Query("jobLevel") jobLevel: String? = "",
             @Query("Newspaper") Newspaper: String? = "",
             @Query("armyp") armyp: String? = "",
@@ -115,6 +113,32 @@ interface ApiServiceJobs {
             @Query("slno") slno: String? = "",
             @Query("version") version: String? = ""
     ): Call<LastSearchCountModel>
+
+    @FormUrlEncoded
+    @POST("savefilter.asp")
+    fun saveOrUpdateFilter(
+            @Field("icat ") icat: String = "",
+            @Field("fcat") fcat: String? = "",
+            @Field("location") location: String? = "",
+            @Field("qOT") qOT: String? = "",
+            @Field("qJobNature") qJobNature: String? = "",
+            @Field("qJobLevel") qJobLevel: String? = "",
+            @Field("qPosted") qPosted: String? = "",
+            @Field("qDeadline") qDeadline: String? = "",
+            @Field("txtsearch") txtsearch: String? = "",
+            @Field("qExp") qExp: String? = "",
+            @Field("qGender") qGender: String? = "",
+            @Field("qGenderB") qGenderB: String? = "",
+            @Field("qJobSpecialSkill") qJobSpecialSkill: String? = "",
+            @Field("qRetiredArmy") qRetiredArmy: String? = "",
+            @Field("savefilterid") savefilterid: String? = "",
+            @Field("userId") userId: String? = "",
+            @Field("filterName") filterName: String? = "",
+            @Field("qAge") qAge: String? = "",
+            @Field("newspaper") newspaper: String? = "",
+            @Field("encoded") encoded: String? = ""
+    ): Call<SaveUpdateFavFilterModel>
+
 
     companion object Factory {
 

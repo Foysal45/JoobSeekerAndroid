@@ -8,24 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.Databases.Internal.LastSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -401,75 +404,128 @@ class JoblistFragment : Fragment() {
 
     private fun saveSearch() {
 
-
-
         val saveSearchDialog = Dialog(activity)
         saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
         saveSearchDialog.setCancelable(true)
         saveSearchDialog.show()
         val saveBTN = saveSearchDialog.findViewById(R.id.saveBTN) as Button
         val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
+        val filterNameET = saveSearchDialog.findViewById(R.id.filterNameET) as EditText
+        val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
+
+
+        Log.d("FavParams"," icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
+
+
+        filterNameET.easyOnTextChangedListener { text ->
+            validateFilterName(text.toString(), textInputLayout)
+        }
+
         cancelBTN.setOnClickListener {
             saveSearchDialog.dismiss()
         }
+
+
+
         saveBTN.setOnClickListener {
-            if(!session.isLoggedIn!!){
-                communicator.goToLoginPage()
+            if (validateFilterName(filterNameET.getString(), textInputLayout)) {
+
+                if (!session.isLoggedIn!!) {
+                    communicator.goToLoginPage()
+                } else {
+                    val loadingDialog = indeterminateProgressDialog("Saving")
+                    loadingDialog.setCancelable(false)
+                    loadingDialog.show()
+
+                    ApiServiceJobs.create().saveOrUpdateFilter(
+                            icat = industry,
+                            fcat = category,
+                            location = location,
+                            qOT = organization,
+                            qJobNature = jobNature,
+                            qJobLevel = jobLevel,
+                            qPosted=postedWithin,
+                            qDeadline=deadline,
+                            txtsearch = keyword,
+                            qExp =experience,
+                            qGender = gender,
+                            qGenderB="",
+                            qJobSpecialSkill = jobType,
+                            qRetiredArmy= army,
+                            savefilterid="",
+                            userId= session.userId,
+                            filterName = filterNameET.getString(),
+                            qAge = age,
+                            newspaper = newsPaper,
+                            encoded = Constants.ENCODED_JOBS
+
+                    ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
+                        override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
+                            loadingDialog.dismiss()
+                            error("onFailure", t)
+                            toast("${t.message}")
+                        }
+
+                        override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
+
+                            Log.d("resposet", response.body().toString())
+
+                            if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                                doAsync {
+                                    val favouriteSearch = FavouriteSearch(
+                                            filterid = response?.body()?.data?.get(0)?.sfilterid,
+                                            filtername = filterNameET.getString(),
+                                            industrialCat = industry,
+                                            functionalCat = category,
+                                            location = location,
+                                            organization = organization,
+                                            jobnature = jobNature,
+                                            joblevel = jobLevel,
+                                            postedon = postedWithin,
+                                            deadline = deadline,
+                                            keyword = keyword,
+                                            newspaper = newsPaper,
+                                            gender = gender,
+                                            experience = experience,
+                                            age = age,
+                                            jobtype = jobType,
+                                            retiredarmy = army,
+                                            createdon = Date(),
+                                            updatedon = null,
+                                            totaljobs = "",
+                                            genderb = ""
+                                    )
+
+                                    bdjobsDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
+
+                                    uiThread {
+                                        loadingDialog.dismiss()
+                                        toast("${response?.body()?.data?.get(0)?.message}")
+                                        saveSearchDialog.dismiss()
+                                    }
+                                }
+
+                            }
+                        }
+                    })
+
+
+                }
             }
-            else{
-                /*val favouriteSearch = FavouriteSearch(
-
-
-                        *//*@ColumnInfo(name = "filterid")
-                        val filterid: String?,
-                        @ColumnInfo(name = "filtername")
-                        val filtername: String?,
-                        @ColumnInfo(name = "industrialCat")
-                        val industrialCat: String?,
-                        @ColumnInfo(name = "functionalCat")
-                        val functionalCat: String?,
-                        @ColumnInfo(name = "location")
-                        val location: String?,
-                        @ColumnInfo(name = "organization")
-                        val organization: String?,
-                        @ColumnInfo(name = "jobnature")
-                        val jobnature: String?,
-                        @ColumnInfo(name = "joblevel")
-                        val joblevel: String?,
-                        @ColumnInfo(name = "postedon")
-                        val postedon: String?,
-                        @ColumnInfo(name = "deadline")
-                        val deadline: String?,
-                        @ColumnInfo(name = "keyword")
-                        val keyword: String?,
-                        @ColumnInfo(name = "newspaper")
-                        val newspaper: String?,
-                        @ColumnInfo(name = "gender")
-                        val gender: String?,
-                        @ColumnInfo(name = "genderb")
-                        val genderb: String?,
-                        @ColumnInfo(name = "experience")
-                        val experience: String?,
-                        @ColumnInfo(name = "age")
-                        val age: String?,
-                        @ColumnInfo(name = "jobtype")
-                        val jobtype: String?,
-                        @ColumnInfo(name = "retiredarmy")
-                        val retiredarmy: String?,
-                        @ColumnInfo(name = "createdon")
-                        val createdon: Date?,
-                        @ColumnInfo(name = "updatedon")
-                        val updatedon: Date?,
-                        @ColumnInfo(name = "totaljobs")
-                        val totaljobs: String?*//*
-
-
-                )*/
-            }
-
 
         }
 
+    }
+
+
+    private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
+
+        if (typedData.isNullOrBlank()) {
+            textInputLayout.showError(getString(R.string.field_empty_error_message_common))
+            return false
+        }
+        textInputLayout.hideError()
+        return true
     }
 
 
