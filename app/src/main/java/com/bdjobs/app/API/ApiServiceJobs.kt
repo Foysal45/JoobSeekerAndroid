@@ -9,6 +9,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Url
 
@@ -81,6 +82,19 @@ interface ApiServiceJobs {
             @Query("p_id") p_id: String?,
             @Query("encoded") encoded: String?
     ): Call<JobListModel>
+
+
+    @GET("FollowerEmployer.asp")
+    fun getUnfollowMessage(
+            @Query("id") id: String?,
+            @Query("name") name: String?,
+            @Query("userId") userId: String?,
+            @Query("encoded") encoded: String?,
+            @Query("actType") actType: String?,
+            @Query("decodeId") decodeId: String?
+
+    ): Call<FollowUnfollowModelClass>
+
 
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>

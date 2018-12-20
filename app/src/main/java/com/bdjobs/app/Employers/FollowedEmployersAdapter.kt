@@ -25,10 +25,18 @@ import android.view.Gravity
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.FollowUnfollowModelClass
 import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.error
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
@@ -38,8 +46,10 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
     val bdjobsUserSession = BdjobsUserSession(context)
     private var followedEmployerList: ArrayList<FollowedEmployer>? = null
     private lateinit var bdjobsDB: BdjobsDB
-    private lateinit var companyIDFmDB: String
-    private  var undo : Boolean = false
+    private lateinit var company_ID: String
+    private lateinit var company_name: String
+    private  var undoButtonPressed : Boolean = false
+
 
     init {
         followedEmployerList = ArrayList()
@@ -59,13 +69,22 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         holder.employerCompany.text = followedEmployerList!![position].CompanyName
         holder.offeringJobs.text = followedEmployerList!![position].JobCount
 
+
+
         holder.followUunfollow.setOnClickListener {
+            undoButtonPressed = false
             /*Toast.makeText(context, holder.adapterPosition.toString(),
                     Toast.LENGTH_LONG).show()*/
-            companyIDFmDB = followedEmployerList!![position].CompanyID!!
 
-            Toast.makeText(context, companyIDFmDB,
-                    Toast.LENGTH_LONG).show()
+            doAsync {
+                company_name = followedEmployerList!![position].CompanyName!!
+                company_ID = followedEmployerList!![position].CompanyID!!
+              //  company_ID = "22590"
+            }
+
+       //     deleteFromServer(company_ID,company_name)
+      //      Toast.makeText(context, companyIDFmDB, Toast.LENGTH_LONG).show()
+
             rmv(position,it)
         }
 
@@ -83,10 +102,7 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         }
     }
 
-    private fun undoRemove(v: View,
-                           deletedItem: FollowedEmployer?,
-                           deletedIndex: Int
-    ) {
+    private fun undoRemove(v: View, deletedItem: FollowedEmployer?, deletedIndex: Int) {
 
         val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
 
@@ -97,6 +113,7 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
                     //    "Applicant $name has been restored successfully!".toast(activity!!)
                    // call?.doNothing(page, applyIDs(), applicantStatus())
                   //  Log.d("checkingUndo", "${applyIDs()} and ${applicantStatus()}")
+
                     restoreMe(deletedItem!!, deletedIndex)
                     Log.d("comid", "comid")
                 }
@@ -114,21 +131,82 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         snack.show()
         Log.d("swipe", "dir to LEFT")
 
-        delayDeleteFollowedEmployer()
+         Handler().postDelayed({
+
+             Log.d("undoButtonPressed", "$undoButtonPressed")
+        //bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyIDFmDB)
+        doAsync {
+         //   uiThread {
+                if(undoButtonPressed == false){
+
+                }
+          //  }
+
+        }
+
+
+
+
+    }, 5000)
+
+
+        snack.addCallback(object : Snackbar.Callback() {
+            override fun onShown(snackbar: Snackbar?) {
+                //  on show
+            //    Log.d("comid", "shown")
+            }
+
+            override fun onDismissed(snackbar: Snackbar?, event: Int) {
+             //   Log.d("comid", "dismissed")
+                Log.d("comid", "$undoButtonPressed")
+                if(undoButtonPressed == false){
+                    deleteFromServer(company_ID,company_name)
+                    deleteFromDB(company_ID)
+                }
+
+            }
+
+        })
+
+      //  delayDeleteFollowedEmployer()
 
 
 
     }
 
-    private fun delayDeleteFollowedEmployer(){
-        Handler().postDelayed({
+    private fun deleteFromServer(companyid : String, companyName : String){
+        ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = company_name, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fed", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass>{
+            override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
+
+                var statuscode = response.body()?.statuscode
+                var message = response.body()?.data?.get(0)?.message
+//                Log.d("msg", message)
+                Toast.makeText(context, statuscode + "---"+message, Toast.LENGTH_LONG).show()
+                  }
+
+        })
+    }
+    private fun deleteFromDB(companyid : String){
+        Log.d("comid", "comid")
+        Log.d("comid", "$companyid")
+        doAsync {
+          //  uiThread {
+                bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
+         //   }
+        }
+
+
+       /* Handler().postDelayed({
 
             //bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyIDFmDB)
             doAsync {
                 uiThread {
                     if(undo == false){
-                        Log.d("comid", "comid")
-                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyIDFmDB)
+
                     }
                 }
 
@@ -137,13 +215,13 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
 
 
 
-        }, 5000)
+        }, 5000)*/
     }
 
     private fun restoreMe(item: FollowedEmployer, pos: Int) {
         followedEmployerList?.add(pos, item)
         notifyItemInserted(pos)
-        undo = true
+        undoButtonPressed = true
     }
 
     fun add(r: FollowedEmployer) {
