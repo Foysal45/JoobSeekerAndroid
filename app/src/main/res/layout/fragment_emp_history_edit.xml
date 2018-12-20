@@ -8,7 +8,7 @@
     tools:context=".editResume.employmentHistory.fragments.EmpHistoryEditFragment">
 
     <androidx.core.widget.NestedScrollView
-        android:paddingBottom="30dp"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -89,7 +89,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/positionTIL"
@@ -223,6 +224,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
 
@@ -234,11 +236,6 @@
                     android:textColorHint="#757575"
                     app:helperText="@string/msg.you_can_add_maximum_3_work_discipline">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="30dp">
-
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/experiencesMACTV"
                             android:layout_width="match_parent"
@@ -248,14 +245,21 @@
                             android:inputType="text"
                             android:textColor="#212121" />
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/entry_chip_group"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/experiencesMACTV" />
-                    </RelativeLayout>
-
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="40dp">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/entry_chip_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
 
             </LinearLayout>
         </LinearLayout>
