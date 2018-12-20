@@ -1,17 +1,22 @@
 package com.bdjobs.app.Registration
 
 import android.app.Activity
+import android.content.Intent
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CreateAccountModel
+import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
+import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 
 import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.blue_collar_registration.*
 import com.bdjobs.app.Registration.white_collar_registration.*
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 
 import com.bdjobs.app.Utilities.transitFragment
 import kotlinx.android.synthetic.main.activity_registration_base.*
@@ -33,7 +38,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val wcPhoneEmailFragment = WCPhoneEmailFragment()
     private val wcPasswordFragment = WCPasswordFragment()
     private val wcCongratulationFragment = WCCongratulationFragment()
-    private val wcMobileVerificationFragment = WCMobileVerificationFragment()
+    private val wcMobileVerificationFragment = WCOtpCodeFragment()
     private lateinit var categoryId: String
     private lateinit var dataStorage: DataStorage
     private lateinit var name: String
@@ -66,6 +71,27 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val bcPhotoUploadFragment = BCPhotoUploadFragment()
     private val bcCongratulationFragment = BCCongratulationFragment()
 
+    //-------------api response value----------//
+
+    private var isCVPostedRPS = ""
+    private var nameRPS = ""
+    private var emailRPS = ""
+    private var userID = ""
+    private var decodeId = ""
+    private var userNameRPS= ""
+    private var appsDate = ""
+    private var ageRPS = ""
+    private var experienseRPS = ""
+    private var categoryIDRPS = ""
+    private var genderRPS = ""
+    private var resumeUpdateOn = ""
+    private var isResumeUpdate = ""
+    private var trainingId = ""
+    private var userPicUrl =""
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +113,15 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun onPostResume() {
         super.onPostResume()
         setProgreesBar()
+    }
+
+    override fun goToHomePage() {
+
+        DatabaseUpdateJob.runJobImmediately()
+        val intent = Intent(this@RegistrationBaseActivity, MainLandingActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finishAffinity()
     }
 
     //-----------------------  white Collar ------------------------//
@@ -239,8 +274,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun wcGetOtp(): String {
+        Log.d("catagorySelected", "otpCode  $otpCode ")
         return otpCode
-        Log.d("catagorySelected", "otpCode  ${this.otpCode} ")
+
     }
 
     override fun wcCreateAccount() {
@@ -304,6 +340,31 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                         } else {
 
                             wcGoToStepCongratulation()
+                            val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
+
+
+
+                            isCVPostedRPS = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+                            nameRPS = response.body()!!.data!!.get(0)!!.name.toString()
+                            emailRPS = response.body()!!.data!!.get(0)!!.email.toString()
+                            userID = response.body()!!.data!!.get(0)!!.userId.toString()
+                            decodeId = response.body()!!.data!!.get(0)!!.decodId.toString()
+                            userNameRPS = response.body()!!.data!!.get(0)!!.userName.toString()
+                            appsDate = response.body()!!.data!!.get(0)!!.appsDate.toString()
+                            ageRPS = response.body()!!.data!!.get(0)!!.age.toString()
+                            experienseRPS = response.body()!!.data!!.get(0)!!.exp.toString()
+                            categoryIDRPS = response.body()!!.data!!.get(0)!!.catagoryId.toString()
+                            genderRPS = response.body()!!.data!!.get(0)!!.gender.toString()
+                            resumeUpdateOn = response.body()!!.data!!.get(0)!!.resumeUpdateON.toString()
+                            isResumeUpdate = response.body()!!.data!!.get(0)!!.isResumeUpdate.toString()
+                            trainingId = response.body()!!.data!!.get(0)!!.trainingId.toString()
+                            userPicUrl = response.body()!!.data!!.get(0)!!.userPicUrl.toString()
+
+
+
+                            bdjobsUserSession.createSession(isCVPostedRPS,nameRPS,emailRPS,userID,decodeId,
+                                    userNameRPS,appsDate,ageRPS,experienseRPS,categoryIDRPS,genderRPS,
+                                    resumeUpdateOn,isResumeUpdate,trainingId,userPicUrl)
                         }
 
                     } else if (response.body()!!.statuscode.equals("2",true)){
@@ -340,6 +401,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 Log.d("ResponseTesrt", " wcOtpVerify onResponse message ${response.body()!!.message}")
                 Log.d("ResponseTesrt", " wcOtpVerify onResponse statuscode ${response.body()!!.statuscode}")
 
+                val username = response.body()!!.data!!.get(0)!!.userName.toString()
+
+                Log.d("ResponseTesrt", " wcOtpVerify name ${username}")
                 if (response.isSuccessful){
                     if(response.body()!!.statuscode.equals("0",true)){
 
@@ -349,10 +413,43 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                         if (!isCvPosted.equals("null",true)){
 
                             wcGoToStepCongratulation()
+                            val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
+
+
+
+                            isCVPostedRPS = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+                            nameRPS = response.body()!!.data!!.get(0)!!.name.toString()
+                            emailRPS = response.body()!!.data!!.get(0)!!.email.toString()
+                            userID = response.body()!!.data!!.get(0)!!.userId.toString()
+                            decodeId = response.body()!!.data!!.get(0)!!.decodId.toString()
+                            userNameRPS = response.body()!!.data!!.get(0)!!.userName.toString()
+                            appsDate = response.body()!!.data!!.get(0)!!.appsDate.toString()
+                            ageRPS = response.body()!!.data!!.get(0)!!.age.toString()
+                            experienseRPS = response.body()!!.data!!.get(0)!!.exp.toString()
+                            categoryIDRPS = response.body()!!.data!!.get(0)!!.catagoryId.toString()
+                            genderRPS = response.body()!!.data!!.get(0)!!.gender.toString()
+                            resumeUpdateOn = response.body()!!.data!!.get(0)!!.resumeUpdateON.toString()
+                            isResumeUpdate = response.body()!!.data!!.get(0)!!.isResumeUpdate.toString()
+                            trainingId = response.body()!!.data!!.get(0)!!.trainingId.toString()
+                            userPicUrl = response.body()!!.data!!.get(0)!!.userPicUrl.toString()
+
+
+
+                            bdjobsUserSession.createSession(isCVPostedRPS,nameRPS,emailRPS,userID,decodeId,
+                                    userNameRPS,appsDate,ageRPS,experienseRPS,categoryIDRPS,genderRPS,
+                                    resumeUpdateOn,isResumeUpdate,trainingId,userPicUrl)
+
+
+
 
                         }
 
                     } else if (response.body()!!.statuscode.equals("3",true)){
+
+                        toast(response.body()!!.message!!)
+                    }
+
+                    else if (response.body()!!.statuscode.equals("1",true)){
 
                         toast(response.body()!!.message!!)
                     }

@@ -67,6 +67,7 @@ class WCPhoneEmailFragment : Fragment() {
                     registrationCommunicator.wcGoToStepPassword()
                     registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.text.toString())
                     registrationCommunicator.wcUserNameSelected(mobileNumberTIET.text.toString())
+                    registrationCommunicator.wcCountrySeledted(countryCodeTIET.text.toString())
 
 
                     if (isValidEmail(emailTIET.text.toString())) {

@@ -44,6 +44,10 @@ interface RegistrationCommunicator {
     fun bcGoToStepCongratulation()
     /*fun setProgreesBar()*/
 
+    ////-------------common-----------//
+
+    fun goToHomePage()
+
 
 
 }
