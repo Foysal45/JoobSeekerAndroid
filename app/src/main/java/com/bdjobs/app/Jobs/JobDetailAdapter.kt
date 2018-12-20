@@ -191,10 +191,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.applyButton.setOnClickListener {
                                 val bdjobsUserSession = BdjobsUserSession(context)
                                 if(!bdjobsUserSession.isLoggedIn!!){
-                                    /*val activity = context as Activity
-                                    val intent = Intent(activity, LoginBaseActivity::class.java)
-                                    intent.putExtra("goToHome",false)
-                                    activity.startActivity(intent)*/
                                     jobCommunicator?.goToLoginPage()
                                 }
                             }

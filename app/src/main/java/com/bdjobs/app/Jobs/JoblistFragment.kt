@@ -15,6 +15,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.Databases.Internal.LastSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -68,7 +69,6 @@ class JoblistFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
         bdjobsDB = BdjobsDB.getInstance(activity)
         saveSearchBtn.setOnClickListener {
             saveSearch()
@@ -170,6 +170,7 @@ class JoblistFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        session = BdjobsUserSession(activity)
         currentPage = 1
         jobListRecyclerView?.setHasFixedSize(true)
         communicator = activity as JobCommunicator
@@ -399,6 +400,9 @@ class JoblistFragment : Fragment() {
     }
 
     private fun saveSearch() {
+
+
+
         val saveSearchDialog = Dialog(activity)
         saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
         saveSearchDialog.setCancelable(true)
@@ -409,6 +413,60 @@ class JoblistFragment : Fragment() {
             saveSearchDialog.dismiss()
         }
         saveBTN.setOnClickListener {
+            if(!session.isLoggedIn!!){
+                communicator.goToLoginPage()
+            }
+            else{
+                /*val favouriteSearch = FavouriteSearch(
+
+
+                        *//*@ColumnInfo(name = "filterid")
+                        val filterid: String?,
+                        @ColumnInfo(name = "filtername")
+                        val filtername: String?,
+                        @ColumnInfo(name = "industrialCat")
+                        val industrialCat: String?,
+                        @ColumnInfo(name = "functionalCat")
+                        val functionalCat: String?,
+                        @ColumnInfo(name = "location")
+                        val location: String?,
+                        @ColumnInfo(name = "organization")
+                        val organization: String?,
+                        @ColumnInfo(name = "jobnature")
+                        val jobnature: String?,
+                        @ColumnInfo(name = "joblevel")
+                        val joblevel: String?,
+                        @ColumnInfo(name = "postedon")
+                        val postedon: String?,
+                        @ColumnInfo(name = "deadline")
+                        val deadline: String?,
+                        @ColumnInfo(name = "keyword")
+                        val keyword: String?,
+                        @ColumnInfo(name = "newspaper")
+                        val newspaper: String?,
+                        @ColumnInfo(name = "gender")
+                        val gender: String?,
+                        @ColumnInfo(name = "genderb")
+                        val genderb: String?,
+                        @ColumnInfo(name = "experience")
+                        val experience: String?,
+                        @ColumnInfo(name = "age")
+                        val age: String?,
+                        @ColumnInfo(name = "jobtype")
+                        val jobtype: String?,
+                        @ColumnInfo(name = "retiredarmy")
+                        val retiredarmy: String?,
+                        @ColumnInfo(name = "createdon")
+                        val createdon: Date?,
+                        @ColumnInfo(name = "updatedon")
+                        val updatedon: Date?,
+                        @ColumnInfo(name = "totaljobs")
+                        val totaljobs: String?*//*
+
+
+                )*/
+            }
+
 
         }
 
