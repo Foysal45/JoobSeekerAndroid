@@ -31,7 +31,6 @@
         <item name="fabSize">normal</item>
         <item name="backgroundTint">#13A10E</item>
         <item name="elevation">3dp</item>
-        <item name="android:src">@drawable/ic_done_black_24dp</item>
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:layout_marginBottom">20dp</item>
         <item name="android:layout_marginEnd">20dp</item>

@@ -10,6 +10,7 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
+import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragment
@@ -18,6 +19,10 @@ import kotlinx.android.synthetic.main.activity_emplyment_history.*
 import org.jetbrains.anko.toast
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
+    override fun editInfo() {
+        transitFragment(editFragment, R.id.emp_his_container)
+    }
+
     override fun setTitle(tit: String?) {
         setupToolbar(tit)
     }
@@ -25,6 +30,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryFragment()
+    private val armyViewFragment = ArmyEmpHisViewFragment()
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null

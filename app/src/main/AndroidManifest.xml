@@ -90,10 +90,9 @@
         </receiver>
 
         <activity android:name=".editResume.employmentHistory.EmploymentHistoryActivity" />
-        <activity
-            android:name=".editResume.BaseActivity"
-            android:label="@string/title_activity_base" />
-        <activity android:name=".editResume.personalInfo.PersonalInfoActivity"></activity>
+
+        <activity android:name=".editResume.personalInfo.PersonalInfoActivity" />
+        <activity android:name=".editResume.otherInfo.OtherInfoActivity" />
     </application>
 
 </manifest>

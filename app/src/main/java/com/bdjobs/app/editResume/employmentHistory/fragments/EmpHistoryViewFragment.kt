@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_emp_history_view.*
 
 
 class EmpHistoryViewFragment : Fragment() {
-
     private var adapter: EmpHistoryAdapter? = null
     private var arr: ArrayList<sampledata>? = ArrayList()
 
@@ -39,9 +38,10 @@ class EmpHistoryViewFragment : Fragment() {
     }
 
     private fun setupRV() {
-        adapter = EmpHistoryAdapter(arr!!, activity)
+        rv_eh_view.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(getApplicationContext())
         rv_eh_view.layoutManager = mLayoutManager
+        adapter = EmpHistoryAdapter(arr!!, activity)
         rv_eh_view.itemAnimator = DefaultItemAnimator()
         rv_eh_view.adapter = adapter
     }

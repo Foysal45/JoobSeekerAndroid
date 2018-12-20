@@ -1,24 +1,29 @@
 package com.bdjobs.app.editResume.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.editResume.adapters.models.sampledata
+import com.bdjobs.app.editResume.callbacks.EmpHisCB
 
 class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: Context) : RecyclerView.Adapter<EmpHistoryAdapter.MyViewHolder>() {
 
+    private lateinit var call: EmpHisCB
     private val DURATION = 200
-    private var visibility: Int = View.GONE
+
+    init {
+        call = context as EmpHisCB
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_experiece_list, parent, false)
@@ -31,34 +36,34 @@ class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: C
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val dModel = items[position]
-        holder.jstatus.text = dModel.message
-        holder.application.text = dModel.message1
-        holder.more.text = dModel.statuscode
-        holder.more1.text = dModel.statuscode1
+        holder.tvDes?.text = dModel.statuscode
+        holder.tvDate?.text = dModel.message
+        holder.tvCom?.text = dModel.message1
+        holder.tvAddress?.text = dModel.statuscode1
         //holder.moreActionDetails!!
-        //ExpandAndCollapseViewUtil.collapse(holder.moreActionDetails!!, 0)
+        holder.ivEdit?.setOnClickListener {
+            call.editInfo()
+        }
+
         holder.imageViewExpand!!.setOnClickListener {
-            debug("clicked success")
+            Log.d("click", "clicked success")
             toggleDetails(holder)
         }
-        val visibility = holder.moreActionDetails!!.visibility
-        debug("beforetoggleDetails: $visibility")
         holder.moreActionDetails?.visibility = View.GONE
     }
-
     private fun toggleDetails(holder: MyViewHolder) {
-        var visibility = holder.moreActionDetails!!.visibility
+        var visibility: Int = holder.moreActionDetails!!.visibility
         if (visibility == View.GONE) {
             visibility = View.VISIBLE
             debug("iftoggleDetails: $visibility")
             ExpandAndCollapseViewUtil.expand(holder.moreActionDetails!!, DURATION)
-            holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_down)
-            rotate(180.0f, holder)
+            holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_up)
+            //rotate(180.0f, holder)
         } else {
             ExpandAndCollapseViewUtil.collapse(holder.moreActionDetails!!, DURATION)
             debug("elsetoggleDetails: $visibility")
-            holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_up)
-            rotate(-180.0f, holder)
+            holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_down)
+            //rotate(-180.0f, holder)
         }
     }
 
@@ -71,13 +76,13 @@ class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: C
     }
 
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        var moreActionDetails: ViewGroup? = itemView!!.findViewById(R.id.rl_expanded)
-        var moreAction: RelativeLayout? = itemView!!.findViewById(R.id.rl_collapsed)
-        var imageViewExpand: ImageView? = itemView!!.findViewById(R.id.iv_details) as ImageView
 
-        var jstatus: TextView = itemView!!.findViewById(R.id.tv_sam)
-        var application: TextView = itemView!!.findViewById(R.id.tv_1)
-        var more: TextView = itemView!!.findViewById(R.id.tv_2)
-        var more1: TextView = itemView!!.findViewById(R.id.tv_3)
+        var moreActionDetails: ViewGroup? = itemView!!.findViewById(R.id.cl_expanded)
+        var imageViewExpand: ImageView? = itemView!!.findViewById(R.id.iv_details)
+        var ivEdit: ImageView? = itemView!!.findViewById(R.id.iv_edit)
+        var tvDes: TextView? = itemView?.findViewById(R.id.tvDes)
+        var tvDate: TextView? = itemView?.findViewById(R.id.tvDate)
+        var tvCom: TextView? = itemView?.findViewById(R.id.tvCom)
+        var tvAddress: TextView? = itemView?.findViewById(R.id.tvAddress)
     }
 }

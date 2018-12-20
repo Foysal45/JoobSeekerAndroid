@@ -15,6 +15,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -48,6 +49,10 @@ fun Date.toSimpleTimeString() : String {
     return format.format(this)
 }
 
+fun View.closeKeyboard(activity: Context) {
+    val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    imm!!.hideSoftInputFromWindow(this.windowToken, 0)
+}
 
 fun Activity.getFCMtoken() {
     FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->

@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".editResume.employmentHistory.fragments.EmpHistoryViewFragment">
+    tools:context=".editResume.otherInfo.fragments.SpecializationViewFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_eh_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_eh_add"
+        android:id="@+id/fab_sp_edit"
         style="@style/FabStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

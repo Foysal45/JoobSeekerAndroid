@@ -27,7 +27,7 @@ object ExpandAndCollapseViewUtil {
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
         } catch (e: Exception) {
-            error(e.message.toString())
+            debug("slideAnimation${e.message}")
         }
 
         val initialHeight = v.measuredHeight
@@ -37,14 +37,15 @@ object ExpandAndCollapseViewUtil {
         } else {
             v.layoutParams.height = initialHeight
         }
-        v.visibility = View.GONE
+        v.visibility = View.VISIBLE
 
         val a = object : Animation() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
-                val newHeight: Int = if (expand) {
-                    (initialHeight * interpolatedTime).toInt()
+                var newHeight = 0
+                if (expand) {
+                    newHeight = (initialHeight * interpolatedTime).toInt()
                 } else {
-                    (initialHeight * (1 - interpolatedTime)).toInt()
+                    newHeight = (initialHeight * (1 - interpolatedTime)).toInt()
                 }
                 v.layoutParams.height = newHeight
                 v.requestLayout()

@@ -12,53 +12,48 @@
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/cl_collapsed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/rl_collapsed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:id="@+id/tv_sam"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/alert_no_internet" />
-
-                <ImageView
-                    android:id="@+id/iv_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_sam"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:contentDescription="@string/content_desce"
-                    android:padding="15dp"
-                    android:src="@drawable/ic_arrow_down" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_expanded"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/rl_collapsed">
-
-                <include layout="@layout/layout_experience" />
-            </RelativeLayout>
+            <include layout="@layout/layout_collapsed" />
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+            <RelativeLayout
+                android:id="@+id/cl_expanded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cl_collapsed"
+                android:visibility="gone">
+
+                <include layout="@layout/layout_expanded" />
+            </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cl_expanded"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_arrow_down" />
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_account_circle_black_24px" />
+
+    </RelativeLayout>
+
+
 </androidx.cardview.widget.CardView>

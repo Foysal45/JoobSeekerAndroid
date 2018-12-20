@@ -90,7 +90,7 @@ class AdvanceSearchFragment : Fragment() {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
-                Log.d("chip", "text: ${chip.text}")
+                Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
@@ -208,7 +208,7 @@ class AdvanceSearchFragment : Fragment() {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
             if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip", "text:$i")
+                Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
             }
         }
