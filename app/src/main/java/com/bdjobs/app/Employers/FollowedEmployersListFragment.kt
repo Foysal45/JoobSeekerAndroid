@@ -1,5 +1,6 @@
 package com.bdjobs.app.Employers
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -37,8 +38,9 @@ class FollowedEmployersListFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var bdjobsDB: BdjobsDB
-
+    private var followedEmployersAdapter: FollowedEmployersAdapter? = null
     lateinit var employersCommunicator: EmployersCommunicator
+    private var layoutManager: androidx.recyclerview.widget.LinearLayoutManager? = null
 
     private var followedEmployerList: List<FollowedEmployer>? = null
 
@@ -56,6 +58,7 @@ class FollowedEmployersListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_followed_employers_list, container, false)
     }
 
+    @SuppressLint("WrongConstant")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         employersCommunicator = activity as EmployersCommunicator
@@ -72,10 +75,13 @@ class FollowedEmployersListFragment : Fragment() {
             Log.d("follow", followedEmployerList.toString())
             uiThread {
 
+                followedEmployersAdapter = FollowedEmployersAdapter(activity!!)
+                followedRV!!.adapter = followedEmployersAdapter
+                followedRV!!.setHasFixedSize(true)
                 followedRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-                val followedEmployersAdapter = FollowedEmployersAdapter( context = activity)
+                Log.d("initPag", "called")
+                followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
-                followedRV?.adapter = followedEmployersAdapter
 
             }
         }
