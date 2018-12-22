@@ -153,7 +153,6 @@ class AdvanceSearchFragment : Fragment() {
 
     }
 
-
     private fun getDataFromChipGroup(chipGroup: ChipGroup) {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
@@ -271,6 +270,12 @@ class AdvanceSearchFragment : Fragment() {
         maleChip.isChecked = false
         femaleChip.isChecked = false
         otherChip.isChecked = false
+        val genderList = jobCommunicator.getGender()?.split(",")
+        genderList?.forEach { it ->
+            Log.d("genderList", "gender: $it")
+
+            selectChip(genderCG, dataStorage.getGenderByID(it))
+        }
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
@@ -284,7 +289,6 @@ class AdvanceSearchFragment : Fragment() {
             }
         }
     }
-
 
     private fun showHideCrossButton(editText: EditText) {
         if (editText.text.isBlank()) {

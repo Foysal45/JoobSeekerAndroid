@@ -117,6 +117,46 @@
             app:layout_constraintStart_toStartOf="@+id/favcounter1BTN"
             app:layout_constraintTop_toTopOf="@+id/favcounter1BTN" />
 
+        <TextView
+            android:id="@+id/deleteTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_delete_black_24dp"
+            android:drawablePadding="3dp"
+            android:padding="5dp"
+            android:text="Delete"
+            android:textColor="#767676"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:drawableLeft="@drawable/ic_edit_black_24dp"
+            android:padding="5dp"
+            android:textColor="#767676"
+            android:textSize="12sp"
+            android:id="@+id/editTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Edit"
+            app:layout_constraintBottom_toBottomOf="@+id/deleteTV"
+            app:layout_constraintEnd_toStartOf="@+id/deleteTV"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintTop_toTopOf="@+id/deleteTV" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

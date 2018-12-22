@@ -21,6 +21,9 @@ import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,6 +71,30 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
             }
         }
 
+        if (favCommunicator != null) {
+            holder.deleteTV.show()
+            holder.editTV.show()
+
+            holder.deleteTV.setOnClickListener {
+                activity.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
+                    yesButton {
+                        deleteFavSearch(items[position].filterid!!)
+                    }
+                    noButton { dialog ->
+                        dialog.dismiss()
+                    }
+                }.show()
+            }
+
+            holder.editTV.setOnClickListener {
+                favCommunicator?.goToEditMode(items[position].filterid!!)
+            }
+        } else {
+            holder.deleteTV.hide()
+            holder.editTV.hide()
+        }
+
+
         holder.progressBar.show()
         ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = items[position].filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
             override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
@@ -96,6 +123,12 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
     override fun getItemCount(): Int {
         return items?.size!!
+    }
+
+
+    private fun deleteFavSearch(filterID: String) {
+
+
     }
 
     private fun getFilterString(favouriteSearch: FavouriteSearch): String? {
@@ -152,6 +185,9 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
+
+    val deleteTV = view.findViewById(R.id.deleteTV) as TextView
+    val editTV = view.findViewById(R.id.editTV) as TextView
     val favTitle1TV = view.findViewById(R.id.favTitle1TV) as TextView
     val dateTV = view.findViewById(R.id.createdOnDateTV) as TextView
     val timeTV = view.findViewById(R.id.time1TV) as TextView

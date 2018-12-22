@@ -10,8 +10,11 @@ import org.jetbrains.anko.startActivity
 class FavouriteSearchBaseActivity : Activity(), FavCommunicator {
 
 
-
     private val favouriteSearchFilterListFragment = FavouriteSearchFilterListFragment()
+
+    private val favouriteSearchFilterEditFragment = FavouriteSearchFilterEditFragment()
+    private var filterID =""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite_search_base)
@@ -23,6 +26,15 @@ class FavouriteSearchBaseActivity : Activity(), FavCommunicator {
     }
     override fun goToJobSearch(favID: String) {
         startActivity<JobBaseActivity>("from" to "favsearch", "filterid" to favID)
+    }
+
+    override fun goToEditMode(favID: String) {
+        this.filterID = favID
+        transitFragment(favouriteSearchFilterEditFragment, R.id.fragmentHolder,true)
+    }
+
+    override fun getFilterID(): String {
+        return filterID
     }
 
 }
