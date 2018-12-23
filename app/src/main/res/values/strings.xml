@@ -138,5 +138,9 @@
     <string name="hint.army_course">Course</string>
     <string name="hint.army_com_date">Date of Commission *</string>
     <string name="hint.army_retire">Date of Retirement *</string>
+    <string name="title_company_business">Company Business</string>
+    <string name="title_department">Department</string>
+    <string name="title_area_of_exps">Area of Experiences</string>
+    <string name="title_respos">Responsibilities</string>
 
 </resources>

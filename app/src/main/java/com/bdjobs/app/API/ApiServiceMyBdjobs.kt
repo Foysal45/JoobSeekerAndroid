@@ -6,6 +6,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
+import com.bdjobs.app.editResume.adapters.models.GetExps
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -54,6 +55,15 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId: String?,
             @Field("intFId") intFId: String?
     ): Call<FavouriteSearchCountModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_step_03_view_exp.asp")
+    fun getExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<List<GetExps>>
+
 
     @FormUrlEncoded
     @POST("app_invite_interview_list.asp")

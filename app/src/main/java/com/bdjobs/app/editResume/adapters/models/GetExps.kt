@@ -8,7 +8,7 @@ data class GetExps(
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: List<DataItem?>? = null,
+        val data: ArrayList<DataItem?>? = null,
 
         @field:SerializedName("common")
         val common: Any? = null,

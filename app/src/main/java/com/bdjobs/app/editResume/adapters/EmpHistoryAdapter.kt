@@ -1,29 +1,25 @@
 package com.bdjobs.app.editResume.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.editResume.adapters.models.sampledata
+import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 
-class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: Context) : RecyclerView.Adapter<EmpHistoryAdapter.MyViewHolder>() {
+class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context) : RecyclerView.Adapter<EmpHistoryAdapter.MyViewHolder>() {
 
-    private lateinit var call: EmpHisCB
-    private val DURATION = 200
-
-    init {
-        call = context as EmpHisCB
-    }
+    private var call: EmpHisCB = context as EmpHisCB
+    private val DURATION = 300
+    private var itemList: MutableList<DataItem>? = arr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_experiece_list, parent, false)
@@ -31,16 +27,21 @@ class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: C
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return if (itemList == null) 0 else itemList!!.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val dModel = items[position]
-        holder.tvDes?.text = dModel.statuscode
-        holder.tvDate?.text = dModel.message
-        holder.tvCom?.text = dModel.message1
-        holder.tvAddress?.text = dModel.statuscode1
-        //holder.moreActionDetails!!
+        val dModel = itemList?.get(position)!!
+        holder.tvDes?.text = dModel.positionHeld
+        holder.tvDate?.text = "From ${dModel.from} to ${dModel.to}"
+        holder.tvCom?.text = dModel.companyName
+        holder.tvAddress?.text = dModel.companyLocation
+        holder.tvComBus?.text = dModel.companyBusiness
+        holder.tvDept?.text = dModel.departmant
+        holder.tvAreaOfExp?.text = dModel.areaofExperience
+        holder.tvRespos?.text = dModel.responsibility
+
         holder.ivEdit?.setOnClickListener {
             call.editInfo()
         }
@@ -58,21 +59,23 @@ class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: C
             debug("iftoggleDetails: $visibility")
             ExpandAndCollapseViewUtil.expand(holder.moreActionDetails!!, DURATION)
             holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_up)
-            //rotate(180.0f, holder)
         } else {
             ExpandAndCollapseViewUtil.collapse(holder.moreActionDetails!!, DURATION)
             debug("elsetoggleDetails: $visibility")
             holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_down)
-            //rotate(-180.0f, holder)
         }
     }
 
-    private fun rotate(angle: Float, holder: MyViewHolder) {
-        val animation = RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f)
-        animation.fillAfter = true
-        animation.duration = DURATION.toLong()
-        holder.imageViewExpand!!.startAnimation(animation)
+    private fun add(item: DataItem) {
+        itemList?.add(item)
+        notifyItemInserted(itemList?.size?.minus(1)!!)
+    }
+
+    fun addAll(items: ArrayList<DataItem>) {
+        for (result in items) {
+            add(result)
+        }
+        notifyDataSetChanged()
     }
 
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -84,5 +87,9 @@ class EmpHistoryAdapter(private val items: ArrayList<sampledata>, val context: C
         var tvDate: TextView? = itemView?.findViewById(R.id.tvDate)
         var tvCom: TextView? = itemView?.findViewById(R.id.tvCom)
         var tvAddress: TextView? = itemView?.findViewById(R.id.tvAddress)
+        var tvComBus: TextView? = itemView?.findViewById(R.id.tv_comBus)
+        var tvDept: TextView? = itemView?.findViewById(R.id.tv_cDept)
+        var tvAreaOfExp: TextView? = itemView?.findViewById(R.id.tv_area_exps)
+        var tvRespos: TextView? = itemView?.findViewById(R.id.tv_respons)
     }
 }

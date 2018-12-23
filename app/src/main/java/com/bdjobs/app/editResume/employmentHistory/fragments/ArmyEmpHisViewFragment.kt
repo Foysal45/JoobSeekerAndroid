@@ -16,5 +16,4 @@ class ArmyEmpHisViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_army_emp_his_view, container, false)
     }
 
-
 }

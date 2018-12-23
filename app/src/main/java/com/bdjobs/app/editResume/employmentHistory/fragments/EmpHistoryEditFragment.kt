@@ -48,8 +48,7 @@ class EmpHistoryEditFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val mView = inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
-        return mView
+        return inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
     }
 
     private fun addChip(input: String) {
@@ -75,6 +74,7 @@ class EmpHistoryEditFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         call = activity as EmpHisCB
+        call.setDeleteButton(true)
         now = Calendar.getInstance()
         doWork()
     }
@@ -122,6 +122,10 @@ class EmpHistoryEditFragment : Fragment() {
         } else {
             et_end_date.setText(sdf.format(now.time))
         }
+    }
+
+    fun dataDelete() {
+        activity.toast("data deleted")
     }
 
 }

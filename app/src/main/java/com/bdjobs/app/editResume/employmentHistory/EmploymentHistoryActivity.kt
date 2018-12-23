@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.provider.Settings
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragment
@@ -19,14 +21,6 @@ import kotlinx.android.synthetic.main.activity_emplyment_history.*
 import org.jetbrains.anko.toast
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
-    override fun editInfo() {
-        transitFragment(editFragment, R.id.emp_his_container)
-    }
-
-    override fun setTitle(tit: String?) {
-        setupToolbar(tit)
-    }
-
     private val editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryFragment()
@@ -34,6 +28,25 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
+
+    override fun setDeleteButton(b: Boolean) {
+        if (b) {
+            iv_delete_data.show()
+            iv_delete_data.setOnClickListener {
+                editFragment.dataDelete()
+            }
+        } else {
+            iv_delete_data.hide()
+        }
+    }
+
+    override fun editInfo() {
+        transitFragment(editFragment, R.id.emp_his_container)
+    }
+
+    override fun setTitle(tit: String?) {
+        setupToolbar(tit)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
