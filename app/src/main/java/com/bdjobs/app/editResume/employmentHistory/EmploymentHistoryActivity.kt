@@ -29,6 +29,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val armyEditFragment = ArmyEmpHistoryFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
     private var json: String? = ""
+    private lateinit var listener: EmpHisCB
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
