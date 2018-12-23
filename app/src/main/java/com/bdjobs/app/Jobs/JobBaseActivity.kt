@@ -29,6 +29,7 @@ import org.jetbrains.anko.uiThread
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
 
+
     private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
     private val jobDetailsFragment = JobDetailsFragment()
@@ -60,6 +61,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var deadline = ""
     private var age = ""
     private var army = ""
+    private var filterID=""
+    private var filterName=""
 
 
     lateinit var dataStorage: DataStorage
@@ -109,7 +112,13 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         transitFragment(advanceSearchFragment, R.id.jobFragmentHolder, true)
     }
 
+    override fun getFilterID(): String {
+        return  filterID
+    }
 
+    override fun getFilterName(): String {
+        return filterName
+    }
     private fun getData() {
 
         val intent = this.intent
@@ -166,25 +175,26 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         try {
             val from = intent.getStringExtra("from")
             if (from == "favsearch") {
-                val filterID = intent.getStringExtra("filterid")
+                filterID = intent.getStringExtra("filterid")
 
                 doAsync {
-                    val lastSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
-                    setKeyword(lastSearch.keyword!!)
-                    setCategory(lastSearch.functionalCat!!)
-                    setLocation(lastSearch.location!!)
-                    setIndustry(lastSearch.industrialCat!!)
-                    setNewsPaper(lastSearch.newspaper!!)
-                    setOrganization(lastSearch.organization!!)
-                    setGender(lastSearch.gender!!)
-                    setExperience(lastSearch.experience!!)
-                    setJobType(lastSearch.jobtype!!)
-                    setJobLevel(lastSearch.joblevel!!)
-                    setJobNature(lastSearch.jobnature!!)
-                    setPostedWithin(lastSearch.postedon!!)
-                    setDeadline(lastSearch.deadline!!)
-                    setAge(lastSearch.age!!)
-                    setArmy(lastSearch.retiredarmy!!)
+                    val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
+                    filterName = favSearch.filtername!!
+                    setKeyword(favSearch.keyword!!)
+                    setCategory(favSearch.functionalCat!!)
+                    setLocation(favSearch.location!!)
+                    setIndustry(favSearch.industrialCat!!)
+                    setNewsPaper(favSearch.newspaper!!)
+                    setOrganization(favSearch.organization!!)
+                    setGender(favSearch.gender!!)
+                    setExperience(favSearch.experience!!)
+                    setJobType(favSearch.jobtype!!)
+                    setJobLevel(favSearch.joblevel!!)
+                    setJobNature(favSearch.jobnature!!)
+                    setPostedWithin(favSearch.postedon!!)
+                    setDeadline(favSearch.deadline!!)
+                    setAge(favSearch.age!!)
+                    setArmy(favSearch.retiredarmy!!)
 
                     uiThread {
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
@@ -197,8 +207,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         } catch (e: Exception) {
             transitFragment(joblistFragment, R.id.jobFragmentHolder)
         }
-
-
+        
     }
 
 

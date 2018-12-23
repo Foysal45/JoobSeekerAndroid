@@ -30,6 +30,9 @@ interface JobCommunicator {
 
     // search params
 
+    fun getFilterID():String
+    fun getFilterName():String
+
     fun setKeyword(value: String)
     fun setCategory(value: String)
     fun setLocation(value: String)

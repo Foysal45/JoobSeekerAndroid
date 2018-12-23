@@ -23,6 +23,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
 import org.jetbrains.anko.doAsync
@@ -62,6 +63,8 @@ class JoblistFragment : Fragment() {
     private var deadline = ""
     private var age = ""
     private var army = ""
+    private var filterName = ""
+    private var filterID = ""
     lateinit var bdjobsDB: BdjobsDB
 
 
@@ -96,6 +99,14 @@ class JoblistFragment : Fragment() {
         deadline = communicator.getDeadline()
         age = communicator.getAge()
         army = communicator.getArmy()
+
+        filterName = communicator.getFilterName()
+        filterID = communicator.getFilterID()
+
+        if (filterName.isNotBlank()) {
+            saveSearchBtn.text = filterName
+            saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+        }
 
         suggestiveSearchET.text = keyword
         suggestiveSearchET.setOnClickListener { et ->
@@ -164,10 +175,6 @@ class JoblistFragment : Fragment() {
                 slno = "",
                 version = ""
         )
-    }
-
-    private fun saveSearch(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
-
     }
 
 
@@ -412,9 +419,9 @@ class JoblistFragment : Fragment() {
         val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
         val filterNameET = saveSearchDialog.findViewById(R.id.filterNameET) as EditText
         val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
+        val updateCG = saveSearchDialog.findViewById(R.id.updateCG) as ChipGroup
 
-
-        Log.d("FavParams"," icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
+        Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
         filterNameET.easyOnTextChangedListener { text ->
@@ -425,7 +432,14 @@ class JoblistFragment : Fragment() {
             saveSearchDialog.dismiss()
         }
 
+        if (filterID.isNotBlank()) {
+            updateCG.show()
+        } else {
+            updateCG.hide()
+        }
 
+        if (filterName.isNotBlank())
+            filterNameET.setText(filterName)
 
         saveBTN.setOnClickListener {
             if (validateFilterName(filterNameET.getString(), textInputLayout)) {
@@ -444,16 +458,16 @@ class JoblistFragment : Fragment() {
                             qOT = organization,
                             qJobNature = jobNature,
                             qJobLevel = jobLevel,
-                            qPosted=postedWithin,
-                            qDeadline=deadline,
+                            qPosted = postedWithin,
+                            qDeadline = deadline,
                             txtsearch = keyword,
-                            qExp =experience,
+                            qExp = experience,
                             qGender = gender,
-                            qGenderB="",
+                            qGenderB = "",
                             qJobSpecialSkill = jobType,
-                            qRetiredArmy= army,
-                            savefilterid="",
-                            userId= session.userId,
+                            qRetiredArmy = army,
+                            savefilterid = "",
+                            userId = session.userId,
                             filterName = filterNameET.getString(),
                             qAge = age,
                             newspaper = newsPaper,
