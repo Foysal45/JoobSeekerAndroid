@@ -98,10 +98,8 @@ class EmpHistoryEditFragment : Fragment() {
             }
         }
 
-        experiencesMACTV.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        experiencesMACTV.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                /*if (!experiencesMACTV?.text?.isEmpty()!!)
-                    experiencesMACTV?.clearText()*/
                 val input = experiencesMACTV.text.toString()
                 addChip(input)
                 return@OnEditorActionListener true

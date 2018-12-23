@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ import retrofit2.Response
 
 
 class EmpHistoryViewFragment : Fragment() {
-    private lateinit var call: EmpHisCB
+    private lateinit var empHisCB: EmpHisCB
     private var adapter: EmpHistoryAdapter? = null
     private var arr: ArrayList<DataItem>? = null
     private lateinit var session: BdjobsUserSession
@@ -41,9 +42,9 @@ class EmpHistoryViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
-        call = activity as EmpHisCB
+        empHisCB = activity as EmpHisCB
         populateData()
-        call.setDeleteButton(false)
+        empHisCB.setDeleteButton(false)
     }
 
     private fun setupRV(items: ArrayList<DataItem>) {
@@ -56,14 +57,6 @@ class EmpHistoryViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        /*var a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
-        arr?.add(a)
-        a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
-        arr?.add(a)
-        a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
-        arr?.add(a)
-        a = sampledata("asdfdasf", "sdafds", "asdffasdf", "adfs")
-        arr?.add(a)*/
         loader_exps.show()
         val call = ApiServiceMyBdjobs.create().getExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<List<GetExps>> {
@@ -76,9 +69,11 @@ class EmpHistoryViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         loader_exps.hide()
                         val respo = response.body()?.get(0)
+                        Log.d("empTest", "${respo?.message}")
+                        Log.d("empTest1", "${respo?.toString()}")
                         //activity.toast("${respo?.message}")
                         arr = respo?.data as ArrayList<DataItem>
-                        activity.toast("${arr?.size}")
+                        //activity.toast("${arr?.size}")
                         if (arr != null) {
                             //adapter?.addAll(arr!!)
                             setupRV(arr!!)

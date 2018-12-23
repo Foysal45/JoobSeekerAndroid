@@ -6,17 +6,20 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
 import org.jetbrains.anko.toast
 
@@ -25,6 +28,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
+    private var json: String? = ""
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -38,6 +42,11 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         } else {
             iv_delete_data.hide()
         }
+    }
+
+    fun saveUserInfo(data: DataItem) {
+        Log.d("gotJson", "data: ${data.companyName}")
+        json = Gson().toJson(data)
     }
 
     override fun editInfo() {
