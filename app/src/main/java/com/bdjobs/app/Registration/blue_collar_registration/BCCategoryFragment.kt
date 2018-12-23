@@ -46,9 +46,7 @@ class BCCategoryFragment : Fragment() {
 
     private fun onClick(){
 
-        bcCategoryFAButton.setOnClickListener {
-            registrationCommunicator.bcGoToStepName()
-        }
+
 
 
     }
@@ -69,6 +67,13 @@ class BCCategoryFragment : Fragment() {
 
     }
 
+     fun bcGoToNextStep(){
 
+       bcCategoryFAButton.setOnClickListener {
+           registrationCommunicator.bcGoToStepName()
+       }
+
+
+    }
 
 }

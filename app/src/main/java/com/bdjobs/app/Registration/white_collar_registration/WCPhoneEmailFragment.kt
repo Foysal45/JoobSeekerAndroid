@@ -63,11 +63,19 @@ class WCPhoneEmailFragment : Fragment() {
             when {
                 validateMobileNumber() -> {
 
-                    Log.d("dsklgj", "1")
+
                     registrationCommunicator.wcGoToStepPassword()
                     registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.text.toString())
                     registrationCommunicator.wcUserNameSelected(mobileNumberTIET.text.toString())
-                    registrationCommunicator.wcCountrySeledted(countryCodeTIET.text.toString())
+
+
+                    Log.d("CountryCode", "${countryCodeTIET.text}")
+                    val countryCode: String
+                    val countryNameAndCountryCode = countryCodeTIET.text.toString()
+                    val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                    countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
+
+                    registrationCommunicator.wcCountrySeledted(countryCode)
 
 
                     if (isValidEmail(emailTIET.text.toString())) {
@@ -97,13 +105,18 @@ class WCPhoneEmailFragment : Fragment() {
 
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
 
-            selector("Select Your Country", countryList.toList(), { dialogInterface, i ->
+            selector("Select Your Country", countryList.toList()) { dialogInterface, i ->
 
                 countryCodeTIET.setText(countryList[i])
-                registrationCommunicator.wcCountrySeledted(countryList[i])
+                val countryCode: String
+                val countryNameAndCountryCode = countryList[i]
+                val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
+
+                registrationCommunicator.wcCountrySeledted(countryCode)
 
 
-            })
+            }
 
 
         }
@@ -116,7 +129,7 @@ class WCPhoneEmailFragment : Fragment() {
 
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
-        registrationCommunicator.wcCountrySeledted(mobileNumberTIET.text.toString())
+
 
     }
 

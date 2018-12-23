@@ -15,7 +15,6 @@ import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.fragment_wc_name.*
-import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
 
 
 class WCNameFragment : Fragment() {
@@ -55,7 +54,7 @@ class WCNameFragment : Fragment() {
                 } else {
 
                     registrationCommunicator.wcGoToStepGender()
-                    registrationCommunicator.wcNameSelected(usernameTIET.text.toString())
+                    registrationCommunicator.nameSelected(usernameTIET.text.toString())
                 }
 
 

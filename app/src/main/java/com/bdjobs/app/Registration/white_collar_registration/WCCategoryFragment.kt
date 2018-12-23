@@ -14,7 +14,6 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_wc_category.*
 
 
@@ -87,12 +86,12 @@ class WCCategoryFragment : Fragment() {
         whiteCollarCategoryAdapter.SetCategoryPositionSelected(selectedPosition)
         whiteCollarCategoryAdapter.notifyDataSetChanged()
         if (selectedPosition != -1) {
-           goToNextStep()
+           wcGoToNextStep()
         }
 
     }
 
-     fun goToNextStep(){
+     fun wcGoToNextStep(){
 
         floatingActionButton.setOnClickListener {
             registrationCommunicator.wcGoToStepSocialInfo()

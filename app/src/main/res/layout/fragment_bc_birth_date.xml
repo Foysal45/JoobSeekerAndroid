@@ -36,6 +36,7 @@
 
 
           <com.google.android.material.textfield.TextInputLayout
+              android:focusable="false"
               android:id="@+id/bcBirthDateTIL"
               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
               android:layout_width="0dp"
@@ -53,6 +54,7 @@
               app:layout_constraintTop_toBottomOf="@+id/textView18">
 
               <com.google.android.material.textfield.TextInputEditText
+                  android:focusable="false"
                   android:id="@+id/bcBirthDateTIET"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -116,9 +118,10 @@
                   android:layout_height="wrap_content"
                   android:fontFamily="@font/roboto"
                   android:hint="বয়স"
-                  android:inputType="text"
-                  android:singleLine="true"
                   android:typeface="normal"
+                  android:inputType="numberSigned"
+                  android:maxLength="2"
+                  android:singleLine="true"
                   app:fontFamily="@font/roboto" />
           </com.google.android.material.textfield.TextInputLayout>
 

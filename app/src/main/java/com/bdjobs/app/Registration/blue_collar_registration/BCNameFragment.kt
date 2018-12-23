@@ -1,7 +1,5 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
 import android.text.TextUtils
@@ -44,15 +42,14 @@ class BCNameFragment : Fragment() {
 
         bcNameFAButton.setOnClickListener {
 
-        registrationCommunicator.bcGoToStepGender()
 
-            if(usernameTIET.length() == 0 || usernameTIET.length() < 2 ){
+            if(nameTIET.length() == 0 || nameTIET.length() < 2 ){
 
-                userNameTIL.showError("Name can not be empty")
+                nameTIL.showError("Name can not be empty")
             } else {
 
-                registrationCommunicator.wcGoToStepGender()
-                registrationCommunicator.wcNameSelected(nameTIET.text.toString())
+                registrationCommunicator.bcGoToStepGender()
+                registrationCommunicator.nameSelected(nameTIET.text.toString())
             }
 
         }

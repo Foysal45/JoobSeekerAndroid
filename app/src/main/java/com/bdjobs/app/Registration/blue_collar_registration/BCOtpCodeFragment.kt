@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
+import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
+import org.jetbrains.anko.toast
 
 
 class BCOtpCodeFragment : Fragment() {
@@ -32,9 +34,27 @@ class BCOtpCodeFragment : Fragment() {
 
     private fun onClick(){
 
-        bcOTPFAButton.setOnClickListener {
+      /*  bcOTPFAButton.setOnClickListener {
 
             registrationCommunicator.bcGoToStepBirthDate()
+        }*/
+
+
+        bcOTPFAButton.setOnClickListener {
+            registrationCommunicator.wcSetOtp(bcOTPCodeTIET.text.toString())
+
+
+            ///---------------api---------calling-------------////
+
+          /*  registrationCommunicator.wcOtpVerify()*/
+
+            registrationCommunicator.bcGoToStepBirthDate()
+        }
+
+        bctimeLayout.setOnClickListener {
+
+            toast("time clicked")
+
         }
 
     }
@@ -42,6 +62,9 @@ class BCOtpCodeFragment : Fragment() {
     private fun initialization(){
 
         registrationCommunicator = activity as RegistrationCommunicator
+
+        bcInfoMobileNumberTV.text = "${registrationCommunicator.wcGetMobileNumber()} নম্বরে এস এম এস এর মাধ্যেমে একটি কোড পাঠানো হয়েছে, দয়াকরে কোডটি লিখুন ।"
+
 
     }
 

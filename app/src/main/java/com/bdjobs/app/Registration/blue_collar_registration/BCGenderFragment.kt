@@ -47,6 +47,7 @@ class BCGenderFragment : Fragment() {
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorPrimary))
+            registrationCommunicator.bcGenderSelected("M")
 
         }
 
@@ -64,6 +65,7 @@ class BCGenderFragment : Fragment() {
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorPrimary))
+            registrationCommunicator.bcGenderSelected("F")
 
         }
 
@@ -82,14 +84,12 @@ class BCGenderFragment : Fragment() {
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
 
+            registrationCommunicator.bcGenderSelected("O")
 
 
         }
 
-        bcGenderFAButton.setOnClickListener {
 
-            registrationCommunicator.bcGoToStepMobileNumber()
-        }
 
 
 
@@ -98,6 +98,15 @@ class BCGenderFragment : Fragment() {
     private fun initialization(){
 
         registrationCommunicator = activity as RegistrationCommunicator
+
+    }
+
+    fun goToNextStep(){
+
+        bcGenderFAButton.setOnClickListener {
+
+            registrationCommunicator.bcGoToStepMobileNumber()
+        }
 
     }
 

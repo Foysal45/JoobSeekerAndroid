@@ -13,8 +13,8 @@ interface RegistrationCommunicator {
     fun wcGoToStepPassword()
     fun wcGoToStepCongratulation()
     fun wcGoToStepMobileVerification()
+
     fun wcCategorySelected(category: String, position: Int)
-    fun wcNameSelected(name : String)
     fun wcGenderSelected(gender: String)
     fun wcMobileNumberSelected(mobileNumber: String)
     fun wcEmailSelected(email : String)
@@ -42,9 +42,17 @@ interface RegistrationCommunicator {
     fun bcGoToStepEducation()
     fun bcGoToStepPhotoUpload()
     fun bcGoToStepCongratulation()
-    /*fun setProgreesBar()*/
+    fun bcCategorySelected(category: String, position: Int)
+    fun bcGenderSelected(gender: String)
+
+    fun bcBirthDateAndAgeSelected(birthDate: String, age: String)
+    fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String)
+    fun bcAddressSelected(division: String, district: String, thana: String, postOffice: String, address: String, locationID: String)
+
+    fun bcGetAge():String
 
     ////-------------common-----------//
+    fun nameSelected(name : String)
 
     fun goToHomePage()
 

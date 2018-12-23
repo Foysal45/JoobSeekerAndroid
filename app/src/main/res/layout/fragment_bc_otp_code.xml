@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/wcInfoMobileNumberTV"
+                android:id="@+id/bcInfoMobileNumberTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -62,15 +62,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wcInfoMobileNumberTV">
+                app:layout_constraintTop_toBottomOf="@+id/bcInfoMobileNumberTV">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/bcOTPCodeTIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
+                    android:inputType="numberSigned"
+                    android:maxLength="6"
                     android:hint="কোড লিখুন"
-                    android:inputType="text"
                     android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />
@@ -78,7 +79,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/timeLayout"
+                android:id="@+id/bctimeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -130,7 +131,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timeLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/bctimeLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
