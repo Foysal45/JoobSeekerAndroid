@@ -48,10 +48,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
 
+                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="UI Designer Sketch"
                 android:textColor="#0078D7"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,7 +76,7 @@
                 tools:text="Deadline:" />
 
             <TextView
-                android:id="@+id/textView37"
+                android:id="@+id/deadline_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"

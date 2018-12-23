@@ -31,6 +31,7 @@ import com.bdjobs.app.API.ModelClasses.FollowUnfollowModelClass
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -51,27 +52,30 @@ import retrofit2.Response
  +-----------------------------------------------------------------------------
  */
 
-class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     val activity = context as Activity
     val dataStorage = DataStorage(context)
     val bdjobsUserSession = BdjobsUserSession(context)
-    private var followedEmployerList: ArrayList<FollowedEmployer>? = null
-    private lateinit var bdjobsDB: BdjobsDB
+    private var followedEmployerList: ArrayList<FollowedEmployer>? = ArrayList()
+    private val bdjobsDB: BdjobsDB = BdjobsDB.getInstance(activity)
     private lateinit var company_ID: String
     private lateinit var company_name: String
-    private  var undoButtonPressed : Boolean = false
-    init {
-        followedEmployerList = ArrayList()
-        bdjobsDB = BdjobsDB.getInstance(activity)
-    }
+    private var undoButtonPressed: Boolean = false
+    private val employersCommunicator = activity as EmployersCommunicator
+
+    /*   init {
+           followedEmployerList = ArrayList()
+           bdjobsDB = BdjobsDB.getInstance(activity)
+           employersCommunicator = activity as EmployersCommunicator
+       }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.followed_employers, parent, false))
     }
 
     override fun getItemCount(): Int {
-     return return if (followedEmployerList == null) 0 else followedEmployerList!!.size
+        return return if (followedEmployerList == null) 0 else followedEmployerList!!.size
 
     }
 
@@ -85,9 +89,36 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
             here we start removing the unfollow item
              */
             undoButtonPressed = false
-            rmv(holder.adapterPosition,it)
+            rmv(holder.adapterPosition, it)
         }
+
+        var jobCount = followedEmployerList!![position].JobCount
+        var jobCountint = jobCount?.toInt()
+
+        /*holder.followemployersCard.setOnClickListener {
+            //   Toast.makeText(context, "clicked", Toast.LENGTH_LONG).show();
+            //    employersCommunicator.gotoJobListFragment(company_ID,company_name)
+            var company_name_1 = followedEmployerList!![position].CompanyName!!
+            var company_ID_1 = followedEmployerList!![position].CompanyID!!
+            employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
+            Log.d("companyid", company_ID_1)
+            Log.d("companyid", company_name_1)
+
+        }*/
+
+        if (jobCountint!! > 0) {
+            holder.followemployersCard.setOnClickListener {
+                var company_name_1 = followedEmployerList!![position].CompanyName!!
+                var company_ID_1 = followedEmployerList!![position].CompanyID!!
+                employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
+                Log.d("companyid", company_ID_1)
+                Log.d("companyid", company_name_1)
+
+            }
         }
+
+
+    }
 
     fun rmv(position: Int, view: View) {
         if (followedEmployerList?.size != 0) {
@@ -107,8 +138,8 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_INDEFINITE)
                 .setAction("UNDO") {
                     //    "Applicant $name has been restored successfully!".toast(activity!!)
-                   // call?.doNothing(page, applyIDs(), applicantStatus())
-                  //  Log.d("checkingUndo", "${applyIDs()} and ${applicantStatus()}")
+                    // call?.doNothing(page, applyIDs(), applicantStatus())
+                    //  Log.d("checkingUndo", "${applyIDs()} and ${applicantStatus()}")
 
                     restoreMe(deletedItem!!, deletedIndex)
                     Log.d("comid", "comid")
@@ -128,15 +159,15 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         snack.addCallback(object : Snackbar.Callback() {
             override fun onShown(snackbar: Snackbar?) {
                 //  on show
-            //    Log.d("comid", "shown")
+                //    Log.d("comid", "shown")
             }
 
             override fun onDismissed(snackbar: Snackbar?, event: Int) {
-             //   Log.d("comid", "dismissed")
+                //   Log.d("comid", "dismissed")
                 Log.d("comid", "$undoButtonPressed")
-                if(undoButtonPressed == false){
+                if (undoButtonPressed == false) {
                     // deleting the item from db and server
-                    deleteFromServer(company_ID,company_name)
+                    deleteFromServer(company_ID, company_name)
                     deleteFromDB(company_ID)
                 }
 
@@ -145,8 +176,8 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
         })
     }
 
-    private fun deleteFromServer(companyid : String, companyName : String){
-        ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = company_name, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fed", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass>{
+    private fun deleteFromServer(companyid: String, companyName: String) {
+        ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = company_name, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fed", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass> {
             override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
                 error("onFailure", t)
             }
@@ -156,17 +187,18 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
                 var statuscode = response.body()?.statuscode
                 var message = response.body()?.data?.get(0)?.message
 //                Log.d("msg", message)
-                Toast.makeText(context, statuscode + "---"+message, Toast.LENGTH_LONG).show()
-                  }
+                Toast.makeText(context, statuscode + "---" + message, Toast.LENGTH_LONG).show()
+            }
 
         })
     }
-    private fun deleteFromDB(companyid : String){
+
+    private fun deleteFromDB(companyid: String) {
         Log.d("comid", "comid")
         Log.d("comid", "$companyid")
         doAsync {
 
-                bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
+            bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
 
         }
     }
@@ -189,6 +221,7 @@ class FollowedEmployersAdapter (private val context: Context) : RecyclerView.Ada
     }
 
 }
+
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView

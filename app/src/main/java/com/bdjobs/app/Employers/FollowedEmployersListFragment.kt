@@ -83,6 +83,7 @@ class FollowedEmployersListFragment : Fragment() {
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
 
+
             }
         }
     }

@@ -8,10 +8,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 
 interface ApiServiceJobs {
@@ -95,6 +92,16 @@ interface ApiServiceJobs {
 
     ): Call<FollowUnfollowModelClass>
 
+    @GET("companyotherjobs.asp")
+    fun getEmpJobLists(
+            @Query("id") id: String?,
+            @Query("alias") alias: String? = "",
+            @Query("companyname") companyname: String?= "",
+            @Query("jobid") jobid: String?= "",
+            @Query("encoded") encoded: String?,
+            @Query("packageName") packageName: String?= "",
+            @Query("packageNameVersion") packageNameVersion: String?= ""
+    ): Call<EmployerJobListsModel>
 
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
