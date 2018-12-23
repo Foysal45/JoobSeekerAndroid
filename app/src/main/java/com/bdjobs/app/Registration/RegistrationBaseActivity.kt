@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat
 class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
-
     //white Collar
     private val registrationLandingFragment = RegistrationLandingFragment()
     private val wccategoryFragment = WCCategoryFragment()
@@ -51,14 +50,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private var wcPassword: String = ""
     private var wcConfirmPass: String = ""
     private var userName: String = ""
-    private var socialMediaId : String =""
-    private var isSMediaLogin  = "False"
-    private var socialMediaType : String = ""
-    private var categoryType : String = ""
-    private var wcCountryCode : String = ""
-    private var tempId : String = ""
-    private var otpCode : String = ""
-
+    private var socialMediaId: String = ""
+    private var isSMediaLogin = "False"
+    private var socialMediaType: String = ""
+    private var categoryType: String = ""
+    private var wcCountryCode: String = ""
+    private var tempId: String = ""
+    private var otpCode: String = ""
 
 
     // blue Collar
@@ -74,17 +72,17 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val bcPhotoUploadFragment = BCPhotoUploadFragment()
     private val bcCongratulationFragment = BCCongratulationFragment()
 
-    private lateinit var division :String
-    private lateinit var district :String
-    private lateinit var thana :String
-    private lateinit var postOffice :String
-    private lateinit var address :String
-    private lateinit var locationID :String
+    private lateinit var division: String
+    private lateinit var district: String
+    private lateinit var thana: String
+    private lateinit var postOffice: String
+    private lateinit var address: String
+    private lateinit var locationID: String
 
     private var age = ""
     internal var birthDate: String? = null
     private lateinit var subcategoriesID: String
-    private lateinit var experience:String
+    private lateinit var experience: String
 
     val REQUEST_PICTURE_FROM_GALLERY = 23
     //-------------api response value----------//
@@ -94,7 +92,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private var emailRPS = ""
     private var userID = ""
     private var decodeId = ""
-    private var userNameRPS= ""
+    private var userNameRPS = ""
     private var appsDate = ""
     private var ageRPS = ""
     private var experienseRPS = ""
@@ -103,10 +101,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private var resumeUpdateOn = ""
     private var isResumeUpdate = ""
     private var trainingId = ""
-    private var userPicUrl =""
-
-
-
+    private var userPicUrl = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -270,7 +265,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-    override fun wcUserNameSelected( userName :String) {
+    override fun wcUserNameSelected(userName: String) {
 
         this.userName = userName
         Log.d("catagorySelected", "userName first ${this.userName} ")
@@ -330,7 +325,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                         "sMid " + "" + "\n"
         )
 
-        ApiServiceMyBdjobs.create().createAccount(firstName,  lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin,categoryType, userNameType, socialMediaType,categoryId, wcCountryCode ,"","").enqueue(object : Callback<CreateAccountModel> {
+        ApiServiceMyBdjobs.create().createAccount(firstName, lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin, categoryType, userNameType, socialMediaType, categoryId, wcCountryCode, "", "").enqueue(object : Callback<CreateAccountModel> {
             override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
                 Log.d("ResponseTesrt", " onFailure ${t.message}")
             }
@@ -342,36 +337,35 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
-                if (categoryType.equals("1",true)){
+                if (categoryType.equals("1", true)) {
 
                     Log.d("ResponseTesrt", " in blue collar condition ")
-                    if (response.isSuccessful){
+                    if (response.isSuccessful) {
                         Log.d("ResponseTesrt", " 1 ")
-                        if(response.body()!!.statuscode.equals("0",true)){
+                        if (response.body()!!.statuscode.equals("0", true)) {
                             Log.d("ResponseTesrt", " 2 ")
                             val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
                             Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
-                            if (isCvPosted.equals("null",true)){
+                            if (isCvPosted.equals("null", true)) {
 
                                 tempId = response.body()!!.data!!.get(0)!!.tmpId!!
                                 Log.d("ResponseTesrt", " tempId $tempId")
                                 Log.d("ResponseTesrt", " in first Condition")
 
-                                if (response.body()!!.statuscode.equals("2",true)){
+                                if (response.body()!!.statuscode.equals("2", true)) {
 
                                     toast(response.body()!!.message!!)
                                     Log.d("ResponseTesrt", " first condition")
-                                }else {
+                                } else {
                                     bcGoToStepOtpCode()
                                     Log.d("ResponseTesrt", " second condition")
                                 }
 
 
-
                             }
 
-                        }else if (response.body()!!.statuscode.equals("2",true)){
+                        } else if (response.body()!!.statuscode.equals("2", true)) {
 
                             toast(response.body()!!.message!!)
 
@@ -406,15 +400,15 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                     }
 
 
-                }else if (categoryType.equals("0",true)){
+                } else if (categoryType.equals("0", true)) {
 
-                    if (response.isSuccessful){
-                        if(response.body()!!.statuscode.equals("0",true)){
+                    if (response.isSuccessful) {
+                        if (response.body()!!.statuscode.equals("0", true)) {
 
                             val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
                             Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
-                            if (isCvPosted.equals("null",true)){
+                            if (isCvPosted.equals("null", true)) {
 
                                 tempId = response.body()!!.data!!.get(0)!!.tmpId!!
 
@@ -447,20 +441,15 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
-                                bdjobsUserSession.createSession(isCVPostedRPS,nameRPS,emailRPS,userID,decodeId,
-                                        userNameRPS,appsDate,ageRPS,experienseRPS,categoryIDRPS,genderRPS,
-                                        resumeUpdateOn,isResumeUpdate,trainingId,userPicUrl)
+                                bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
+                                        userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
+                                        resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
                             }
 
-                        } else if (response.body()!!.statuscode.equals("2",true)){
+                        } else if (response.body()!!.statuscode.equals("2", true)) {
 
                             toast(response.body()!!.message!!)
                         }
-
-
-
-
-
 
 
                     }
@@ -478,7 +467,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun wcOtpVerify() {
 
 
-        ApiServiceMyBdjobs.create().sendOtpToVerify(tempId,otpCode).enqueue(object : Callback<CreateAccountModel> {
+        ApiServiceMyBdjobs.create().sendOtpToVerify(tempId, otpCode).enqueue(object : Callback<CreateAccountModel> {
             override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
                 Log.d("ResponseTesrt", " wcOtpVerify onFailure ${t.message}")
             }
@@ -494,15 +483,15 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
-                if (categoryType.equals("0",true)){
+                if (categoryType.equals("0", true)) {
 
-                    if (response.isSuccessful){
-                        if(response.body()!!.statuscode.equals("0",true)){
+                    if (response.isSuccessful) {
+                        if (response.body()!!.statuscode.equals("0", true)) {
 
                             val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
                             Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
-                            if (!isCvPosted.equals("null",true)){
+                            if (!isCvPosted.equals("null", true)) {
 
                                 wcGoToStepCongratulation()
                                 val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
@@ -527,43 +516,34 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
-                                bdjobsUserSession.createSession(isCVPostedRPS,nameRPS,emailRPS,userID,decodeId,
-                                        userNameRPS,appsDate,ageRPS,experienseRPS,categoryIDRPS,genderRPS,
-                                        resumeUpdateOn,isResumeUpdate,trainingId,userPicUrl)
-
-
+                                bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
+                                        userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
+                                        resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
 
 
                             }
 
-                        } else if (response.body()!!.statuscode.equals("3",true)){
+                        } else if (response.body()!!.statuscode.equals("3", true)) {
+
+                            toast(response.body()!!.message!!)
+                        } else if (response.body()!!.statuscode.equals("1", true)) {
 
                             toast(response.body()!!.message!!)
                         }
-
-                        else if (response.body()!!.statuscode.equals("1",true)){
-
-                            toast(response.body()!!.message!!)
-                        }
-
-
-
-
-
 
 
                     }
 
-                } else if (categoryType.equals("1",true)){
+                } else if (categoryType.equals("1", true)) {
 
 
-                    if (response.isSuccessful){
-                        if(response.body()!!.statuscode.equals("0",true)){
+                    if (response.isSuccessful) {
+                        if (response.body()!!.statuscode.equals("0", true)) {
 
                             val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
                             Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
-                            if (!isCvPosted.equals("null",true)){
+                            if (!isCvPosted.equals("null", true)) {
 
 
                                 val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
@@ -585,29 +565,22 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
-                                bdjobsUserSession.createSession(isCVPostedRPS,nameRPS,emailRPS,userID,decodeId,
-                                        userNameRPS,appsDate,ageRPS,experienseRPS,categoryIDRPS,genderRPS,
-                                        resumeUpdateOn,isResumeUpdate,trainingId,userPicUrl)
+                                bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
+                                        userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
+                                        resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
 
                                 bcGoToStepBirthDate()
 
 
                             }
 
-                        } else if (response.body()!!.statuscode.equals("3",true)){
+                        } else if (response.body()!!.statuscode.equals("3", true)) {
+
+                            toast(response.body()!!.message!!)
+                        } else if (response.body()!!.statuscode.equals("1", true)) {
 
                             toast(response.body()!!.message!!)
                         }
-
-                        else if (response.body()!!.statuscode.equals("1",true)){
-
-                            toast(response.body()!!.message!!)
-                        }
-
-
-
-
-
 
 
                     }
@@ -618,7 +591,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             }
 
         })
-
 
 
     }
@@ -672,7 +644,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun bcGoToStepExperience() {
-        bcExperienceFragment.categoryInformation(category,categoryId)
+        bcExperienceFragment.categoryInformation(category, categoryId)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 80
         transitFragment(bcExperienceFragment, R.id.registrationFragmentHolderFL, true)
@@ -755,7 +727,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
         Log.d("catagorySelected", "division ${this.division}" +
                 "  district ${this.district} thana ${this.thana}" +
-                " postOffice ${this.postOffice} address ${ this.address} locationID ${this.locationID}   ")
+                " postOffice ${this.postOffice} address ${this.address} locationID ${this.locationID}   ")
 
     }
 
@@ -763,8 +735,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
         return age
     }
-
-
 
 
     //-------------blue Collar End-----------------//
@@ -881,15 +851,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
-
-
-        if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK) {
-            val bcPhotoUploadFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL) // same tag while adding fragment for the first time.
-            if (bcPhotoUploadFragment != null) {
-                bcPhotoUploadFragment!!.onActivityResult(requestCode, resultCode, data) //calling method that should be defined in your fragment.
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
+        bcPhotoUploadFragment!!.onActivityResult(requestCode, resultCode, data)
     }
 
 }

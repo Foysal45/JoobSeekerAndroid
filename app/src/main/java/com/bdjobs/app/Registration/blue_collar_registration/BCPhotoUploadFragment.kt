@@ -2,14 +2,13 @@ package com.bdjobs.app.Registration.blue_collar_registration
 
 import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.AsyncTask
+import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
@@ -17,22 +16,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.yalantis.ucrop.UCrop
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.imageURI
-import org.jetbrains.anko.runOnUiThread
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.ArrayList
+import java.util.*
 
 
 class BCPhotoUploadFragment : Fragment() {
-
 
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
@@ -112,7 +109,7 @@ class BCPhotoUploadFragment : Fragment() {
         Log.d("dfgh","  onActivityResult called")
 
 
-
+        Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")
 
         if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && resultData != null) {
 
@@ -133,7 +130,7 @@ class BCPhotoUploadFragment : Fragment() {
                 val deleted = file.delete()
             }
             val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-            UCrop.of(uri, destinationUri).withAspectRatio(9f, 10f).start(activity,69)
+            UCrop.of(uri, destinationUri).withAspectRatio(9f, 10f).start(activity)
         }
 
         Log.d("dfgh"," resultCode $resultCode RESULT_OK $RESULT_OK " +
@@ -163,9 +160,25 @@ class BCPhotoUploadFragment : Fragment() {
             if (fileSizeInMB > 3) {
                 Toast.makeText(activity, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
             } else if (fileSizeInMB <= 3) {
-                getEncodedStringFromImagePath().execute(path)
-            }
+               //getEncodedStringFromImagePath().execute(path)
+                doAsync{
+                    try {
+                        var options: BitmapFactory.Options? = null
+                        options = BitmapFactory.Options()
+                        options.inSampleSize = 3
 
+                        bitmap = BitmapFactory.decodeFile(path, options)
+                        val stream = ByteArrayOutputStream()
+                        // Must compress the Image to reduce image size to make upload easy
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                        val byte_arr = stream.toByteArray()
+                        // Encode Image to String
+                        encodedString = Base64.encodeToString(byte_arr, 0)
+                    } catch (e: Exception) {
+                        error("SEMVcb" + e.toString())
+                    }
+                }
+            }
 
         } else if (resultCode == UCrop.RESULT_ERROR) {
 
@@ -194,7 +207,6 @@ class BCPhotoUploadFragment : Fragment() {
 
     }
 
-
     private fun getLastImagePath(): String {
         val imageColumns = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
         val imageOrderBy = MediaStore.Images.Media._ID + " DESC"
@@ -206,40 +218,6 @@ class BCPhotoUploadFragment : Fragment() {
             return fullPath
         } else {
             return ""
-        }
-    }
-
-    private inner class getEncodedStringFromImagePath : AsyncTask<String, String, String>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
-        override fun doInBackground(vararg f_url: String): String? {
-            try {
-
-                var options: BitmapFactory.Options? = null
-                options = BitmapFactory.Options()
-                options.inSampleSize = 3
-
-                bitmap = BitmapFactory.decodeFile(f_url[0], options)
-                val stream = ByteArrayOutputStream()
-                // Must compress the Image to reduce image size to make upload easy
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                val byte_arr = stream.toByteArray()
-                // Encode Image to String
-                encodedString = Base64.encodeToString(byte_arr, 0)
-            } catch (e: Exception) {
-                println("SEMVcb" + e.toString())
-                activity.runOnUiThread(Runnable { Toast.makeText(activity, e.toString(), Toast.LENGTH_LONG).show() })
-            }
-
-            return null
-        }
-
-        override fun onPostExecute(file_url: String) {
-
-           /* UploadBTN.setVisibility(View.VISIBLE)*/
         }
     }
 }
