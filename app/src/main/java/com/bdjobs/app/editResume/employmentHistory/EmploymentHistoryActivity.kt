@@ -11,6 +11,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragment
@@ -28,6 +29,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val armyViewFragment = ArmyEmpHisViewFragment()
     private lateinit var listener: EmpHisCB
     private lateinit var datait: DataItem
+    private lateinit var dataitArmy: ArmydataItem
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -36,7 +38,11 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         if (b) {
             iv_delete_data.show()
             iv_delete_data.setOnClickListener {
-                editFragment.dataDelete()
+                if (editFragment.isEdit) {
+                    editFragment.dataDelete()
+                } else if (armyEditFragment.isEdit) {
+                    armyEditFragment.dataDelete()
+                }
             }
         } else {
             iv_delete_data.hide()
@@ -47,8 +53,16 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         return datait
     }
 
+    override fun getArmyData(): ArmydataItem {
+        return dataitArmy
+    }
+
     override fun passData(data: DataItem) {
         this.datait = data
+    }
+
+    override fun passArmyData(data: ArmydataItem) {
+        this.dataitArmy = data
     }
 
     override fun goToEditInfo(check: String) {
@@ -62,12 +76,8 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
                 transitFragment(editFragment, R.id.emp_his_container, true)
             }
             "army_edit" -> {
-                editFragment.isEdit = true
+                armyEditFragment.isEdit = true
                 transitFragment(armyEditFragment, R.id.emp_his_container, true)
-            }
-            "army_add" -> {
-                editFragment.isEdit = false
-                transitFragment(armyViewFragment, R.id.emp_his_container, true)
             }
             else -> {
 

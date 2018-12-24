@@ -86,6 +86,24 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_03_update_rai.asp")
+    fun updateArmyExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("comboBANo") comboBANo: String?,
+            @Field("txtBANo") txtBANo: String?,
+            @Field("comboArms") comboArms: String?,
+            @Field("comboType") comboType: String?,
+            @Field("txtCourse") txtCourse: String?,
+            @Field("txtTrade") txtTrade: String?,
+            @Field("cboCommissionDate") cboCommissionDate: String?,
+            @Field("cboRetirementDate") cboRetirementDate: String?,
+            @Field("arm_id") arm_id: String?,
+            @Field("hId") hId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
     @POST("apps_step_03_view_rai.asp")
     fun getArmyExpsList(
             @Field("userId") userId: String?,
@@ -93,7 +111,7 @@ interface ApiServiceMyBdjobs {
     ): Call<List<GetArmyEmpHis>>
 
     @FormUrlEncoded
-    @POST("http://my.bdjobs.com/apps/mybdjobs/apps_delete.asp")
+    @POST("apps_delete.asp")
     fun deleteData(
             @Field("itemName") itemName: String,
             @Field("id") id: String,

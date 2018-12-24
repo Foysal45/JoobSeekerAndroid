@@ -89,11 +89,11 @@ class EmpHistoryEditFragment : Fragment() {
         empHisCB = activity as EmpHisCB
         empHisCB.setDeleteButton(true)
         now = Calendar.getInstance()
-        doWork()
     }
 
     override fun onResume() {
         super.onResume()
+        doWork()
         if (isEdit) {
             hID = "4"
             preloadedData()
