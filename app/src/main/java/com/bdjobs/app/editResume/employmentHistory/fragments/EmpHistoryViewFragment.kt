@@ -43,8 +43,19 @@ class EmpHistoryViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         empHisCB = activity as EmpHisCB
+    }
+
+    override fun onResume() {
+        super.onResume()
+        doWork()
+    }
+
+    private fun doWork() {
         populateData()
         empHisCB.setDeleteButton(false)
+        fab_eh_add.setOnClickListener {
+            empHisCB.goToEditInfo("add")
+        }
     }
 
     private fun setupRV(items: ArrayList<DataItem>) {
@@ -71,6 +82,7 @@ class EmpHistoryViewFragment : Fragment() {
                         val respo = response.body()?.get(0)
                         Log.d("empTest", "${respo?.message}")
                         Log.d("empTest1", "${respo?.toString()}")
+
                         //activity.toast("${respo?.message}")
                         arr = respo?.data as ArrayList<DataItem>
                         //activity.toast("${arr?.size}")

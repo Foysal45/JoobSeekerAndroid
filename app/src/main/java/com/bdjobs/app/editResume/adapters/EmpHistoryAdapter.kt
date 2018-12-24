@@ -43,7 +43,8 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         holder.tvRespos?.text = dModel.responsibility
 
         holder.ivEdit?.setOnClickListener {
-            call.editInfo()
+            call.passData(dModel)
+            call.goToEditInfo("edit")
         }
 
         holder.imageViewExpand!!.setOnClickListener {
@@ -66,7 +67,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         }
     }
 
-    private fun add(item: DataItem) {
+/*    private fun add(item: DataItem) {
         itemList?.add(item)
         notifyItemInserted(itemList?.size?.minus(1)!!)
     }
@@ -76,7 +77,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
             add(result)
         }
         notifyDataSetChanged()
-    }
+    }*/
 
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
 

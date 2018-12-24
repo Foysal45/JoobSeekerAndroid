@@ -6,6 +6,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
+import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.GetExps
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -63,6 +64,34 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<List<GetExps>>
+
+    @FormUrlEncoded
+    @POST("apps_step_03_update_exp.asp")
+    fun updateExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("companyName") companyName: String?,
+            @Field("compBusiness") compBusiness: String?,
+            @Field("compLocation") compLocation: String?,
+            @Field("positionHeld") positionHeld: String?,
+            @Field("department") department: String?,
+            @Field("responsibility") responsibility: String?,
+            @Field("from") from: String?,
+            @Field("to") to: String?,
+            @Field("currentlyWorking") currentlyWorking: String?,
+            @Field("areaOfExpertise") areaOfExpertise: String?,
+            @Field("hEx_id") hEx_id: String?,
+            @Field("hId") hId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("http://my.bdjobs.com/apps/mybdjobs/apps_delete.asp")
+    fun deleteData(
+            @Field("itemName") itemName: String,
+            @Field("id") id: String,
+            @Field("isResumeUpdate") isUpdate: String,
+            @Field("userId") userId: String,
+            @Field("decodeId") decodeId: String): Call<AddorUpdateModel>
 
 
     @FormUrlEncoded

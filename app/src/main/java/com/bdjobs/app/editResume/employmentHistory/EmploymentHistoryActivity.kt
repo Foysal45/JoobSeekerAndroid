@@ -21,15 +21,16 @@ import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragm
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
-import org.jetbrains.anko.toast
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
+
     private val editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
     private var json: String? = ""
     private lateinit var listener: EmpHisCB
+    private lateinit var datait: DataItem
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -45,13 +46,31 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         }
     }
 
+    override fun getData(): DataItem {
+        return datait
+    }
+
+    override fun passData(data: DataItem) {
+        this.datait = data
+    }
+
+    override fun goToEditInfo(check: String) {
+        if (check == "add") {
+            editFragment.isEdit = false
+            transitFragment(editFragment, R.id.emp_his_container, true)
+        } else {
+            editFragment.isEdit = true
+            transitFragment(editFragment, R.id.emp_his_container, true)
+        }
+    }
+
+    override fun goBack() {
+        onBackPressed()
+    }
+
     fun saveUserInfo(data: DataItem) {
         Log.d("gotJson", "data: ${data.companyName}")
         json = Gson().toJson(data)
-    }
-
-    override fun editInfo() {
-        transitFragment(editFragment, R.id.emp_his_container)
     }
 
     override fun setTitle(tit: String?) {
@@ -62,21 +81,18 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emplyment_history)
         setupToolbar("Employment History")
-        transitFragment(viewFragment, R.id.emp_his_container)
+        transitFragment(viewFragment, R.id.emp_his_container, false)
         setupOnClicks()
     }
 
     private fun setupOnClicks() {
-        iv_delete_data.setOnClickListener {
-            toast("delete button")
-        }
     }
 
     private fun setupToolbar(title: String?) {
         tv_tb_title?.text = title
         tb_emp_his?.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         tb_emp_his?.setNavigationOnClickListener {
-            finish()
+            goBack()
         }
     }
 
