@@ -6,7 +6,6 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
@@ -15,20 +14,18 @@ import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragment
-import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryFragment
+import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragment
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
 
     private val editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
-    private val armyEditFragment = ArmyEmpHistoryFragment()
+    private val armyEditFragment = ArmyEmpHistoryEditFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
-    private var json: String? = ""
     private lateinit var listener: EmpHisCB
     private lateinit var datait: DataItem
 
@@ -55,22 +52,31 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     }
 
     override fun goToEditInfo(check: String) {
-        if (check == "add") {
-            editFragment.isEdit = false
-            transitFragment(editFragment, R.id.emp_his_container, true)
-        } else {
-            editFragment.isEdit = true
-            transitFragment(editFragment, R.id.emp_his_container, true)
+        when (check) {
+            "add" -> {
+                editFragment.isEdit = false
+                transitFragment(editFragment, R.id.emp_his_container, true)
+            }
+            "edit" -> {
+                editFragment.isEdit = true
+                transitFragment(editFragment, R.id.emp_his_container, true)
+            }
+            "army_edit" -> {
+                editFragment.isEdit = true
+                transitFragment(armyEditFragment, R.id.emp_his_container, true)
+            }
+            "army_add" -> {
+                editFragment.isEdit = false
+                transitFragment(armyViewFragment, R.id.emp_his_container, true)
+            }
+            else -> {
+
+            }
         }
     }
 
     override fun goBack() {
         onBackPressed()
-    }
-
-    fun saveUserInfo(data: DataItem) {
-        Log.d("gotJson", "data: ${data.companyName}")
-        json = Gson().toJson(data)
     }
 
     override fun setTitle(tit: String?) {
@@ -81,12 +87,9 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emplyment_history)
         setupToolbar("Employment History")
-        transitFragment(viewFragment, R.id.emp_his_container, false)
-        setupOnClicks()
+        transitFragment(armyViewFragment, R.id.emp_his_container, false)
     }
 
-    private fun setupOnClicks() {
-    }
 
     private fun setupToolbar(title: String?) {
         tv_tb_title?.text = title

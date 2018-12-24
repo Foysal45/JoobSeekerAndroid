@@ -7,6 +7,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
+import com.bdjobs.app.editResume.adapters.models.GetArmyEmpHis
 import com.bdjobs.app.editResume.adapters.models.GetExps
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -83,6 +84,13 @@ interface ApiServiceMyBdjobs {
             @Field("hEx_id") hEx_id: String?,
             @Field("hId") hId: String?
     ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_03_view_rai.asp")
+    fun getArmyExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<List<GetArmyEmpHis>>
 
     @FormUrlEncoded
     @POST("http://my.bdjobs.com/apps/mybdjobs/apps_delete.asp")

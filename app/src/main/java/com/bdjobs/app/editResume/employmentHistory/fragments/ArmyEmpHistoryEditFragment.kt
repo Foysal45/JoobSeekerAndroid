@@ -15,7 +15,7 @@ import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ArmyEmpHistoryFragment : Fragment() {
+class ArmyEmpHistoryEditFragment : Fragment() {
 
     private lateinit var call: EmpHisCB
     private lateinit var now: Calendar
