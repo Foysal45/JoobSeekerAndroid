@@ -17,7 +17,10 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.google.android.material.button.MaterialButton
 
-class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapter<EmployerListViewHolder>() {
+class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapter<EmployerJobListViewHolder>() {
+
+
+
 
     val activity = context as Activity
     val dataStorage = DataStorage(context)
@@ -35,19 +38,17 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
         //  employersCommunicator = activity as EmployersCommunicator
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployerListViewHolder {
-        return EmployerListViewHolder(LayoutInflater.from(context).inflate(R.layout.employer_joblist, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployerJobListViewHolder {
+        return EmployerJobListViewHolder(LayoutInflater.from(context).inflate(R.layout.employer_joblist, parent, false))
 
     }
-
-    override fun getItemCount(): Int {
-        return return if (employerJobList == null) 0 else employerJobList!!.size
-    }
-
-    override fun onBindViewHolder(holder: EmployerListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EmployerJobListViewHolder, position: Int) {
         holder.employerCompany.text = employerJobList!![position].jobtitle
         holder.deadline.text = employerJobList!![position].deadline
 
+    }
+    override fun getItemCount(): Int {
+        return return if (employerJobList == null) 0 else employerJobList!!.size
     }
 
     fun add(r: EmployerJobListsModelData) {
@@ -63,7 +64,7 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
 
 }
 
-class EmployerListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class EmployerJobListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     /* val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView
      val offeringJobs = view.findViewById(R.id.offering_jobs_number_TV) as TextView

@@ -103,6 +103,17 @@ interface ApiServiceJobs {
             @Query("packageNameVersion") packageNameVersion: String?= ""
     ): Call<EmployerJobListsModel>
 
+    @GET("Employerlist.asp")
+    fun getEmpLists(
+            @Query("version") version: String? = "",
+            @Query("orgName") orgName: String? = "",
+            @Query("orgType") orgType: String?,
+            @Query("orgFirstLetter") orgFirstLetter: String?= "",
+            @Query("encoded") encoded: String?,
+            @Query("pg") pg: String?= ""
+
+    ): Call<EmployerListModelClass>
+
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
 

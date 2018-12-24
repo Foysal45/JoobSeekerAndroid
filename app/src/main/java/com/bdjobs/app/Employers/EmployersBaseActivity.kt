@@ -32,6 +32,10 @@ import com.bdjobs.app.Utilities.transitFragment
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private var companyid = ""
     private var companyname = ""
+    private var value = "emplist"
+    private val followedEmployersListFragment = FollowedEmployersListFragment()
+    private val employerJobListFragment = EmployerJobListFragment()
+    private val employerListFragment = EmployerListFragment()
 
     override fun gotoJobListFragment(companyID: String?, companyName: String?) {
         companyid = companyID!!
@@ -48,8 +52,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         return companyname
     }
 
-    private val followedEmployersListFragment = FollowedEmployersListFragment()
-    private val employerJobListFragment = EmployerJobListFragment()
+
 
 
     override fun backButtonPressed() {
@@ -59,7 +62,12 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employers_base)
-        transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
+        if (value?.equals( "follow")){
+            transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
+        }
+       else  if (value?.equals( "emplist")) {
+            transitFragment(employerListFragment, R.id.fragmentHolder)
+        }
     }
 
 }
