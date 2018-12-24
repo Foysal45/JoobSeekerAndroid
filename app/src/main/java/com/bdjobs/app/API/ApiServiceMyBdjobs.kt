@@ -54,6 +54,14 @@ interface ApiServiceMyBdjobs {
     ): Call<FavouriteSearchCountModel>
 
     @FormUrlEncoded
+    @POST("app_delfavouritejobs.asp")
+    fun deleteFavSearch(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("intSfID") intSfID: String?
+    ): Call<FavouriteSearchCountModel>
+
+    @FormUrlEncoded
     @POST("app_invite_interview_list.asp")
     fun getJobInvitationList(
             @Field("userId") userId: String?,

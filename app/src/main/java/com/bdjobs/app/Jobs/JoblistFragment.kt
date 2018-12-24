@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
@@ -24,6 +25,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
 import org.jetbrains.anko.doAsync
@@ -40,7 +42,6 @@ class JoblistFragment : Fragment() {
     private lateinit var session: BdjobsUserSession
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var joblistAdapter: JoblistAdapter? = null
-
 
     private var currentPage = 1
     private var TOTAL_PAGES: Int? = null
@@ -76,10 +77,6 @@ class JoblistFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdjobsDB = BdjobsDB.getInstance(activity)
-        saveSearchBtn.setOnClickListener {
-            saveSearch()
-        }
-
     }
 
 
@@ -103,9 +100,49 @@ class JoblistFragment : Fragment() {
         filterName = communicator.getFilterName()
         filterID = communicator.getFilterID()
 
+
         if (filterName.isNotBlank()) {
-            saveSearchBtn.text = filterName
-            saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+
+            doAsync {
+                val favsearch = bdjobsDB.favouriteSearchFilterDao().getFavFilterByFilters(
+                        icat = industry,
+                        fcat = category,
+                        location = location,
+                        qOT = organization,
+                        qJobNature = jobNature,
+                        qJobLevel = jobLevel,
+                        qPosted = postedWithin,
+                        qDeadline = deadline,
+                        txtsearch = keyword,
+                        qExp = experience,
+                        qGender = gender,
+                        qGenderB = "",
+                        qJobSpecialSkill = jobType,
+                        qRetiredArmy = army,
+                        qAge = age,
+                        newspaper = newsPaper
+                )
+
+                uiThread {
+                    if (!favsearch.isNullOrEmpty()) {
+                        saveSearchBtn.text = filterName
+                        saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+                    }
+                    saveSearchBtn.setOnClickListener {
+                        if (!favsearch.isNullOrEmpty()) {
+                            Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
+                        } else {
+                            saveSearch()
+                        }
+                    }
+
+                }
+            }
+
+        } else {
+            saveSearchBtn.setOnClickListener {
+                saveSearch()
+            }
         }
 
         suggestiveSearchET.text = keyword
@@ -410,7 +447,7 @@ class JoblistFragment : Fragment() {
     }
 
     private fun saveSearch() {
-
+        var tempFilterID = ""
         val saveSearchDialog = Dialog(activity)
         saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
         saveSearchDialog.setCancelable(true)
@@ -438,8 +475,25 @@ class JoblistFragment : Fragment() {
             updateCG.hide()
         }
 
-        if (filterName.isNotBlank())
+        if (filterName.isNotBlank()) {
             filterNameET.setText(filterName)
+        }
+
+
+        if (updateCG.isVisible) {
+            saveBTN.isEnabled = false
+            updateCG.setOnCheckedChangeListener { chipGroup, id ->
+                if (id > 0) {
+                    saveBTN.isEnabled = true
+                    when (id) {
+                        R.id.updateChip -> tempFilterID = filterID
+                        R.id.saveChip -> tempFilterID = ""
+                    }
+                } else {
+                    saveBTN.isEnabled = false
+                }
+            }
+        }
 
         saveBTN.setOnClickListener {
             if (validateFilterName(filterNameET.getString(), textInputLayout)) {
@@ -466,7 +520,7 @@ class JoblistFragment : Fragment() {
                             qGenderB = "",
                             qJobSpecialSkill = jobType,
                             qRetiredArmy = army,
-                            savefilterid = "",
+                            savefilterid = tempFilterID,
                             userId = session.userId,
                             filterName = filterNameET.getString(),
                             qAge = age,
@@ -510,7 +564,7 @@ class JoblistFragment : Fragment() {
                                             genderb = ""
                                     )
 
-                                    bdjobsDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
+                                    bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
 
                                     uiThread {
                                         loadingDialog.dismiss()

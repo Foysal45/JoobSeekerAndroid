@@ -183,7 +183,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 favSearchView.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
                     favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters!!, context = activity)
+                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
                     favRV?.adapter = favouriteSearchFilterAdapter
                     blankCL.hide()
                     mainLL.show()
@@ -238,6 +238,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     val searchData = lastSearch?.get(0)
                     lastPrgrs.show()
                     ApiServiceJobs.create().getLastSearchCount(
+                            jobLevel = searchData?.jobLevel,
                             Newspaper = searchData?.newsPaper,
                             armyp = searchData?.armyp,
                             bc = searchData?.blueColur,

@@ -13,7 +13,7 @@ class FavouriteSearchBaseActivity : Activity(), FavCommunicator {
     private val favouriteSearchFilterListFragment = FavouriteSearchFilterListFragment()
 
     private val favouriteSearchFilterEditFragment = FavouriteSearchFilterEditFragment()
-    private var filterID =""
+    private var filterID = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,17 +24,27 @@ class FavouriteSearchBaseActivity : Activity(), FavCommunicator {
     override fun backButtonPressed() {
         onBackPressed()
     }
+
     override fun goToJobSearch(favID: String) {
         startActivity<JobBaseActivity>("from" to "favsearch", "filterid" to favID)
     }
 
     override fun goToEditMode(favID: String) {
         this.filterID = favID
-        transitFragment(favouriteSearchFilterEditFragment, R.id.fragmentHolder,true)
+        transitFragment(favouriteSearchFilterEditFragment, R.id.fragmentHolder, true)
     }
 
     override fun getFilterID(): String {
         return filterID
     }
+
+    override fun scrollToUndoPosition(position: Int) {
+        favouriteSearchFilterListFragment.scrollToUndoPosition(position)
+    }
+
+    override fun decrementCounter() {
+        favouriteSearchFilterListFragment.decrementCounter()
+    }
+
 
 }

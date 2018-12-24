@@ -5,5 +5,7 @@ interface FavCommunicator {
     fun goToJobSearch(favID:String)
     fun goToEditMode(favID:String)
     fun getFilterID():String
+    fun scrollToUndoPosition(position:Int)
+    fun decrementCounter()
 
 }
