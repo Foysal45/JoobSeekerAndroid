@@ -2,6 +2,8 @@ package com.bdjobs.app.editResume.adapters.models
 
 import com.google.gson.annotations.SerializedName
 
+// Employment history
+
 data class DataItem(
         @field:SerializedName("departmant")
         val departmant: String? = null,
@@ -119,4 +121,78 @@ data class AddorUpdateModel(
 
         @field:SerializedName("message")
         val message: String? = null
+)
+
+// Education and Training
+
+data class GetAcademicInfo(
+
+        @field:SerializedName("statuscode")
+        val statuscode: String? = null,
+
+        @field:SerializedName("data")
+        val data: List<AcaDataItem?>? = null,
+
+        @field:SerializedName("common")
+        val common: Any? = null,
+
+        @field:SerializedName("message")
+        val message: String? = null
+)
+
+data class AcaDataItem(
+
+        @field:SerializedName("eduType")
+        val eduType: String? = null,
+
+        @field:SerializedName("resultId")
+        val resultId: String? = null,
+
+        @field:SerializedName("concentration/major/group")
+        val concentrationMajorGroup: String? = null,
+
+        @field:SerializedName("exam/degreeTitle")
+        val examDegreeTitle: String? = null,
+
+        @field:SerializedName("scale")
+        val scale: String? = null,
+
+        @field:SerializedName("marks")
+        val marks: String? = null,
+
+        @field:SerializedName("otherEduType")
+        val otherEduType: String? = null,
+
+        @field:SerializedName("showMarks")
+        val showMarks: String? = null,
+
+        @field:SerializedName("isItDegree")
+        val isItDegree: String? = null,
+
+        @field:SerializedName("levelofEducation")
+        val levelofEducation: String? = null,
+
+        @field:SerializedName("instituteName")
+        val instituteName: String? = null,
+
+        @field:SerializedName("acId")
+        val acId: String? = null,
+
+        @field:SerializedName("result")
+        val result: String? = null,
+
+        @field:SerializedName("duration")
+        val duration: String? = null,
+
+        @field:SerializedName("yearofPAssing")
+        val yearofPAssing: String? = null,
+
+        @field:SerializedName("acievement")
+        val acievement: String? = null,
+
+        @field:SerializedName("messageType")
+        val messageType: String? = null,
+
+        @field:SerializedName("instituteType")
+        val instituteType: String? = null
 )

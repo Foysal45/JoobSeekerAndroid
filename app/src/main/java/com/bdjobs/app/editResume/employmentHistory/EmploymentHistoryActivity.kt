@@ -27,7 +27,6 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryEditFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
-    private lateinit var listener: EmpHisCB
     private lateinit var datait: DataItem
     private lateinit var dataitArmy: ArmydataItem
 

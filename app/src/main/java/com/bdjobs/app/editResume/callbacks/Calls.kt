@@ -1,5 +1,6 @@
 package com.bdjobs.app.editResume.callbacks
 
+import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.DataItem
 
@@ -11,6 +12,18 @@ interface EmpHisCB {
     fun passArmyData(data: ArmydataItem)
     fun getData(): DataItem
     fun getArmyData(): ArmydataItem
+    fun goBack()
+}
+
+interface EduInfo {
+    fun setTitle(tit: String?)
+    fun setDeleteButton(b: Boolean)
+    fun goToEditInfo(check: String)
+    fun passData(data: AcaDataItem)
+    //fun passArmyData(data: ArmydataItem)
+    fun getData(): AcaDataItem
+
+    //fun getArmyData(): ArmydataItem
     fun goBack()
 }
 

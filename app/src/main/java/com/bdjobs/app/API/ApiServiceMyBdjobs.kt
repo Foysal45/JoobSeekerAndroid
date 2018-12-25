@@ -7,6 +7,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
+import com.bdjobs.app.editResume.adapters.models.GetAcademicInfo
 import com.bdjobs.app.editResume.adapters.models.GetArmyEmpHis
 import com.bdjobs.app.editResume.adapters.models.GetExps
 import retrofit2.Call
@@ -65,6 +66,13 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<List<GetExps>>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_view_aca.asp")
+    fun getAcaInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<List<GetAcademicInfo>>
 
     @FormUrlEncoded
     @POST("apps_step_03_update_exp.asp")

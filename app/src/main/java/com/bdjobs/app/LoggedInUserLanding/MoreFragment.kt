@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.R
+import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
@@ -28,6 +29,12 @@ class MoreFragment : Fragment() {
         }
         btnPer.setOnClickListener {
             startActivity(Intent(activity, PersonalInfoActivity::class.java))
+        }
+        btnPer.setOnClickListener {
+            startActivity(Intent(activity, PersonalInfoActivity::class.java))
+        }
+        btnEdu.setOnClickListener {
+            startActivity(Intent(activity, AcademicBaseActivity::class.java))
         }
     }
 
