@@ -36,11 +36,9 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         if (b) {
             iv_delete_data.show()
             iv_delete_data.setOnClickListener {
-                /*if (acaEditFragment.isEdit) {
-                    editFragment.dataDelete()
-                } else if (armyEditFragment.isEdit) {
-                    armyEditFragment.dataDelete()
-                }*/
+                if (acaEditFragment.isEdit) {
+                    acaEditFragment.dataDelete()
+                }
             }
         } else {
             iv_delete_data.hide()

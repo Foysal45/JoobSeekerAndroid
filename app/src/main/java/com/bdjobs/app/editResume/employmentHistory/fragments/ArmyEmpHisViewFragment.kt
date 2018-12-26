@@ -82,7 +82,7 @@ class ArmyEmpHisViewFragment : Fragment() {
                         dModel = respo?.armydata?.get(0)!!
                         armyMainCl.show()
                         noData = false
-                        fab_eh_army.setImageResource(R.drawable.ic_arrow_down)
+                        fab_eh_army.setImageResource(R.drawable.ic_edit_white)
                         empHisCB.passArmyData(dModel)
                         tvBa?.text = dModel.baNo1
                         tvBaNo?.text = dModel.baNo2

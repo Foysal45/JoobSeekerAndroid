@@ -145,6 +145,18 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         et_retire.setText(data.dateOfRetirement)
     }
 
+    private fun invalidateData() {
+        et_ba_type.setText("")
+        et_ba_no.setText("")
+        et_ranks.setText("")
+        et_type.setText("")
+        et_arms.setText("")
+        et_course.setText("")
+        et_trade.setText("")
+        et_commission.setText("")
+        et_retire.setText("")
+    }
+
     fun dataDelete() {
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("ArmyPersonalInfo", "555", session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
@@ -160,6 +172,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
+                        invalidateData()
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
