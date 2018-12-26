@@ -15,5 +15,6 @@ data class EmployerListModelData(
 )
 
 data class EmployerListModelCommon(
-        val totalrecordsfound: String
+        val totalrecordsfound: String,
+        val totalpages: String
 )

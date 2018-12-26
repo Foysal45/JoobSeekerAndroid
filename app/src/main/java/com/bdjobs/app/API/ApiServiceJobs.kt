@@ -106,11 +106,11 @@ interface ApiServiceJobs {
     @GET("Employerlist.asp")
     fun getEmpLists(
             @Query("version") version: String? = "",
-            @Query("orgName") orgName: String? = "",
-            @Query("orgType") orgType: String?,
+            @Query("orgName") orgName: String?,
+            @Query("orgType") orgType: String?= "",
             @Query("orgFirstLetter") orgFirstLetter: String?= "",
             @Query("encoded") encoded: String?,
-            @Query("pg") pg: String?= ""
+            @Query("page") page: String?= ""
 
     ): Call<EmployerListModelClass>
 
