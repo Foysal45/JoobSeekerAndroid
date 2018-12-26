@@ -16,10 +16,7 @@ import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.simpleClassName
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.doAsync
@@ -27,7 +24,6 @@ import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
-
 
 
     private var totalRecordsFound: Int? = null
@@ -61,8 +57,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var deadline = ""
     private var age = ""
     private var army = ""
-    private var filterID=""
-    private var filterName=""
+    private var filterID = ""
+    private var filterName = ""
 
 
     lateinit var dataStorage: DataStorage
@@ -94,7 +90,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
 
-                Log.d("catTest","typedData : $typedData")
+                Log.d("catTest", "typedData : $typedData")
 
                 when (from) {
                     Constants.key_jobtitleET -> setKeyword(typedData!!)
@@ -108,17 +104,26 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         }
     }
 
+    override fun setFilterID(filterID: String) {
+        this.filterID = filterID
+    }
+
+    override fun setFilterName(filterName: String) {
+        this.filterName = filterName
+    }
+
     override fun goToAdvanceSearch() {
         transitFragment(advanceSearchFragment, R.id.jobFragmentHolder, true)
     }
 
     override fun getFilterID(): String {
-        return  filterID
+        return filterID
     }
 
     override fun getFilterName(): String {
         return filterName
     }
+
     private fun getData() {
 
         val intent = this.intent
@@ -140,8 +145,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
         try {
             val from = intent.getStringExtra("from")
-            if (from == "lastsearch") {
-                doAsync {
+            when (from) {
+                "lastsearch" -> doAsync {
                     val lastSearch = bdjobsDB.lastSearchDao().getLastSearch()[0]
                     setKeyword(lastSearch.keyword!!)
                     setCategory(lastSearch.category!!)
@@ -163,51 +168,79 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
                     }
                 }
-            } else {
-                transitFragment(joblistFragment, R.id.jobFragmentHolder)
-            }
+                "favsearch" -> {
+                    filterID = intent.getStringExtra("filterid")
+                    doAsync {
+                        val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
+                        setFilterName(favSearch.filtername!!)
+                        setKeyword(favSearch.keyword!!)
+                        setCategory(favSearch.functionalCat!!)
+                        setLocation(favSearch.location!!)
+                        setIndustry(favSearch.industrialCat!!)
+                        setNewsPaper(favSearch.newspaper!!)
+                        setOrganization(favSearch.organization!!)
+                        setGender(favSearch.gender!!)
+                        setExperience(favSearch.experience!!)
+                        setJobType(favSearch.jobtype!!)
+                        setJobLevel(favSearch.joblevel!!)
+                        setJobNature(favSearch.jobnature!!)
+                        setPostedWithin(favSearch.postedon!!)
+                        setDeadline(favSearch.deadline!!)
+                        setAge(favSearch.age!!)
+                        setArmy(favSearch.retiredarmy!!)
 
-        } catch (e: Exception) {
-            transitFragment(joblistFragment, R.id.jobFragmentHolder)
-        }
-
-
-        try {
-            val from = intent.getStringExtra("from")
-            if (from == "favsearch") {
-                filterID = intent.getStringExtra("filterid")
-
-                doAsync {
-                    val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
-                    filterName = favSearch.filtername!!
-                    setKeyword(favSearch.keyword!!)
-                    setCategory(favSearch.functionalCat!!)
-                    setLocation(favSearch.location!!)
-                    setIndustry(favSearch.industrialCat!!)
-                    setNewsPaper(favSearch.newspaper!!)
-                    setOrganization(favSearch.organization!!)
-                    setGender(favSearch.gender!!)
-                    setExperience(favSearch.experience!!)
-                    setJobType(favSearch.jobtype!!)
-                    setJobLevel(favSearch.joblevel!!)
-                    setJobNature(favSearch.jobnature!!)
-                    setPostedWithin(favSearch.postedon!!)
-                    setDeadline(favSearch.deadline!!)
-                    setAge(favSearch.age!!)
-                    setArmy(favSearch.retiredarmy!!)
-
-                    uiThread {
-                        transitFragment(joblistFragment, R.id.jobFragmentHolder)
+                        uiThread {
+                            transitFragment(joblistFragment, R.id.jobFragmentHolder)
+                        }
                     }
                 }
-            } else {
-                transitFragment(joblistFragment, R.id.jobFragmentHolder)
+
+                "shortListedJob" -> {
+                    clickedPosition = intent.getIntExtra("position", 0)
+
+                    Log.d("shortListedJob", "shortListedJob: $clickedPosition")
+
+                    doAsync {
+                        val shortListedJobs = bdjobsDB.shortListedJobDao().getAllShortListedJobs()
+
+                        val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+
+                        for (item in shortListedJobs) {
+
+                            val jobListModelData = JobListModelData(
+                                    jobid = item.jobid,
+                                    jobTitle = item.jobtitle,
+                                    companyName = item.companyname,
+                                    deadline = item.deadline?.toSimpleDateString(),
+                                    eduRec = item.eduRec,
+                                    experience = item.experience,
+                                    standout = item.standout,
+                                    logo = item.logo,
+                                    lantype = item.lantype
+                            )
+
+                            jobList.add(jobListModelData)
+                        }
+
+                        uiThread {
+                            setJobList(jobList)
+                            totalRecordsFound = jobList.size
+                            pgNumber=1
+                            totalPages=1
+                            isLastPage=true
+                            transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+                        }
+                    }
+                }
+
+                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder)
             }
 
         } catch (e: Exception) {
+            logException(e)
             transitFragment(joblistFragment, R.id.jobFragmentHolder)
         }
-        
+
     }
 
 

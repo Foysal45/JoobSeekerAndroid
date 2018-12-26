@@ -3,6 +3,7 @@ package com.bdjobs.app.Jobs
 import android.app.Dialog
 import android.app.Fragment
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -97,53 +98,7 @@ class JoblistFragment : Fragment() {
         age = communicator.getAge()
         army = communicator.getArmy()
 
-        filterName = communicator.getFilterName()
-        filterID = communicator.getFilterID()
-
-
-        if (filterName.isNotBlank()) {
-
-            doAsync {
-                val favsearch = bdjobsDB.favouriteSearchFilterDao().getFavFilterByFilters(
-                        icat = industry,
-                        fcat = category,
-                        location = location,
-                        qOT = organization,
-                        qJobNature = jobNature,
-                        qJobLevel = jobLevel,
-                        qPosted = postedWithin,
-                        qDeadline = deadline,
-                        txtsearch = keyword,
-                        qExp = experience,
-                        qGender = gender,
-                        qGenderB = "",
-                        qJobSpecialSkill = jobType,
-                        qRetiredArmy = army,
-                        qAge = age,
-                        newspaper = newsPaper
-                )
-
-                uiThread {
-                    if (!favsearch.isNullOrEmpty()) {
-                        saveSearchBtn.text = filterName
-                        saveSearchBtn.setIconTintResource(R.color.fav_search_save)
-                    }
-                    saveSearchBtn.setOnClickListener {
-                        if (!favsearch.isNullOrEmpty()) {
-                            Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
-                        } else {
-                            saveSearch()
-                        }
-                    }
-
-                }
-            }
-
-        } else {
-            saveSearchBtn.setOnClickListener {
-                saveSearch()
-            }
-        }
+        saveSearchDicission()
 
         suggestiveSearchET.text = keyword
         suggestiveSearchET.setOnClickListener { et ->
@@ -212,6 +167,55 @@ class JoblistFragment : Fragment() {
                 slno = "",
                 version = ""
         )
+    }
+
+    private fun saveSearchDicission() {
+        filterName = communicator.getFilterName()
+        filterID = communicator.getFilterID()
+
+        if (filterName.isNotBlank()) {
+
+            doAsync {
+                val favsearch = bdjobsDB.favouriteSearchFilterDao().getFavFilterByFilters(
+                        icat = industry,
+                        fcat = category,
+                        location = location,
+                        qOT = organization,
+                        qJobNature = jobNature,
+                        qJobLevel = jobLevel,
+                        qPosted = postedWithin,
+                        qDeadline = deadline,
+                        txtsearch = keyword,
+                        qExp = experience,
+                        qGender = gender,
+                        qGenderB = "",
+                        qJobSpecialSkill = jobType,
+                        qRetiredArmy = army,
+                        qAge = age,
+                        newspaper = newsPaper
+                )
+
+                uiThread {
+                    if (!favsearch.isNullOrEmpty()) {
+                        saveSearchBtn.text = filterName
+                        saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+                    }
+                    saveSearchBtn.setOnClickListener {
+                        if (!favsearch.isNullOrEmpty()) {
+                            Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
+                        } else {
+                            saveSearch()
+                        }
+                    }
+
+                }
+            }
+
+        } else {
+            saveSearchBtn.setOnClickListener {
+                saveSearch()
+            }
+        }
     }
 
 
@@ -343,8 +347,8 @@ class JoblistFragment : Fragment() {
                     }
 
                     val totalJobs = jobResponse!!.common!!.totalRecordsFound
-
-                    jobCounterTV.text = "$totalJobs Jobs"
+                    val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
+                    jobCounterTV.text = Html.fromHtml(styledText)
 
                     communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
                     communicator.setIsLoading(isLoadings)
@@ -540,9 +544,11 @@ class JoblistFragment : Fragment() {
 
                             if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                                 doAsync {
+
+                                    val filterName = filterNameET.getString()
                                     val favouriteSearch = FavouriteSearch(
                                             filterid = response?.body()?.data?.get(0)?.sfilterid,
-                                            filtername = filterNameET.getString(),
+                                            filtername = filterName,
                                             industrialCat = industry,
                                             functionalCat = category,
                                             location = location,
@@ -566,10 +572,13 @@ class JoblistFragment : Fragment() {
 
                                     bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
 
+                                    communicator.setFilterID(response?.body()?.data?.get(0)?.sfilterid!!)
+                                    communicator.setFilterName(filterName)
                                     uiThread {
                                         loadingDialog.dismiss()
                                         toast("${response?.body()?.data?.get(0)?.message}")
                                         saveSearchDialog.dismiss()
+                                        saveSearchDicission()
                                     }
                                 }
 

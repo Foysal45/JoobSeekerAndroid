@@ -78,7 +78,7 @@ interface ApiServiceJobs {
     fun getShortListedJobs(
             @Query("p_id") p_id: String?,
             @Query("encoded") encoded: String?
-    ): Call<JobListModel>
+    ): Call<ShortListedJobModel>
 
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>

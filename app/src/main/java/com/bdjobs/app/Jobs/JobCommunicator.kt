@@ -67,5 +67,8 @@ interface JobCommunicator {
     fun setAge(value: String)
     fun setArmy(value: String)
 
+    fun setFilterID(filterID: String)
+    fun setFilterName(filterName: String)
+
 
 }

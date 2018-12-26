@@ -159,5 +159,10 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
         }
     }
 
+    override fun shortListedClicked(Position: Int) {
+        startActivity<JobBaseActivity>("from" to "shortListedJob", "position" to Position)
+
+    }
+
 
 }
