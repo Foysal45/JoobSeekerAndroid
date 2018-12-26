@@ -14,6 +14,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_army_emp_history.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -31,6 +32,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     var isEdit = false
     private var hID: String = ""
     private var armyID: String = ""
+    private lateinit var v: View
 
     private val commissionDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -50,7 +52,8 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_army_emp_history, container, false)
+        v = inflater.inflate(R.layout.fragment_army_emp_history, container, false)
+        return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -73,6 +76,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         } else {
             empHisCB.setDeleteButton(false)
             hID = "-13"
+            clearEditText(v.findViewById(R.id.armyMainCl) as ViewGroup)
         }
     }
 
@@ -145,18 +149,6 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         et_retire.setText(data.dateOfRetirement)
     }
 
-    private fun invalidateData() {
-        et_ba_type.setText("")
-        et_ba_no.setText("")
-        et_ranks.setText("")
-        et_type.setText("")
-        et_arms.setText("")
-        et_course.setText("")
-        et_trade.setText("")
-        et_commission.setText("")
-        et_retire.setText("")
-    }
-
     fun dataDelete() {
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("ArmyPersonalInfo", "555", session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
@@ -172,7 +164,8 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
-                        invalidateData()
+                        //invalidateData()
+                        clearEditText(v.findViewById(R.id.armyMainCl) as ViewGroup)
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -181,5 +174,21 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun clearEditText(root: ViewGroup) {
+
+        for (i in 0..root.childCount) {
+            val view = root.getChildAt(i)
+
+            if (view is ViewGroup) {
+                clearEditText(root)
+                continue
+            }
+            if (view is TextInputEditText) {
+                view.setText("")
+                continue
+            }
+        }
     }
 }

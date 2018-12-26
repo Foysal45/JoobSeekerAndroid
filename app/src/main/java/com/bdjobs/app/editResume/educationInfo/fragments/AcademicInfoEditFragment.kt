@@ -9,8 +9,13 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.d
+import com.bdjobs.app.Utilities.showProgressBar
+import com.bdjobs.app.Utilities.stopProgressBar
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_academic_info_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,26 +24,70 @@ import retrofit2.Response
 class AcademicInfoEditFragment : Fragment() {
 
     var isEdit: Boolean = false
+    private lateinit var v: View
     private lateinit var eduCB: EduInfo
     private lateinit var session: BdjobsUserSession
     private lateinit var hacaID: String
+    private lateinit var hID: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_academic_info_edit, container, false)
+        v = inflater.inflate(R.layout.fragment_academic_info_edit, container, false)
+        return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
-        eduCB.setDeleteButton(true)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        d(isEdit.toString())
+        doWork()
+        if (isEdit) {
+            hID = "1"
+            eduCB.setDeleteButton(true)
+            preloadedData()
+        } else {
+            eduCB.setDeleteButton(false)
+            hID = "-1"
+            clearEditText(v.findViewById(R.id.acaEditLL) as ViewGroup)
+        }
+    }
+
+    private fun preloadedData() {
+        val data = eduCB.getData()
+        hacaID = data.acId.toString()
+        etLevelEdu.setText(data.levelofEducation)
+        etExamTitle.setText(data.examDegreeTitle)
+        etMajor.setText(data.concentrationMajorGroup)
+        etInstitute.setText(data.instituteName)
+        etResults.setText(data.result)
+        etCGPA.setText(data.marks)
+        etScale.setText(data.scale)
+        etPassignYear.setText(data.yearofPAssing)
+        etDuration.setText(data.duration)
+        etAchievement.setText(data.acievement)
+        //cbForInstitute.isChecked = data.
+        //cbResHide.isChecked = data.
+    }
+
+    private fun doWork() {
+        eduCB.setTitle("Academic Qualification")
+        fab_aca_edit.setOnClickListener { updateData() }
+    }
+
+    private fun updateData() {
+
+    }
 
     fun dataDelete() {
-        val call = ApiServiceMyBdjobs.create().deleteData("Experience", hacaID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
+        activity.showProgressBar(loadingProgressBar)
+        val call = ApiServiceMyBdjobs.create().deleteData("Education", hacaID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.toast(R.string.message_common_error)
@@ -47,15 +96,28 @@ class AcademicInfoEditFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
+                    activity.toast(response.body()?.message.toString())
                     e.printStackTrace()
                 }
             }
         })
     }
 
+    private fun clearEditText(root: ViewGroup) {
+
+        for (i in 0..root.childCount) {
+            val view = root.getChildAt(i)
+            if (view is TextInputEditText) {
+                view.setText("")
+                continue
+            }
+        }
+    }
 }

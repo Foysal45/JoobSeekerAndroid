@@ -19,6 +19,7 @@ import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -38,6 +39,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var areaOfexps: String? = ""
     private var currentlyWorking: String = "OFF"
     var isEdit = false
+    private lateinit var v: View
 
     private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -57,7 +59,8 @@ class EmpHistoryEditFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
+        v = inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
+        return v
     }
 
     private fun addChip(input: String) {
@@ -198,6 +201,7 @@ class EmpHistoryEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
+                        clearEditText(v.findViewById(R.id.ehMailLL) as ViewGroup)
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -205,6 +209,22 @@ class EmpHistoryEditFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun clearEditText(root: ViewGroup) {
+
+        for (i in 0..root.childCount) {
+            val view = root.getChildAt(i)
+
+            if (view is ViewGroup) {
+                clearEditText(root)
+                continue
+            }
+            if (view is TextInputEditText) {
+                view.setText("")
+                continue
+            }
+        }
     }
 
 }

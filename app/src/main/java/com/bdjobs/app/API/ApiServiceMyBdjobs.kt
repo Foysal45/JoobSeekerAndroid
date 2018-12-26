@@ -72,7 +72,7 @@ interface ApiServiceMyBdjobs {
     fun getAcaInfoList(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
-    ): Call<List<GetAcademicInfo>>
+    ): Call<GetAcademicInfo>
 
     @FormUrlEncoded
     @POST("apps_step_03_update_exp.asp")

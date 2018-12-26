@@ -72,17 +72,17 @@ class AcademicInfoViewFragment : Fragment() {
     private fun populateData() {
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
-        call.enqueue(object : Callback<List<GetAcademicInfo>> {
-            override fun onFailure(call: Call<List<GetAcademicInfo>>, t: Throwable) {
+        call.enqueue(object : Callback<GetAcademicInfo> {
+            override fun onFailure(call: Call<GetAcademicInfo>, t: Throwable) {
                 shimmerStop()
                 activity.toast("Error occurred")
             }
 
-            override fun onResponse(call: Call<List<GetAcademicInfo>>, response: Response<List<GetAcademicInfo>>) {
+            override fun onResponse(call: Call<GetAcademicInfo>, response: Response<GetAcademicInfo>) {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        val respo = response.body()?.get(0)
+                        val respo = response.body()
                         arr = respo?.data as ArrayList<AcaDataItem>
                         //activity.toast("${arr?.size}")
                         if (arr != null) {

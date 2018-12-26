@@ -12,6 +12,7 @@
         android:overScrollMode="never">
 
         <LinearLayout
+            android:id="@+id/acaEditLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -28,7 +29,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/companyNameET"
+                        android:id="@+id/etLevelEdu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.level_of_education"
@@ -52,7 +53,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/companyBusinessACTV"
+                        android:id="@+id/etExamTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.exam_degree_title"
@@ -75,7 +76,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etConcern"
+                        android:id="@+id/etMajor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.concentration_major_group"
@@ -132,7 +133,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/departmentET"
+                        android:id="@+id/etResults"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.results"
@@ -170,7 +171,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/eCGPA"
+                        android:id="@+id/etCGPA"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.cgpa"
@@ -258,7 +259,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_eh"
+        android:id="@+id/fab_aca_edit"
         style="@style/FabStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
