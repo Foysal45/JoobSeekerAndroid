@@ -13,10 +13,7 @@ import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.clearText
-import com.bdjobs.app.Utilities.closeKeyboard
-import com.bdjobs.app.Utilities.getString
-import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.chip.Chip
@@ -130,23 +127,27 @@ class EmpHistoryEditFragment : Fragment() {
             false
         })
         fab_eh?.setOnClickListener {
+            activity.showProgressBar(loadingProgressBar)
             val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                     companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
                     departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
                     currentlyWorking, experiencesMACTV.getString(), hExpID, hID)
             call.enqueue(object : Callback<AddorUpdateModel> {
                 override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                    activity.stopProgressBar(loadingProgressBar)
                     activity.toast(R.string.message_common_error)
                 }
 
                 override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                     try {
                         if (response.isSuccessful) {
+                            activity.stopProgressBar(loadingProgressBar)
                             val resp = response.body()
                             activity.toast(resp?.message.toString())
                             empHisCB.goBack()
                         }
                     } catch (e: Exception) {
+                        activity.stopProgressBar(loadingProgressBar)
                         e.printStackTrace()
                     }
                 }

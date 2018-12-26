@@ -10,6 +10,8 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.GetArmyEmpHis
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
@@ -50,6 +52,7 @@ class ArmyEmpHisViewFragment : Fragment() {
     }
 
     private fun doWork() {
+        shimmerStart()
         populateData()
         empHisCB.setDeleteButton(false)
         fab_eh_army.setOnClickListener {
@@ -58,15 +61,19 @@ class ArmyEmpHisViewFragment : Fragment() {
     }
 
     private fun populateData() {
+        armyMainCl.hide()
         val call = ApiServiceMyBdjobs.create().getArmyExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<List<GetArmyEmpHis>> {
             override fun onFailure(call: Call<List<GetArmyEmpHis>>, t: Throwable) {
+                shimmerStop()
                 activity.toast("Error occurred")
             }
 
             override fun onResponse(call: Call<List<GetArmyEmpHis>>, response: Response<List<GetArmyEmpHis>>) {
                 try {
                     if (response.isSuccessful) {
+                        shimmerStop()
+                        armyMainCl.show()
                         val respo = response.body()?.get(0)
                         dModel = respo?.armydata?.get(0)!!
                         empHisCB.passArmyData(dModel)
@@ -87,4 +94,13 @@ class ArmyEmpHisViewFragment : Fragment() {
         })
     }
 
+    private fun shimmerStart() {
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
+    }
+
+    private fun shimmerStop() {
+        shimmer_view_container_JobList.hide()
+        shimmer_view_container_JobList.stopShimmerAnimation()
+    }
 }

@@ -51,6 +51,7 @@ class EmpHistoryViewFragment : Fragment() {
     }
 
     private fun doWork() {
+        shimmerStart()
         populateData()
         empHisCB.setDeleteButton(false)
         fab_eh_add.setOnClickListener {
@@ -68,17 +69,17 @@ class EmpHistoryViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        loader_exps.show()
         val call = ApiServiceMyBdjobs.create().getExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<List<GetExps>> {
             override fun onFailure(call: Call<List<GetExps>>, t: Throwable) {
+                shimmerStop()
                 activity.toast("Error occurred")
             }
 
             override fun onResponse(call: Call<List<GetExps>>, response: Response<List<GetExps>>) {
                 try {
                     if (response.isSuccessful) {
-                        loader_exps.hide()
+                        shimmerStop()
                         val respo = response.body()?.get(0)
                         Log.d("empTest", "${respo?.message}")
                         Log.d("empTest1", "${respo?.toString()}")
@@ -92,11 +93,20 @@ class EmpHistoryViewFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    loader_exps.hide()
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
             }
         })
+    }
+
+    private fun shimmerStart() {
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
+    }
+
+    private fun shimmerStop() {
+        shimmer_view_container_JobList.hide()
+        shimmer_view_container_JobList.stopShimmerAnimation()
     }
 }

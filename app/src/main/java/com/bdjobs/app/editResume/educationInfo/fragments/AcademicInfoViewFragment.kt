@@ -70,17 +70,18 @@ class AcademicInfoViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        loader_aca.show()
+        shimmerStart()
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<List<GetAcademicInfo>> {
             override fun onFailure(call: Call<List<GetAcademicInfo>>, t: Throwable) {
+                shimmerStop()
                 activity.toast("Error occurred")
             }
 
             override fun onResponse(call: Call<List<GetAcademicInfo>>, response: Response<List<GetAcademicInfo>>) {
                 try {
                     if (response.isSuccessful) {
-                        loader_aca.hide()
+                        shimmerStop()
                         val respo = response.body()?.get(0)
                         arr = respo?.data as ArrayList<AcaDataItem>
                         //activity.toast("${arr?.size}")
@@ -89,11 +90,21 @@ class AcademicInfoViewFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    loader_aca.hide()
+                    shimmerStop()
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
             }
         })
+    }
+
+    private fun shimmerStart() {
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
+    }
+
+    private fun shimmerStop() {
+        shimmer_view_container_JobList.hide()
+        shimmer_view_container_JobList.stopShimmerAnimation()
     }
 }

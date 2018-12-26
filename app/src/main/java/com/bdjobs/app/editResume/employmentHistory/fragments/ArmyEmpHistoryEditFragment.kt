@@ -12,6 +12,8 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.Utilities.showProgressBar
+import com.bdjobs.app.Utilities.stopProgressBar
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import kotlinx.android.synthetic.main.fragment_army_emp_history.*
@@ -79,22 +81,26 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun updateData() {
+        activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateArmyExpsList(session.userId, session.decodId, session.IsResumeUpdate,
                 et_ba_no.getString(), et_ba_type.getString(), et_arms.getString(), et_type.getString(),
                 et_course.getString(), et_trade.getString(), et_commission.getString(), et_retire.getString(), armyID, hID)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
                 activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                 }
             }
