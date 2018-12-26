@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.GetArmyEmpHis
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
@@ -31,6 +29,7 @@ class ArmyEmpHisViewFragment : Fragment() {
     private lateinit var empHisCB: EmpHisCB
     private lateinit var dModel: ArmydataItem
     private lateinit var session: BdjobsUserSession
+    private var noData: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -56,26 +55,34 @@ class ArmyEmpHisViewFragment : Fragment() {
         populateData()
         empHisCB.setDeleteButton(false)
         fab_eh_army.setOnClickListener {
-            empHisCB.goToEditInfo("army_edit")
+            if (noData) {
+                empHisCB.goToEditInfo("army_add")
+            } else {
+                empHisCB.goToEditInfo("army_edit")
+            }
         }
     }
 
     private fun populateData() {
         armyMainCl.hide()
         val call = ApiServiceMyBdjobs.create().getArmyExpsList(session.userId, session.decodId)
-        call.enqueue(object : Callback<List<GetArmyEmpHis>> {
-            override fun onFailure(call: Call<List<GetArmyEmpHis>>, t: Throwable) {
+        call.enqueue(object : Callback<GetArmyEmpHis> {
+            override fun onFailure(call: Call<GetArmyEmpHis>, t: Throwable) {
                 shimmerStop()
                 activity.toast("Error occurred")
+                d(t.message.toString() + "url : ${call.request()}")
             }
 
-            override fun onResponse(call: Call<List<GetArmyEmpHis>>, response: Response<List<GetArmyEmpHis>>) {
+            override fun onResponse(call: Call<GetArmyEmpHis>, response: Response<GetArmyEmpHis>) {
+                d("url : " + call.request().toString())
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        armyMainCl.show()
-                        val respo = response.body()?.get(0)
+                        val respo = response.body()
                         dModel = respo?.armydata?.get(0)!!
+                        armyMainCl.show()
+                        noData = false
+                        fab_eh_army.setImageResource(R.drawable.ic_arrow_down)
                         empHisCB.passArmyData(dModel)
                         tvBa?.text = dModel.baNo1
                         tvBaNo?.text = dModel.baNo2
@@ -86,8 +93,15 @@ class ArmyEmpHisViewFragment : Fragment() {
                         tvCourse?.text = dModel.course
                         tvCommisDate?.text = dModel.dateOfCommission
                         tvRetireDate?.text = dModel.dateOfRetirement
+                    } else {
+                        d("else resp : " + response.code() + "message: ${response.body()?.message}")
+                        activity.toast(response.body()?.message.toString())
                     }
                 } catch (e: Exception) {
+                    noData = true
+                    fab_eh_army.setImageResource(R.drawable.ic_add_white)
+                    activity.toast(response.body()?.message.toString())
+                    armyMainCl.invisible()
                     activity.error("++${e.message}")
                 }
             }

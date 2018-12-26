@@ -226,6 +226,10 @@ fun View.hide() {
     visibility = View.GONE
 }
 
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
 fun View.makeClickable() {
     isClickable = true
 }
@@ -237,6 +241,10 @@ fun View.makeUnClickable() {
 fun Any.debug(message: String) {
     Log.d(this::class.java.simpleName, message)
     Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message)
+}
+
+fun Any.d(message: String) {
+    Log.d("+++" + this::class.java.simpleName, message)
 }
 
 fun Any.debug(message: String, tr: Throwable) {

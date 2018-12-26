@@ -84,7 +84,6 @@ class EmpHistoryEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         empHisCB = activity as EmpHisCB
-        empHisCB.setDeleteButton(true)
         now = Calendar.getInstance()
     }
 
@@ -92,9 +91,11 @@ class EmpHistoryEditFragment : Fragment() {
         super.onResume()
         doWork()
         if (isEdit) {
+            empHisCB.setDeleteButton(true)
             hID = "4"
             preloadedData()
         } else {
+            empHisCB.setDeleteButton(false)
             hID = "-4"
         }
     }

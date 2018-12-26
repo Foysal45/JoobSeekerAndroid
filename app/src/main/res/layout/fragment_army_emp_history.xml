@@ -34,6 +34,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.ba_type"
+                        android:focusable="false"
                         android:inputType="text"
                         android:textColor="#212121" />
 
@@ -50,6 +51,7 @@
                         android:id="@+id/et_ba_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:hint="@string/hint.ba_no"
                         android:inputType="text"
                         android:textColor="#212121" />

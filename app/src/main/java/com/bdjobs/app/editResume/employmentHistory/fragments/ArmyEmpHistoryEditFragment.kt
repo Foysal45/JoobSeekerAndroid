@@ -8,12 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.getString
-import com.bdjobs.app.Utilities.pickDate
-import com.bdjobs.app.Utilities.showProgressBar
-import com.bdjobs.app.Utilities.stopProgressBar
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import kotlinx.android.synthetic.main.fragment_army_emp_history.*
@@ -29,6 +27,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     private lateinit var empHisCB: EmpHisCB
     private lateinit var now: Calendar
     private lateinit var session: BdjobsUserSession
+    private lateinit var dataStorage: DataStorage
     var isEdit = false
     private var hID: String = ""
     private var armyID: String = ""
@@ -57,24 +56,38 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
+        dataStorage = DataStorage(activity)
         empHisCB = activity as EmpHisCB
         now = Calendar.getInstance()
-        empHisCB.setDeleteButton(true)
     }
 
     override fun onResume() {
         super.onResume()
+
+        d(isEdit.toString())
         doWork()
         if (isEdit) {
-            hID = "4"
+            hID = "13"
+            empHisCB.setDeleteButton(true)
             preloadedData()
         } else {
-            hID = "-4"
+            empHisCB.setDeleteButton(false)
+            hID = "-13"
         }
     }
 
     private fun doWork() {
         empHisCB.setTitle("Employment History (Retired Army Person)")
+        /*et_ba_type.setOnClickListener {
+            val divisionList: Array<String> = dataStorage.
+
+            selector("বিভাগ নির্বাচন করুন", divisionList.toList()) { dialogInterface, i ->
+
+                bcDivisionTIET.setText(divisionList[i])
+                bcDistrictTIL.requestFocus()
+
+            }
+        }*/
         et_commission.setOnClickListener { pickDate(activity, now, commissionDateSetListener) }
         et_retire.setOnClickListener { pickDate(activity, now, retireDateSetListener) }
         fab_eh_army.setOnClickListener { updateData() }
@@ -133,20 +146,24 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     fun dataDelete() {
+        activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("ArmyPersonalInfo", "555", session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
                 activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                 }
             }

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.EmpHistoryAdapter
 import com.bdjobs.app.editResume.adapters.models.DataItem
@@ -93,7 +93,8 @@ class EmpHistoryViewFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    activity.error("++${e.message}")
+                    activity.toast("${response.body()?.get(0)?.message}")
+                    activity.logException(e)
                 }
                 adapter?.notifyDataSetChanged()
             }

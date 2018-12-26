@@ -116,7 +116,7 @@ interface ApiServiceMyBdjobs {
     fun getArmyExpsList(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
-    ): Call<List<GetArmyEmpHis>>
+    ): Call<GetArmyEmpHis>
 
     @FormUrlEncoded
     @POST("apps_delete.asp")

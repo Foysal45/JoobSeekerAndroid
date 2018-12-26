@@ -27,8 +27,8 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryEditFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
-    private lateinit var datait: DataItem
-    private lateinit var dataitArmy: ArmydataItem
+    private var datait: DataItem? = null
+    private var dataitArmy: ArmydataItem? = null
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -49,11 +49,11 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     }
 
     override fun getData(): DataItem {
-        return datait
+        return datait!!
     }
 
     override fun getArmyData(): ArmydataItem {
-        return dataitArmy
+        return dataitArmy!!
     }
 
     override fun passData(data: DataItem) {
@@ -78,8 +78,11 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
                 armyEditFragment.isEdit = true
                 transitFragment(armyEditFragment, R.id.emp_his_container, true)
             }
+            "army_add" -> {
+                armyEditFragment.isEdit = false
+                transitFragment(armyEditFragment, R.id.emp_his_container, true)
+            }
             else -> {
-
             }
         }
     }

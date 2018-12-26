@@ -31,17 +31,17 @@
     <string name="err_msg_name">Username can not be empty!</string>
     <string name="err_msg_password">Password can not be empty!</string>
     <string name="heading.toolbar.addAcademicQualification">Add Academic</string>
-    <string name="hint.level_of_education">Level of Education</string>
+    <string name="hint.level_of_education">Level of Education *</string>
     <string name="message.checkbox.degreeShow">Show this degree in summary view at employers end</string>
-    <string name="hint.exam_degree_title">Exam / Degree Title</string>
-    <string name="hint.concentration_major_group">Concentration / Major / Group</string>
+    <string name="hint.exam_degree_title">Exam / Degree Title *</string>
+    <string name="hint.concentration_major_group">Concentration / Major / Group *</string>
     <string name="hint.institute_name">Institute Name *</string>
     <string name="message.foreign_institute">Is specified institute is a foreign institute?</string>
     <string name="hint.yes">Yes</string>
     <string name="message.if_no_then_leave_this_option_blank">[If no then leave this option Blank]</string>
     <string name="hint.result">Result</string>
     <string name="hint.passing_year">Passing Year</string>
-    <string name="hint.duration">Duration *</string>
+    <string name="hint.duration">Duration</string>
     <string name="hint.achievement">Achievement</string>
     <string name="hint.save">Save</string>
     <string name="heading.toolbar.addProfessionalQualification">Add Professional Qualification</string>
@@ -148,5 +148,11 @@
     <string name="title_respos">Responsibilities</string>
     <string name="ba_no">No.</string>
     <string name="hint.army_type_v">Type</string>
+    <string name="hint.scale">Scale *</string>
+    <string name="hint.cgpa">CGPA *</string>
+    <string name="hint.hideresult">Hide Result</string>
+    <string name="hint.forinstitute">Foreign Institute</string>
+    <string name="hint.results">Results *</string>
+    <string name="hint.passingyear">Passing Year *</string>
 
 </resources>
