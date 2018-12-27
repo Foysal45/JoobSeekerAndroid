@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_login_otp.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
 import org.jetbrains.anko.toast
+import java.lang.Exception
 
 
 class BCOtpCodeFragment : Fragment() {
@@ -24,10 +25,13 @@ class BCOtpCodeFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var counter: CountDownTimer
 
+    private lateinit var returnView : View
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bc_otp_code, container, false)
+
+        returnView = inflater.inflate(R.layout.fragment_bc_otp_code, container, false)
+        return returnView
     }
 
 
@@ -103,7 +107,12 @@ class BCOtpCodeFragment : Fragment() {
                 val minute = millisUntilFinished / (1000 * 60) % 60
                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
                 val time = String.format("%02d:%02d", minute, second)
-                bcTimerTV.text = time
+                try {
+
+                    bcTimerTV.text = time
+                }catch (e:Exception){
+
+                }
             }
 
             override fun onFinish() {

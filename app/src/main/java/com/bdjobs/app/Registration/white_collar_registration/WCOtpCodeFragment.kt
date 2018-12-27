@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
 import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.toast
+import java.lang.Exception
 
 
 class WCOtpCodeFragment : Fragment() {
@@ -96,7 +97,13 @@ class WCOtpCodeFragment : Fragment() {
                 val minute = millisUntilFinished / (1000 * 60) % 60
                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
                 val time = String.format("%02d:%02d", minute, second)
-                wcTimerTV.text = time
+
+               try {
+                   wcTimerTV.text = time
+               } catch (e:Exception){
+
+
+               }
             }
 
             override fun onFinish() {
