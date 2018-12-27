@@ -31,7 +31,7 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
     }
 
     override fun goToFollowedEmployerList() {
-        startActivity<EmployersBaseActivity>()
+        startActivity<EmployersBaseActivity>("from" to "follow")
     }
 
 

@@ -2,7 +2,9 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 
 
@@ -32,7 +34,7 @@ import com.bdjobs.app.Utilities.transitFragment
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private var companyid = ""
     private var companyname = ""
-    private var value = "emplist"
+    private var value = ""
     private val followedEmployersListFragment = FollowedEmployersListFragment()
     private val employerJobListFragment = EmployerJobListFragment()
     private val employerListFragment = EmployerListFragment()
@@ -53,8 +55,6 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     }
 
 
-
-
     override fun backButtonPressed() {
         onBackPressed()
     }
@@ -62,10 +62,16 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employers_base)
-        if (value?.equals( "follow")){
-            transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
+
+        try {
+            value = intent.getStringExtra("from")
+        } catch (e: Exception) {
+            logException(e)
         }
-       else  if (value?.equals( "emplist")) {
+        Log.d("value", "value = $value")
+        if (value?.equals("follow")) {
+            transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
+        } else if (value?.equals("emplist")) {
             transitFragment(employerListFragment, R.id.fragmentHolder)
         }
     }
