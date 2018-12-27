@@ -2,32 +2,65 @@ package com.bdjobs.app.FavouriteSearch
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.FavouriteSearch
-import com.bdjobs.app.R
-import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
+import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.FavouriteSearch
+import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
+import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_favourite_search_base.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class FavouriteSearchFilterAdapter(private val context: Context, private val items: List<FavouriteSearch>) : RecyclerView.Adapter<ViewHolder>() {
+class FavouriteSearchFilterAdapter(private val context: Context, private val items: MutableList<FavouriteSearch>) : RecyclerView.Adapter<ViewHolder>() {
 
-    val activity = context as Activity
+
     val dataStorage = DataStorage(context)
+    val bdjobsDB = BdjobsDB.getInstance(context)
     val bdjobsUserSession = BdjobsUserSession(context)
+    val activity = context as Activity
+    var favCommunicator: FavCommunicator? = null
+    var homeCommunicator: HomeCommunicator? = null
+    lateinit var mRecentlyDeletedItem: FavouriteSearch
+    var mRecentlyDeletedItemPosition = -1
+
+    private var undoButtonPressed: Boolean = false
+
+    init {
+
+        if (activity is MainLandingActivity) {
+            homeCommunicator = context as HomeCommunicator
+        }
+
+        if (activity is FavouriteSearchBaseActivity) {
+            favCommunicator = context as FavCommunicator
+        }
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fav_list_layout, parent, false))
@@ -39,6 +72,39 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         holder.dateTV.text = items[position].createdon?.toSimpleDateString()
         holder.timeTV.text = items[position].createdon?.toSimpleTimeString()
         holder.filter1TV.text = getFilterString(items[position])
+
+        holder.parentView.setOnClickListener {
+            favCommunicator?.let { comm ->
+                comm.goToJobSearch(items[position].filterid!!)
+            }
+            homeCommunicator?.let { comm ->
+                comm.goToJobSearch(items[position].filterid!!)
+            }
+        }
+
+        if (favCommunicator != null) {
+            holder.deleteTV.show()
+            holder.editTV.show()
+
+            holder.deleteTV.setOnClickListener {
+                activity.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
+                    yesButton {
+                        deleteFavSearch(position)
+                    }
+                    noButton { dialog ->
+                        dialog.dismiss()
+                    }
+                }.show()
+            }
+
+            holder.editTV.setOnClickListener {
+                favCommunicator?.goToEditMode(items[position].filterid!!)
+            }
+        } else {
+            holder.deleteTV.hide()
+            holder.editTV.hide()
+        }
+
 
         holder.progressBar.show()
         ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = items[position].filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
@@ -52,7 +118,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         if (status.equalIgnoreCase(api_request_result_code_ok)) {
                             holder.progressBar.hide()
                             holder.favcounter1BTN.textSize = 18.0F
-                            if(response.body()?.data?.get(0)?.intCount?.length!!>3){
+                            if (response.body()?.data?.get(0)?.intCount?.length!! > 3) {
                                 holder.favcounter1BTN.textSize = 14.0F
                             }
                             holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
@@ -68,6 +134,62 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
     override fun getItemCount(): Int {
         return items?.size!!
+    }
+
+
+    private fun deleteFavSearch(position: Int) {
+        mRecentlyDeletedItem = items[position]
+        mRecentlyDeletedItemPosition = position
+        items.removeAt(position)
+        notifyItemRemoved(position)
+        favCommunicator?.decrementCounter()
+        showUndoSnackbar()
+    }
+
+    private fun showUndoSnackbar() {
+
+        val msg = Html.fromHtml("<font color=\"#ffffff\"> Your favourite search filter has been deleted </font>")
+        val sBar = Snackbar.make(activity.baseCL, msg,
+                Snackbar.LENGTH_LONG)
+        sBar.setActionTextColor(context.resources.getColor(R.color.undo))
+        val view = sBar.view
+        val tv = view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        view.setBackgroundColor(Color.DKGRAY)
+        tv.setTextColor(Color.WHITE)
+        sBar.setAction("Undo") { undoDelete() }
+        sBar.show()
+
+        sBar.addCallback(object : Snackbar.Callback() {
+            override fun onShown(snackbar: Snackbar?) {
+
+            }
+
+            override fun onDismissed(snackbar: Snackbar?, event: Int) {
+                if (!undoButtonPressed) {
+
+                    doAsync {
+                        bdjobsDB.favouriteSearchFilterDao().deleteFavouriteSearchByID(mRecentlyDeletedItem.filterid!!)
+                    }
+
+                    ApiServiceMyBdjobs.create().deleteFavSearch(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intSfID = mRecentlyDeletedItem.filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
+                        override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
+                            error("onFailure", t)
+                        }
+
+                        override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
+
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    private fun undoDelete() {
+        undoButtonPressed = true
+        items.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem)
+        notifyItemInserted(mRecentlyDeletedItemPosition)
+        favCommunicator?.scrollToUndoPosition(mRecentlyDeletedItemPosition)
     }
 
     private fun getFilterString(favouriteSearch: FavouriteSearch): String? {
@@ -118,17 +240,18 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         Log.d("allValuesN", allValues)
 
-        return allValues
+        return allValues.removeLastComma()
     }
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    // Holds the TextView that will add each animal to
+    val deleteTV = view.findViewById(R.id.deleteTV) as TextView
+    val editTV = view.findViewById(R.id.editTV) as TextView
     val favTitle1TV = view.findViewById(R.id.favTitle1TV) as TextView
     val dateTV = view.findViewById(R.id.createdOnDateTV) as TextView
     val timeTV = view.findViewById(R.id.time1TV) as TextView
     val filter1TV = view.findViewById(R.id.filter1TV) as TextView
     val favcounter1BTN = view.findViewById(R.id.favcounter1BTN) as Button
     val progressBar = view.findViewById(R.id.progressBar2) as ProgressBar
-
+    val parentView = view.findViewById(R.id.itemView) as ConstraintLayout
 }

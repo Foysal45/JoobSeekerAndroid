@@ -2,12 +2,14 @@ package com.bdjobs.app.FavouriteSearch
 
 import android.app.Fragment
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
@@ -18,6 +20,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
     lateinit var favCommunicator: FavCommunicator
+    var favListSize = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_favourite_search_filter_list, container, false)!!
@@ -37,14 +40,28 @@ class FavouriteSearchFilterListFragment : Fragment() {
         doAsync {
             val favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
-                favCountTV.text = "${favouriteSearchFilters.size} favorite search"
+                favListSize =favouriteSearchFilters.size
+                val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
+                favCountTV.text = Html.fromHtml(styledText)
                 favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-                val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters, context = activity)
+                val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters as MutableList<FavouriteSearch>, context = activity)
                 favRV?.adapter = favouriteSearchFilterAdapter
             }
         }
 
+    }
 
+    fun scrollToUndoPosition(position:Int){
+        favRV?.scrollToPosition(position)
+        favListSize++
+        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
+        favCountTV.text = Html.fromHtml(styledText)
+    }
+
+    fun decrementCounter(){
+        favListSize--
+        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
+        favCountTV.text = Html.fromHtml(styledText)
     }
 
 }

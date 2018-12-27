@@ -1643,7 +1643,7 @@ class DataStorage(context: Context) {
         var s: String? = null
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.JOB_NATURE_COL_JOB_NATURE_ID + " FROM " + DBHelper.TABLE_NAME_JOB_NATURE + " WHERE " + DBHelper.JOB_NATURE_COL_JOB_NATURE_NAME + " = '" + ID + "'"
+            val selectQuery = "SELECT " + DBHelper.JOB_NATURE_COL_JOB_NATURE_ID + " FROM " + DBHelper.TABLE_NAME_JOB_NATURE + " WHERE LOWER(" + DBHelper.JOB_NATURE_COL_JOB_NATURE_NAME + ") = '" + ID + "'"
             Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
@@ -1693,7 +1693,7 @@ class DataStorage(context: Context) {
         var s: String? = null
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_LEVEL + " WHERE " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_NAME + " = '" + ID + "'"
+            val selectQuery = "SELECT " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_LEVEL + " WHERE LOWER(" + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_NAME + ") = '" + ID + "'"
             Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""

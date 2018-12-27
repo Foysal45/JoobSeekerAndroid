@@ -39,6 +39,12 @@ import java.util.*
 fun String.equalIgnoreCase(string:String):Boolean{
    return equals(string,true)
 }
+fun String.removeLastComma(): String {
+    if (endsWith(",")) {
+        return substring(0, length - 1);
+    }
+    return this
+}
 
 fun Date.toSimpleDateString() : String {
     val format = SimpleDateFormat("dd/MM/yyy")
@@ -185,6 +191,9 @@ fun ImageView.loadImageFromUrl(url: String) {
         logException(e)
     }
 }
+
+
+
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
         Picasso.get().load(url).transform(CircleTransform()).into(this)

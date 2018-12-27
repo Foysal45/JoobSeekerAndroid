@@ -8,5 +8,8 @@
     <color name="colorUnselected">#979797</color>
     <color name="card_background">#F8F6EA</color>
     <color name="colorAsh">#E0E0E0</color>
-
+    <color name="inactive_background">#808080</color>
+    <color name="inactive_text_color">#808080</color>
+    <color name="fav_search_save">#F7894A</color>
+    <color name="undo">#8ab4f8</color>
 </resources>
