@@ -14,7 +14,10 @@ import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_name.*
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.makeCall
 
 
 class WCNameFragment : Fragment() {
@@ -25,7 +28,13 @@ class WCNameFragment : Fragment() {
 
         super.onActivityCreated(savedInstanceState)
         registrationCommunicator = activity as RegistrationCommunicator
+
+        setName()
+
+
+
         onClick()
+
 
     }
 
@@ -40,9 +49,6 @@ class WCNameFragment : Fragment() {
     private fun onClick(){
 
 
-        usernameTIET.easyOnTextChangedListener { charSequence ->
-            nameValidityCheck(charSequence.toString())
-        }
 
 
         nameFAButton.setOnClickListener {
@@ -62,6 +68,22 @@ class WCNameFragment : Fragment() {
 
 
 
+        wcSupportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+
+            makeCall("16479")
+        }
+
+
+
+        usernameTIET.easyOnTextChangedListener { charSequence ->
+            nameValidityCheck(charSequence.toString())
+        }
 
     }
 
@@ -90,4 +112,23 @@ class WCNameFragment : Fragment() {
         }
     }
 
+    private fun setName(){
+
+        if (!TextUtils.isEmpty(registrationCommunicator.getName())){
+
+            usernameTIET.setText(registrationCommunicator.getName())
+        }
+
+
+
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+
+
+    }
 }

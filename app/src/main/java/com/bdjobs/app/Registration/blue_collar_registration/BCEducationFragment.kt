@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
@@ -20,20 +19,26 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_bc_layout.*
+import kotlinx.android.synthetic.main.fragment_bc_adress.*
 import kotlinx.android.synthetic.main.fragment_bc_education.*
-import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
-import org.jetbrains.anko.sdk27.coroutines.textChangedListener
-import com.bdjobs.app.R.id.checkBox
+import org.jetbrains.anko.makeCall
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
-import java.util.*
 
 
 class BCEducationFragment : Fragment() {
 
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
-    private var hasEducation = true
+    private var hasEducation = "False"
     private lateinit var dataStorage: DataStorage
+    private lateinit var eduDegree: String
+    private lateinit var levelOfEducation: String
+    private lateinit var passingYear: String
+    private lateinit var instituteName: String
+    private lateinit var educationType: String
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -59,12 +64,100 @@ class BCEducationFragment : Fragment() {
 
         bcEducationFAButton.setOnClickListener {
 
-            registrationCommunicator.bcGoToStepPhotoUpload()
+
+           val eduLevel = bcEduLevelTIET.text.toString()
+
+
+            eduDegree = bcEduDegreeTIET.text.toString()
+
+
+
+            instituteName = bcInstituteNameTIET.text.toString()
+            passingYear = bcPassingYearTIET.text.toString()
+            educationType = dataStorage.getEducationTypeByEducationDegreeName(eduDegree)
+            levelOfEducation = dataStorage.getEduIDByEduLevel(eduLevel)
+            Log.d("MobileNumberVer2", " EducationType in database $educationType")
+            Log.d("MobileNumberVer2", " levelOfEducation in database $levelOfEducation")
+
+            if (eduDegree.equals("Other", ignoreCase = true)) {
+
+                eduDegree = bcEduDegreeOtherTIET.text.toString()
+                educationType = "5"
+
+
+            }
+            Log.d("ConditionCheck"," hasEducation $hasEducation ")
+
+            if (hasEducation.equals("False",true)){
+
+                Log.d("ConditionCheck"," First Condition ")
+
+                registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
+
+
+            } else {
+
+                if (validateCondition() || validateConditionTwo()) {
+
+                    registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
+
+                    Log.d("ConditionCheck"," second Condition ")
+                    registrationCommunicator.bcEducationSelected(levelOfEducation, eduDegree, instituteName, passingYear, educationType)
+                }
+
+
+            }
+
+
 
 
         }
 
 
+        bcEduLevelTIET.setOnClickListener {
+
+
+
+            val eduLevelList: Array<String> = dataStorage.allEduLevels
+
+            selector("বসর্বশেষ শিক্ষা পর্যায়", eduLevelList.toList()) { dialogInterface, i ->
+
+               bcEduLevelTIET.setText(eduLevelList[i])
+               /* bcDistrictTIL.requestFocus()*/
+
+
+            }
+
+
+        }
+
+
+        bcEduDegreeTIET.setOnClickListener {
+
+            var queryValue = bcEduLevelTIET.getText().toString()
+            queryValue = queryValue.replace("'", "''")
+            val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
+            val eduDegreeList: Array<String> = dataStorage.getEducationDegreesByEduLevelID(edulevelID)
+
+            selector("পরীক্ষা/ডিগ্রীর নাম", eduDegreeList.toList()) { dialogInterface, i ->
+
+               bcEduDegreeTIET.setText(eduDegreeList[i])
+
+
+                if (eduDegreeList[i].equals("Other")){
+
+                    bcEduDegreeOtherTIL.visibility = View.VISIBLE
+                    bcEduDegreeOtherTIET.visibility = View.VISIBLE
+                }
+
+
+                /* bcDistrictTIL.requestFocus()*/
+
+
+            }
+
+
+        }
 
         checkBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -72,28 +165,28 @@ class BCEducationFragment : Fragment() {
                 toast(isChecked.toString())
 
                 if (isChecked) {
-                    hasEducation = true
+                    hasEducation = "True"
                     /* nextButton.setEnabled(false)
                      nextButton.setClickable(false)
                      nextButton.setBackgroundResource(R.drawable.next_button_inactive)*/
-                    bcLastEducationTIET.isFocusable = true
-                    bcExamNameTIET.isFocusable = true
+                  /*  bcEduLevelTIET.isFocusable = true
+                    bcEduDegreeTIET.isFocusable = true
                     bcInstituteNameTIET.isFocusable = true
                     bcPassingYearTIET.isFocusable = true
 
 
-                    bcLastEducationTIET.isEnabled = true
-                    bcExamNameTIET.isEnabled = true
+                    bcEduLevelTIET.isEnabled = true
+                    bcEduDegreeTIET.isEnabled = true
                     bcInstituteNameTIET.isEnabled = true
-                    bcPassingYearTIET.isEnabled = true
+                    bcPassingYearTIET.isEnabled = true*/
 
-                    bcLastEducationTIL.isFocusable = true
-                    bcExamNameTIL.isFocusable = true
+                    bcEduLevelTIL.isFocusable = true
+                    bcEduDegreeTIL.isFocusable = true
                     bcInstituteNameTIL.isFocusable = true
                     bcPassingYearTIL.isFocusable = true
 
-                    bcLastEducationTIL.isEnabled = true
-                    bcExamNameTIL.isEnabled = true
+                    bcEduLevelTIL.isEnabled = true
+                    bcEduDegreeTIL.isEnabled = true
                     bcInstituteNameTIL.isEnabled = true
                     bcPassingYearTIL.isEnabled = true
 
@@ -107,36 +200,36 @@ class BCEducationFragment : Fragment() {
                      /*  registrationCommunicator.setEducationType("")*/
 
                 } else {
-                    hasEducation = false
+                    hasEducation = "False"
                    /*  nextButton.setEnabled(true)
                      nextButton.setClickable(true)
                      nextButton.setBackgroundResource(R.drawable.next_button_active)*/
-                    bcLastEducationTIET.text!!.clear()
-                    bcExamNameTIET.text!!.clear()
+                    bcEduLevelTIET.text!!.clear()
+                    bcEduDegreeTIET.text!!.clear()
                     bcInstituteNameTIET.text!!.clear()
                     bcPassingYearTIET.text!!.clear()
 
-                    bcLastEducationTIET.isFocusable = false
-                    bcExamNameTIET.isFocusable = false
+                    bcEduLevelTIET.isFocusable = false
+                    bcEduDegreeTIET.isFocusable = false
                     bcInstituteNameTIET.isFocusable = false
                     bcPassingYearTIET.isFocusable = false
 
 
-                    bcLastEducationTIET.isEnabled = false
-                    bcExamNameTIET.isEnabled = false
+                    bcEduLevelTIET.isEnabled = false
+                    bcEduDegreeTIET.isEnabled = false
                     bcInstituteNameTIET.isEnabled = false
                     bcPassingYearTIET.isEnabled = false
 
-                    bcLastEducationTIL.isFocusable = false
-                    bcExamNameTIL.isFocusable = false
+                   /* bcEduLevelTIL.isFocusable = false
+                    bcEduDegreeTIL.isFocusable = false
                     bcInstituteNameTIL.isFocusable = false
                     bcPassingYearTIL.isFocusable = false
 
-                    bcLastEducationTIL.isEnabled = false
-                    bcExamNameTIL.isEnabled = false
+                    bcEduLevelTIL.isEnabled = false
+                    bcEduDegreeTIL.isEnabled = false
                     bcInstituteNameTIL.isEnabled = false
-                    bcPassingYearTIL.isEnabled = false
-                    /*  eduDegreeOtherET.setVisibility(View.GONE)*/
+                    bcPassingYearTIL.isEnabled = false*/
+                    bcEduDegreeTIL.visibility = View.GONE
                 }
 
 
@@ -144,49 +237,22 @@ class BCEducationFragment : Fragment() {
 
         })
 
+        supportTextView.setOnClickListener {
 
-    }
+            makeCall("16479")
 
+        }
 
-    private fun setDialog(title: String, editText: EditText, data: Array<String>) {
+        bcHelpLineLayout.setOnClickListener {
 
-        editText.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-                    .setItems(data
-                    ) { dialog, which ->
-                        editText.setText(data[which])
-
-
-                        if (data[which].equals("Other", ignoreCase = true)) {
-
-                          /*  eduDegreeOtherET.setVisibility(View.VISIBLE)
-                            eduDegreeOtherET.getText().clear()
-                            registrationCommunicator.setEducationType("5")*/
-
-                        } else {
-
-
-                           /* eduDegreeOtherET.setVisibility(View.GONE)*/
-                        }
-
-                        if (editText.id == R.id.bcLastEducationTIET) {
-                            bcExamNameTIET.text!!.clear()
-                            bcLastEducationTIET.setOnClickListener(null)
-                            var queryValue = editText.text.toString()
-                            queryValue = queryValue.replace("'", "''")
-                            val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
-                            setDialog("পরীক্ষা/ডিগ্রীর নাম", bcExamNameTIET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
-                        }
-                    }
-            val dialog = builder.create()
-            dialog.show()
-
-
+            makeCall("16479")
         }
 
 
     }
+
+
+
 
 
     fun callHelpLine(context: Context) {
@@ -201,6 +267,49 @@ class BCEducationFragment : Fragment() {
 
     }
 
+    private fun validateCondition(): Boolean {
+
+
+        val passingYear = bcPassingYearTIET.getText().toString()
+        var passingYearInt = 0
+        try {
+
+            passingYearInt = Integer.parseInt(passingYear)
+
+        } catch (e: Exception) {
+
+
+        }
+
+        return !TextUtils.isEmpty(bcEduLevelTIET.text.toString()) and
+                !TextUtils.isEmpty(bcEduDegreeTIET.text.toString()) and
+                !TextUtils.isEmpty(bcInstituteNameTIET.text.toString()) and
+                ((bcPassingYearTIET.text.toString().length > 3) and (
+                        passingYearInt <= 2023) and (passingYearInt >= 1963))
+    }
+
+
+    private fun validateConditionTwo(): Boolean {
+
+
+        val passingYear = bcPassingYearTIET.text.toString()
+        var passingYearInt = 0
+        try {
+
+            passingYearInt = Integer.parseInt(passingYear)
+
+        } catch (e: Exception) {
+
+
+        }
+
+        return !TextUtils.isEmpty(bcEduLevelTIET.text.toString()) and
+                !TextUtils.isEmpty(bcEduDegreeTIET.text.toString()) and
+                !TextUtils.isEmpty(bcInstituteNameTIET.text.toString()) and
+                !TextUtils.isEmpty(bcEduDegreeOtherTIET.text.toString()) and
+                ((bcPassingYearTIET.text.toString().length > 3) and (
+                        passingYearInt <= 2023) and (passingYearInt >= 1963))
+    }
 
     override fun onResume() {
         super.onResume()

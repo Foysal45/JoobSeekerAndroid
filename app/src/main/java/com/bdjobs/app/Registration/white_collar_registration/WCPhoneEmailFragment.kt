@@ -20,9 +20,11 @@ import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_login_username.*
 import kotlinx.android.synthetic.main.fragment_wc_password.*
 import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 
@@ -33,11 +35,15 @@ class WCPhoneEmailFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var returnView: View
     private lateinit var dataStorage: DataStorage
+    private var mobileValidity = false
+    private var emailValidity = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initialization()
+        setEmail()
         onClick()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +57,15 @@ class WCPhoneEmailFragment : Fragment() {
 
 
         mobileNumberTIET.easyOnTextChangedListener { charSequence ->
+
             mobileNumberValidityCheck(charSequence.toString())
+
         }
 
         emailTIET.easyOnTextChangedListener { charSequence ->
+
             emailValidityCheck(charSequence.toString())
+
         }
 
         phoneEmailFAButton.setOnClickListener {
@@ -121,6 +131,18 @@ class WCPhoneEmailFragment : Fragment() {
 
         }
 
+
+        wcSupportTextView.setOnClickListener {
+
+            activity.makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+
+            activity.makeCall("16479")
+
+        }
 
     }
 
@@ -203,5 +225,9 @@ class WCPhoneEmailFragment : Fragment() {
         }
     }
 
+    fun setEmail(){
+
+        emailTIET.setText(registrationCommunicator.getEmail())
+    }
 
 }

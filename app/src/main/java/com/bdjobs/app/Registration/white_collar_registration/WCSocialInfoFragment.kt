@@ -10,7 +10,9 @@ import android.view.ViewGroup
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_social_info.*
+import org.jetbrains.anko.makeCall
 
 
 class WCSocialInfoFragment : Fragment() {
@@ -42,6 +44,38 @@ class WCSocialInfoFragment : Fragment() {
 
 
         }
+
+        wcSupportTextView.setOnClickListener {
+
+            activity.makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+
+            activity.makeCall("16479")
+
+        }
+
+
+        google_button.setOnClickListener {
+
+            registrationCommunicator.regWithGoogle()
+
+        }
+
+        facebook_button.setOnClickListener {
+
+            registrationCommunicator.regWithFacebook()
+
+        }
+
+        linkedIn_button.setOnClickListener {
+
+            registrationCommunicator.regWithLinkedIn()
+
+        }
+
     }
 
     private fun initialization(){

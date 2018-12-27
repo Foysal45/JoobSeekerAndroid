@@ -113,6 +113,50 @@ interface ApiServiceMyBdjobs {
 
     ): Call<CreateAccountModel>
 
+
+    @FormUrlEncoded
+    @POST("apps_updateBlueCv.asp")
+    fun sendBlueCollarUserInfo(
+            @Field("UserID") userid: String ="",
+            @Field("decodeId") decodeId: String="",
+            @Field("userName") userName: String = "",
+            @Field("village") village: String ="",
+            @Field("locationID") locationID: String ="",
+            @Field("dob") dob: String ="",
+            @Field("age") age: String ="",
+            @Field("skillID") skillID: String ="",
+            @Field("expYear") expYear: String ="",
+            @Field("levelOfEducation") levelOfEducation: String="",
+            @Field("institute") institute: String = "",
+            @Field("inlineRadioOptions") inlineRadioOptions: String="",
+            @Field("examDegreeTitle") examDegreeTitle: String ="",
+            @Field("yearOfPassing") yearOfPassing: String ="",
+            @Field("hasEdu") hasEdu: String =""
+    ): Call<UpdateBlueCvModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_resendOtp.asp")
+    fun resendOtp(
+            @Field("userId") tmpUserId: String? = "",
+            @Field("mobile") mobile: String? = "",
+            @Field("forCreateAccount") forCreateAccount:String? = ""
+
+    ): Call<ResendOtpModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_photoInfo.asp")
+    fun getPhotoInfo(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = ""
+
+
+    ): Call<PhotoInfoModel>
+
+
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

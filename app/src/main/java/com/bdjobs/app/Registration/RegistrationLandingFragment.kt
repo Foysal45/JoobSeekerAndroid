@@ -9,15 +9,17 @@ import android.view.ViewGroup
 import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_registration_landing.*
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.toast
 
 
 class RegistrationLandingFragment : Fragment() {
 
-    private lateinit var  registrationCommunicator : RegistrationCommunicator
-    private lateinit var returnView : View
-    private lateinit var dataStrage : DataStorage
+    private lateinit var registrationCommunicator: RegistrationCommunicator
+    private lateinit var returnView: View
+    private lateinit var dataStrage: DataStorage
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         returnView = inflater.inflate(R.layout.fragment_registration_landing, container, false)
@@ -31,39 +33,52 @@ class RegistrationLandingFragment : Fragment() {
         onClick()
     }
 
-   private fun onClick(){
+    private fun onClick() {
 
 
-       whiteCollar.setOnClickListener {
+        whiteCollar.setOnClickListener {
 
-           registrationCommunicator.gotToStepWhiteCollar()
-          /* registrationCommunicator.setProgreesBar()*/
+            registrationCommunicator.gotToStepWhiteCollar()
+            /* registrationCommunicator.setProgreesBar()*/
 
 
-       }
-       blueCollar.setOnClickListener {
+        }
+        blueCollar.setOnClickListener {
 
-           registrationCommunicator.goToStepBlueCollar()
+            registrationCommunicator.goToStepBlueCollar()
 
-       }
 
+        }
+
+
+
+        wcSupportTextView.setOnClickListener {
+
+            toast("textClick")
+            activity.makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+            toast("textClick")
+            activity.makeCall("16479")
+
+        }
     }
 
 
+    private fun intialization() {
 
-   private fun intialization(){
 
+        registrationCommunicator = activity as RegistrationCommunicator
+        dataStrage = DataStorage(activity)
+        bcCategoryTV.isSelected = true
+        wcCategoryTV.isSelected = true
 
-       registrationCommunicator = activity as RegistrationCommunicator
-       dataStrage = DataStorage(activity)
-       bcCategoryTV.isSelected = true
-       wcCategoryTV.isSelected = true
-
-       val allWCCategory = dataStrage.allWhiteCollarCategories.toString().replace("[","")
-       val allBCcategory = dataStrage.allBlueCollarCategoriesInBangla.toString().replace("[","")
-       wcCategoryTV.text = allWCCategory.replace("]","")
-       bcCategoryTV.text = allBCcategory.replace("]","")
-
+        val allWCCategory = dataStrage.allWhiteCollarCategories.toString().replace("[", "")
+        val allBCcategory = dataStrage.allBlueCollarCategoriesInBangla.toString().replace("[", "")
+        wcCategoryTV.text = allWCCategory.replace("]", "")
+        bcCategoryTV.text = allBCcategory.replace("]", "")
 
 
     }

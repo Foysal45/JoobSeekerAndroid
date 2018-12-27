@@ -22,6 +22,7 @@ interface RegistrationCommunicator {
     fun wcGetEmail():String
     fun wcUserNameTypeSelected(userId: String)
     fun wcSetPassAndConfirmPassword(password:String,confirmPass:String)
+
     fun wcCreateAccount()
     fun wcUserNameSelected(userName: String)
     fun wcCountrySeledted(countryCode: String)
@@ -40,7 +41,7 @@ interface RegistrationCommunicator {
     fun bcGoToStepAdress()
     fun bcGoToStepExperience()
     fun bcGoToStepEducation()
-    fun bcGoToStepPhotoUpload()
+    fun bcGoToStepPhotoUpload(hasEducation: String)
     fun bcGoToStepCongratulation()
     fun bcCategorySelected(category: String, position: Int)
     fun bcGenderSelected(gender: String)
@@ -51,10 +52,27 @@ interface RegistrationCommunicator {
 
     fun bcGetAge():String
 
+    fun bcResendOtp()
+
+
+    fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String)
+
     ////-------------common-----------//
     fun nameSelected(name : String)
 
     fun goToHomePage()
+    fun getUserId():String
+    fun getDecodeId():String
+    fun regWithGoogle()
+    fun regWithFacebook()
+    fun regWithLinkedIn()
+
+    fun getName():String
+    fun getEmail():String
+    fun getGender():String
+
+    fun showProgressBar()
+    fun hideProgressBar()
 
 
 

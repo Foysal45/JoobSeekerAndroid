@@ -12,7 +12,9 @@ import android.widget.DatePicker
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_birth_date.*
+import org.jetbrains.anko.makeCall
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,10 +28,12 @@ class BCBirthDateFragment : Fragment() {
     internal var age = 0
     internal var birthdate: String? = null
     private var ageLimit = false
+    private lateinit var returnView:View
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bc_birth_date, container, false)
+
+        returnView = inflater.inflate(R.layout.fragment_bc_birth_date, container, false)
+        return returnView
     }
 
 
@@ -170,6 +174,16 @@ class BCBirthDateFragment : Fragment() {
 
 
 
+        supportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        bcHelpLineLayout.setOnClickListener {
+
+            makeCall("16479")
+        }
 
 
 

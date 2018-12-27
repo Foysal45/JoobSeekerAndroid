@@ -9,7 +9,9 @@ import android.view.ViewGroup
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_gender.*
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.textColor
 
 
@@ -90,6 +92,16 @@ class WCGenderFragment : Fragment() {
         }
 
 
+        wcSupportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+
+            makeCall("16479")
+        }
 
 
     }

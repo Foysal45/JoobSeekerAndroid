@@ -14,10 +14,12 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_adress.*
 import kotlinx.android.synthetic.main.fragment_bc_category.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
 
 
@@ -147,6 +149,18 @@ class BCAddressFragment : Fragment() {
 
 
 
+        }
+
+
+        supportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        bcHelpLineLayout.setOnClickListener {
+
+            makeCall("16479")
         }
 
     }

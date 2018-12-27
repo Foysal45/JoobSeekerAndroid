@@ -15,8 +15,10 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_adress.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
+import org.jetbrains.anko.makeCall
 import java.util.ArrayList
 
 
@@ -125,6 +127,17 @@ class BCExperienceFragment : Fragment() {
 
 
 
+        }
+
+        supportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        bcHelpLineLayout.setOnClickListener {
+
+            makeCall("16479")
         }
 
 

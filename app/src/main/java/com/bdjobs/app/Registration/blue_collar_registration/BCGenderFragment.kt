@@ -8,7 +8,9 @@ import android.view.ViewGroup
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_gender.*
+import org.jetbrains.anko.makeCall
 
 
 class BCGenderFragment : Fragment() {
@@ -89,6 +91,16 @@ class BCGenderFragment : Fragment() {
 
         }
 
+        supportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        bcHelpLineLayout.setOnClickListener {
+
+            makeCall("16479")
+        }
 
 
 

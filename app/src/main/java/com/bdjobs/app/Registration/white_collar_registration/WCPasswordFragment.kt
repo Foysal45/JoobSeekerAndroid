@@ -14,7 +14,9 @@ import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_password.*
+import org.jetbrains.anko.makeCall
 
 
 class WCPasswordFragment : Fragment() {
@@ -54,14 +56,21 @@ class WCPasswordFragment : Fragment() {
 
         passwordFAButton.setOnClickListener {
 
+            if (passwordValidityCheck(passwordTIET.text.toString())){
 
-            if (confirmPassValidityCheck(confirmPassTIET.text.toString())){
-                registrationCommunicator.wcSetPassAndConfirmPassword(passwordTIET.text.toString(),confirmPassTIET.text.toString())
 
-                /*  registrationCommunicator.wcGoToStepCongratulation()*/
+                if (confirmPassValidityCheck(confirmPassTIET.text.toString())){
+                    registrationCommunicator.wcSetPassAndConfirmPassword(passwordTIET.text.toString(),confirmPassTIET.text.toString())
 
-                registrationCommunicator.wcCreateAccount()
-             }
+                    /*  registrationCommunicator.wcGoToStepCongratulation()*/
+
+                    registrationCommunicator.wcCreateAccount()
+                }
+
+
+            }
+
+
 
 
         }
@@ -108,6 +117,18 @@ class WCPasswordFragment : Fragment() {
 
             registrationCommunicator.wcUserNameTypeSelected("email")
            /* registrationCommunicator.wcUserNameSelected(registrationCommunicator.wcGetEmail())*/
+        }
+
+        wcSupportTextView.setOnClickListener {
+
+            activity.makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+
+            activity.makeCall("16479")
+
         }
 
     }

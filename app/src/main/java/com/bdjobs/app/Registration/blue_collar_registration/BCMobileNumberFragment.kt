@@ -17,8 +17,10 @@ import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
+import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
 
 
@@ -77,8 +79,8 @@ class BCMobileNumberFragment : Fragment() {
 
                 ///-------------------api------------calling------------------
 
-             /*   registrationCommunicator.wcCreateAccount()*/
-                registrationCommunicator.bcGoToStepOtpCode()
+                registrationCommunicator.wcCreateAccount()
+              /*  registrationCommunicator.bcGoToStepOtpCode()*/
 
         }
 
@@ -104,6 +106,17 @@ class BCMobileNumberFragment : Fragment() {
             }
 
 
+        }
+
+        supportTextView.setOnClickListener {
+
+            makeCall("16479")
+
+        }
+
+        bcHelpLineLayout.setOnClickListener {
+
+            makeCall("16479")
         }
 
 
