@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="#fafafa">
+
+    <ProgressBar
+        android:id="@+id/loadmore_progress_1"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:id="@+id/loadmore_errorlayout_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/activity_margin"
+        android:paddingTop="@dimen/activity_margin"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/loadmore_retry_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/activity_margin_content"
+
+            android:padding="@dimen/activity_margin_half"
+            android:src="@drawable/ic_refresh_black_24dp"
+            android:tint="#d73c3c"
+            android:tintMode="src_in"
+            tools:ignore="ContentDescription"
+            tools:targetApi="lollipop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/activity_margin_content"
+            android:layout_marginStart="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/loadmore_errortxt_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="What went wrong" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tap to reload" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
