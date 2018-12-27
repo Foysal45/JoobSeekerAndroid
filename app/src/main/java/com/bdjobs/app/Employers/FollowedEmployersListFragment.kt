@@ -1,10 +1,9 @@
 package com.bdjobs.app.Employers
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -83,7 +82,8 @@ class FollowedEmployersListFragment : Fragment() {
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
 
-
+                val styledText = "<b><font color='#13A10E'>${followedEmployerJobCount}</font></b> Followed Employers"
+                favCountTV.text = Html.fromHtml(styledText)
             }
         }
     }

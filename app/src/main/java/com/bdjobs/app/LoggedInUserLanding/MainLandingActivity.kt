@@ -26,9 +26,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MainLandingActivity : Activity() ,HomeCommunicator{
-    override fun goToFavSearchFilters() {
-        startActivity<FavouriteSearchBaseActivity>()
-    }
+
 
     override fun goToFollowedEmployerList() {
         startActivity<EmployersBaseActivity>("from" to "follow")
@@ -65,10 +63,6 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
 
     override fun goToFavSearchFilters() {
         startActivity<FavouriteSearchBaseActivity>()
-    }
-
-    override fun goToFollowedEmployerList() {
-        startActivity<EmployersBaseActivity>()
     }
 
     override fun goToJoblistFromLastSearch() {
