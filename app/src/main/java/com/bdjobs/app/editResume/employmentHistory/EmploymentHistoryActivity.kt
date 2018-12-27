@@ -87,14 +87,6 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         }
     }
 
-    override fun goBack() {
-        onBackPressed()
-    }
-
-    override fun setTitle(tit: String?) {
-        setupToolbar(tit)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emplyment_history)
@@ -102,6 +94,13 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         transitFragment(viewFragment, R.id.emp_his_container, false)
     }
 
+    override fun goBack() {
+        onBackPressed()
+    }
+
+    override fun setTitle(tit: String?) {
+        setupToolbar(tit)
+    }
 
     private fun setupToolbar(title: String?) {
         tv_tb_title?.text = title

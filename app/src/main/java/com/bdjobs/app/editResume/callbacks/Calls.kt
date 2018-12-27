@@ -20,10 +20,21 @@ interface EduInfo {
     fun setDeleteButton(b: Boolean)
     fun goToEditInfo(check: String)
     fun passData(data: AcaDataItem)
-    //fun passArmyData(data: ArmydataItem)
     fun getData(): AcaDataItem
+    fun goBack()
+}
 
-    //fun getArmyData(): ArmydataItem
+interface PersonalInfo {
+    fun setTitle(tit: String?)
+    fun setEditButton(b: Boolean)
+    fun goToEditInfo(check: String)
+    fun goBack()
+}
+
+interface ContactInfo {
+    fun setTitle(tit: String?)
+    fun setEditButton(b: Boolean)
+    fun goToEditInfo(check: String)
     fun goBack()
 }
 

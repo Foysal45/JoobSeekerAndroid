@@ -73,13 +73,14 @@
     <string name="hint.phoneOff">Phone (Office)</string>
     <string name="hint.phoneRes">Phone (Residential)</string>
     <string name="hint.email">Email Address</string>
-    <string name="hint.mobile">Mobile Number</string>
+    <string name="hint.mobile">Mobile No</string>
     <string name="hint.relation">Relation *</string>
     <string name="hint.first_name">First name *</string>
     <string name="hint.last_name">Last name</string>
     <string name="hint.gender">Gender *</string>
     <string name="hint.mobile_number">Mobile number *</string>
     <string name="hint.email_address">Email address *</string>
+    <string name="hint.email_address_v">Email address</string>
     <string name="hint.username">Username</string>
     <string name="hint.password">Password</string>
     <string name="hint.retype_password">Retype password</string>
@@ -91,6 +92,7 @@
     <string name="hint.national_id_no">National Id No</string>
     <string name="hint.religion">Religion</string>
     <string name="hint.presentAddress">Present Address *</string>
+    <string name="hint.presentAddress_v">Present Address</string>
     <string name="hint.permanentAddress">Permanent Address</string>
     <string name="hint.currentLocation">Current Location *</string>
     <string name="hint.homePhone">Home Phone</string>

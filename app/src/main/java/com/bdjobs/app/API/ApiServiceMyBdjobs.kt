@@ -6,10 +6,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
-import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
-import com.bdjobs.app.editResume.adapters.models.GetAcademicInfo
-import com.bdjobs.app.editResume.adapters.models.GetArmyEmpHis
-import com.bdjobs.app.editResume.adapters.models.GetExps
+import com.bdjobs.app.editResume.adapters.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -73,6 +70,20 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<GetAcademicInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_per.asp")
+    fun getPersonalInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetPersInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_con.asp")
+    fun getContactInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetContactInfo>
 
     @FormUrlEncoded
     @POST("apps_step_03_update_exp.asp")

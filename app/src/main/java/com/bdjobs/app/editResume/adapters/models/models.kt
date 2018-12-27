@@ -3,7 +3,6 @@ package com.bdjobs.app.editResume.adapters.models
 import com.google.gson.annotations.SerializedName
 
 // Employment history
-
 data class DataItem(
         @field:SerializedName("departmant")
         val departmant: String? = null,
@@ -124,7 +123,6 @@ data class AddorUpdateModel(
 )
 
 // Education and Training
-
 data class GetAcademicInfo(
 
         @field:SerializedName("statuscode")
@@ -195,4 +193,105 @@ data class AcaDataItem(
 
         @field:SerializedName("instituteType")
         val instituteType: String? = null
+)
+
+// Personal Info
+data class P_DataItem(
+
+        @field:SerializedName("firstName")
+        val firstName: String? = null,
+
+        @field:SerializedName("lastName")
+        val lastName: String? = null,
+
+        @field:SerializedName("fatherName")
+        val fatherName: String? = null,
+
+        @field:SerializedName("dateofBirth")
+        val dateofBirth: String? = null,
+
+        @field:SerializedName("messageType")
+        val messageType: String? = null,
+
+        @field:SerializedName("gender")
+        val gender: String? = null,
+
+        @field:SerializedName("motherName")
+        val motherName: String? = null,
+
+        @field:SerializedName("National Id No")
+        val nationalIdNo: String? = null,
+
+        @field:SerializedName("maritalStatus")
+        val maritalStatus: String? = null,
+
+        @field:SerializedName("Nationality")
+        val nationality: String? = null,
+
+        @field:SerializedName("religion")
+        val religion: String? = null
+)
+
+data class GetPersInfo(
+
+        @field:SerializedName("statuscode")
+        val statuscode: String? = null,
+
+        @field:SerializedName("data")
+        val data: List<P_DataItem?>? = null,
+
+        @field:SerializedName("common")
+        val common: Any? = null,
+
+        @field:SerializedName("message")
+        val message: String? = null
+)
+
+// Contact Info
+data class C_DataItem(
+
+        @field:SerializedName("messageType")
+        val messageType: String? = null,
+
+        @field:SerializedName("presentAddress")
+        val presentAddress: String? = null,
+
+        @field:SerializedName("officePhone")
+        val officePhone: String? = null,
+
+        @field:SerializedName("currentLocationPosition")
+        val currentLocationPosition: String? = null,
+
+        @field:SerializedName("homePhone")
+        val homePhone: String? = null,
+
+        @field:SerializedName("mobile")
+        val mobile: String? = null,
+
+        @field:SerializedName("permanentAddress")
+        val permanentAddress: String? = null,
+
+        @field:SerializedName("currentLocationName")
+        val currentLocationName: String? = null,
+
+        @field:SerializedName("email")
+        val email: String? = null,
+
+        @field:SerializedName("alternativeEmail")
+        val alternativeEmail: String? = null
+)
+
+data class GetContactInfo(
+
+        @field:SerializedName("statuscode")
+        val statuscode: String? = null,
+
+        @field:SerializedName("data")
+        val data: List<C_DataItem?>? = null,
+
+        @field:SerializedName("common")
+        val common: Any? = null,
+
+        @field:SerializedName("message")
+        val message: String? = null
 )
