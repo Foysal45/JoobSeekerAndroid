@@ -16,9 +16,6 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -26,10 +23,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.uiThread
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -43,6 +46,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         private val STANDOUT_AD = 4
         private var showAD = true
     }
+
+    private val bdjobsDB = BdjobsDB.getInstance(context)
 
     private var jobCommunicator: JobCommunicator? = null
     private var jobList: MutableList<JobListModelData>? = null
@@ -126,14 +131,14 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                 jobsVH.allJobsButtonLayout.setOnClickListener {
 
-                   Toast.makeText(context," View all jobs Button clicked ",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, " View all jobs Button clicked ", Toast.LENGTH_LONG).show()
 
                 }
 
 
                 jobsVH.followTV.setOnClickListener {
 
-                    Toast.makeText(context," follow Button clicked ",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, " follow Button clicked ", Toast.LENGTH_LONG).show()
 
                 }
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
@@ -161,11 +166,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         val jobDetailResponseAll = response.body()?.data?.get(0)
 
                         jobKeyPointsData = jobDetailResponseAll!!.jobKeyPoints!!
-                        jobContextData =  jobDetailResponseAll.context!!
-                        jobDescriptionData =  jobDetailResponseAll.jobDescription!!
+                        jobContextData = jobDetailResponseAll.context!!
+                        jobDescriptionData = jobDetailResponseAll.jobDescription!!
                         jobNatureData = jobDetailResponseAll.jobNature!!
                         educationData = jobDetailResponseAll.educationRequirements!!
-                        experienceData =jobDetailResponseAll.experience!!
+                        experienceData = jobDetailResponseAll.experience!!
                         requirmentsData = jobDetailResponseAll.additionJobRequirements!!
                         salaryData = jobDetailResponseAll.jobSalaryRange!!
                         otherBenifitsData = jobDetailResponseAll.jobOtherBenifits!!
@@ -173,11 +178,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         readApplyData = jobDetailResponseAll.applyInstruction!!
                         companyName = jobDetailResponseAll.compnayName!!
                         companyAddress = jobDetailResponseAll.companyAddress!!
-                        companyLogoUrl =jobDetailResponseAll.jobLOgoName!!
+                        companyLogoUrl = jobDetailResponseAll.jobLOgoName!!
                         companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                         applyOnline = jobDetailResponseAll.onlineApply!!
 
-                        jobsVH.tvPosName.text =jobDetailResponseAll.jobTitle
+                        jobsVH.tvPosName.text = jobDetailResponseAll.jobTitle
                         jobsVH.tvComName.text = jobDetailResponseAll.compnayName
                         jobsVH.tvSalary.text = jobDetailResponseAll.jobSalaryRange
                         jobsVH.tvDeadline.text = jobDetailResponseAll.deadline
@@ -185,12 +190,12 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
 
-                        if (applyOnline.equalIgnoreCase("True")){
+                        if (applyOnline.equalIgnoreCase("True")) {
 
                             jobsVH.applyButton.visibility = View.VISIBLE
                             jobsVH.applyButton.setOnClickListener {
                                 val bdjobsUserSession = BdjobsUserSession(context)
-                                if(!bdjobsUserSession.isLoggedIn!!){
+                                if (!bdjobsUserSession.isLoggedIn!!) {
                                     jobCommunicator?.goToLoginPage()
                                 }
                             }
@@ -370,7 +375,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                         if (companyLogoUrl.isBlank()) {
 
-                              jobsVH.companyLogo.visibility = View.GONE
+                            jobsVH.companyLogo.visibility = View.GONE
 
 
                         } else {
@@ -504,13 +509,12 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        Log.d("riuhghugr","getItemViewType" + getItemViewType(position))
+        Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
 
-        Log.d("riuhghugr"," result: $result")
-        if (result?.jobid.isNullOrBlank() ) {
+        Log.d("riuhghugr", " result: $result")
+        if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
-
 
 
         }
@@ -596,12 +600,12 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
-    fun shareJobs(position: Int){
+    fun shareJobs(position: Int) {
 
-        Log.d("ShareJob","position $position")
+        Log.d("ShareJob", "position $position")
 
         var shareBody = ""
-        if (jobList!!.get(position).lantype.equals("2")){
+        if (jobList!!.get(position).lantype.equals("2")) {
             shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}&ln=${jobList!!.get(position).lantype}"
         } else {
             shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}"
@@ -615,5 +619,66 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
 
     }
+
+    fun shorlistAndUnshortlistJob(position: Int) {
+
+        doAsync {
+            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+            uiThread {
+                if (shortListed) {
+                    doAsync {
+                        bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
+                    }
+                    uiThread {
+                        showHideShortListedIcon(position)
+                    }
+
+                } else {
+                    doAsync {
+                        var deadline: Date? = null
+                        try {
+                            deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                        Log.d("DeadLine", "DeadLine: $deadline")
+                        val shortlistedJob = ShortListedJobs(
+                                jobid = jobList?.get(position)?.jobid!!,
+                                jobtitle = jobList?.get(position)?.jobTitle!!,
+                                companyname = jobList?.get(position)?.companyName!!,
+                                deadline = deadline,
+                                eduRec = jobList?.get(position)?.eduRec!!,
+                                experience = jobList?.get(position)?.experience!!,
+                                standout = jobList?.get(position)?.standout!!,
+                                logo = jobList?.get(position)?.logo!!,
+                                lantype = jobList?.get(position)?.lantype!!
+                        )
+
+                        bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
+                        uiThread {
+                            showHideShortListedIcon(position)
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    fun showHideShortListedIcon(position: Int) {
+        doAsync {
+            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+            uiThread {
+                if (shortListed) {
+                    jobCommunicator?.showShortListedIcon()
+                } else {
+                    jobCommunicator?.showUnShortListedIcon()
+                }
+
+            }
+        }
+    }
+
 
 }

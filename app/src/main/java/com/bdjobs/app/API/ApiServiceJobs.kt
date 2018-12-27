@@ -80,6 +80,40 @@ interface ApiServiceJobs {
             @Query("encoded") encoded: String?
     ): Call<ShortListedJobModel>
 
+
+    @GET("FollowerEmployer.asp")
+    fun getUnfollowMessage(
+            @Query("id") id: String?,
+            @Query("name") name: String?,
+            @Query("userId") userId: String?,
+            @Query("encoded") encoded: String?,
+            @Query("actType") actType: String?,
+            @Query("decodeId") decodeId: String?
+
+    ): Call<FollowUnfollowModelClass>
+
+    @GET("companyotherjobs.asp")
+    fun getEmpJobLists(
+            @Query("id") id: String?,
+            @Query("alias") alias: String? = "",
+            @Query("companyname") companyname: String?= "",
+            @Query("jobid") jobid: String?= "",
+            @Query("encoded") encoded: String?,
+            @Query("packageName") packageName: String?= "",
+            @Query("packageNameVersion") packageNameVersion: String?= ""
+    ): Call<EmployerJobListsModel>
+
+    @GET("Employerlist.asp")
+    fun getEmpLists(
+            @Query("version") version: String? = "",
+            @Query("orgName") orgName: String?,
+            @Query("orgType") orgType: String?= "",
+            @Query("orgFirstLetter") orgFirstLetter: String?= "",
+            @Query("encoded") encoded: String?,
+            @Query("page") page: String?= ""
+
+    ): Call<EmployerListModelClass>
+
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
 
@@ -138,6 +172,14 @@ interface ApiServiceJobs {
             @Field("newspaper") newspaper: String? = "",
             @Field("encoded") encoded: String? = ""
     ): Call<SaveUpdateFavFilterModel>
+
+
+    @GET("store.asp")
+    fun ShortListJob(
+            @Query("userID") userID: String?,
+            @Query("encoded") encoded: String?,
+            @Query("jobID") jobID: String?
+    ): Call<ShortlistJobModel>
 
 
     companion object Factory {

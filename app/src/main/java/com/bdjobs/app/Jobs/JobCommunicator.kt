@@ -71,4 +71,8 @@ interface JobCommunicator {
     fun setFilterName(filterName: String)
 
 
+    fun showShortListedIcon()
+    fun showUnShortListedIcon()
+
+
 }

@@ -28,6 +28,10 @@ import org.jetbrains.anko.toast
 class MainLandingActivity : Activity() ,HomeCommunicator{
 
 
+    override fun goToFollowedEmployerList() {
+        startActivity<EmployersBaseActivity>("from" to "follow")
+    }
+
 
     private val homeFragment = HomeFragment()
     private val hotJobsFragment = HotJobsFragment()
@@ -59,10 +63,6 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
 
     override fun goToFavSearchFilters() {
         startActivity<FavouriteSearchBaseActivity>()
-    }
-
-    override fun goToFollowedEmployerList() {
-        startActivity<EmployersBaseActivity>()
     }
 
     override fun goToJoblistFromLastSearch() {

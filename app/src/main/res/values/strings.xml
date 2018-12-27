@@ -23,4 +23,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bangladesh_technical_education_board">Bangladesh Technical Education Board</string>
+    <string name="currently_offering_jobs">Currently offering jobs</string>
+    <string name="_150">150</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="followed_employers">Followed Employers</string>
+    <string name="error_msg_unknown">An unexpected error occurred</string>
 </resources>

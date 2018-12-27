@@ -14,12 +14,16 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.text.SimpleDateFormat
+import java.util.*
 
 class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -35,7 +39,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     private var jobCommunicator: JobCommunicator? = null
-    private var homeCommunicator:HomeCommunicator?=null
+    private var homeCommunicator: HomeCommunicator? = null
     private var jobList: MutableList<JobListModelData>? = null
     private var isLoadingAdded = false
     private var retryPageLoad = false
@@ -93,11 +97,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        /* Log.d("Check"," on Bind View holder Position " + position)
-         Log.d("Check"," getItemViewType(position) " + getItemViewType(position))*/
-
-        var result = this.jobList?.get(position) // jobs
-
+        val result = this.jobList?.get(position) // jobs
 
         when (getItemViewType(position)) {
             BASIC -> {
@@ -128,9 +128,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                         }
                     }
                 }
-
-
-
+                jobsVH.shortListIconIV.setOnClickListener {
+                    shorlistAndUnshortlistJob(position)
+                }
 
                 jobsVH.linearLayout.setOnClickListener {
 
@@ -138,16 +138,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     homeCommunicator?.shortListedClicked(position)
 
                 }
-
-
-                jobsVH.shortListIconIV.setOnClickListener {
-
-                    Toast.makeText(context, "Shortlist JobList Clicked", Toast.LENGTH_LONG).show()
-
-
-                }
-
-
             }
 
             LOADING -> {
@@ -212,6 +202,10 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     }
                 }
 
+                jobsVH.shortListIconIV.setOnClickListener {
+                    shorlistAndUnshortlistJob(position)
+                }
+
             }
 
             STANDOUT_AD -> {
@@ -247,6 +241,10 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     }
                 }
 
+                jobsVH.shortListIconIV.setOnClickListener {
+                    shorlistAndUnshortlistJob(position)
+                }
+
             }
 
             BASIC_AD -> {
@@ -258,16 +256,16 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     jobsVH.tvExperience.justificationMode = JUSTIFICATION_MODE_INTER_WORD
                 }
 
-               /* doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
-                    uiThread {
-                        if (shortListed) {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
-                        }
-                    }
-                }*/
+                /* doAsync {
+                     val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                     uiThread {
+                         if (shortListed) {
+                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                         } else {
+                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                         }
+                     }
+                 }*/
 
 
                 jobsVH.tvPosName.text = result?.jobTitle
@@ -287,6 +285,47 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             }
         }
 
+
+    }
+
+    private fun shorlistAndUnshortlistJob(position: Int) {
+
+        doAsync {
+            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+            uiThread {
+                if (shortListed) {
+                    doAsync {
+                        bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
+                    }
+                    uiThread { notifyDataSetChanged() }
+                } else {
+                    doAsync {
+                        var deadline :Date?=null
+                        try{
+                            deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                        }catch(e:Exception){
+                            logException(e)
+                        }
+                        Log.d("DeadLine","DeadLine: $deadline")
+                        val shortlistedJob = ShortListedJobs(
+                                jobid = jobList?.get(position)?.jobid!!,
+                                jobtitle = jobList?.get(position)?.jobTitle!!,
+                                companyname = jobList?.get(position)?.companyName!!,
+                                deadline =deadline,
+                                eduRec = jobList?.get(position)?.eduRec!!,
+                                experience = jobList?.get(position)?.experience!!,
+                                standout = jobList?.get(position)?.standout!!,
+                                logo = jobList?.get(position)?.logo!!,
+                                lantype=jobList?.get(position)?.lantype!!
+                        )
+
+                        bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
+                        uiThread { notifyDataSetChanged() }
+                    }
+
+                }
+            }
+        }
 
     }
 
