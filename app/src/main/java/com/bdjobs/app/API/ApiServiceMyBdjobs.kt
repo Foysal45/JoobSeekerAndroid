@@ -155,6 +155,15 @@ interface ApiServiceMyBdjobs {
     ): Call<PhotoInfoModel>
 
 
+    @FormUrlEncoded
+    @POST("apps_delCart.asp")
+    fun unShortlistJob(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("strJobId") strJobId: String? = ""
+    ): Call<UnshorlistJobModel>
+
+
 
 
     companion object Factory {

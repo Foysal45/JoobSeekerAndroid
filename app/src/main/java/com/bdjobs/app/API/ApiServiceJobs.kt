@@ -175,7 +175,7 @@ interface ApiServiceJobs {
 
 
     @GET("store.asp")
-    fun ShortListJob(
+    fun insertShortListJob(
             @Query("userID") userID: String?,
             @Query("encoded") encoded: String?,
             @Query("jobID") jobID: String?

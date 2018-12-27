@@ -36,3 +36,11 @@ data class ShortlistJobModelData(
     val error: String,
     val message: String
 )
+
+
+data class UnshorlistJobModel(
+    val common: Any,
+    val `data`: Any,
+    val message: String,
+    val statuscode: String
+)
