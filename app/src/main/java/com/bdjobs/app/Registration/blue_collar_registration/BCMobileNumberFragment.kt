@@ -33,6 +33,7 @@ class BCMobileNumberFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         onClick()
+        //su su su
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
