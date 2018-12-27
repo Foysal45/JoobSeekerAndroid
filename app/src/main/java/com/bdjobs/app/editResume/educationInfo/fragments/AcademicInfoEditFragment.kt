@@ -9,17 +9,18 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.clear
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.showProgressBar
 import com.bdjobs.app.Utilities.stopProgressBar
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_academic_info_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class AcademicInfoEditFragment : Fragment() {
 
@@ -55,7 +56,7 @@ class AcademicInfoEditFragment : Fragment() {
         } else {
             eduCB.setDeleteButton(false)
             hID = "-1"
-            clearEditText(v.findViewById(R.id.acaEditLL) as ViewGroup)
+            clearEditText()
         }
     }
 
@@ -99,6 +100,7 @@ class AcademicInfoEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
+                        clearEditText()
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -110,14 +112,16 @@ class AcademicInfoEditFragment : Fragment() {
         })
     }
 
-    private fun clearEditText(root: ViewGroup) {
-
-        for (i in 0..root.childCount) {
-            val view = root.getChildAt(i)
-            if (view is TextInputEditText) {
-                view.setText("")
-                continue
-            }
-        }
+    private fun clearEditText() {
+        etLevelEdu.clear()
+        etExamTitle.clear()
+        etMajor.clear()
+        etInstitute.clear()
+        etResults.clear()
+        etCGPA.clear()
+        etScale.clear()
+        etPassignYear.clear()
+        etDuration.clear()
+        etAchievement.clear()
     }
 }

@@ -14,7 +14,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_army_emp_history.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -76,7 +75,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         } else {
             empHisCB.setDeleteButton(false)
             hID = "-13"
-            clearEditText(v.findViewById(R.id.armyMainCl) as ViewGroup)
+            clearEditText()
         }
     }
 
@@ -149,6 +148,19 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         et_retire.setText(data.dateOfRetirement)
     }
 
+
+    private fun clearEditText() {
+        et_ba_type.clear()
+        et_ba_no.clear()
+        et_ranks.clear()
+        et_type.clear()
+        et_arms.clear()
+        et_course.clear()
+        et_trade.clear()
+        et_commission.clear()
+        et_retire.clear()
+    }
+
     fun dataDelete() {
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("ArmyPersonalInfo", "555", session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
@@ -164,8 +176,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
-                        //invalidateData()
-                        clearEditText(v.findViewById(R.id.armyMainCl) as ViewGroup)
+                        clearEditText()
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -174,21 +185,5 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                 }
             }
         })
-    }
-
-    private fun clearEditText(root: ViewGroup) {
-
-        for (i in 0..root.childCount) {
-            val view = root.getChildAt(i)
-
-            if (view is ViewGroup) {
-                clearEditText(root)
-                continue
-            }
-            if (view is TextInputEditText) {
-                view.setText("")
-                continue
-            }
-        }
     }
 }

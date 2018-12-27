@@ -70,17 +70,17 @@ class EmpHistoryViewFragment : Fragment() {
 
     private fun populateData() {
         val call = ApiServiceMyBdjobs.create().getExpsList(session.userId, session.decodId)
-        call.enqueue(object : Callback<List<GetExps>> {
-            override fun onFailure(call: Call<List<GetExps>>, t: Throwable) {
+        call.enqueue(object : Callback<GetExps> {
+            override fun onFailure(call: Call<GetExps>, t: Throwable) {
                 shimmerStop()
                 activity.toast("Error occurred")
             }
 
-            override fun onResponse(call: Call<List<GetExps>>, response: Response<List<GetExps>>) {
+            override fun onResponse(call: Call<GetExps>, response: Response<GetExps>) {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        val respo = response.body()?.get(0)
+                        val respo = response.body()
                         Log.d("empTest", "${respo?.message}")
                         Log.d("empTest1", "${respo?.toString()}")
 
@@ -93,7 +93,7 @@ class EmpHistoryViewFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    activity.toast("${response.body()?.get(0)?.message}")
+                    activity.toast("${response.body()?.message}")
                     activity.logException(e)
                 }
                 adapter?.notifyDataSetChanged()

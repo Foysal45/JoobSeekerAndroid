@@ -65,7 +65,7 @@ interface ApiServiceMyBdjobs {
     fun getExpsList(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
-    ): Call<List<GetExps>>
+    ): Call<GetExps>
 
     @FormUrlEncoded
     @POST("apps_step_02_view_aca.asp")

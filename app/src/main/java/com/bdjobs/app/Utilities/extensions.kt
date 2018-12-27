@@ -27,6 +27,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
@@ -273,6 +274,9 @@ fun Any.verbose(message: String) {
     Log.v(this::class.java.simpleName, message)
 }
 
+fun TextInputEditText.clear() {
+    this.setText("")
+}
 
 fun Any.verbose(message: String, tr: Throwable) {
     Log.v(this::class.java.simpleName, message, tr)

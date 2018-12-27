@@ -19,7 +19,6 @@ import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -100,6 +99,8 @@ class EmpHistoryEditFragment : Fragment() {
         } else {
             empHisCB.setDeleteButton(false)
             hID = "-4"
+            clearEditText()
+
         }
     }
 
@@ -201,7 +202,7 @@ class EmpHistoryEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
-                        clearEditText(v.findViewById(R.id.ehMailLL) as ViewGroup)
+                        clearEditText()
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -211,20 +212,18 @@ class EmpHistoryEditFragment : Fragment() {
         })
     }
 
-    private fun clearEditText(root: ViewGroup) {
+    private fun clearEditText() {
 
-        for (i in 0..root.childCount) {
-            val view = root.getChildAt(i)
-
-            if (view is ViewGroup) {
-                clearEditText(root)
-                continue
-            }
-            if (view is TextInputEditText) {
-                view.setText("")
-                continue
-            }
-        }
+        companyNameET.clear()
+        companyBusinessACTV.clear()
+        companyLocationET.clear()
+        positionET.clear()
+        departmentET.clear()
+        responsibilitiesET.clear()
+        estartDateET.clear()
+        et_end_date.clear()
+        cb_present.isChecked = false
+        experiencesMACTV.clear()
     }
 
 }
