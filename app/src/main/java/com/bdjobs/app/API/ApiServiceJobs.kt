@@ -174,6 +174,14 @@ interface ApiServiceJobs {
     ): Call<SaveUpdateFavFilterModel>
 
 
+    @GET("store.asp")
+    fun ShortListJob(
+            @Query("userID") userID: String?,
+            @Query("encoded") encoded: String?,
+            @Query("jobID") jobID: String?
+    ): Call<ShortlistJobModel>
+
+
     companion object Factory {
 
         fun create(): ApiServiceJobs {

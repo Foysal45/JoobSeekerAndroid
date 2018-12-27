@@ -24,6 +24,13 @@ import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun showShortListedIcon() {
+        jobDetailsFragment.showShortListedIcon()
+    }
+
+    override fun showUnShortListedIcon() {
+        jobDetailsFragment.showUnShortListedIcon()
+    }
 
 
     private var totalRecordsFound: Int? = null

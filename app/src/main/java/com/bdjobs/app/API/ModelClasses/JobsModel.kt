@@ -75,7 +75,8 @@ data class JobListModelData(
     @SerializedName("experience") val experience: String?= "",
     @SerializedName("standout") val standout: String?= "",
     @SerializedName("logo") val logo: String?= "",
-    @SerializedName("lantype") val lantype: String?= ""
+    @SerializedName("lantype") val lantype: String?= "",
+    @SerializedName("deadlineDB") val deadlineDB: String?= ""
 )
 
 data class JobListCommon(
