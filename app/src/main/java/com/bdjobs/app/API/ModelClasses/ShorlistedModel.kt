@@ -23,3 +23,16 @@ data class  ShortListedJobCommon(
     val appliedid: List<String>,
     val totalcount: String
 )
+
+
+data class ShortlistJobModel(
+    val common: Any,
+    val `data`: List<ShortlistJobModelData>,
+    val message: String,
+    val statuscode: String
+)
+
+data class ShortlistJobModelData(
+    val error: String,
+    val message: String
+)

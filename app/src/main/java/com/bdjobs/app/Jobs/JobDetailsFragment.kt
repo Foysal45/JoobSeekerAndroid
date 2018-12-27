@@ -97,20 +97,7 @@ class JobDetailsFragment : Fragment() {
 
                     counterTV?.let { tv ->
                         tv.text = "Job ${currentJobPosition + 1}/$totalRecordsFound"
-
-                        doAsync {
-                            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobListGet?.get(currentJobPosition)?.jobid!!)
-
-                            uiThread {
-                                if (shortListed) {
-                                    shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
-                                } else {
-                                    shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
-                                }
-
-                            }
-                        }
-
+                        jobDetailAdapter?.showHideShortListedIcon(currentJobPosition)
                     }
                 }
             }
@@ -171,7 +158,6 @@ class JobDetailsFragment : Fragment() {
 
 
         })
-
 
     }
 
@@ -274,16 +260,13 @@ class JobDetailsFragment : Fragment() {
                     if (!results.isNullOrEmpty()) {
 
                         jobDetailAdapter?.addAll(results)
-
+                        jobDetailAdapter?.showHideShortListedIcon(position =currentJobPosition)
                     }
 
 
                     if (currentPage == TOTAL_PAGES) {
-
                         isLastPages = true
-
                     } else {
-
                         jobDetailAdapter?.addLoadingFooter()
                     }
 
@@ -315,19 +298,7 @@ class JobDetailsFragment : Fragment() {
 
         counterTV?.let { tv ->
             tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
-
-            doAsync {
-                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(communicator.getJobList()?.get(communicator.getItemClickPosition())?.jobid!!)
-
-                uiThread {
-                    if (shortListed) {
-                        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
-                    } else {
-                        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
-                    }
-
-                }
-            }
+            jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
         }
 
     }
@@ -344,6 +315,22 @@ class JobDetailsFragment : Fragment() {
             Log.d("ShareJob", "currentJobPosition $shareJobPosition")
         }
 
+        shortListIMGV.setOnClickListener {
+            jobDetailAdapter!!.shorlistAndUnshortlistJob(shareJobPosition)
 
+        }
     }
+
+
+    fun showShortListedIcon(){
+        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
+    }
+
+    fun showUnShortListedIcon(){
+        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
+    }
+
+
+
+
 }

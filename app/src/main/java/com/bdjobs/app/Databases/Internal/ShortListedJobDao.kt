@@ -8,7 +8,7 @@ interface ShortListedJobDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertShortListedJob(shortListedJobs: ShortListedJobs)
 
-    @Query("SELECT * FROM ShortListedJobs ")
+    @Query("SELECT * FROM ShortListedJobs ORDER BY id DESC")
     fun getAllShortListedJobs(): List<ShortListedJobs>
 
     @Query("DELETE FROM ShortListedJobs")
