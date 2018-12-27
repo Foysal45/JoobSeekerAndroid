@@ -25,7 +25,7 @@ interface FollowedEmployerDao {
     fun getJobCountOfFollowedEmployer(): Int
 
     @Transaction
-    fun isItShortFollowed(companyID:String): Boolean {
+    fun isItFollowed(companyID:String): Boolean {
         val jobs = getFollowedEmployerByCompanyID(companyID)
         if (jobs.isNullOrEmpty()) {
             return false

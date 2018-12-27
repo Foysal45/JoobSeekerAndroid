@@ -1,14 +1,12 @@
 package com.bdjobs.app.Employers
 
-import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
@@ -57,8 +55,8 @@ class EmployerListFragment : Fragment() {
 
         searchBTN.setOnClickListener {
             orgName = suggestiveSearch_ET?.getString()!!
-            TOTAL_PAGES =null
-            pgNo=PAGE_START
+            TOTAL_PAGES = null
+            pgNo = PAGE_START
             isLastPages = false
             isLoadings = false
             initPagination()
@@ -106,6 +104,7 @@ class EmployerListFragment : Fragment() {
 
                 Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
                 TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
+                var totalRecords = response.body()?.common?.totalrecordsfound
 
                 if (!response?.body()?.data.isNullOrEmpty()) {
                     employerList_RV!!.visibility = View.VISIBLE
@@ -121,6 +120,16 @@ class EmployerListFragment : Fragment() {
                     }
 
                 }
+
+                val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employers now offering Jobs"
+                favCountTV.text = Html.fromHtml(styledText)
+
+             /*   doAsync {
+
+                    uiThread {
+                        favCountTV_1.text = "$totalRecords Employers now offering Jobs"
+                    }
+                }*/
             }
 
         })
