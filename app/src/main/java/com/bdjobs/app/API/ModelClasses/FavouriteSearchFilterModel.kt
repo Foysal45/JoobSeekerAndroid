@@ -73,3 +73,18 @@ data class FavouriteSearchCountDataModel(
     val intCount: String?
 )
 
+
+data class SaveUpdateFavFilterModel(
+    val common: Any,
+    val `data`: List<SaveUpdateFavFilterData>,
+    val message: String,
+    val statuscode: String
+)
+
+data class SaveUpdateFavFilterData(
+    val `data`: String,
+    val message: String,
+    val sfilterid: String,
+    val status: String
+)
+

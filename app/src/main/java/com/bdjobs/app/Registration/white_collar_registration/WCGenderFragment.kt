@@ -9,7 +9,9 @@ import android.view.ViewGroup
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_gender.*
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.textColor
 
 
@@ -48,6 +50,8 @@ class WCGenderFragment : Fragment() {
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
 
+            registrationCommunicator.wcGenderSelected("M")
+
         }
 
 
@@ -64,6 +68,7 @@ class WCGenderFragment : Fragment() {
             otherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
+            registrationCommunicator.wcGenderSelected("F")
 
         }
 
@@ -81,16 +86,22 @@ class WCGenderFragment : Fragment() {
             MaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             MaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
+            registrationCommunicator.wcGenderSelected("O")
 
 
         }
 
-       genderFAButton.setOnClickListener {
 
-           registrationCommunicator.wcGoToStepPhoneEmail()
-       }
+        wcSupportTextView.setOnClickListener {
 
+            makeCall("16479")
+
+        }
+
+        wcHelplineLayout.setOnClickListener {
+
+            makeCall("16479")
+        }
 
 
     }
@@ -98,6 +109,16 @@ class WCGenderFragment : Fragment() {
     private fun initialization(){
 
         registrationCommunicator = activity as RegistrationCommunicator
+
+    }
+
+    fun goToNextStep(){
+
+        genderFAButton.setOnClickListener {
+
+            registrationCommunicator.wcGoToStepPhoneEmail()
+        }
+
 
     }
 

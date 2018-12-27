@@ -30,12 +30,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'. "
             android:fontFamily="@font/roboto"
             android:id="@+id/usernameTIET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:hint="Your Name"
             android:inputType="text"
+            android:maxLength="100"
             android:singleLine="true"
             android:typeface="normal"
             app:fontFamily="@font/roboto" />
@@ -61,7 +64,6 @@
         android:id="@+id/nameFAButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"

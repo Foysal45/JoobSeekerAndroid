@@ -43,15 +43,9 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
     private lateinit var session: BdjobsUserSession
 
 
-
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
-
         disableShiftMode(bottom_navigation)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
@@ -69,6 +63,18 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
         startActivityForResult(intent, BdjobsUserRequestCode)
     }
 
+    override fun goToFavSearchFilters() {
+        startActivity<FavouriteSearchBaseActivity>()
+    }
+
+    override fun goToFollowedEmployerList() {
+        startActivity<EmployersBaseActivity>()
+    }
+
+    override fun goToJoblistFromLastSearch() {
+        startActivity<JobBaseActivity>("from" to "lastsearch")
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BdjobsUserRequestCode) {
@@ -80,7 +86,9 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
             }
         }
     }
-
+    override fun goToJobSearch(favID: String) {
+        startActivity<JobBaseActivity>("from" to "favsearch", "filterid" to favID)
+    }
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -155,6 +163,11 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
         } catch (e: Exception) {
             logException(e)
         }
+    }
+
+    override fun shortListedClicked(Position: Int) {
+        startActivity<JobBaseActivity>("from" to "shortListedJob", "position" to Position)
+
     }
 
 

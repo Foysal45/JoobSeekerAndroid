@@ -153,3 +153,65 @@ data class B2CCertification(@ColumnInfo(name = "jobRole")
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }
+
+
+@Entity(tableName = "LastSearch", indices = [(Index(value = ["searchTime"], unique = true))])
+data class LastSearch(
+        @ColumnInfo(name = "searchTime")
+        val searchTime: Date?,
+        @ColumnInfo(name = "jobLevel")
+        val jobLevel: String? = "",
+        @ColumnInfo(name = "newsPaper")
+        val newsPaper: String? = "",
+        @ColumnInfo(name = "armyp")
+        val armyp: String? = "",
+        @ColumnInfo(name = "blueColur")
+        val blueColur: String? = "",
+        @ColumnInfo(name = "category")
+        val category: String? = "",
+        @ColumnInfo(name = "deadline")
+        val deadline: String? = "",
+        @ColumnInfo(name = "encoded")
+        val encoded: String? = "",
+        @ColumnInfo(name = "experince")
+        val experince: String? = "",
+        @ColumnInfo(name = "gender")
+        val gender: String? = "",
+        @ColumnInfo(name = "genderB")
+        val genderB: String? = "",
+        @ColumnInfo(name = "testDate")
+        val testDate: String? = "",
+        @ColumnInfo(name = "industry")
+        val industry: String? = "",
+        @ColumnInfo(name = "isFirstRequest")
+        val isFirstRequest: String? = "",
+        @ColumnInfo(name = "jobnature")
+        val jobnature: String? = "",
+        @ColumnInfo(name = "jobType")
+        val jobType: String? = "",
+        @ColumnInfo(name = "keyword")
+        val keyword: String? = "",
+        @ColumnInfo(name = "lastJPD")
+        val lastJPD: String? = "",
+        @ColumnInfo(name = "location")
+        val location: String? = "",
+        @ColumnInfo(name = "organization")
+        val organization: String? = "",
+        @ColumnInfo(name = "pageId")
+        val pageId: String? = "",
+        @ColumnInfo(name = "pageNumber")
+        val pageNumber: Int? = 1,
+        @ColumnInfo(name = "postedWithIn")
+        val postedWithIn: String? = "",
+        @ColumnInfo(name = "age")
+        val age: String? = "",
+        @ColumnInfo(name = "rpp")
+        val rpp: String? = "",
+        @ColumnInfo(name = "slno")
+        val slno: String? = "",
+        @ColumnInfo(name = "version")
+        val version: String? = ""
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

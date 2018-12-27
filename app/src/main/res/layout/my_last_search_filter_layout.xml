@@ -65,7 +65,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/time1TV"
+                android:id="@+id/srchTimeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -75,45 +75,29 @@
                 android:fontFamily="@font/roboto"
                 android:textColor="#767676"
                 android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView12"
+                app:layout_constraintBaseline_toBaselineOf="@+id/srchDateTV"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline10"
                 android:text="2:02 PM" />
 
             <TextView
-                android:id="@+id/allcatTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:drawableLeft="@drawable/ic_local_offer_black_24px"
-                android:drawablePadding="3dp"
-                android:fontFamily="@font/roboto"
-                android:textColor="#767676"
-                android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/locationTV"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/time1TV"
-                android:text="All Category" />
-
-            <TextView
-                android:id="@+id/locationTV"
+                android:id="@+id/searchFilterTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="15dp"
-                android:drawableLeft="@drawable/ic_location_on_black_24px"
+                android:drawableLeft="@drawable/ic_search_black_24px"
                 android:drawablePadding="3dp"
                 android:fontFamily="@font/roboto"
+                android:singleLine="true"
                 android:text="Dhaka Division"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline10"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/srchDateTV"
+                app:layout_constraintTop_toBottomOf="@+id/srchDateTV" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/lastSearchcounterTV"
@@ -124,7 +108,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="10"
+                tools:text="10"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:backgroundTint="#0078D7"
@@ -146,7 +130,7 @@
                 app:layout_constraintTop_toTopOf="@+id/lastSearchcounterTV" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/srchDateTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -171,6 +155,16 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="214dp" />
 
+
+            <ProgressBar
+                android:id="@+id/lastPrgrs"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/lastSearchcounterTV"
+                app:layout_constraintEnd_toEndOf="@+id/lastSearchcounterTV"
+                app:layout_constraintStart_toStartOf="@+id/lastSearchcounterTV"
+                app:layout_constraintTop_toTopOf="@+id/lastSearchcounterTV" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

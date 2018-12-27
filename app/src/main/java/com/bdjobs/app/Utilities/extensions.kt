@@ -175,6 +175,9 @@ fun ImageView.loadImageFromUrl(url: String) {
         logException(e)
     }
 }
+
+
+
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
         Picasso.get().load(url).transform(CircleTransform()).into(this)

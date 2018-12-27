@@ -1,5 +1,6 @@
 package com.bdjobs.app.Jobs
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 
@@ -12,8 +13,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -29,23 +35,31 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     private var jobCommunicator: JobCommunicator? = null
+    private var homeCommunicator:HomeCommunicator?=null
     private var jobList: MutableList<JobListModelData>? = null
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
+    private val bdjobsDB = BdjobsDB.getInstance(context)
 
 
     init {
         this.jobList = java.util.ArrayList()
-        jobCommunicator = context as JobCommunicator
+
+        if ((context as Activity) is JobBaseActivity) {
+            jobCommunicator = context as JobCommunicator
+        }
+
+        if ((context as Activity) is MainLandingActivity) {
+            homeCommunicator = context as HomeCommunicator
+        }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var viewHolder: RecyclerView.ViewHolder? = null
-        var inflater = LayoutInflater.from(parent.context)
+        val inflater = LayoutInflater.from(parent.context)
 
-        jobCommunicator = context as JobCommunicator
         when (viewType) {
             BASIC -> {
                 val viewItem = inflater.inflate(R.layout.joblist_item_new_layout, parent, false)
@@ -88,7 +102,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         when (getItemViewType(position)) {
             BASIC -> {
 
-                   Log.d("jobTitle", " BASIC $result?.jobTitle")
+                Log.d("jobTitle", " BASIC $result?.jobTitle")
 
                 val jobsVH = holder as JobsListVH
 
@@ -104,18 +118,31 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvEducation.text = result?.eduRec
                 jobsVH.tvExperience.text = result?.experience
 
+                doAsync {
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    uiThread {
+                        if (shortListed) {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                        } else {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                        }
+                    }
+                }
 
 
-                 jobsVH.linearLayout.setOnClickListener {
 
-                     jobCommunicator?.onItemClicked(position)
 
-               }
+                jobsVH.linearLayout.setOnClickListener {
+
+                    jobCommunicator?.onItemClicked(position)
+                    homeCommunicator?.shortListedClicked(position)
+
+                }
 
 
                 jobsVH.shortListIconIV.setOnClickListener {
 
-                Toast.makeText(context,"Shortlist JobList Clicked",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Shortlist JobList Clicked", Toast.LENGTH_LONG).show()
 
 
                 }
@@ -158,11 +185,13 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 jobsVH.linearLayout.setOnClickListener {
                     jobCommunicator?.onItemClicked(position)
+                    homeCommunicator?.shortListedClicked(position)
+
                 }
 
                 jobsVH.shortListIconIV.setOnClickListener {
 
-                    Toast.makeText(context,"Shortlist Standout Clicked ",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Shortlist Standout Clicked ", Toast.LENGTH_LONG).show()
 
 
                 }
@@ -170,8 +199,19 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     jobsVH.logoImageView.visibility = View.VISIBLE
                     Picasso.get().load(result.logo).into(jobsVH.logoImageView)
 
-
                 }
+
+                doAsync {
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    uiThread {
+                        if (shortListed) {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                        } else {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                        }
+                    }
+                }
+
             }
 
             STANDOUT_AD -> {
@@ -191,8 +231,22 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.itemView.setOnClickListener {
 
                     jobCommunicator?.onItemClicked(position)
+                    homeCommunicator?.shortListedClicked(position)
+
 
                 }
+
+                doAsync {
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    uiThread {
+                        if (shortListed) {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                        } else {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                        }
+                    }
+                }
+
             }
 
             BASIC_AD -> {
@@ -204,6 +258,18 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     jobsVH.tvExperience.justificationMode = JUSTIFICATION_MODE_INTER_WORD
                 }
 
+               /* doAsync {
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    uiThread {
+                        if (shortListed) {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                        } else {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                        }
+                    }
+                }*/
+
+
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
                 jobsVH.tvDeadline.text = result?.deadline
@@ -213,6 +279,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.itemView.setOnClickListener {
 
                     jobCommunicator?.onItemClicked(position)
+                    homeCommunicator?.shortListedClicked(position)
+
 
                 }
 
@@ -233,10 +301,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         /*   Log.d("Hello","Position: $position")*/
 
 
-
-
-       /* if (showAD && (position % 3 == 0)) {
-            *//*   Log.d("Hello","Position: AD= $position")*//*
+        /* if (showAD && (position % 3 == 0)) {
+             *//*   Log.d("Hello","Position: AD= $position")*//*
             if (position == jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
@@ -306,12 +372,12 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     }
 
-  /*  fun addAll(moveResults: List<DataItem>) {
-        for (result in moveResults) {
-            add(result)
-        }
-        jobCommunicator?.setJobList(jobList)
-    }*/
+    /*  fun addAll(moveResults: List<DataItem>) {
+          for (result in moveResults) {
+              add(result)
+          }
+          jobCommunicator?.setJobList(jobList)
+      }*/
 
 
     fun addAllTest(moveResults: List<JobListModelData>) {
@@ -350,13 +416,12 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        Log.d("riuhghugr","getItemViewType" + getItemViewType(position))
+        Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
 
-        Log.d("riuhghugr"," result: $result")
-        if (result?.jobid.isNullOrBlank() ) {
+        Log.d("riuhghugr", " result: $result")
+        if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
-
 
 
         }
@@ -366,7 +431,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     private fun getItem(position: Int): JobListModelData? {
         return this.jobList!![position]
     }
-
 
 
     /**
@@ -380,7 +444,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameNewJob) as TextView
         /*  val constraintLayout : ConstraintLayout = itemView.findViewById(R.id.constraintLayoutStandOut) as ConstraintLayout*/
         val shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
-
 
 
     }
@@ -404,8 +467,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDate) as TextView
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYear) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationName) as TextView
-        var shortListIconIV : ImageView  =  viewItem?.findViewById(R.id.shortlist_icon) as ImageView
-        var linearLayout : LinearLayout  =  viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
     }
 
     private class StandOutListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
@@ -415,8 +478,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearStandOut) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameStandOut) as TextView
         val logoImageView: ImageView = viewItem?.findViewById(R.id.imageViewCompanyLogoStandOut) as ImageView
-        var shortListIconIV : ImageView  = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
-        var linearLayout : LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
 
     }
 

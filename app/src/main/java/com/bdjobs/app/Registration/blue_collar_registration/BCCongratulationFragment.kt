@@ -9,11 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
+import kotlinx.android.synthetic.main.fragment_bc_congratulation.*
 
 
 class BCCongratulationFragment : Fragment() {
 
 
+    private lateinit var registrationCommunicator: RegistrationCommunicator
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -24,8 +27,29 @@ class BCCongratulationFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initialization()
+        onClick()
     }
 
 
+    private fun onClick(){
+
+        bcJobSearchButton.setOnClickListener {
+
+
+            registrationCommunicator.goToHomePage()
+
+        }
+
+
+    }
+
+
+    private fun initialization(){
+
+
+        registrationCommunicator = activity as RegistrationCommunicator
+
+    }
 
 }
