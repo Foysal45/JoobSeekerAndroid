@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:ignore="HardcodedText, RelativeOverlap, ContentDescription">
+
+
+    <!--<RelativeLayout
+        android:id="@+id/rl_main_cv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp">
+	
+		<androidx.cardview.widget.CardView
+            android:id="@+id/cv_applicants"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:animateLayoutChanges="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="7dp">
+
+            <RelativeLayout
+                android:id="@+id/ll_item_details"
+                android:layout_width="match_parent"
+                android:background="@drawable/circle"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/tv_university"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textColor="#080808"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+	
+		</androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/value_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cv_applicants"
+            android:layout_centerInParent="true"
+            android:text="Manage Resume"
+            android:textSize="12sp" />
+
+    </RelativeLayout>-->
+
+    <View
+        android:id="@+id/resourceID"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+
+
+        />
+
+    <TextView
+        android:id="@+id/resourceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:fontFamily="@font/roboto"
+        android:textColor="#000000"
+        android:textSize="14dp"
+        tools:text="Manage Resume" />
+
+
+</LinearLayout>
