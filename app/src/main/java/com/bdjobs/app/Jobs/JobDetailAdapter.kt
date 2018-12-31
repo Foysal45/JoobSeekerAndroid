@@ -200,6 +200,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 val bdjobsUserSession = BdjobsUserSession(context)
                                 if (!bdjobsUserSession.isLoggedIn!!) {
                                     jobCommunicator?.goToLoginPage()
+                                }else {
+
+
+
                                 }
                             }
 
