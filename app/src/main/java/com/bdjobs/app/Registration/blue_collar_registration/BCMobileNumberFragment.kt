@@ -34,12 +34,12 @@ class BCMobileNumberFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         onClick()
-        //su su su
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+
         returnView =  inflater.inflate(R.layout.fragment_bc_mobile_number, container, false)
         return returnView
     }

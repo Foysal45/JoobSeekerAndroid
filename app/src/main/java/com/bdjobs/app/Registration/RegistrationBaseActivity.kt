@@ -21,6 +21,7 @@ import com.bdjobs.app.Registration.white_collar_registration.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.showError
 
 import com.bdjobs.app.Utilities.transitFragment
 import com.facebook.*
@@ -38,6 +39,7 @@ import com.linkedin.platform.listeners.ApiResponse
 import com.linkedin.platform.listeners.AuthListener
 import com.linkedin.platform.utils.Scope
 import kotlinx.android.synthetic.main.activity_registration_base.*
+import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.Call
@@ -370,8 +372,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 Log.d("ResponseTesrt", " onResponse message ${response.body()!!.message}")
                 Log.d("ResponseTesrt", " onResponse statuscode ${response.body()!!.statuscode}")
 
-
-
                 if (categoryType.equals("1", true)) {
 
                     Log.d("ResponseTesrt", " in blue collar condition ")
@@ -406,7 +406,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                         } else if (response.body()!!.statuscode.equals("2", true)) {
 
                             loadingProgressBar.visibility = View.GONE
-                            toast(response.body()!!.message!!)
+                            bcMobileNumberTIL?.showError(response.body()!!.message!!)
 
                             /* val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
 

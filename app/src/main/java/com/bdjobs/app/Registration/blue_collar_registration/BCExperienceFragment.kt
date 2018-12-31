@@ -26,7 +26,6 @@ import java.util.ArrayList
 class BCExperienceFragment : Fragment() {
 
     private lateinit var registrationCommunicator : RegistrationCommunicator
-
     private lateinit var categoryId: String
     private lateinit var category: String
     private lateinit var progressDialog: ProgressDialog

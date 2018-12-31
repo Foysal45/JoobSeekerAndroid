@@ -28,7 +28,7 @@ class BCAddressFragment : Fragment() {
 
 
     private lateinit var registrationCommunicator :RegistrationCommunicator
-        private lateinit var dataStorage:DataStorage
+    private lateinit var dataStorage:DataStorage
     private lateinit var division :String
     private lateinit var district :String
     private lateinit var thana :String

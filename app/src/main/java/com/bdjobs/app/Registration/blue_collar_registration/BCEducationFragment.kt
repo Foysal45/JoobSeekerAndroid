@@ -112,9 +112,6 @@ class BCEducationFragment : Fragment() {
 
 
         bcEduLevelTIET.setOnClickListener {
-
-
-
             val eduLevelList: Array<String> = dataStorage.allEduLevels
 
             selector("বসর্বশেষ শিক্ষা পর্যায়", eduLevelList.toList()) { dialogInterface, i ->
