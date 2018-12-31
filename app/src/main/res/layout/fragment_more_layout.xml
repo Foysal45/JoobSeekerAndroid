@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -76,21 +76,195 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_RV"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_RV">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:text="Job Search"
+                android:textColor="#999999" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="General Search"
+                android:textAllCaps="false"
+                android:textColor="#212121"
+                android:textSize="14dp"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button1"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Jobs (24 hrs)"
+                app:icon="@drawable/ic_search_black_24dp" />
 
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button2"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Deadline Tomorrow"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button3"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Part Time Jobs"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button4"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contractual Jobs"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button5"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Government Jobs"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button6"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OverSeas Jobs"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button7"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Employer List"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="30dp"
+                android:background="#E0E0E0"
+                android:visibility="visible" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button9"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Settings"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button10"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email Resume"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button11"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Employer View Resume"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button12"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interview Invitation"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#E0E0E0"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:text="About App"
+                android:textColor="#999999" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button14"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="App Guides"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button15"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rate Us on Google Play Store"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button16"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Feedback and Support"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button17"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Privacy Policy"
+                app:icon="@drawable/ic_search_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_icon_button18"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Terms and Policies"
+
+                app:icon="@drawable/ic_search_black_24dp" />
 
         </LinearLayout>
     </ScrollView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
