@@ -14,6 +14,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
@@ -33,6 +34,7 @@ class BCMobileNumberFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         onClick()
+        //su su su
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -110,13 +112,13 @@ class BCMobileNumberFragment : Fragment() {
 
         supportTextView.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
 
         }
 
         bcHelpLineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 

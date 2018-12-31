@@ -36,6 +36,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.Utilities.showProgressBar
 import com.google.gson.Gson
@@ -99,7 +100,6 @@ class BCPhotoUploadFragment : Fragment() {
     private fun onClick() {
 
         completeButton.setOnClickListener {
-
 
             if (encodedString.isBlank()) {
 
@@ -166,16 +166,16 @@ class BCPhotoUploadFragment : Fragment() {
 
         }
 
-        /* supportTextView.setOnClickListener {
+         supportTextView.setOnClickListener {
 
-             makeCall("16479")
+            activity.callHelpLine()
 
          }
 
          bcHelpLineLayout.setOnClickListener {
 
-             makeCall("16479")
-         }*/
+             activity.callHelpLine()
+         }
 
     }
 

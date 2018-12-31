@@ -16,6 +16,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Registration.white_collar_registration.WCCategoryAdapter
+import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_category.*
 import kotlinx.android.synthetic.main.fragment_wc_category.*
@@ -51,13 +52,13 @@ class BCCategoryFragment : Fragment() {
 
         supportTextView.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
 
         }
 
         bcHelpLineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 

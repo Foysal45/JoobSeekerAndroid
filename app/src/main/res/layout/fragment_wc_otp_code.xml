@@ -89,7 +89,6 @@
 
 
                 <TextView
-
                     android:id="@+id/wcTimerTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,10 +143,10 @@
 
             <include
                 android:id="@+id/footer"
-                layout="@layout/footer_bc_layout"
+                layout="@layout/footer_wc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="130dp"
+                android:layout_marginTop="230dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

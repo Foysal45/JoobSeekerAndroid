@@ -14,6 +14,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_category.*
@@ -58,13 +59,13 @@ class WCCategoryFragment : Fragment() {
         Log.d("selectedPosition","selectedPosition in fragment $selectedPosition  }")
         wcSupportTextView.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
 
         }
 
         wcHelplineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 
