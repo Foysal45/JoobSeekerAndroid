@@ -11,6 +11,7 @@ import android.view.WindowManager
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
@@ -121,13 +122,13 @@ class WCPasswordFragment : Fragment() {
 
         wcSupportTextView.setOnClickListener {
 
-            activity.makeCall("16479")
+            activity.callHelpLine()
 
         }
 
         wcHelplineLayout.setOnClickListener {
 
-            activity.makeCall("16479")
+            activity.callHelpLine()
 
         }
 

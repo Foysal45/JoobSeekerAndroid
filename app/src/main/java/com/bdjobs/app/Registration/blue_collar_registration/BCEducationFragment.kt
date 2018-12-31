@@ -19,6 +19,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_adress.*
 import kotlinx.android.synthetic.main.fragment_bc_education.*
@@ -38,12 +39,13 @@ class BCEducationFragment : Fragment() {
     private lateinit var passingYear: String
     private lateinit var instituteName: String
     private lateinit var educationType: String
-
+    private lateinit var returnView:View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bc_education, container, false)
+
+        returnView = inflater.inflate(R.layout.fragment_bc_education, container, false)
+        return returnView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,13 +66,8 @@ class BCEducationFragment : Fragment() {
 
         bcEducationFAButton.setOnClickListener {
 
-
-           val eduLevel = bcEduLevelTIET.text.toString()
-
-
+            val eduLevel = bcEduLevelTIET.text.toString()
             eduDegree = bcEduDegreeTIET.text.toString()
-
-
 
             instituteName = bcInstituteNameTIET.text.toString()
             passingYear = bcPassingYearTIET.text.toString()
@@ -239,13 +236,13 @@ class BCEducationFragment : Fragment() {
 
         supportTextView.setOnClickListener {
 
-            makeCall("16479")
+          activity.callHelpLine()
 
         }
 
         bcHelpLineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 

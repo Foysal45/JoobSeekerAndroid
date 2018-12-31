@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_login_otp.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
@@ -24,7 +26,6 @@ class BCOtpCodeFragment : Fragment() {
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var counter: CountDownTimer
-
     private lateinit var returnView : View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +38,10 @@ class BCOtpCodeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setTime()
+
         onClick()
         initialization()
+        setTime()
     }
 
     private fun onClick(){
@@ -79,10 +81,21 @@ class BCOtpCodeFragment : Fragment() {
 
             registrationCommunicator.bcResendOtp()
             setTime()
-            bcTimerTV.show()
-            bcTimerIconIV.show()
-            bcResendOtpTV.hide()
+            bcTimerTV?.show()
+            bcTimerIconIV?.show()
+            bcResendOtpTV?.hide()
 
+        }
+
+        supportTextView.setOnClickListener {
+
+            activity.callHelpLine()
+
+        }
+
+        bcHelpLineLayout.setOnClickListener {
+
+            activity.callHelpLine()
         }
 
 
@@ -99,8 +112,8 @@ class BCOtpCodeFragment : Fragment() {
 
 
     private fun setTime() {
-        bcTimerTV.show()
-        bcResendOtpTV.hide()
+        bcTimerTV?.show()
+        bcResendOtpTV?.hide()
         counter = object : CountDownTimer(Constants.counterTimeLimit.toLong(), Constants.timer_countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 val second = millisUntilFinished / 1000 % 60
@@ -109,7 +122,7 @@ class BCOtpCodeFragment : Fragment() {
                 val time = String.format("%02d:%02d", minute, second)
                 try {
 
-                    bcTimerTV.text = time
+                    bcTimerTV?.text = time
                 }catch (e:Exception){
 
                 }
@@ -117,9 +130,9 @@ class BCOtpCodeFragment : Fragment() {
 
             override fun onFinish() {
 
-                bcTimerTV.hide()
-                bcResendOtpTV.show()
-                bcTimerIconIV.hide()
+                bcTimerTV?.hide()
+                bcResendOtpTV?.show()
+                bcTimerIconIV?.hide()
 
             }
         }.start()
