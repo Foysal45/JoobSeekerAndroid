@@ -51,7 +51,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bcCategoryList"
                 android:layout_width="match_parent"
-                android:layout_height="275dp"
+                android:layout_height="350dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="24dp"
@@ -66,7 +66,7 @@
                 layout="@layout/footer_bc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="130dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

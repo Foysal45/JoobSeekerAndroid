@@ -36,8 +36,8 @@ import java.util.*
 
 fun Activity.callHelpLine() {
     val intent = Intent(Intent.ACTION_DIAL);
-    intent.data = Uri.parse("tel:16479");
-    startActivity(intent);
+    intent.data = Uri.parse("tel:16479")
+    startActivity(intent)
 }
 
 

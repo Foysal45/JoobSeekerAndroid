@@ -160,10 +160,16 @@ interface ApiServiceMyBdjobs {
     fun unShortlistJob(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
-            @Field("strJobId") strJobId: String? = ""
+            @Field("JobID") strJobId: String? = ""
     ): Call<UnshorlistJobModel>
 
 
+    @FormUrlEncoded
+    @POST("app_set_cookies.asp")
+    fun getCookies(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = ""
+    ): Call<CookieModel>
 
 
     companion object Factory {

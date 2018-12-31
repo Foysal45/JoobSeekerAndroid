@@ -11,6 +11,7 @@ import android.view.WindowManager
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
@@ -70,13 +71,13 @@ class WCNameFragment : Fragment() {
 
         wcSupportTextView.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
 
         }
 
         wcHelplineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 

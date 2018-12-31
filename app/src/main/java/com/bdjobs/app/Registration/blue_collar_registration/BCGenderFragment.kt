@@ -8,6 +8,7 @@ import android.view.ViewGroup
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_gender.*
 import org.jetbrains.anko.makeCall
@@ -18,12 +19,15 @@ class BCGenderFragment : Fragment() {
 
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
+    private lateinit var returnView: View
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bc_gender, container, false)
+
+        returnView = inflater.inflate(R.layout.fragment_bc_gender, container, false)
+
+        return returnView
     }
 
 
@@ -93,13 +97,13 @@ class BCGenderFragment : Fragment() {
 
         supportTextView.setOnClickListener {
 
-            makeCall("16479")
+           activity.callHelpLine()
 
         }
 
         bcHelpLineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 

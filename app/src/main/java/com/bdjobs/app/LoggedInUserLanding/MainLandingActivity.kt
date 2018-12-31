@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -23,9 +22,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
-class MainLandingActivity : Activity() ,HomeCommunicator{
+class MainLandingActivity : Activity(), HomeCommunicator {
+
+
+    override fun backButtonClicked() {
+        onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        if (hotJobsFragment.getWebviewBacKStack()) {
+            super.onBackPressed()
+        }
+    }
 
 
     override fun goToFollowedEmployerList() {
@@ -80,6 +89,7 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
             }
         }
     }
+
     override fun goToJobSearch(favID: String) {
         startActivity<JobBaseActivity>("from" to "favsearch", "filterid" to favID)
     }
@@ -112,8 +122,6 @@ class MainLandingActivity : Activity() ,HomeCommunicator{
         }
         false
     }
-
-
 
 
     fun tetsLog() {

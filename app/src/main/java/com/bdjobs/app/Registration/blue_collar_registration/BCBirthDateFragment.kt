@@ -12,6 +12,7 @@ import android.widget.DatePicker
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_birth_date.*
 import org.jetbrains.anko.makeCall
@@ -176,13 +177,13 @@ class BCBirthDateFragment : Fragment() {
 
         supportTextView.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
 
         }
 
         bcHelpLineLayout.setOnClickListener {
 
-            makeCall("16479")
+            activity.callHelpLine()
         }
 
 
