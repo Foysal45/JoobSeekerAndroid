@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -33,9 +34,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun String.equalIgnoreCase(string:String):Boolean{
-   return equals(string,true)
+fun Activity.callHelpLine() {
+    val intent = Intent(Intent.ACTION_DIAL);
+    intent.data = Uri.parse("tel:16479");
+    startActivity(intent);
 }
+
+
+fun String.equalIgnoreCase(string: String): Boolean {
+    return equals(string, true)
+}
+
 fun String.removeLastComma(): String {
     if (endsWith(",")) {
         return substring(0, length - 1);
@@ -43,12 +52,12 @@ fun String.removeLastComma(): String {
     return this
 }
 
-fun Date.toSimpleDateString() : String {
+fun Date.toSimpleDateString(): String {
     val format = SimpleDateFormat("dd/MM/yyy")
     return format.format(this)
 }
 
-fun Date.toSimpleTimeString() : String {
+fun Date.toSimpleTimeString(): String {
     val format = SimpleDateFormat("h:mm a")
     return format.format(this)
 }
@@ -175,7 +184,6 @@ fun ImageView.loadImageFromUrl(url: String) {
         logException(e)
     }
 }
-
 
 
 fun ImageView.loadCircularImageFromUrl(url: String?) {

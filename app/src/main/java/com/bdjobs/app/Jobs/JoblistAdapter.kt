@@ -12,16 +12,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
+import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,6 +56,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     private var retryPageLoad = false
     private var errorMsg: String? = null
     private val bdjobsDB = BdjobsDB.getInstance(context)
+    private val bdjobsUserSession = BdjobsUserSession(context)
 
 
     init {
@@ -290,16 +302,52 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     private fun shorlistAndUnshortlistJob(position: Int) {
 
+        Log.d("strJobId","strJobId: ${jobList?.get(position)?.jobid!!}")
+
         doAsync {
             val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
             uiThread {
                 if (shortListed) {
+
+                    ApiServiceMyBdjobs.create().unShortlistJob(
+                            userId = bdjobsUserSession.userId,
+                            decodeId = bdjobsUserSession.decodId,
+                            strJobId = jobList?.get(position)?.jobid!!
+                    ).enqueue(object :Callback<UnshorlistJobModel>{
+                        override fun onFailure(call: Call<UnshorlistJobModel>, t: Throwable) {
+                            error("onFailure",t)
+                        }
+
+                        override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
+                           context.toast(response.body()?.message!!)
+                        }
+                    })
+
                     doAsync {
                         bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                     }
                     uiThread { notifyDataSetChanged() }
+
                 } else {
+
+
+                    ApiServiceJobs.create().insertShortListJob(
+                            userID = bdjobsUserSession.userId,
+                            encoded = Constants.ENCODED_JOBS,
+                            jobID = jobList?.get(position)?.jobid!!
+                    ).enqueue(object: Callback<ShortlistJobModel>{
+                        override fun onFailure(call: Call<ShortlistJobModel>, t: Throwable) {
+                            error("onFailure",t)
+                        }
+
+                        override fun onResponse(call: Call<ShortlistJobModel>, response: Response<ShortlistJobModel>) {
+                            context.toast(response.body()?.data?.get(0)?.message!!)
+                        }
+                    })
+
+
                     doAsync {
+
                         var deadline :Date?=null
                         try{
                             deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
