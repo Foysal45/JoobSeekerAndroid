@@ -7,4 +7,5 @@ interface HomeCommunicator {
     fun goToJoblistFromLastSearch()
     fun goToJobSearch(favID:String)
     fun shortListedClicked(Position:Int)
+    fun backButtonClicked()
 }

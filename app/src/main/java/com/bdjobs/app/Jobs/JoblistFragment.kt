@@ -207,7 +207,6 @@ class JoblistFragment : Fragment() {
                             saveSearch()
                         }
                     }
-
                 }
             }
 
@@ -451,147 +450,174 @@ class JoblistFragment : Fragment() {
     }
 
     private fun saveSearch() {
-        var tempFilterID = ""
-        val saveSearchDialog = Dialog(activity)
-        saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
-        saveSearchDialog.setCancelable(true)
-        saveSearchDialog.show()
-        val saveBTN = saveSearchDialog.findViewById(R.id.saveBTN) as Button
-        val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
-        val filterNameET = saveSearchDialog.findViewById(R.id.filterNameET) as EditText
-        val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
-        val updateCG = saveSearchDialog.findViewById(R.id.updateCG) as ChipGroup
+        if (
+                industry.isBlank() &&
+                category.isBlank() &&
+                location.isBlank() &&
+                organization.isBlank() &&
+                jobNature.isBlank() &&
+                jobLevel.isBlank() &&
+                postedWithin.isBlank() &&
+                deadline.isBlank() &&
+                keyword.isBlank() &&
+                experience.isBlank() &&
+                gender.isBlank() &&
+                jobType.isBlank() &&
+                army.isBlank() &&
+                age.isBlank() &&
+                newsPaper.isBlank()
 
-        Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
-
-
-        filterNameET.easyOnTextChangedListener { text ->
-            validateFilterName(text.toString(), textInputLayout)
-        }
-
-        cancelBTN.setOnClickListener {
-            saveSearchDialog.dismiss()
-        }
-
-        if (filterID.isNotBlank()) {
-            updateCG.show()
+        ) {
+            Snackbar.make(parentCL, "Please apply at least one filter to save the search", Snackbar.LENGTH_LONG).show()
         } else {
-            updateCG.hide()
-        }
+            if (!session.isLoggedIn!!) {
+                communicator?.goToLoginPage()
+            } else {
+                var tempFilterID = ""
+                val saveSearchDialog = Dialog(activity)
+                saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
+                saveSearchDialog.setCancelable(true)
+                saveSearchDialog.show()
+                val saveBTN = saveSearchDialog.findViewById(R.id.saveBTN) as Button
+                val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
+                val filterNameET = saveSearchDialog.findViewById(R.id.filterNameET) as EditText
+                val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
+                val updateCG = saveSearchDialog.findViewById(R.id.updateCG) as ChipGroup
 
-        if (filterName.isNotBlank()) {
-            filterNameET.setText(filterName)
-        }
+                Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
-        if (updateCG.isVisible) {
-            saveBTN.isEnabled = false
-            updateCG.setOnCheckedChangeListener { chipGroup, id ->
-                if (id > 0) {
-                    saveBTN.isEnabled = true
-                    when (id) {
-                        R.id.updateChip -> tempFilterID = filterID
-                        R.id.saveChip -> tempFilterID = ""
-                    }
-                } else {
-                    saveBTN.isEnabled = false
+                filterNameET.easyOnTextChangedListener { text ->
+                    validateFilterName(text.toString(), textInputLayout)
                 }
-            }
-        }
 
-        saveBTN.setOnClickListener {
-            if (validateFilterName(filterNameET.getString(), textInputLayout)) {
+                cancelBTN.setOnClickListener {
+                    saveSearchDialog.dismiss()
+                }
 
-                if (!session.isLoggedIn!!) {
-                    communicator.goToLoginPage()
+                if (filterID.isNotBlank()) {
+                    updateCG.show()
                 } else {
-                    val loadingDialog = indeterminateProgressDialog("Saving")
-                    loadingDialog.setCancelable(false)
-                    loadingDialog.show()
+                    updateCG.hide()
+                }
 
-                    ApiServiceJobs.create().saveOrUpdateFilter(
-                            icat = industry,
-                            fcat = category,
-                            location = location,
-                            qOT = organization,
-                            qJobNature = jobNature,
-                            qJobLevel = jobLevel,
-                            qPosted = postedWithin,
-                            qDeadline = deadline,
-                            txtsearch = keyword,
-                            qExp = experience,
-                            qGender = gender,
-                            qGenderB = "",
-                            qJobSpecialSkill = jobType,
-                            qRetiredArmy = army,
-                            savefilterid = tempFilterID,
-                            userId = session.userId,
-                            filterName = filterNameET.getString(),
-                            qAge = age,
-                            newspaper = newsPaper,
-                            encoded = Constants.ENCODED_JOBS
+                if (filterName.isNotBlank()) {
+                    filterNameET.setText(filterName)
+                }
 
-                    ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
-                        override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
-                            loadingDialog.dismiss()
-                            error("onFailure", t)
-                            toast("${t.message}")
+
+                if (updateCG.isVisible) {
+                    saveBTN.isEnabled = false
+                    updateCG.setOnCheckedChangeListener { chipGroup, id ->
+                        if (id > 0) {
+                            saveBTN.isEnabled = true
+                            when (id) {
+                                R.id.updateChip -> tempFilterID = filterID
+                                R.id.saveChip -> tempFilterID = ""
+                            }
+                        } else {
+                            saveBTN.isEnabled = false
                         }
+                    }
+                }
 
-                        override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
+                saveBTN.setOnClickListener {
 
-                            Log.d("resposet", response.body().toString())
 
-                            if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
-                                doAsync {
+                    if (validateFilterName(filterNameET.getString(), textInputLayout)) {
 
-                                    val filterName = filterNameET.getString()
-                                    val favouriteSearch = FavouriteSearch(
-                                            filterid = response?.body()?.data?.get(0)?.sfilterid,
-                                            filtername = filterName,
-                                            industrialCat = industry,
-                                            functionalCat = category,
-                                            location = location,
-                                            organization = organization,
-                                            jobnature = jobNature,
-                                            joblevel = jobLevel,
-                                            postedon = postedWithin,
-                                            deadline = deadline,
-                                            keyword = keyword,
-                                            newspaper = newsPaper,
-                                            gender = gender,
-                                            experience = experience,
-                                            age = age,
-                                            jobtype = jobType,
-                                            retiredarmy = army,
-                                            createdon = Date(),
-                                            updatedon = null,
-                                            totaljobs = "",
-                                            genderb = ""
-                                    )
+                        if (!session.isLoggedIn!!) {
+                            communicator.goToLoginPage()
+                        } else {
+                            val loadingDialog = indeterminateProgressDialog("Saving")
+                            loadingDialog.setCancelable(false)
+                            loadingDialog.show()
 
-                                    bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+                            ApiServiceJobs.create().saveOrUpdateFilter(
+                                    icat = industry,
+                                    fcat = category,
+                                    location = location,
+                                    qOT = organization,
+                                    qJobNature = jobNature,
+                                    qJobLevel = jobLevel,
+                                    qPosted = postedWithin,
+                                    qDeadline = deadline,
+                                    txtsearch = keyword,
+                                    qExp = experience,
+                                    qGender = gender,
+                                    qGenderB = "",
+                                    qJobSpecialSkill = jobType,
+                                    qRetiredArmy = army,
+                                    savefilterid = tempFilterID,
+                                    userId = session.userId,
+                                    filterName = filterNameET.getString(),
+                                    qAge = age,
+                                    newspaper = newsPaper,
+                                    encoded = Constants.ENCODED_JOBS
 
-                                    communicator.setFilterID(response?.body()?.data?.get(0)?.sfilterid!!)
-                                    communicator.setFilterName(filterName)
-                                    uiThread {
-                                        loadingDialog.dismiss()
-                                        toast("${response?.body()?.data?.get(0)?.message}")
-                                        saveSearchDialog.dismiss()
-                                        saveSearchDicission()
-                                    }
+                            ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
+                                override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
+                                    loadingDialog.dismiss()
+                                    error("onFailure", t)
+                                    toast("${t.message}")
                                 }
 
-                            }
+                                override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
+
+                                    Log.d("resposet", response.body().toString())
+
+                                    if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                                        doAsync {
+
+                                            val filterName = filterNameET.getString()
+                                            val favouriteSearch = FavouriteSearch(
+                                                    filterid = response?.body()?.data?.get(0)?.sfilterid,
+                                                    filtername = filterName,
+                                                    industrialCat = industry,
+                                                    functionalCat = category,
+                                                    location = location,
+                                                    organization = organization,
+                                                    jobnature = jobNature,
+                                                    joblevel = jobLevel,
+                                                    postedon = postedWithin,
+                                                    deadline = deadline,
+                                                    keyword = keyword,
+                                                    newspaper = newsPaper,
+                                                    gender = gender,
+                                                    experience = experience,
+                                                    age = age,
+                                                    jobtype = jobType,
+                                                    retiredarmy = army,
+                                                    createdon = Date(),
+                                                    updatedon = null,
+                                                    totaljobs = "",
+                                                    genderb = ""
+                                            )
+
+                                            bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+
+                                            communicator.setFilterID(response?.body()?.data?.get(0)?.sfilterid!!)
+                                            communicator.setFilterName(filterName)
+                                            uiThread {
+                                                loadingDialog.dismiss()
+                                                toast("${response?.body()?.data?.get(0)?.message}")
+                                                saveSearchDialog.dismiss()
+                                                saveSearchDicission()
+                                            }
+                                        }
+
+                                    }
+                                }
+                            })
+
+
                         }
-                    })
 
 
+                    }
                 }
             }
-
         }
-
     }
 
 

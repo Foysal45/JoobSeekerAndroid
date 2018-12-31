@@ -23,6 +23,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.Login.LoginBaseActivity
@@ -30,6 +32,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,7 +51,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     private val bdjobsDB = BdjobsDB.getInstance(context)
-
+    private val bdjobsUserSession = BdjobsUserSession(context)
     private var jobCommunicator: JobCommunicator? = null
     private var jobList: MutableList<JobListModelData>? = null
     var call: JobCommunicator? = null
@@ -626,6 +629,20 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
             uiThread {
                 if (shortListed) {
+                    ApiServiceMyBdjobs.create().unShortlistJob(
+                            userId = bdjobsUserSession.userId,
+                            decodeId = bdjobsUserSession.decodId,
+                            strJobId = jobList?.get(position)?.jobid!!
+                    ).enqueue(object : Callback<UnshorlistJobModel> {
+                        override fun onFailure(call: Call<UnshorlistJobModel>, t: Throwable) {
+                            error("onFailure", t)
+                        }
+
+                        override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
+                            context.toast(response.body()?.message!!)
+                        }
+                    })
+
                     doAsync {
                         bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                     }
@@ -679,6 +696,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             }
         }
     }
+
+
+
 
 
 }

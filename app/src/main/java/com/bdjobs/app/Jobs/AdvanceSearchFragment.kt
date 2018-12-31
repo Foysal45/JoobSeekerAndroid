@@ -35,6 +35,10 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun onClicks() {
+        searchBTN.setOnClickListener {
+            jobCommunicator.backButtonPressesd()
+        }
+
         keywordET.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
