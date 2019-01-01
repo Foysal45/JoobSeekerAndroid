@@ -12,9 +12,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.getString
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_employer_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -95,6 +93,11 @@ class EmployerListFragment : Fragment() {
 
     private fun loadFirstPage(orgname: String) {
 
+        employerList_RV.hide()
+        favCountTV.hide()
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
+
         ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
             override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
                 error("onFailure", t)
@@ -124,6 +127,11 @@ class EmployerListFragment : Fragment() {
                 val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employers now offering Jobs"
                 favCountTV.text = Html.fromHtml(styledText)
 
+                employerList_RV.show()
+                favCountTV.show()
+                shimmer_view_container_JobList.hide()
+                shimmer_view_container_JobList.stopShimmerAnimation()
+
              /*   doAsync {
 
                     uiThread {
@@ -133,6 +141,9 @@ class EmployerListFragment : Fragment() {
             }
 
         })
+
+
+
 
 
     }

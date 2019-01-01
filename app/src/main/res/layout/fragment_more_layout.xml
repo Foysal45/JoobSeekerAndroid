@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F2F2"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -45,18 +45,6 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backIMV"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/backIMV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,7 +83,7 @@
                 android:textColor="#999999" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button"
+                android:id="@+id/generalSearch_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,64 +92,64 @@
                 android:textAllCaps="false"
                 android:textColor="#212121"
                 android:textSize="14dp"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_search_black_more_24px" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button1"
+                android:id="@+id/new_job_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="New Jobs (24 hrs)"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_new_jobs" />
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button2"
+                android:id="@+id/deadline_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Deadline Tomorrow"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_dead_line" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button3"
+                android:id="@+id/part_time_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Part Time Jobs"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_part_time" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button4"
+                android:id="@+id/contractual_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Contractual Jobs"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_contractual" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button5"
+                android:id="@+id/government_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Government Jobs"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_government" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button6"
+                android:id="@+id/overseas_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="OverSeas Jobs"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_overseas" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button7"
+                android:id="@+id/employerList_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Employer List"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_employer_list" />
 
 
             <View
@@ -173,37 +161,37 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button9"
+                android:id="@+id/settings_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Settings"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_settings" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button10"
+                android:id="@+id/emailResume_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email Resume"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_email_resume" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button11"
+                android:id="@+id/viewResume_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Employer View Resume"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_view_resume" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button12"
+                android:id="@+id/interviewinvitation_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Interview Invitation"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_interview_invitation" />
 
 
             <View
@@ -222,46 +210,46 @@
                 android:textColor="#999999" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button14"
+                android:id="@+id/appGuides_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="App Guides"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_app_guides" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button15"
+                android:id="@+id/rateUs_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rate Us on Google Play Store"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_rate_us_on_google" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button16"
+                android:id="@+id/feedback_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Feedback and Support"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_feedback" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button17"
+                android:id="@+id/privacypolicy_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Privacy Policy"
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_privacy_policy" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_icon_button18"
+                android:id="@+id/terms_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Terms and Policies"
 
-                app:icon="@drawable/ic_search_black_24dp" />
+                app:icon="@drawable/ic_terms_and_policies" />
 
         </LinearLayout>
     </ScrollView>

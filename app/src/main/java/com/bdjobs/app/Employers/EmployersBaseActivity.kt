@@ -64,14 +64,15 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         setContentView(R.layout.activity_employers_base)
 
         try {
-            value = intent.getStringExtra("from")
+           value = intent.getStringExtra("from")
+         //  value = "emplist"
         } catch (e: Exception) {
             logException(e)
         }
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
-        } else if (value?.equals("emplist")) {
+        } else  {
             transitFragment(employerListFragment, R.id.fragmentHolder)
         }
     }

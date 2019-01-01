@@ -1,0 +1,14 @@
+<vector android:autoMirrored="true" android:height="48dp"
+    android:viewportHeight="48" android:viewportWidth="48"
+    android:width="48dp" xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:pathData="M24,24m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0">
+        <aapt:attr name="android:fillColor">
+            <gradient android:endX="24" android:endY="48"
+                android:startX="24" android:startY="-1.1688191E-15" android:type="linear">
+                <item android:color="#FFBDC3C7" android:offset="0"/>
+                <item android:color="#FF2C3E50" android:offset="1"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path android:fillColor="#fff" android:pathData="M24,19L24,15L14,15L14,33L34,33L34,19ZM18,31L16,31L16,29L18,29ZM18,27L16,27L16,25L18,25ZM18,23L16,23L16,21L18,21ZM18,19L16,19L16,17L18,17ZM22,31L20,31L20,29h2ZM22,27L20,27L20,25h2ZM22,23L20,23L20,21h2ZM22,19L20,19L20,17h2ZM32,31L24,31L24,29h2L26,27L24,27L24,25h2L26,23L24,23L24,21h8ZM30,23L28,23v2h2ZM30,27L28,27v2h2Z"/>
+</vector>
