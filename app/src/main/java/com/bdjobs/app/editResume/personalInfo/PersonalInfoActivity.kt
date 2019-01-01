@@ -6,10 +6,12 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
+import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
@@ -22,6 +24,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val personalEditFragment = PersonalDetailsEditFragment()
     private val personalViewFragment = PersonalDetailsViewFragment()
     private val careerViewFragment = CareerViewFragment()
+    private val careerEditFragment = CareerEditFragment()
     private val contactViewFragment = ContactViewFragment()
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -30,14 +33,25 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_info)
-        transitFragment(careerViewFragment, R.id.personalinfo_container, false)
+        transitFragment(careerEditFragment, R.id.personalinfo_container, false)
     }
 
     override fun setEditButton(b: Boolean) {
         if (b) {
+            iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
         } else {
+            //iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
         }
     }
+
+    override fun setDeleteButton(b: Boolean) {
+        if (b) {
+            iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
+        } else {
+            //iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
+        }
+    }
+
 
     override fun goToEditInfo(check: String) {
         when (check) {

@@ -72,6 +72,13 @@ interface ApiServiceMyBdjobs {
     ): Call<GetAcademicInfo>
 
     @FormUrlEncoded
+    @POST("apps_step_02_view_tr.asp")
+    fun getTrainingInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetTrainingInfo>
+
+    @FormUrlEncoded
     @POST("apps_step_01_view_per.asp")
     fun getPersonalInfo(
             @Field("userId") userId: String?,

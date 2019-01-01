@@ -36,6 +36,7 @@
     <string name="hint.exam_degree_title">Exam / Degree Title *</string>
     <string name="hint.concentration_major_group">Concentration / Major / Group *</string>
     <string name="hint.institute_name">Institute Name *</string>
+    <string name="hint.institute_name_tr">Institute *</string>
     <string name="message.foreign_institute">Is specified institute is a foreign institute?</string>
     <string name="hint.yes">Yes</string>
     <string name="message.if_no_then_leave_this_option_blank">[If no then leave this option Blank]</string>
@@ -49,9 +50,12 @@
     <string name="hint.start_date">Start Date *</string>
     <string name="hint.end_date">End Date *</string>
     <string name="hint.country">Country *</string>
-    <string name="hint.training_title">Title *</string>
+    <string name="hint.country_v">Country</string>
+    <string name="hint.training_title">Training Title *</string>
     <string name="hint.topic">Topic</string>
+    <string name="hint.topic_covered">Topic Covered</string>
     <string name="hint.year">Year *</string>
+    <string name="hint.training_year">Training Year *</string>
     <string name="err_msg_experience">You can  not add more than 3 work discipline!</string>
     <string name="hint.company_name">Company Name *</string>
     <string name="hint.company_business">Company Business *</string>
@@ -159,9 +163,20 @@
     <string name="hint.forinstitute">Foreign Institute</string>
     <string name="hint.results">Results *</string>
     <string name="hint.passingyear">Passing Year *</string>
-    <string name="title_carrer">Career and Application</string>
+    <string name="title_career">Career and Application</string>
     <string name="title_contact">Contact Details</string>
     <string name="title_personal">Personal Details</string>
     <string name="title_emp_his">Employment History</string>
+    <string name="title_academic">Academic Qualification Information</string>
+    <string name="title_training">Training Summary</string>
+    <string name="hint.looking_for_edit">Looking for (Job Level)</string>
+    <string name="job.mid_level">Mid Level Job</string>
+    <string name="job.entry_level">Entry Level Job</string>
+    <string name="job.top_level">Top Level Job</string>
+    <string name="available_for_edit">Available for (Job Nature)</string>
+    <string name="job.full_time">Full Time</string>
+    <string name="job.part_time">Part Time</string>
+    <string name="job.contract">Contract</string>
+    <string name="helper.learn_more">Learn More</string>
 
 </resources>

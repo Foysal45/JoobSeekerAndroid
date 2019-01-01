@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.educationInfo.fragments
+package com.bdjobs.app.editResume.educationInfo.fragments.academicInfo
 
 
 import android.app.Fragment
@@ -78,7 +78,7 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        eduCB.setTitle("Academic Qualification")
+        eduCB.setTitle(getString(R.string.title_academic))
         fab_aca_edit.setOnClickListener { updateData() }
     }
 

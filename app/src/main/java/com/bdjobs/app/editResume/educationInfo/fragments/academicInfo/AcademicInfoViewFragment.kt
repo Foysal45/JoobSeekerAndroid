@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.educationInfo.fragments
+package com.bdjobs.app.editResume.educationInfo.fragments.academicInfo
 
 
 import android.app.Fragment
@@ -19,7 +19,6 @@ import com.bdjobs.app.editResume.adapters.AcademicInfoAdapter
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.GetAcademicInfo
 import com.bdjobs.app.editResume.callbacks.EduInfo
-import com.facebook.FacebookSdk
 import kotlinx.android.synthetic.main.fragment_academic_info_view.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -54,7 +53,7 @@ class AcademicInfoViewFragment : Fragment() {
     private fun doWork() {
         populateData()
         eduCB.setDeleteButton(false)
-        eduCB.setTitle("Academic Qualification")
+        eduCB.setTitle(getString(R.string.title_academic))
         fab_aca_add.setOnClickListener {
             eduCB.goToEditInfo("add")
         }
@@ -62,7 +61,7 @@ class AcademicInfoViewFragment : Fragment() {
 
     private fun setupRV(items: ArrayList<AcaDataItem>) {
         rv_aca_view.setHasFixedSize(true)
-        val mLayoutManager = LinearLayoutManager(FacebookSdk.getApplicationContext())
+        val mLayoutManager = LinearLayoutManager(activity.applicationContext)
         rv_aca_view.layoutManager = mLayoutManager
         adapter = AcademicInfoAdapter(items, activity)
         rv_aca_view.itemAnimator = DefaultItemAnimator()
@@ -70,11 +69,13 @@ class AcademicInfoViewFragment : Fragment() {
     }
 
     private fun populateData() {
+        rv_aca_view.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetAcademicInfo> {
             override fun onFailure(call: Call<GetAcademicInfo>, t: Throwable) {
                 shimmerStop()
+                rv_aca_view.show()
                 activity.toast("Error occurred")
             }
 
@@ -82,6 +83,7 @@ class AcademicInfoViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
+                        rv_aca_view.show()
                         val respo = response.body()
                         arr = respo?.data as ArrayList<AcaDataItem>
                         //activity.toast("${arr?.size}")
@@ -91,6 +93,7 @@ class AcademicInfoViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
+                    rv_aca_view.show()
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()

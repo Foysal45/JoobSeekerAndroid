@@ -49,7 +49,7 @@ class CareerViewFragment : Fragment() {
         shimmerStart()
         populateData()
         contactCB.setEditButton(true)
-        contactCB.setTitle(getString(R.string.title_carrer))
+        contactCB.setTitle(getString(R.string.title_career))
     }
 
     private fun populateData() {
