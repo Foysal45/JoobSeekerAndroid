@@ -181,6 +181,18 @@ interface ApiServiceJobs {
             @Query("jobID") jobID: String?
     ): Call<ShortlistJobModel>
 
+    @FormUrlEncoded
+    @POST("jobapplyscreen.asp")
+    fun applyJob(
+            @Field("userID") userID: String? = "",
+            @Field("decodeID") decodeID: String? = "",
+            @Field("jobID") jobID: String? = "",
+            @Field("expSalary") expSalary: String? = "",
+            @Field("JobSex") JobSex: String? = "",
+            @Field("JobPhotograph") JobPhotograph: String? = "",
+            @Field("encoded") encoded: String? = ""
+    ): Call<ApplyOnlineModel>
+
 
     companion object Factory {
 
