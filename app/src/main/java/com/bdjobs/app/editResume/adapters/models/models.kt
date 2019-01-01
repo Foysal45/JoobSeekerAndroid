@@ -295,3 +295,40 @@ data class GetContactInfo(
         @field:SerializedName("message")
         val message: String? = null
 )
+
+// Career Info
+data class Ca_DataItem(
+
+        @field:SerializedName("presentSalary")
+        val presentSalary: String? = null,
+
+        @field:SerializedName("messageType")
+        val messageType: String? = null,
+
+        @field:SerializedName("availableFor")
+        val availableFor: String? = null,
+
+        @field:SerializedName("lookingFor")
+        val lookingFor: String? = null,
+
+        @field:SerializedName("ExpectedSalary")
+        val expectedSalary: String? = null,
+
+        @field:SerializedName("objective")
+        val objective: String? = null
+)
+
+data class GetCarrerInfo(
+
+        @field:SerializedName("statuscode")
+        val statuscode: String? = null,
+
+        @field:SerializedName("data")
+        val data: List<Ca_DataItem?>? = null,
+
+        @field:SerializedName("common")
+        val common: Any? = null,
+
+        @field:SerializedName("message")
+        val message: String? = null
+)

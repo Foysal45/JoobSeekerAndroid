@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.SnapHelper
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,6 +58,8 @@ class JobDetailsFragment : Fragment() {
     var currentJobPosition = 0
     var shareJobPosition = 0
 
+    lateinit var bdjobsDB: BdjobsDB
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_jobdetail_layout, container, false)!!
@@ -62,9 +67,12 @@ class JobDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        bdjobsDB = BdjobsDB.getInstance(activity)
+
         communicator = activity as JobCommunicator
 
         shareJobPosition = communicator.getItemClickPosition()
+
         getData()
 
         snapHelper = PagerSnapHelper()
@@ -89,6 +97,20 @@ class JobDetailsFragment : Fragment() {
 
                     counterTV?.let { tv ->
                         tv.text = "Job ${currentJobPosition + 1}/$totalRecordsFound"
+
+                        doAsync {
+                            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobListGet?.get(currentJobPosition)?.jobid!!)
+
+                            uiThread {
+                                if (shortListed) {
+                                    shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
+                                } else {
+                                    shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
+                                }
+
+                            }
+                        }
+
                     }
                 }
             }
@@ -189,8 +211,18 @@ class JobDetailsFragment : Fragment() {
         keyword = communicator.getKeyword()
         location = communicator.getLocation()
         category = communicator.getCategory()
-
-        Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getIndustry()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
 
 
     }
@@ -283,6 +315,19 @@ class JobDetailsFragment : Fragment() {
 
         counterTV?.let { tv ->
             tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
+
+            doAsync {
+                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(communicator.getJobList()?.get(communicator.getItemClickPosition())?.jobid!!)
+
+                uiThread {
+                    if (shortListed) {
+                        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
+                    } else {
+                        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
+                    }
+
+                }
+            }
         }
 
     }

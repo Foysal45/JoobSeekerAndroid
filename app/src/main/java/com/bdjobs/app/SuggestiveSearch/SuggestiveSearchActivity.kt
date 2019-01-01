@@ -8,6 +8,7 @@ import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -143,7 +144,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             suggestionList.add(item)
         }
         adapter = SuggestionAdapter(suggestionList, this)
-        filterRV.layoutManager = LinearLayoutManager(this@SuggestiveSearchActivity)
+        filterRV.layoutManager =  LinearLayoutManager(this@SuggestiveSearchActivity, LinearLayout.VERTICAL, false)
         filterRV.adapter = adapter
     }
 

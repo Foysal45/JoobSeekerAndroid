@@ -90,7 +90,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emplyment_history)
-        setupToolbar("Employment History")
+        setupToolbar(getString(R.string.title_emp_his))
         transitFragment(viewFragment, R.id.emp_his_container, false)
     }
 

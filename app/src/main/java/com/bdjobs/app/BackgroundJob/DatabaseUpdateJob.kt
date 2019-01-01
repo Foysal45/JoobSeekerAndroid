@@ -219,12 +219,12 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
     private fun insertShortListedJobs() {
         Log.d("XZXfg", "insertShortListedJobs")
-        ApiServiceJobs.create().getShortListedJobs(p_id = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<JobListModel> {
-            override fun onFailure(call: Call<JobListModel>, t: Throwable) {
+        ApiServiceJobs.create().getShortListedJobs(p_id = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<ShortListedJobModel> {
+            override fun onFailure(call: Call<ShortListedJobModel>, t: Throwable) {
                 error("onFailure", t)
             }
 
-            override fun onResponse(call: Call<JobListModel>, response: Response<JobListModel>) {
+            override fun onResponse(call: Call<ShortListedJobModel>, response: Response<ShortListedJobModel>) {
 
                 doAsync {
                     bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
@@ -236,8 +236,8 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                             Log.d("deadline", "deadline: $deadline")
                             val shortlistedJob = ShortListedJobs(
                                     jobid = item.jobid,
-                                    jobtitle = item.jobTitle,
-                                    companyname = item.companyName,
+                                    jobtitle = item.jobtitle,
+                                    companyname = item.companyname,
                                     deadline = deadline,
                                     eduRec = item.eduRec,
                                     experience = item.experience,
@@ -246,6 +246,8 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                                     lantype = item.lantype
                             )
 
+                            Log.d("item.jobTitle", "item.jobTitle: ${item.jobtitle}")
+                            Log.d("item.jobTitle", "item.companyName: ${item.companyname}")
                             bdjobsInternalDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                         }
                     }

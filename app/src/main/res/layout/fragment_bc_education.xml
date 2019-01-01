@@ -62,12 +62,13 @@
 
 
            <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/bcLastEducationTIL"
+               android:id="@+id/bcEduLevelTIL"
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
                android:layout_marginStart="24dp"
                android:layout_marginTop="18dp"
+               android:focusable="false"
                android:layout_marginEnd="24dp"
                app:boxCornerRadiusBottomEnd="8dp"
                app:boxCornerRadiusBottomStart="8dp"
@@ -79,13 +80,15 @@
                app:layout_constraintTop_toBottomOf="@+id/checkBox">
 
                <com.google.android.material.textfield.TextInputEditText
-                   android:id="@+id/bcLastEducationTIET"
+                   android:id="@+id/bcEduLevelTIET"
                    android:layout_width="match_parent"
+                   android:focusable="false"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:hint="সর্বশেষ শিক্ষা পর্যায়"
                    android:inputType="text"
                    android:singleLine="true"
+                   android:enabled="false"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />
            </com.google.android.material.textfield.TextInputLayout>
@@ -93,7 +96,7 @@
 
 
            <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/bcExamNameTIL"
+               android:id="@+id/bcEduDegreeTIL"
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
@@ -107,11 +110,13 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/bcLastEducationTIL">
+               app:layout_constraintTop_toBottomOf="@+id/bcEduLevelTIL">
 
                <com.google.android.material.textfield.TextInputEditText
-                   android:id="@+id/bcExamNameTIET"
+                   android:id="@+id/bcEduDegreeTIET"
                    android:layout_width="match_parent"
+                   android:focusable="false"
+                   android:enabled="false"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:hint="পরীক্ষা/ডিগ্রীর নাম"
@@ -121,6 +126,37 @@
                    app:fontFamily="@font/roboto" />
            </com.google.android.material.textfield.TextInputLayout>
 
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:visibility="gone"
+               android:id="@+id/bcEduDegreeOtherTIL"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="24dp"
+               android:layout_marginTop="18dp"
+               android:layout_marginEnd="24dp"
+               app:boxCornerRadiusBottomEnd="8dp"
+               app:boxCornerRadiusBottomStart="8dp"
+               app:boxCornerRadiusTopEnd="8dp"
+               app:boxCornerRadiusTopStart="8dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/bcEduDegreeTIL">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/bcEduDegreeOtherTIET"
+                   android:layout_width="match_parent"
+
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/roboto"
+                   android:hint="অন্যান্য "
+                   android:inputType="text"
+                   android:singleLine="true"
+                   android:typeface="normal"
+                   app:fontFamily="@font/roboto" />
+           </com.google.android.material.textfield.TextInputLayout>
 
 
            <com.google.android.material.textfield.TextInputLayout
@@ -138,12 +174,13 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/bcExamNameTIL">
+               app:layout_constraintTop_toBottomOf="@+id/bcEduDegreeOtherTIL">
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcInstituteNameTIET"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
+                    android:enabled="false"
                    android:fontFamily="@font/roboto"
                    android:hint="শিক্ষা প্রতিষ্ঠানের নাম"
                    android:inputType="text"
@@ -175,6 +212,8 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
+                   android:enabled="false"
+                   android:maxLength="4"
                    android:hint="পাশ করার বছর "
                    android:inputType="text"
                    android:singleLine="true"

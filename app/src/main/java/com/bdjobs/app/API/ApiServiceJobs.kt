@@ -8,9 +8,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 
 interface ApiServiceJobs {
@@ -48,7 +46,7 @@ interface ApiServiceJobs {
 
     ): Call<JobListModel>
 
-    ///new
+
     @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
             @Query("encoded") encoded: String,
@@ -80,10 +78,66 @@ interface ApiServiceJobs {
     fun getShortListedJobs(
             @Query("p_id") p_id: String?,
             @Query("encoded") encoded: String?
-    ): Call<JobListModel>
+    ): Call<ShortListedJobModel>
 
     @GET
     fun downloadDatabaseFile(@Url fileUrl: String): Call<ResponseBody>
+
+
+    @GET("homescreen.asp")
+    fun getLastSearchCount(
+            @Query("lastSearchedOn ") lastSearchedOn: String = "",
+            @Query("jobLevel") jobLevel: String? = "",
+            @Query("Newspaper") Newspaper: String? = "",
+            @Query("armyp") armyp: String? = "",
+            @Query("bc") bc: String? = "",
+            @Query("category") category: String? = "",
+            @Query("deadline") deadline: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("experience") experience: String? = "",
+            @Query("gender") gender: String? = "",
+            @Query("genderB") genderB: String? = "",
+            @Query("industry") industry: String? = "",
+            @Query("isFirstRequest") isFirstRequest: String? = "",
+            @Query("jobNature") jobNature: String? = "",
+            @Query("jobType") jobType: String? = "",
+            @Query("keyword") keyword: String? = "",
+            @Query("lastJPD") lastJPD: String? = "",
+            @Query("location") location: String? = "",
+            @Query("org") org: String? = "",
+            @Query("pageid") pageid: String? = "",
+            @Query("pg") pg: Int? = 1,
+            @Query("postedWithin") postedWithin: String? = "",
+            @Query("qAge") qAge: String? = "",
+            @Query("rpp") rpp: String? = "",
+            @Query("slno") slno: String? = "",
+            @Query("version") version: String? = ""
+    ): Call<LastSearchCountModel>
+
+    @FormUrlEncoded
+    @POST("savefilter.asp")
+    fun saveOrUpdateFilter(
+            @Field("icat ") icat: String = "",
+            @Field("fcat") fcat: String? = "",
+            @Field("location") location: String? = "",
+            @Field("qOT") qOT: String? = "",
+            @Field("qJobNature") qJobNature: String? = "",
+            @Field("qJobLevel") qJobLevel: String? = "",
+            @Field("qPosted") qPosted: String? = "",
+            @Field("qDeadline") qDeadline: String? = "",
+            @Field("txtsearch") txtsearch: String? = "",
+            @Field("qExp") qExp: String? = "",
+            @Field("qGender") qGender: String? = "",
+            @Field("qGenderB") qGenderB: String? = "",
+            @Field("qJobSpecialSkill") qJobSpecialSkill: String? = "",
+            @Field("qRetiredArmy") qRetiredArmy: String? = "",
+            @Field("savefilterid") savefilterid: String? = "",
+            @Field("userId") userId: String? = "",
+            @Field("filterName") filterName: String? = "",
+            @Field("qAge") qAge: String? = "",
+            @Field("newspaper") newspaper: String? = "",
+            @Field("encoded") encoded: String? = ""
+    ): Call<SaveUpdateFavFilterModel>
 
 
     companion object Factory {

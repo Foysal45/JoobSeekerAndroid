@@ -10,13 +10,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Registration.RegistrationCommunicator
 
 class BCCategoryAdapter(private val context: Context, private val items: ArrayList<String>) : RecyclerView.Adapter<ViewHolder>() {
 
     val activity = context as Activity
 
     private var selectedPosition = -1
-
+    private  val registrationCommunicator = activity as RegistrationCommunicator
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.category_list_layout, parent, false))
@@ -35,6 +36,8 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
         holder.categoryTV.setOnClickListener {
 
+            Log.d("selectedPosition","selectedPosition $selectedPosition  ${items.get(position)}")
+            registrationCommunicator.bcCategorySelected("${items.get(position)}",selectedPosition)
             selectedPosition = position
             notifyDataSetChanged()
 

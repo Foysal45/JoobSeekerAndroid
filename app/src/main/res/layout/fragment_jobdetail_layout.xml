@@ -45,7 +45,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView5"
+                app:layout_constraintEnd_toStartOf="@+id/shortListIMGV"
                 app:layout_constraintStart_toEndOf="@+id/BackIMGV"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,7 +98,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="5dp"
-                android:id="@+id/imageView5"
+                android:id="@+id/shortListIMGV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

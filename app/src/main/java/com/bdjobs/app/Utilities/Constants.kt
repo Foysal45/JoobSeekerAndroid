@@ -8,6 +8,7 @@ class Constants {
         var certificationSynced =false
         var followedEmployerSynced =false
 
+        const val HOTJOBS_WEB_LINK = "http://bdjobs.com/upcoming/files/hotjob/apphotjobs.asp"
         const val FB_KEY_EMAIL = "email"
         const val FB_KEY_ID = "id"
         const val SOCIAL_MEDIA_GOOGLE = "G"
