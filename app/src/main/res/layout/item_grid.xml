@@ -14,9 +14,10 @@
     tools:ignore="ContentDescription">
 
     <RelativeLayout
+        android:id="@+id/background_RRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#55b4cc"
+        android:background="@drawable/online_application"
         >
 
 
@@ -28,19 +29,22 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_name_TV"
+                android:id="@+id/item_value_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="500"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/roboto"
                 android:textSize="36sp" />
 
             <TextView
-                android:id="@+id/item_value_TV"
+                android:id="@+id/item_name_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Online \n Applications"
-                android:textColor="#962323"
+                android:text="Online\nApplications"
+                android:fontFamily="@font/roboto"
+                android:textColor="#FAFAFA"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText" />
 
@@ -54,7 +58,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_privacy_policy" />
+
+
+            />
 
     </RelativeLayout>
 

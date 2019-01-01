@@ -26,6 +26,7 @@ class MoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         horizontalAdapter = HorizontalAdapter(activity)
 
         horizontal_RV!!.adapter = horizontalAdapter
