@@ -1,6 +1,7 @@
 package com.bdjobs.app.Jobs
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.text.Html
@@ -22,18 +23,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Window
 import androidx.core.content.ContextCompat.startActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.ApplyOnlineModel
 import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
+import com.bdjobs.app.Databases.Internal.AppliedJobs
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,6 +79,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var companyLogoUrl = ""
     var companyOtherJobs = ""
     var applyOnline = ""
+    private lateinit var dialog: Dialog
 
 
     init {
@@ -155,7 +161,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
 
-                ApiServiceJobs.create().getJobdetailData("11JBSJ6251402", jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", "2335238", "EN").enqueue(object : Callback<JobDetailJsonModel> {
+                ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", "2335238", "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
                         Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
                     }
@@ -192,26 +198,47 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
                         jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
+                        jobsVH.applyButton.visibility = View.GONE
 
-                        if (applyOnline.equalIgnoreCase("True")) {
+                        doAsync {
 
-                            jobsVH.applyButton.visibility = View.VISIBLE
-                            jobsVH.applyButton.setOnClickListener {
-                                val bdjobsUserSession = BdjobsUserSession(context)
-                                if (!bdjobsUserSession.isLoggedIn!!) {
-                                    jobCommunicator?.goToLoginPage()
+                            val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
+
+                            uiThread {
+
+                                if (appliedJobs.isEmpty()){
+
+                                    if (applyOnline.equalIgnoreCase("True")) {
+
+                                        jobsVH.applyButton.visibility = View.VISIBLE
+                                        jobsVH.applyButton.setOnClickListener {
+                                            val bdjobsUserSession = BdjobsUserSession(context)
+                                            if (!bdjobsUserSession.isLoggedIn!!) {
+                                                jobCommunicator?.goToLoginPage()
+                                            }else {
+
+                                                showSalaryDialog(context,position,jobDetailResponseAll.gender!!,jobDetailResponseAll.photograph!!)
+
+                                            }
+                                        }
+
+                                    } else {
+
+                                        jobsVH.applyButton.visibility = View.GONE
+                                    }
+
+
                                 }else {
+
+                                    jobsVH.applyButton.visibility = View.GONE
+
+
 
 
 
                                 }
                             }
-
-                        } else {
-
-                            jobsVH.applyButton.visibility = View.GONE
                         }
-
                         //Job Information Checking Start
 
                         if (jobKeyPointsData.isBlank()) {
@@ -429,6 +456,95 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     }
 
+
+
+    private fun showSalaryDialog(activity: Context,position: Int,gender:String,jobphotograph:String) {
+        dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.online_apply_dialog_layout)
+        val cancelButton = dialog.findViewById<Button>(R.id.onlineApplyCancelBTN)
+        val okButton = dialog.findViewById<Button>(R.id.onlineApplyOkBTN)
+        val  salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
+        val  salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
+
+
+
+      cancelButton.setOnClickListener {
+
+          dialog.dismiss()
+
+      }
+
+        okButton.setOnClickListener {
+
+            if (salaryTIET.text.isNullOrBlank()){
+
+                salaryTIL.showError("Salary Can not be empty")
+
+            }else{
+
+                applyOnlineJob(position,salaryTIET.text.toString(),gender,jobphotograph)
+            }
+
+
+
+
+        }
+
+
+        dialog.show()
+
+    }
+
+    private fun applyOnlineJob(position: Int,salary:String,gender:String,jobphotograph:String){
+
+
+        val loadingDialog = context.indeterminateProgressDialog("Applying")
+        loadingDialog.setCancelable(false)
+        loadingDialog.show()
+        ApiServiceJobs.create().applyJob(bdjobsUserSession.userId,bdjobsUserSession.decodId,jobList?.get(position)?.jobid!!,salary,gender,jobphotograph,Constants.ENCODED_JOBS).enqueue(object :Callback<ApplyOnlineModel>{
+            override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
+
+                Log.d("dlkgj","respone ${t!!.message}")
+                loadingDialog.dismiss()
+                dialog.dismiss()
+
+            }
+
+            override fun onResponse(call: Call<ApplyOnlineModel>, response: Response<ApplyOnlineModel>) {
+
+                Log.d("dlkgj","respone ${response.body()!!.message}")
+                Log.d("dlkgj","respone ${response.body()!!.data[0].status}")
+
+              context.toast(response.body()!!.data[0].message)
+
+                if (response.body()!!.data[0].status.equalIgnoreCase("ok")){
+
+                    dialog.dismiss()
+
+                    doAsync {
+
+                        val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
+
+                        bdjobsDB.appliedJobDao().insertAppliedJobs(appliedJobs)
+
+                    }
+
+                    loadingDialog.dismiss()
+                    notifyDataSetChanged()
+                }
+
+
+
+            }
+
+
+        })
+
+
+
+    }
 
     override fun getItemCount(): Int {
         return if (jobList == null) 0 else jobList!!.size
