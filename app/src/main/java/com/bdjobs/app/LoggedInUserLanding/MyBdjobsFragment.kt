@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ class MyBdjobsFragment : Fragment() {
 
     }
 
+    @SuppressLint("ResourceType")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -45,14 +47,19 @@ class MyBdjobsFragment : Fragment() {
         val leftRoundedMaterialShape = MaterialShapeDrawable(leftShapePathModel)
         lastmonth_MBTN.setBackgroundDrawable(leftRoundedMaterialShape)
 
+        lastmonth_MBTN?.setOnClickListener {
+
+            alltime_MBTN.setBackgroundResource(Color.WHITE)
+            alltime_MBTN.setTextColor(BLACK)
+        }
+
 
         val leftShapePathModel1 = ShapePathModel()
         leftShapePathModel1.topRightCorner = RoundedCornerTreatment(50F)
         leftShapePathModel1.bottomRightCorner= RoundedCornerTreatment(50F)
         val leftRoundedMaterialShape1 = MaterialShapeDrawable(leftShapePathModel1)
         alltime_MBTN.setBackgroundDrawable(leftRoundedMaterialShape1)
-        alltime_MBTN.setBackgroundResource(R.drawable.online_application)
-        alltime_MBTN.setTextColor(BLACK)
+
 
 
         initializeViews()
