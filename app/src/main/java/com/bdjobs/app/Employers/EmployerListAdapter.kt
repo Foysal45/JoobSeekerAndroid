@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelData
@@ -33,7 +34,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
     private var errorMsg: String? = null
     val activity = context as Activity
     private val bdjobsDB: BdjobsDB = BdjobsDB.getInstance(activity)
-
+    private val employersCommunicator = activity as EmployersCommunicator
 
     companion object {
         // View Types
@@ -76,6 +77,20 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
         holder.employerCompany.text = employerList!![position].companyname
         holder.offeringJobs.text = employerList!![position].totaljobs
+
+        var jobCount = employerList!![position].totaljobs
+        var jobCountint = jobCount?.toInt()
+
+        if (jobCountint!! > 0) {
+            holder.employersListCard.setOnClickListener {
+                var company_name_1 = employerList!![position].companyname!!
+                var company_ID_1 = employerList!![position].companyid!!
+                employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
+                Log.d("companyid", company_ID_1)
+                Log.d("companyid", company_name_1)
+
+            }
+        }
 
         doAsync {
             val company_ID = employerList!![position].companyid!!
@@ -295,6 +310,7 @@ class EmployerListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView
     val offeringJobs = view.findViewById(R.id.offering_jobs_number_TV) as TextView
     val followUnfollow = view.findViewById(R.id.follownfollow_BTN) as MaterialButton
+    val employersListCard = view.findViewById(R.id.empList_cardview) as CardView
 
 }
 

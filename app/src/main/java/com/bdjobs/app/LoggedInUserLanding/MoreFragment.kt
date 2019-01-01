@@ -9,8 +9,11 @@ import android.util.Log
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
+import com.bdjobs.app.Employers.EmployersBaseActivity
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import kotlinx.android.synthetic.main.fragment_more_layout.*
+import org.jetbrains.anko.startActivity
 
 class MoreFragment : Fragment() {
 
@@ -30,16 +33,16 @@ class MoreFragment : Fragment() {
         horizontal_RV?.layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         Log.d("initPag", "called")
         horizontal_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Applied\nJobs"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Favorite\nSearch"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Followed\nEmployers"))
-
-       // horizontaList.add(horizontalData)
-
-
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
+        // horizontaList.add(horizontalDataa
         horizontalAdapter?.addAll(horizontaList)
+
+        employerList_MBTN.setOnClickListener {
+            startActivity<EmployersBaseActivity>("from" to "employer")
+        }
 
     }
 
