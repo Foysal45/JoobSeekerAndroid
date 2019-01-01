@@ -123,6 +123,62 @@ class DataStorage(context: Context) {
             return OrgTypes.toTypedArray()
         }
 
+
+
+    fun workDisciplineIDByWorkDiscipline(name: String): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.SUB_CATEGORY_SUB_CAT_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+
+    fun workDisciplineByWorkDisciplineID(name: String): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.SUB_CATEGORY_COL_SUB_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+
+
     val allSkills: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
@@ -1363,8 +1419,7 @@ class DataStorage(context: Context) {
         dbHelper.openDataBase()
         var s: String? = null
         try {
-            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_Sub_NAME_BNG + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_Sub_NAME_BNG + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'"
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 

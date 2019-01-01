@@ -23,9 +23,7 @@ import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.*
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -132,14 +130,25 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 doAsync {
                     val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid!!)
                     uiThread {
                         if (shortListed) {
                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
                         } else {
                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
                         }
+
+                        if(appliedJobs.isEmpty()){
+                            jobsVH.appliedBadge.hide()
+                        }else{
+                            jobsVH.appliedBadge.show()
+                        }
                     }
                 }
+
+
+
+
                 jobsVH.shortListIconIV.setOnClickListener {
                     shorlistAndUnshortlistJob(position)
                 }
@@ -205,11 +214,18 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 doAsync {
                     val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid!!)
                     uiThread {
                         if (shortListed) {
                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
                         } else {
                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                        }
+
+                        if(appliedJobs.isEmpty()){
+                            jobsVH.appliedBadge.hide()
+                        }else{
+                            jobsVH.appliedBadge.show()
                         }
                     }
                 }
@@ -509,8 +525,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
-
-
         }
 
     }
@@ -549,6 +563,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     private class JobsListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
+        val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
+
         val tvPosName: TextView = viewItem?.findViewById(R.id.textViewPositionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.textViewCompanyName) as TextView
         val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDate) as TextView
@@ -559,6 +575,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     private class StandOutListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
+        val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
         val tvPosName: TextView = viewItem?.findViewById(R.id.textViewPositionNameStandOut) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.textViewCompanyNameStandOut) as TextView
         val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDateStandOut) as TextView

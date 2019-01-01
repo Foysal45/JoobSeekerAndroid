@@ -69,11 +69,27 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         } catch (e: Exception) {
             logException(e)
         }
+
+        try {
+            companyid = intent.getStringExtra("companyid")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+        try {
+            companyname = intent.getStringExtra("companyname")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
-        } else  {
+        } else if(value?.equals("employer"))  {
             transitFragment(employerListFragment, R.id.fragmentHolder)
+        }else if(value?.equals("joblist")){
+            transitFragment(employerJobListFragment, R.id.fragmentHolder)
         }
     }
 

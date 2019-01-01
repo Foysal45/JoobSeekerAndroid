@@ -165,29 +165,26 @@
             android:textColor="#393939"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/shortlist_icon"
+            app:layout_constraintEnd_toStartOf="@+id/appliedBadge"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             tools:text="BBA/MBA in marketing " />
 
         <ImageView
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
             android:id="@+id/shortlist_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageViewCompanyLogo"
@@ -201,6 +198,25 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/appliedBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="8dp"
+            android:drawableLeft="@drawable/ic_check_circle_black_14dp"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Applied"
+            android:textColor="#13A10E"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/shortlist_icon"
+            app:layout_constraintEnd_toStartOf="@+id/shortlist_icon"
+            app:layout_constraintTop_toTopOf="@+id/shortlist_icon"
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
