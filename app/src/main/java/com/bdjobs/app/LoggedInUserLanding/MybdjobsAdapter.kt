@@ -47,6 +47,11 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
         }
     }
 
+    fun removeAll() {
+        mybdjobsItems?.clear()
+        notifyDataSetChanged()
+    }
+
 }
 
 class MyBdjobsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {

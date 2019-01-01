@@ -27,7 +27,8 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
       }
 
     override fun onBindViewHolder(holder: HorizontalViewHolder, position: Int) {
-        holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
+       // holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
+        holder.resourceID_Value.setBackgroundResource(moreItems!![position].resourceID)
         holder.resourceName_Value.text = moreItems!![position].resourceName
 
 
