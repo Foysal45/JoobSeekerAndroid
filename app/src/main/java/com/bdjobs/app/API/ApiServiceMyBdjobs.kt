@@ -10,7 +10,9 @@ import com.bdjobs.app.editResume.adapters.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 interface ApiServiceMyBdjobs {
 
@@ -82,6 +84,13 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<GetContactInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_cai.asp")
+    fun getCareerInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetCarrerInfo>
 
     @FormUrlEncoded
     @POST("apps_step_03_update_exp.asp")

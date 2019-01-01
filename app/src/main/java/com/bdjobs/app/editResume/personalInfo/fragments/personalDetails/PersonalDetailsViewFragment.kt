@@ -53,7 +53,7 @@ class PersonalDetailsViewFragment : Fragment() {
         shimmerStart()
         populateData()
         personalInfoCB.setEditButton(true)
-        personalInfoCB.setTitle("Personal Details")
+        personalInfoCB.setTitle(getString(R.string.title_personal))
     }
 
     private fun populateData() {

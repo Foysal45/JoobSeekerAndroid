@@ -31,13 +31,6 @@ interface PersonalInfo {
     fun goBack()
 }
 
-interface ContactInfo {
-    fun setTitle(tit: String?)
-    fun setEditButton(b: Boolean)
-    fun goToEditInfo(check: String)
-    fun goBack()
-}
-
 interface TitleChange {
     fun setTitle(tit: String?)
 }

@@ -10,6 +10,7 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
+import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
@@ -18,8 +19,9 @@ import kotlinx.android.synthetic.main.activity_personal_info.*
 
 class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, PersonalInfo {
 
-    private val editFragment = PersonalDetailsEditFragment()
-    private val viewFragment = PersonalDetailsViewFragment()
+    private val personalEditFragment = PersonalDetailsEditFragment()
+    private val personalViewFragment = PersonalDetailsViewFragment()
+    private val careerViewFragment = CareerViewFragment()
     private val contactViewFragment = ContactViewFragment()
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -28,7 +30,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_info)
-        transitFragment(contactViewFragment, R.id.CLpersonalBase, false)
+        transitFragment(careerViewFragment, R.id.personalinfo_container, false)
     }
 
     override fun setEditButton(b: Boolean) {
@@ -41,7 +43,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         when (check) {
             "add" -> {
                 //editFragment.isEdit = false
-                transitFragment(editFragment, R.id.personalinfo_container, true)
+                transitFragment(personalEditFragment, R.id.personalinfo_container, true)
             }
             "edit" -> {
             }
