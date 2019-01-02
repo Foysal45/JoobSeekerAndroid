@@ -50,11 +50,13 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/companyBusinessTIL"
                     style="@style/EHTextInputLayout"
+                    android:focusableInTouchMode="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:focusableInTouchMode="false"
                         android:id="@+id/companyBusinessACTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -234,11 +236,13 @@
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
                     android:textColorHint="#757575"
                     app:helperText="@string/msg.you_can_add_maximum_3_work_discipline">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/experiencesMACTV"
+                            android:focusableInTouchMode="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.area_of_experiences"

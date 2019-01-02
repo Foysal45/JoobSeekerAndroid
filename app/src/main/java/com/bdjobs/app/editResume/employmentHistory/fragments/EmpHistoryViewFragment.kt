@@ -90,6 +90,7 @@ class EmpHistoryViewFragment : Fragment() {
                         if (arr != null) {
                             //adapter?.addAll(arr!!)
                             setupRV(arr!!)
+                            adapter?.notifyDataSetChanged()
                         }
                     }
                 } catch (e: Exception) {

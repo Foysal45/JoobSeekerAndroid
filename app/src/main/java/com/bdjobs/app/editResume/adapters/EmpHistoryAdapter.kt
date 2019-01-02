@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.debug
@@ -20,10 +21,13 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
     private var call: EmpHisCB = context as EmpHisCB
     private val DURATION = 300
     private var itemList: MutableList<DataItem>? = arr
+    private lateinit var dataStorage: DataStorage
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_experiece_list, parent, false)
+        dataStorage = DataStorage(context)
         return MyViewHolder(itemView)
+
     }
 
     override fun getItemCount(): Int {
@@ -37,11 +41,17 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         holder.tvDate?.text = "From ${dModel.from} to ${dModel.to}"
         holder.tvCom?.text = dModel.companyName
         holder.tvAddress?.text = dModel.companyLocation
-        holder.tvComBus?.text = dModel.companyBusiness
-        holder.tvDept?.text = dModel.departmant
-        holder.tvAreaOfExp?.text = dModel.areaofExperience
-        holder.tvRespos?.text = dModel.responsibility
 
+        holder.tvDept?.text = dModel.departmant
+
+        Log.d("dsgjdhsg", "in adpater companyBusiness ${dataStorage.getOrgNameByID(dModel.companyBusiness!!)}")
+        Log.d("dsgjdhsg", "in adpater companyBusiness ID ${dModel.companyBusiness} ")
+        Log.d("dsgjdhsg", "in adpater area of experinece ${dModel.areaofExperience} ")
+
+        holder.tvComBus?.text = dataStorage.getOrgNameByID(dModel.companyBusiness)
+        holder.tvAreaOfExp?.text = dModel.areaofExperience
+
+        holder.tvRespos?.text = dModel.responsibility
         holder.ivEdit?.setOnClickListener {
             call.passData(dModel)
             call.goToEditInfo("edit")
