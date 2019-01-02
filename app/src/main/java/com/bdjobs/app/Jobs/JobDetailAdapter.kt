@@ -1,44 +1,39 @@
 package com.bdjobs.app.Jobs
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.os.Build
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.text.Html
-import android.text.Layout.JUSTIFICATION_MODE_INTER_WORD
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ModelClasses.JobDetailJsonModel
-import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.Databases.Internal.AppliedJobs
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.FollowedEmployer
+import com.bdjobs.app.Databases.Internal.ShortListedJobs
+import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.view.Window
-import androidx.core.content.ContextCompat.startActivity
-import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.ApplyOnlineModel
-import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
-import com.bdjobs.app.Databases.Internal.AppliedJobs
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.ShortListedJobs
-import com.bdjobs.app.Login.LoginBaseActivity
-import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -138,18 +133,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 }
 
 
-                jobsVH.allJobsButtonLayout.setOnClickListener {
-
-                    Toast.makeText(context, " View all jobs Button clicked ", Toast.LENGTH_LONG).show()
-
-                }
-
-
-                jobsVH.followTV.setOnClickListener {
-
-                    Toast.makeText(context, " follow Button clicked ", Toast.LENGTH_LONG).show()
-
-                }
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
 
@@ -161,7 +144,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
 
-                ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", "2335238", "EN").enqueue(object : Callback<JobDetailJsonModel> {
+                ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId!!, "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
                         Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
                     }
@@ -200,13 +183,44 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                         jobsVH.applyButton.visibility = View.GONE
 
+
+
+                        jobsVH.allJobsButtonLayout.setOnClickListener {
+
+                            context.startActivity<EmployersBaseActivity>("from" to "joblist",
+                                    "companyid" to jobDetailResponseAll.companyID,
+                                    "companyname" to jobDetailResponseAll.companyNameENG
+                                    )
+                        }
+
+
+                        jobsVH.followTV.setOnClickListener {
+                            doAsync {
+                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
+                                uiThread {
+                                    if(isItFollowed){
+                                        jobsVH.followTV.setTextColor(Color.parseColor("#13A10E"))
+                                        jobsVH.followTV.text = "Follow"
+                                        jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                                        callUnFollowApi(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
+                                    }else{
+                                        jobsVH.followTV.text = "Unfollow"
+                                        jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
+                                        jobsVH.followTV.setTextColor(Color.parseColor("#767676"))
+                                        callFollowApi(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
+                                    }
+                                }
+                            }
+                        }
+
+
                         doAsync {
 
                             val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
-
+                            val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
                             uiThread {
 
-                                if (appliedJobs.isEmpty()){
+                                if (appliedJobs.isEmpty()) {
 
                                     if (applyOnline.equalIgnoreCase("True")) {
 
@@ -215,9 +229,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                             val bdjobsUserSession = BdjobsUserSession(context)
                                             if (!bdjobsUserSession.isLoggedIn!!) {
                                                 jobCommunicator?.goToLoginPage()
-                                            }else {
+                                            } else {
 
-                                                showSalaryDialog(context,position,jobDetailResponseAll.gender!!,jobDetailResponseAll.photograph!!)
+                                                showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
 
                                             }
                                         }
@@ -227,15 +241,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                         jobsVH.applyButton.visibility = View.GONE
                                     }
 
-
-                                }else {
+                                } else {
 
                                     jobsVH.applyButton.visibility = View.GONE
 
 
+                                }
 
 
-
+                                if(isItFollowed){
+                                    jobsVH.followTV.text = "Unfollow"
+                                    jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
+                                    jobsVH.followTV.setTextColor(Color.parseColor("#767676"))
+                                }else{
+                                    jobsVH.followTV.setTextColor(Color.parseColor("#13A10E"))
+                                    jobsVH.followTV.text = "Follow"
+                                    jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
                                 }
                             }
                         }
@@ -457,38 +478,34 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
-
-    private fun showSalaryDialog(activity: Context,position: Int,gender:String,jobphotograph:String) {
+    private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String) {
         dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.online_apply_dialog_layout)
         val cancelButton = dialog.findViewById<Button>(R.id.onlineApplyCancelBTN)
         val okButton = dialog.findViewById<Button>(R.id.onlineApplyOkBTN)
-        val  salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
-        val  salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
+        val salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
+        val salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
 
 
+        salaryTIET.easyOnTextChangedListener { text ->
+            validateFilterName(text.toString(), salaryTIL)
+            okButton.isEnabled = text.isNotEmpty()
+        }
 
-      cancelButton.setOnClickListener {
 
-          dialog.dismiss()
+        cancelButton.setOnClickListener {
 
-      }
+            dialog.dismiss()
+
+        }
 
         okButton.setOnClickListener {
 
-            if (salaryTIET.text.isNullOrBlank()){
-
-                salaryTIL.showError("Salary Can not be empty")
-
-            }else{
-
-                applyOnlineJob(position,salaryTIET.text.toString(),gender,jobphotograph)
+            if (validateFilterName(salaryTIET.getString(), salaryTIL)) {
+                applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
             }
-
-
-
 
         }
 
@@ -497,51 +514,53 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     }
 
-    private fun applyOnlineJob(position: Int,salary:String,gender:String,jobphotograph:String){
+
+    private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
+
+        if (typedData.isNullOrBlank()) {
+            textInputLayout.showError(context.getString(R.string.field_empty_error_message_common))
+            return false
+        }
+        textInputLayout.hideError()
+        return true
+    }
+
+    private fun applyOnlineJob(position: Int, salary: String, gender: String, jobphotograph: String) {
+
+
+        Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
 
 
         val loadingDialog = context.indeterminateProgressDialog("Applying")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
-        ApiServiceJobs.create().applyJob(bdjobsUserSession.userId,bdjobsUserSession.decodId,jobList?.get(position)?.jobid!!,salary,gender,jobphotograph,Constants.ENCODED_JOBS).enqueue(object :Callback<ApplyOnlineModel>{
+        ApiServiceJobs.create().applyJob(bdjobsUserSession.userId, bdjobsUserSession.decodId, jobList?.get(position)?.jobid!!, salary, gender, jobphotograph, Constants.ENCODED_JOBS).enqueue(object : Callback<ApplyOnlineModel> {
             override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
 
-                Log.d("dlkgj","respone ${t!!.message}")
+                Log.d("dlkgj", "respone ${t!!.message}")
                 loadingDialog.dismiss()
                 dialog.dismiss()
 
             }
 
             override fun onResponse(call: Call<ApplyOnlineModel>, response: Response<ApplyOnlineModel>) {
-
-                Log.d("dlkgj","respone ${response.body()!!.message}")
-                Log.d("dlkgj","respone ${response.body()!!.data[0].status}")
-
-              context.toast(response.body()!!.data[0].message)
-
-                if (response.body()!!.data[0].status.equalIgnoreCase("ok")){
-
-                    dialog.dismiss()
+                dialog.dismiss()
+                loadingDialog.dismiss()
+                context.longToast(response.body()!!.data[0].message)
+                if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
 
                     doAsync {
-
                         val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
-
                         bdjobsDB.appliedJobDao().insertAppliedJobs(appliedJobs)
-
+                        uiThread {
+                            notifyDataSetChanged()
+                        }
                     }
-
-                    loadingDialog.dismiss()
-                    notifyDataSetChanged()
                 }
-
-
-
             }
 
 
         })
-
 
 
     }
@@ -698,7 +717,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val keyPonits: TextView = viewItem?.findViewById(R.id.keyPoints) as TextView
         val companyLogo: ImageView = viewItem?.findViewById(R.id.company_icon) as ImageView
         val allJobsButtonLayout: ConstraintLayout = viewItem?.findViewById(R.id.buttonLayout) as ConstraintLayout
-        val followTV: TextView = viewItem?.findViewById(R.id.followTV) as TextView
+        val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
         val applyButton: Button = viewItem?.findViewById(R.id.applyButton) as Button
     }
@@ -819,6 +838,54 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
 
+    private fun callFollowApi(companyid: String, companyname: String) {
+        ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = companyname, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fei", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass> {
+            override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
+                val statuscode = response.body()?.statuscode
+                val message = response.body()?.data?.get(0)?.message
+                Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
+                    doAsync {
+                        val followedEmployer = FollowedEmployer(
+                                CompanyID = companyid,
+                                CompanyName = companyname,
+                                JobCount = response.body()?.data?.get(0)?.jobcount,
+                                FollowedOn = Date()
+                        )
+                        bdjobsDB.followedEmployerDao().insertFollowedEmployer(followedEmployer)
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun callUnFollowApi(companyid: String, companyName: String) {
+        ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = companyName, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fed", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass> {
+            override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
+
+                var statuscode = response.body()?.statuscode
+                var message = response.body()?.data?.get(0)?.message
+                Log.d("msg", message)
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                if(statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
+                    doAsync {
+                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
+                    }
+                }
+            }
+
+        })
+    }
 
 
 }

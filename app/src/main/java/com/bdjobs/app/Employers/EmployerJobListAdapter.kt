@@ -13,9 +13,11 @@ import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.google.android.material.button.MaterialButton
+import org.jetbrains.anko.startActivity
 
 class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapter<EmployerJobListViewHolder>() {
 
@@ -45,6 +47,15 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: EmployerJobListViewHolder, position: Int) {
         holder.employerCompany.text = employerJobList!![position].jobtitle
         holder.deadline.text = employerJobList!![position].deadline
+        holder.itemView.setOnClickListener {
+            val jobids = ArrayList<String>()
+            val lns = ArrayList<String>()
+            employerJobList?.forEach { data->
+                jobids.add(data.jobid)
+                lns.add(data.ln)
+            }
+            context.startActivity<JobBaseActivity>("from" to "employer","jobids" to jobids,"lns" to lns,"position" to position)
+        }
 
     }
     override fun getItemCount(): Int {

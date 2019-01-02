@@ -240,6 +240,35 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     }
                 }
 
+                "employer"->{
+                    clickedPosition = intent.getIntExtra("position", 0)
+                    val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+                    val jobids = intent.getStringArrayListExtra("jobids")
+                    val lns = intent.getStringArrayListExtra("lns")
+                    for(i in 0 until jobids.size){
+                        val jobListModelData = JobListModelData(
+                                jobid = jobids[i],
+                                jobTitle = "",
+                                companyName = "",
+                                deadline = "",
+                                eduRec = "",
+                                experience = "",
+                                standout = "0",
+                                logo = "",
+                                lantype = lns[i]
+                        )
+                        jobList.add(jobListModelData)
+                        Log.d("employerJobid","jobid: ${jobids[i]} ln: ${lns[i]}")
+                    }
+
+                    setJobList(jobList)
+                    totalRecordsFound = jobList.size
+                    pgNumber=1
+                    totalPages=1
+                    isLastPage=true
+                    transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+                }
+
                 else -> transitFragment(joblistFragment, R.id.jobFragmentHolder)
             }
 
