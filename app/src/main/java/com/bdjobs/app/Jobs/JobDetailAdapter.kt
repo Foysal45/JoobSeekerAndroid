@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -108,43 +111,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        /* Log.d("Check"," on Bind View holder Position " + position)
-         Log.d("Check"," getItemViewType(position) " + getItemViewType(position))*/
-
-        var result = jobList?.get(position) // jobs
-
-
         when (getItemViewType(position)) {
             BASIC -> {
 
-                /*   Log.d("Check", " BASIC $BASIC")*/
-
                 val jobsVH = holder as JobsListVH
-
-
-
-
-
-
                 jobsVH.itemView.setOnClickListener {
-
                     call?.onItemClicked(position)
-
                 }
 
-
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
-
-
 
                 jobsVH.shimmer_view_container.show()
                 jobsVH.applyButton.visibility = View.GONE
                 jobsVH.shimmer_view_container.startShimmerAnimation()
 
-
-
-
-                ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId!!, "EN").enqueue(object : Callback<JobDetailJsonModel> {
+                ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId, "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
                         Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
                     }
@@ -181,33 +162,35 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
                         jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
-                        jobsVH.applyButton.visibility = View.GONE
-
-
-
-                        jobsVH.allJobsButtonLayout.setOnClickListener {
-
-                            context.startActivity<EmployersBaseActivity>("from" to "joblist",
-                                    "companyid" to jobDetailResponseAll.companyID,
-                                    "companyname" to jobDetailResponseAll.companyNameENG
+                        jobsVH.applyButton.hide()
+                        jobsVH.appliedBadge.hide()
+                        try {
+                            if (companyOtherJobs.toInt() > 0) {
+                                jobsVH.allJobsButtonLayout.setOnClickListener {
+                                    context.startActivity<EmployersBaseActivity>("from" to "joblist",
+                                            "companyid" to jobDetailResponseAll.companyID,
+                                            "companyname" to jobDetailResponseAll.companyNameENG
                                     )
+                                }
+                            }
+                        } catch (e: Exception) {
+                            logException(e)
                         }
-
 
                         jobsVH.followTV.setOnClickListener {
                             doAsync {
                                 val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
                                 uiThread {
-                                    if(isItFollowed){
+                                    if (isItFollowed) {
                                         jobsVH.followTV.setTextColor(Color.parseColor("#13A10E"))
                                         jobsVH.followTV.text = "Follow"
                                         jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                                        callUnFollowApi(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
-                                    }else{
+                                        callUnFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
+                                    } else {
                                         jobsVH.followTV.text = "Unfollow"
                                         jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
                                         jobsVH.followTV.setTextColor(Color.parseColor("#767676"))
-                                        callFollowApi(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
+                                        callFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
                                     }
                                 }
                             }
@@ -219,41 +202,33 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
                             val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
                             uiThread {
-
                                 if (appliedJobs.isEmpty()) {
-
+                                    jobsVH.appliedBadge.hide()
                                     if (applyOnline.equalIgnoreCase("True")) {
-
                                         jobsVH.applyButton.visibility = View.VISIBLE
                                         jobsVH.applyButton.setOnClickListener {
                                             val bdjobsUserSession = BdjobsUserSession(context)
                                             if (!bdjobsUserSession.isLoggedIn!!) {
                                                 jobCommunicator?.goToLoginPage()
                                             } else {
-
                                                 showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-
                                             }
                                         }
 
                                     } else {
-
                                         jobsVH.applyButton.visibility = View.GONE
                                     }
 
                                 } else {
-
+                                    jobsVH.appliedBadge.show()
                                     jobsVH.applyButton.visibility = View.GONE
-
-
                                 }
 
-
-                                if(isItFollowed){
+                                if (isItFollowed) {
                                     jobsVH.followTV.text = "Unfollow"
                                     jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
                                     jobsVH.followTV.setTextColor(Color.parseColor("#767676"))
-                                }else{
+                                } else {
                                     jobsVH.followTV.setTextColor(Color.parseColor("#13A10E"))
                                     jobsVH.followTV.text = "Follow"
                                     jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
@@ -262,199 +237,220 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         }
                         //Job Information Checking Start
 
-                        if (jobKeyPointsData.isBlank()) {
+                        if (jobDetailResponseAll.jObIMage.isNullOrBlank()) {
+                            jobsVH.govtJobsIMGV.hide()
+                            jobsVH.horizontalView.show()
+                            jobsVH.horizontalViewTwo.show()
+                            jobsVH.horizontalView.show()
 
-                            jobsVH.tvKeyPoints.visibility = View.GONE
-                            jobsVH.keyPonits.visibility = View.GONE
+                            if (jobKeyPointsData.isBlank()) {
 
-                        } else {
-                            jobsVH.tvKeyPoints.visibility = View.VISIBLE
-                            jobsVH.keyPonits.visibility = View.VISIBLE
-                            jobsVH.tvKeyPoints.text = response.body()?.data?.get(0)?.jobKeyPoints
-                        }
+                                jobsVH.tvKeyPoints.visibility = View.GONE
+                                jobsVH.keyPonits.visibility = View.GONE
 
-                        if (jobContextData.isBlank()) {
+                            } else {
+                                jobsVH.tvKeyPoints.visibility = View.VISIBLE
+                                jobsVH.keyPonits.visibility = View.VISIBLE
+                                jobsVH.tvKeyPoints.text = response.body()?.data?.get(0)?.jobKeyPoints
+                            }
 
-                            jobsVH.tvJobContext.visibility = View.GONE
-                            jobsVH.tvJobContextValue.visibility = View.GONE
+                            if (jobContextData.isBlank()) {
 
-                        } else {
+                                jobsVH.tvJobContext.visibility = View.GONE
+                                jobsVH.tvJobContextValue.visibility = View.GONE
 
-                            jobsVH.tvJobContext.visibility = View.VISIBLE
-                            jobsVH.tvJobContextValue.visibility = View.VISIBLE
-                            jobsVH.tvJobContextValue.text = jobContextData
-                        }
+                            } else {
 
-                        if (jobDescriptionData.isBlank()) {
+                                jobsVH.tvJobContext.visibility = View.VISIBLE
+                                jobsVH.tvJobContextValue.visibility = View.VISIBLE
+                                jobsVH.tvJobContextValue.text = jobContextData
+                            }
 
-                            jobsVH.tvJobResponsibility.visibility = View.GONE
-                            jobsVH.tvJobResponsibilityValue.visibility = View.GONE
+                            if (jobDescriptionData.isBlank()) {
 
-                        } else {
-                            jobsVH.tvJobResponsibilityValue.text = jobDescriptionData
-                            jobsVH.tvJobResponsibility.visibility = View.VISIBLE
-                            jobsVH.tvJobResponsibilityValue.visibility = View.VISIBLE
+                                jobsVH.tvJobResponsibility.visibility = View.GONE
+                                jobsVH.tvJobResponsibilityValue.visibility = View.GONE
 
-                        }
+                            } else {
+                                jobsVH.tvJobResponsibilityValue.text = jobDescriptionData
+                                jobsVH.tvJobResponsibility.visibility = View.VISIBLE
+                                jobsVH.tvJobResponsibilityValue.visibility = View.VISIBLE
 
-                        if (jobNatureData.isBlank()) {
+                            }
 
-                            jobsVH.tvJobNature.visibility = View.GONE
-                            jobsVH.tvJobNatureValue.visibility = View.GONE
+                            if (jobNatureData.isBlank()) {
 
-                        } else {
-                            jobsVH.tvJobNatureValue.text = jobNatureData
-                            jobsVH.tvJobNature.visibility = View.VISIBLE
-                            jobsVH.tvJobNatureValue.visibility = View.VISIBLE
+                                jobsVH.tvJobNature.visibility = View.GONE
+                                jobsVH.tvJobNatureValue.visibility = View.GONE
 
-                        }
+                            } else {
+                                jobsVH.tvJobNatureValue.text = jobNatureData
+                                jobsVH.tvJobNature.visibility = View.VISIBLE
+                                jobsVH.tvJobNatureValue.visibility = View.VISIBLE
 
-                        //Job Information Checking End
-
-
-                        // Job Requirements Checking Start
-
-                        if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()) {
+                            }
 
 
-                            jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
-                            jobsVH.tvEducationalRequirments.visibility = View.GONE
-                            jobsVH.tvExperienceReq.visibility = View.GONE
-                            jobsVH.tvExperienceReqValue.visibility = View.GONE
-                            jobsVH.tvJobReqValue.visibility = View.GONE
-                            jobsVH.tvJobReq.visibility = View.GONE
-                            jobsVH.tvRequirementsHead.visibility = View.GONE
-
-                        } else {
-
-                            if (educationData.isBlank()) {
+                            if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()) {
 
                                 jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
                                 jobsVH.tvEducationalRequirments.visibility = View.GONE
-
-                            } else {
-                                jobsVH.tvEducationalRequirmentsValue.text = educationData
-                                jobsVH.tvEducationalRequirmentsValue.visibility = View.VISIBLE
-                                jobsVH.tvEducationalRequirments.visibility = View.VISIBLE
-
-                            }
-
-                            if (experienceData.isBlank()) {
-
                                 jobsVH.tvExperienceReq.visibility = View.GONE
                                 jobsVH.tvExperienceReqValue.visibility = View.GONE
-
-                            } else {
-                                jobsVH.tvExperienceReqValue.text = experienceData
-                                jobsVH.tvExperienceReq.visibility = View.VISIBLE
-                                jobsVH.tvExperienceReqValue.visibility = View.VISIBLE
-
-                            }
-
-                            if (requirmentsData.isBlank()) {
-
                                 jobsVH.tvJobReqValue.visibility = View.GONE
                                 jobsVH.tvJobReq.visibility = View.GONE
+                                jobsVH.tvRequirementsHead.visibility = View.GONE
 
                             } else {
-                                jobsVH.tvJobReqValue.text = requirmentsData
-                                jobsVH.tvJobReqValue.visibility = View.VISIBLE
-                                jobsVH.tvJobReq.visibility = View.VISIBLE
+
+                                if (educationData.isBlank()) {
+
+                                    jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
+                                    jobsVH.tvEducationalRequirments.visibility = View.GONE
+
+                                } else {
+                                    jobsVH.tvEducationalRequirmentsValue.text = educationData
+                                    jobsVH.tvEducationalRequirmentsValue.visibility = View.VISIBLE
+                                    jobsVH.tvEducationalRequirments.visibility = View.VISIBLE
+
+                                }
+
+                                if (experienceData.isBlank()) {
+
+                                    jobsVH.tvExperienceReq.visibility = View.GONE
+                                    jobsVH.tvExperienceReqValue.visibility = View.GONE
+
+                                } else {
+                                    jobsVH.tvExperienceReqValue.text = experienceData
+                                    jobsVH.tvExperienceReq.visibility = View.VISIBLE
+                                    jobsVH.tvExperienceReqValue.visibility = View.VISIBLE
+                                }
+
+                                if (requirmentsData.isBlank()) {
+                                    jobsVH.tvJobReqValue.visibility = View.GONE
+                                    jobsVH.tvJobReq.visibility = View.GONE
+                                } else {
+                                    jobsVH.tvJobReqValue.text = requirmentsData
+                                    jobsVH.tvJobReqValue.visibility = View.VISIBLE
+                                    jobsVH.tvJobReq.visibility = View.VISIBLE
+                                }
 
                             }
 
-
-                        }
-
-                        // Job Requirements Checking End
-
-                        // Salary Compensation Checking Start
-
-                        if (salaryData.isBlank() && otherBenifitsData.isBlank()) {
-
-                            jobsVH.tvSalaryRange.visibility = View.GONE
-                            jobsVH.tvSalaryRangeData.visibility = View.GONE
-                            jobsVH.tvOtherBenifits.visibility = View.GONE
-                            jobsVH.tvOtherBenifitsData.visibility = View.GONE
-                            jobsVH.tvSalaryAndCompensation.visibility = View.GONE
-
-
-                        } else {
-
-                            if (salaryData.isBlank()) {
+                            if (salaryData.isBlank() && otherBenifitsData.isBlank()) {
 
                                 jobsVH.tvSalaryRange.visibility = View.GONE
                                 jobsVH.tvSalaryRangeData.visibility = View.GONE
-
-                            } else {
-
-                                jobsVH.tvSalaryRange.visibility = View.VISIBLE
-                                jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
-                                jobsVH.tvSalaryRangeData.text = salaryData
-                            }
-
-                            if (otherBenifitsData.isBlank()) {
-
                                 jobsVH.tvOtherBenifits.visibility = View.GONE
                                 jobsVH.tvOtherBenifitsData.visibility = View.GONE
+                                jobsVH.tvSalaryAndCompensation.visibility = View.GONE
+
 
                             } else {
 
-                                jobsVH.tvOtherBenifitsData.text = otherBenifitsData
-                                jobsVH.tvOtherBenifits.visibility = View.VISIBLE
-                                jobsVH.tvOtherBenifitsData.visibility = View.VISIBLE
+                                if (salaryData.isBlank()) {
+
+                                    jobsVH.tvSalaryRange.visibility = View.GONE
+                                    jobsVH.tvSalaryRangeData.visibility = View.GONE
+
+                                } else {
+
+                                    jobsVH.tvSalaryRange.visibility = View.VISIBLE
+                                    jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
+                                    jobsVH.tvSalaryRangeData.text = salaryData
+                                }
+
+                                if (otherBenifitsData.isBlank()) {
+
+                                    jobsVH.tvOtherBenifits.visibility = View.GONE
+                                    jobsVH.tvOtherBenifitsData.visibility = View.GONE
+
+                                } else {
+
+                                    jobsVH.tvOtherBenifitsData.text = otherBenifitsData
+                                    jobsVH.tvOtherBenifits.visibility = View.VISIBLE
+                                    jobsVH.tvOtherBenifitsData.visibility = View.VISIBLE
+
+                                }
 
                             }
 
-                        }
+                            if (readApplyData.isBlank()) {
 
+                                jobsVH.tvReadBefApply.visibility = View.GONE
+                                jobsVH.tvReadBefApplyData.visibility = View.GONE
 
-                        // Salary Compensation Checking End
+                            } else {
 
-                        //read&apply checking start
-                        if (readApplyData.isBlank()) {
+                                jobsVH.tvReadBefApplyData.text = Html.fromHtml(readApplyData)
+                                jobsVH.tvReadBefApply.visibility = View.VISIBLE
+                                jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
 
-                            jobsVH.tvReadBefApply.visibility = View.GONE
-                            jobsVH.tvReadBefApplyData.visibility = View.GONE
+                            }
+
+                            if (companyLogoUrl.isBlank()) {
+                                jobsVH.companyLogo.visibility = View.GONE
+                            } else {
+                                jobsVH.companyLogo.visibility = View.VISIBLE
+                                Picasso.get().load(companyLogoUrl).into(jobsVH.companyLogo)
+                            }
+
+                            jobsVH.tvJobSource.text = jobSourceData
+                            jobsVH.tvCompanyAddress.text = companyAddress
+                            jobsVH.tvCompanyName.text = companyName
+                            jobsVH.viewAllJobsTV.text = "View all jobs of this Company ($companyOtherJobs)"
+
 
                         } else {
 
-                            jobsVH.tvReadBefApplyData.text = Html.fromHtml(readApplyData)
-                            jobsVH.tvReadBefApply.visibility = View.VISIBLE
-                            jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
+                            jobsVH.tvJobSource.text = jobSourceData
+                            jobsVH.tvCompanyAddress.text = companyAddress
+                            jobsVH.tvCompanyName.text = companyName
+                            jobsVH.viewAllJobsTV.text = "View all jobs of this Company ($companyOtherJobs)"
+
+                            jobsVH.govtJobsIMGV.loadImageFromUrl(jobDetailResponseAll.jObIMage)
+                            jobsVH.govtJobsIMGV.setOnClickListener {
+                                context.openUrlInBrowser(jobDetailResponseAll.jObIMage)
+                            }
+                            jobsVH.horizontalView.hide()
+                            jobsVH.horizontalViewTwo.hide()
+                            jobsVH.horizontalView.hide()
+                            jobsVH.govtJobsIMGV.show()
+                            jobsVH.jobInfo.hide()
+                            jobsVH.appliedBadge.hide()
+                            jobsVH.keyPonits.hide()
+                            jobsVH.tvKeyPoints.hide()
+                            jobsVH.tvJobContext.hide()
+                            jobsVH.tvJobContextValue.hide()
+                            jobsVH.tvJobResponsibility.hide()
+                            jobsVH.tvJobResponsibilityValue.hide()
+                            jobsVH.tvJobNature.hide()
+                            jobsVH.tvJobNatureValue.hide()
+                            jobsVH.tvRequirementsHead.hide()
+                            jobsVH.tvJobReqValue.hide()
+                            jobsVH.tvJobReq.hide()
+                            jobsVH.tvEducationalRequirments.hide()
+                            jobsVH.tvEducationalRequirmentsValue.hide()
+                            jobsVH.tvExperienceReq.hide()
+                            jobsVH.tvExperienceReqValue.hide()
+                            jobsVH.tvEducationalRequirmentsValue.hide()
+                            jobsVH.tvSalaryAndCompensation.hide()
+                            jobsVH.tvSalary.hide()
+                            jobsVH.tvSalaryRange.hide()
+                            jobsVH.tvSalaryRangeData.hide()
+                            jobsVH.tvOtherBenifits.hide()
+                            jobsVH.tvOtherBenifitsData.hide()
+                            jobsVH.tvReadBefApply.hide()
+                            jobsVH.tvReadBefApplyData.hide()
 
                         }
-
-
-                        //companyLogo checking start
-
-                        if (companyLogoUrl.isBlank()) {
-
-                            jobsVH.companyLogo.visibility = View.GONE
-
-
-                        } else {
-                            jobsVH.companyLogo.visibility = View.VISIBLE
-                            Picasso.get().load(companyLogoUrl).into(jobsVH.companyLogo)
-
-                        }
-
-                        jobsVH.tvJobSource.text = jobSourceData
-                        jobsVH.tvCompanyAddress.text = companyAddress
-                        jobsVH.tvCompanyName.text = companyName
-                        jobsVH.viewAllJobsTV.text = "View all jobs of this Company ($companyOtherJobs)"
-
 
                     }
-
                 })
-
-
             }
 
             LOADING -> {
 
-                /*   Log.d("Check", " LOADING " + LOADING)*/
                 val loadingVH = holder as LoadingVH
 
                 if (retryPageLoad) {
@@ -470,11 +466,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                 }
             }
-
-
         }
-
-
     }
 
 
@@ -494,25 +486,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             okButton.isEnabled = text.isNotEmpty()
         }
 
-
         cancelButton.setOnClickListener {
-
             dialog.dismiss()
-
         }
 
         okButton.setOnClickListener {
-
             if (validateFilterName(salaryTIET.getString(), salaryTIL)) {
                 applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
             }
-
         }
-
-
         dialog.show()
-
     }
+
 
 
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
@@ -558,11 +543,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     }
                 }
             }
-
-
         })
-
-
     }
 
     override fun getItemCount(): Int {
@@ -571,48 +552,31 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     override fun getItemViewType(position: Int): Int {
 
-
-        /*   Log.d("Hello","Position: $position")*/
-
         if (showAD && (position % 3 == 0)) {
-            /*   Log.d("Hello","Position: AD= $position")*/
             if (position == jobList!!.size - 1 && isLoadingAdded) {
-
                 return LOADING
-
             } else if (jobList!![position].standout.equals("1")) {
-
                 return BASIC
-
             } else if (jobList!![position].standout.equals("0")) {
-
                 return BASIC
             }
 
         } else {
             if (position == jobList!!.size - 1 && isLoadingAdded) {
-
                 return LOADING
-
             } else if (jobList!![position].standout.equals("1")) {
-
                 return BASIC
-
             } else if (jobList!![position].standout.equals("0")) {
-
                 return BASIC
             }
         }
         return LOADING
-
-
     }
 
 
     fun add(r: JobListModelData) {
         jobList?.add(r)
         notifyItemInserted(jobList!!.size - 1)
-
     }
 
     fun addAll(moveResults: List<JobListModelData>) {
@@ -628,7 +592,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             jobList!!.removeAt(position)
             notifyItemRemoved(position)
         }
-
     }
 
     fun clear() {
@@ -636,13 +599,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         while (itemCount > 0) {
             remove(getItem(0))
         }
-
     }
 
     fun addLoadingFooter() {
         isLoadingAdded = true
         add(JobListModelData())
-
     }
 
     fun removeLoadingFooter() {
@@ -657,10 +618,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
-
-
         }
-
     }
 
     private fun getItem(position: Int): JobListModelData? {
@@ -681,9 +639,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     private class JobsListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
 
+        val horizontalViewTwo: View = viewItem?.findViewById(R.id.horizontalViewTwo) as View
+        val horizontalView: View = viewItem?.findViewById(R.id.horizontalView) as View
+        val horizontalViewfour: View = viewItem?.findViewById(R.id.horizontalViewfour) as View
+
+
+        val jobInfo: TextView = viewItem?.findViewById(R.id.jobInfo) as TextView
+        val govtJobsIMGV: ImageView = viewItem?.findViewById(R.id.govtJobsIMGV) as ImageView
+
+
         val shimmer_view_container: ShimmerFrameLayout = viewItem?.findViewById(R.id.shimmer_view_container) as ShimmerFrameLayout
-
-
+        val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
         val tvPosName: TextView = viewItem?.findViewById(R.id.positionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.companyName) as TextView
         val tvLocation: TextView = viewItem?.findViewById(R.id.locationValue) as TextView
@@ -763,63 +729,65 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     fun shorlistAndUnshortlistJob(position: Int) {
+        if(!bdjobsUserSession.isLoggedIn!!){
+            jobCommunicator?.goToLoginPage()
+        }else {
+            doAsync {
+                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+                uiThread {
+                    if (shortListed) {
+                        ApiServiceMyBdjobs.create().unShortlistJob(
+                                userId = bdjobsUserSession.userId,
+                                decodeId = bdjobsUserSession.decodId,
+                                strJobId = jobList?.get(position)?.jobid!!
+                        ).enqueue(object : Callback<UnshorlistJobModel> {
+                            override fun onFailure(call: Call<UnshorlistJobModel>, t: Throwable) {
+                                error("onFailure", t)
+                            }
 
-        doAsync {
-            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
-            uiThread {
-                if (shortListed) {
-                    ApiServiceMyBdjobs.create().unShortlistJob(
-                            userId = bdjobsUserSession.userId,
-                            decodeId = bdjobsUserSession.decodId,
-                            strJobId = jobList?.get(position)?.jobid!!
-                    ).enqueue(object : Callback<UnshorlistJobModel> {
-                        override fun onFailure(call: Call<UnshorlistJobModel>, t: Throwable) {
-                            error("onFailure", t)
+                            override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
+                                context.toast(response.body()?.message!!)
+                            }
+                        })
+
+                        doAsync {
+                            bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                         }
-
-                        override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
-                            context.toast(response.body()?.message!!)
-                        }
-                    })
-
-                    doAsync {
-                        bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
-                    }
-                    uiThread {
-                        showHideShortListedIcon(position)
-                    }
-
-                } else {
-                    doAsync {
-                        var deadline: Date? = null
-                        try {
-                            deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
-                        } catch (e: Exception) {
-                            logException(e)
-                        }
-                        Log.d("DeadLine", "DeadLine: $deadline")
-                        val shortlistedJob = ShortListedJobs(
-                                jobid = jobList?.get(position)?.jobid!!,
-                                jobtitle = jobList?.get(position)?.jobTitle!!,
-                                companyname = jobList?.get(position)?.companyName!!,
-                                deadline = deadline,
-                                eduRec = jobList?.get(position)?.eduRec!!,
-                                experience = jobList?.get(position)?.experience!!,
-                                standout = jobList?.get(position)?.standout!!,
-                                logo = jobList?.get(position)?.logo!!,
-                                lantype = jobList?.get(position)?.lantype!!
-                        )
-
-                        bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                         uiThread {
                             showHideShortListedIcon(position)
                         }
-                    }
 
+                    } else {
+                        doAsync {
+                            var deadline: Date? = null
+                            try {
+                                deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+                            Log.d("DeadLine", "DeadLine: $deadline")
+                            val shortlistedJob = ShortListedJobs(
+                                    jobid = jobList?.get(position)?.jobid!!,
+                                    jobtitle = jobList?.get(position)?.jobTitle!!,
+                                    companyname = jobList?.get(position)?.companyName!!,
+                                    deadline = deadline,
+                                    eduRec = jobList?.get(position)?.eduRec!!,
+                                    experience = jobList?.get(position)?.experience!!,
+                                    standout = jobList?.get(position)?.standout!!,
+                                    logo = jobList?.get(position)?.logo!!,
+                                    lantype = jobList?.get(position)?.lantype!!
+                            )
+
+                            bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
+                            uiThread {
+                                showHideShortListedIcon(position)
+                            }
+                        }
+
+                    }
                 }
             }
         }
-
     }
 
     fun showHideShortListedIcon(position: Int) {
@@ -835,7 +803,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             }
         }
     }
-
 
 
     private fun callFollowApi(companyid: String, companyname: String) {
@@ -877,7 +844,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 var message = response.body()?.data?.get(0)?.message
                 Log.d("msg", message)
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                if(statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
+                if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
                     doAsync {
                         bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
                     }

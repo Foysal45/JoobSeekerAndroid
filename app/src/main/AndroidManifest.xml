@@ -113,6 +113,9 @@
         <activity
             android:name=".Employers.EmployersBaseActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

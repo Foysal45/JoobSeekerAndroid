@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 609
-        versionName "600.0.4.5"
+        versionCode 610
+        versionName "600.0.4.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -83,6 +83,7 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.droidninja:filepicker:2.0.3'
 
+    implementation 'androidx.browser:browser:1.0.0'
 
 }
 apply plugin: 'com.google.gms.google-services'
