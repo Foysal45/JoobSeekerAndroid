@@ -73,8 +73,8 @@ class AcademicInfoEditFragment : Fragment() {
         etPassignYear.setText(data.yearofPAssing)
         etDuration.setText(data.duration)
         etAchievement.setText(data.acievement)
-        //cbForInstitute.isChecked = data.
-        //cbResHide.isChecked = data.
+        cbResHide.isChecked = data.showMarks.equals("1")
+        cbForInstitute.isChecked = data.instituteType.equals("1")
     }
 
     private fun doWork() {

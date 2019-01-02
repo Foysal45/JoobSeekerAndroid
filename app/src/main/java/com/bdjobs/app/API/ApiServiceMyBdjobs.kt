@@ -65,6 +65,13 @@ interface ApiServiceMyBdjobs {
     ): Call<GetExps>
 
     @FormUrlEncoded
+    @POST("apps_step_03_view_rai.asp")
+    fun getArmyExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetArmyEmpHis>
+
+    @FormUrlEncoded
     @POST("apps_step_02_view_aca.asp")
     fun getAcaInfoList(
             @Field("userId") userId: String?,
@@ -98,6 +105,19 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<GetCarrerInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_update_cai.asp")
+    fun updateCareerData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("objective") objective: String?,
+            @Field("presentSalary") presentSalary: String?,
+            @Field("expSalary") expSalary: String?,
+            @Field("lookingFor") lookingFor: String?,
+            @Field("availableFor") availableFor: String?
+    ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
     @POST("apps_step_03_update_exp.asp")
@@ -135,13 +155,6 @@ interface ApiServiceMyBdjobs {
             @Field("arm_id") arm_id: String?,
             @Field("hId") hId: String?
     ): Call<AddorUpdateModel>
-
-    @FormUrlEncoded
-    @POST("apps_step_03_view_rai.asp")
-    fun getArmyExpsList(
-            @Field("userId") userId: String?,
-            @Field("decodeId") decodeId: String?
-    ): Call<GetArmyEmpHis>
 
     @FormUrlEncoded
     @POST("apps_delete.asp")

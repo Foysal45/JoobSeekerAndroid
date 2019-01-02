@@ -12,7 +12,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/positionTIL"
@@ -28,7 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etInstitute"
+                    android:id="@+id/etCrObj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.objective"
@@ -196,7 +196,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/positionTIL">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPresentSalary"
+                    android:id="@+id/etCrPresentSalary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.present_salary_tk_month"
@@ -218,6 +218,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilPresentSal">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCrExpSalary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.expected_salary_tk_month"
@@ -225,9 +226,24 @@
                     android:maxLength="9"
                     android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_cai_edit"
+        style="@style/FabStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done_black_24dp" />
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:theme="@style/BdjobsLinearProgress"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
