@@ -295,7 +295,6 @@ data class GetContactInfo(
         @field:SerializedName("message")
         val message: String? = null
 )
-
 // Career Info
 data class Ca_DataItem(
 
@@ -330,5 +329,25 @@ data class GetCarrerInfo(
         val common: Any? = null,
 
         @field:SerializedName("message")
+        val message: String? = null
+)
+
+// Training Info
+data class Tr_DataItem(
+        val duration: String? = null,
+        val country: String? = null,
+        val messageType: String? = null,
+        val year: String? = null,
+        val topic: String? = null,
+        val institute: String? = null,
+        val location: String? = null,
+        val title: String? = null,
+        val trId: String? = null
+)
+
+data class GetTrainingInfo(
+        val statuscode: String? = null,
+        val data: List<Tr_DataItem?>? = null,
+        val common: Any? = null,
         val message: String? = null
 )

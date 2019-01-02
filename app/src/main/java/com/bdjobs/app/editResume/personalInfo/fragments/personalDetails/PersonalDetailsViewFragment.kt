@@ -52,7 +52,7 @@ class PersonalDetailsViewFragment : Fragment() {
         nsView.hide()
         shimmerStart()
         populateData()
-        personalInfoCB.setEditButton(true)
+        personalInfoCB.setEditButton(true, "editPersonal")
         personalInfoCB.setTitle(getString(R.string.title_personal))
     }
 

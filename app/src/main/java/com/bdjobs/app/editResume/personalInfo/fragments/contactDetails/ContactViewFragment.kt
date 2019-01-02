@@ -44,7 +44,7 @@ class ContactViewFragment : Fragment() {
     private fun doWork() {
         shimmerStart()
         populateData()
-        contactCB.setEditButton(true)
+        contactCB.setEditButton(true, "editContact")
         contactCB.setTitle(getString(R.string.title_contact))
     }
 

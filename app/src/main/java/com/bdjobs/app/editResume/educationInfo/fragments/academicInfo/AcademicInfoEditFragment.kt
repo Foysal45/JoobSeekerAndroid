@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.educationInfo.fragments
+package com.bdjobs.app.editResume.educationInfo.fragments.academicInfo
 
 
 import android.app.Fragment
@@ -73,12 +73,12 @@ class AcademicInfoEditFragment : Fragment() {
         etPassignYear.setText(data.yearofPAssing)
         etDuration.setText(data.duration)
         etAchievement.setText(data.acievement)
-        //cbForInstitute.isChecked = data.
-        //cbResHide.isChecked = data.
+        cbResHide.isChecked = data.showMarks.equals("1")
+        cbForInstitute.isChecked = data.instituteType.equals("1")
     }
 
     private fun doWork() {
-        eduCB.setTitle("Academic Qualification")
+        eduCB.setTitle(getString(R.string.title_academic))
         fab_aca_edit.setOnClickListener { updateData() }
     }
 

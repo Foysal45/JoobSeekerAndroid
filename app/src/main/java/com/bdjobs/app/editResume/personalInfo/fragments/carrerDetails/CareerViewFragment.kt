@@ -48,8 +48,9 @@ class CareerViewFragment : Fragment() {
         clContent.hide()
         shimmerStart()
         populateData()
-        contactCB.setEditButton(true)
-        contactCB.setTitle(getString(R.string.title_carrer))
+        contactCB.setEditButton(true, "editCareer")
+        contactCB.setDeleteButton(false)
+        contactCB.setTitle(getString(R.string.title_career))
     }
 
     private fun populateData() {
@@ -67,6 +68,8 @@ class CareerViewFragment : Fragment() {
                         shimmerStop()
                         clContent.show()
                         val respo = response.body()
+                        val data = respo?.data?.get(0)!!
+                        contactCB.passCareerData(data)
                         setupView(respo)
                     }
                 } catch (e: Exception) {

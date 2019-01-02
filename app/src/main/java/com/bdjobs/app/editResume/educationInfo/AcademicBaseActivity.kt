@@ -12,24 +12,29 @@ import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
+import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
-import com.bdjobs.app.editResume.educationInfo.fragments.AcademicInfoEditFragment
-import com.bdjobs.app.editResume.educationInfo.fragments.AcademicInfoViewFragment
+import com.bdjobs.app.editResume.educationInfo.fragments.academicInfo.AcademicInfoEditFragment
+import com.bdjobs.app.editResume.educationInfo.fragments.academicInfo.AcademicInfoViewFragment
+import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingEditFragment
+import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
-
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val acaEditFragment = AcademicInfoEditFragment()
     private val acaViewFragment = AcademicInfoViewFragment()
+    private val trainingEditFragment = TrainingEditFragment()
+    private val trainingViewFragment = TrainingViewFragment()
     private lateinit var datait: AcaDataItem
+    private lateinit var dataTr: Tr_DataItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_academic_base)
-        transitFragment(acaViewFragment, R.id.edu_info_container, false)
+        transitFragment(trainingViewFragment, R.id.edu_info_container, false)
     }
 
     override fun setDeleteButton(b: Boolean) {
@@ -53,15 +58,31 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         this.datait = data
     }
 
+    override fun getTrainingData(): Tr_DataItem {
+        return dataTr
+    }
+
+    override fun passTrainingData(data: Tr_DataItem) {
+        this.dataTr = data
+    }
+
     override fun goToEditInfo(check: String) {
         when (check) {
             "add" -> {
                 acaEditFragment.isEdit = false
                 transitFragment(acaEditFragment, R.id.edu_info_container, true)
             }
+            "addTr" -> {
+                acaEditFragment.isEdit = false
+                transitFragment(trainingViewFragment, R.id.edu_info_container, true)
+            }
             "edit" -> {
                 acaEditFragment.isEdit = true
                 transitFragment(acaEditFragment, R.id.edu_info_container, true)
+            }
+            "editTr" -> {
+                acaEditFragment.isEdit = true
+                transitFragment(trainingEditFragment, R.id.edu_info_container, true)
             }
             else -> {
 
