@@ -5,6 +5,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.StatsModelClass
+import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -22,8 +25,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+    override fun getLastStatsData(): List<StatsModelClassData?>? {
+        return lastMonthStats
+    }
+
+    override fun getAllStatsData(): List<StatsModelClassData?>? {
+        return allTimeStats
+    }
 
 
     override fun backButtonClicked() {
@@ -48,7 +62,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private val shortListedJobFragment = ShortListedJobFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
-
+    private var lastMonthStats: List<StatsModelClassData?>? = null
+    private var allTimeStats: List<StatsModelClassData?>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +73,9 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         Crashlytics.setUserIdentifier(session.userId)
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation.selectedItemId = R.id.navigation_home
+
+        getStatsData("0")
+        getStatsData("1")
 
         tetsLog()
     }
@@ -172,5 +190,33 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
     }
 
+
+    private fun getStatsData(activityDate: String) {
+        ApiServiceMyBdjobs.create().mybdjobStats(
+                userId = session.userId,
+                decodeId = session.decodId,
+                isActivityDate = activityDate,
+                trainingId = session.trainingId,
+                isResumeUpdate = session.IsResumeUpdate
+
+        )
+                .enqueue(object : Callback<StatsModelClass> {
+                    override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
+                        toast("${t.message}")
+                    }
+
+                    override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
+
+                        if (activityDate == "0") {
+                            allTimeStats = response.body()?.data
+                        } else if (activityDate == "1") {
+                            lastMonthStats = response.body()?.data
+                        }
+
+                        Log.d("respp", "$allTimeStats /n $lastMonthStats")
+                    }
+
+                })
+    }
 
 }

@@ -172,6 +172,20 @@ interface ApiServiceMyBdjobs {
     ): Call<CookieModel>
 
 
+    @FormUrlEncoded
+    @POST("apps_view_stats.asp")
+    fun mybdjobStats(
+            @Field("userId") userId : String?,
+            @Field("decodeId") decodeId : String?,
+            @Field("isActivityDate") isActivityDate : String?,
+            @Field("trainingId") trainingId : String?,
+            @Field("isResumeUpdate") isResumeUpdate : String?,
+            @Field("packageName") packageName : String? = "",
+            @Field("packageNameVersion") packageNameVersion : String? = ""
+
+    ) : Call<StatsModelClass>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

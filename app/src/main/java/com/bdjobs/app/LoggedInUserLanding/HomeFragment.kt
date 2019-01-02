@@ -10,7 +10,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
+import com.bdjobs.app.API.ModelClasses.StatsModelClass
+import com.bdjobs.app.API.ModelClasses.StatsModelClassCommon
+import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
@@ -30,12 +34,14 @@ import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
 
@@ -52,6 +58,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private lateinit var homeCommunicator: HomeCommunicator
 
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_home_layout, container, false)!!
     }
@@ -66,8 +74,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         emailTV.text = bdjobsUserSession.email
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
-
     }
+
+
 
     private fun onClickListeners() {
         searchIMGV.setOnClickListener {
@@ -349,4 +358,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         return allValues.removeLastComma()
     }
+
+
 }
