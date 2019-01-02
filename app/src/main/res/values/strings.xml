@@ -178,5 +178,6 @@
     <string name="job.part_time">Part Time</string>
     <string name="job.contract">Contract</string>
     <string name="helper.learn_more">Learn More</string>
+    <string name="alert.exam_title">Select Exam/Degree Title</string>
 
 </resources>

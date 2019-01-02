@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -22,6 +23,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun dataStorage(): DataStorage {
+        dataStorage = DataStorage(this@AcademicBaseActivity)
+        return dataStorage
+    }
+
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val acaEditFragment = AcademicInfoEditFragment()
@@ -30,11 +36,12 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private val trainingViewFragment = TrainingViewFragment()
     private lateinit var datait: AcaDataItem
     private lateinit var dataTr: Tr_DataItem
+    private lateinit var dataStorage: DataStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_academic_base)
-        transitFragment(trainingViewFragment, R.id.edu_info_container, false)
+        transitFragment(acaViewFragment, R.id.edu_info_container, false)
     }
 
     override fun setDeleteButton(b: Boolean) {

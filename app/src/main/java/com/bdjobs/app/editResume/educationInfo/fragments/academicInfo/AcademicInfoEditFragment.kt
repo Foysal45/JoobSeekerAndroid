@@ -3,19 +3,19 @@ package com.bdjobs.app.editResume.educationInfo.fragments.academicInfo
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.clear
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.showProgressBar
-import com.bdjobs.app.Utilities.stopProgressBar
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import kotlinx.android.synthetic.main.fragment_academic_info_edit.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +30,9 @@ class AcademicInfoEditFragment : Fragment() {
     private lateinit var session: BdjobsUserSession
     private lateinit var hacaID: String
     private lateinit var hID: String
+    private lateinit var hideRes: String
+    private lateinit var foreignInstitute: String
+    private lateinit var ds: DataStorage
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,11 +45,11 @@ class AcademicInfoEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
+        ds = eduCB.dataStorage()
     }
 
     override fun onResume() {
         super.onResume()
-
         d(isEdit.toString())
         doWork()
         if (isEdit) {
@@ -79,11 +82,57 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun doWork() {
         eduCB.setTitle(getString(R.string.title_academic))
+
+        etLevelEdu.setOnClickListener {
+            val eduLevelList: Array<String> = ds.allEduLevels
+            activity.selector("Select level of education", eduLevelList.toList()) { _, i ->
+                etLevelEdu.setText(eduLevelList[i])
+                levelEduTIL.requestFocus()
+                val eduLevel = ds.getEduIDByEduLevel(eduLevelList[i])
+                etLevelEdu.setText(ds.getEduLevelByID(eduLevel))
+                /*newWorkExperineceID = ",$workExperineceID,"
+                exps += ",$workExperineceID,"*/
+                //addAsString(workExperineceID)
+                Log.d("eduLevel", "eduLevel ${ds.getEduLevelByID(eduLevel)}")
+            }
+        }
+        etExamTitle.setOnClickListener {
+            var queryValue = etLevelEdu.getString()
+            queryValue = queryValue.replace("'", "''")
+            val edulevelID = ds.getEduIDByEduLevel(queryValue)
+            val examList: Array<String> = ds.getEducationDegreesByEduLevelID(edulevelID)
+            activity.selector(getString(R.string.alert_exam_title), examList.toList()) { _, i ->
+                etExamTitle.setText(examList[i])
+                examTitleTIL.requestFocus()
+                Log.d("eduLevel", "eduLevel ${examList[i]}")
+            }
+        }
+        etResults.setOnClickListener {
+            //val examList: Array<String> = ds.getEducationDegreesByEduLevelID(edulevelID)
+            val result: Array<String> = ds.allResults
+            activity.selector(getString(R.string.alert_exam_title), result.toList()) { _, i ->
+                etResults.setText(result[i])
+                tilResults.requestFocus()
+                val examId = ds.getResultIDByResultName(result[i])
+                etResults.setText(ds.getResultNameByResultID(examId))
+                Log.d("eduLevel", "eduLevel ${ds.getResultNameByResultID(examId)}")
+            }
+        }
+        cbResHide.setOnCheckedChangeListener { _, isChecked ->
+            hideRes = if (isChecked) "1" else "0"
+            Log.d("eduLevel", "hide $hideRes")
+        }
+        cbForInstitute.setOnCheckedChangeListener { _, isChecked ->
+            foreignInstitute = if (isChecked) "1" else "0"
+        }
+
         fab_aca_edit.setOnClickListener { updateData() }
     }
 
     private fun updateData() {
-
+        /*val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
+                etLevelEdu.getString(),etExamTitle.getString(),etLevelEdu.getString(),etLevelEdu.getString()
+                )*/
     }
 
     fun dataDelete() {

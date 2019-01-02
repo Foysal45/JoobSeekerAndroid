@@ -141,11 +141,8 @@ class EmpHistoryEditFragment : Fragment() {
 
 
         companyBusinessACTV.setOnClickListener {
-
-
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
-
-            selector("Select your area of company business", organizationList.toList()) { dialogInterface, i ->
+            activity.selector("Select your area of company business", organizationList.toList()) { dialogInterface, i ->
 
                 companyBusinessACTV.setText(organizationList[i])
                 companyBusinessTIL.requestFocus()
@@ -153,35 +150,22 @@ class EmpHistoryEditFragment : Fragment() {
                 companyBusinessID = dataStorage.getOrgIDByOrgName(organizationList[i])
 
                 Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-
-
             }
-
-
         }
-
 
         experiencesMACTV.setOnClickListener {
 
             val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
 
-            selector("Select your area of work experience", workExperineceList.toList()) { dialogInterface, i ->
-
+            activity.selector("Select your area of work experience", workExperineceList.toList()) { dialogInterface, i ->
                 experiencesMACTV.setText(workExperineceList[i])
                 experiencesTIL.requestFocus()
-
                 workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(workExperineceList[i])!!
-
                 /*newWorkExperineceID = ",$workExperineceID,"
                 exps += ",$workExperineceID,"*/
                 addAsString(workExperineceID)
-
                 Log.d("dsgjdhsg", "workExperineceID $newWorkExperineceID")
-
-
             }
-
-
         }
 
 
@@ -203,7 +187,9 @@ class EmpHistoryEditFragment : Fragment() {
                             activity.stopProgressBar(loadingProgressBar)
                             val resp = response.body()
                             activity.toast(resp?.message.toString())
-                            empHisCB.goBack()
+                            if (resp?.statuscode == "4") {
+                                empHisCB.goBack()
+                            }
                         }
                     } catch (e: Exception) {
                         activity.stopProgressBar(loadingProgressBar)
@@ -216,7 +202,7 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun addAsString(expID: String) {
         exps += ",$expID,"
-        addChip(expID)
+        addChip(dataStorage.workDisciplineByWorkDisciplineID(expID)!!)
     }
 
     private fun preloadedData() {

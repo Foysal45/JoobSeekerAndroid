@@ -1,5 +1,6 @@
 package com.bdjobs.app.editResume.callbacks
 
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.editResume.adapters.models.*
 
 interface EmpHisCB {
@@ -15,6 +16,7 @@ interface EmpHisCB {
 
 interface EduInfo {
     fun setTitle(tit: String?)
+    fun dataStorage(): DataStorage
     fun setDeleteButton(b: Boolean)
     fun goToEditInfo(check: String)
     fun passData(data: AcaDataItem)
