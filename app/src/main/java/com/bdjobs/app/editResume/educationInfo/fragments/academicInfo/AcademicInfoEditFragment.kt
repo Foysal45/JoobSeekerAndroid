@@ -70,7 +70,8 @@ class AcademicInfoEditFragment : Fragment() {
         etExamTitle.setText(data.examDegreeTitle)
         etMajor.setText(data.concentrationMajorGroup)
         etInstitute.setText(data.instituteName)
-        etResults.setText(data.result)
+        etResults.setText(ds.getResultNameByResultID(data.resultId!!))
+        setView(data.resultId.toInt())
         etCGPA.setText(data.marks)
         etScale.setText(data.scale)
         etPassignYear.setText(data.yearofPAssing)
@@ -93,7 +94,7 @@ class AcademicInfoEditFragment : Fragment() {
                 /*newWorkExperineceID = ",$workExperineceID,"
                 exps += ",$workExperineceID,"*/
                 //addAsString(workExperineceID)
-                Log.d("eduLevel", "eduLevel ${ds.getEduLevelByID(eduLevel)}")
+                Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
         }
         etExamTitle.setOnClickListener {
@@ -104,18 +105,36 @@ class AcademicInfoEditFragment : Fragment() {
             activity.selector(getString(R.string.alert_exam_title), examList.toList()) { _, i ->
                 etExamTitle.setText(examList[i])
                 examTitleTIL.requestFocus()
-                Log.d("eduLevel", "eduLevel ${examList[i]}")
+                Log.d("eduLevel", "ExamTitle ${examList[i]}")
+                if (examList[i].equals("Other")) {
+
+                    examOtherTIL.show()
+                    /* bcEduDegreeOtherTIET.visibility = View.VISIBLE*/
+                } else {
+
+                    examOtherTIL.hide()
+
+                }
+
+
             }
         }
         etResults.setOnClickListener {
             //val examList: Array<String> = ds.getEducationDegreesByEduLevelID(edulevelID)
             val result: Array<String> = ds.allResults
-            activity.selector(getString(R.string.alert_exam_title), result.toList()) { _, i ->
+            activity.selector(getString(R.string.alert_exam_result), result.toList()) { _, i ->
                 etResults.setText(result[i])
                 tilResults.requestFocus()
                 val examId = ds.getResultIDByResultName(result[i])
+
+                setView(examId.toInt())
+
+                Log.d("eduLevel", "examId $examId")
+
                 etResults.setText(ds.getResultNameByResultID(examId))
                 Log.d("eduLevel", "eduLevel ${ds.getResultNameByResultID(examId)}")
+
+
             }
         }
         cbResHide.setOnCheckedChangeListener { _, isChecked ->
@@ -172,5 +191,41 @@ class AcademicInfoEditFragment : Fragment() {
         etPassignYear.clear()
         etDuration.clear()
         etAchievement.clear()
+    }
+
+
+    private fun setView(passvalue: Int) {
+        val value = if (passvalue == 13 || passvalue == 14 || passvalue == 15)
+            100
+        else passvalue
+
+        when (value) {
+            100 -> {
+                llResultFields.show()
+                gradeLayout.hide()
+                marksLayout.show()
+                cbResHide.show()
+            }
+
+            11 -> {
+                llResultFields.show()
+                gradeLayout.show()
+                marksLayout.hide()
+                cbResHide.show()
+
+            }
+            0 -> {
+                cbResHide.isChecked = true
+                llResultFields.hide()
+            }
+            else -> {
+                llResultFields.hide()
+                cbResHide.hide()
+
+            }
+
+        }
+
+
     }
 }

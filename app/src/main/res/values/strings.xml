@@ -34,6 +34,7 @@
     <string name="hint.level_of_education">Level of Education *</string>
     <string name="message.checkbox.degreeShow">Show this degree in summary view at employers end</string>
     <string name="hint.exam_degree_title">Exam / Degree Title *</string>
+    <string name="hint.Other_exam_degree_title">Other</string>
     <string name="hint.concentration_major_group">Concentration / Major / Group *</string>
     <string name="hint.institute_name">Institute Name *</string>
     <string name="hint.institute_name_tr">Institute *</string>
@@ -179,6 +180,7 @@
     <string name="job.contract">Contract</string>
     <string name="helper.learn_more">Learn More</string>
     <string name="alert.exam_title">Select Exam/Degree Title</string>
+    <string name="alert.exam_result">Select Your Result Title</string>
     <string name="insideBangladesh">Inside Bangladesh</string>
     <string name="outSideBangladesh">Outside Bangladesh</string>
     <string name="hint.contactDistrict">District</string>
