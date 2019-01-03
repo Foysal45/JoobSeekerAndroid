@@ -185,6 +185,16 @@ interface ApiServiceMyBdjobs {
 
     ) : Call<StatsModelClass>
 
+    @FormUrlEncoded
+    @POST("apps_apply_position.asp")
+    fun getAppliedJobs(
+            @Field("userId") userId : String?,
+            @Field("decodeId") decodeId : String?,
+            @Field("isActivityDate") isActivityDate : String?,
+            @Field("pageNumber") pageNumber : String?,
+            @Field("itemsPerPage") itemsPerPage : String? = ""
+    ) : Call<AppliedJobsModel>
+
 
     companion object Factory {
 

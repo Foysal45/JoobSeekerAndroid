@@ -12,5 +12,6 @@ interface HomeCommunicator {
     fun backButtonClicked()
     fun getLastStatsData() : List<StatsModelClassData?>?
     fun getAllStatsData() : List<StatsModelClassData?>?
+    fun goToAppliedJobs()
 
 }

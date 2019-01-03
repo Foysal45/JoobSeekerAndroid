@@ -31,6 +31,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+    private val appliedJobsFragment = AppliedJobsFragment()
+
+    override fun goToAppliedJobs() {
+        transitFragment(appliedJobsFragment, R.id.landingPageFragmentHolderFL, false)
+    }
+
     override fun getLastStatsData(): List<StatsModelClassData?>? {
         return lastMonthStats
     }
