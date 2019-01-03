@@ -179,6 +179,18 @@
     <string name="job.contract">Contract</string>
     <string name="helper.learn_more">Learn More</string>
     <string name="alert.exam_title">Select Exam/Degree Title</string>
+    <string name="insideBangladesh">Inside Bangladesh</string>
+    <string name="outSideBangladesh">Outside Bangladesh</string>
+    <string name="hint.contactDistrict">District</string>
+    <string name="hint.contactThana">Thana</string>
+    <string name="hint.contactPost">P.O</string>
+    <string name="hint.contactAddress">House No/ Road / Village</string>
+    <string name="hint.contactMobileNumber">Mobile No</string>
+    <string name="hint.addMobileNumber">ADD MOBILE NO</string>
+    <string name="hint.contactEmailadress">Email Address</string>
+    <string name="hint.contactEmailButton">ADD EMAIL</string>
+    <string name="hint.addressCheckbox">Same as Present Address</string>
+
 
     <string name="bangladesh_technical_education_board">Bangladesh Technical Education Board</string>
     <string name="currently_offering_jobs">Currently offering jobs</string>
