@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editResume.personalInfo.fragments.contactDetails.ContactEditFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/hint.presentAddress"
+                android:textColor="#2F64A3"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.04"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/insideBangladeshChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="156dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/insideBangladesh"
+                android:textColor="@drawable/bg_chip_text_state_list"
+                app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                app:chipCornerRadius="8dp"
+                app:chipStrokeColor="#D9D9D9"
+                app:chipStrokeWidth="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="156dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/outSideBangladesh"
+                android:textColor="@drawable/bg_chip_text_state_list"
+                app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                app:chipCornerRadius="8dp"
+                app:chipStrokeColor="#D9D9D9"
+                app:chipStrokeWidth="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/insideBangladeshChip"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactDistrictTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/insideBangladeshChip">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactDistrictTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactDistrict"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <LinearLayout
+                android:id="@+id/constraintLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintTop_toBottomOf="@+id/contactDistrictTIL">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/contactPostOfficeTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contactPostOfficeTIET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint.contactThana"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        android:textColor="#212121" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/contactThanaTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contactThanaTIET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint.contactPost"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        android:textColor="#212121" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/contactAddressTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactAddressTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactAddress"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/hint.permanentAddress"
+                android:textColor="#2F64A3"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactAddressTIL" />
+
+            <CheckBox
+                android:id="@+id/addressCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/hint.addressCheckbox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactCountryTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addressCheckbox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactCountryTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactMobileNumber"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactParmanentAddressTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactCountryTIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactParmanentAddressTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactAddress"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactMobileNumberTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactParmanentAddressTIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactMobileNumberTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactMobileNumber"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/contactAddMobileButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="start"
+                android:paddingStart="15dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="12dp"
+                android:text="@string/hint.addMobileNumber"
+                android:textAllCaps="false"
+                android:textColor="#13A10E"
+                android:textSize="16sp"
+                app:backgroundTint="#00ffffff"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_add_circle_outline_black_24dp"
+                app:iconTint="#13A10E"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactMobileNumberTIL"
+                app:rippleColor="#ffffff"
+                app:strokeColor="#DBDBDB"
+                app:strokeWidth="0dp" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactEmailAddressTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactAddMobileButton">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactEmailAddressTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactEmailadress"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/contactAddEmailButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="start"
+                android:paddingStart="15dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="12dp"
+                android:text="@string/hint.addMobileNumber"
+                android:textAllCaps="false"
+                android:textColor="#13A10E"
+                android:textSize="16sp"
+                app:backgroundTint="#00ffffff"
+                app:icon="@drawable/ic_add_circle_outline_black_24dp"
+                app:iconTint="#13A10E"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactEmailAddressTIL"
+                app:rippleColor="#ffffff"
+                app:strokeColor="#DBDBDB"
+                app:strokeWidth="0dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
