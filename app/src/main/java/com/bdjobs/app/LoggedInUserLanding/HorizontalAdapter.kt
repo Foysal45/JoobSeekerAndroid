@@ -44,6 +44,11 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
             add(result)
         }
     }
+
+    fun removeAll() {
+        moreItems?.clear()
+        notifyDataSetChanged()
+    }
 }
 class HorizontalViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
