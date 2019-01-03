@@ -2,6 +2,7 @@ package com.bdjobs.app.Utilities
 
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Fragment
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
@@ -15,6 +16,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -29,6 +31,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
@@ -75,6 +78,10 @@ fun Date.toSimpleTimeString(): String {
     return format.format(this)
 }
 
+fun View.closeKeyboard(activity: Context) {
+    val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    imm!!.hideSoftInputFromWindow(this.windowToken, 0)
+}
 
 fun Activity.getFCMtoken() {
     FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
@@ -98,6 +105,15 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
             })
 }
 
+fun pickDate(c: Context, now: Calendar, listener: DatePickerDialog.OnDateSetListener) {
+    val dpd = DatePickerDialog(c,
+            listener,
+            // set DatePickerDialog to point to today's date when it loads up
+            now.get(Calendar.YEAR),
+            now.get(Calendar.MONTH),
+            now.get(Calendar.DAY_OF_MONTH))
+    dpd.show()
+}
 
 fun Any.simpleClassName(fragment: Fragment): String {
     return fragment::class.java.simpleName
@@ -241,6 +257,10 @@ fun View.hide() {
     visibility = View.GONE
 }
 
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
 fun View.makeClickable() {
     isClickable = true
 }
@@ -251,7 +271,11 @@ fun View.makeUnClickable() {
 
 fun Any.debug(message: String) {
     Log.d(this::class.java.simpleName, message)
-    Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message);
+    Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message)
+}
+
+fun Any.d(message: String) {
+    Log.d("+++" + this::class.java.simpleName, message)
 }
 
 fun Any.debug(message: String, tr: Throwable) {
@@ -261,7 +285,7 @@ fun Any.debug(message: String, tr: Throwable) {
 
 fun Any.error(message: String) {
     Log.e(this::class.java.simpleName, message)
-    Crashlytics.log(Log.ERROR, this::class.java.simpleName, message);
+    Crashlytics.log(Log.ERROR, this::class.java.simpleName, message)
 }
 
 fun Any.error(message: String, tr: Throwable) {
@@ -280,6 +304,9 @@ fun Any.verbose(message: String) {
     Log.v(this::class.java.simpleName, message)
 }
 
+fun TextInputEditText.clear() {
+    this.setText("")
+}
 
 fun Any.verbose(message: String, tr: Throwable) {
     Log.v(this::class.java.simpleName, message, tr)
