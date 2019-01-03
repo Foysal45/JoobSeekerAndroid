@@ -223,7 +223,7 @@
                     android:id="@+id/contactCountryTIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.contactMobileNumber"
+                    android:hint="@string/hint.country"
                     android:inputType="number"
                     android:maxLength="9"
                     android:textColor="#212121" />
@@ -252,7 +252,6 @@
                     android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contactMobileNumberTIL"
                 style="@style/EHTextInputLayout"
@@ -275,6 +274,51 @@
                     android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactMobileNumber1TIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactMobileNumberTIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactMobileNumber1TIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactMobileNumber"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contactMobileNumber2TIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contactMobileNumber1TIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactMobileNumber2TIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.contactMobileNumber"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textColor="#212121" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/contactAddMobileButton"
@@ -300,7 +344,7 @@
                 app:iconTint="#13A10E"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contactMobileNumberTIL"
+                app:layout_constraintTop_toBottomOf="@+id/contactMobileNumber2TIL"
                 app:rippleColor="#ffffff"
                 app:strokeColor="#DBDBDB"
                 app:strokeWidth="0dp" />

@@ -9,6 +9,7 @@ import android.provider.Settings
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
@@ -16,6 +17,7 @@ import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
+import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
@@ -29,6 +31,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val careerViewFragment = CareerViewFragment()
     private val careerEditFragment = CareerEditFragment()
     private val contactViewFragment = ContactViewFragment()
+    private val contactEditFragment = ContactEditFragment()
     private lateinit var dataCa: Ca_DataItem
     private lateinit var dataCon: C_DataItem
     private lateinit var dataPer: P_DataItem
@@ -39,7 +42,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_info)
-        transitFragment(personalViewFragment, R.id.personalinfo_container, false)
+        transitFragment(contactViewFragment, R.id.personalinfo_container, false)
     }
 
     override fun getPersonalData(): P_DataItem {
@@ -73,16 +76,12 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
             iv_edit_data.setOnClickListener {
                 goToEditInfo(type)
             }
-        } else {
-            iv_edit_data.setImageDrawable(null)
         }
     }
 
     override fun setDeleteButton(b: Boolean) {
         if (b) {
             iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
-        } else {
-            iv_edit_data.setImageDrawable(null)
         }
     }
 
@@ -93,14 +92,17 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
 
             }
             "editPersonal" -> {
+                iv_edit_data.hide()
                 transitFragment(personalEditFragment, R.id.personalinfo_container, true)
             }
             "editCareer" -> {
+                iv_edit_data.hide()
                 transitFragment(careerEditFragment, R.id.personalinfo_container, true)
             }
             "editContact" -> {
                 //contact edit fragment
-                transitFragment(careerEditFragment, R.id.personalinfo_container, true)
+                iv_edit_data.hide()
+                transitFragment(contactEditFragment, R.id.personalinfo_container, true)
             }
             else -> {
             }

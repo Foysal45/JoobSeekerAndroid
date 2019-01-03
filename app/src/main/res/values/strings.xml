@@ -206,4 +206,5 @@
     <string name="marital.unmarried">Unmarried</string>
     <string name="marital.single">Single</string>
     <string name="hint.bangladeshi">I am Bangladeshi</string>
+    <string name="hint.addEmailaddress">ADD EMAIL</string>
 </resources>

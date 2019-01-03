@@ -66,8 +66,6 @@ class PersonalDetailsEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         personalInfo.setTitle(getString(R.string.title_personal))
-        personalInfo.setDeleteButton(false)
-        personalInfo.setEditButton(false, "editPersonal")
         doWork()
     }
 
@@ -79,6 +77,7 @@ class PersonalDetailsEditFragment : Fragment() {
                 nidTIL.hide()
                 nationalityTIL.show()
             } else {
+                nationality = "Bangladeshi"
                 etPerNationality.setText(nationality)
                 nidTIL.show()
                 nationalityTIL.hide()
