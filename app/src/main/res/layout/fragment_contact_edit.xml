@@ -19,9 +19,9 @@
 
             <TextView
                 android:id="@+id/textView35"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/hint.presentAddress"
@@ -33,42 +33,52 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/insideBangladeshChip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="156dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="24dp"
+            <LinearLayout
+                android:id="@+id/chipLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:text="@string/insideBangladesh"
-                android:textColor="@drawable/bg_chip_text_state_list"
-                app:chipBackgroundColor="@drawable/bg_chip_state_list"
-                app:chipCornerRadius="8dp"
-                app:chipStrokeColor="#D9D9D9"
-                app:chipStrokeWidth="1dp"
+                android:weightSum="2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+                app:layout_constraintTop_toBottomOf="@+id/textView35">
 
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="156dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:text="@string/outSideBangladesh"
-                android:textColor="@drawable/bg_chip_text_state_list"
-                app:chipBackgroundColor="@drawable/bg_chip_state_list"
-                app:chipCornerRadius="8dp"
-                app:chipStrokeColor="#D9D9D9"
-                app:chipStrokeWidth="1dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/insideBangladeshChip"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/insideBangladeshChip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_weight="1"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/insideBangladesh"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    app:chipCornerRadius="8dp"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_weight="1"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/outSideBangladesh"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    app:chipCornerRadius="8dp"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/insideBangladeshChip"
+                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+            </LinearLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +91,7 @@
                 android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/insideBangladeshChip">
+                app:layout_constraintTop_toBottomOf="@+id/chipLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contactDistrictTIET"

@@ -116,6 +116,11 @@
         <activity
             android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".editResume.EditResLandingActivity" />
+        <activity android:name=".editResume.employmentHistory.EmploymentHistoryActivity" />
+        <activity android:name=".editResume.personalInfo.PersonalInfoActivity" />
+        <activity android:name=".editResume.otherInfo.OtherInfoActivity" />
+        <activity android:name=".editResume.educationInfo.AcademicBaseActivity" />
     </application>
 
 </manifest>
