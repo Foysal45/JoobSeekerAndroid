@@ -71,6 +71,7 @@ class PersonalDetailsViewFragment : Fragment() {
                         shimmerStop()
                         nsView.show()
                         val respo = response.body()
+                        personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo)
                     }
                 } catch (e: Exception) {

@@ -112,7 +112,7 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        empHisCB.setTitle("Employment History")
+        empHisCB.setTitle(getString(R.string.title_emp_history))
         estartDateET?.setOnClickListener {
             pickDate(activity, now, startDateSetListener)
         }
@@ -142,7 +142,7 @@ class EmpHistoryEditFragment : Fragment() {
 
         companyBusinessACTV.setOnClickListener {
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
-            activity.selector("Select your area of company business", organizationList.toList()) { dialogInterface, i ->
+            activity.selector("Select your area of company business", organizationList.toList()) { _, i ->
 
                 companyBusinessACTV.setText(organizationList[i])
                 companyBusinessTIL.requestFocus()
@@ -218,9 +218,6 @@ class EmpHistoryEditFragment : Fragment() {
         responsibilitiesET.setText(data.responsibility)
         estartDateET.setText(data.from)
 
-        Log.d("dsgjdhsg", " area of Experience ${data.areaofExperience}} ")
-        Log.d("dsgjdhsg", " area of Experience ${data.areaofExperience}")
-
         experiencesMACTV.setText(data.areaofExperience)
         if (data.to != "Continuing") {
             et_end_date.setText(data.to)
@@ -276,8 +273,4 @@ class EmpHistoryEditFragment : Fragment() {
         cb_present.isChecked = false
         experiencesMACTV.clear()
     }
-
-
-
-
 }

@@ -16,7 +16,6 @@ import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
-import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
@@ -30,17 +29,17 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val careerViewFragment = CareerViewFragment()
     private val careerEditFragment = CareerEditFragment()
     private val contactViewFragment = ContactViewFragment()
-    private val contactEditFragment = ContactEditFragment()
     private lateinit var dataCa: Ca_DataItem
     private lateinit var dataCon: C_DataItem
     private lateinit var dataPer: P_DataItem
+
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_info)
-        transitFragment(contactViewFragment, R.id.personalinfo_container, false)
+        transitFragment(personalViewFragment, R.id.personalinfo_container, false)
     }
 
     override fun getPersonalData(): P_DataItem {
@@ -75,7 +74,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
                 goToEditInfo(type)
             }
         } else {
-            //iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
+            iv_edit_data.setImageDrawable(null)
         }
     }
 
@@ -83,7 +82,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         if (b) {
             iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
         } else {
-            //iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
+            iv_edit_data.setImageDrawable(null)
         }
     }
 
@@ -101,7 +100,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
             }
             "editContact" -> {
                 //contact edit fragment
-                transitFragment(contactEditFragment, R.id.personalinfo_container, true)
+                transitFragment(careerEditFragment, R.id.personalinfo_container, true)
             }
             else -> {
             }

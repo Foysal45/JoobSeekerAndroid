@@ -120,6 +120,24 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_01_update_per.asp")
+    fun updatePersonalData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("firstName") firstName: String?,
+            @Field("lastName") lastName: String?,
+            @Field("father") father: String?,
+            @Field("mother") mother: String?,
+            @Field("birthday") birthday: String?,
+            @Field("nationality") nationality: String?,
+            @Field("marital") marital: String?,
+            @Field("gender") gender: String?,
+            @Field("nationalId") nationalId: String?,
+            @Field("Religion") Religion: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
     @POST("apps_step_02_update_aca.asp")
     fun updateAcademicData(
             @Field("userId") userId: String?,

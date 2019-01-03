@@ -198,4 +198,12 @@
     <string name="unfollow">Unfollow</string>
     <string name="followed_employers">Followed Employers</string>
     <string name="error_msg_unknown">An unexpected error occurred</string>
+    <string name="title_emp_history">Employment History</string>
+    <string name="gen.male">Male</string>
+    <string name="gen.female">Female</string>
+    <string name="gen.others">Others</string>
+    <string name="marital.married">Married</string>
+    <string name="marital.unmarried">Unmarried</string>
+    <string name="marital.single">Single</string>
+    <string name="hint.bangladeshi">I am Bangladeshi</string>
 </resources>
