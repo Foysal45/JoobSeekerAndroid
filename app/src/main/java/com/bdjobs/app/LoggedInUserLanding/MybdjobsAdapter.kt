@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.R
@@ -37,8 +38,10 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
         holder.itemValue.text = mybdjobsItems!![position].itemID
         holder.backgroundRRL.setBackgroundResource(mybdjobsItems!![position].backgroundID)
         holder.item_icon.setBackgroundResource(mybdjobsItems!![position].resourceID)
+        //holder.itemName[position]
         holder.item_Card.setOnClickListener {
             communicator.goToAppliedJobs()
+
         }
 
 

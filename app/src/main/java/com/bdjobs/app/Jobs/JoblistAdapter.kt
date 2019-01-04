@@ -544,7 +544,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearNewJob) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameNewJob) as TextView
         /*  val constraintLayout : ConstraintLayout = itemView.findViewById(R.id.constraintLayoutStandOut) as ConstraintLayout*/
-        val shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        val shortListIconIV: ImageView = viewItem?.findViewById(R.id.employerView_icon) as ImageView
 
 
     }
@@ -567,10 +567,10 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
         val tvPosName: TextView = viewItem?.findViewById(R.id.textViewPositionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.textViewCompanyName) as TextView
-        val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDate) as TextView
-        val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYear) as TextView
-        val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationName) as TextView
-        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        val tvDeadline: TextView = viewItem?.findViewById(R.id.appliedon_tv) as TextView
+        val tvExperience: TextView = viewItem?.findViewById(R.id.exSalary_tv) as TextView
+        val tvEducation: TextView = viewItem?.findViewById(R.id.deadline_tv) as TextView
+        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.employerView_icon) as ImageView
         var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
     }
 
@@ -582,7 +582,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearStandOut) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameStandOut) as TextView
         val logoImageView: ImageView = viewItem?.findViewById(R.id.imageViewCompanyLogoStandOut) as ImageView
-        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.employerView_icon) as ImageView
         var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
 
     }

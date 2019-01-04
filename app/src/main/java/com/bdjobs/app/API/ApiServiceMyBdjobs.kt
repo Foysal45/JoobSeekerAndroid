@@ -192,7 +192,7 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId : String?,
             @Field("isActivityDate") isActivityDate : String?,
             @Field("pageNumber") pageNumber : String?,
-            @Field("itemsPerPage") itemsPerPage : String? = ""
+            @Field("itemsPerPage") itemsPerPage : String?
     ) : Call<AppliedJobsModel>
 
 

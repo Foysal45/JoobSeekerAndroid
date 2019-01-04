@@ -140,6 +140,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
 
             R.id.navigation_more -> {
+              //  transitFragment(appliedJobsFragment, R.id.landingPageFragmentHolderFL)
                 transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
                 return@OnNavigationItemSelectedListener true
             }
