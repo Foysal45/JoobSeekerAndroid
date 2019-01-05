@@ -12,6 +12,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import kotlinx.android.synthetic.main.fragment_academic_info_edit.*
@@ -28,11 +29,12 @@ class AcademicInfoEditFragment : Fragment() {
     private lateinit var v: View
     private lateinit var eduCB: EduInfo
     private lateinit var session: BdjobsUserSession
-    private lateinit var hacaID: String
+    private var hacaID: String = ""
     private lateinit var hID: String
-    private lateinit var hideRes: String
-    private lateinit var foreignInstitute: String
+    private var hideRes: String = "0"
+    private var foreignInstitute: String = "0"
     private lateinit var ds: DataStorage
+    private lateinit var data: AcaDataItem
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -46,6 +48,7 @@ class AcademicInfoEditFragment : Fragment() {
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
         ds = eduCB.dataStorage()
+        debug("checkbox" + cbResHide.isChecked.toString())
     }
 
     override fun onResume() {
@@ -64,14 +67,15 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun preloadedData() {
-        val data = eduCB.getData()
+        data = eduCB.getData()
+        val resID = data.resultId!!
         hacaID = data.acId.toString()
         etLevelEdu.setText(data.levelofEducation)
         etExamTitle.setText(data.examDegreeTitle)
         etMajor.setText(data.concentrationMajorGroup)
         etInstitute.setText(data.instituteName)
-        etResults.setText(ds.getResultNameByResultID(data.resultId!!))
-        setView(data.resultId.toInt())
+        etResults.setText(ds.getResultNameByResultID(resID))
+        setView(resID.toInt())
         etCGPA.setText(data.marks)
         etScale.setText(data.scale)
         etPassignYear.setText(data.yearofPAssing)
@@ -149,9 +153,36 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        /*val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
-                etLevelEdu.getString(),etExamTitle.getString(),etLevelEdu.getString(),etLevelEdu.getString()
-                )*/
+        activity.showProgressBar(loadingProgressBar)
+        val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
+                ds.getEduIDByEduLevel(etLevelEdu.getString()), etExamTitle.getString(), etInstitute.getString(),
+                etPassignYear.getString(), etMajor.getString(),
+                hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
+                etScale.getString(), etCGPA.getString(), etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
+
+        call.enqueue(object : Callback<AddorUpdateModel> {
+            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
+                activity.toast(R.string.message_common_error)
+            }
+
+            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                activity.stopProgressBar(loadingProgressBar)
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
+                        val resp = response.body()
+                        activity.toast(resp?.message.toString())
+                        if (resp?.statuscode == "4") {
+                            eduCB.goBack()
+                        }
+                    }
+                } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
+                    e.printStackTrace()
+                }
+            }
+        })
     }
 
     fun dataDelete() {
@@ -191,6 +222,8 @@ class AcademicInfoEditFragment : Fragment() {
         etPassignYear.clear()
         etDuration.clear()
         etAchievement.clear()
+        cbResHide.isChecked = false
+        cbForInstitute.isChecked = false
     }
 
 
@@ -223,9 +256,6 @@ class AcademicInfoEditFragment : Fragment() {
                 cbResHide.hide()
 
             }
-
         }
-
-
     }
 }

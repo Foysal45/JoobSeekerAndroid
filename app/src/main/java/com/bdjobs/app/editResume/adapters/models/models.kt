@@ -3,12 +3,22 @@ package com.bdjobs.app.editResume.adapters.models
 import com.google.gson.annotations.SerializedName
 
 // Employment history
+data class AreaofExperienceItem(
+
+        @field:SerializedName("exps_name")
+        val expsName: String? = null,
+
+        @field:SerializedName("id")
+        val id: String? = null
+)
+
 data class DataItem(
+
         @field:SerializedName("departmant")
         val departmant: String? = null,
 
         @field:SerializedName("areaofExperience")
-        val areaofExperience: String? = null,
+        val areaofExperience: List<AreaofExperienceItem?>? = null,
 
         @field:SerializedName("messageType")
         val messageType: String? = null,
@@ -44,7 +54,7 @@ data class GetExps(
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: ArrayList<DataItem?>? = null,
+        val data: List<DataItem?>? = null,
 
         @field:SerializedName("common")
         val common: Any? = null,

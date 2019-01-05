@@ -9,6 +9,8 @@ interface EmpHisCB {
     fun goToEditInfo(check: String)
     fun passData(data: DataItem)
     fun passArmyData(data: ArmydataItem)
+    fun passAreaOfExpsData(data: AreaofExperienceItem)
+    fun getAreaOfExpsData(): AreaofExperienceItem
     fun getData(): DataItem
     fun getArmyData(): ArmydataItem
     fun goBack()

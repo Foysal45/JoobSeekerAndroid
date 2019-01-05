@@ -36,12 +36,12 @@ class EmpHistoryEditFragment : Fragment() {
     private lateinit var session: BdjobsUserSession
     private var hID: String = ""
     private var hExpID: String? = ""
-    private var areaOfexps: String? = ""
     private var currentlyWorking: String = "OFF"
     private var companyBusinessID = ""
     private var workExperineceID = ""
     private var newWorkExperineceID = ""
     private var exps: String = ""
+    private lateinit var expIDs: MutableList<String>
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -69,9 +69,11 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun addChip(input: String) {
-        val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
-        entry_chip_group.addView(c1)
-        experiencesMACTV?.clearText()
+        if (entry_chip_group.childCount <= 2) {
+            val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
+            entry_chip_group.addView(c1)
+            experiencesMACTV?.clearText()
+        } else activity.toast("Maximum 3 experiences can be added.")
         experiencesMACTV?.closeKeyboard(activity)
     }
 
@@ -84,8 +86,25 @@ class EmpHistoryEditFragment : Fragment() {
         ).toInt()
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = text
-        chip.setOnCloseIconClickListener { entryChipGroup.removeView(chip) }
+        chip.setOnCloseIconClickListener {
+            entryChipGroup.removeView(chip)
+            removeItem(chip.text.toString())
+        }
         return chip
+    }
+
+    private fun removeItem(s: String) {
+        val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
+        //debug("chipsIDs: $id and $s")
+        for (i in 0 until expIDs.size) {
+            if (id == expIDs[i]) {
+                //exps.replace(",$id", "", true)
+                expIDs.remove(id)
+                exps = exps.replace(id, "")
+                break
+            }
+            debug("newChipsIDsss: $expIDs")
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -163,6 +182,8 @@ class EmpHistoryEditFragment : Fragment() {
                 workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(workExperineceList[i])!!
                 /*newWorkExperineceID = ",$workExperineceID,"
                 exps += ",$workExperineceID,"*/
+                addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                expIDs.add(workExperineceID)
                 addAsString(workExperineceID)
                 Log.d("dsgjdhsg", "workExperineceID $newWorkExperineceID")
             }
@@ -170,45 +191,62 @@ class EmpHistoryEditFragment : Fragment() {
 
 
         fab_eh?.setOnClickListener {
-            activity.showProgressBar(loadingProgressBar)
-            val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
-                    companyBusinessID, companyLocationET.getString(), positionET.getString(),
-                    departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
-                    currentlyWorking, exps, hExpID, hID)
-            call.enqueue(object : Callback<AddorUpdateModel> {
-                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                    activity.stopProgressBar(loadingProgressBar)
-                    activity.toast(R.string.message_common_error)
-                }
-
-                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                    try {
-                        if (response.isSuccessful) {
-                            activity.stopProgressBar(loadingProgressBar)
-                            val resp = response.body()
-                            activity.toast(resp?.message.toString())
-                            if (resp?.statuscode == "4") {
-                                empHisCB.goBack()
-                            }
-                        }
-                    } catch (e: Exception) {
-                        activity.stopProgressBar(loadingProgressBar)
-                        e.printStackTrace()
-                    }
-                }
-            })
+            updateData()
         }
     }
 
+    private fun updateData() {
+        activity.showProgressBar(loadingProgressBar)
+        debug("chiIDs: $exps")
+        val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
+                companyBusinessID, companyLocationET.getString(), positionET.getString(),
+                departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
+                currentlyWorking, exps, hExpID, hID)
+        call.enqueue(object : Callback<AddorUpdateModel> {
+            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
+                activity.toast(R.string.message_common_error)
+            }
+
+            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
+                        val resp = response.body()
+                        activity.toast(resp?.message.toString())
+                        if (resp?.statuscode == "4") {
+                            empHisCB.goBack()
+                        }
+                    }
+                } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
+                    e.printStackTrace()
+                }
+            }
+        })
+    }
+
     private fun addAsString(expID: String) {
-        exps += ",$expID,"
-        addChip(dataStorage.workDisciplineByWorkDisciplineID(expID)!!)
+        exps += ",$expID"
+        /*expIDs = exps.split(",") as ArrayList<String>
+        for (i in 0 until expIDs.size) {
+            debug("chipsIDs: ${expIDs[i]}")
+        }*/
+        /*val stringArray = exps.split(",")
+        debug("chipsIDs: $stringArray")*/
     }
 
     private fun preloadedData() {
         val data = empHisCB.getData()
+        val areaOfexps = data.areaofExperience
+        //for ((i, value) in areaOfexps?.withIndex()!!)
+        areaOfexps?.forEach {
+            addChip(it?.expsName!!)
+            addAsString(it.id!!)
+        }
+        expIDs = exps.split(",").toMutableList()
+
         hExpID = data.expId
-        areaOfexps = data.areaofExperience
         companyNameET.setText(data.companyName)
 
         companyBusinessACTV.setText(dataStorage.getOrgNameByID(data.companyBusiness!!))
@@ -218,7 +256,7 @@ class EmpHistoryEditFragment : Fragment() {
         responsibilitiesET.setText(data.responsibility)
         estartDateET.setText(data.from)
 
-        experiencesMACTV.setText(data.areaofExperience)
+        //experiencesMACTV.setText(data.areaofExperience)
         if (data.to != "Continuing") {
             et_end_date.setText(data.to)
         } else {
