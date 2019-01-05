@@ -26,23 +26,40 @@ class MoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initializeViews()
+        clearAddPopulateData()
+        onclick()
+    }
+    private fun onclick() {
+        employerList_MBTN.setOnClickListener {
+            startActivity<EmployersBaseActivity>("from" to "employer")
+        }
+    }
+    private fun clearAddPopulateData() {
+        /*this  function deletes duplicates data lists  */
+        if (horizontaList.isNullOrEmpty()){
+            populateData()
+        }
+        else {
+            horizontalAdapter?.removeAll()
+            horizontaList.clear()
+            populateData()
+        }
+        horizontalAdapter?.addAll(horizontaList)
+    }
+    private fun populateData() {
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
+    }
+    private fun initializeViews(){
         horizontalAdapter = HorizontalAdapter(activity)
-
         horizontal_RV!!.adapter = horizontalAdapter
         horizontal_RV!!.setHasFixedSize(true)
         horizontal_RV?.layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         Log.d("initPag", "called")
         horizontal_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
-        // horizontaList.add(horizontalDataa
-        horizontalAdapter?.addAll(horizontaList)
-
-        employerList_MBTN.setOnClickListener {
-            startActivity<EmployersBaseActivity>("from" to "employer")
-        }
 
     }
 

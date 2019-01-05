@@ -116,6 +116,7 @@
         <activity
             android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".AppliedJobs.AppliedJobsActivity"></activity>
     </application>
 
 </manifest>
