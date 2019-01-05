@@ -249,7 +249,7 @@
                 android:text="Job Information"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/newBackgroundlayout" />
+                app:layout_constraintTop_toBottomOf="@+id/govtJobsIMGV" />
 
             <TextView
                 android:id="@+id/keyPoints"
@@ -760,6 +760,38 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+
+                android:id="@+id/appliedBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:drawableLeft="@drawable/ic_check_circle_black_14dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Applied"
+                android:textColor="#13A10E"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/jobInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/jobInfo"
+                app:layout_constraintTop_toTopOf="@+id/jobInfo" />
+
+            <ImageView
+                android:id="@+id/govtJobsIMGV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newBackgroundlayout"
+                tools:srcCompat="@tools:sample/avatars" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

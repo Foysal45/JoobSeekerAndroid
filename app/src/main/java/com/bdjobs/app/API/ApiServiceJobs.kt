@@ -54,7 +54,7 @@ interface ApiServiceJobs {
             @Query("ln") ln: String,
             @Query("next") next: String,
             @Query("slno") slno: String,
-            @Query("userId") userId: String,
+            @Query("userId") userId: String?,
             @Query("version") version: String
     ): Call<JobDetailJsonModel>
 

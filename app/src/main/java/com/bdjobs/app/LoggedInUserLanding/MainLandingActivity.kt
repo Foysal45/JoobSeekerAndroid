@@ -12,6 +12,7 @@ import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.AppliedJobs.AppliedJobsFragment
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -48,6 +49,11 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
     override fun getAllStatsData(): List<StatsModelClassData?>? {
         return allTimeStats
+    }
+
+
+    override fun goToInterviewInvitation(from:String) {
+        startActivity<InterviewInvitationBaseActivity>("from" to from)
     }
 
 

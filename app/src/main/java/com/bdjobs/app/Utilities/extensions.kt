@@ -20,7 +20,10 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.R
 import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.tasks.OnCompleteListener
@@ -38,6 +41,16 @@ fun Activity.callHelpLine() {
     val intent = Intent(Intent.ACTION_DIAL);
     intent.data = Uri.parse("tel:16479")
     startActivity(intent)
+}
+
+fun Context.openUrlInBrowser(url: String?) {
+    if(url.isNullOrBlank())
+        return
+    val intentBuilder = CustomTabsIntent.Builder()
+    intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    val customTabsIntent = intentBuilder.build()
+    customTabsIntent.launchUrl(this, Uri.parse(url))
 }
 
 

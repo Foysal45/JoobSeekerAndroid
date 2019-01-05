@@ -295,7 +295,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                      }
                  }*/
 
-
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
                 jobsVH.tvDeadline.text = result?.deadline
@@ -303,17 +302,11 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvExperience.text = result?.experience
 
                 jobsVH.itemView.setOnClickListener {
-
                     jobCommunicator?.onItemClicked(position)
                     homeCommunicator?.shortListedClicked(position)
-
-
                 }
-
             }
         }
-
-
     }
 
     private fun shorlistAndUnshortlistJob(position: Int) {
