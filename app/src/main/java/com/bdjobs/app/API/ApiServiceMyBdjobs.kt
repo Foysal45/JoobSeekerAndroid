@@ -193,7 +193,7 @@ interface ApiServiceMyBdjobs {
             @Field("isActivityDate") isActivityDate : String?,
             @Field("pageNumber") pageNumber : String?,
             @Field("itemsPerPage") itemsPerPage : String?
-    ) : Call<AppliedJobsModel>
+    ) : Call<AppliedJobModel>
 
 
     companion object Factory {

@@ -1,4 +1,4 @@
-package com.bdjobs.app.LoggedInUserLanding
+package com.bdjobs.app.AppliedJobs
 
 
 import android.os.Bundle
@@ -11,12 +11,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.AppliedJobsData
-import com.bdjobs.app.API.ModelClasses.AppliedJobsModel
+import com.bdjobs.app.API.ModelClasses.AppliedJobModel
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 
 import com.bdjobs.app.R
-import com.bdjobs.app.R.id.shimmer_view_container_JobList
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -36,6 +35,8 @@ class AppliedJobsFragment : Fragment() {
     private var pgNo: Int = PAGE_START
     private var isLastPages = false
     private var isLoadings = false
+    private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
+    private var time: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,9 @@ class AppliedJobsFragment : Fragment() {
 
     }
 
+
     private fun initializeViews() {
+        time = appliedJobsCommunicator.getTime()
         appliedJobsAdapter = AppliedJobsAdapter(activity)
         appliedJobsRV!!.adapter = appliedJobsAdapter
         appliedJobsRV!!.setHasFixedSize(true)
@@ -67,22 +70,27 @@ class AppliedJobsFragment : Fragment() {
             override fun loadMoreItems() {
                 isLoadings = true
                 pgNo++
-                loadNextPage()
+                loadNextPage(time)
             }
         })
 
-        loadFirstPage()
+        loadFirstPage(time)
 
     }
 
     override fun onResume() {
         super.onResume()
         bdjobsUsersession = BdjobsUserSession(activity)
+        appliedJobsCommunicator = activity as AppliedJobsCommunicator
+        time = appliedJobsCommunicator.getTime()
         initializeViews()
+        backIMV.setOnClickListener {
+            appliedJobsCommunicator.backButtonPressed()
+        }
 
     }
 
-    private fun loadFirstPage() {
+    private fun loadFirstPage(activityDate: String) {
 
         appliedJobsRV.hide()
         favCountTV.hide()
@@ -93,22 +101,21 @@ class AppliedJobsFragment : Fragment() {
         ApiServiceMyBdjobs.create().getAppliedJobs(
                 userId = bdjobsUsersession.userId,
                 decodeId = bdjobsUsersession.decodId,
-                isActivityDate = "0",
+                isActivityDate = activityDate,
                 pageNumber = pgNo.toString(),
-                itemsPerPage = "5"
-        ).enqueue(object : Callback<AppliedJobsModel> {
-            override fun onFailure(call: Call<AppliedJobsModel>, t: Throwable) {
+                itemsPerPage = "20"
+        ).enqueue(object : Callback<AppliedJobModel> {
+            override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
                 toast("${t.message}")
             }
 
-            override fun onResponse(call: Call<AppliedJobsModel>, response: Response<AppliedJobsModel>) {
+            override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
 
                 Log.d("callAppliURl", "url: ${call?.request()} and ")
-             //   TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                TOTAL_PAGES = 5
-                var totalRecords = 10
-                        //response.body()?.common?.totalrecordsfound
+                TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                //   TOTAL_PAGES = 5
+                var totalRecords = response.body()?.common?.totalNumberOfApplication
 
                 Log.d("callAppliURl", response.body()?.data.toString())
 
@@ -116,7 +123,7 @@ class AppliedJobsFragment : Fragment() {
                     appliedJobsRV!!.visibility = View.VISIBLE
                     var value = response.body()?.data
                     appliedJobsAdapter?.removeAll()
-                    appliedJobsAdapter?.addAll(value as List<AppliedJobsData>)
+                    appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
 
                     if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                         Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
@@ -128,7 +135,7 @@ class AppliedJobsFragment : Fragment() {
 
                 }
 
-                val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employers now offering Jobs"
+                val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                 favCountTV.text = Html.fromHtml(styledText)
 
                 appliedJobsRV.show()
@@ -139,29 +146,30 @@ class AppliedJobsFragment : Fragment() {
 
         })
     }
-    private fun loadNextPage() {
+
+    private fun loadNextPage(activityDate: String) {
         ApiServiceMyBdjobs.create().getAppliedJobs(
                 userId = bdjobsUsersession.userId,
                 decodeId = bdjobsUsersession.decodId,
-                isActivityDate = "0",
+                isActivityDate = activityDate,
                 pageNumber = pgNo.toString(),
-                itemsPerPage = "5"
-        ).enqueue(object : Callback<AppliedJobsModel> {
-            override fun onFailure(call: Call<AppliedJobsModel>, t: Throwable) {
+                itemsPerPage = "20"
+        ).enqueue(object : Callback<AppliedJobModel> {
+            override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
                 toast("${t.message}")
             }
 
-            override fun onResponse(call: Call<AppliedJobsModel>, response: Response<AppliedJobsModel>) {
+            override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
                 Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
                 Log.d("callAppliURl", response.body()?.data.toString())
                 TOTAL_PAGES = TOTAL_PAGES?.plus(1)
 
-                        //response.body()?.common?.totalpages?.toInt()
+                //response.body()?.common?.totalpages?.toInt()
                 appliedJobsAdapter?.removeLoadingFooter()
                 isLoadings = false
 
-                appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobsData>?)!!)
+                appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
 
 
                 if (pgNo != TOTAL_PAGES)

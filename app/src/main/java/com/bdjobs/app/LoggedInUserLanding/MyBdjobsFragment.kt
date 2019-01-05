@@ -30,10 +30,10 @@ class MyBdjobsFragment : Fragment() {
     private var mybdjobsAdapter: MybdjobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()
     private lateinit var communicator: HomeCommunicator
-    private var lastMonthStatsData : List<StatsModelClassData?>? = null
-    private var allStatsData : List<StatsModelClassData?>? = null
-    val background_resources = intArrayOf( R.drawable.online_application,R.drawable.times_emailed,R.drawable.viewed_resume,R.drawable.employer_followed,R.drawable.interview_invitation,R.drawable.message_employers)
-    val icon_resources = intArrayOf( R.drawable.ic_online_application,R.drawable.ic_times_emailed_my_resume,R.drawable.ic_view_resum,R.drawable.ic_employers_followed,R.drawable.ic_interview_invitation_1,R.drawable.ic_messages_by_employer)
+    private var lastMonthStatsData: List<StatsModelClassData?>? = null
+    private var allStatsData: List<StatsModelClassData?>? = null
+    val background_resources = intArrayOf(R.drawable.online_application, R.drawable.times_emailed, R.drawable.viewed_resume, R.drawable.employer_followed, R.drawable.interview_invitation, R.drawable.message_employers)
+    val icon_resources = intArrayOf(R.drawable.ic_online_application, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_employers_followed, R.drawable.ic_interview_invitation_1, R.drawable.ic_messages_by_employer)
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,40 +41,41 @@ class MyBdjobsFragment : Fragment() {
         return inflater?.inflate(R.layout.fragment_mybdjobs_layout, container, false)!!
 
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as HomeCommunicator
         initializeViews()
 
 
-
-
     }
+
     override fun onResume() {
         super.onResume()
         getStatsData()
         onClick()
     }
-    private fun initializeViews(){
+
+    private fun initializeViews() {
         mybdjobsAdapter = MybdjobsAdapter(activity)
         myBdjobsgridView_RV!!.adapter = mybdjobsAdapter
         myBdjobsgridView_RV!!.setHasFixedSize(true)
-        myBdjobsgridView_RV?.layoutManager = GridLayoutManager (activity, 2, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
+        myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
         Log.d("initPag", "called")
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator() as RecyclerView.ItemAnimator?
     }
+
     private fun onClick() {
         lastmonth_MBTN?.setOnClickListener {
-
+            communicator.setTime("1")
             lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background_black)
             all_MBTN.setBackgroundResource(R.drawable.right_rounded_background)
             all_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
             lastmonth_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
 
-            if (bdjobsList.isNullOrEmpty()){
+            if (bdjobsList.isNullOrEmpty()) {
                 populateDataLastMonthStats()
-            }
-            else {
+            } else {
                 mybdjobsAdapter?.removeAll()
                 bdjobsList.clear()
                 populateDataLastMonthStats()
@@ -83,16 +84,15 @@ class MyBdjobsFragment : Fragment() {
         }
         all_MBTN.setOnClickListener {
 
-
+            communicator.setTime("0")
             lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background)
             all_MBTN.setBackgroundResource(R.drawable.right_rounded_background_black)
             lastmonth_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
             all_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
 
-            if (bdjobsList.isNullOrEmpty()){
+            if (bdjobsList.isNullOrEmpty()) {
                 populateDataAllMonthStats()
-            }
-            else {
+            } else {
                 mybdjobsAdapter?.removeAll()
                 bdjobsList.clear()
                 populateDataAllMonthStats()
@@ -101,76 +101,36 @@ class MyBdjobsFragment : Fragment() {
         lastmonth_MBTN.performClick()
         fab()
     }
+
     private fun getStatsData() {
         lastMonthStatsData = communicator.getLastStatsData()
         allStatsData = communicator.getAllStatsData()
 
     }
-    private fun fab(){
 
-
+    private fun fab() {
         nextButtonFAB.setOnClickListener { view ->
             Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                     .setAction("Action", null)
                     .show()
         }
     }
-    private fun populateDataLastMonthStats(){
-        for( (index, value) in lastMonthStatsData!!.withIndex()){
-            if(index<(lastMonthStatsData?.size!!-1)){
-                bdjobsList.add(MybdjobsData(value?.count!!, value?.title!!,background_resources[index], icon_resources[index]))
+
+    private fun populateDataLastMonthStats() {
+        for ((index, value) in lastMonthStatsData!!.withIndex()) {
+            if (index < (lastMonthStatsData?.size!! - 1)) {
+                bdjobsList.add(MybdjobsData(value?.count!!, value?.title!!, background_resources[index], icon_resources[index]))
             }
         }
         mybdjobsAdapter?.addAll(bdjobsList)
-
-
-
-
-
-
-       /* bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(0)?.count!!, lastMonthStatsData?.get(0)?.title!!, R.drawable.online_application, R.drawable.ic_online_application))
-        bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(1)?.count!!, lastMonthStatsData?.get(1)?.title!!,R.drawable.times_emailed, R.drawable.ic_view_resum))
-        bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(2)?.count!!, lastMonthStatsData?.get(2)?.title!!,R.drawable.viewed_resume, R.drawable.ic_privacy_policy))
-        bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(3)?.count!!, lastMonthStatsData?.get(3)?.title!!,R.drawable.employer_followed, R.drawable.ic_privacy_policy))
-        bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(4)?.count!!, lastMonthStatsData?.get(4)?.title!!,R.drawable.interview_invitation, R.drawable.ic_privacy_policy))
-        bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(5)?.count!!, lastMonthStatsData?.get(5)?.title!!,R.drawable.message_employers, R.drawable.ic_privacy_policy))
-
-        // horizontaList.add(horizontalDataa
-        //Log.d("ddd", bdjobsList.toString())*/
-
-
-           // mybdjobsAdapter?.removeAll()
-
-
-
     }
-    private fun populateDataAllMonthStats(){
-        for( (index, value) in allStatsData!!.withIndex()){
-            if(index<(allStatsData?.size!!-1)){
-                bdjobsList.add(MybdjobsData(value?.count!!, value?.title!!,background_resources[index], icon_resources[index]))
+
+    private fun populateDataAllMonthStats() {
+        for ((index, value) in allStatsData!!.withIndex()) {
+            if (index < (allStatsData?.size!! - 1)) {
+                bdjobsList.add(MybdjobsData(value?.count!!, value?.title!!, background_resources[index], icon_resources[index]))
             }
         }
         mybdjobsAdapter?.addAll(bdjobsList)
-
-
-
-
-
-
-        /* bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(0)?.count!!, lastMonthStatsData?.get(0)?.title!!, R.drawable.online_application, R.drawable.ic_online_application))
-         bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(1)?.count!!, lastMonthStatsData?.get(1)?.title!!,R.drawable.times_emailed, R.drawable.ic_view_resum))
-         bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(2)?.count!!, lastMonthStatsData?.get(2)?.title!!,R.drawable.viewed_resume, R.drawable.ic_privacy_policy))
-         bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(3)?.count!!, lastMonthStatsData?.get(3)?.title!!,R.drawable.employer_followed, R.drawable.ic_privacy_policy))
-         bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(4)?.count!!, lastMonthStatsData?.get(4)?.title!!,R.drawable.interview_invitation, R.drawable.ic_privacy_policy))
-         bdjobsList.add(MybdjobsData(lastMonthStatsData?.get(5)?.count!!, lastMonthStatsData?.get(5)?.title!!,R.drawable.message_employers, R.drawable.ic_privacy_policy))
-
-         // horizontaList.add(horizontalDataa
-         //Log.d("ddd", bdjobsList.toString())*/
-
-
-        // mybdjobsAdapter?.removeAll()
-
-
-
     }
 }

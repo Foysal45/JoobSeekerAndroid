@@ -39,12 +39,17 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
         holder.backgroundRRL.setBackgroundResource(mybdjobsItems!![position].backgroundID)
         holder.item_icon.setBackgroundResource(mybdjobsItems!![position].resourceID)
         //holder.itemName[position]
+
         holder.item_Card.setOnClickListener {
-            communicator.goToAppliedJobs()
+
+            when (mybdjobsItems!![position].itemName) {
+                "Jobs\nApplied" ->  communicator.goToAppliedJobs()
+                else -> { // Note the block
+                    print("not found")
+                }
+            }
 
         }
-
-
     }
 
     fun add(r: MybdjobsData) {

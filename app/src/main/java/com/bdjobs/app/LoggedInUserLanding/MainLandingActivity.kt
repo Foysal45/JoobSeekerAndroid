@@ -8,6 +8,8 @@ import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
+import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
+import com.bdjobs.app.AppliedJobs.AppliedJobsFragment
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -31,10 +33,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
-    private val appliedJobsFragment = AppliedJobsFragment()
+    private var time: String = ""
+    override fun setTime(time: String) {
+        this.time = time
+    }
 
     override fun goToAppliedJobs() {
-        transitFragment(appliedJobsFragment, R.id.landingPageFragmentHolderFL, false)
+        startActivity<AppliedJobsActivity>("time" to time)
     }
 
     override fun getLastStatsData(): List<StatsModelClassData?>? {
@@ -140,7 +145,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
 
             R.id.navigation_more -> {
-              //  transitFragment(appliedJobsFragment, R.id.landingPageFragmentHolderFL)
+                //  transitFragment(appliedJobsFragment, R.id.landingPageFragmentHolderFL)
                 transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
                 return@OnNavigationItemSelectedListener true
             }

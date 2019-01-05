@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="72dp"
-            android:drawableLeft="@drawable/ic_education_icon"
+            android:drawableLeft="@drawable/ic_deadline_appliedjobs"
             android:drawablePadding="5dp"
             android:fontFamily="@font/roboto"
             android:text="Deadline:"
@@ -153,18 +153,17 @@
         <TextView
             android:id="@+id/deadline_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="13dp"
             android:layout_marginStart="17dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto"
-            android:paddingEnd="64dp"
             android:text="Apr 4, 2018"
             android:textColor="#393939"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/appliedBadge"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            app:layout_constraintVertical_bias="0.01999998" />
 
         <ImageView
             android:id="@+id/employerView_icon"
@@ -175,7 +174,7 @@
             android:layout_marginBottom="10dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/ic_star"
+            android:src="@drawable/ic_summary_resume_view"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -189,7 +188,7 @@
             android:layout_marginStart="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/ic_star"
+            android:src="@drawable/ic_expected_salary_edit"
             app:layout_constraintStart_toEndOf="@+id/exSalary_tv"
             app:layout_constraintTop_toTopOf="@+id/exSalary_tv" />
 
@@ -212,11 +211,12 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp"
             android:text="Cancel Application"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deadline_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

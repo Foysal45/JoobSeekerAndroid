@@ -13,5 +13,6 @@ interface HomeCommunicator {
     fun getLastStatsData() : List<StatsModelClassData?>?
     fun getAllStatsData() : List<StatsModelClassData?>?
     fun goToAppliedJobs()
+    fun setTime(time : String)
 
 }

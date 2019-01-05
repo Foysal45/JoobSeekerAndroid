@@ -1,22 +1,28 @@
-package com.bdjobs.app.LoggedInUserLanding
+package com.bdjobs.app.AppliedJobs
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ModelClasses.AppliedJobsData
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.R
 import com.google.android.material.button.MaterialButton
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private var appliedJobsLists: ArrayList<AppliedJobsData>? = ArrayList()
+    private var appliedJobsLists: ArrayList<AppliedJobModelData>? = ArrayList()
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
+
     companion object {
         // View Types
         private val ITEM = 0
@@ -24,7 +30,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       // return AppliedjobsViewHolder(LayoutInflater.from(context).inflate(R.layout.applied_jobs, parent, false))
+        // return AppliedjobsViewHolder(LayoutInflater.from(context).inflate(R.layout.applied_jobs, parent, false))
 
         var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
@@ -41,8 +47,6 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         }
 
         return viewHolder!!
-
-
 
 
     }
@@ -85,30 +89,51 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         holder.deadline.text = appliedJobsLists!![position].deadLine
         holder.expectedSalary.text = appliedJobsLists!![position].expectedSalary
 
-        if (appliedJobsLists!![position].viewedByEmployer == "Yes"){
+        if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
 
             holder.employerViewIcon.visibility = View.VISIBLE
-            holder.applicationBTN.visibility = View.INVISIBLE
-        }
-        if (appliedJobsLists!![position].viewedByEmployer == "No"){
+
+        } else if (appliedJobsLists!![position].viewedByEmployer == "No") {
 
             holder.employerViewIcon.visibility = View.GONE
-            holder.applicationBTN.text = "Cancel Application"
-            holder.applicationBTN.visibility = View.VISIBLE
+
         }
+        if (appliedJobsLists!![position].invitaion == "1") {
+            holder.applicationBTN.visibility = View.VISIBLE
+            holder.applicationBTN.text = "Interview Invitation"
+            holder.applicationBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#AC016D")))
+
+        }
+        if (appliedJobsLists!![position].viewedByEmployer == "No") {
+
+            try {
+                val deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
+                val todaysDate = Date()
+                if (deadline > todaysDate) {
+                    holder.applicationBTN.visibility = View.VISIBLE
+                    holder.applicationBTN.text = "Cancel Application"
+                    holder.applicationBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#767676")))
+                }
+            } catch (e: Exception) {
+
+            }
+
+        }
+
+
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (position == appliedJobsLists!!.size - 1 && isLoadingAdded) LOADING else ITEM
     }
 
-    fun add(r: AppliedJobsData) {
+    fun add(r: AppliedJobModelData) {
         appliedJobsLists?.add(r)
         notifyItemInserted(appliedJobsLists!!.size - 1)
     }
 
 
-    fun addAll(moveResults: List<AppliedJobsData>) {
+    fun addAll(moveResults: List<AppliedJobModelData>) {
         for (result in moveResults!!) {
             add(result)
         }
@@ -126,7 +151,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     }
 
 
-    private fun getItem(position: Int): AppliedJobsData? {
+    private fun getItem(position: Int): AppliedJobModelData? {
         return appliedJobsLists!![position]
     }
 
@@ -153,7 +178,6 @@ class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val CompanyName = view.findViewById(R.id.textViewCompanyName) as TextView
     val employerViewIcon = view.findViewById(R.id.employerView_icon) as ImageView
     val applicationBTN = view.findViewById(R.id.applicationBTN) as MaterialButton
-
 
 
 }
