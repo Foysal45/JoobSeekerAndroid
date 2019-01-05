@@ -83,7 +83,7 @@ class MyBdjobsFragment : Fragment() {
 
         }
         all_MBTN.setOnClickListener {
-
+//testing
             communicator.setTime("0")
             lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background)
             all_MBTN.setBackgroundResource(R.drawable.right_rounded_background_black)
