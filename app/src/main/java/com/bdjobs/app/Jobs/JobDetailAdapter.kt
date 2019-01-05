@@ -758,6 +758,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         }
 
                     } else {
+
+                        ApiServiceJobs.create().insertShortListJob(
+                                userID = bdjobsUserSession.userId,
+                                encoded = Constants.ENCODED_JOBS,
+                                jobID = jobList?.get(position)?.jobid!!
+                        ).enqueue(object : Callback<ShortlistJobModel> {
+                            override fun onFailure(call: Call<ShortlistJobModel>, t: Throwable) {
+                                error("onFailure", t)
+                            }
+
+                            override fun onResponse(call: Call<ShortlistJobModel>, response: Response<ShortlistJobModel>) {
+                                context.toast(response.body()?.data?.get(0)?.message!!)
+                            }
+                        })
+
                         doAsync {
                             var deadline: Date? = null
                             try {

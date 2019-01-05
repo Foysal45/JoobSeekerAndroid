@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -24,6 +25,11 @@ import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.startActivity
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
+
+    override fun goToInterviewInvitation(from:String) {
+        startActivity<InterviewInvitationBaseActivity>("from" to from)
+    }
 
 
     override fun backButtonClicked() {

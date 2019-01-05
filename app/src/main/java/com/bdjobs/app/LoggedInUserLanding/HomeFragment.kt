@@ -82,6 +82,14 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         lastSearchView.setOnClickListener {
             homeCommunicator.goToJoblistFromLastSearch()
         }
+        jobInvitationView.setOnClickListener {
+            homeCommunicator.goToInterviewInvitation("homePage")
+        }
+        searchBTN.setOnClickListener {
+            homeCommunicator.goToKeywordSuggestion()
+        }
+
+
     }
 
     private fun showData() {
