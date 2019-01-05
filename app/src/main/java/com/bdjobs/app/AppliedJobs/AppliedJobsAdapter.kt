@@ -110,7 +110,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 val deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
                 val todaysDate = Date()
                 if (deadline > todaysDate) {
-                    holder.applicationBTN.visibility = View.VISIBLE
+                    holder.applicationBTN.visibility = View.GONE
                     holder.applicationBTN.text = "Cancel Application"
                     holder.applicationBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#767676")))
                 }
