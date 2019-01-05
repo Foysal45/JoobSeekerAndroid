@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="72dp"
-            android:drawableLeft="@drawable/ic_deadline_appliedjobs"
+
             android:drawablePadding="5dp"
             android:fontFamily="@font/roboto"
             android:text="Deadline:"
@@ -175,23 +175,11 @@
             android:layout_marginBottom="10dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/ic_summary_resume_view"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/shortlist_icon2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:src="@drawable/ic_expected_salary_edit"
-            app:layout_constraintStart_toEndOf="@+id/exSalary_tv"
-            app:layout_constraintTop_toTopOf="@+id/exSalary_tv" />
 
         <ImageView
             android:id="@+id/imageViewCompanyLogo"
