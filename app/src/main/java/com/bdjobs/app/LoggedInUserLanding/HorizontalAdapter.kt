@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.R
 import com.bdjobs.app.editResume.EditResLandingActivity
+import org.jetbrains.anko.startActivity
 
 class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalViewHolder>() {
 
@@ -46,17 +47,13 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
                     homeCommunicator.goToFollowedEmployerList("employer")
                 }
 
-
-
-
+                "Manage\nResume"->{
+                    context.startActivity<EditResLandingActivity>()
+                }
             }
         }
 
-        if (position == 0) {
-            holder.itemView.setOnClickListener {
-                context.startActivity(Intent(context, EditResLandingActivity::class.java))
-            }
-        }
+
 
 
        }

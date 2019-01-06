@@ -34,9 +34,9 @@ class HotJobsFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity)
         homeCommunicator = activity as HomeCommunicator
 
-        profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
 
-        searchIMGV.setOnClickListener {
+        searchIMGV?.setOnClickListener {
             homeCommunicator.goToKeywordSuggestion()
         }
 
@@ -49,9 +49,9 @@ class HotJobsFragment : Fragment() {
         cookieManager.setAcceptCookie(true)
         cookieManager.removeSessionCookie()
 
-        webView.hide()
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        webView?.hide()
+        shimmer_view_container_JobList?.show()
+        shimmer_view_container_JobList?.startShimmerAnimation()
 
         ApiServiceMyBdjobs.create().getCookies(
                 userId = bdjobsUserSession.userId,
@@ -76,20 +76,20 @@ class HotJobsFragment : Fragment() {
                         cookieManager.setCookie(Constants.HOTJOBS_WEB_LINK, cookie)
                     }
                     cookieSyncManager.sync()
-                    webView.settings.javaScriptEnabled = true
-                    webView.settings.setSupportZoom(true)
-                    webView.settings.builtInZoomControls = true
-                    webView.settings.displayZoomControls = false
-                    webView.settings.loadWithOverviewMode = true
-                    webView.settings.useWideViewPort = true
+                    webView?.settings?.javaScriptEnabled = true
+                    webView?.settings?.setSupportZoom(true)
+                    webView?.settings?.builtInZoomControls = true
+                    webView?.settings?.displayZoomControls = false
+                    webView?.settings?.loadWithOverviewMode = true
+                    webView?.settings?.useWideViewPort = true
 
 
                     webView?.webViewClient = object : WebViewClient() {
 
                         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                            webView.hide()
-                            shimmer_view_container_JobList.show()
-                            shimmer_view_container_JobList.startShimmerAnimation()
+                            webView?.hide()
+                            shimmer_view_container_JobList?.show()
+                            shimmer_view_container_JobList?.startShimmerAnimation()
 
                             super.onPageStarted(view, url, favicon)
                         }
@@ -107,13 +107,13 @@ class HotJobsFragment : Fragment() {
 
                         override fun onPageFinished(view: WebView?, url: String?) {
                             super.onPageFinished(view, url)
-                            webView.show()
-                            shimmer_view_container_JobList.hide()
-                            shimmer_view_container_JobList.stopShimmerAnimation()
+                            webView?.show()
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmerAnimation()
                         }
                     }
 
-                    webView.loadUrl(Constants.HOTJOBS_WEB_LINK)
+                    webView?.loadUrl(Constants.HOTJOBS_WEB_LINK)
                     val cookieGet = cookieManager.getCookie(Constants.HOTJOBS_WEB_LINK)
                     Log.d("LOGTAG", "cookieGET ------>$cookieGet")
                 }
@@ -123,12 +123,12 @@ class HotJobsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        webView.onResume()
+        webView?.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        webView.onPause()
+        webView?.onPause()
     }
 
     fun getWebviewBacKStack(): Boolean {
