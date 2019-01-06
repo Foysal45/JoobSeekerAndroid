@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.adapters
+package com.bdjobs.app.editResume.adapters.models
 
 import android.content.Context
 import android.util.Log
@@ -13,10 +13,9 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
 
-class TrainingInfoAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: Context) : RecyclerView.Adapter<TrainingInfoAdapter.MyViewHolder>() {
+class EditResLandingAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: Context) : RecyclerView.Adapter<EditResLandingAdapter.MyViewHolder>() {
 
     private var call: EduInfo = context as EduInfo
     private val DURATION = 300

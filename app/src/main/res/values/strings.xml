@@ -168,6 +168,7 @@
     <string name="title_career">Career and Application</string>
     <string name="title_contact">Contact Details</string>
     <string name="title_personal">Personal Details</string>
+    <string name="title_personal_info">Personal Information</string>
     <string name="title_emp_his">Employment History</string>
     <string name="title_academic">Academic Qualification Information</string>
     <string name="title_training">Training Summary</string>
@@ -210,4 +211,10 @@
     <string name="marital.single">Single</string>
     <string name="hint.bangladeshi">I am Bangladeshi</string>
     <string name="hint.addEmailaddress">ADD EMAIL</string>
+    <string name="title.education_training">Education / Training</string>
+    <string name="title.photograph">Photograph</string>
+    <string name="hint.upload_photo">Upload Photo</string>
+    <string name="subtit.personal_detail">Personal Detail</string>
+    <string name="subtit.contact_detail">Contact Detail</string>
+    <string name="subtit.career_and_application_information">Career and Application Information</string>
 </resources>

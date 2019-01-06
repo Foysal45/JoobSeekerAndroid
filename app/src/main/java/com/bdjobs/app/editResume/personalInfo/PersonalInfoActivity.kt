@@ -15,9 +15,9 @@ import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
+import com.bdjobs.app.editResume.contactInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
-import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
@@ -35,14 +35,28 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private lateinit var dataCa: Ca_DataItem
     private lateinit var dataCon: C_DataItem
     private lateinit var dataPer: P_DataItem
+    private lateinit var name: String
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getIntentValues()
         setContentView(R.layout.activity_personal_info)
-        transitFragment(contactViewFragment, R.id.personalinfo_container, false)
+        gotToFragment(name)
+    }
+
+    private fun gotToFragment(name: String) {
+        when (name) {
+            "personal" -> transitFragment(personalViewFragment, R.id.personalinfo_container, false)
+            "contact" -> transitFragment(contactViewFragment, R.id.personalinfo_container, false)
+            "career" -> transitFragment(careerViewFragment, R.id.personalinfo_container, false)
+        }
+    }
+
+    private fun getIntentValues() {
+        name = intent.getStringExtra("name")
     }
 
     override fun getPersonalData(): P_DataItem {

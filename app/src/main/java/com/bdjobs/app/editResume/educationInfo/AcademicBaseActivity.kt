@@ -37,11 +37,24 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private lateinit var datait: AcaDataItem
     private lateinit var dataTr: Tr_DataItem
     private lateinit var dataStorage: DataStorage
+    lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getIntentValues()
         setContentView(R.layout.activity_academic_base)
-        transitFragment(trainingViewFragment, R.id.edu_info_container, false)
+        gotToFragment(name)
+    }
+
+    private fun gotToFragment(name: String) {
+        when (name) {
+            "academic" -> transitFragment(acaViewFragment, R.id.edu_info_container, false)
+            "training" -> transitFragment(trainingViewFragment, R.id.edu_info_container, false)
+        }
+    }
+
+    private fun getIntentValues() {
+        name = intent.getStringExtra("name")
     }
 
     override fun setDeleteButton(b: Boolean) {
@@ -83,7 +96,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
                 transitFragment(acaEditFragment, R.id.edu_info_container, true)
             }
             "addTr" -> {
-                acaEditFragment.isEdit = false
+                trainingEditFragment.isEdit = false
                 transitFragment(trainingEditFragment, R.id.edu_info_container, true)
             }
             "edit" -> {
@@ -91,7 +104,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
                 transitFragment(acaEditFragment, R.id.edu_info_container, true)
             }
             "editTr" -> {
-                acaEditFragment.isEdit = true
+                trainingEditFragment.isEdit = true
                 transitFragment(trainingEditFragment, R.id.edu_info_container, true)
             }
             else -> {

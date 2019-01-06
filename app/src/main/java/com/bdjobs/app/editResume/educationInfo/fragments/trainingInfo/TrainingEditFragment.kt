@@ -127,7 +127,7 @@ class TrainingEditFragment : Fragment() {
 
     fun dataDelete() {
         activity.showProgressBar(loadingProgressBar)
-        val call = ApiServiceMyBdjobs.create().deleteData("Education", hTrainingID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
+        val call = ApiServiceMyBdjobs.create().deleteData("Training", hTrainingID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.toast(R.string.message_common_error)

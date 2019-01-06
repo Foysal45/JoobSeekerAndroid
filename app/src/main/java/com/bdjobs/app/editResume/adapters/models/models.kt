@@ -363,3 +363,5 @@ data class GetTrainingInfo(
         val common: Any? = null,
         val message: String? = null
 )
+
+// Landing List
