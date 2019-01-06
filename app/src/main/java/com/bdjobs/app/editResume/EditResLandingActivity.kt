@@ -1,6 +1,7 @@
 package com.bdjobs.app.editResume
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import com.bdjobs.app.R
@@ -47,6 +48,10 @@ class EditResLandingActivity : Activity() {
         btnEmpItem1.setOnClickListener {
             goToFragment("employ", "Emp")
         }
+        btnUploadPhoto.setOnClickListener {
+            startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
+        }
+
     }
 
     private fun goToFragment(s: String, check: String) {
@@ -58,16 +63,6 @@ class EditResLandingActivity : Activity() {
             "Emp" ->
                 startActivity<EmploymentHistoryActivity>("name" to s)
         }
-
-
-        photoUpload.setOnClickListener {
-
-            startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
-
-
-        }
-
-
     }
 
 
