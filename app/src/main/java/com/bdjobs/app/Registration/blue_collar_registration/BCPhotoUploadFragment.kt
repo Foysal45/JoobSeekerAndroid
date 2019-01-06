@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
@@ -31,14 +30,11 @@ import androidx.core.content.ContextCompat
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
-import com.bdjobs.app.API.ModelClasses.ResendOtpModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.showProgressBar
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -47,20 +43,17 @@ import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
-import kotlinx.android.synthetic.main.fav_list_layout.*
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
-import kotlinx.android.synthetic.main.photo_upload_dialog_layout.*
-import org.jetbrains.anko.*
-import org.json.JSONException
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
-import retrofit2.Callback
-import java.io.UnsupportedEncodingException
 
 
 class BCPhotoUploadFragment : Fragment() {
@@ -73,13 +66,13 @@ class BCPhotoUploadFragment : Fragment() {
     private val READ_REQUEST_CODE = 42
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private lateinit var bitmap: Bitmap
-    private lateinit var encodedString: String
-    private lateinit var userId: String
-    private lateinit var decodeId: String
-    private lateinit var folderName: String
-    private lateinit var folderId: String
-    private lateinit var imageName: String
-    private lateinit var isResumeUpdate: String
+    private var encodedString: String = ""
+    private var userId: String = ""
+    private var decodeId: String = ""
+    private var folderName: String = ""
+    private var folderId: String = ""
+    private var imageName: String = ""
+    private var isResumeUpdate: String = ""
     internal var params = RequestParams()
     private lateinit var dialog: Dialog
 
@@ -276,7 +269,7 @@ class BCPhotoUploadFragment : Fragment() {
             var uri: Uri? = null
             uri = Uri.fromFile(File(resultData.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0)))
             Log.d("dfgh", "Uri: " + uri!!.toString())
-            Log.d("PhotoUpload", "Uri: " + uri!!.toString())
+            Log.d("PhotoUpload", "Uri: " + uri.toString())
             val myDirectory = File("/sdcard/BDJOBS")
             if (!myDirectory.exists()) {
                 myDirectory.mkdirs()
@@ -386,7 +379,7 @@ class BCPhotoUploadFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.photo_upload_dialog_layout)
-        dialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val deleteImageView = dialog.findViewById<ImageView>(R.id.deleteIV)
         val cameraButton = dialog.findViewById<Button>(R.id.camera_button)
@@ -425,7 +418,7 @@ class BCPhotoUploadFragment : Fragment() {
 
     private fun RequestPermissionAndOpenCamera() {
         if (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.CAMERA) !== PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
@@ -450,7 +443,7 @@ class BCPhotoUploadFragment : Fragment() {
     private fun openCamera() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, System.currentTimeMillis().toString() + ".jpg")
-        val mCapturedImageURI = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        val mCapturedImageURI = activity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         val intentPicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI)
         startActivityForResult(intentPicture, REQ_CAMERA_IMAGE)

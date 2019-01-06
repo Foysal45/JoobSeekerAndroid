@@ -121,6 +121,10 @@
         <activity android:name=".editResume.personalInfo.PersonalInfoActivity" />
         <activity android:name=".editResume.otherInfo.OtherInfoActivity" />
         <activity android:name=".editResume.educationInfo.AcademicBaseActivity" />
+        <activity android:name=".editResume.PhotoUploadActivity" />
+        <activity
+            android:name=".editResume.MainActivity"
+            android:label="@string/title_activity_main"></activity>
     </application>
 
 </manifest>

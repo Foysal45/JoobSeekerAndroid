@@ -255,13 +255,13 @@ interface ApiServiceMyBdjobs {
     fun sendBlueCollarUserInfo(
             @Field("UserID") userid: String ="",
             @Field("decodeId") decodeId: String="",
-            @Field("userName") userName: String = "",
             @Field("village") village: String ="",
             @Field("locationID") locationID: String ="",
             @Field("dob") dob: String ="",
+            @Field("expYear") expYear: String = "",
+            @Field("skillID") skillID: String = "",
             @Field("age") age: String ="",
-            @Field("skillID") skillID: String ="",
-            @Field("expYear") expYear: String ="",
+            @Field("userName") userName: String = "",
             @Field("levelOfEducation") levelOfEducation: String="",
             @Field("institute") institute: String = "",
             @Field("inlineRadioOptions") inlineRadioOptions: String="",
@@ -306,6 +306,18 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = ""
     ): Call<CookieModel>
+
+
+    @FormUrlEncoded
+    @POST("upload_img.aspx")
+    fun DeletePhoto(
+            @Field("folderName") folderName: String,
+            @Field("folderId") folderId: String,
+            @Field("imageName") imageName: String,
+            @Field("isResumeUpdate") isResumeUpdate: String,
+            @Field("status") status: String,
+            @Field("userid") userid: String,
+            @Field("decodeid") decodeid: String): Call<PhotoInfoModel>
 
 
     companion object Factory {

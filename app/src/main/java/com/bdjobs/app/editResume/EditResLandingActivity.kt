@@ -32,5 +32,15 @@ class EditResLandingActivity : AppCompatActivity() {
         btnEdu.setOnClickListener {
             startActivity(Intent(this@EditResLandingActivity, AcademicBaseActivity::class.java))
         }
+
+
+        photoUpload.setOnClickListener {
+
+            startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
+
+
+        }
+
+
     }
 }
