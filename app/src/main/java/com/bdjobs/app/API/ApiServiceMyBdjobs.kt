@@ -196,6 +196,14 @@ interface ApiServiceMyBdjobs {
     ) : Call<AppliedJobModel>
 
 
+    @FormUrlEncoded
+    @POST("app_logout.asp")
+    fun logout(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = ""
+    ): Call<CookieModel>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

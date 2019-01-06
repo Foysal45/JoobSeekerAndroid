@@ -12,6 +12,7 @@ import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
@@ -35,7 +36,7 @@ class MoreFragment : Fragment() {
     }
     private fun onclick() {
         employerList_MBTN.setOnClickListener {
-            startActivity<EmployersBaseActivity>("from" to "employer")
+            homeCommunicator.goToFollowedEmployerList("employer")
         }
         generalSearch_MBTN.setOnClickListener {
             startActivity<JobBaseActivity>("keyword" to "")
@@ -76,6 +77,9 @@ class MoreFragment : Fragment() {
         interviewinvitation_MBTN.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
         }
+        settings_MBTN.setOnClickListener {
+            startActivity<SettingBaseActivity>()
+        }
     }
     private fun clearAddPopulateData() {
         /*this  function deletes duplicates data lists  */
@@ -91,9 +95,10 @@ class MoreFragment : Fragment() {
     }
     private fun populateData() {
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
     }
     private fun initializeViews(){
         horizontalAdapter = HorizontalAdapter(activity)
@@ -101,7 +106,6 @@ class MoreFragment : Fragment() {
         horizontal_RV!!.setHasFixedSize(true)
         horizontal_RV?.layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         Log.d("initPag", "called")
-        horizontal_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
     }
 

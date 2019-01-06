@@ -83,7 +83,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToKeywordSuggestion()
         }
         followedEmployerView.setOnClickListener {
-            homeCommunicator.goToFollowedEmployerList()
+            homeCommunicator.goToFollowedEmployerList("follow")
         }
         showAllFavIMGV.setOnClickListener {
             homeCommunicator.goToFavSearchFilters()
@@ -153,18 +153,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
             uiThread {
                 showBlankLayout()
-                followedEmployerView.hide()
+                followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
-                    followEmplowercounterTV.text = followedEmployerJobCount?.toString()
+                    followEmplowercounterTV?.text = followedEmployerJobCount?.toString()
                     Log.d("followEmplowercounterTV", "followEmplowercounterTV: $followedEmployerJobCount")
                     var followedCompanyNames = ""
                     followedEmployerList?.forEach { item ->
                         followedCompanyNames += item.CompanyName + ","
                     }
-                    followedCompanyNameTV.text = followedCompanyNames
-                    blankCL.hide()
-                    mainLL.show()
-                    followedEmployerView.show()
+                    followedCompanyNameTV?.text = followedCompanyNames
+                    blankCL?.hide()
+                    mainLL?.show()
+                    followedEmployerView?.show()
                 }
             }
         }
@@ -176,17 +176,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
             uiThread {
                 showBlankLayout()
-                jobInvitationView.hide()
+                jobInvitationView?.hide()
                 if (!jobInvitations.isNullOrEmpty()) {
                     var companyNames = ""
                     jobInvitations?.forEach { item ->
                         companyNames += item?.companyName + ","
                     }
-                    jobInvitedCompanyNameTV.text = companyNames
-                    jobInvitationcounterTV.text = jobInvitations?.size.toString()
-                    blankCL.hide()
-                    mainLL.show()
-                    jobInvitationView.show()
+                    jobInvitedCompanyNameTV?.text = companyNames
+                    jobInvitationcounterTV?.text = jobInvitations?.size.toString()
+                    blankCL?.hide()
+                    mainLL?.show()
+                    jobInvitationView?.show()
                 }
             }
         }
@@ -197,14 +197,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
             uiThread {
                 showBlankLayout()
-                favSearchView.hide()
+                favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
-                    favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
                     val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
                     favRV?.adapter = favouriteSearchFilterAdapter
-                    blankCL.hide()
-                    mainLL.show()
-                    favSearchView.show()
+                    blankCL?.hide()
+                    mainLL?.show()
+                    favSearchView?.show()
                 }
             }
         }
@@ -216,17 +215,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             b2CCertificationList = bdjobsDB.b2CCertificationDao().getAllB2CCertification()
             uiThread {
                 showBlankLayout()
-                assesmentView.hide()
+                assesmentView?.hide()
                 if (!b2CCertificationList.isNullOrEmpty()) {
                     var jobRoles = ""
                     b2CCertificationList?.forEach { item ->
                         jobRoles += item?.jobRole + ","
                     }
-                    jobRolesTV.text = jobRoles
-                    certificationCounterTV.text = b2CCertificationList?.size.toString()
-                    blankCL.hide()
-                    mainLL.show()
-                    assesmentView.show()
+                    jobRolesTV?.text = jobRoles
+                    certificationCounterTV?.text = b2CCertificationList?.size.toString()
+                    blankCL?.hide()
+                    mainLL?.show()
+                    assesmentView?.show()
                 }
             }
         }
@@ -239,8 +238,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 && b2CCertificationList.isNullOrEmpty()
                 && lastSearch.isNullOrEmpty()
         ) {
-            mainLL.hide()
-            blankCL.show()
+            mainLL?.hide()
+            blankCL?.show()
         }
     }
 
@@ -249,11 +248,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             lastSearch = bdjobsDB.lastSearchDao().getLastSearch()
             uiThread {
                 showBlankLayout()
-                lastSearchView.hide()
+                lastSearchView?.hide()
                 if (!lastSearch.isNullOrEmpty()) {
 
                     val searchData = lastSearch?.get(0)
-                    lastPrgrs.show()
+                    lastPrgrs?.show()
                     ApiServiceJobs.create().getLastSearchCount(
                             jobLevel = searchData?.jobLevel,
                             Newspaper = searchData?.newsPaper,
@@ -288,32 +287,32 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         override fun onResponse(call: Call<LastSearchCountModel>, response: Response<LastSearchCountModel>) {
                             try {
                                 Log.d("jobCount", "jobCount ${response?.body()?.data!![0]?.totaljobs}")
-                                lastPrgrs.hide()
-                                lastSearchcounterTV.text = response?.body()?.data!![0]?.totaljobs
+                                lastPrgrs?.hide()
+                                lastSearchcounterTV?.text = response?.body()?.data!![0]?.totaljobs
 
                                 if (response.body()?.data?.get(0)?.totaljobs?.length!! > 3) {
-                                    lastSearchcounterTV.textSize = 14.0F
+                                    lastSearchcounterTV?.textSize = 14.0F
                                 }
                             } catch (e: Exception) {
-                                lastPrgrs.hide()
-                                lastSearchcounterTV.text = "0"
+                                lastPrgrs?.hide()
+                                lastSearchcounterTV?.text = "0"
                                 logException(e)
                             }
                         }
                     })
 
 
-                    searchFilterTV.text = getFilterString(searchData!!)
+                    searchFilterTV?.text = getFilterString(searchData!!)
                     if (!searchData?.keyword?.isBlank()!!) {
-                        keywordTV.text = searchData?.keyword
+                        keywordTV?.text = searchData?.keyword
                     } else {
-                        keywordTV.text = "-"
+                        keywordTV?.text = "-"
                     }
-                    srchDateTV.text = searchData?.searchTime?.toSimpleDateString()
-                    srchTimeTV.text = searchData?.searchTime?.toSimpleTimeString()
-                    lastSearchView.show()
-                    blankCL.hide()
-                    mainLL.show()
+                    srchDateTV?.text = searchData?.searchTime?.toSimpleDateString()
+                    srchTimeTV?.text = searchData?.searchTime?.toSimpleTimeString()
+                    lastSearchView?.show()
+                    blankCL?.hide()
+                    mainLL?.show()
                 }
             }
         }

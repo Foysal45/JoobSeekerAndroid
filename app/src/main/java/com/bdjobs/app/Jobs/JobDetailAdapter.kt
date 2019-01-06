@@ -169,7 +169,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH.allJobsButtonLayout.setOnClickListener {
                                     context.startActivity<EmployersBaseActivity>("from" to "joblist",
                                             "companyid" to jobDetailResponseAll.companyID,
-                                            "companyname" to jobDetailResponseAll.companyNameENG
+                                            "companyname" to jobDetailResponseAll.companyNameENG,
+                                            "jobId" to jobDetailResponseAll.jobId
                                     )
                                 }
                             }
