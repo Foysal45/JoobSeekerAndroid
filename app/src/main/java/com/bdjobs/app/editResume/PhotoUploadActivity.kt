@@ -105,9 +105,9 @@ class PhotoUploadActivity : AppCompatActivity() {
                 registrationCommunicator.bcGoToStepCongratulation()
             } else {
 
-
-                progressDialog.show()
                 progressDialog.setTitle("Photo Uploading.......")
+                progressDialog.show()
+
 
 
                 ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
@@ -351,20 +351,30 @@ class PhotoUploadActivity : AppCompatActivity() {
 
                 val gson = Gson()
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-                val photoUrl = photoUploadModel.data[0].path
-                Log.d("Deltete", " $photoUrl")
-                val bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
-                bdjobsUserSession.updateUserPicUrl(photoUrl)
+
+
+                /*  if (photoUploadModel.statuscode.equalIgnoreCase("0")){*/
+
+                progressDialog.dismiss()
+                noPhotoTV.text = "No photo is uploaded yet"
+                photoInfoTV.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
+                photoInfoTV.show()
+                regPhotoUploadButton.show()
+                regChangePhotoButton.hide()
+                regPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
+
+                /* }*/
+
+
+                /* val photoUrl = photoUploadModel.data[0].path
+                 Log.d("Deltete", " $photoUrl")
+                 val bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
+                 bdjobsUserSession.updateUserPicUrl(photoUrl)*/
 
 
                 toast(photoUploadModel.message)
-                progressDialog.dismiss()
-                Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
 
-                noPhotoTV.text = "You can change or delete your photo"
-                photoInfoTV.hide()
-                regPhotoUploadButton.hide()
-                regChangePhotoButton.show()
+                Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
 
 
                 /* } catch (e: JSONException) {
@@ -386,19 +396,6 @@ class PhotoUploadActivity : AppCompatActivity() {
         })
     }
 
-    /*  private fun initializer() {
-          progressDialog = ProgressDialog(this)
-          progressDialog.setMessage("Please Wait..")
-          progressDialog.setTitle("Saving")
-          progressDialog.setCancelable(false)
-
-          photoBrowseBTN = findViewById(R.id.photoBrowseBTN) as AppCompatButton
-          deletePhotoBTN = findViewById(R.id.deletePhotoBTN) as AppCompatButton
-          cameraBTN = findViewById(R.id.cameraBTN) as AppCompatButton
-          UploadBTN = findViewById(R.id.UploadBTN) as AppCompatButton
-
-          photoIMGV = findViewById(R.id.photoIMGV) as ImageView
-      }*/
 
     private fun openCamera() {
         val values = ContentValues()

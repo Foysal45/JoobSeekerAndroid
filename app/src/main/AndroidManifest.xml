@@ -131,6 +131,11 @@
         <activity
             android:name=".editResume.educationInfo.AcademicBaseActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".editResume.PhotoUploadActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
