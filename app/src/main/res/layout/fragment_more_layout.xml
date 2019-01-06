@@ -172,6 +172,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/emailResume_MBTN"
                 style="@style/more.button"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email Resume"
@@ -179,6 +180,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/viewResume_MBTN"
+                android:visibility="gone"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +194,6 @@
                 android:layout_height="wrap_content"
                 android:text="Interview Invitation"
                 app:icon="@drawable/ic_interview_invitation" />
-
 
             <View
                 android:layout_width="match_parent"
