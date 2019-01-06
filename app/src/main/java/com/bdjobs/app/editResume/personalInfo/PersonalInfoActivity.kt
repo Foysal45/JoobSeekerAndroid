@@ -15,9 +15,9 @@ import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
+import com.bdjobs.app.editResume.contactInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
-import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
