@@ -108,7 +108,6 @@ class PhotoUploadActivity : AppCompatActivity() {
 
                 ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
                     override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-
                         Log.d("PhotoUpload", " onFailure ${t.message}")
                     }
 
