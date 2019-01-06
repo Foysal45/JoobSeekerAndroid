@@ -41,7 +41,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_academic_base)
-        transitFragment(acaViewFragment, R.id.edu_info_container, false)
+        transitFragment(trainingViewFragment, R.id.edu_info_container, false)
     }
 
     override fun setDeleteButton(b: Boolean) {
@@ -50,6 +50,9 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
             iv_delete_data.setOnClickListener {
                 if (acaEditFragment.isEdit) {
                     acaEditFragment.dataDelete()
+                }
+                if (trainingEditFragment.isEdit) {
+                    trainingEditFragment.dataDelete()
                 }
             }
         } else {
@@ -81,7 +84,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
             }
             "addTr" -> {
                 acaEditFragment.isEdit = false
-                transitFragment(trainingViewFragment, R.id.edu_info_container, true)
+                transitFragment(trainingEditFragment, R.id.edu_info_container, true)
             }
             "edit" -> {
                 acaEditFragment.isEdit = true

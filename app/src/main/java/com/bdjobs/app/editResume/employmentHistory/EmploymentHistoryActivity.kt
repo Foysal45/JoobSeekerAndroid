@@ -11,6 +11,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.editResume.adapters.models.AreaofExperienceItem
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
@@ -28,6 +29,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private val armyEditFragment = ArmyEmpHistoryEditFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
     private var datait: DataItem? = null
+    private var dataExps: AreaofExperienceItem? = null
     private var dataitArmy: ArmydataItem? = null
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -55,6 +57,15 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     override fun getArmyData(): ArmydataItem {
         return dataitArmy!!
     }
+
+    override fun passAreaOfExpsData(data: AreaofExperienceItem) {
+        this.dataExps = data
+    }
+
+    override fun getAreaOfExpsData(): AreaofExperienceItem {
+        return dataExps!!
+    }
+
 
     override fun passData(data: DataItem) {
         this.datait = data

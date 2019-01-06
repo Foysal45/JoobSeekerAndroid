@@ -9,6 +9,7 @@ import android.provider.Settings
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
@@ -34,6 +35,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private lateinit var dataCa: Ca_DataItem
     private lateinit var dataCon: C_DataItem
     private lateinit var dataPer: P_DataItem
+
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
@@ -74,16 +76,12 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
             iv_edit_data.setOnClickListener {
                 goToEditInfo(type)
             }
-        } else {
-            //iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
         }
     }
 
     override fun setDeleteButton(b: Boolean) {
         if (b) {
             iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
-        } else {
-            //iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
         }
     }
 
@@ -94,13 +92,16 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
 
             }
             "editPersonal" -> {
+                iv_edit_data.hide()
                 transitFragment(personalEditFragment, R.id.personalinfo_container, true)
             }
             "editCareer" -> {
+                iv_edit_data.hide()
                 transitFragment(careerEditFragment, R.id.personalinfo_container, true)
             }
             "editContact" -> {
                 //contact edit fragment
+                iv_edit_data.hide()
                 transitFragment(contactEditFragment, R.id.personalinfo_container, true)
             }
             else -> {

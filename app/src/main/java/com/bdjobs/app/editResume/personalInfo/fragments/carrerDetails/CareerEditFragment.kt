@@ -50,7 +50,6 @@ class CareerEditFragment : Fragment() {
 
     private fun doWork() {
         preloadedData()
-        personalInfo.setTitle(getString(R.string.title_career))
         fab_cai_edit.setOnClickListener {
             updateData()
         }

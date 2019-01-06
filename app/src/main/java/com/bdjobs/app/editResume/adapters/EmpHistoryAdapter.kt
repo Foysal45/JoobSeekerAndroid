@@ -46,10 +46,19 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
 
         Log.d("dsgjdhsg", "in adpater companyBusiness ${dataStorage.getOrgNameByID(dModel.companyBusiness!!)}")
         Log.d("dsgjdhsg", "in adpater companyBusiness ID ${dModel.companyBusiness} ")
-        Log.d("dsgjdhsg", "in adpater area of experinece ${dModel.areaofExperience} ")
 
         holder.tvComBus?.text = dataStorage.getOrgNameByID(dModel.companyBusiness)
-        holder.tvAreaOfExp?.text = dModel.areaofExperience
+        val areaOfExp = dModel.areaofExperience
+        var exps = ""
+        if (!areaOfExp.isNullOrEmpty()) {
+            for ((i, value) in areaOfExp.withIndex())
+                exps += if (i == areaOfExp.size - 1) {
+                    "${value?.expsName}"
+                } else {
+                    "${value?.expsName}, "
+                }
+        }
+        holder.tvAreaOfExp?.text = exps
 
         holder.tvRespos?.text = dModel.responsibility
         holder.ivEdit?.setOnClickListener {

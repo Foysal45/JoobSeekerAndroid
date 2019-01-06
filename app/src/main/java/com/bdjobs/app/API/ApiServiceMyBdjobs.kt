@@ -120,17 +120,35 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_01_update_per.asp")
+    fun updatePersonalData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("firstName") firstName: String?,
+            @Field("lastName") lastName: String?,
+            @Field("father") father: String?,
+            @Field("mother") mother: String?,
+            @Field("birthday") birthday: String?,
+            @Field("nationality") nationality: String?,
+            @Field("marital") marital: String?,
+            @Field("gender") gender: String?,
+            @Field("nationalId") nationalId: String?,
+            @Field("Religion") Religion: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
     @POST("apps_step_02_update_aca.asp")
     fun updateAcademicData(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?,
             @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("levelOfEducation") levelOfEducation: String?,
             @Field("examDegreeTitle") examDegreeTitle: String?,
             @Field("institute") institute: String?,
             @Field("yearOfPassing") yearOfPassing: String?,
             @Field("concentration") concentration: String?,
             @Field("hid") hid: String?,
-            @Field("levelOfEducation") levelOfEducation: String?,
             @Field("foreignInstiture") foreignInstiture: String?,
             @Field("showDegree") showDegree: String?,
             @Field("result") result: String?,
@@ -177,6 +195,23 @@ interface ApiServiceMyBdjobs {
             @Field("cboRetirementDate") cboRetirementDate: String?,
             @Field("arm_id") arm_id: String?,
             @Field("hId") hId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_update_tr.asp")
+    fun updateTrainingList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("trainingTitle") trainingTitle: String?,
+            @Field("institute") institute: String?,
+            @Field("country") country: String?,
+            @Field("year") year: String?,
+            @Field("duration") duration: String?,
+            @Field("hEd_id") hEd_id: String?,
+            @Field("topicCovered") topicCovered: String?,
+            @Field("location") location: String?,
+            @Field("trainingId") trainingId: String?
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded

@@ -44,6 +44,7 @@
     <string name="hint.result">Result</string>
     <string name="hint.passing_year">Passing Year</string>
     <string name="hint.duration">Duration</string>
+    <string name="hint.duration_tr">Duration *</string>
     <string name="hint.achievement">Achievement</string>
     <string name="hint.save">Save</string>
     <string name="heading.toolbar.addProfessionalQualification">Add Professional Qualification</string>
@@ -200,8 +201,16 @@
     <string name="unfollow">Unfollow</string>
     <string name="followed_employers">Followed Employers</string>
     <string name="error_msg_unknown">An unexpected error occurred</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="browse_gallery">Browse Gallery</string>
     <string name="capture_photo">Capture Photo</string>
     <string name="photo_upload_heading">Upload Photo</string>
+    <string name="title_emp_history">Employment History</string>
+    <string name="gen.male">Male</string>
+    <string name="gen.female">Female</string>
+    <string name="gen.others">Others</string>
+    <string name="marital.married">Married</string>
+    <string name="marital.unmarried">Unmarried</string>
+    <string name="marital.single">Single</string>
+    <string name="hint.bangladeshi">I am Bangladeshi</string>
+    <string name="hint.addEmailaddress">ADD EMAIL</string>
 </resources>

@@ -249,7 +249,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.cgpa"
-                            android:inputType="text"
+                            android:inputType="numberDecimal"
+                            android:maxLength="4"
                             android:textColor="#212121" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -267,7 +268,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.scale"
-                            android:inputType="text"
+                            android:inputType="numberDecimal"
+                            android:maxLength="4"
                             android:textColor="#212121" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -306,7 +308,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.duration"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>

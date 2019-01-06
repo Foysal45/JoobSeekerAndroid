@@ -53,6 +53,7 @@ class PersonalDetailsViewFragment : Fragment() {
         shimmerStart()
         populateData()
         personalInfoCB.setEditButton(true, "editPersonal")
+        personalInfoCB.setDeleteButton(false)
         personalInfoCB.setTitle(getString(R.string.title_personal))
     }
 
@@ -71,6 +72,7 @@ class PersonalDetailsViewFragment : Fragment() {
                         shimmerStop()
                         nsView.show()
                         val respo = response.body()
+                        personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo)
                     }
                 } catch (e: Exception) {
