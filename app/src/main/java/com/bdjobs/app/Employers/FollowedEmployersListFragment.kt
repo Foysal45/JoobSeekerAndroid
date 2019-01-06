@@ -62,7 +62,8 @@ class FollowedEmployersListFragment : Fragment() {
 
         doAsync {
             followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
-            val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
+         //   val followedEmployerJobCount = followedEmployerList?.size
+          //  getJobCountOfFollowedEmployer()
             Log.d("follow", followedEmployerList.toString())
             uiThread {
 
@@ -74,7 +75,7 @@ class FollowedEmployersListFragment : Fragment() {
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
 
-                val styledText = "<b><font color='#13A10E'>${followedEmployerJobCount}</font></b> Followed Employers"
+                val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"
                 favCountTV.text = Html.fromHtml(styledText)
             }
         }
