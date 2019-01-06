@@ -18,6 +18,7 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_applied_jobs.*
 import org.jetbrains.anko.toast
@@ -84,7 +85,7 @@ class AppliedJobsFragment : Fragment() {
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         time = appliedJobsCommunicator.getTime()
         initializeViews()
-        backIMV.setOnClickListener {
+        backIMV?.setOnClickListener {
             appliedJobsCommunicator.backButtonPressed()
         }
 
@@ -92,10 +93,10 @@ class AppliedJobsFragment : Fragment() {
 
     private fun loadFirstPage(activityDate: String) {
 
-        appliedJobsRV.hide()
-        favCountTV.hide()
-        shimmer_view_container_appliedJobList.show()
-        shimmer_view_container_appliedJobList.startShimmerAnimation()
+        appliedJobsRV?.hide()
+        favCountTV?.hide()
+        shimmer_view_container_appliedJobList?.show()
+        shimmer_view_container_appliedJobList?.startShimmerAnimation()
 
 
         ApiServiceMyBdjobs.create().getAppliedJobs(
@@ -112,36 +113,40 @@ class AppliedJobsFragment : Fragment() {
             override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
 
-                Log.d("callAppliURl", "url: ${call?.request()} and ")
-                TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                //   TOTAL_PAGES = 5
-                var totalRecords = response.body()?.common?.totalNumberOfApplication
+                try {
+                    Log.d("callAppliURl", "url: ${call?.request()} and ")
+                    TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                    //   TOTAL_PAGES = 5
+                    var totalRecords = response.body()?.common?.totalNumberOfApplication
 
-                Log.d("callAppliURl", response.body()?.data.toString())
+                    Log.d("callAppliURl", response.body()?.data.toString())
 
-                if (!response?.body()?.data.isNullOrEmpty()) {
-                    appliedJobsRV!!.visibility = View.VISIBLE
-                    var value = response.body()?.data
-                    appliedJobsAdapter?.removeAll()
-                    appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
+                    if (!response?.body()?.data.isNullOrEmpty()) {
+                        appliedJobsRV!!.visibility = View.VISIBLE
+                        var value = response.body()?.data
+                        appliedJobsAdapter?.removeAll()
+                        appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
 
-                    if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                        Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                        appliedJobsAdapter?.addLoadingFooter()
-                    } else {
-                        Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                        isLastPages = true
+                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                            Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                            appliedJobsAdapter?.addLoadingFooter()
+                        } else {
+                            Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                            isLastPages = true
+                        }
+
                     }
 
+                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
+                    favCountTV.text = Html.fromHtml(styledText)
+
+                    appliedJobsRV?.show()
+                    favCountTV?.show()
+                    shimmer_view_container_appliedJobList?.hide()
+                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+                } catch (e: Exception) {
+                    logException(e)
                 }
-
-                val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
-                favCountTV.text = Html.fromHtml(styledText)
-
-                appliedJobsRV.show()
-                favCountTV.show()
-                shimmer_view_container_appliedJobList.hide()
-                shimmer_view_container_appliedJobList.stopShimmerAnimation()
             }
 
         })
@@ -161,21 +166,25 @@ class AppliedJobsFragment : Fragment() {
 
             override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
-                Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
-                Log.d("callAppliURl", response.body()?.data.toString())
-                TOTAL_PAGES = TOTAL_PAGES?.plus(1)
+                try {
+                    Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
+                    Log.d("callAppliURl", response.body()?.data.toString())
+                    TOTAL_PAGES = TOTAL_PAGES?.plus(1)
 
-                //response.body()?.common?.totalpages?.toInt()
-                appliedJobsAdapter?.removeLoadingFooter()
-                isLoadings = false
+                    //response.body()?.common?.totalpages?.toInt()
+                    appliedJobsAdapter?.removeLoadingFooter()
+                    isLoadings = false
 
-                appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
+                    appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
 
 
-                if (pgNo != TOTAL_PAGES)
-                    appliedJobsAdapter?.addLoadingFooter()
-                else {
-                    isLastPages = true
+                    if (pgNo != TOTAL_PAGES)
+                        appliedJobsAdapter?.addLoadingFooter()
+                    else {
+                        isLastPages = true
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
 

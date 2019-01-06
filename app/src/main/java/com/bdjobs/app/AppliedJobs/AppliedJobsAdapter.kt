@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -30,7 +31,6 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        // return AppliedjobsViewHolder(LayoutInflater.from(context).inflate(R.layout.applied_jobs, parent, false))
 
         var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
@@ -83,25 +83,25 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     }
 
     private fun bindViews(holder: AppliedjobsViewHolder, position: Int) {
-        holder.CompanyName.text = appliedJobsLists!![position].companyName
-        holder.PositionName.text = appliedJobsLists!![position].title
-        holder.appliedOn.text = appliedJobsLists!![position].appliedOn
-        holder.deadline.text = appliedJobsLists!![position].deadLine
-        holder.expectedSalary.text = appliedJobsLists!![position].expectedSalary
+        holder?.CompanyName?.text = appliedJobsLists!![position].companyName
+        holder?.PositionName?.text = appliedJobsLists!![position].title
+        holder?.appliedOn?.text = appliedJobsLists!![position].appliedOn
+        holder?.deadline?.text = appliedJobsLists!![position].deadLine
+        holder?.expectedSalary?.text = appliedJobsLists!![position].expectedSalary
 
         if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
 
-            holder.employerViewIcon.visibility = View.VISIBLE
+            holder?.employerViewIcon?.visibility = View.VISIBLE
 
         } else if (appliedJobsLists!![position].viewedByEmployer == "No") {
 
-            holder.employerViewIcon.visibility = View.GONE
+            holder?.employerViewIcon?.visibility = View.GONE
 
         }
         if (appliedJobsLists!![position].invitaion == "1") {
-            holder.applicationBTN.visibility = View.VISIBLE
-            holder.applicationBTN.text = "Interview Invitation"
-            holder.applicationBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#AC016D")))
+            holder?.applicationBTN?.visibility = View.VISIBLE
+            holder?.applicationBTN?.text = "Interview Invitation"
+            holder?.applicationBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#AC016D")))
 
         }
         if (appliedJobsLists!![position].viewedByEmployer == "No") {
@@ -110,11 +110,12 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 val deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
                 val todaysDate = Date()
                 if (deadline > todaysDate) {
-                    holder.applicationBTN.visibility = View.GONE
-                    holder.applicationBTN.text = "Cancel Application"
-                    holder.applicationBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#767676")))
+                    holder?.applicationBTN?.visibility = View.GONE
+                    holder?.applicationBTN?.text = "Cancel Application"
+                    holder?.applicationBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#767676")))
                 }
             } catch (e: Exception) {
+                logException(e)
 
             }
 
@@ -171,30 +172,28 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val appliedOn = view.findViewById(R.id.appliedon_tv) as TextView
-    val expectedSalary = view.findViewById(R.id.exSalary_tv) as TextView
-    val deadline = view.findViewById(R.id.deadline_tv) as TextView
-    val PositionName = view.findViewById(R.id.textViewPositionName) as TextView
-    val CompanyName = view.findViewById(R.id.textViewCompanyName) as TextView
-    val employerViewIcon = view.findViewById(R.id.employerView_icon) as ImageView
-    val applicationBTN = view.findViewById(R.id.applicationBTN) as MaterialButton
+    val appliedOn = view?.findViewById(R.id.appliedon_tv) as TextView
+    val expectedSalary = view?.findViewById(R.id.exSalary_tv) as TextView
+    val deadline = view?.findViewById(R.id.deadline_tv) as TextView
+    val PositionName = view?.findViewById(R.id.textViewPositionName) as TextView
+    val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
+    val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
+    val applicationBTN = view?.findViewById(R.id.applicationBTN) as MaterialButton
 
 
 }
 
 class LoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
-    /* private var mCallback: FragmentCallbacks? = null
-     private val adapter: PostedJobsAdapter? = null*/
+    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
     init {
 
-        mRetryBtn.setOnClickListener(this)
-        mErrorLayout.setOnClickListener(this)
+        mRetryBtn?.setOnClickListener(this)
+        mErrorLayout?.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
