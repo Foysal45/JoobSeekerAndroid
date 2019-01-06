@@ -126,7 +126,6 @@ class PhotoUploadActivity : AppCompatActivity() {
                             folderId = response.body()!!.data[0].folderId
                             imageName = response.body()!!.data[0].imageName
                             isResumeUpdate = response.body()!!.data[0].isResumeUpdate
-
                             params.put("Image", encodedString)
                             params.put("userid", bdjobsUserSession.userId)
                             params.put("decodeid", bdjobsUserSession.decodId)
@@ -138,8 +137,6 @@ class PhotoUploadActivity : AppCompatActivity() {
                             makeHTTPCall()
 
                         }
-
-
                     }
                 })
             }
