@@ -202,6 +202,9 @@
     <string name="unfollow">Unfollow</string>
     <string name="followed_employers">Followed Employers</string>
     <string name="error_msg_unknown">An unexpected error occurred</string>
+    <string name="browse_gallery">Browse Gallery</string>
+    <string name="capture_photo">Capture Photo</string>
+    <string name="photo_upload_heading">Upload Photo</string>
     <string name="title_emp_history">Employment History</string>
     <string name="gen.male">Male</string>
     <string name="gen.female">Female</string>

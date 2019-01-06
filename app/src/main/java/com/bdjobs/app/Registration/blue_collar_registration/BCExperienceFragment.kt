@@ -1,26 +1,21 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
 import android.app.AlertDialog
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
 import android.app.ProgressDialog
-import android.content.DialogInterface
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
+import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.footer_bc_layout.*
-import kotlinx.android.synthetic.main.fragment_bc_adress.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
-import org.jetbrains.anko.makeCall
-import java.util.ArrayList
+import java.util.*
 
 
 class BCExperienceFragment : Fragment() {
@@ -64,7 +59,7 @@ class BCExperienceFragment : Fragment() {
                    }
                }
 
-               registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.text.toString())
+               registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.getString())
                //progressDialog.setMessage("Please Wait");
                //progressDialog.show();
                registrationCommunicator.bcGoToStepEducation()

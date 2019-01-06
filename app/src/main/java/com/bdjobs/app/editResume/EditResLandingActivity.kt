@@ -58,6 +58,16 @@ class EditResLandingActivity : Activity() {
             "Emp" ->
                 startActivity<EmploymentHistoryActivity>("name" to s)
         }
+
+
+        photoUpload.setOnClickListener {
+
+            startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
+
+
+        }
+
+
     }
 
 
