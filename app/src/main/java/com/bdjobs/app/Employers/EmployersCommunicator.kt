@@ -5,5 +5,6 @@ interface EmployersCommunicator {
     fun gotoJobListFragment(companyID : String?, companyName : String?)
     fun getCompanyID() : String
     fun getCompanyName() : String
+    fun getJobId() : String
 
 }

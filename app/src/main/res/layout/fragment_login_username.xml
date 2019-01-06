@@ -208,14 +208,14 @@
         android:layout_marginBottom="32dp"
         android:clickable="true"
         android:elevation="16dp"
+        android:src="@drawable/ic_arrow_forward_black_24dp"
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        android:src="@drawable/ic_arrow_forward_black_24dp" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <LinearLayout
         android:id="@+id/LL1"

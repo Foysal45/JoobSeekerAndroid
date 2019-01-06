@@ -14,6 +14,7 @@ import com.bdjobs.app.editResume.EditResLandingActivity
 class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalViewHolder>() {
 
     private var moreItems: ArrayList<MoreHorizontalData>? = ArrayList()
+    private val homeCommunicator = context as HomeCommunicator
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalViewHolder {
         return HorizontalViewHolder(LayoutInflater.from(context).inflate(R.layout.custom_data_horizontal_view, parent, false))
@@ -25,8 +26,31 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
       }
 
     override fun onBindViewHolder(holder: HorizontalViewHolder, position: Int) {
-        holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
+       // holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
+        holder.resourceID_Value.setBackgroundResource(moreItems!![position].resourceID)
         holder.resourceName_Value.text = moreItems!![position].resourceName
+        holder.itemView.setOnClickListener {
+            when(moreItems!![position].resourceName){
+
+                "Favorite\nSearch"->{
+                    homeCommunicator.goToFavSearchFilters()
+                }
+                "Applied\nJobs"->{
+                    homeCommunicator.setTime("0")
+                    homeCommunicator.goToAppliedJobs()
+                }
+                "Followed\nEmployers"->{
+                    homeCommunicator.goToFollowedEmployerList("follow")
+                }
+                "Employer\nList"->{
+                    homeCommunicator.goToFollowedEmployerList("employer")
+                }
+
+
+
+
+            }
+        }
 
         if (position == 0) {
             holder.itemView.setOnClickListener {
@@ -46,6 +70,11 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
         for (result in moveResults) {
             add(result)
         }
+    }
+
+    fun removeAll() {
+        moreItems?.clear()
+        notifyDataSetChanged()
     }
 }
 class HorizontalViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {

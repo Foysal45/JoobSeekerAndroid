@@ -149,6 +149,39 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         } catch (e: Exception) {
             logException(e)
         }
+////
+        try {
+            postedWithin = intent.getStringExtra("postedWithin")
+        } catch (e: Exception) {
+            logException(e)
+        }
+        try {
+            deadline = intent.getStringExtra("deadline")
+        } catch (e: Exception) {
+            logException(e)
+        }
+        try {
+            jobNature = intent.getStringExtra("jobNature")
+        } catch (e: Exception) {
+            logException(e)
+        }
+        try {
+            organization = intent.getStringExtra("organization")
+        } catch (e: Exception) {
+            logException(e)
+        }
+        try {
+            location = intent.getStringExtra("location")
+        } catch (e: Exception) {
+            logException(e)
+        }
+        try {
+            keyword = intent.getStringExtra("keyword")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+
 
         try {
             val from = intent.getStringExtra("from")

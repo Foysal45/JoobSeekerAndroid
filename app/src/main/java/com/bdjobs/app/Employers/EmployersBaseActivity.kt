@@ -32,13 +32,14 @@ import com.bdjobs.app.Utilities.transitFragment
  +-----------------------------------------------------------------------------
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
+
     private var companyid = ""
     private var companyname = ""
     private var value = ""
     private val followedEmployersListFragment = FollowedEmployersListFragment()
     private val employerJobListFragment = EmployerJobListFragment()
     private val employerListFragment = EmployerListFragment()
-
+    private var jobId = ""
     override fun gotoJobListFragment(companyID: String?, companyName: String?) {
         companyid = companyID!!
         companyname = companyName!!
@@ -59,9 +60,19 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         onBackPressed()
     }
 
+    override fun getJobId(): String {
+        return  jobId
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employers_base)
+
+        try {
+            jobId = intent.getStringExtra("jobId")
+        } catch (e: Exception) {
+        }
 
         try {
            value = intent.getStringExtra("from")

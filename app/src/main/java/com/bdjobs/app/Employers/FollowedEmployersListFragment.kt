@@ -23,15 +23,7 @@ import org.jetbrains.anko.uiThread
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [FollowedEmployersListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [FollowedEmployersListFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
+
 class FollowedEmployersListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -57,7 +49,7 @@ class FollowedEmployersListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_followed_employers_list, container, false)
     }
 
-    @SuppressLint("WrongConstant")
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         employersCommunicator = activity as EmployersCommunicator

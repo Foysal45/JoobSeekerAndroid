@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F2F2F2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -25,8 +25,7 @@
             android:id="@+id/constraintLayoutToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            tools:layout_editor_absoluteX="16dp"
-            >
+            tools:layout_editor_absoluteX="16dp">
 
             <TextView
                 android:id="@+id/suggestiveSearchET"
@@ -53,13 +52,80 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/gridView_RV"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/buttonLL"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="8dp"
-       />
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/myBdjobsgridView_RV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
+
+        <Button
+            android:id="@+id/lastmonth_MBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/left_rounded_background"
+            android:lineSpacingExtra="0sp"
+            android:layout_gravity="center"
+            android:text="Last Month"
+            android:gravity="center_horizontal|center_vertical"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/all_MBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/right_rounded_background"
+            android:lineSpacingExtra="0sp"
+            android:text="All Time"
+            android:gravity="center_horizontal|center_vertical"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
 
 
-</LinearLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myBdjobsgridView_RV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLL" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextButtonFAB"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:src="@drawable/ic_build"
+        android:windowSoftInputMode="adjustResize"
+        app:backgroundTint="#13A10E"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

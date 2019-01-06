@@ -344,6 +344,48 @@ interface ApiServiceMyBdjobs {
 
 
     @FormUrlEncoded
+    @POST("apps_view_stats.asp")
+    fun mybdjobStats(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isActivityDate") isActivityDate: String?,
+            @Field("trainingId") trainingId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
+
+    ): Call<StatsModelClass>
+
+    @FormUrlEncoded
+    @POST("apps_apply_position.asp")
+    fun getAppliedJobs(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isActivityDate") isActivityDate: String?,
+            @Field("pageNumber") pageNumber: String?,
+            @Field("itemsPerPage") itemsPerPage: String?
+    ): Call<AppliedJobModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_LastUpdate.asp")
+    fun getInterviewInvitation(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
+    ): Call<InterviewInvitation>
+
+
+    @FormUrlEncoded
+    @POST("app_logout.asp")
+    fun logout(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = ""
+    ): Call<CookieModel>
+
+
+    @FormUrlEncoded
     @POST("upload_img.aspx")
     fun DeletePhoto(
             @Field("folderName") folderName: String,
