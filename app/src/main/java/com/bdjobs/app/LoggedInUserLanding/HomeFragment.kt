@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.app.Dialog
 import android.app.Fragment
 import android.content.IntentFilter
 import android.os.Bundle
@@ -7,14 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
-import com.bdjobs.app.API.ModelClasses.StatsModelClass
-import com.bdjobs.app.API.ModelClasses.StatsModelClassCommon
-import com.bdjobs.app.API.ModelClasses.StatsModelClassData
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
@@ -27,7 +27,9 @@ import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_home_layout.*
+import kotlinx.android.synthetic.main.interview_invitation_popup.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
@@ -56,8 +58,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var b2CCertificationList: List<B2CCertification>? = null
     private var lastSearch: List<LastSearch>? = null
     private lateinit var homeCommunicator: HomeCommunicator
-
-
+    private var inviteInterviview: String? = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,8 +75,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         emailTV.text = bdjobsUserSession.email
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
+        getInterviewInvitation()
     }
-
 
 
     private fun onClickListeners() {
@@ -120,6 +121,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         activity.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showData()
+
     }
 
     override fun onPause() {
@@ -364,6 +366,50 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         Log.d("allValuesN", allValues)
 
         return allValues.removeLastComma()
+    }
+
+
+    private fun showPop() {
+        val interviewInvitationDialog = Dialog(activity)
+        interviewInvitationDialog.setContentView(R.layout.interview_invitation_popup)
+        interviewInvitationDialog.setCancelable(true)
+        interviewInvitationDialog.show()
+        val InterviewTVCount = interviewInvitationDialog.findViewById<TextView>(R.id.interview_invitation_count_tv)
+        val cancelBTN = interviewInvitationDialog.findViewById(R.id.cancel) as ImageView
+        val interviewList_MBTN = interviewInvitationDialog.findViewById(R.id.viewList_MBTN) as MaterialButton
+
+        InterviewTVCount.text = inviteInterviview
+
+        cancelBTN.setOnClickListener {
+            interviewInvitationDialog.dismiss()
+        }
+        interviewList_MBTN.setOnClickListener {
+            interviewInvitationDialog.dismiss()
+            homeCommunicator.goToInterviewInvitation("homePage")
+        }
+    }
+
+    private fun getInterviewInvitation() {
+        ApiServiceMyBdjobs.create().getInterviewInvitation(
+                userId = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId
+        ).enqueue(object : Callback<InterviewInvitation> {
+            override fun onFailure(call: Call<InterviewInvitation>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<InterviewInvitation>, response: Response<InterviewInvitation>) {
+                inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
+                Log.d("google", "google = $inviteInterviview")
+
+                if (inviteInterviview?.toInt()!! > 0) {
+                    showPop()
+                }
+
+
+            }
+
+        })
     }
 
 

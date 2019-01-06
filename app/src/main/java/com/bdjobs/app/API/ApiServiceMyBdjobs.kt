@@ -20,7 +20,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST(api_mybdjobs_app_agent_log)
-    fun doLogin(@Field("username") username: String?="",
+    fun doLogin(@Field("username") username: String? = "",
                 @Field("password") password: String? = "",
                 @Field("userId") userId: String? = "",
                 @Field("decodId") decodId: String? = "",
@@ -82,24 +82,23 @@ interface ApiServiceMyBdjobs {
     fun createAccount(
             @Field("firstName") firstName: String? = "",
             @Field("lastName") lastName: String? = "",
-            @Field("gender") gender:String? = "",
-            @Field("email") email:String? = "",
-            @Field("username") username:String? = "",
+            @Field("gender") gender: String? = "",
+            @Field("email") email: String? = "",
+            @Field("username") username: String? = "",
             @Field("password") password: String? = "",
             @Field("confirm") confirm: String? = "",
             @Field("mobile") mobile: String? = "",
             @Field("smid") smid: String? = "",
             @Field("isSMLogin") isSMLogin: String? = "",
-            @Field("categoryType") categoryType:String? = "",
-            @Field("userNameType") userNameType:String? = "",
-            @Field("smediatype") smediatype:String? = "",
+            @Field("categoryType") categoryType: String? = "",
+            @Field("userNameType") userNameType: String? = "",
+            @Field("smediatype") smediatype: String? = "",
             @Field("prefCat") prefCat: String? = "",
             @Field("txtCountryCode") txtCountryCode: String? = "",
             @Field("packageName") packageName: String? = "",
-            @Field("packageNameVersion") packageNameVersion:String? = ""
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
     ): Call<CreateAccountModel>
-
 
 
     @FormUrlEncoded
@@ -107,8 +106,8 @@ interface ApiServiceMyBdjobs {
     fun sendOtpToVerify(
             @Field("tmpUserId") tmpUserId: String? = "",
             @Field("optCode") optCode: String? = "",
-            @Field("packageName") packageName:String? = "",
-            @Field("packageNameVersion") packageNameVersion:String? = ""
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
 
     ): Call<CreateAccountModel>
@@ -117,21 +116,21 @@ interface ApiServiceMyBdjobs {
     @FormUrlEncoded
     @POST("apps_updateBlueCv.asp")
     fun sendBlueCollarUserInfo(
-            @Field("UserID") userid: String ="",
-            @Field("decodeId") decodeId: String="",
+            @Field("UserID") userid: String = "",
+            @Field("decodeId") decodeId: String = "",
             @Field("userName") userName: String = "",
-            @Field("village") village: String ="",
-            @Field("locationID") locationID: String ="",
-            @Field("dob") dob: String ="",
-            @Field("age") age: String ="",
-            @Field("skillID") skillID: String ="",
-            @Field("expYear") expYear: String ="",
-            @Field("levelOfEducation") levelOfEducation: String="",
+            @Field("village") village: String = "",
+            @Field("locationID") locationID: String = "",
+            @Field("dob") dob: String = "",
+            @Field("age") age: String = "",
+            @Field("skillID") skillID: String = "",
+            @Field("expYear") expYear: String = "",
+            @Field("levelOfEducation") levelOfEducation: String = "",
             @Field("institute") institute: String = "",
-            @Field("inlineRadioOptions") inlineRadioOptions: String="",
-            @Field("examDegreeTitle") examDegreeTitle: String ="",
-            @Field("yearOfPassing") yearOfPassing: String ="",
-            @Field("hasEdu") hasEdu: String =""
+            @Field("inlineRadioOptions") inlineRadioOptions: String = "",
+            @Field("examDegreeTitle") examDegreeTitle: String = "",
+            @Field("yearOfPassing") yearOfPassing: String = "",
+            @Field("hasEdu") hasEdu: String = ""
     ): Call<UpdateBlueCvModel>
 
 
@@ -140,7 +139,7 @@ interface ApiServiceMyBdjobs {
     fun resendOtp(
             @Field("userId") tmpUserId: String? = "",
             @Field("mobile") mobile: String? = "",
-            @Field("forCreateAccount") forCreateAccount:String? = ""
+            @Field("forCreateAccount") forCreateAccount: String? = ""
 
     ): Call<ResendOtpModel>
 
@@ -175,25 +174,35 @@ interface ApiServiceMyBdjobs {
     @FormUrlEncoded
     @POST("apps_view_stats.asp")
     fun mybdjobStats(
-            @Field("userId") userId : String?,
-            @Field("decodeId") decodeId : String?,
-            @Field("isActivityDate") isActivityDate : String?,
-            @Field("trainingId") trainingId : String?,
-            @Field("isResumeUpdate") isResumeUpdate : String?,
-            @Field("packageName") packageName : String? = "",
-            @Field("packageNameVersion") packageNameVersion : String? = ""
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isActivityDate") isActivityDate: String?,
+            @Field("trainingId") trainingId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
-    ) : Call<StatsModelClass>
+    ): Call<StatsModelClass>
 
     @FormUrlEncoded
     @POST("apps_apply_position.asp")
     fun getAppliedJobs(
-            @Field("userId") userId : String?,
-            @Field("decodeId") decodeId : String?,
-            @Field("isActivityDate") isActivityDate : String?,
-            @Field("pageNumber") pageNumber : String?,
-            @Field("itemsPerPage") itemsPerPage : String?
-    ) : Call<AppliedJobModel>
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isActivityDate") isActivityDate: String?,
+            @Field("pageNumber") pageNumber: String?,
+            @Field("itemsPerPage") itemsPerPage: String?
+    ): Call<AppliedJobModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_LastUpdate.asp")
+    fun getInterviewInvitation(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
+    ): Call<InterviewInvitation>
 
 
     @FormUrlEncoded
