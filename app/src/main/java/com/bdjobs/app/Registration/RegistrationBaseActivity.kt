@@ -2,7 +2,6 @@ package com.bdjobs.app.Registration
 
 import android.app.Activity
 import android.content.Intent
-
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,7 +11,6 @@ import com.bdjobs.app.API.ModelClasses.CreateAccountModel
 import com.bdjobs.app.API.ModelClasses.ResendOtpModel
 import com.bdjobs.app.API.ModelClasses.UpdateBlueCvModel
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
-
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
@@ -22,7 +20,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.showError
-
 import com.bdjobs.app.Utilities.transitFragment
 import com.facebook.*
 import com.facebook.login.LoginManager
@@ -41,7 +38,6 @@ import com.linkedin.platform.utils.Scope
 import kotlinx.android.synthetic.main.activity_registration_base.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import org.jetbrains.anko.toast
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -786,11 +782,15 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
 
-        ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, userName, address, locationID
-                , birthDate!!, age, subcategoriesID, eduLevel, instName, educationType,
-                eduDegree, eduDegree, passingYear, hasEducation).enqueue(object : Callback<UpdateBlueCvModel> {
+
+
+
+
+        ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, address, locationID, birthDate!!,
+                experience, subcategoriesID, age, userName, eduLevel, instName,
+                educationType, eduDegree, passingYear, hasEducation).enqueue(object : Callback<UpdateBlueCvModel> {
             override fun onFailure(call: Call<UpdateBlueCvModel>, t: Throwable) {
-                /*toast("On Failure ")*/
+                Log.d("Ressdjg", " onFailure ${t.message}")
             }
 
             override fun onResponse(call: Call<UpdateBlueCvModel>, response: Response<UpdateBlueCvModel>) {
@@ -803,6 +803,33 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
                 if (response.body()!!.statuscode.equals("0", true)) {
+
+                    val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
+                    isCVPostedRPS = response.body()!!.data.get(0).isCvPosted
+                    nameRPS = response.body()!!.data.get(0).name
+                    emailRPS = response.body()!!.data.get(0).email
+                    userID = response.body()!!.data.get(0).userId
+                    decodeId = response.body()!!.data.get(0).decodId
+                    userNameRPS = response.body()!!.data.get(0).userName
+                    appsDate = response.body()!!.data.get(0).appsDate
+                    ageRPS = response.body()!!.data.get(0).age
+                    experienseRPS = response.body()!!.data.get(0).exp
+                    categoryIDRPS = response.body()!!.data.get(0).catagoryId
+                    genderRPS = response.body()!!.data.get(0).gender
+                    resumeUpdateOn = response.body()!!.data.get(0).resumeUpdateON
+                    isResumeUpdate = response.body()!!.data.get(0).isResumeUpdate
+                    trainingId = response.body()!!.data.get(0).trainingId
+                    userPicUrl = response.body()!!.data.get(0).userPicUrl
+
+
+                    Log.d("ResponseTesrt", "UserId $userID decodeid $decodeId")
+
+
+                    bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
+                            userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
+                            resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
+
+
 
                     transitFragment(bcPhotoUploadFragment, R.id.registrationFragmentHolderFL, true)
                     loadingProgressBar.visibility = View.GONE
@@ -1020,9 +1047,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
-        bcPhotoUploadFragment!!.onActivityResult(requestCode, resultCode, data)
+        bcPhotoUploadFragment.onActivityResult(requestCode, resultCode, data)
         callbackManager?.onActivityResult(requestCode, resultCode, data)
-        LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data);
+        LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data)
         if (requestCode == Constants.RC_SIGN_IN) {
 
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -1056,7 +1083,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                 Log.d("Gmail","${this.name}  ${this.wcEmail} ")
 
-                wcEmail = account?.email!!
+                wcEmail = account.email!!
                 userNameType = ""
                 gender = ""
 
@@ -1409,7 +1436,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     private fun signOutFromFacebook() {
         if (AccessToken.getCurrentAccessToken() == null) {
-            return; // already logged out
+            return // already logged out
         }
         val request = GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
     }

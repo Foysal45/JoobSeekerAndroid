@@ -1,29 +1,25 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.app.AlertDialog
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import android.widget.EditText
 import android.widget.Toast
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
+import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.footer_bc_layout.*
-import kotlinx.android.synthetic.main.fragment_bc_adress.*
 import kotlinx.android.synthetic.main.fragment_bc_education.*
-import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 
@@ -95,11 +91,9 @@ class BCEducationFragment : Fragment() {
             } else {
 
                 if (validateCondition() || validateConditionTwo()) {
-
-                    registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
-
                     Log.d("ConditionCheck"," second Condition ")
                     registrationCommunicator.bcEducationSelected(levelOfEducation, eduDegree, instituteName, passingYear, educationType)
+                    registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
                 }
 
 
@@ -128,7 +122,7 @@ class BCEducationFragment : Fragment() {
 
         bcEduDegreeTIET.setOnClickListener {
 
-            var queryValue = bcEduLevelTIET.getText().toString()
+            var queryValue = bcEduLevelTIET.text.toString()
             queryValue = queryValue.replace("'", "''")
             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
             val eduDegreeList: Array<String> = dataStorage.getEducationDegreesByEduLevelID(edulevelID)
@@ -195,9 +189,7 @@ class BCEducationFragment : Fragment() {
 
                 } else {
                     hasEducation = "False"
-                   /*  nextButton.setEnabled(true)
-                     nextButton.setClickable(true)
-                     nextButton.setBackgroundResource(R.drawable.next_button_active)*/
+
                     bcEduLevelTIET.text!!.clear()
                     bcEduDegreeTIET.text!!.clear()
                     bcInstituteNameTIET.text!!.clear()
@@ -264,7 +256,7 @@ class BCEducationFragment : Fragment() {
     private fun validateCondition(): Boolean {
 
 
-        val passingYear = bcPassingYearTIET.getText().toString()
+        val passingYear = bcPassingYearTIET.getString()
         var passingYearInt = 0
         try {
 
@@ -275,10 +267,10 @@ class BCEducationFragment : Fragment() {
 
         }
 
-        return !TextUtils.isEmpty(bcEduLevelTIET.text.toString()) and
-                !TextUtils.isEmpty(bcEduDegreeTIET.text.toString()) and
-                !TextUtils.isEmpty(bcInstituteNameTIET.text.toString()) and
-                ((bcPassingYearTIET.text.toString().length > 3) and (
+        return !TextUtils.isEmpty(bcEduLevelTIET.getString()) and
+                !TextUtils.isEmpty(bcEduDegreeTIET.getString()) and
+                !TextUtils.isEmpty(bcInstituteNameTIET.getString()) and
+                ((bcPassingYearTIET.getString().length > 3) and (
                         passingYearInt <= 2023) and (passingYearInt >= 1963))
     }
 
@@ -286,7 +278,7 @@ class BCEducationFragment : Fragment() {
     private fun validateConditionTwo(): Boolean {
 
 
-        val passingYear = bcPassingYearTIET.text.toString()
+        val passingYear = bcPassingYearTIET.getString()
         var passingYearInt = 0
         try {
 
@@ -297,44 +289,12 @@ class BCEducationFragment : Fragment() {
 
         }
 
-        return !TextUtils.isEmpty(bcEduLevelTIET.text.toString()) and
-                !TextUtils.isEmpty(bcEduDegreeTIET.text.toString()) and
-                !TextUtils.isEmpty(bcInstituteNameTIET.text.toString()) and
-                !TextUtils.isEmpty(bcEduDegreeOtherTIET.text.toString()) and
-                ((bcPassingYearTIET.text.toString().length > 3) and (
+        return !TextUtils.isEmpty(bcEduLevelTIET.getString()) and
+                !TextUtils.isEmpty(bcEduDegreeTIET.getString()) and
+                !TextUtils.isEmpty(bcInstituteNameTIET.getString()) and
+                !TextUtils.isEmpty(bcEduDegreeOtherTIET.getString()) and
+                ((bcPassingYearTIET.getString().length > 3) and (
                         passingYearInt <= 2023) and (passingYearInt >= 1963))
     }
 
-    override fun onResume() {
-        super.onResume()
-
-       /* val eduLevels = dataStorage.allEduLevels()
-        setDialog("সর্বশেষ শিক্ষা পর্যায়", eduLevelET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))
-
-        if (!TextUtils.isEmpty(eduLevelET.getText().toString())) {
-            var queryValue = eduLevelET.getText().toString()
-            queryValue = queryValue.replace("'", "''")
-            val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
-            setDialog("পরীক্ষা/ডিগ্রীর নাম", eduDegreeET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
-        }
-
-        Log.d("ExceptionTest", " Education Type " + registrationCommunicator.getEducationType())
-
-        try {
-
-            if (registrationCommunicator.getEducationType().equals("5")) {
-
-                Log.d("ExceptionTest", " In If Condition ")
-
-                eduDegreeOtherET.setVisibility(View.VISIBLE)
-            }
-
-        } catch (e: Exception) {
-
-            Log.d("ExceptionTest", " Exception " + e.message)
-
-
-        }*/
-
-    }
 }

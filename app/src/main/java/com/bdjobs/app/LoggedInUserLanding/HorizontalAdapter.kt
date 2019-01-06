@@ -1,17 +1,15 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.R
-import kotlinx.android.synthetic.main.fragment_wc_social_info.view.*
+import com.bdjobs.app.editResume.EditResLandingActivity
 
 class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalViewHolder>() {
 
@@ -51,6 +49,12 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
 
 
 
+            }
+        }
+
+        if (position == 0) {
+            holder.itemView.setOnClickListener {
+                context.startActivity(Intent(context, EditResLandingActivity::class.java))
             }
         }
 

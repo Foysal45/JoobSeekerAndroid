@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBaseContact"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editResume.personalInfo.fragments.contactDetails.ContactViewFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/title_home"
+            android:src="@drawable/ic_home_er" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/iv1"
+            android:text="@string/hint.presentAddress_v"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPresentAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv1"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="4dp"
+            android:maxLines="5"
+            android:textColor="#393939"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_1"
+        android:layout_gravity="start"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/title_home"
+            android:src="@drawable/ic_home_er" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/iv2"
+            android:text="@string/hint.permanentAddress"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPermanentAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv2"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="4dp"
+            android:maxLines="5"
+            android:textColor="#393939"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_2"
+        android:layout_gravity="start"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/title_home"
+            android:src="@drawable/ic_phone_er" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/iv3"
+            android:text="@string/hint.mobile"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvMobileNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv3"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="4dp"
+            android:textColor="#393939"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_3"
+        android:layout_gravity="start"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imageView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/title_home"
+            android:src="@drawable/ic_email_er" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/imageView19"
+            android:text="@string/hint.email_address_v"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEmailAddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView36"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="4dp"
+            android:textColor="#393939"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container_JobList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        shimmer:duration="800"
+        shimmer:layout_constraintBottom_toBottomOf="parent"
+        shimmer:layout_constraintEnd_toEndOf="parent"
+        shimmer:layout_constraintStart_toStartOf="parent">
+
+        <!-- Adding 7 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</RelativeLayout>

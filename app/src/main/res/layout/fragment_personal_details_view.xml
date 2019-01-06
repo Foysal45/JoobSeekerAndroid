@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/il_header"
+                layout="@layout/layout_perso_header_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/il_1"
+                layout="@layout/layout_perso_view_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/il_header" />
+
+            <include
+                android:id="@+id/il_3"
+                layout="@layout/layout_perso_view_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/il_2" />
+
+            <include
+                android:id="@+id/il_2"
+                layout="@layout/layout_perso_view_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/il_1" />
+
+            <include
+                android:id="@+id/il_4"
+                layout="@layout/layout_perso_view_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/il_3" />
+
+            <ProgressBar
+                android:id="@+id/loadingProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:theme="@style/BdjobsLinearProgress"
+                android:visibility="gone" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container_JobList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        shimmer:duration="800"
+        shimmer:layout_constraintBottom_toBottomOf="parent"
+        shimmer:layout_constraintEnd_toEndOf="parent"
+        shimmer:layout_constraintStart_toStartOf="parent">
+
+        <!-- Adding 7 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

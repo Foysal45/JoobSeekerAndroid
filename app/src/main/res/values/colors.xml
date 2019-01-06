@@ -13,5 +13,7 @@
     <color name="fav_search_save">#F7894A</color>
     <color name="undo">#8ab4f8</color>
     <color name="unfollow">#E6E5EB</color>
+    <color name="chip_select_color">#2F64A3</color>
+    <color name="chip_default_color">#FFFFFF</color>
 
 </resources>

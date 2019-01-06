@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/dialog_background"
-    android:layout_width="320dp"
-    android:layout_height="225dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/camera_button"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="8dp"
         android:text="ক্যামেরা দিয়ে ছবি তুলুন  "
         android:textColor="#393939"
         android:textSize="14sp"
         app:backgroundTint="#FFFFFF"
         app:cornerRadius="8dp"
-        app:icon="@drawable/ic_camera_ic"
+        app:icon="@drawable/ic_camera_alt_black_24dp"
         app:iconGravity="textStart"
         app:iconTint="#393939"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+        app:layout_constraintTop_toBottomOf="@+id/photoUploadTV" />
 
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/photoUploadTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -49,9 +47,9 @@
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="30dp"
         android:text="গ্যালারী থেকে সিলেক্ট করুন"
         android:textColor="#393939"

@@ -6,10 +6,13 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
+import com.bdjobs.app.editResume.adapters.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 interface ApiServiceMyBdjobs {
 
@@ -20,7 +23,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST(api_mybdjobs_app_agent_log)
-    fun doLogin(@Field("username") username: String? = "",
+    fun doLogin(@Field("username") username: String?="",
                 @Field("password") password: String? = "",
                 @Field("userId") userId: String? = "",
                 @Field("decodId") decodId: String? = "",
@@ -53,6 +56,174 @@ interface ApiServiceMyBdjobs {
             @Field("intFId") intFId: String?
     ): Call<FavouriteSearchCountModel>
 
+
+    @FormUrlEncoded
+    @POST("apps_step_03_view_exp.asp")
+    fun getExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetExps>
+
+    @FormUrlEncoded
+    @POST("apps_step_03_view_rai.asp")
+    fun getArmyExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetArmyEmpHis>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_view_aca.asp")
+    fun getAcaInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetAcademicInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_view_tr.asp")
+    fun getTrainingInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetTrainingInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_per.asp")
+    fun getPersonalInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetPersInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_con.asp")
+    fun getContactInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetContactInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_cai.asp")
+    fun getCareerInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetCarrerInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_update_cai.asp")
+    fun updateCareerData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("objective") objective: String?,
+            @Field("presentSalary") presentSalary: String?,
+            @Field("expSalary") expSalary: String?,
+            @Field("lookingFor") lookingFor: String?,
+            @Field("availableFor") availableFor: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_update_per.asp")
+    fun updatePersonalData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("firstName") firstName: String?,
+            @Field("lastName") lastName: String?,
+            @Field("father") father: String?,
+            @Field("mother") mother: String?,
+            @Field("birthday") birthday: String?,
+            @Field("nationality") nationality: String?,
+            @Field("marital") marital: String?,
+            @Field("gender") gender: String?,
+            @Field("nationalId") nationalId: String?,
+            @Field("Religion") Religion: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_update_aca.asp")
+    fun updateAcademicData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("levelOfEducation") levelOfEducation: String?,
+            @Field("examDegreeTitle") examDegreeTitle: String?,
+            @Field("institute") institute: String?,
+            @Field("yearOfPassing") yearOfPassing: String?,
+            @Field("concentration") concentration: String?,
+            @Field("hid") hid: String?,
+            @Field("foreignInstiture") foreignInstiture: String?,
+            @Field("showDegree") showDegree: String?,
+            @Field("result") result: String?,
+            @Field("CGPA") CGPA: String?,
+            @Field("grade") grade: String?,
+            @Field("duration") duration: String?,
+            @Field("achievements") achievements: String?,
+            @Field("hEd_id") hEd_id: String?,
+            @Field("chkResult") chkResult: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_03_update_exp.asp")
+    fun updateExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("companyName") companyName: String?,
+            @Field("compBusiness") compBusiness: String?,
+            @Field("compLocation") compLocation: String?,
+            @Field("positionHeld") positionHeld: String?,
+            @Field("department") department: String?,
+            @Field("responsibility") responsibility: String?,
+            @Field("from") from: String?,
+            @Field("to") to: String?,
+            @Field("currentlyWorking") currentlyWorking: String?,
+            @Field("areaOfExpertise") areaOfExpertise: String?,
+            @Field("hEx_id") hEx_id: String?,
+            @Field("hId") hId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_03_update_rai.asp")
+    fun updateArmyExpsList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("comboBANo") comboBANo: String?,
+            @Field("txtBANo") txtBANo: String?,
+            @Field("comboArms") comboArms: String?,
+            @Field("comboType") comboType: String?,
+            @Field("txtCourse") txtCourse: String?,
+            @Field("txtTrade") txtTrade: String?,
+            @Field("cboCommissionDate") cboCommissionDate: String?,
+            @Field("cboRetirementDate") cboRetirementDate: String?,
+            @Field("arm_id") arm_id: String?,
+            @Field("hId") hId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_update_tr.asp")
+    fun updateTrainingList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("trainingTitle") trainingTitle: String?,
+            @Field("institute") institute: String?,
+            @Field("country") country: String?,
+            @Field("year") year: String?,
+            @Field("duration") duration: String?,
+            @Field("hEd_id") hEd_id: String?,
+            @Field("topicCovered") topicCovered: String?,
+            @Field("location") location: String?,
+            @Field("trainingId") trainingId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_delete.asp")
+    fun deleteData(
+            @Field("itemName") itemName: String,
+            @Field("id") id: String,
+            @Field("isResumeUpdate") isUpdate: String,
+            @Field("userId") userId: String,
+            @Field("decodeId") decodeId: String): Call<AddorUpdateModel>
+
+
     @FormUrlEncoded
     @POST("app_delfavouritejobs.asp")
     fun deleteFavSearch(
@@ -82,23 +253,24 @@ interface ApiServiceMyBdjobs {
     fun createAccount(
             @Field("firstName") firstName: String? = "",
             @Field("lastName") lastName: String? = "",
-            @Field("gender") gender: String? = "",
-            @Field("email") email: String? = "",
-            @Field("username") username: String? = "",
+            @Field("gender") gender:String? = "",
+            @Field("email") email:String? = "",
+            @Field("username") username:String? = "",
             @Field("password") password: String? = "",
             @Field("confirm") confirm: String? = "",
             @Field("mobile") mobile: String? = "",
             @Field("smid") smid: String? = "",
             @Field("isSMLogin") isSMLogin: String? = "",
-            @Field("categoryType") categoryType: String? = "",
-            @Field("userNameType") userNameType: String? = "",
-            @Field("smediatype") smediatype: String? = "",
+            @Field("categoryType") categoryType:String? = "",
+            @Field("userNameType") userNameType:String? = "",
+            @Field("smediatype") smediatype:String? = "",
             @Field("prefCat") prefCat: String? = "",
             @Field("txtCountryCode") txtCountryCode: String? = "",
             @Field("packageName") packageName: String? = "",
-            @Field("packageNameVersion") packageNameVersion: String? = ""
+            @Field("packageNameVersion") packageNameVersion:String? = ""
 
     ): Call<CreateAccountModel>
+
 
 
     @FormUrlEncoded
@@ -106,8 +278,8 @@ interface ApiServiceMyBdjobs {
     fun sendOtpToVerify(
             @Field("tmpUserId") tmpUserId: String? = "",
             @Field("optCode") optCode: String? = "",
-            @Field("packageName") packageName: String? = "",
-            @Field("packageNameVersion") packageNameVersion: String? = ""
+            @Field("packageName") packageName:String? = "",
+            @Field("packageNameVersion") packageNameVersion:String? = ""
 
 
     ): Call<CreateAccountModel>
@@ -116,21 +288,21 @@ interface ApiServiceMyBdjobs {
     @FormUrlEncoded
     @POST("apps_updateBlueCv.asp")
     fun sendBlueCollarUserInfo(
-            @Field("UserID") userid: String = "",
-            @Field("decodeId") decodeId: String = "",
-            @Field("userName") userName: String = "",
-            @Field("village") village: String = "",
-            @Field("locationID") locationID: String = "",
-            @Field("dob") dob: String = "",
-            @Field("age") age: String = "",
-            @Field("skillID") skillID: String = "",
+            @Field("UserID") userid: String ="",
+            @Field("decodeId") decodeId: String="",
+            @Field("village") village: String ="",
+            @Field("locationID") locationID: String ="",
+            @Field("dob") dob: String ="",
             @Field("expYear") expYear: String = "",
-            @Field("levelOfEducation") levelOfEducation: String = "",
+            @Field("skillID") skillID: String = "",
+            @Field("age") age: String ="",
+            @Field("userName") userName: String = "",
+            @Field("levelOfEducation") levelOfEducation: String="",
             @Field("institute") institute: String = "",
-            @Field("inlineRadioOptions") inlineRadioOptions: String = "",
-            @Field("examDegreeTitle") examDegreeTitle: String = "",
-            @Field("yearOfPassing") yearOfPassing: String = "",
-            @Field("hasEdu") hasEdu: String = ""
+            @Field("inlineRadioOptions") inlineRadioOptions: String="",
+            @Field("examDegreeTitle") examDegreeTitle: String ="",
+            @Field("yearOfPassing") yearOfPassing: String ="",
+            @Field("hasEdu") hasEdu: String =""
     ): Call<UpdateBlueCvModel>
 
 
@@ -139,7 +311,7 @@ interface ApiServiceMyBdjobs {
     fun resendOtp(
             @Field("userId") tmpUserId: String? = "",
             @Field("mobile") mobile: String? = "",
-            @Field("forCreateAccount") forCreateAccount: String? = ""
+            @Field("forCreateAccount") forCreateAccount:String? = ""
 
     ): Call<ResendOtpModel>
 
@@ -211,6 +383,18 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = ""
     ): Call<CookieModel>
+
+
+    @FormUrlEncoded
+    @POST("upload_img.aspx")
+    fun DeletePhoto(
+            @Field("folderName") folderName: String,
+            @Field("folderId") folderId: String,
+            @Field("imageName") imageName: String,
+            @Field("isResumeUpdate") isResumeUpdate: String,
+            @Field("status") status: String,
+            @Field("userid") userid: String,
+            @Field("decodeid") decodeid: String): Call<PhotoInfoModel>
 
 
     companion object Factory {

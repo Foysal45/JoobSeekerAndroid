@@ -117,6 +117,26 @@
             android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".editResume.EditResLandingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".editResume.employmentHistory.EmploymentHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".editResume.personalInfo.PersonalInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".editResume.otherInfo.OtherInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".editResume.educationInfo.AcademicBaseActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".editResume.PhotoUploadActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".AppliedJobs.AppliedJobsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Settings.SettingBaseActivity"></activity>
