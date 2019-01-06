@@ -27,7 +27,6 @@ import java.util.*
 
 class PersonalDetailsEditFragment : Fragment() {
 
-
     private lateinit var personalInfo: PersonalInfo
     private lateinit var session: BdjobsUserSession
     lateinit var dataStorage: DataStorage

@@ -118,15 +118,17 @@ data class ArmydataItem(
 )
 
 data class AddorUpdateModel(
-
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
 
+        @field:SerializedName("isResumeUpdate")
+        val isResumeUpdate: String? = null,
+
         @field:SerializedName("data")
-        val data: List<Any?>? = null,
+        val data: Any? = null,
 
         @field:SerializedName("common")
-        val common: List<Any?>? = null,
+        val common: Any? = null,
 
         @field:SerializedName("message")
         val message: String? = null

@@ -44,6 +44,7 @@
     <string name="hint.result">Result</string>
     <string name="hint.passing_year">Passing Year</string>
     <string name="hint.duration">Duration</string>
+    <string name="hint.duration_tr">Duration *</string>
     <string name="hint.achievement">Achievement</string>
     <string name="hint.save">Save</string>
     <string name="heading.toolbar.addProfessionalQualification">Add Professional Qualification</string>

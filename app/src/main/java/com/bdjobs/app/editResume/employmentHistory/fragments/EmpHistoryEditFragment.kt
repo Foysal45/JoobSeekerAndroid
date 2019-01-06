@@ -41,7 +41,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var workExperineceID = ""
     private var newWorkExperineceID = ""
     private var exps: String = ""
-    private lateinit var expIDs: MutableList<String>
+    private var expIDs: MutableList<String> = MutableList(3) { "" }
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage

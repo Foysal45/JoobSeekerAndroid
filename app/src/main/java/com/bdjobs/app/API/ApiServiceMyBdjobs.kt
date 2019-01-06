@@ -198,6 +198,23 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_02_update_tr.asp")
+    fun updateTrainingList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("trainingTitle") trainingTitle: String?,
+            @Field("institute") institute: String?,
+            @Field("country") country: String?,
+            @Field("year") year: String?,
+            @Field("duration") duration: String?,
+            @Field("hEd_id") hEd_id: String?,
+            @Field("topicCovered") topicCovered: String?,
+            @Field("location") location: String?,
+            @Field("trainingId") trainingId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
     @POST("apps_delete.asp")
     fun deleteData(
             @Field("itemName") itemName: String,
