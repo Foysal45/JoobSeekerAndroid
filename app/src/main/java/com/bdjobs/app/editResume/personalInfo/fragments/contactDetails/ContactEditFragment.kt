@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
 
@@ -37,10 +39,28 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        preloadedData()
+        /* preloadedData()*/
         fab_contact_update.setOnClickListener {
             //updateData()
         }
+
+
+        insideBangladeshChip.setOnClickListener {
+            presentContactCountryTIL.hide()
+            thanaPostLayout.show()
+
+        }
+
+
+        outSideBangladesh.setOnClickListener {
+
+            thanaPostLayout.hide()
+            presentContactCountryTIL.show()
+
+
+        }
+
+
     }
 
     private fun updateData() {
