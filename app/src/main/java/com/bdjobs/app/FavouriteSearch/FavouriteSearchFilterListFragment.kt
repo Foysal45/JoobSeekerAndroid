@@ -41,8 +41,8 @@ class FavouriteSearchFilterListFragment : Fragment() {
             val favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
                 favListSize =favouriteSearchFilters.size
-                val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
-                favCountTV?.text = Html.fromHtml(styledText)
+              //  val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
+             //   favCountTV?.text = Html.fromHtml(styledText)
                 favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
                 var data = "filter"
                 if(favListSize>1){
