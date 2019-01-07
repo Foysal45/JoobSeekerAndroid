@@ -147,6 +147,7 @@ interface ApiServiceMyBdjobs {
             @Field("alternativeEmail") alternativeEmail: String?
     ): Call<AddorUpdateModel>
 
+
     @FormUrlEncoded
     @POST("apps_step_01_update_per.asp")
     fun updatePersonalData(
