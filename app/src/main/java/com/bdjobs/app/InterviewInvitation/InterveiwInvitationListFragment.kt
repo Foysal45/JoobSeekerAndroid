@@ -111,7 +111,11 @@ class InterveiwInvitationListFragment : Fragment() {
                 followedRV?.setHasFixedSize(true)
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedRV?.adapter = interviewInvitationListAdapter
-                val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview invitations found"
+                var data = "invitation"
+                if(interviewInvitations.size>1){
+                    data = "invitations"
+                }
+                val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"
                 favCountTV.text = Html.fromHtml(styledText)
                 followedRV.show()
                 favCountTV.show()

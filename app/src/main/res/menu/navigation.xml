@@ -8,17 +8,17 @@
     <item
         android:id="@+id/navigation_hotjobs"
         android:icon="@drawable/ic_hotjob"
-        android:title="Hotjobs" />
+        android:title="Hot Jobs" />
 
     <item
         android:id="@+id/navigation_shortlisted_jobs"
         android:icon="@drawable/ic_star_black_24dp"
-        android:title="ShortList" />
+        android:title="Shortlisted" />
 
     <item
         android:id="@+id/navigation_mybdjobs"
         android:icon="@drawable/ic_person_black_24dp"
-        android:title="Mybdjobs" />
+        android:title="My Bdjobs" />
 
     <item
         android:id="@+id/navigation_more"

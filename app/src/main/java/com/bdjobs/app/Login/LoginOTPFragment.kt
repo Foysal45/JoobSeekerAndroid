@@ -128,7 +128,7 @@ class LoginOTPFragment : Fragment() {
                            loginCommunicator.goToHomePage()
                        }else{
                            activity.stopProgressBar(progressBar)
-                           otpTIL.showError(response?.body()?.message)
+                           otpTIL.showError("The code is not correct or has been expired. Resend code")
                        }
                     }
                 }
@@ -142,7 +142,7 @@ class LoginOTPFragment : Fragment() {
     private fun validateOtpCode(otpCode: String?): Boolean {
         when {
             otpCode?.isBlank()!! -> {
-                otpTIL.showError(getString(R.string.field_empty_error_message_common))
+                otpTIL.showError("Please type the code")
                 return false
             }
 
