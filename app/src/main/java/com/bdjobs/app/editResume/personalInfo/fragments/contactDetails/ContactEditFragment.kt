@@ -40,6 +40,7 @@ class ContactEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         contactInfo.setTitle(getString(R.string.title_contact))
+        contactInfo.setEditButton(false, "editContact")
         doWork()
     }
 
@@ -259,11 +260,6 @@ class ContactEditFragment : Fragment() {
 
 
         }
-
-
-
-        }
-
 
 
         contactThanaTIET.setOnClickListener {
