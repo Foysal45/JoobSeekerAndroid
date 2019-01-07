@@ -444,6 +444,13 @@ class PhotoUploadActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        Log.d("dfgh", "  onActivityResult called")
+
+
+        Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
 
 
         if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
@@ -526,9 +533,10 @@ class PhotoUploadActivity : AppCompatActivity() {
             }
             val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
             UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
+
+
         }
 
-        super.onActivityResult(requestCode, resultCode, data)
 
     }
 
