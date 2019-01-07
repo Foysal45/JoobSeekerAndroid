@@ -1119,6 +1119,34 @@ class DataStorage(context: Context) {
 
     }
 
+    fun getDependentPostOfficeByParentNameInEnglish(locationName: String): Array<String> {
+        val locationID = getBanglaLocationIDByName(locationName)
+        val OrgTypes = ArrayList<String>()
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='0' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1' OR " + DBHelper.LOCATIONS_COL_LOCATION_ID + " ='-2'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                    cursor.moveToNext()
+                }
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return OrgTypes.toTypedArray()
+
+    }
+
     fun getCategoryIDByName(name: String): String? {
 
         var s: String? = null

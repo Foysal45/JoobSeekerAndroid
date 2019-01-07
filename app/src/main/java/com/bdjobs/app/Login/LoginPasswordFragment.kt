@@ -34,7 +34,6 @@ class LoginPasswordFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater?.inflate(R.layout.fragment_login_password, container, false)!!
-
         return rootView
     }
 
@@ -52,8 +51,8 @@ class LoginPasswordFragment : Fragment() {
     }
 
     private fun setData() {
-
         profilePicIMGV?.loadCircularImageFromUrl(loginCommunicator.getImageUrl())
+        nameTV?.text=loginCommunicator.getFullName()
     }
 
     private fun onClicks() {
@@ -113,7 +112,7 @@ class LoginPasswordFragment : Fragment() {
 
                             } else {
                                 activity.stopProgressBar(progressBar)
-                                passwordTIL.showError(response?.body()?.message)
+                                passwordTIL.showError("Wrong password. Try again or click Forgot password to reset it")
                             }
 
                         }

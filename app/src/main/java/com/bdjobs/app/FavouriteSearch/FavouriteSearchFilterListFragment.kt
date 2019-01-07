@@ -44,6 +44,12 @@ class FavouriteSearchFilterListFragment : Fragment() {
                 val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
                 favCountTV?.text = Html.fromHtml(styledText)
                 favRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+                var data = "filter"
+                if(favListSize>1){
+                    data = "filters"
+                }
+                val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search $data"
+                favCountTV.text = Html.fromHtml(styledText)
                 val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters as MutableList<FavouriteSearch>, context = activity)
                 favRV?.adapter = favouriteSearchFilterAdapter
             }

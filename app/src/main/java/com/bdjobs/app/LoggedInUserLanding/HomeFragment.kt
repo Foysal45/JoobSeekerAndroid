@@ -163,7 +163,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     followedEmployerList?.forEach { item ->
                         followedCompanyNames += item.CompanyName + ","
                     }
-                    followedCompanyNameTV?.text = followedCompanyNames
+                    followedCompanyNameTV?.text = followedCompanyNames.removeLastComma()
                     blankCL?.hide()
                     mainLL?.show()
                     followedEmployerView?.show()
@@ -184,7 +184,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     jobInvitations?.forEach { item ->
                         companyNames += item?.companyName + ","
                     }
-                    jobInvitedCompanyNameTV?.text = companyNames
+                    jobInvitedCompanyNameTV?.text = companyNames.removeLastComma()
                     jobInvitationcounterTV?.text = jobInvitations?.size.toString()
                     blankCL?.hide()
                     mainLL?.show()
@@ -224,7 +224,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         jobRoles += item?.jobRole + ","
                     }
                     jobRolesTV?.text = jobRoles
-                    certificationCounterTV?.text = b2CCertificationList?.size.toString()
+                    certificationCounterTV?.text = b2CCertificationList?.size.toString().removeLastComma()
                     blankCL?.hide()
                     mainLL?.show()
                     assesmentView?.show()

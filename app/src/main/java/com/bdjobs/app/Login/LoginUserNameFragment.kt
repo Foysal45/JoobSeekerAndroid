@@ -453,7 +453,7 @@ class LoginUserNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(userName) -> {
-                useNameTIL.showError(getString(R.string.field_empty_error_message_common))
+                useNameTIL.showError("Please enter Username, Email or Mobile No")
                 requestFocus(usernameTIET)
                 return false
             }

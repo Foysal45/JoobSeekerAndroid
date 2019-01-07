@@ -66,31 +66,31 @@ class HotJobsFragment : Fragment() {
                 try {
                     if (response.body()?.statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
 
-                        response.body()?.data?.forEach { cookie ->
-                            val cookieName = cookie.cookieName
-                            val cookieValue = cookie.cookieValue
-                            val domain = cookie.domain
-                            val expires = cookie.expires
-                            val cookie = "$cookieName =$cookieValue; Domain=$domain;Path=/; Expires=$expires"
-                            Log.d("LOGTAG", "cookie ------>$cookie")
-                            //cookieManager.setCookie(link, "MybdjobsUserId =8%5E0%5B4%5D2%5F1%5B2%5D4; Domain=.bdjobs.com;Path=/; Expires=Wed, 20 Dec 2017 07:28:00 GMT");
-                            cookieManager.setCookie(Constants.HOTJOBS_WEB_LINK, cookie)
-                        }
-                        cookieSyncManager.sync()
-                        webView.settings.javaScriptEnabled = true
-                        webView.settings.setSupportZoom(true)
-                        webView.settings.builtInZoomControls = true
-                        webView.settings.displayZoomControls = false
-                        webView.settings.loadWithOverviewMode = true
-                        webView.settings.useWideViewPort = true
+                    response.body()?.data?.forEach { cookie ->
+                        val cookieName = cookie.cookieName
+                        val cookieValue = cookie.cookieValue
+                        val domain = cookie.domain
+                        val expires = cookie.expires
+                        val cookie = "$cookieName =$cookieValue; Domain=$domain;Path=/; Expires=$expires"
+                        Log.d("LOGTAG", "cookie ------>$cookie")
+                        //cookieManager.setCookie(link, "MybdjobsUserId =8%5E0%5B4%5D2%5F1%5B2%5D4; Domain=.bdjobs.com;Path=/; Expires=Wed, 20 Dec 2017 07:28:00 GMT");
+                        cookieManager.setCookie(Constants.HOTJOBS_WEB_LINK, cookie)
+                    }
+                    cookieSyncManager.sync()
+                    webView?.settings?.javaScriptEnabled = true
+                    webView?.settings?.setSupportZoom(true)
+                    webView?.settings?.builtInZoomControls = true
+                    webView?.settings?.displayZoomControls = false
+                    webView?.settings?.loadWithOverviewMode = true
+                    webView?.settings?.useWideViewPort = true
 
 
                         webView?.webViewClient = object : WebViewClient() {
 
-                            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                                webView.hide()
-                                shimmer_view_container_JobList.show()
-                                shimmer_view_container_JobList.startShimmerAnimation()
+                        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                            webView?.hide()
+                            shimmer_view_container_JobList?.show()
+                            shimmer_view_container_JobList?.startShimmerAnimation()
 
                                 super.onPageStarted(view, url, favicon)
                             }
@@ -106,20 +106,17 @@ class HotJobsFragment : Fragment() {
                                 return true
                             }
 
-                            override fun onPageFinished(view: WebView?, url: String?) {
-                                super.onPageFinished(view, url)
-                                webView.show()
-                                shimmer_view_container_JobList.hide()
-                                shimmer_view_container_JobList.stopShimmerAnimation()
-                            }
+                        override fun onPageFinished(view: WebView?, url: String?) {
+                            super.onPageFinished(view, url)
+                            webView?.show()
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmerAnimation()
                         }
-
-                        webView.loadUrl(Constants.HOTJOBS_WEB_LINK)
-                        val cookieGet = cookieManager.getCookie(Constants.HOTJOBS_WEB_LINK)
-                        Log.d("LOGTAG", "cookieGET ------>$cookieGet")
                     }
-                } catch (e: Exception) {
-                    logException(e)
+
+                    webView?.loadUrl(Constants.HOTJOBS_WEB_LINK)
+                    val cookieGet = cookieManager.getCookie(Constants.HOTJOBS_WEB_LINK)
+                    Log.d("LOGTAG", "cookieGET ------>$cookieGet")
                 }
             }
         })
@@ -127,12 +124,12 @@ class HotJobsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        webView.onResume()
+        webView?.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        webView.onPause()
+        webView?.onPause()
     }
 
     fun getWebviewBacKStack(): Boolean {

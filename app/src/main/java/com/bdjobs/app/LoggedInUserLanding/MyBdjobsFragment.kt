@@ -17,11 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
+import com.bdjobs.app.editResume.EditResLandingActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapePathModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MyBdjobsFragment : Fragment() {
@@ -99,7 +101,11 @@ class MyBdjobsFragment : Fragment() {
             }
         }
         lastmonth_MBTN?.performClick()
-        fab()
+
+        nextButtonFAB?.setOnClickListener {
+            startActivity<EditResLandingActivity>()
+        }
+
     }
 
     private fun getStatsData() {
@@ -108,13 +114,6 @@ class MyBdjobsFragment : Fragment() {
 
     }
 
-    private fun fab() {
-        nextButtonFAB?.setOnClickListener { view ->
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
-                    .show()
-        }
-    }
 
     private fun populateDataLastMonthStats() {
         for ((index, value) in lastMonthStatsData!!.withIndex()) {
