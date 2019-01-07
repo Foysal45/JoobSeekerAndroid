@@ -347,8 +347,14 @@ class JoblistFragment : Fragment() {
                         }
 
                         val totalJobs = jobResponse!!.common!!.totalRecordsFound
-                        val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
-                        jobCounterTV.text = Html.fromHtml(styledText)
+                        if (totalJobs?.toInt()!! > 1){
+                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Jobs"
+                            jobCounterTV?.text = Html.fromHtml(styledText)
+                        }
+                        else {
+                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
+                            jobCounterTV?.text = Html.fromHtml(styledText)
+                        }
 
                         communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
                         communicator.setIsLoading(isLoadings)
@@ -577,7 +583,7 @@ class JoblistFragment : Fragment() {
                                     if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                                         doAsync {
 
-                                            val filterName = filterNameET.getString()
+                                            val filterName = filterNameET.getString().trim()
                                             val favouriteSearch = FavouriteSearch(
                                                     filterid = response?.body()?.data?.get(0)?.sfilterid,
                                                     filtername = filterName,

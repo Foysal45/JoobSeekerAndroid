@@ -93,8 +93,17 @@ class EmployerJobListFragment : Fragment() {
                     employerjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                     employersJobListsAdapter?.addAll(jobLists!!)
 
-                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs"
+                    /*val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs"
                     favCountTV?.text = Html.fromHtml(styledText)
+*/
+                    if (totalRecords?.toInt()!! > 1){
+                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    }
+                    else {
+                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    }
 
                     employerjobList_RV?.show()
                     favCountTV?.show()
