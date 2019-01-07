@@ -35,8 +35,8 @@ class ShortListedJobFragment : Fragment() {
         bdjobsDB = BdjobsDB.getInstance(activity)
         bdjobsUserSession = BdjobsUserSession(activity)
         homeCommunicator = activity as HomeCommunicator
-        profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
-        searchIMGV.setOnClickListener {
+        profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        searchIMGV?.setOnClickListener {
             homeCommunicator.goToKeywordSuggestion()
         }
     }
@@ -73,7 +73,7 @@ class ShortListedJobFragment : Fragment() {
                 joblistAdapter.notifyDataSetChanged()
 
                 val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Job"
-                jobCountTV.text = Html.fromHtml(styledText)
+                jobCountTV?.text = Html.fromHtml(styledText)
             }
 
         }

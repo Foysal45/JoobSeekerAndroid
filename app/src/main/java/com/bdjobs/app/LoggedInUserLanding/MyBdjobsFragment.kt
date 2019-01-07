@@ -68,10 +68,10 @@ class MyBdjobsFragment : Fragment() {
     private fun onClick() {
         lastmonth_MBTN?.setOnClickListener {
             communicator.setTime("1")
-            lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background_black)
-            all_MBTN.setBackgroundResource(R.drawable.right_rounded_background)
-            all_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
-            lastmonth_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
+            lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background_black)
+            all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
+            all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
+            lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
 
             if (bdjobsList.isNullOrEmpty()) {
                 populateDataLastMonthStats()
@@ -82,13 +82,13 @@ class MyBdjobsFragment : Fragment() {
             }
 
         }
-        all_MBTN.setOnClickListener {
+        all_MBTN?.setOnClickListener {
 //testing
             communicator.setTime("0")
-            lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background)
-            all_MBTN.setBackgroundResource(R.drawable.right_rounded_background_black)
-            lastmonth_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
-            all_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
+            lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background)
+            all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background_black)
+            lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
+            all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
 
             if (bdjobsList.isNullOrEmpty()) {
                 populateDataAllMonthStats()
@@ -98,7 +98,7 @@ class MyBdjobsFragment : Fragment() {
                 populateDataAllMonthStats()
             }
         }
-        lastmonth_MBTN.performClick()
+        lastmonth_MBTN?.performClick()
         fab()
     }
 
@@ -109,7 +109,7 @@ class MyBdjobsFragment : Fragment() {
     }
 
     private fun fab() {
-        nextButtonFAB.setOnClickListener { view ->
+        nextButtonFAB?.setOnClickListener { view ->
             Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                     .setAction("Action", null)
                     .show()

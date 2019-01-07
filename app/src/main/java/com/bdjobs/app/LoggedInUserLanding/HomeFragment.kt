@@ -80,22 +80,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
     private fun onClickListeners() {
-        searchIMGV.setOnClickListener {
+        searchIMGV?.setOnClickListener {
             homeCommunicator.goToKeywordSuggestion()
         }
-        followedEmployerView.setOnClickListener {
+        followedEmployerView?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("follow")
         }
-        showAllFavIMGV.setOnClickListener {
+        showAllFavIMGV?.setOnClickListener {
             homeCommunicator.goToFavSearchFilters()
         }
-        lastSearchView.setOnClickListener {
+        lastSearchView?.setOnClickListener {
             homeCommunicator.goToJoblistFromLastSearch()
         }
-        jobInvitationView.setOnClickListener {
+        jobInvitationView?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
         }
-        searchBTN.setOnClickListener {
+        searchBTN?.setOnClickListener {
             homeCommunicator.goToKeywordSuggestion()
         }
 
@@ -371,20 +371,20 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showPop() {
         val interviewInvitationDialog = Dialog(activity)
-        interviewInvitationDialog.setContentView(R.layout.interview_invitation_popup)
-        interviewInvitationDialog.setCancelable(true)
-        interviewInvitationDialog.show()
+        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
+        interviewInvitationDialog?.setCancelable(true)
+        interviewInvitationDialog?.show()
         val InterviewTVCount = interviewInvitationDialog.findViewById<TextView>(R.id.interview_invitation_count_tv)
         val cancelBTN = interviewInvitationDialog.findViewById(R.id.cancel) as ImageView
         val interviewList_MBTN = interviewInvitationDialog.findViewById(R.id.viewList_MBTN) as MaterialButton
 
         InterviewTVCount.text = inviteInterviview
 
-        cancelBTN.setOnClickListener {
-            interviewInvitationDialog.dismiss()
+        cancelBTN?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
         }
-        interviewList_MBTN.setOnClickListener {
-            interviewInvitationDialog.dismiss()
+        interviewList_MBTN?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("homePage")
         }
     }
@@ -399,11 +399,15 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             }
 
             override fun onResponse(call: Call<InterviewInvitation>, response: Response<InterviewInvitation>) {
-                inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
-                Log.d("google", "google = $inviteInterviview")
+                try {
+                    inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
+                    Log.d("google", "google = $inviteInterviview")
 
-                if (inviteInterviview?.toInt()!! > 0) {
-                    showPop()
+                    if (inviteInterviview?.toInt()!! > 0) {
+                        showPop()
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
 

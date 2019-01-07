@@ -35,49 +35,49 @@ class MoreFragment : Fragment() {
         onclick()
     }
     private fun onclick() {
-        employerList_MBTN.setOnClickListener {
+        employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
         }
-        generalSearch_MBTN.setOnClickListener {
+        generalSearch_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("keyword" to "")
         }
-        appGuides_MBTN.setOnClickListener {
-            activity.openUrlInBrowser("http://bdjobs.com/apps/ios/index.html")
+        appGuides_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("http://bdjobs.com/apps/ios/index.html")
         }
-        rateUs_MBTN.setOnClickListener {
-            activity.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
+        rateUs_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
         }
-        feedback_MBTN.setOnClickListener {
-            activity.openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
+        feedback_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
         }
-        privacypolicy_MBTN.setOnClickListener {
-            activity.openUrlInBrowser("https://bdjobs.com/policy/Privacy_policy.asp")
+        privacypolicy_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("https://bdjobs.com/policy/Privacy_policy.asp")
         }
-        terms_MBTN.setOnClickListener {
-            activity.openUrlInBrowser("https://www.bdjobs.com/tos.asp")
+        terms_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("https://www.bdjobs.com/tos.asp")
         }
-        new_job_MBTN.setOnClickListener {
+        new_job_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("postedWithin" to "1")
         }
-        deadline_MBTN.setOnClickListener {
+        deadline_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("deadline" to "2")
         }
-        part_time_MBTN.setOnClickListener {
+        part_time_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("jobNature" to "PartTime")
         }
-        contractual_MBTN.setOnClickListener {
+        contractual_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("jobNature" to "Contract")
         }
-        government_MBTN.setOnClickListener {
+        government_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("organization" to "1")
         }
-        overseas_MBTN.setOnClickListener {
+        overseas_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("location" to "Country")
         }
-        interviewinvitation_MBTN.setOnClickListener {
+        interviewinvitation_MBTN?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
         }
-        settings_MBTN.setOnClickListener {
+        settings_MBTN?.setOnClickListener {
             startActivity<SettingBaseActivity>()
         }
     }
