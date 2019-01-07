@@ -1,5 +1,6 @@
 package com.bdjobs.app.SuggestiveSearch
 
+
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -8,8 +9,6 @@ import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Suggestion
@@ -27,8 +26,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_special_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import kotlinx.android.synthetic.main.activity_suggestive_search.*
 import org.jetbrains.anko.doAsync
-
-
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.util.*
@@ -102,7 +99,6 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     clearAllBTN.hide()
                 }
                 historyAdapter = HistoryAdapter(historyList, this@SuggestiveSearchActivity)
-                historyRV.layoutManager = LinearLayoutManager(this@SuggestiveSearchActivity)
                 historyRV.adapter = historyAdapter
                 historyRV.recycledViewPool.clear();
                 historyAdapter.notifyDataSetChanged()
@@ -144,7 +140,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             suggestionList.add(item)
         }
         adapter = SuggestionAdapter(suggestionList, this)
-        filterRV.layoutManager =  LinearLayoutManager(this@SuggestiveSearchActivity, LinearLayout.VERTICAL, false)
+
         filterRV.adapter = adapter
     }
 

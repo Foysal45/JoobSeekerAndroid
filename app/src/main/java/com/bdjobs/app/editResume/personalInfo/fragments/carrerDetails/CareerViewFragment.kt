@@ -45,7 +45,6 @@ class CareerViewFragment : Fragment() {
     }
 
     private fun doWork() {
-        clContent.hide()
         shimmerStart()
         populateData()
         contactCB.setEditButton(true, "editCareer")
@@ -58,7 +57,7 @@ class CareerViewFragment : Fragment() {
         call.enqueue(object : Callback<GetCarrerInfo> {
             override fun onFailure(call: Call<GetCarrerInfo>, t: Throwable) {
                 shimmerStop()
-                clContent.show()
+                //clContent.show()
                 activity.toast("Error occurred")
             }
 

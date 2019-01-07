@@ -1,13 +1,20 @@
 package com.bdjobs.app.SessionManger
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.indeterminateProgressDialog
+import org.jetbrains.anko.uiThread
 
-class BdjobsUserSession(context: Context) {
+class BdjobsUserSession(val context: Context) {
     private var pref: SharedPreferences? = null
 
     init {
@@ -92,7 +99,26 @@ class BdjobsUserSession(context: Context) {
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
 
     fun logoutUser() {
+
         pref?.edit()?.clear()?.apply()
+        val bdjobsDB = BdjobsDB.getInstance(context = context)
+        doAsync {
+            bdjobsDB.followedEmployerDao().deleteAllFollowedEmployer()
+            bdjobsDB.shortListedJobDao().deleteAllShortListedJobs()
+            bdjobsDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
+            bdjobsDB.appliedJobDao().deleteAllAppliedJobs()
+            bdjobsDB.b2CCertificationDao().deleteAllB2CCertification()
+            bdjobsDB.jobInvitationDao().deleteAllJobInvitation()
+            bdjobsDB.lastSearchDao().deleteAllLastSearch()
+            bdjobsDB.suggestionDAO().deleteAllSuggestion()
+            uiThread {
+               // loadingDialog.dismiss()
+                val intent = Intent(context, GuestUserJobSearchActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+                (context as Activity).finishAffinity()
+            }
+        }
     }
 
     fun updateIsCvPosted(isCvPosted: String) {

@@ -1,6 +1,7 @@
 package com.bdjobs.app.editResume
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -76,43 +77,37 @@ class PhotoUploadActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var progressDialog: ProgressDialog
+
+    private fun setupToolbar(title: String?) {
+        tv_tb_title?.text = title
+        tbUploadPhoto?.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        tbUploadPhoto?.setNavigationOnClickListener {
+            finish()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_upload)
-
+        setupToolbar(getString(R.string.hint_upload_photo))
         bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
         progressDialog = ProgressDialog(this@PhotoUploadActivity)
-
         onClick()
-
-
     }
 
-
     private fun onClick() {
-
         regPhotoUploadImageView.setOnClickListener {
-
             showDialog(this@PhotoUploadActivity)
-
-
         }
-
         regPhotoUploadButton.setOnClickListener {
-
             if (encodedString.isBlank()) {
-
                 registrationCommunicator.bcGoToStepCongratulation()
             } else {
-
-                progressDialog.setTitle("Photo Uploading.......")
+                progressDialog.setTitle("Uploading Photo..")
                 progressDialog.show()
-
-
 
                 ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
                     override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-
                         Log.d("PhotoUpload", " onFailure ${t.message}")
                     }
 
@@ -130,8 +125,6 @@ class PhotoUploadActivity : AppCompatActivity() {
                             folderId = response.body()!!.data[0].folderId
                             imageName = response.body()!!.data[0].imageName
                             isResumeUpdate = response.body()!!.data[0].isResumeUpdate
-
-
                             params.put("Image", encodedString)
                             params.put("userid", bdjobsUserSession.userId)
                             params.put("decodeid", bdjobsUserSession.decodId)
@@ -140,40 +133,20 @@ class PhotoUploadActivity : AppCompatActivity() {
                             params.put("imageName", imageName)
                             params.put("isResumeUpdate", isResumeUpdate)
                             params.put("status", "upload")
-
-
-
-
                             makeHTTPCall()
 
                         }
-
-
                     }
-
-
                 })
-
-
             }
 
         }
-
         regChangePhotoButton.setOnClickListener {
-
             showDialog(this@PhotoUploadActivity)
-
         }
-
         photoDeleteButton.setOnClickListener {
-
-
             deletePhoto()
-
-
         }
-
-
     }
 
 
@@ -249,7 +222,7 @@ class PhotoUploadActivity : AppCompatActivity() {
         builder.setMessage("Are you sure you want to delet this photo?")
 
 
-        builder.setPositiveButton("YES") { dialog, which ->
+        builder.setPositiveButton("Confirm") { dialog, which ->
             progressDialog.setTitle("Deleting")
             progressDialog.show()
             ApiServiceMyBdjobs.create()
@@ -316,7 +289,7 @@ class PhotoUploadActivity : AppCompatActivity() {
 
 
 
-        builder.setNegativeButton("No") { dialog, which ->
+        builder.setNegativeButton("cancel") { dialog, which ->
 
             dialog.dismiss()
         }
@@ -560,6 +533,7 @@ class PhotoUploadActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun showDialog(activity: Activity) {
         dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

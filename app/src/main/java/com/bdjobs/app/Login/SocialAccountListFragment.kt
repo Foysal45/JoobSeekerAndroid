@@ -22,6 +22,9 @@ class SocialAccountListFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loginCommunicator = activity as LoginCommunicator
+        backIV.setOnClickListener {
+            loginCommunicator.backButtonClicked()
+        }
     }
 
     override fun onResume() {

@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:animateLayoutChanges="true"
             android:layout_height="wrap_content">
 
             <TextView
@@ -213,6 +214,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/presentOutsideBangladeshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -527,10 +529,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contactParmanentAddressTIL">
+                android:layout_marginEnd="24dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contactMobileNumberTIET"

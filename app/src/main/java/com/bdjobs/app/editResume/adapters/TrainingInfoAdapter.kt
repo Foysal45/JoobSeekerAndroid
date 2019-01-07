@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
@@ -44,6 +45,7 @@ class TrainingInfoAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: Co
 
         holder.ivEdit?.setOnClickListener {
             call.passTrainingData(dModel)
+            d("From list : ${dModel.country}")
             call.goToEditInfo("editTr")
         }
 

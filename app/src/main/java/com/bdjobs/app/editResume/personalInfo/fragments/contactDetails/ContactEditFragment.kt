@@ -44,6 +44,7 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun doWork() {
+        /* preloadedData()*/
         fab_contact_update.setOnClickListener {
             updateData()
         }
@@ -261,22 +262,145 @@ class ContactEditFragment : Fragment() {
 
 
 
+        }
+
+
+
+        contactThanaTIET.setOnClickListener {
+
+
+            var queryValue = contactDistrictTIET1.getString()
+            queryValue = queryValue.replace("'", "''")
+
+            val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
+
+            selector("Please Select your police station", districtList.toList()) { dialogInterface, i ->
+
+                contactThanaTIET.setText(districtList[i])
+                contactThanaTIL1.requestFocus()
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+        contactPostOfficeTIET1.setOnClickListener {
+
+
+            var queryValue = contactThanaTIET.text.toString()
+            queryValue = queryValue.replace("'", "''")
+
+            val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue)
+
+            selector("Please Select your post office", districtList.toList()) { dialogInterface, i ->
+
+                contactPostOfficeTIET1.setText(districtList[i])
+                contactPostOfficeTIL1.requestFocus()
+
+
+            }
+
+
+        }
+
+
+
+        presentContactCountryTIET.setOnClickListener {
+
+
+            val countryList: Array<String> = dataStorage.allCountries
+
+            selector("Please select your country ", countryList.toList()) { dialogInterface, i ->
+
+                presentContactCountryTIET.setText(countryList[i])
+                presentContactCountryTIL.requestFocus()
+
+
+            }
+
+
+        }
+
+        ////Parmanent Address---------------Start
+
+        contactDivTIET1.setOnClickListener {
+            val divisionList: Array<String> = dataStorage.allDivision
+            selector("Select Your division", divisionList.toList()) { dialogInterface, i ->
+
+                contactDivTIET1.setText(divisionList[i])
+                contactDivTIL1.requestFocus()
+            }
+        }
+
+        contactDistrictTIET1.setOnClickListener {
+            var queryValue = contactDivTIET.getString()
+            queryValue = queryValue.replace("'", "''")
+
+            val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
+
+            selector("Please Select your district", districtList.toList()) { dialogInterface, i ->
+                contactDistrictTIET1.setText(districtList[i])
+                contactDistrictTIL1.requestFocus()
+            }
+        }
+
+        contactThanaTIET.setOnClickListener {
+
+            var queryValue = contactDistrictTIET1.getString()
+            queryValue = queryValue.replace("'", "''")
+
+            val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
+
+            selector("Please Select your police station", districtList.toList()) { dialogInterface, i ->
+                contactThanaTIET.setText(districtList[i])
+                contactThanaTIL1.requestFocus()
+            }
+        }
+        contactPostOfficeTIET1.setOnClickListener {
+            var queryValue = contactThanaTIET.text.toString()
+            queryValue = queryValue.replace("'", "''")
+
+            val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue)
+
+            selector("Please Select your post office", districtList.toList()) { dialogInterface, i ->
+
+                contactPostOfficeTIET1.setText(districtList[i])
+                contactPostOfficeTIL1.requestFocus()
+            }
+        }
+
+        presentContactCountryTIETP.setOnClickListener {
+
+
+            val countryList: Array<String> = dataStorage.allCountries
+
+            selector("Please select your country ", countryList.toList()) { _, i ->
+
+                presentContactCountryTIETP.setText(countryList[i])
+                presentContactCountryTILP.requestFocus()
+            }
+        }
     }
 
     private fun updateData() {
-        getDataFromChipGroup(cgPermanent)
-        getDataFromChipGroup(cgPresent)
     }
 
     private fun preloadedData() {
         val data = contactInfo.getContactData()
-
-        if (data.presentInsideOutsideBD!! == "False") {
+        getDataFromChipGroup(cgPermanent)
+        getDataFromChipGroup(cgPresent)
+        if (data.presentInsideOutsideBD!! != "False") {
             selectChip(cgPresent, "False")
         } else {
             selectChip(cgPresent, "True")
         }
-        if (data.permanentInsideOutsideBD!! == "False") {
+        if (data.permanentInsideOutsideBD!! != "False") {
             selectChip(cgPermanent, "False")
         } else {
             selectChip(cgPermanent, "True")
@@ -296,7 +420,6 @@ class ContactEditFragment : Fragment() {
                             "Inside Bangladesh" -> {
                                 insideBD = "True"
                                 outsideBD = "False"
-
                                 presentInsideBangladeshLayout1.show()
                                 presentOutsideBangladeshLayout.hide()
 
@@ -304,7 +427,6 @@ class ContactEditFragment : Fragment() {
                             "Outside Bangladesh" -> {
                                 insideBD = "False"
                                 outsideBD = "True"
-
                                 presentInsideBangladeshLayout1.hide()
                                 presentOutsideBangladeshLayout.show()
 
@@ -341,10 +463,8 @@ class ContactEditFragment : Fragment() {
             } else {
                 when (chipGroup.id) {
                     R.id.cgPresent -> {
-
                     }
                     R.id.cgPermanent -> {
-
                     }
                 }
             }
@@ -359,9 +479,6 @@ class ContactEditFragment : Fragment() {
             if (data.equalIgnoreCase("True")) {
                 Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
-                d("value t/f : ${chip.isChecked}")
-            } else {
-                chip.isChecked = false
                 d("value t/f : ${chip.isChecked}")
             }
         }

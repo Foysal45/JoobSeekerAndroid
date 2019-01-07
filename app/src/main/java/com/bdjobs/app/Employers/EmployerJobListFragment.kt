@@ -90,7 +90,7 @@ class EmployerJobListFragment : Fragment() {
         shimmer_view_container_JobList.show()
         shimmer_view_container_JobList.startShimmerAnimation()
         Log.d("hello", "hello")
-        ApiServiceJobs.create().getEmpJobLists(id = communicator.getCompanyID(), companyname = communicator.getCompanyName(), encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<EmployerJobListsModel> {
+        ApiServiceJobs.create().getEmpJobLists(id = communicator.getCompanyID(), companyname = communicator.getCompanyName(), encoded = Constants.ENCODED_JOBS, jobid = communicator.getJobId()).enqueue(object : Callback<EmployerJobListsModel> {
             @TargetApi(Build.VERSION_CODES.M)
             @RequiresApi(Build.VERSION_CODES.M)
             override fun onFailure(call: Call<EmployerJobListsModel>, t: Throwable) {

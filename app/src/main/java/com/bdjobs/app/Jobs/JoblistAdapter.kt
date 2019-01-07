@@ -537,7 +537,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearNewJob) as TextView
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameNewJob) as TextView
         /*  val constraintLayout : ConstraintLayout = itemView.findViewById(R.id.constraintLayoutStandOut) as ConstraintLayout*/
-        val shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        val shortListIconIV: ImageView = viewItem?.findViewById(R.id.employerView_icon) as ImageView
 
 
     }

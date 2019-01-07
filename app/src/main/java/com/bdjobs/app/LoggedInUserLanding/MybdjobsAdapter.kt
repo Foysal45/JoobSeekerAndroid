@@ -1,17 +1,25 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.R
 
 class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewHolder>() {
 
+    val activity = context as Activity
     private var mybdjobsItems: ArrayList<MybdjobsData>? = ArrayList()
+    private val communicator = activity as HomeCommunicator
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyBdjobsViewHolder {
         return MyBdjobsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_grid, parent, false))
@@ -25,9 +33,23 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
     }
 
     override fun onBindViewHolder(holder: MyBdjobsViewHolder, position: Int) {
-        /* holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
-         holder.resourceName_Value.text = moreItems!![position].resourceName*/
 
+        holder.itemName.text = mybdjobsItems!![position].itemName
+        holder.itemValue.text = mybdjobsItems!![position].itemID
+        holder.backgroundRRL.setBackgroundResource(mybdjobsItems!![position].backgroundID)
+        holder.item_icon.setBackgroundResource(mybdjobsItems!![position].resourceID)
+        //holder.itemName[position]
+
+        holder.item_Card.setOnClickListener {
+
+            when (mybdjobsItems!![position].itemName) {
+                "Jobs\nApplied" ->  communicator.goToAppliedJobs()
+                else -> { // Note the block
+                    print("not found")
+                }
+            }
+
+        }
     }
 
     fun add(r: MybdjobsData) {
@@ -41,12 +63,20 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
         }
     }
 
+    fun removeAll() {
+        mybdjobsItems?.clear()
+        notifyDataSetChanged()
+    }
+
 }
 
 class MyBdjobsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
     var itemName: TextView = itemView.findViewById(R.id.item_name_TV)
     var itemValue: TextView = itemView.findViewById(R.id.item_value_TV)
+    var backgroundRRL: RelativeLayout = itemView.findViewById(R.id.background_RRL)
+    var item_icon: ImageView = itemView.findViewById(R.id.iv_item_icon)
+    var item_Card: CardView = itemView.findViewById(R.id.mybdjobsStatsCard)
 
 
 }

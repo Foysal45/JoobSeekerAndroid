@@ -58,6 +58,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         android:id="@+id/favRV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

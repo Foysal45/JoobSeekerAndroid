@@ -31,6 +31,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private var datait: DataItem? = null
     private var dataExps: AreaofExperienceItem? = null
     private var dataitArmy: ArmydataItem? = null
+    lateinit var name: String
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -100,9 +101,22 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getIntentValues()
         setContentView(R.layout.activity_emplyment_history)
         setupToolbar(getString(R.string.title_emp_his))
-        transitFragment(viewFragment, R.id.emp_his_container, false)
+        gotToFragment(name)
+    }
+
+
+    private fun gotToFragment(name: String) {
+        when (name) {
+            "employ" -> transitFragment(viewFragment, R.id.emp_his_container, false)
+            "army" -> transitFragment(armyViewFragment, R.id.emp_his_container, false)
+        }
+    }
+
+    private fun getIntentValues() {
+        name = intent.getStringExtra("name")
     }
 
     override fun goBack() {

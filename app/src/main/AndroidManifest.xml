@@ -136,6 +136,10 @@
             android:name=".editResume.PhotoUploadActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".AppliedJobs.AppliedJobsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Settings.SettingBaseActivity"></activity>
     </application>
 
 </manifest>

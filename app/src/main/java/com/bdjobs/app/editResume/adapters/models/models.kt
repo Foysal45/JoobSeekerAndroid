@@ -261,7 +261,6 @@ data class GetPersInfo(
 
 // Contact Info
 data class C_DataItem(
-
         @SerializedName("addressType1")
         val addressType1: String?,
         @SerializedName("addressType2")
@@ -307,8 +306,6 @@ data class C_DataItem(
         @SerializedName("presentVillage")
         val presentVillage: String?
 )
-
-
 data class GetContactInfo(
         @SerializedName("common")
         val common: Any?,
@@ -319,7 +316,6 @@ data class GetContactInfo(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
 // Career Info
 data class Ca_DataItem(
 
@@ -376,3 +372,5 @@ data class GetTrainingInfo(
         val common: Any? = null,
         val message: String? = null
 )
+
+// Landing List

@@ -31,8 +31,7 @@
         <item name="android:letterSpacing">0</item>
         <item name="android:layout_marginLeft">20dp</item>
         <item name="iconSize">24dp</item>
-        <item name="iconTint">#212121</item>
-
+        <item name="iconTint">#666</item>
     </style>
     <style name="EHTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_marginTop">25dp</item>
