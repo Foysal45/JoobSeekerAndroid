@@ -173,7 +173,6 @@ class PhotoUploadActivity : AppCompatActivity() {
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
                 val photoUrl = photoUploadModel.data[0].path
                 Log.d("dgdsgdghj", " $photoUrl")
-                val bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
                 bdjobsUserSession.updateUserPicUrl(photoUrl)
 
 
@@ -239,29 +238,6 @@ class PhotoUploadActivity : AppCompatActivity() {
                                 folderId = response.body()!!.data[0].folderId
                                 imageName = response.body()!!.data[0].imageName
 
-                                /*   ApiServiceMyBdjobs.create().DeletePhoto(folderName, folderId, imageName, isResumeUpdate, "delete", bdjobsUserSession.userId!!, bdjobsUserSession.decodId!!).enqueue(object : Callback<PhotoInfoModel> {
-                                       override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
-
-                                           Log.d("dgdsgdghj","DeletePhoto response ${response.body()!!} ")
-
-                                           if (response.body()!!.statuscode.equals("1",true)) {
-                                               progressDialog.dismiss()
-
-                                               toast("Photo Deleted")
-                                           } else {
-                                               progressDialog.dismiss()
-
-                                               toast("Failed")
-                                           }
-
-                                       }
-
-                                       override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-                                           progressDialog.dismiss()
-                                           Log.e("photoAPI", t.message)
-                                       }
-                                   })
-   */
 
                                 reqParams.put("Image", encodedString)
                                 reqParams.put("userid", bdjobsUserSession.userId)
@@ -471,7 +447,7 @@ class PhotoUploadActivity : AppCompatActivity() {
             UCrop.of(uri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
         }
 
-        Log.d("dfgh", " resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
+        Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
                 "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)
 
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
@@ -481,6 +457,14 @@ class PhotoUploadActivity : AppCompatActivity() {
 
             regPhotoUploadImageView.loadCircularImageFromUrl(tempURI.toString())
             regPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
+
+            /* regPhotoUploadImageView.imageURI = tempURI
+             regPhotoUploadImageView.imageURI = resultUri*/
+
+            regPhotoUploadButton.isEnabled = true
+            regPhotoUploadButton.show()
+            regChangePhotoButton.hide()
+
             dialog.dismiss()
             val path = resultUri!!.path
             /*  UploadBTN.setVisibility(View.GONE)*/

@@ -1,17 +1,15 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_gender.*
-import org.jetbrains.anko.makeCall
 
 
 class BCGenderFragment : Fragment() {
@@ -125,5 +123,6 @@ class BCGenderFragment : Fragment() {
         }
 
     }
+
 
 }

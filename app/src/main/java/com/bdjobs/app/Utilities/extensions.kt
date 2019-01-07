@@ -35,13 +35,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 fun Activity.callHelpLine() {
-    val intent = Intent(Intent.ACTION_DIAL);
+    val intent = Intent(Intent.ACTION_DIAL)
     intent.data = Uri.parse("tel:16479")
     startActivity(intent)
 }
@@ -63,7 +64,7 @@ fun String.equalIgnoreCase(string: String): Boolean {
 
 fun String.removeLastComma(): String {
     if (endsWith(",")) {
-        return substring(0, length - 1);
+        return substring(0, length - 1)
     }
     return this
 }
@@ -217,7 +218,7 @@ fun ImageView.loadImageFromUrl(url: String) {
 
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
-        Picasso.get().load(url).transform(CircleTransform()).into(this)
+        Picasso.get().load(url).transform(CircleTransform()).memoryPolicy(MemoryPolicy.NO_CACHE).into(this)
     } catch (e: Exception) {
         logException(e)
     }

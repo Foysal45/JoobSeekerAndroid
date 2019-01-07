@@ -1,14 +1,13 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
@@ -17,7 +16,6 @@ import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_password.*
-import org.jetbrains.anko.makeCall
 
 
 class WCPasswordFragment : Fragment() {
@@ -169,7 +167,7 @@ class WCPasswordFragment : Fragment() {
         } else if (TextUtils.isEmpty(registrationCommunicator.wcGetMobileNumber())){
 
             Log.d("ConditionCheck","2 Condition")
-            phone_button.text = "Phone Number"
+            phone_button.text = "Mobile Number"
             phone_button.isEnabled = false
 
             email_button.text = registrationCommunicator.wcGetEmail()
@@ -235,7 +233,7 @@ class WCPasswordFragment : Fragment() {
         } else if (TextUtils.isEmpty(registrationCommunicator.wcGetMobileNumber())){
 
             Log.d("ConditionCheck","5 Condition")
-            phone_button.text = "Phone Number"
+            phone_button.text = "Mobile Number"
             phone_button.isEnabled = false
 
             email_button.text = registrationCommunicator.wcGetEmail()
