@@ -18,6 +18,7 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -246,35 +247,39 @@ class JobDetailsFragment : Fragment() {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
-                if (response.isSuccessful) {
+                try {
+                    if (response.isSuccessful) {
 
-                    Log.d("ArrayTestJobdetail", " response.isSuccessful")
+                        Log.d("ArrayTestJobdetail", " response.isSuccessful")
 
-                    val resp_jobs = response.body()
+                        val resp_jobs = response.body()
 
-                    jobDetailAdapter?.removeLoadingFooter()
-                    isLoadings = false
+                        jobDetailAdapter?.removeLoadingFooter()
+                        isLoadings = false
 
-                    val results = response.body()?.data
+                        val results = response.body()?.data
 
-                    if (!results.isNullOrEmpty()) {
+                        if (!results.isNullOrEmpty()) {
 
-                        jobDetailAdapter?.addAll(results)
-                        jobDetailAdapter?.showHideShortListedIcon(position =currentJobPosition)
-                    }
+                            jobDetailAdapter?.addAll(results)
+                            jobDetailAdapter?.showHideShortListedIcon(position =currentJobPosition)
+                        }
 
 
-                    if (currentPage == TOTAL_PAGES) {
-                        isLastPages = true
+                        if (currentPage == TOTAL_PAGES) {
+                            isLastPages = true
+                        } else {
+                            jobDetailAdapter?.addLoadingFooter()
+                        }
+
+
                     } else {
-                        jobDetailAdapter?.addLoadingFooter()
+                        Log.d("TAG", "not successful: ")
+
+
                     }
-
-
-                } else {
-                    Log.d("TAG", "not successful: ")
-
-
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
             }
@@ -323,11 +328,11 @@ class JobDetailsFragment : Fragment() {
 
 
     fun showShortListedIcon(){
-        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
+        shortListIMGV?.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
     }
 
     fun showUnShortListedIcon(){
-        shortListIMGV.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
+        shortListIMGV?.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
     }
 
 

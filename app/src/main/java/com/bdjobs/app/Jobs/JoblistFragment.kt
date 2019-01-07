@@ -100,8 +100,8 @@ class JoblistFragment : Fragment() {
 
         saveSearchDicission()
 
-        suggestiveSearchET.text = keyword
-        suggestiveSearchET.setOnClickListener { et ->
+        suggestiveSearchET?.text = keyword
+        suggestiveSearchET?.setOnClickListener { et ->
             communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
@@ -318,43 +318,47 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
-                if (response.isSuccessful) {
-                    jobListRecyclerView?.show()
-                    filterLayout.show()
-                    shimmer_view_container_JobList.hide()
-                    shimmer_view_container_JobList.stopShimmerAnimation()
+                try {
+                    if (response.isSuccessful) {
+                        jobListRecyclerView?.show()
+                        filterLayout.show()
+                        shimmer_view_container_JobList.hide()
+                        shimmer_view_container_JobList.stopShimmerAnimation()
 
-                    val jobResponse = response.body()
+                        val jobResponse = response.body()
 
-                    TOTAL_PAGES = jobResponse?.common?.totalpages
+                        TOTAL_PAGES = jobResponse?.common?.totalpages
 
 
-                    Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
-                    Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
+                        Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                        Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
-                    communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
-                    val results = response.body()?.data
+                        communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
+                        val results = response.body()?.data
 
-                    if (!results.isNullOrEmpty()) {
-                        joblistAdapter?.addAllTest(results)
-                    }
+                        if (!results.isNullOrEmpty()) {
+                            joblistAdapter?.addAllTest(results)
+                        }
 
-                    if (currentPage == TOTAL_PAGES!!) {
-                        isLastPages = true
+                        if (currentPage == TOTAL_PAGES!!) {
+                            isLastPages = true
+                        } else {
+                            joblistAdapter?.addLoadingFooter()
+                        }
+
+                        val totalJobs = jobResponse!!.common!!.totalRecordsFound
+                        val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
+                        jobCounterTV.text = Html.fromHtml(styledText)
+
+                        communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
+                        communicator.setIsLoading(isLoadings)
+                        communicator.setLastPasge(isLastPages)
+
                     } else {
-                        joblistAdapter?.addLoadingFooter()
+                        /*Log.d("TAG", "not successful: $TAG")*/
                     }
-
-                    val totalJobs = jobResponse!!.common!!.totalRecordsFound
-                    val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
-                    jobCounterTV.text = Html.fromHtml(styledText)
-
-                    communicator.totalJobCount(jobResponse!!.common!!.totalRecordsFound!!)
-                    communicator.setIsLoading(isLoadings)
-                    communicator.setLastPasge(isLastPages)
-
-                } else {
-                    /*Log.d("TAG", "not successful: $TAG")*/
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
             }
@@ -401,33 +405,37 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
-                Log.d("Paramtest", "response :   ${response.body().toString()}")
-                if (response.isSuccessful) {
+                try {
+                    Log.d("Paramtest", "response :   ${response.body().toString()}")
+                    if (response.isSuccessful) {
 
-                    try {
-                        val resp_jobs = response.body()
-                        TOTAL_PAGES = resp_jobs?.common?.totalpages
-                        joblistAdapter?.removeLoadingFooter()
-                        isLoadings = false
+                        try {
+                            val resp_jobs = response.body()
+                            TOTAL_PAGES = resp_jobs?.common?.totalpages
+                            joblistAdapter?.removeLoadingFooter()
+                            isLoadings = false
 
-                        val results = response.body()?.data
-                        joblistAdapter?.addAllTest(results as List<JobListModelData>)
+                            val results = response.body()?.data
+                            joblistAdapter?.addAllTest(results as List<JobListModelData>)
 
-                        if (currentPage == TOTAL_PAGES) {
-                            isLastPages = true
-                        } else {
-                            joblistAdapter?.addLoadingFooter()
+                            if (currentPage == TOTAL_PAGES) {
+                                isLastPages = true
+                            } else {
+                                joblistAdapter?.addLoadingFooter()
+                            }
+
+                            communicator.setIsLoading(isLoadings)
+                            communicator.totalJobCount(resp_jobs!!.common!!.totalRecordsFound!!)
+                            communicator.setLastPasge(isLastPages)
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-
-                        communicator.setIsLoading(isLoadings)
-                        communicator.totalJobCount(resp_jobs!!.common!!.totalRecordsFound!!)
-                        communicator.setLastPasge(isLastPages)
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                    } else {
+                        Log.d("TAG", "not successful: ")
                     }
-                } else {
-                    Log.d("TAG", "not successful: ")
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
             }
@@ -441,10 +449,10 @@ class JoblistFragment : Fragment() {
 
     private fun onClick() {
         backIV.setOnClickListener {
-            communicator.backButtonPressesd()
+            communicator?.backButtonPressesd()
         }
         filterIMGV.setOnClickListener {
-            communicator.goToAdvanceSearch()
+            communicator?.goToAdvanceSearch()
         }
 
     }
@@ -475,42 +483,42 @@ class JoblistFragment : Fragment() {
             } else {
                 var tempFilterID = ""
                 val saveSearchDialog = Dialog(activity)
-                saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
-                saveSearchDialog.setCancelable(true)
-                saveSearchDialog.show()
-                val saveBTN = saveSearchDialog.findViewById(R.id.saveBTN) as Button
-                val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
-                val filterNameET = saveSearchDialog.findViewById(R.id.filterNameET) as EditText
-                val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
-                val updateCG = saveSearchDialog.findViewById(R.id.updateCG) as ChipGroup
+                saveSearchDialog?.setContentView(R.layout.save_search_dialog_layout)
+                saveSearchDialog?.setCancelable(true)
+                saveSearchDialog?.show()
+                val saveBTN = saveSearchDialog?.findViewById(R.id.saveBTN) as Button
+                val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
+                val filterNameET = saveSearchDialog?.findViewById(R.id.filterNameET) as EditText
+                val textInputLayout = saveSearchDialog?.findViewById(R.id.textInputLayout) as TextInputLayout
+                val updateCG = saveSearchDialog?.findViewById(R.id.updateCG) as ChipGroup
 
                 Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
-                filterNameET.easyOnTextChangedListener { text ->
+                filterNameET?.easyOnTextChangedListener { text ->
                     validateFilterName(text.toString(), textInputLayout)
                 }
 
-                cancelBTN.setOnClickListener {
-                    saveSearchDialog.dismiss()
+                cancelBTN?.setOnClickListener {
+                    saveSearchDialog?.dismiss()
                 }
 
                 if (filterID.isNotBlank()) {
-                    updateCG.show()
+                    updateCG?.show()
                 } else {
-                    updateCG.hide()
+                    updateCG?.hide()
                 }
 
                 if (filterName.isNotBlank()) {
-                    filterNameET.setText(filterName)
+                    filterNameET?.setText(filterName)
                 }
 
 
-                if (updateCG.isVisible) {
-                    saveBTN.isEnabled = false
-                    updateCG.setOnCheckedChangeListener { chipGroup, id ->
+                if (updateCG?.isVisible) {
+                    saveBTN?.isEnabled = false
+                    updateCG?.setOnCheckedChangeListener { chipGroup, id ->
                         if (id > 0) {
-                            saveBTN.isEnabled = true
+                            saveBTN?.isEnabled = true
                             when (id) {
                                 R.id.updateChip -> tempFilterID = filterID
                                 R.id.saveChip -> tempFilterID = ""
@@ -521,7 +529,7 @@ class JoblistFragment : Fragment() {
                     }
                 }
 
-                saveBTN.setOnClickListener {
+                saveBTN?.setOnClickListener {
 
 
                     if (validateFilterName(filterNameET.getString(), textInputLayout)) {
@@ -599,9 +607,9 @@ class JoblistFragment : Fragment() {
                                             communicator.setFilterID(response?.body()?.data?.get(0)?.sfilterid!!)
                                             communicator.setFilterName(filterName)
                                             uiThread {
-                                                loadingDialog.dismiss()
+                                                loadingDialog?.dismiss()
                                                 toast("${response?.body()?.data?.get(0)?.message}")
-                                                saveSearchDialog.dismiss()
+                                                saveSearchDialog?.dismiss()
                                                 saveSearchDicission()
                                             }
                                         }

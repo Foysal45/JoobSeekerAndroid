@@ -47,9 +47,9 @@ class InterviewInvitationListAdapter(private val context: Context, private val i
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val jobtitleTV = view.findViewById(R.id.jobtitleTV) as TextView
-    val companyNameTV = view.findViewById(R.id.companyNameTV) as TextView
-    val appliedDateTV = view.findViewById(R.id.appliedDateTV) as TextView
-    val mainCL = view.findViewById(R.id.mainCL) as ConstraintLayout
+    val jobtitleTV = view?.findViewById(R.id.jobtitleTV) as TextView
+    val companyNameTV = view?.findViewById(R.id.companyNameTV) as TextView
+    val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
+    val mainCL = view?.findViewById(R.id.mainCL) as ConstraintLayout
 
 }
