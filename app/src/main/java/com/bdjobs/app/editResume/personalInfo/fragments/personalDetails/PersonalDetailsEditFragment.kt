@@ -43,7 +43,7 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun updateDateInView() {
-        val myFormat = "MMM dd, yyyy" // mention the format you need
+        val myFormat = "dd/mm/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         etPerDob.setText(sdf.format(now.time))
     }
@@ -65,6 +65,7 @@ class PersonalDetailsEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         personalInfo.setTitle(getString(R.string.title_personal))
+        personalInfo.setEditButton(false, "dd")
         doWork()
     }
 
@@ -72,11 +73,9 @@ class PersonalDetailsEditFragment : Fragment() {
         preloadedData()
         cbPerIsBd.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
-                nationality = etPerNationality.getString()
                 nidTIL.hide()
                 nationalityTIL.show()
             } else {
-                nationality = "Bangladeshi"
                 etPerNationality.setText(nationality)
                 nidTIL.show()
                 nationalityTIL.hide()
@@ -99,12 +98,26 @@ class PersonalDetailsEditFragment : Fragment() {
         etPerReligion.setText(data.religion)
         etPerDob.setText(data.dateofBirth)
         etPerNid.setText(data.nationalIdNo)
+        etPerNationality.setText(data.nationality)
         selectChip(cgGender, data.gender!!)
         selectChip(cgMarital, data.maritalStatus!!)
-        cbPerIsBd.isChecked = !data.maritalStatus.isNullOrBlank()
+
+        if (data.nationality == "Bangladeshi") {
+            cbPerIsBd.isChecked = true
+            nidTIL.show()
+            nationalityTIL.hide()
+        } else {
+            cbPerIsBd.isChecked = false
+            nidTIL.hide()
+            nationalityTIL.show()
+        }
+
     }
 
     private fun updateData() {
+        Log.d("nation", "val : $nationality and ${etPerNationality.getString()}")
+        nationality = if (etPerNationality.getString().isEmpty()) "Bangladeshi"
+        else etPerNationality.getString()
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePersonalData(session.userId, session.decodId, session.IsResumeUpdate,
                 etPerFirstName.getString(), etPerLastName.getString(), etPerFName.getString(), etPerMName.getString(),

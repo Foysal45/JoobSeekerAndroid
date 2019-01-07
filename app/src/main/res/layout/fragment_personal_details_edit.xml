@@ -43,6 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.first_name"
+                        android:digits="@string/special_chars"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -62,6 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.last_name"
+                        android:digits="@string/special_chars"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -80,7 +82,9 @@
                     android:id="@+id/etPerFName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/special_chars"
                     android:hint="@string/hint.father_name"
+                    android:maxLength="50"
                     android:inputType="text|textMultiLine"
                     android:textColor="#212121" />
 
@@ -96,7 +100,9 @@
                     android:id="@+id/etPerMName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="@string/special_chars"
                     android:hint="@string/hint.mother_name"
+                    android:maxLength="50"
                     android:inputType="text|textMultiLine"
                     android:textColor="#212121" />
 
@@ -143,6 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.religion"
+                        android:digits="@string/special_chars"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -304,15 +311,14 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#757575"
-                app:helperText="This field can not be blank">
+                android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerNid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.national_id_no"
-                    android:inputType="text|textMultiLine"
+                    android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />
 
@@ -332,7 +338,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.nationality"
-                    android:inputType="text|textMultiLine"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />
 

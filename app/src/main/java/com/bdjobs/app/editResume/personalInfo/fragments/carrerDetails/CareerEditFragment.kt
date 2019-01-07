@@ -45,6 +45,7 @@ class CareerEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         personalInfo.setTitle(getString(R.string.title_career))
+        personalInfo.setEditButton(false, "dd")
         doWork()
     }
 

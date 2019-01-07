@@ -33,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.objective"
                     android:inputType="text|textMultiLine"
+                    android:digits="@string/special_chars"
                     android:maxLength="250"
                     android:textColor="#212121" />
 

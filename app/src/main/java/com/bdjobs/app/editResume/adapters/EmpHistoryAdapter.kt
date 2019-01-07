@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.debug
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 
@@ -41,8 +44,28 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         holder.tvDate?.text = "From ${dModel.from} to ${dModel.to}"
         holder.tvCom?.text = dModel.companyName
         holder.tvAddress?.text = dModel.companyLocation
-
         holder.tvDept?.text = dModel.departmant
+
+        if (dModel.companyLocation == "") {
+            holder.llLoc?.hide()
+        } else {
+            holder.llLoc?.show()
+        }
+        if (dModel.departmant == "") {
+            holder.llDept?.hide()
+        } else {
+            holder.llDept?.show()
+        }
+        if (dModel.responsibility == "") {
+            holder.llResp?.hide()
+        } else {
+            holder.llResp?.show()
+        }
+        if (dModel.areaofExperience.isNullOrEmpty()) {
+            holder.llAoEx?.hide()
+        } else {
+            holder.llAoEx?.show()
+        }
 
         Log.d("dsgjdhsg", "in adpater companyBusiness ${dataStorage.getOrgNameByID(dModel.companyBusiness!!)}")
         Log.d("dsgjdhsg", "in adpater companyBusiness ID ${dModel.companyBusiness} ")
@@ -111,5 +134,9 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         var tvDept: TextView? = itemView?.findViewById(R.id.tv_cDept)
         var tvAreaOfExp: TextView? = itemView?.findViewById(R.id.tv_area_exps)
         var tvRespos: TextView? = itemView?.findViewById(R.id.tv_respons)
+        var llLoc: LinearLayout? = itemView?.findViewById(R.id.llLoc)
+        var llDept: LinearLayout? = itemView?.findViewById(R.id.llDept)
+        var llResp: LinearLayout? = itemView?.findViewById(R.id.llRespons)
+        var llAoEx: LinearLayout? = itemView?.findViewById(R.id.llAreaOfExps)
     }
 }

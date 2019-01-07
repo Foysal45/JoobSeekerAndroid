@@ -54,6 +54,7 @@ class AcademicInfoEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         d(isEdit.toString())
+        eduCB.setTitle(getString(R.string.title_academic))
         doWork()
         if (isEdit) {
             hID = "1"
@@ -86,8 +87,6 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        eduCB.setTitle(getString(R.string.title_academic))
-
         etLevelEdu.setOnClickListener {
             val eduLevelList: Array<String> = ds.allEduLevels
             activity.selector("Select level of education", eduLevelList.toList()) { _, i ->
@@ -115,7 +114,6 @@ class AcademicInfoEditFragment : Fragment() {
                     examOtherTIL.show()
                     /* bcEduDegreeOtherTIET.visibility = View.VISIBLE*/
                 } else {
-
                     examOtherTIL.hide()
 
                 }
@@ -149,10 +147,20 @@ class AcademicInfoEditFragment : Fragment() {
             foreignInstitute = if (isChecked) "1" else "0"
         }
 
-        fab_aca_edit.setOnClickListener { updateData() }
+        fab_aca_edit.setOnClickListener {
+            updateData()
+        }
     }
 
     private fun updateData() {
+        /*when {
+            etLevelEdu.getString().isBlank() -> eduCB.validateField(etLevelEdu, levelEduTIL)
+            etExamOtherTitle.getString().isBlank() -> eduCB.validateField(etExamOtherTitle, examOtherTIL)
+            etExamTitle.getString().isBlank() -> eduCB.validateField(etExamTitle, examTitleTIL)
+            etResults.getString().isBlank() -> eduCB.validateField(etResults, tilResults)
+            etInstitute.getString().isBlank() -> eduCB.validateField(etInstitute, instituteTIL)
+            etPassignYear.getString().isBlank() -> eduCB.validateField(etPassignYear, tilPassignYear)
+        }*/
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
                 ds.getEduIDByEduLevel(etLevelEdu.getString()), etExamTitle.getString(), etInstitute.getString(),
@@ -210,7 +218,6 @@ class AcademicInfoEditFragment : Fragment() {
             }
         })
     }
-
     private fun clearEditText() {
         etLevelEdu.clear()
         etExamTitle.clear()
@@ -225,7 +232,6 @@ class AcademicInfoEditFragment : Fragment() {
         cbResHide.isChecked = false
         cbForInstitute.isChecked = false
     }
-
 
     private fun setView(passvalue: Int) {
         val value = if (passvalue == 13 || passvalue == 14 || passvalue == 15)

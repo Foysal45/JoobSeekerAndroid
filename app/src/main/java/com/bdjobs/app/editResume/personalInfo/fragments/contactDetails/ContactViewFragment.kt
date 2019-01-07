@@ -10,6 +10,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -20,6 +21,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ContactViewFragment : Fragment() {
     private lateinit var contactCB: PersonalInfo
@@ -36,18 +38,20 @@ class ContactViewFragment : Fragment() {
         session = BdjobsUserSession(activity)
         contactCB = activity as PersonalInfo
         dataStorage = DataStorage(activity)
+        d("onActivityCreated")
     }
 
     override fun onResume() {
         super.onResume()
+        d("onResume")
+        contactCB.setTitle(getString(R.string.title_contact))
+        contactCB.setEditButton(true, "editContact")
         doWork()
     }
 
     private fun doWork() {
         shimmerStart()
         populateData()
-        contactCB.setEditButton(true, "editContact")
-        contactCB.setTitle(getString(R.string.title_contact))
     }
 
     private fun populateData() {
@@ -55,7 +59,7 @@ class ContactViewFragment : Fragment() {
         call.enqueue(object : Callback<GetContactInfo> {
             override fun onFailure(call: Call<GetContactInfo>, t: Throwable) {
                 shimmerStop()
-                activity.toast("Error occurred")
+                activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetContactInfo>, response: Response<GetContactInfo>) {
@@ -75,8 +79,18 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
-        tvPresentAddress.text = dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict)
-        tvPermanentAddress.text = dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict)
+        val presentAddress = info?.data?.get(0)?.presentVillage +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
+        val permanentAddress = info?.data?.get(0)?.presentVillage +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentVillage) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
+        tvPresentAddress.text = presentAddress
+        tvPermanentAddress.text = permanentAddress
         tvMobileNo.text = info?.data?.get(0)?.mobile
         val a = info?.data?.get(0)?.email + "\n"
         val b = info?.data?.get(0)?.alternativeEmail
@@ -98,5 +112,4 @@ class ContactViewFragment : Fragment() {
         shimmer_view_container_JobList.hide()
         shimmer_view_container_JobList.stopShimmerAnimation()
     }
-
 }
