@@ -41,7 +41,7 @@ class EmployerListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         listCommunicator = activity as EmployersCommunicator
         backIV.setOnClickListener {
-            listCommunicator.backButtonPressed()
+            listCommunicator?.backButtonPressed()
         }
         initPagination()
     }
@@ -93,10 +93,10 @@ class EmployerListFragment : Fragment() {
 
     private fun loadFirstPage(orgname: String) {
 
-        employerList_RV.hide()
-        favCountTV.hide()
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        employerList_RV?.hide()
+        favCountTV?.hide()
+        shimmer_view_container_JobList?.show()
+        shimmer_view_container_JobList?.startShimmerAnimation()
 
         ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
             override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
@@ -105,39 +105,36 @@ class EmployerListFragment : Fragment() {
 
             override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
 
-                Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
-                TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                var totalRecords = response.body()?.common?.totalrecordsfound
+                try {
+                    Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
+                    TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
+                    var totalRecords = response?.body()?.common?.totalrecordsfound
 
-                if (!response?.body()?.data.isNullOrEmpty()) {
-                    employerList_RV!!.visibility = View.VISIBLE
-                    employerListAdapter?.removeAll()
-                    employerListAdapter?.addAll(response?.body()?.data!!)
+                    if (!response?.body()?.data.isNullOrEmpty()) {
+                        employerList_RV!!.visibility = View.VISIBLE
+                        employerListAdapter?.removeAll()
+                        employerListAdapter?.addAll(response?.body()?.data!!)
 
-                    if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                        Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                        employerListAdapter?.addLoadingFooter()
-                    } else {
-                        Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                        isLastPages = true
+                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                            Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                            employerListAdapter?.addLoadingFooter()
+                        } else {
+                            Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                            isLastPages = true
+                        }
+
                     }
 
+                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employers now offering Jobs"
+                    favCountTV.text = Html.fromHtml(styledText)
+
+                    employerList_RV?.show()
+                    favCountTV?.show()
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                } catch (e: Exception) {
                 }
 
-                val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employers now offering Jobs"
-                favCountTV.text = Html.fromHtml(styledText)
-
-                employerList_RV.show()
-                favCountTV.show()
-                shimmer_view_container_JobList.hide()
-                shimmer_view_container_JobList.stopShimmerAnimation()
-
-             /*   doAsync {
-
-                    uiThread {
-                        favCountTV_1.text = "$totalRecords Employers now offering Jobs"
-                    }
-                }*/
             }
 
         })
@@ -150,7 +147,7 @@ class EmployerListFragment : Fragment() {
 
     private fun loadNextPage(orgname: String) {
 
-        Log.d("pg", pgNo.toString())
+        Log.d("pg", pgNo?.toString())
         ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
             override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
                 error("onFailure", t)
@@ -159,19 +156,23 @@ class EmployerListFragment : Fragment() {
 
             override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
 
-                Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
+                try {
+                    Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
 
-                TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                employerListAdapter?.removeLoadingFooter()
-                isLoadings = false
+                    TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
+                    employerListAdapter?.removeLoadingFooter()
+                    isLoadings = false
 
-                employerListAdapter?.addAll(response?.body()?.data!!)
+                    employerListAdapter?.addAll(response?.body()?.data!!)
 
 
-                if (pgNo != TOTAL_PAGES)
-                    employerListAdapter?.addLoadingFooter()
-                else {
-                    isLastPages = true
+                    if (pgNo != TOTAL_PAGES)
+                        employerListAdapter?.addLoadingFooter()
+                    else {
+                        isLastPages = true
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
 

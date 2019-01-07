@@ -18,16 +18,8 @@ import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 
 class FollowedEmployersListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private lateinit var bdjobsDB: BdjobsDB
     private var followedEmployersAdapter: FollowedEmployersAdapter? = null
     lateinit var employersCommunicator: EmployersCommunicator
@@ -37,10 +29,6 @@ class FollowedEmployersListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -56,14 +44,14 @@ class FollowedEmployersListFragment : Fragment() {
         bdjobsDB = BdjobsDB.getInstance(activity)
 
         backIMV.setOnClickListener {
-            employersCommunicator.backButtonPressed()
+            employersCommunicator?.backButtonPressed()
         }
 
 
         doAsync {
             followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
-         //   val followedEmployerJobCount = followedEmployerList?.size
-          //  getJobCountOfFollowedEmployer()
+            //   val followedEmployerJobCount = followedEmployerList?.size
+            //  getJobCountOfFollowedEmployer()
             Log.d("follow", followedEmployerList.toString())
             uiThread {
 
@@ -76,11 +64,10 @@ class FollowedEmployersListFragment : Fragment() {
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
 
                 val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"
-                favCountTV.text = Html.fromHtml(styledText)
+                favCountTV?.text = Html.fromHtml(styledText)
             }
         }
     }
-
 
 
 }

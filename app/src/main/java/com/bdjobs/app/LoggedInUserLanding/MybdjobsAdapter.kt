@@ -34,13 +34,13 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
 
     override fun onBindViewHolder(holder: MyBdjobsViewHolder, position: Int) {
 
-        holder.itemName.text = mybdjobsItems!![position].itemName
-        holder.itemValue.text = mybdjobsItems!![position].itemID
-        holder.backgroundRRL.setBackgroundResource(mybdjobsItems!![position].backgroundID)
-        holder.item_icon.setBackgroundResource(mybdjobsItems!![position].resourceID)
+        holder?.itemName?.text = mybdjobsItems!![position].itemName
+        holder?.itemValue?.text = mybdjobsItems!![position].itemID
+        holder?.backgroundRRL?.setBackgroundResource(mybdjobsItems!![position].backgroundID)
+        holder?.item_icon?.setBackgroundResource(mybdjobsItems!![position].resourceID)
         //holder.itemName[position]
 
-        holder.item_Card.setOnClickListener {
+        holder?.item_Card.setOnClickListener {
 
             when (mybdjobsItems!![position].itemName) {
                 "Jobs\nApplied" ->  communicator.goToAppliedJobs()
@@ -72,11 +72,11 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
 
 class MyBdjobsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    var itemName: TextView = itemView.findViewById(R.id.item_name_TV)
-    var itemValue: TextView = itemView.findViewById(R.id.item_value_TV)
-    var backgroundRRL: RelativeLayout = itemView.findViewById(R.id.background_RRL)
-    var item_icon: ImageView = itemView.findViewById(R.id.iv_item_icon)
-    var item_Card: CardView = itemView.findViewById(R.id.mybdjobsStatsCard)
+    var itemName: TextView = itemView?.findViewById(R.id.item_name_TV)
+    var itemValue: TextView = itemView?.findViewById(R.id.item_value_TV)
+    var backgroundRRL: RelativeLayout = itemView?.findViewById(R.id.background_RRL)
+    var item_icon: ImageView = itemView?.findViewById(R.id.iv_item_icon)
+    var item_Card: CardView = itemView?.findViewById(R.id.mybdjobsStatsCard)
 
 
 }

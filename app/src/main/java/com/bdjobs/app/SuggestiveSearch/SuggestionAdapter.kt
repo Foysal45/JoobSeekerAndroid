@@ -28,8 +28,8 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder.itemTV.text = filteredItems!![position]
-            holder.itemTV.setOnClickListener {
+            holder?.itemTV?.text = filteredItems!![position]
+            holder?.itemTV?.setOnClickListener {
                 communicator?.suggestionSelected(holder.itemTV.text.toString())
             }
         } catch (e: Exception) {
@@ -48,7 +48,7 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemTV = itemView.findViewById<TextView>(R.id.itemNameTV)!!
+        val itemTV = itemView?.findViewById<TextView>(R.id.itemNameTV)!!
     }
 
 

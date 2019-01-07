@@ -75,37 +75,37 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
     }
 
     private fun initialization() {
-        jobtitleET.addTextChangedListener(GuestUserJobSearchTextWatcher(jobtitleET))
-        loacationET.addTextChangedListener(GuestUserJobSearchTextWatcher(loacationET))
-        categoryET.addTextChangedListener(GuestUserJobSearchTextWatcher(categoryET))
+        jobtitleET?.addTextChangedListener(GuestUserJobSearchTextWatcher(jobtitleET))
+        loacationET?.addTextChangedListener(GuestUserJobSearchTextWatcher(loacationET))
+        categoryET?.addTextChangedListener(GuestUserJobSearchTextWatcher(categoryET))
     }
 
     private fun onClicks() {
-        profileIMGV.setOnClickListener {
+        profileIMGV?.setOnClickListener {
             startActivity(intentFor<LoginBaseActivity>(key_go_to_home to true))
         }
 
-        jobtitleET.setOnClickListener {
+        jobtitleET?.setOnClickListener {
             goToSuggestiveSearchActivityForResult(key_jobtitleET, jobtitleET)
         }
-        loacationET.setOnClickListener {
+        loacationET?.setOnClickListener {
             goToSuggestiveSearchActivityForResult(key_loacationET, loacationET)
         }
-        categoryET.setOnClickListener {
+        categoryET?.setOnClickListener {
             goToSuggestiveSearchActivityForResult(key_categoryET, categoryET)
         }
 
-        guestSearchBTN.setOnClickListener {
-            val keyWord = jobtitleET.getString()
-            val locationName = loacationET.getString()
-            val categoryName = categoryET.getString()
+        guestSearchBTN?.setOnClickListener {
+            val keyWord = jobtitleET?.getString()
+            val locationName = loacationET?.getString()
+            val categoryName = categoryET?.getString()
 
 
-            val locationId = locationName.let { string ->
+            val locationId = locationName?.let { string ->
                 dataStorage.getLocationIDByName(string)
             }
 
-            val catID = categoryName.let { string ->
+            val catID = categoryName?.let { string ->
                 dataStorage.getCategoryIDByName(string)
             }
 
@@ -137,9 +137,9 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
                 val typedData = data?.getStringExtra(key_typedData)
                 val from = data?.getStringExtra(key_from)
                 when (from) {
-                    key_jobtitleET -> jobtitleET.setText(typedData)
-                    key_loacationET -> loacationET.setText(typedData)
-                    key_categoryET -> categoryET.setText(typedData)
+                    key_jobtitleET -> jobtitleET?.setText(typedData)
+                    key_loacationET -> loacationET?.setText(typedData)
+                    key_categoryET -> categoryET?.setText(typedData)
                 }
             }
         }
@@ -158,11 +158,11 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (editText?.text.isBlank()) {
+            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText.clearTextOnDrawableRightClick()
+            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+            editText?.clearTextOnDrawableRightClick()
         }
     }
 }

@@ -13,11 +13,8 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.JobInvitation
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -51,19 +48,19 @@ class InterveiwInvitationListFragment : Fragment() {
         super.onResume()
 
         if (interviewInvitationCommunicator.getFrom().equalIgnoreCase("popup")) {
-            followedRV.hide()
-            favCountTV.hide()
-            shimmer_view_container_JobList.show()
-            shimmer_view_container_JobList.startShimmerAnimation()
+            followedRV?.hide()
+            favCountTV?.hide()
+            shimmer_view_container_JobList?.show()
+            shimmer_view_container_JobList?.startShimmerAnimation()
 
             showDataFromServer()
 
         } else {
             //homePage
-            followedRV.hide()
-            favCountTV.hide()
-            shimmer_view_container_JobList.show()
-            shimmer_view_container_JobList.startShimmerAnimation()
+            followedRV?.hide()
+            favCountTV?.hide()
+            shimmer_view_container_JobList?.show()
+            shimmer_view_container_JobList?.startShimmerAnimation()
 
             showDataFromDB()
 
@@ -79,24 +76,28 @@ class InterveiwInvitationListFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<JobInvitationListModel>, response: Response<JobInvitationListModel>) {
-                response.body()?.statuscode?.let { status ->
-                    if (status == api_request_result_code_ok) {
-                        response.body()?.data?.let { items ->
-                            doAsync {
-                                for (item in items) {
-                                    val jobInvitation = JobInvitation(companyName = item?.companyName,
-                                            inviteDate = item?.inviteDate,
-                                            jobId = item?.jobId,
-                                            jobTitle = item?.jobTitle,
-                                            seen = item?.seen)
-                                    bdjobsDB.jobInvitationDao().insertJobInvitation(jobInvitation)
-                                }
-                                uiThread {
-                                    showDataFromDB()
+                try {
+                    response.body()?.statuscode?.let { status ->
+                        if (status == api_request_result_code_ok) {
+                            response.body()?.data?.let { items ->
+                                doAsync {
+                                    for (item in items) {
+                                        val jobInvitation = JobInvitation(companyName = item?.companyName,
+                                                inviteDate = item?.inviteDate,
+                                                jobId = item?.jobId,
+                                                jobTitle = item?.jobTitle,
+                                                seen = item?.seen)
+                                        bdjobsDB.jobInvitationDao().insertJobInvitation(jobInvitation)
+                                    }
+                                    uiThread {
+                                        showDataFromDB()
+                                    }
                                 }
                             }
                         }
                     }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
 
@@ -117,10 +118,10 @@ class InterveiwInvitationListFragment : Fragment() {
                 }
                 val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"
                 favCountTV.text = Html.fromHtml(styledText)
-                followedRV.show()
-                favCountTV.show()
-                shimmer_view_container_JobList.hide()
-                shimmer_view_container_JobList.stopShimmerAnimation()
+                followedRV?.show()
+                favCountTV?.show()
+                shimmer_view_container_JobList?.hide()
+                shimmer_view_container_JobList?.stopShimmerAnimation()
             }
         }
     }

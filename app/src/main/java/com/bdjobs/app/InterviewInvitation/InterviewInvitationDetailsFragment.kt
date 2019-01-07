@@ -27,16 +27,16 @@ class InterviewInvitationDetailsFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity)
         bdjobsDB = BdjobsDB.getInstance(activity)
         interviewInvitationCommunicator = activity as InterviewInvitationCommunicator
-        backIMV.setOnClickListener {
+        backIMV?.setOnClickListener {
             interviewInvitationCommunicator.backButtonClicked()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        companyNameTV.text = interviewInvitationCommunicator.getCompanyNm()
-        jobtitleTV.text = interviewInvitationCommunicator.getCompanyJobTitle()
-        jobDetailTv.setOnClickListener {
+        companyNameTV?.text = interviewInvitationCommunicator.getCompanyNm()
+        jobtitleTV?.text = interviewInvitationCommunicator.getCompanyJobTitle()
+        jobDetailTv?.setOnClickListener {
 
         }
 

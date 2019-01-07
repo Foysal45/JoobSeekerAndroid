@@ -52,7 +52,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     }
 
 
-    override fun goToInterviewInvitation(from:String) {
+    override fun goToInterviewInvitation(from: String) {
         startActivity<InterviewInvitationBaseActivity>("from" to from)
     }
 
@@ -68,7 +68,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     }
 
 
-    override fun goToFollowedEmployerList(from:String) {
+    override fun goToFollowedEmployerList(from: String) {
         startActivity<EmployersBaseActivity>("from" to from)
     }
 
@@ -88,8 +88,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         disableShiftMode(bottom_navigation)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
-        bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        bottom_navigation.selectedItemId = R.id.navigation_home
+        bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottom_navigation?.selectedItemId = R.id.navigation_home
 
         getStatsData("0")
         getStatsData("1")
@@ -183,18 +183,18 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     @SuppressLint("RestrictedApi")
     fun disableShiftMode(view: BottomNavigationView) {
         val menuView = view.getChildAt(0) as BottomNavigationMenuView
-        menuView.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-        menuView.buildMenuView()
+        menuView?.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
+        menuView?.buildMenuView()
         try {
-            menuView.javaClass.getDeclaredField("mShiftingMode").also { shiftMode ->
-                shiftMode.isAccessible = true
-                shiftMode.setBoolean(menuView, false)
-                shiftMode.isAccessible = false
+            menuView?.javaClass.getDeclaredField("mShiftingMode").also { shiftMode ->
+                shiftMode?.isAccessible = true
+                shiftMode?.setBoolean(menuView, false)
+                shiftMode?.isAccessible = false
             }
             for (i in 0 until menuView.childCount) {
                 (menuView.getChildAt(i) as BottomNavigationItemView).also { item ->
-                    item.setShifting(false) // shifting animation
-                    item.setChecked(item.itemData.isChecked)
+                    item?.setShifting(false) // shifting animation
+                    item?.setChecked(item.itemData.isChecked)
                     debug("navigation position is : $i")
                 }
             }
@@ -225,13 +225,17 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
                     override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
 
-                        if (activityDate == "0") {
-                            allTimeStats = response.body()?.data
-                        } else if (activityDate == "1") {
-                            lastMonthStats = response.body()?.data
-                        }
+                        try {
+                            if (activityDate == "0") {
+                                allTimeStats = response.body()?.data
+                            } else if (activityDate == "1") {
+                                lastMonthStats = response.body()?.data
+                            }
 
-                        Log.d("respp", "$allTimeStats /n $lastMonthStats")
+                            Log.d("respp", "$allTimeStats /n $lastMonthStats")
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
                     }
 
                 })
