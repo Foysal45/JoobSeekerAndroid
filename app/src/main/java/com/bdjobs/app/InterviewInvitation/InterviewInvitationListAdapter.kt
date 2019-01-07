@@ -27,16 +27,16 @@ class InterviewInvitationListAdapter(private val context: Context, private val i
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if(items[position].seen=="1"){
-            holder.mainCL.background = context.getDrawable(R.drawable.ic_home_card)
+            holder?.mainCL.background = context.getDrawable(R.drawable.ic_home_card)
         }else{
-            holder.mainCL.background = context.getDrawable(R.drawable.interview_invitatiion_card_unseen)
+            holder?.mainCL.background = context.getDrawable(R.drawable.interview_invitatiion_card_unseen)
         }
 
-        holder.jobtitleTV.text = items[position].jobTitle
-        holder.companyNameTV.text = items[position].companyName
-        holder.appliedDateTV.text = items[position].inviteDate?.split(" ")?.get(0)
+        holder?.jobtitleTV?.text = items[position].jobTitle
+        holder?.companyNameTV?.text = items[position].companyName
+        holder?.appliedDateTV?.text = items[position].inviteDate?.split(" ")?.get(0)
 
-        holder.itemView.setOnClickListener {
+        holder?.itemView?.setOnClickListener {
             /*interviewInvitationCommunicator.goToInvitationDetails(
                     jobID = items[position].jobId!!,
                     jobTitle = items[position].jobTitle!!,
