@@ -84,39 +84,43 @@ class LoginUserNameFragment : Fragment() {
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
 
-                        val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
-                            Log.d("LoginActivity", response.toString())
-                            try {
-                                var semail: String? = null
-                                var sMid: String? = null
-
+                        try {
+                            val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
+                                Log.d("LoginActivity", response.toString())
                                 try {
-                                    if (profileData.has(FB_KEY_EMAIL)) {
-                                        semail = profileData.getString(FB_KEY_EMAIL)
+                                    var semail: String? = null
+                                    var sMid: String? = null
+
+                                    try {
+                                        if (profileData.has(FB_KEY_EMAIL)) {
+                                            semail = profileData.getString(FB_KEY_EMAIL)
+                                        }
+                                        if (profileData.has(FB_KEY_ID)) {
+                                            sMid = profileData.getString(FB_KEY_ID)
+                                        }
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
                                     }
-                                    if (profileData.has(FB_KEY_ID)) {
-                                        sMid = profileData.getString(FB_KEY_ID)
-                                    }
+
+
+
+                                    signOutFromFacebook()
+                                    socialMediaMapping(sMid, semail, SOCIAL_MEDIA_FACEBOOK)
+
+
+                                    Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
+
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
-
-
-
-                                signOutFromFacebook()
-                                socialMediaMapping(sMid, semail, SOCIAL_MEDIA_FACEBOOK)
-
-
-                                Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
-
-                            } catch (e: Exception) {
-                                e.printStackTrace()
                             }
+                            val parameters = Bundle()
+                            parameters.putString(FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY, FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING)
+                            request.parameters = parameters
+                            request.executeAsync()
+                        } catch (e: Exception) {
+                            logException(e)
                         }
-                        val parameters = Bundle()
-                        parameters.putString(FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY, FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING)
-                        request.parameters = parameters
-                        request.executeAsync()
                     }
 
                     override fun onCancel() {
@@ -147,70 +151,74 @@ class LoginUserNameFragment : Fragment() {
 
             override fun onResponse(call: Call<SocialLoginAccountListModel>, response: Response<SocialLoginAccountListModel>) {
 
-                if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+                try {
+                    if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
 
-                    var mappedAccountNumber: Int? = null
-                    var hasMappedAccount = false
+                        var mappedAccountNumber: Int? = null
+                        var hasMappedAccount = false
 
-                    response.body()?.data?.let { dataList ->
-                        for ((index, value) in dataList.withIndex()) {
-                            if (value?.isMap?.equalIgnoreCase(key_true)!!) {
-                                mappedAccountNumber = index
-                                hasMappedAccount = true
+                        response.body()?.data?.let { dataList ->
+                            for ((index, value) in dataList.withIndex()) {
+                                if (value?.isMap?.equalIgnoreCase(key_true)!!) {
+                                    mappedAccountNumber = index
+                                    hasMappedAccount = true
+                                }
                             }
+
                         }
 
-                    }
+                        Log.d("mappedAccountNumber", "mappedAccountNumber: $mappedAccountNumber")
 
-                    Log.d("mappedAccountNumber", "mappedAccountNumber: $mappedAccountNumber")
+                        if (hasMappedAccount) {
+                            val mappedAccount = response.body()?.data?.get(mappedAccountNumber!!)
+                            ApiServiceMyBdjobs.create().doLogin(socialMediaId = mappedAccount?.socialMediaId,
+                                    socialMediaName = mappedAccount?.socialMediaName,
+                                    susername = mappedAccount?.susername,
+                                    email = mappedAccount?.email,
+                                    fullName = mappedAccount?.fullName,
+                                    userId = mappedAccount?.userId,
+                                    isMap = mappedAccount?.isMap,
+                                    smId = mappedAccount?.smId
+                            ).enqueue(object : Callback<LoginSessionModel> {
 
-                    if (hasMappedAccount) {
-                        val mappedAccount = response.body()?.data?.get(mappedAccountNumber!!)
-                        ApiServiceMyBdjobs.create().doLogin(socialMediaId = mappedAccount?.socialMediaId,
-                                socialMediaName = mappedAccount?.socialMediaName,
-                                susername = mappedAccount?.susername,
-                                email = mappedAccount?.email,
-                                fullName = mappedAccount?.fullName,
-                                userId = mappedAccount?.userId,
-                                isMap = mappedAccount?.isMap,
-                                smId = mappedAccount?.smId
-                        ).enqueue(object : Callback<LoginSessionModel> {
-
-                            override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
-                                error("onFailure", t)
-                                activity.stopProgressBar(loadingProgressBar)
-                            }
-
-                            override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
-                                if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
-                                    response.body()?.data?.get(0)?.let { sessionData ->
-                                        val bdjobsUserSession = BdjobsUserSession(activity)
-                                        bdjobsUserSession.createSession(sessionData)
-                                        loginCommunicator.goToHomePage()
-                                    }
-
-                                } else {
+                                override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
+                                    error("onFailure", t)
                                     activity.stopProgressBar(loadingProgressBar)
-                                    toast(response.body()?.message!!)
                                 }
-                            }
-                        })
-                    } else if (!hasMappedAccount) {
-                        activity.stopProgressBar(loadingProgressBar)
-                        response.body()?.common?.total?.let { total ->
-                            Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
-                            try {
-                                if (total.toInt() > 0) {
-                                    loginCommunicator.goToSocialAccountListFragment(response.body()?.data)
+
+                                override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
+                                    if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+                                        response.body()?.data?.get(0)?.let { sessionData ->
+                                            val bdjobsUserSession = BdjobsUserSession(activity)
+                                            bdjobsUserSession.createSession(sessionData)
+                                            loginCommunicator.goToHomePage()
+                                        }
+
+                                    } else {
+                                        activity.stopProgressBar(loadingProgressBar)
+                                        toast(response.body()?.message!!)
+                                    }
                                 }
-                            } catch (e: Exception) {
-                                logException(e)
+                            })
+                        } else if (!hasMappedAccount) {
+                            activity.stopProgressBar(loadingProgressBar)
+                            response.body()?.common?.total?.let { total ->
+                                Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
+                                try {
+                                    if (total.toInt() > 0) {
+                                        loginCommunicator.goToSocialAccountListFragment(response.body()?.data)
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
                             }
                         }
+                    } else {
+                        activity.stopProgressBar(loadingProgressBar)
+                        toast(response.body()?.message!!)
                     }
-                } else {
-                    activity.stopProgressBar(loadingProgressBar)
-                    toast(response.body()?.message!!)
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
             }
@@ -231,35 +239,35 @@ class LoginUserNameFragment : Fragment() {
     }
 
     private fun onClicks() {
-        backBtnIMGV.setOnClickListener {
+        backBtnIMGV?.setOnClickListener {
             loginCommunicator?.backButtonClicked()
         }
 
-        nextButtonFAB.setOnClickListener {
+        nextButtonFAB?.setOnClickListener {
             val userName = usernameTIET.getString()
             if (validateUserName(userName)) {
                 checkUserHasAccount(userName)
             }
         }
 
-        usernameTIET.easyOnTextChangedListener { charSequence ->
+        usernameTIET?.easyOnTextChangedListener { charSequence ->
             validateUserName(charSequence.toString())
         }
 
-        googleSignInIMGV.setOnClickListener {
+        googleSignInIMGV?.setOnClickListener {
             signInWithGoogle()
         }
 
-        facebookLoginIMGV.setOnClickListener {
+        facebookLoginIMGV?.setOnClickListener {
             signInWithFacebook()
         }
 
-        linkedInSignInIMGV.setOnClickListener {
+        linkedInSignInIMGV?.setOnClickListener {
             signInWithLinkedIn()
         }
 
 
-        createAccountButton.setOnClickListener{
+        createAccountButton?.setOnClickListener{
 
           loginCommunicator.goToRegistrationActivity()
         }
@@ -419,18 +427,22 @@ class LoginUserNameFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<LoginUserModel>?, response: Response<LoginUserModel>?) {
-                activity.stopProgressBar(loadingProgressBar)
-                if (response?.body()?.statuscode == api_request_result_code_ok) {
-                    useNameTIL.hideError()
-                    if (response?.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
-                        loginCommunicator.goToOtpFragment(userName, response?.body()?.data?.get(0)?.userId, response?.body()?.data?.get(0)?.userFullName, response?.body()?.data?.get(0)?.imageurl)
-                    } else if (response?.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
-                        loginCommunicator.goToPasswordFragment(userName, response?.body()?.data?.get(0)?.userId, response?.body()?.data?.get(0)?.userFullName, response?.body()?.data?.get(0)?.imageurl)
-                    }
+                try {
+                    activity.stopProgressBar(loadingProgressBar)
+                    if (response?.body()?.statuscode == api_request_result_code_ok) {
+                        useNameTIL.hideError()
+                        if (response?.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
+                            loginCommunicator.goToOtpFragment(userName, response?.body()?.data?.get(0)?.userId, response?.body()?.data?.get(0)?.userFullName, response?.body()?.data?.get(0)?.imageurl)
+                        } else if (response?.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
+                            loginCommunicator.goToPasswordFragment(userName, response?.body()?.data?.get(0)?.userId, response?.body()?.data?.get(0)?.userFullName, response?.body()?.data?.get(0)?.imageurl)
+                        }
 
-                } else {
-                    useNameTIL.showError(response?.body()?.message)
-                    requestFocus(usernameTIET)
+                    } else {
+                        useNameTIL.showError(response?.body()?.message)
+                        requestFocus(usernameTIET)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         })

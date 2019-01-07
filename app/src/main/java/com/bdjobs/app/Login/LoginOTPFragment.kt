@@ -48,8 +48,8 @@ class LoginOTPFragment : Fragment() {
     }
 
     private fun setTime() {
-        counterTV.show()
-        resendOtpTV.hide()
+        counterTV?.show()
+        resendOtpTV?.hide()
         counter = object : CountDownTimer(counterTimeLimit.toLong(), timer_countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 val second = millisUntilFinished / 1000 % 60
@@ -61,8 +61,8 @@ class LoginOTPFragment : Fragment() {
 
             override fun onFinish() {
 
-                counterTV.hide()
-                resendOtpTV.show()
+                counterTV?.hide()
+                resendOtpTV?.show()
 
             }
         }.start()
@@ -70,15 +70,15 @@ class LoginOTPFragment : Fragment() {
 
     private fun setData() {
         val message = getString(R.string.otp_message) + loginCommunicator.getUserName()
-        otpMsgTV.text = message
+        otpMsgTV?.text = message
     }
 
     private fun onClicks() {
-        backBtnIMGV.setOnClickListener {
+        backBtnIMGV?.setOnClickListener {
             loginCommunicator?.backButtonClicked()
         }
 
-        otpTIET.easyOnTextChangedListener { charSequence ->
+        otpTIET?.easyOnTextChangedListener { charSequence ->
             validateOtpCode(charSequence.toString())
         }
 
@@ -91,10 +91,10 @@ class LoginOTPFragment : Fragment() {
                 val heightDiff = rootView.rootView.height - (r.bottom - r.top)
 
                 if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
-                    footerIMGV.hide()
+                    footerIMGV?.hide()
                 } else {
                     //ok now we know the keyboard is down...
-                    footerIMGV.show()
+                    footerIMGV?.show()
 
                 }
             } catch (e: Exception) {
@@ -102,7 +102,7 @@ class LoginOTPFragment : Fragment() {
             }
         }
 
-        nextButtonFAB.setOnClickListener {
+        nextButtonFAB?.setOnClickListener {
             doLogin()
         }
 
@@ -120,16 +120,20 @@ class LoginOTPFragment : Fragment() {
 
                 override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
 
-                    if (response.isSuccessful) {
-                       if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
-                           otpTIL.hideError()
-                           val bdjobsUserSession = BdjobsUserSession(activity)
-                           bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
-                           loginCommunicator.goToHomePage()
-                       }else{
-                           activity.stopProgressBar(progressBar)
-                           otpTIL.showError(response?.body()?.message)
-                       }
+                    try {
+                        if (response.isSuccessful) {
+                           if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
+                               otpTIL.hideError()
+                               val bdjobsUserSession = BdjobsUserSession(activity)
+                               bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                               loginCommunicator.goToHomePage()
+                           }else{
+                               activity.stopProgressBar(progressBar)
+                               otpTIL.showError(response?.body()?.message)
+                           }
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
                     }
                 }
             })

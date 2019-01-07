@@ -53,11 +53,11 @@ class LoginPasswordFragment : Fragment() {
 
     private fun setData() {
 
-        profilePicIMGV.loadCircularImageFromUrl(loginCommunicator.getImageUrl())
+        profilePicIMGV?.loadCircularImageFromUrl(loginCommunicator.getImageUrl())
     }
 
     private fun onClicks() {
-        backBtnIMGV.setOnClickListener {
+        backBtnIMGV?.setOnClickListener {
             loginCommunicator?.backButtonClicked()
         }
 
@@ -65,7 +65,7 @@ class LoginPasswordFragment : Fragment() {
             validatePassword(charSequence.toString())
         }
 
-        nextButtonFAB.setOnClickListener {
+        nextButtonFAB?.setOnClickListener {
             doLogin()
         }
 
@@ -102,19 +102,23 @@ class LoginPasswordFragment : Fragment() {
 
                 override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
 
-                    if (response.isSuccessful) {
+                    try {
+                        if (response.isSuccessful) {
 
-                        if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
-                            passwordTIL.hideError()
-                            val bdjobsUserSession = BdjobsUserSession(activity)
-                            bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
-                            loginCommunicator.goToHomePage()
+                            if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+                                passwordTIL.hideError()
+                                val bdjobsUserSession = BdjobsUserSession(activity)
+                                bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                                loginCommunicator.goToHomePage()
 
-                        } else {
-                            activity.stopProgressBar(progressBar)
-                            passwordTIL.showError(response?.body()?.message)
+                            } else {
+                                activity.stopProgressBar(progressBar)
+                                passwordTIL.showError(response?.body()?.message)
+                            }
+
                         }
-
+                    } catch (e: Exception) {
+                        logException(e)
                     }
 
                 }
@@ -127,21 +131,21 @@ class LoginPasswordFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(password) -> {
-                passwordTIL.showError(getString(R.string.field_empty_error_message_common))
+                passwordTIL?.showError(getString(R.string.field_empty_error_message_common))
                 requestFocus(passwordTIET)
                 return false
             }
             checkStringHasSymbol(password) -> {
-                passwordTIL.showError("Password can not contain $symbol")
+                passwordTIL?.showError("Password can not contain $symbol")
                 requestFocus(passwordTIET)
                 return false
             }
             password.trim { it <= ' ' }.length < 5 || password.trim().length > 12 -> {
-                passwordTIL.showError("Password should be 8 to 12 character long!")
+                passwordTIL?.showError("Password should be 8 to 12 character long!")
                 requestFocus(passwordTIET)
                 return false
             }
-            else -> passwordTIL.hideError()
+            else -> passwordTIL?.hideError()
         }
         return true
     }
