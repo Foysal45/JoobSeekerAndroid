@@ -9,7 +9,7 @@ import android.provider.Settings
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
@@ -106,16 +106,16 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
 
             }
             "editPersonal" -> {
-                iv_edit_data.hide()
+                iv_edit_data.show()
                 transitFragment(personalEditFragment, R.id.personalinfo_container, true)
             }
             "editCareer" -> {
-                iv_edit_data.hide()
+                iv_edit_data.show()
                 transitFragment(careerEditFragment, R.id.personalinfo_container, true)
             }
             "editContact" -> {
                 //contact edit fragment
-                iv_edit_data.hide()
+                iv_edit_data.show()
                 transitFragment(contactEditFragment, R.id.personalinfo_container, true)
             }
             else -> {

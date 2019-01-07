@@ -61,6 +61,7 @@ class ContactViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         val respo = response.body()
+                        contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
@@ -72,9 +73,9 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
-        tvPresentAddress.text = info?.data?.get(0)?.presentAddress
-        tvPermanentAddress.text = info?.data?.get(0)?.permanentAddress
-        tvMobileNo.text = info?.data?.get(0)?.presentAddress
+        tvPresentAddress.text = info?.data?.get(0)?.presentDistrict
+        tvPermanentAddress.text = info?.data?.get(0)?.permanentDistrict
+        tvMobileNo.text = info?.data?.get(0)?.mobile
         val a = info?.data?.get(0)?.email + "\n"
         val b = info?.data?.get(0)?.alternativeEmail
         val sb = StringBuilder()
