@@ -18,8 +18,8 @@ class HistoryAdapter(val itemList: ArrayList<String>, private val context: Conte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemTV.text = itemList!![position]
-        holder.itemTV.setOnClickListener {
+        holder?.itemTV?.text = itemList!![position]
+        holder?.itemTV?.setOnClickListener {
             communicator?.suggestionSelected(holder.itemTV.text.toString())
         }
     }
@@ -34,7 +34,7 @@ class HistoryAdapter(val itemList: ArrayList<String>, private val context: Conte
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemTV = itemView.findViewById<TextView>(R.id.itemNameTV)!!
+        val itemTV = itemView?.findViewById<TextView>(R.id.itemNameTV)!!
     }
 
 }

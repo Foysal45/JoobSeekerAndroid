@@ -34,7 +34,7 @@ import kotlin.collections.ArrayList
 
 class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     override fun clearRecycledViewPool() {
-        historyRV.recycledViewPool.clear()
+        historyRV?.recycledViewPool?.clear()
     }
 
     private lateinit var textData: String
@@ -70,21 +70,21 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
     private fun setTextWatcher() {
 
-        suggestiveSearchET.easyOnTextChangedListener { e: CharSequence ->
+        suggestiveSearchET?.easyOnTextChangedListener { e: CharSequence ->
             if (TextUtils.isEmpty(e)) {
                 suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0,  0, 0)
                 filterRV.hide()
                 historyViewCL.show()
             } else {
-                suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0,  R.drawable.ic_close_white, 0)
-                suggestiveSearchET.clearTextOnDrawableRightClick()
+                suggestiveSearchET?.setCompoundDrawablesWithIntrinsicBounds(0, 0,  R.drawable.ic_close_white, 0)
+                suggestiveSearchET?.clearTextOnDrawableRightClick()
                 filterRV.show()
                 historyViewCL.hide()
             }
             adapter?.filter?.filter(e)
         }
-        suggestiveSearchET.setText(textData)
-        suggestiveSearchET.setSelection(suggestiveSearchET?.text?.length!!)
+        suggestiveSearchET?.setText(textData)
+        suggestiveSearchET?.setSelection(suggestiveSearchET?.text?.length!!)
     }
 
     private fun setHistoryAdapter(from: String) {
@@ -99,8 +99,8 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     clearAllBTN.hide()
                 }
                 historyAdapter = HistoryAdapter(historyList, this@SuggestiveSearchActivity)
-                historyRV.adapter = historyAdapter
-                historyRV.recycledViewPool.clear();
+                historyRV?.adapter = historyAdapter
+                historyRV?.recycledViewPool?.clear();
                 historyAdapter.notifyDataSetChanged()
             }
         }
@@ -110,27 +110,27 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         lateinit var suggestionItems: Array<String>
         when (from) {
             key_jobtitleET -> {
-                suggestiveSearchET.hint = getString(R.string.hint_keyword)
+                suggestiveSearchET?.hint = getString(R.string.hint_keyword)
                 suggestionItems = dataStorage.allSkills
             }
             key_loacationET -> {
-                suggestiveSearchET.hint = getString(R.string.hint_location)
+                suggestiveSearchET?.hint = getString(R.string.hint_location)
                 suggestionItems = dataStorage.allDomesticLocations
             }
             key_categoryET -> {
-                suggestiveSearchET.hint = getString(R.string.hint_Category)
+                suggestiveSearchET?.hint = getString(R.string.hint_Category)
                 suggestionItems = dataStorage.allWhiteCollarCategories.toTypedArray()
             }
             key_special_categoryET->{
-                suggestiveSearchET.hint = getString(R.string.hint_Category)
+                suggestiveSearchET?.hint = getString(R.string.hint_Category)
                 suggestionItems = dataStorage.allBlueCollarCategoriesInBangla.toTypedArray()
             }
             key_industryET->{
-                suggestiveSearchET.hint = "Industries"
+                suggestiveSearchET?.hint = "Industries"
                 suggestionItems = dataStorage.getAllIndustries
             }
             key_newspaperET->{
-                suggestiveSearchET.hint = "NewsPaper"
+                suggestiveSearchET?.hint = "NewsPaper"
                 suggestionItems = dataStorage.getAllNewspapers
             }
 
@@ -150,9 +150,9 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     }
 
     private fun onClicks() {
-        BACKIMGV.setOnClickListener { onBackPressed() }
+        BACKIMGV?.setOnClickListener { onBackPressed() }
 
-        suggestiveSearchET.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        suggestiveSearchET?.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 
             if (event.getAction() === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 takeDecision()
@@ -162,8 +162,8 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         })
 
 
-        filterIMGV.setOnClickListener { promptSpeechInput() }
-        clearAllBTN.setOnClickListener {
+        filterIMGV?.setOnClickListener { promptSpeechInput() }
+        clearAllBTN?.setOnClickListener {
             clearHistory(from)
         }
 
@@ -173,11 +173,11 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         doAsync {
             bdjobsInternalDB.suggestionDAO().deleteAllKeywordSuggestion(from)
             uiThread {
-                historyList.clear()
-                historyRV.recycledViewPool.clear();
-                historyAdapter.notifyDataSetChanged()
-                lineView.hide()
-                clearAllBTN.hide()
+                historyList?.clear()
+                historyRV?.recycledViewPool?.clear();
+                historyAdapter?.notifyDataSetChanged()
+                lineView?.hide()
+                clearAllBTN?.hide()
             }
         }
     }
@@ -310,7 +310,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
     override fun suggestionSelected(selectedItem: String) {
         debug(selectedItem)
-        suggestiveSearchET.setText(selectedItem)
+        suggestiveSearchET?.setText(selectedItem)
         takeDecision()
     }
 }
