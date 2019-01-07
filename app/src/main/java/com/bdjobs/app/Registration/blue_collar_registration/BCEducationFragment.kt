@@ -21,7 +21,6 @@ import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_education.*
 import org.jetbrains.anko.selector
-import org.jetbrains.anko.toast
 
 
 class BCEducationFragment : Fragment() {
@@ -108,7 +107,7 @@ class BCEducationFragment : Fragment() {
         bcEduLevelTIET.setOnClickListener {
             val eduLevelList: Array<String> = dataStorage.allEduLevels
 
-            selector("বসর্বশেষ শিক্ষা পর্যায়", eduLevelList.toList()) { dialogInterface, i ->
+            selector("সর্বশেষ শিক্ষা পর্যায়", eduLevelList.toList()) { dialogInterface, i ->
 
                bcEduLevelTIET.setText(eduLevelList[i])
                /* bcDistrictTIL.requestFocus()*/
@@ -150,7 +149,7 @@ class BCEducationFragment : Fragment() {
         checkBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
 
-                toast(isChecked.toString())
+                /*  toast(isChecked.toString())*/
 
                 if (isChecked) {
                     hasEducation = "True"

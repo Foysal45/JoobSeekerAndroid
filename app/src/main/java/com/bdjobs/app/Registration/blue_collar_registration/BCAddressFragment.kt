@@ -1,26 +1,18 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
+import com.bdjobs.app.Utilities.getString
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_adress.*
-import kotlinx.android.synthetic.main.fragment_bc_category.*
-import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
-import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
-import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
 
 
@@ -56,11 +48,11 @@ class BCAddressFragment : Fragment() {
         bcAddressFAButton.setOnClickListener {
 
 
-            thana = bcThanaTIET.text.toString()
-            district = bcDistrictTIET.text.toString()
-            division = bcDivisionTIET.text.toString()
-            address = bcVillageTIET.text.toString()
-            postOffice = bcPostOfficeTIET.getText().toString()
+            thana = bcThanaTIET.getString()
+            district = bcDistrictTIET.getString()
+            division = bcDivisionTIET.getString()
+            address = bcVillageTIET.getString()
+            postOffice = bcPostOfficeTIET.getString()
             var locationID = ""
 
             if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
@@ -79,30 +71,20 @@ class BCAddressFragment : Fragment() {
         }
 
         bcDivisionTIET.setOnClickListener {
-
             val divisionList: Array<String> = dataStorage.banglaAllDivision
-
             selector("বিভাগ নির্বাচন করুন", divisionList.toList()) { dialogInterface, i ->
-
                 bcDivisionTIET.setText(divisionList[i])
                 bcDistrictTIL.requestFocus()
-
-
             }
 
         }
 
         bcDistrictTIET.setOnClickListener {
-
-            var queryValue = bcDivisionTIET.text.toString()
+            var queryValue = bcDivisionTIET.getString()
             queryValue = queryValue.replace("'", "''")
-
             val districtList: Array<String> = dataStorage.getDependentLocationByParentNameInBangla(queryValue)
-
             selector("জেলা নির্বাচন করুন", districtList.toList()) { dialogInterface, i ->
-
                 bcDistrictTIET.setText(districtList[i])
-
                 bcDistrictTIL.requestFocus()
 
 
@@ -112,15 +94,10 @@ class BCAddressFragment : Fragment() {
         }
 
         bcThanaTIET.setOnClickListener {
-
-
-            var queryValue = bcDistrictTIET.text.toString()
+            var queryValue = bcDistrictTIET.getString()
             queryValue = queryValue.replace("'", "''")
-
             val districtList: Array<String> = dataStorage.getDependentLocationByParentNameInBangla(queryValue)
-
             selector("উপজেলা / থানা নির্বাচন করুন", districtList.toList()) { dialogInterface, i ->
-
                 bcThanaTIET.setText(districtList[i])
                 bcDistrictTIL.requestFocus()
 
@@ -132,25 +109,15 @@ class BCAddressFragment : Fragment() {
         }
 
         bcPostOfficeTIET.setOnClickListener {
-
-            var queryValue = bcThanaTIET.text.toString()
+            var queryValue = bcThanaTIET.getString()
             queryValue = queryValue.replace("'", "''")
-
             val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue)
-
             selector("উপজেলা / থানা নির্বাচন করুন", districtList.toList()) { dialogInterface, i ->
-
                 bcPostOfficeTIET.setText(districtList[i])
                 bcPostOfficeTIL.requestFocus()
 
 
             }
-
-        }
-
-        bcVillageTIL.setOnClickListener {
-
-
 
         }
 
@@ -177,7 +144,7 @@ class BCAddressFragment : Fragment() {
 
 
     private fun validateCondition(): Boolean {
-        return !TextUtils.isEmpty(bcVillageTIET.getText().toString()) and !TextUtils.isEmpty(bcDistrictTIET.getText().toString()) and !TextUtils.isEmpty(bcDistrictTIET.getText().toString()) and !TextUtils.isEmpty(bcThanaTIET.getText().toString())
+        return !TextUtils.isEmpty(bcVillageTIET.text.toString()) and !TextUtils.isEmpty(bcDistrictTIET.text.toString()) and !TextUtils.isEmpty(bcDistrictTIET.text.toString()) and !TextUtils.isEmpty(bcThanaTIET.text.toString())
     }
 
 

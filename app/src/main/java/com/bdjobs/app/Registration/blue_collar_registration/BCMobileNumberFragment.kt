@@ -1,9 +1,7 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,17 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.hideError
-import com.bdjobs.app.Utilities.showError
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
-import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
-import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
 
 
@@ -68,12 +60,12 @@ class BCMobileNumberFragment : Fragment() {
 
             if (validateMobileNumber())  {
 
-            registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET.text.toString())
+                registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET.getString())
             registrationCommunicator.wcUserNameTypeSelected("mobile")
-            registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET.text.toString())
+                registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET.getString())
             Log.d("CountryCode", "${bcCountryCodeTIET.text}")
             val countryCode: String
-            val countryNameAndCountryCode = bcCountryCodeTIET.text.toString()
+                val countryNameAndCountryCode = bcCountryCodeTIET.getString()
             val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
             countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
 
@@ -134,7 +126,7 @@ class BCMobileNumberFragment : Fragment() {
                 return false
             }
             validateMobileNumber() == false -> {
-                bcMobileNumberTIL.showError("Mobile Number Not valid")
+                bcMobileNumberTIL.showError("Mobile Number is not valid")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
@@ -152,11 +144,11 @@ class BCMobileNumberFragment : Fragment() {
 
 
     private fun validateMobileNumber(): Boolean {
-        if (!TextUtils.isEmpty(bcCountryCodeTIET.getText().toString()) && !TextUtils.isEmpty(bcMobileNumberTIET.getText().toString())) {
-            if (android.util.Patterns.PHONE.matcher(bcMobileNumberTIET.getText().toString()).matches()) {
-                if (bcCountryCodeTIET.getText().toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET.getText().toString().length == 11) {
+        if (!TextUtils.isEmpty(bcCountryCodeTIET.text.toString()) && !TextUtils.isEmpty(bcMobileNumberTIET.text.toString())) {
+            if (android.util.Patterns.PHONE.matcher(bcMobileNumberTIET.text.toString()).matches()) {
+                if (bcCountryCodeTIET.text.toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET.text.toString().length == 11) {
                     return true
-                } else if (!bcCountryCodeTIET.getText().toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET.getText().toString().length + getCountryCode().length >= 6 && bcMobileNumberTIET.getText().toString().length + getCountryCode().length <= 15) {
+                } else if (!bcCountryCodeTIET.text.toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET.text.toString().length + getCountryCode().length >= 6 && bcMobileNumberTIET.text.toString().length + getCountryCode().length <= 15) {
                     return true
                 }
             }
@@ -166,7 +158,7 @@ class BCMobileNumberFragment : Fragment() {
 
 
     private fun getCountryCode(): String {
-        val inputData = bcCountryCodeTIET.getText().toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        val inputData = bcCountryCodeTIET.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
         return inputData[inputData.size - 1].trim({ it <= ' ' })
     }
 }
