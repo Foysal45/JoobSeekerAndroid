@@ -262,51 +262,64 @@ data class GetPersInfo(
 // Contact Info
 data class C_DataItem(
 
-        @field:SerializedName("messageType")
-        val messageType: String? = null,
-
-        @field:SerializedName("presentAddress")
-        val presentAddress: String? = null,
-
-        @field:SerializedName("officePhone")
-        val officePhone: String? = null,
-
-        @field:SerializedName("currentLocationPosition")
-        val currentLocationPosition: String? = null,
-
-        @field:SerializedName("homePhone")
-        val homePhone: String? = null,
-
-        @field:SerializedName("mobile")
-        val mobile: String? = null,
-
-        @field:SerializedName("permanentAddress")
-        val permanentAddress: String? = null,
-
-        @field:SerializedName("currentLocationName")
-        val currentLocationName: String? = null,
-
-        @field:SerializedName("email")
-        val email: String? = null,
-
-        @field:SerializedName("alternativeEmail")
-        val alternativeEmail: String? = null
+        @SerializedName("addressType1")
+        val addressType1: String?,
+        @SerializedName("addressType2")
+        val addressType2: String?,
+        @SerializedName("alternativeEmail")
+        val alternativeEmail: String?,
+        @SerializedName("email")
+        val email: String?,
+        @SerializedName("homePhone")
+        val homePhone: String?,
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("mobile")
+        val mobile: String?,
+        @SerializedName("officePhone")
+        val officePhone: String?,
+        @SerializedName("permanentAddressID")
+        val permanentAddressID: String?,
+        @SerializedName("permanentCountry")
+        val permanentCountry: String?,
+        @SerializedName("permanentDistrict")
+        val permanentDistrict: String?,
+        @SerializedName("permanentInsideOutsideBD")
+        val permanentInsideOutsideBD: String?,
+        @SerializedName("permanentPostOffice")
+        val permanentPostOffice: String?,
+        @SerializedName("permanentThana")
+        val permanentThana: String?,
+        @SerializedName("permanentVillage")
+        val permanentVillage: String?,
+        @SerializedName("presentAddressID")
+        val presentAddressID: String?,
+        @SerializedName("presentCountry")
+        val presentCountry: String?,
+        @SerializedName("presentDistrict")
+        val presentDistrict: String?,
+        @SerializedName("presentInsideOutsideBD")
+        val presentInsideOutsideBD: String?,
+        @SerializedName("presentPostOffice")
+        val presentPostOffice: String?,
+        @SerializedName("presentThana")
+        val presentThana: String?,
+        @SerializedName("presentVillage")
+        val presentVillage: String?
 )
+
 
 data class GetContactInfo(
-
-        @field:SerializedName("statuscode")
-        val statuscode: String? = null,
-
-        @field:SerializedName("data")
-        val data: List<C_DataItem?>? = null,
-
-        @field:SerializedName("common")
-        val common: Any? = null,
-
-        @field:SerializedName("message")
-        val message: String? = null
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val `data`: List<C_DataItem?>?,
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
 )
+
 // Career Info
 data class Ca_DataItem(
 

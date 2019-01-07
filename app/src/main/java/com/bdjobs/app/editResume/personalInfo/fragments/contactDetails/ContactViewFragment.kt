@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
@@ -23,7 +24,7 @@ import retrofit2.Response
 class ContactViewFragment : Fragment() {
     private lateinit var contactCB: PersonalInfo
     private lateinit var session: BdjobsUserSession
-
+    private lateinit var dataStorage: DataStorage
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -34,6 +35,7 @@ class ContactViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         contactCB = activity as PersonalInfo
+        dataStorage = DataStorage(activity)
     }
 
     override fun onResume() {
@@ -61,6 +63,7 @@ class ContactViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         val respo = response.body()
+                        contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
@@ -72,9 +75,9 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
-        tvPresentAddress.text = info?.data?.get(0)?.presentAddress
-        tvPermanentAddress.text = info?.data?.get(0)?.permanentAddress
-        tvMobileNo.text = info?.data?.get(0)?.presentAddress
+        tvPresentAddress.text = dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict)
+        tvPermanentAddress.text = dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict)
+        tvMobileNo.text = info?.data?.get(0)?.mobile
         val a = info?.data?.get(0)?.email + "\n"
         val b = info?.data?.get(0)?.alternativeEmail
         val sb = StringBuilder()

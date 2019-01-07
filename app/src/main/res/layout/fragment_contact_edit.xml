@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,23 +31,23 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <LinearLayout
-                android:id="@+id/chipLayout"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgPresent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:weightSum="2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView35">
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                app:chipSpacing="10dp"
+                app:singleSelection="true">
 
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/insideBangladeshChip"
+                    android:id="@+id/insidePre"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="@string/insideBangladesh"
@@ -57,13 +58,10 @@
                     app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/outSideBangladesh"
+                    android:id="@+id/outSidePre"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="@string/outSideBangladesh"
@@ -73,26 +71,46 @@
                     app:chipStrokeColor="#D9D9D9"
                     app:chipStrokeWidth="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/insideBangladeshChip"
+
                     app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
-            </LinearLayout>
+            </com.google.android.material.chip.ChipGroup>
 
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
+
                     android:id="@+id/presentInsideBangladeshLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/chipLayout">
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/contactDivTIL"
+                        style="@style/EHTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contactDivTIET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="Division"
+                            android:inputType="number"
+                            android:maxLength="9"
+                            android:textColor="#212121"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/contactDistrictTIL1"
@@ -109,6 +127,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.contactDistrict"
+                            android:focusable="false"
                             android:inputType="number"
                             android:maxLength="9"
                             android:textColor="#212121" />
@@ -127,26 +146,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/presentInsideBangladeshLayout">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/contactPostOfficeTIL1"
-                            style="@style/EHTextInputLayout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/contactPostOfficeTIET1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/hint.contactThana"
-                                android:inputType="number"
-                                android:maxLength="9"
-                                android:textColor="#212121" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/contactThanaTIL1"
                             style="@style/EHTextInputLayout"
                             android:layout_width="0dp"
@@ -160,6 +159,28 @@
                                 android:id="@+id/contactThanaTIET"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:hint="@string/hint.contactThana"
+                                android:inputType="number"
+                                android:maxLength="9"
+                                android:textColor="#212121" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/contactPostOfficeTIL1"
+                            style="@style/EHTextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/contactPostOfficeTIET1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
                                 android:hint="@string/hint.contactPost"
                                 android:inputType="number"
                                 android:maxLength="9"
@@ -170,14 +191,32 @@
                     </LinearLayout>
 
 
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/contactAddressTILPR"
+                        style="@style/EHTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contactAddressTIETPR"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint.contactAddress"
+                            android:inputType="number"
+                            android:maxLength="9"
+                            android:textColor="#212121" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/presentOutsideBangladeshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toEndOf="parent">
+                    android:orientation="vertical">
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -191,6 +230,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/presentContactCountryTIET"
+                            android:focusable="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.country"
@@ -250,23 +290,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
 
-            <LinearLayout
-                android:id="@+id/permanentChipLayout"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgPermanent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:weightSum="2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addressCheckbox">
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                app:chipSpacing="10dp"
+                app:singleSelection="true">
 
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/permanentInsideBangladeshChip"
+                    android:id="@+id/insideP"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="@string/insideBangladesh"
@@ -277,13 +317,10 @@
                     app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/permanentOutSideBangladesh"
+                    android:id="@+id/outSideP"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="@string/outSideBangladesh"
@@ -293,10 +330,9 @@
                     app:chipStrokeColor="#D9D9D9"
                     app:chipStrokeWidth="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/insideBangladeshChip"
                     app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
-            </LinearLayout>
+            </com.google.android.material.chip.ChipGroup>
 
 
             <LinearLayout
@@ -308,11 +344,30 @@
                     android:id="@+id/presentInsideBangladeshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/chipLayout">
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/contactDivTIL1"
+                        style="@style/EHTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contactDivTIET1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="Division"
+                            android:inputType="number"
+                            android:maxLength="9"
+                            android:textColor="#212121"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/contactDistrictTIL"
@@ -328,6 +383,7 @@
                             android:id="@+id/contactDistrictTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="false"
                             android:hint="@string/hint.contactDistrict"
                             android:inputType="number"
                             android:maxLength="9"
@@ -347,26 +403,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/presentInsideBangladeshLayout">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/contactPostOfficeTIL"
-                            style="@style/EHTextInputLayout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/contactPostOfficeTIET"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/hint.contactThana"
-                                android:inputType="number"
-                                android:maxLength="9"
-                                android:textColor="#212121" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/contactThanaTIL"
                             style="@style/EHTextInputLayout"
                             android:layout_width="0dp"
@@ -380,6 +416,27 @@
                                 android:id="@+id/contactThanaTIETP"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:hint="@string/hint.contactThana"
+                                android:inputType="number"
+                                android:maxLength="9"
+                                android:textColor="#212121" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/contactPostOfficeTIL"
+                            style="@style/EHTextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/contactPostOfficeTIET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
                                 android:hint="@string/hint.contactPost"
                                 android:inputType="number"
                                 android:maxLength="9"
@@ -388,6 +445,26 @@
 
 
                     </LinearLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/contactAddressTILPRM"
+                        style="@style/EHTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contactAddressTIETPRM"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint.contactAddress"
+                            android:inputType="number"
+                            android:maxLength="9"
+                            android:textColor="#212121" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
                 </LinearLayout>
@@ -413,6 +490,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.country"
+                            android:focusable="false"
                             android:inputType="number"
                             android:maxLength="9"
                             android:textColor="#212121" />
