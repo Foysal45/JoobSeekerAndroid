@@ -1039,6 +1039,8 @@ class DataStorage(context: Context) {
         return s
     }
 
+
+
     fun getDependentLocationByParentName(locationName: String): Array<String> {
         val locationID = getLocationIDByName(locationName)
         val OrgTypes = ArrayList<String>()

@@ -139,7 +139,9 @@
         <activity
             android:name=".AppliedJobs.AppliedJobsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Settings.SettingBaseActivity"></activity>
+        <activity
+            android:name=".Settings.SettingBaseActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
