@@ -96,6 +96,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/filterNameTIL"
+                android:maxLength="50"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,6 +108,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/filterNameET"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"

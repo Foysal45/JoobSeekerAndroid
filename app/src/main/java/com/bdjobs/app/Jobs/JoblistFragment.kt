@@ -637,7 +637,7 @@ class JoblistFragment : Fragment() {
 
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
-        if (typedData.isNullOrBlank()) {
+        if (typedData.trim().isNullOrBlank()) {
             textInputLayout.showError(getString(R.string.field_empty_error_message_common))
             return false
         }

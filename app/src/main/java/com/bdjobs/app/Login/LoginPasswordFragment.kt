@@ -134,11 +134,11 @@ class LoginPasswordFragment : Fragment() {
                 requestFocus(passwordTIET)
                 return false
             }
-            checkStringHasSymbol(password) -> {
+           /* checkStringHasSymbol(password) -> {
                 passwordTIL?.showError("Password can not contain $symbol")
                 requestFocus(passwordTIET)
                 return false
-            }
+            }*/
             password.trim { it <= ' ' }.length < 5 || password.trim().length > 12 -> {
                 passwordTIL?.showError("Password should be 8 to 12 character long!")
                 requestFocus(passwordTIET)
