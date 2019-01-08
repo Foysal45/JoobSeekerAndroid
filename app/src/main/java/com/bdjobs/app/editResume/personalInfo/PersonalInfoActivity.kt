@@ -110,7 +110,6 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         }
     }*/
 
-
     private fun goToEditInfo(check: String) {
         when (check) {
             "add" -> {
