@@ -538,7 +538,7 @@ class JoblistFragment : Fragment() {
 
 
                     if (validateFilterName(filterNameET.getString(), textInputLayout)) {
-
+// version 2.0 release
                         if (!session.isLoggedIn!!) {
                             communicator.goToLoginPage()
                         } else {

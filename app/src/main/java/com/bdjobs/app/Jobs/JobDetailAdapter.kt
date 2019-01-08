@@ -181,19 +181,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             }
 
                             jobsVH?.followTV?.setOnClickListener {
-                                doAsync {
-                                    val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
-                                    uiThread {
-                                        if (isItFollowed) {
-                                            jobsVH?.followTV?.setTextColor(Color.parseColor("#13A10E"))
-                                            jobsVH?.followTV?.text = "Follow"
-                                            jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                                            callUnFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
-                                        } else {
-                                            jobsVH?.followTV?.text = "Unfollow"
-                                            jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
-                                            jobsVH?.followTV?.setTextColor(Color.parseColor("#767676"))
-                                            callFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
+                                if (!bdjobsUserSession.isLoggedIn!!) {
+                                    jobCommunicator?.goToLoginPage()
+                                } else {
+                                    doAsync {
+                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
+                                        uiThread {
+                                            if (isItFollowed) {
+                                                jobsVH?.followTV?.setTextColor(Color.parseColor("#13A10E"))
+                                                jobsVH?.followTV?.text = "Follow"
+                                                jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                                                callUnFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
+                                            } else {
+                                                jobsVH?.followTV?.text = "Unfollow"
+                                                jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
+                                                jobsVH?.followTV?.setTextColor(Color.parseColor("#767676"))
+                                                callFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
+                                            }
                                         }
                                     }
                                 }
