@@ -1,14 +1,13 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
@@ -17,8 +16,6 @@ import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_name.*
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.makeCall
 
 
 class WCNameFragment : Fragment() {
@@ -49,15 +46,12 @@ class WCNameFragment : Fragment() {
 
     private fun onClick(){
 
-
-
-
         nameFAButton.setOnClickListener {
 
+            if (usernameTIET.length() == 0 || usernameTIET.length() < 2) {
 
-                if(usernameTIET.length() == 0 || usernameTIET.length() < 2 ){
+                userNameTIL.showError("Name cannot be empty")
 
-                    userNameTIL.showError("Name can not be empty")
                 } else {
 
                     registrationCommunicator.wcGoToStepGender()
@@ -126,10 +120,4 @@ class WCNameFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-
-
-
-    }
 }

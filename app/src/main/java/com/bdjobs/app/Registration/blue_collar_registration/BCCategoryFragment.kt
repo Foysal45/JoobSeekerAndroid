@@ -1,10 +1,8 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
-import android.util.Log
+import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +10,12 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Registration.white_collar_registration.WCCategoryAdapter
 import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_category.*
-import kotlinx.android.synthetic.main.fragment_wc_category.*
-import org.jetbrains.anko.makeCall
+import org.jetbrains.anko.toast
 
 
 class BCCategoryFragment : Fragment() {
@@ -62,6 +57,19 @@ class BCCategoryFragment : Fragment() {
         }
 
 
+        bcCategoryFAButton.setOnClickListener {
+
+            if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
+
+                activity.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
+
+            }
+
+
+        }
+
+
+
 
     }
 
@@ -84,7 +92,10 @@ class BCCategoryFragment : Fragment() {
      fun bcGoToNextStep(){
 
        bcCategoryFAButton.setOnClickListener {
+
            registrationCommunicator.bcGoToStepName()
+
+
        }
 
 

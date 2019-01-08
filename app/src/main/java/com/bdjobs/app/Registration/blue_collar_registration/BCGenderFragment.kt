@@ -2,6 +2,7 @@ package com.bdjobs.app.Registration.blue_collar_registration
 
 import android.app.Fragment
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_gender.*
+import org.jetbrains.anko.toast
 
 
 class BCGenderFragment : Fragment() {
@@ -106,6 +108,13 @@ class BCGenderFragment : Fragment() {
         }
 
 
+        bcGenderFAButton.setOnClickListener {
+
+            if (TextUtils.isEmpty(registrationCommunicator.getGender())) {
+
+                activity.toast("লিঙ্গ নির্বাচন করুন")
+            }
+        }
 
 
     }
