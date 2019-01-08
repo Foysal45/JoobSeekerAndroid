@@ -198,7 +198,7 @@ class ContactEditFragment : Fragment() {
 
             val countryList: Array<String> = dataStorage.allCountries
 
-            activity?.selector("Please select your country ", countryList.toList()) { dialogInterface, i ->
+            activity?.selector("Please select your country ", countryList.toList()) { _, i ->
 
                 presentContactCountryTIET.setText(countryList[i])
                 presentContactCountryTIL.requestFocus()
@@ -211,7 +211,7 @@ class ContactEditFragment : Fragment() {
 
         contactDivTIET1.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
-            activity?.selector("Select Your division", divisionList.toList()) { dialogInterface, i ->
+            activity?.selector("Select Your division", divisionList.toList()) { _, i ->
 
                 contactDivTIET1.setText(divisionList[i])
                 contactDivTIL1.requestFocus()
@@ -226,7 +226,7 @@ class ContactEditFragment : Fragment() {
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
-            activity?.selector("Please Select your district", districtList.toList()) { dialogInterface, i ->
+            activity?.selector("Please Select your district", districtList.toList()) { _, i ->
 
                 contactDistrictTIET.setText(districtList[i])
 
