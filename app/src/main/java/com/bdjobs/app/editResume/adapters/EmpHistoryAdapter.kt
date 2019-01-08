@@ -19,6 +19,7 @@ import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 
+@SuppressLint("SetTextI18n")
 class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context) : RecyclerView.Adapter<EmpHistoryAdapter.MyViewHolder>() {
 
     private var call: EmpHisCB = context as EmpHisCB
@@ -30,14 +31,12 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_experiece_list, parent, false)
         dataStorage = DataStorage(context)
         return MyViewHolder(itemView)
-
     }
 
     override fun getItemCount(): Int {
         return if (itemList == null) 0 else itemList!!.size
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val dModel = itemList?.get(position)!!
         holder.tvDes?.text = dModel.positionHeld
@@ -95,6 +94,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         }
         holder.moreActionDetails?.visibility = View.GONE
     }
+
     private fun toggleDetails(holder: MyViewHolder) {
         var visibility: Int = holder.moreActionDetails!!.visibility
         if (visibility == View.GONE) {

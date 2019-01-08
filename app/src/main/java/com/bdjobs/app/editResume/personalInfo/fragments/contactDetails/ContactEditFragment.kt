@@ -90,6 +90,7 @@ class ContactEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
                         if (response.body()?.statuscode == "4") {
+                            session.updateEmail(contactEmailAddressTIET.getString())
                             contactInfo.goBack()
                         }
                     }

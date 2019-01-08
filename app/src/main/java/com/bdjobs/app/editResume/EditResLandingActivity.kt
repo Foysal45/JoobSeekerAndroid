@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -22,14 +24,22 @@ class EditResLandingActivity : Activity() {
         super.onCreate(savedInstanceState)
         session = BdjobsUserSession(this@EditResLandingActivity)
         setContentView(R.layout.activity_edit_res_landing)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!session.userPicUrl.isNullOrEmpty()) {
+            ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
+        } else {
+            ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
+        }
+        d("editResLanding photo: " + session.userPicUrl)
+        tvname.text = session.fullName
+        tvEmail.text = session.email
         doWork()
     }
 
     private fun doWork() {
-        ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
-        tvname.text = session.fullName
-        tvEmail.text = session.email
-
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
         }
@@ -67,6 +77,7 @@ class EditResLandingActivity : Activity() {
             "Emp" ->
                 startActivity<EmploymentHistoryActivity>("name" to s)
         }
+        finish()
     }
 
 

@@ -1,21 +1,18 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
 import android.app.DatePickerDialog
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_birth_date.*
-import org.jetbrains.anko.makeCall
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,7 +76,7 @@ class BCBirthDateFragment : Fragment() {
 
                 Log.d("Test"," birthDtae ${birthdate}")
 
-                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                val sdf = SimpleDateFormat("MM/dd/yyyy")
                     try {
                         val birthDate = sdf.parse(birthdate)
                         age = calculateAge(birthDate)
@@ -135,7 +132,7 @@ class BCBirthDateFragment : Fragment() {
                         bcAgeTIET.text!!.clear()
                         bcBirthDateTIET.setText(date)
                         var ageTemp = 0
-                        val sdf = SimpleDateFormat("dd/MM/yyyy")
+                        val sdf = SimpleDateFormat("MM/dd/yyyy")
                         try {
                             val birthDate = sdf.parse(date)
                             ageTemp = calculateAge(birthDate)
@@ -168,8 +165,8 @@ class BCBirthDateFragment : Fragment() {
             calendarMax.set(Calendar.YEAR, mYear - 12)
 
 
-            datePickerDialog.getDatePicker().setMaxDate(calendarMax.timeInMillis)
-            datePickerDialog.getDatePicker().setMinDate(calendarMin.timeInMillis)
+            datePickerDialog.datePicker.maxDate = calendarMax.timeInMillis
+            datePickerDialog.datePicker.minDate = calendarMin.timeInMillis
             datePickerDialog.show()
         }
 

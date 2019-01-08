@@ -43,7 +43,7 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun updateDateInView() {
-        val myFormat = "dd/mm/yyyy" // mention the format you need
+        val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         etPerDob.setText(sdf.format(now.time))
     }
@@ -135,6 +135,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()
                         }
                     }
