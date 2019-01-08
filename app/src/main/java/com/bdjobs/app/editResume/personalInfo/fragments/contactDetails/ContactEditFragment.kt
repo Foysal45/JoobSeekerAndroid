@@ -352,7 +352,7 @@ class ContactEditFragment : Fragment() {
             var queryValue = contactThanaTIET.text.toString()
             queryValue = queryValue.replace("'", "''")
 
-            val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue)
+            val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInEnglish(queryValue)
 
             activity?.selector("Please Select your post office", districtList.toList()) { _, i ->
                 contactPostOfficeTIET1.setText(districtList[i])
