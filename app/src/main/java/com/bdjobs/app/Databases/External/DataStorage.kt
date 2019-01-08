@@ -1121,8 +1121,8 @@ class DataStorage(context: Context) {
 
     }
 
-    fun getDependentPostOfficeByParentNameInEnglish(locationName: String): Array<String> {
-        val locationID = getBanglaLocationIDByName(locationName)
+    /*fun getDependentPostOfficeByParentNameInEnglish(locationName: String): Array<String> {
+        val locationID = getLocationIDByName(locationName)
         val OrgTypes = ArrayList<String>()
         try {
             dbHelper.openDataBase()
@@ -1147,7 +1147,7 @@ class DataStorage(context: Context) {
 
         return OrgTypes.toTypedArray()
 
-    }
+    }*/
 
     fun getCategoryIDByName(name: String): String? {
 
