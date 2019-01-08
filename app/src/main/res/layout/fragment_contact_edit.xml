@@ -181,7 +181,7 @@
                                 android:id="@+id/contactPostOfficeTIET1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusable="false"
+                                android:focusableInTouchMode="false"
                                 android:hint="@string/hint.contactPost"
                                 android:inputType="text|textMultiLine"
                                 android:maxLength="50"
@@ -411,15 +411,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-
-                            >
+                            android:layout_weight="1">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/contactThanaTIETP"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/hint.contactThana"
+                                android:focusableInTouchMode="false"
                                 android:inputType="text|textMultiLine"
                                 android:maxLength="50"
                                 android:textColor="#212121" />
