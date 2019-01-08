@@ -3,12 +3,19 @@ package com.bdjobs.app.editResume.personalInfo
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
+import android.view.View
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
@@ -22,6 +29,8 @@ import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactVi
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_personal_info.*
 
 class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, PersonalInfo {
@@ -90,35 +99,35 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
             iv_edit_data.setOnClickListener {
                 goToEditInfo(type)
             }
+        } else {
+            iv_edit_data.setImageDrawable(null)
         }
     }
-
+/*
     override fun setDeleteButton(b: Boolean) {
         if (b) {
             iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
         }
-    }
+    }*/
 
 
-    override fun goToEditInfo(check: String) {
+    private fun goToEditInfo(check: String) {
         when (check) {
             "add" -> {
 
             }
             "editPersonal" -> {
-                iv_edit_data.hide()
                 transitFragment(personalEditFragment, R.id.personalinfo_container, true)
             }
             "editCareer" -> {
-                iv_edit_data.hide()
                 transitFragment(careerEditFragment, R.id.personalinfo_container, true)
             }
             "editContact" -> {
                 //contact edit fragment
-                iv_edit_data.hide()
                 transitFragment(contactEditFragment, R.id.personalinfo_container, true)
             }
             else -> {
+                iv_edit_data.hide()
             }
         }
     }
@@ -162,5 +171,41 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         } else {
             mSnackBar?.dismiss()
         }
+    }
+
+    override fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean {
+        if (et.getString().isEmpty()) {
+            til.isErrorEnabled = true
+            til.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(et)
+            return false
+        } else {
+            til.isErrorEnabled = false
+        }
+        return true
+    }
+
+    private fun requestFocus(view: View) {
+        if (view.requestFocus()) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
+    }
+
+    fun getAlteredBoldStr(alteredStrArr: Array<String>,
+                          isFirstPartBold: Boolean): SpannableStringBuilder {
+        val str = SpannableStringBuilder()
+        var i = 0
+        val l = alteredStrArr.size
+        while (i < l) {
+            val s = alteredStrArr[i]
+            val pl = str.length
+            if (i > 0) str.append(" ")
+            str.append(s)
+            if (isFirstPartBold && i % 2 == 0 || !isFirstPartBold && i % 2 != 0)
+                str.setSpan(StyleSpan(Typeface.BOLD),
+                        pl, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            i++
+        }
+        return str
     }
 }

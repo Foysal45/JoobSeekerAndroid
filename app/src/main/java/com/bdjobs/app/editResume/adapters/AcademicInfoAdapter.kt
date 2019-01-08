@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.debug
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
 
@@ -37,6 +39,13 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
         holder.tvDegree?.text = dModel.examDegreeTitle
         holder.tvAcaResult?.text = dModel.result
         holder.tvUniName?.text = dModel.instituteName
+        if (dModel.acievement == "") {
+            holder.moreActionDetails?.hide()
+            holder.imageViewExpand?.hide()
+        } else {
+            holder.moreActionDetails?.show()
+            holder.imageViewExpand?.show()
+        }
         holder.tvAchievement?.text = dModel.acievement
         Log.d("aca", "${dModel.examDegreeTitle}")
 

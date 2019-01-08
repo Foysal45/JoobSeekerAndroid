@@ -1431,7 +1431,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun getGender(): String {
-        return getGender()
+        return this.gender
     }
 
     private fun signOutFromFacebook() {

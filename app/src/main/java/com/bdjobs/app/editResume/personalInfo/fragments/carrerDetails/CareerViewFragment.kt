@@ -41,15 +41,14 @@ class CareerViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        contactCB.setEditButton(true, "editCareer")
+        contactCB.setTitle(getString(R.string.title_career))
         doWork()
     }
 
     private fun doWork() {
         shimmerStart()
         populateData()
-        contactCB.setEditButton(true, "editCareer")
-        contactCB.setDeleteButton(false)
-        contactCB.setTitle(getString(R.string.title_career))
     }
 
     private fun populateData() {
@@ -58,7 +57,7 @@ class CareerViewFragment : Fragment() {
             override fun onFailure(call: Call<GetCarrerInfo>, t: Throwable) {
                 shimmerStop()
                 //clContent.show()
-                activity.toast("Error occurred")
+                activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetCarrerInfo>, response: Response<GetCarrerInfo>) {

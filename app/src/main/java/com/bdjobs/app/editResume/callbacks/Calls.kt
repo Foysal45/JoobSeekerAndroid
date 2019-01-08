@@ -2,6 +2,8 @@ package com.bdjobs.app.editResume.callbacks
 
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.editResume.adapters.models.*
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 interface EmpHisCB {
     fun setTitle(tit: String?)
@@ -11,6 +13,7 @@ interface EmpHisCB {
     fun passArmyData(data: ArmydataItem)
     fun passAreaOfExpsData(data: AreaofExperienceItem)
     fun getAreaOfExpsData(): AreaofExperienceItem
+    fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean
     fun getData(): DataItem
     fun getArmyData(): ArmydataItem
     fun goBack()
@@ -25,6 +28,7 @@ interface EduInfo {
     fun passTrainingData(data: Tr_DataItem)
     fun getData(): AcaDataItem
     fun getTrainingData(): Tr_DataItem
+    fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
 }
 
@@ -37,8 +41,9 @@ interface PersonalInfo {
     fun passPersonalData(data: P_DataItem)
     fun getContactData(): C_DataItem
     fun passContactData(data: C_DataItem)
-    fun setDeleteButton(b: Boolean)
-    fun goToEditInfo(check: String)
+    fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean
+    //fun setDeleteButton(b: Boolean)
+    //fun goToEditInfo(check: String)
     fun goBack()
 }
 

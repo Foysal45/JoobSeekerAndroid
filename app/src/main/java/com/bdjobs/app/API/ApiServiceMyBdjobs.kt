@@ -120,6 +120,35 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_01_update_con.asp")
+    fun updateContactData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("presentInsideOutsideBD") inOut: String?,
+            @Field("present_district") present_district: String?,
+            @Field("present_thana") present_thana: String?,
+            @Field("present_p_office") present_p_office: String?,
+            @Field("present_Village") present_Village: String?,
+            @Field("present_country_list") present_country_list: String?,
+            @Field("permanentInsideOutsideBD") permInOut: String?,
+            @Field("permanent_district") permanent_district: String?,
+            @Field("permanent_thana") permanent_thana: String?,
+            @Field("permanent_p_office") permanent_p_office: String?,
+            @Field("permanent_Village") permanent_Village: String?,
+            @Field("permanent_country_list") permanent_country_list: String?,
+            @Field("same_address") same_address: String?,
+            @Field("permanent_adrsID") permanent_adrsID: String?,
+            @Field("present_adrsID") present_adrsID: String?,
+            @Field("homePhone") homePhone: String?,
+            @Field("mobile") mobile: String?,
+            @Field("officePhone") officePhone: String?,
+            @Field("email") email: String?,
+            @Field("alternativeEmail") alternativeEmail: String?
+    ): Call<AddorUpdateModel>
+
+
+    @FormUrlEncoded
     @POST("apps_step_01_update_per.asp")
     fun updatePersonalData(
             @Field("userId") userId: String?,

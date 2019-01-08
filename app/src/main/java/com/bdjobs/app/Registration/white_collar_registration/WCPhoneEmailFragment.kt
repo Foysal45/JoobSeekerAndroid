@@ -1,11 +1,8 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
 
-import android.app.AlertDialog
-import android.os.Bundle
 import android.app.Fragment
-import android.content.DialogInterface
-import android.text.Editable
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
@@ -14,20 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.hideError
-import com.bdjobs.app.Utilities.showError
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.footer_wc_layout.*
-import kotlinx.android.synthetic.main.fragment_login_username.*
-import kotlinx.android.synthetic.main.fragment_wc_password.*
 import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
-import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.selector
-import org.jetbrains.anko.toast
 
 
 class WCPhoneEmailFragment : Fragment() {
@@ -61,28 +50,55 @@ class WCPhoneEmailFragment : Fragment() {
 
             mobileNumberValidityCheck(charSequence.toString())
 
+            if (mobileNumberValidityCheck(charSequence.toString())) {
+
+                emailTIL.isErrorEnabled = false
+
+
+            }
+
+
+
+
         }
 
         emailTIET.easyOnTextChangedListener { charSequence ->
 
             emailValidityCheck(charSequence.toString())
 
+            if (emailValidityCheck(charSequence.toString())) {
+
+                mobileNumberTIL.isErrorEnabled = false
+
+
+            }
+
+
         }
 
         phoneEmailFAButton.setOnClickListener {
+
+
+            if (mobileNumberTIET.getString().isNullOrEmpty() && emailTIET.getString().isNullOrEmpty()) {
+
+                mobileNumberTIL.showError("Please fill at least a Mobile Number or Email Address")
+                emailTIL.showError("Please fill at least a Mobile Number or Email Address")
+
+
+            }
 
             when {
                 validateMobileNumber() -> {
 
 
                     registrationCommunicator.wcGoToStepPassword()
-                    registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.text.toString())
-                    registrationCommunicator.wcUserNameSelected(mobileNumberTIET.text.toString())
+                    registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.getString())
+                    registrationCommunicator.wcUserNameSelected(mobileNumberTIET.getString())
 
 
                     Log.d("CountryCode", "${countryCodeTIET.text}")
                     val countryCode: String
-                    val countryNameAndCountryCode = countryCodeTIET.text.toString()
+                    val countryNameAndCountryCode = countryCodeTIET.getString()
                     val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                     countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
 
@@ -91,8 +107,8 @@ class WCPhoneEmailFragment : Fragment() {
 
                     if (isValidEmail(emailTIET.text.toString())) {
 
-                        registrationCommunicator.wcEmailSelected(emailTIET.text.toString())
-                        registrationCommunicator.wcUserNameSelected(emailTIET.text.toString())
+                        registrationCommunicator.wcEmailSelected(emailTIET.getString())
+                        registrationCommunicator.wcUserNameSelected(emailTIET.getString())
                         registrationCommunicator.wcUserNameTypeSelected("email")
 
                     }
@@ -101,8 +117,8 @@ class WCPhoneEmailFragment : Fragment() {
                 isValidEmail(emailTIET.text.toString()) -> {
                     Log.d("dsklgj", "2")
                     registrationCommunicator.wcGoToStepPassword()
-                    registrationCommunicator.wcEmailSelected(emailTIET.text.toString())
-                    registrationCommunicator.wcUserNameSelected(emailTIET.text.toString())
+                    registrationCommunicator.wcEmailSelected(emailTIET.getString())
+                    registrationCommunicator.wcUserNameSelected(emailTIET.getString())
                     registrationCommunicator.wcUserNameTypeSelected("email")
                 }
 
@@ -157,11 +173,11 @@ class WCPhoneEmailFragment : Fragment() {
     }
 
     private fun validateMobileNumber(): Boolean {
-        if (!TextUtils.isEmpty(countryCodeTIET.getText().toString()) && !TextUtils.isEmpty(mobileNumberTIET.getText().toString())) {
-            if (android.util.Patterns.PHONE.matcher(mobileNumberTIET.getText().toString()).matches()) {
-                if (countryCodeTIET.getText().toString().equals("Bangladesh (88)", ignoreCase = true) && mobileNumberTIET.getText().toString().length == 11) {
+        if (!TextUtils.isEmpty(countryCodeTIET.getString()) && !TextUtils.isEmpty(mobileNumberTIET.getString())) {
+            if (android.util.Patterns.PHONE.matcher(mobileNumberTIET.getString()).matches()) {
+                if (countryCodeTIET.getString().equals("Bangladesh (88)", ignoreCase = true) && mobileNumberTIET.getString().length == 11) {
                     return true
-                } else if (!countryCodeTIET.getText().toString().equals("Bangladesh (88)", ignoreCase = true) && mobileNumberTIET.getText().toString().length + getCountryCode().length >= 6 && mobileNumberTIET.getText().toString().length + getCountryCode().length <= 15) {
+                } else if (!countryCodeTIET.getString().equals("Bangladesh (88)", ignoreCase = true) && mobileNumberTIET.getString().length + getCountryCode().length >= 6 && mobileNumberTIET.getString().length + getCountryCode().length <= 15) {
                     return true
                 }
             }
@@ -179,7 +195,7 @@ class WCPhoneEmailFragment : Fragment() {
                 return false
             }
             validateMobileNumber() == false -> {
-                mobileNumberTIL.showError("Mobile Number Not valid")
+                mobileNumberTIL.showError("Mobile Number is not valid")
                 requestFocus(mobileNumberTIET)
                 return false
             }
@@ -191,19 +207,25 @@ class WCPhoneEmailFragment : Fragment() {
 
     private fun emailValidityCheck(email: String): Boolean {
 
-        when {
-            TextUtils.isEmpty(email) -> {
-                emailTIL.showError(getString(R.string.field_empty_error_message_common))
-                requestFocus(emailTIET)
-                return false
+        if (!validateMobileNumber()) {
+
+            when {
+                TextUtils.isEmpty(email) -> {
+                    emailTIL.showError(getString(R.string.field_empty_error_message_common))
+                    requestFocus(emailTIET)
+                    return false
+                }
+                isValidEmail(email) == false -> {
+                    emailTIL.showError("email Not valid")
+                    requestFocus(emailTIET)
+                    return false
+                }
+                else -> emailTIL.hideError()
             }
-            isValidEmail(email) == false -> {
-                emailTIL.showError("email Not valid")
-                requestFocus(emailTIET)
-                return false
-            }
-            else -> emailTIL.hideError()
+            return true
         }
+
+
         return true
 
 
@@ -211,7 +233,7 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     private fun getCountryCode(): String {
-        val inputData = countryCodeTIET.getText().toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        val inputData = countryCodeTIET.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
         return inputData[inputData.size - 1].trim({ it <= ' ' })
     }
 

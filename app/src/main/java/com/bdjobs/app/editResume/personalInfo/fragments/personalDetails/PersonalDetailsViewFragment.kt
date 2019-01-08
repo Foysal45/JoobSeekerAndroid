@@ -45,6 +45,8 @@ class PersonalDetailsViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        personalInfoCB.setEditButton(true, "editPersonal")
+        personalInfoCB.setTitle(getString(R.string.title_personal))
         doWork()
     }
 
@@ -52,9 +54,6 @@ class PersonalDetailsViewFragment : Fragment() {
         nsView.hide()
         shimmerStart()
         populateData()
-        personalInfoCB.setEditButton(true, "editPersonal")
-        personalInfoCB.setDeleteButton(false)
-        personalInfoCB.setTitle(getString(R.string.title_personal))
     }
 
     private fun populateData() {

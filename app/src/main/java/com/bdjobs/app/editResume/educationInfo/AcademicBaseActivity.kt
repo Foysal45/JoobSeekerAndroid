@@ -5,10 +5,13 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.transitFragment
@@ -20,6 +23,8 @@ import com.bdjobs.app.editResume.educationInfo.fragments.academicInfo.AcademicIn
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingEditFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
@@ -151,6 +156,25 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
             mSnackBar?.show()
         } else {
             mSnackBar?.dismiss()
+        }
+    }
+
+
+    override fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean {
+        if (et.getString().isEmpty()) {
+            til.isErrorEnabled = true
+            til.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(et)
+            return false
+        } else {
+            til.isErrorEnabled = false
+        }
+        return true
+    }
+
+    private fun requestFocus(view: View) {
+        if (view.requestFocus()) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
     }
 

@@ -52,6 +52,10 @@ class EditResLandingActivity : Activity() {
             startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
         }
 
+        icBackEr.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun goToFragment(s: String, check: String) {
