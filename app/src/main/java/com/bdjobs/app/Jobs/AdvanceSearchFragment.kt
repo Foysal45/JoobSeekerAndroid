@@ -36,17 +36,17 @@ class AdvanceSearchFragment : Fragment() {
 
     private fun onClicks() {
         searchBTN.setOnClickListener {
-            jobCommunicator.backButtonPressesd()
+            jobCommunicator?.backButtonPressesd()
         }
 
-        keywordET.easyOnTextChangedListener { text ->
+        keywordET?.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setKeyword("")
             }
         }
-        generalCatET.easyOnTextChangedListener { text ->
+        generalCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
@@ -55,14 +55,14 @@ class AdvanceSearchFragment : Fragment() {
 
         }
 
-        loacationET.easyOnTextChangedListener { text ->
+        loacationET?.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setLocation("")
             }
         }
-        specialCatET.easyOnTextChangedListener { text ->
+        specialCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
@@ -70,14 +70,14 @@ class AdvanceSearchFragment : Fragment() {
             }
 
         }
-        newsPaperET.easyOnTextChangedListener { text ->
+        newsPaperET?.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setNewsPaper("")
             }
         }
-        industryET.easyOnTextChangedListener { text ->
+        industryET?.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
@@ -88,27 +88,27 @@ class AdvanceSearchFragment : Fragment() {
 
 
 
-        backIV.setOnClickListener {
+        backIV?.setOnClickListener {
             jobCommunicator.backButtonPressesd()
         }
-        keywordET.setOnClickListener {
+        keywordET?.setOnClickListener {
             jobCommunicator.goToSuggestiveSearch(Constants.key_jobtitleET, keywordET.text.toString())
         }
-        generalCatET.setOnClickListener {
+        generalCatET?.setOnClickListener {
             jobCommunicator.goToSuggestiveSearch(Constants.key_categoryET, generalCatET.text.toString())
         }
-        specialCatET.setOnClickListener {
+        specialCatET?.setOnClickListener {
             jobCommunicator.goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET.text.toString())
         }
-        loacationET.setOnClickListener {
+        loacationET?.setOnClickListener {
             jobCommunicator.goToSuggestiveSearch(Constants.key_loacationET, loacationET.text.toString())
         }
 
-        newsPaperET.setOnClickListener {
+        newsPaperET?.setOnClickListener {
             jobCommunicator.goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET.text.toString())
         }
 
-        industryET.setOnClickListener {
+        industryET?.setOnClickListener {
             jobCommunicator.goToSuggestiveSearch(Constants.key_industryET, industryET.text.toString())
         }
 
@@ -123,7 +123,7 @@ class AdvanceSearchFragment : Fragment() {
         getDataFromChipGroup(armyCG)
 
 
-        maleChip.setOnCheckedChangeListener { buttonView, isChecked ->
+        maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if (isChecked) {
                 gender += "M,"
@@ -134,7 +134,7 @@ class AdvanceSearchFragment : Fragment() {
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
-        femaleChip.setOnCheckedChangeListener { buttonView, isChecked ->
+        femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 gender += "F,"
             } else {
@@ -144,7 +144,7 @@ class AdvanceSearchFragment : Fragment() {
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
-        otherChip.setOnCheckedChangeListener { buttonView, isChecked ->
+        otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 gender += "O,"
             } else {
@@ -158,11 +158,11 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun getDataFromChipGroup(chipGroup: ChipGroup) {
-        chipGroup.setOnCheckedChangeListener { chipGroup, i ->
+        chipGroup?.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip_entry", "text: ${chip.text}")
-                val data = chip.text.toString()
+                val data = chip?.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
                         jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data)!!)
@@ -230,30 +230,30 @@ class AdvanceSearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         setGenderData()
-        keywordET.setText(jobCommunicator.getKeyword())
+        keywordET?.setText(jobCommunicator.getKeyword())
 
         Log.d("catTest", "category : ${jobCommunicator.getCategory()}")
 
         if (jobCommunicator.getCategory().isNotBlank()) {
             if (jobCommunicator.getCategory().toInt() < 30) {
-                generalCatET.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
-                specialCatET.text?.clear()
+                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
+                specialCatET?.text?.clear()
             } else {
-                generalCatET.text?.clear()
+                generalCatET?.text?.clear()
             }
 
             if (jobCommunicator.getCategory().toInt() > 60) {
-                specialCatET.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
+                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
                 generalCatET.text?.clear()
             } else {
-                specialCatET.text?.clear()
+                specialCatET?.text?.clear()
             }
         }
 
 
-        loacationET.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
-        newsPaperET.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
-        industryET.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
+        loacationET?.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
+        newsPaperET?.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
+        industryET?.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
         selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator.getOrganization())!!)
         selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator.getExperience())!!)
         selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator.getJobType())!!)
@@ -271,9 +271,9 @@ class AdvanceSearchFragment : Fragment() {
 
     private fun setGenderData() {
         gender = ""
-        maleChip.isChecked = false
-        femaleChip.isChecked = false
-        otherChip.isChecked = false
+        maleChip?.isChecked = false
+        femaleChip?.isChecked = false
+        otherChip?.isChecked = false
         val genderList = jobCommunicator.getGender()?.split(",")
         genderList?.forEach { it ->
             Log.d("genderList", "gender: $it")
@@ -283,23 +283,23 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
-        val count = chipGroup.childCount
+        val count = chipGroup?.childCount
         for (i in 0 until count) {
-            val chip = chipGroup.getChildAt(i) as Chip
-            val chipText = chip.text.toString()
-            if (data.equalIgnoreCase(chipText)) {
+            val chip = chipGroup?.getChildAt(i) as Chip
+            val chipText = chip?.text.toString()
+            if (data?.equalIgnoreCase(chipText)) {
                 Log.d("chip_entry", "text:$i")
-                chip.isChecked = true
+                chip?.isChecked = true
             }
         }
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (editText?.text.isBlank()) {
+            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText.clearTextOnDrawableRightClick()
+            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+            editText?.clearTextOnDrawableRightClick()
         }
     }
 

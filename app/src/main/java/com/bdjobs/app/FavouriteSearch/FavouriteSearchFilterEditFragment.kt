@@ -95,27 +95,27 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 when (from) {
                     Constants.key_jobtitleET -> {
                         keyword = typedData!!
-                        keywordET.setText(keyword)
+                        keywordET?.setText(keyword)
                     }
                     Constants.key_loacationET -> {
                         location = dataStorage.getLocationIDByName(typedData!!)!!
-                        loacationET.setText(dataStorage.getLocationNameByID(location))
+                        loacationET?.setText(dataStorage.getLocationNameByID(location))
                     }
                     Constants.key_categoryET -> {
                         category = dataStorage.getCategoryIDByName(typedData!!)!!
-                        generalCatET.setText(dataStorage.getCategoryNameByID(category))
+                        generalCatET?.setText(dataStorage.getCategoryNameByID(category))
                     }
                     Constants.key_special_categoryET -> {
                         category = dataStorage.getCategoryIDByBanglaName(typedData!!)!!
-                        specialCatET.setText(dataStorage.getCategoryBanglaNameByID(category))
+                        specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(category))
                     }
                     Constants.key_newspaperET -> {
                         newspaper = dataStorage.getNewspaperIDByName(typedData!!)!!
-                        newsPaperET.setText(dataStorage.getNewspaperNameById(newspaper))
+                        newsPaperET?.setText(dataStorage.getNewspaperNameById(newspaper))
                     }
                     Constants.key_industryET -> {
                         industry = dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!
-                        industryET.setText(dataStorage.getJobSearcIndustryNameByID(industry))
+                        industryET?.setText(dataStorage.getJobSearcIndustryNameByID(industry))
                     }
                 }
             }
@@ -124,77 +124,77 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun onClicks() {
         backIV.setOnClickListener {
-            favCommunicator.backButtonPressed()
+            favCommunicator?.backButtonPressed()
         }
 
         updateBTN.setOnClickListener {
             updateFavSearch()
         }
 
-        keywordET.easyOnTextChangedListener { text ->
+        keywordET?.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
-            if (text.isBlank()) {
+            if (text?.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 keyword = ""
             }
         }
-        generalCatET.easyOnTextChangedListener { text ->
+        generalCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
-            if (text.isBlank()) {
+            if (text?.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 category = ""
             }
 
         }
 
-        loacationET.easyOnTextChangedListener { text ->
+        loacationET?.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
-            if (text.isBlank()) {
+            if (text?.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 location = ""
             }
         }
-        specialCatET.easyOnTextChangedListener { text ->
+        specialCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
-            if (text.isBlank()) {
+            if (text?.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 category = ""
             }
 
         }
-        newsPaperET.easyOnTextChangedListener { text ->
+        newsPaperET?.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
-            if (text.isBlank()) {
+            if (text?.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 newspaper = ""
             }
         }
-        industryET.easyOnTextChangedListener { text ->
+        industryET?.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
-            if (text.isBlank()) {
+            if (text?.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 industry = ""
             }
         }
 
-        keywordET.setOnClickListener {
+        keywordET?.setOnClickListener {
             goToSuggestiveSearch(Constants.key_jobtitleET, keywordET.text.toString())
         }
-        generalCatET.setOnClickListener {
+        generalCatET?.setOnClickListener {
             goToSuggestiveSearch(Constants.key_categoryET, generalCatET.text.toString())
         }
-        specialCatET.setOnClickListener {
+        specialCatET?.setOnClickListener {
             goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET.text.toString())
         }
-        loacationET.setOnClickListener {
+        loacationET?.setOnClickListener {
             goToSuggestiveSearch(Constants.key_loacationET, loacationET.text.toString())
         }
 
-        newsPaperET.setOnClickListener {
+        newsPaperET?.setOnClickListener {
             goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET.text.toString())
         }
 
-        industryET.setOnClickListener {
+        industryET?.setOnClickListener {
             goToSuggestiveSearch(Constants.key_industryET, industryET.text.toString())
         }
 
@@ -208,7 +208,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(ageRangeCG)
         getDataFromChipGroup(armyCG)
 
-        maleChip.setOnCheckedChangeListener { buttonView, isChecked ->
+        maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 gender += "M,"
             } else {
@@ -216,7 +216,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             }
         }
 
-        femaleChip.setOnCheckedChangeListener { buttonView, isChecked ->
+        femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 gender += "F,"
             } else {
@@ -224,7 +224,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             }
         }
 
-        otherChip.setOnCheckedChangeListener { buttonView, isChecked ->
+        otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 gender += "O,"
             } else {
@@ -236,8 +236,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private fun updateFavSearch() {
         filterName = filterNameET.getString()
         val loadingDialog = indeterminateProgressDialog("Saving")
-        loadingDialog.setCancelable(false)
-        loadingDialog.show()
+        loadingDialog?.setCancelable(false)
+        loadingDialog?.show()
         ApiServiceJobs.create().saveOrUpdateFilter(
                 icat = industry,
                 fcat = category,
@@ -269,43 +269,47 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
             override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
 
-                Log.d("resposet", response.body().toString())
+                try {
+                    Log.d("resposet", response.body().toString())
 
-                if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
-                    doAsync {
-                        val favouriteSearch = FavouriteSearch(
-                                filterid = filterID,
-                                filtername = filterName,
-                                industrialCat = industry,
-                                functionalCat = category,
-                                location = location,
-                                organization = organization,
-                                jobnature = jobNature,
-                                joblevel = jobLevel,
-                                postedon = postedWithin,
-                                deadline = deadline,
-                                keyword = keyword,
-                                newspaper = newspaper,
-                                gender = gender,
-                                experience = experience,
-                                age = age,
-                                jobtype = jobType,
-                                retiredarmy = army,
-                                updatedon = Date(),
-                                totaljobs = "",
-                                createdon = createdOn,
-                                genderb = ""
+                    if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                        doAsync {
+                            val favouriteSearch = FavouriteSearch(
+                                    filterid = filterID,
+                                    filtername = filterName,
+                                    industrialCat = industry,
+                                    functionalCat = category,
+                                    location = location,
+                                    organization = organization,
+                                    jobnature = jobNature,
+                                    joblevel = jobLevel,
+                                    postedon = postedWithin,
+                                    deadline = deadline,
+                                    keyword = keyword,
+                                    newspaper = newspaper,
+                                    gender = gender,
+                                    experience = experience,
+                                    age = age,
+                                    jobtype = jobType,
+                                    retiredarmy = army,
+                                    updatedon = Date(),
+                                    totaljobs = "",
+                                    createdon = createdOn,
+                                    genderb = ""
 
-                        )
-                        bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+                            )
+                            bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
 
-                        uiThread {
-                            loadingDialog.dismiss()
-                            toast("${response?.body()?.data?.get(0)?.message}")
-                            favCommunicator.backButtonPressed()
+                            uiThread {
+                                loadingDialog.dismiss()
+                                toast("${response?.body()?.data?.get(0)?.message}")
+                                favCommunicator.backButtonPressed()
+                            }
                         }
-                    }
 
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         })
@@ -314,9 +318,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private fun getDataFromChipGroup(chipGroup: ChipGroup) {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
-                val chip = chipGroup.findViewById(i) as Chip
+                val chip = chipGroup?.findViewById(i) as Chip
                 Log.d("chip", "text: ${chip.text}")
-                val data = chip.text.toString()
+                val data = chip?.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
                         organization = dataStorage.getJobSearcOrgTypeIDByName(data)!!
@@ -382,9 +386,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun setGenderData(gndr: String?) {
         gender = ""
-        maleChip.isChecked = false
-        femaleChip.isChecked = false
-        otherChip.isChecked = false
+        maleChip?.isChecked = false
+        femaleChip?.isChecked = false
+        otherChip?.isChecked = false
 
         val genderList = gndr?.split(",")
         genderList?.forEach { it ->
@@ -403,7 +407,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             val chipText = chip.text.toString()
             if (data.equalIgnoreCase(chipText)) {
                 Log.d("chip", "text:$i")
-                chip.isChecked = true
+                chip?.isChecked = true
             }
         }
     }
@@ -417,23 +421,23 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 setGenderData(filterData.gender)
                 filterName = filterData?.filtername!!
                 createdOn = filterData?.createdon
-                filterNameET.setText(filterName)
-                keywordET.setText(filterData.keyword)
+                filterNameET?.setText(filterName)
+                keywordET?.setText(filterData.keyword)
                 Log.d("catTest", "category : ${filterData.keyword}")
 
                 if (filterData?.functionalCat?.isNotBlank()!!) {
                     if (filterData?.functionalCat.toInt() < 30) {
-                        generalCatET.setText(dataStorage.getCategoryNameByID(filterData?.functionalCat))
-                        specialCatET.text?.clear()
+                        generalCatET?.setText(dataStorage.getCategoryNameByID(filterData?.functionalCat))
+                        specialCatET?.text?.clear()
                     } else {
-                        generalCatET.text?.clear()
+                        generalCatET?.text?.clear()
                     }
 
                     if (filterData?.functionalCat.toInt() > 60) {
-                        specialCatET.setText(dataStorage.getCategoryBanglaNameByID(filterData?.functionalCat))
-                        generalCatET.text?.clear()
+                        specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData?.functionalCat))
+                        generalCatET?.text?.clear()
                     } else {
-                        specialCatET.text?.clear()
+                        specialCatET?.text?.clear()
                     }
                 }
 
@@ -446,9 +450,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
 
 
-                loacationET.setText(dataStorage.getLocationNameByID(filterData.location))
-                newsPaperET.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
-                industryET.setText(dataStorage.getJobSearcIndustryNameByID(filterData.industrialCat))
+                loacationET?.setText(dataStorage.getLocationNameByID(filterData.location))
+                newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
+                industryET?.setText(dataStorage.getJobSearcIndustryNameByID(filterData.industrialCat))
                 selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(filterData.organization)!!)
                 selectChip(experienceCG, dataStorage.getJobExperineceByID(filterData.experience)!!)
                 selectChip(jobTypeCG, dataStorage.getJobTypeByID(filterData.jobtype)!!)
@@ -465,11 +469,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (editText?.text.isBlank()) {
+            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText.clearTextOnDrawableRightClick()
+            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+            editText?.clearTextOnDrawableRightClick()
         }
     }
 }

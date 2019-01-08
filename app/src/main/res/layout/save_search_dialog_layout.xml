@@ -99,6 +99,7 @@
             android:id="@+id/filterNameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
             android:hint="Name of your favorite search filter" />
     </com.google.android.material.textfield.TextInputLayout>
 

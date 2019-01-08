@@ -83,6 +83,8 @@
         tools:text="150 favorite search" />
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         android:id="@+id/favRV"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -17,11 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
+import com.bdjobs.app.editResume.EditResLandingActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapePathModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MyBdjobsFragment : Fragment() {
@@ -68,10 +70,10 @@ class MyBdjobsFragment : Fragment() {
     private fun onClick() {
         lastmonth_MBTN?.setOnClickListener {
             communicator.setTime("1")
-            lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background_black)
-            all_MBTN.setBackgroundResource(R.drawable.right_rounded_background)
-            all_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
-            lastmonth_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
+            lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background_black)
+            all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
+            all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
+            lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
 
             if (bdjobsList.isNullOrEmpty()) {
                 populateDataLastMonthStats()
@@ -82,13 +84,13 @@ class MyBdjobsFragment : Fragment() {
             }
 
         }
-        all_MBTN.setOnClickListener {
+        all_MBTN?.setOnClickListener {
 //testing
             communicator.setTime("0")
-            lastmonth_MBTN.setBackgroundResource(R.drawable.left_rounded_background)
-            all_MBTN.setBackgroundResource(R.drawable.right_rounded_background_black)
-            lastmonth_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
-            all_MBTN.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
+            lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background)
+            all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background_black)
+            lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
+            all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
 
             if (bdjobsList.isNullOrEmpty()) {
                 populateDataAllMonthStats()
@@ -98,8 +100,12 @@ class MyBdjobsFragment : Fragment() {
                 populateDataAllMonthStats()
             }
         }
-        lastmonth_MBTN.performClick()
-        fab()
+        lastmonth_MBTN?.performClick()
+
+        nextButtonFAB?.setOnClickListener {
+            startActivity<EditResLandingActivity>()
+        }
+
     }
 
     private fun getStatsData() {
@@ -108,13 +114,6 @@ class MyBdjobsFragment : Fragment() {
 
     }
 
-    private fun fab() {
-        nextButtonFAB.setOnClickListener { view ->
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
-                    .show()
-        }
-    }
 
     private fun populateDataLastMonthStats() {
         for ((index, value) in lastMonthStatsData!!.withIndex()) {

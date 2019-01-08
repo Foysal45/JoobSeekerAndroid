@@ -22,7 +22,7 @@ class SocialAccountListFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loginCommunicator = activity as LoginCommunicator
-        backIV.setOnClickListener {
+        backIV?.setOnClickListener {
             loginCommunicator.backButtonClicked()
         }
     }
@@ -35,11 +35,11 @@ class SocialAccountListFragment: Fragment() {
         }
 
         val message = "There are <b><font color='#1565C0'>${loginCommunicator.getSocialLoginAccountDataList()?.size}</font></b> $account_key found by this email address <b><font color='#1565C0'>${loginCommunicator.getSocialLoginAccountDataList()?.get(0)?.email}</font></b>. Please select your account to sign in."
-        accountMsgTv.text = Html.fromHtml(message)
+        accountMsgTv?.text = Html.fromHtml(message)
 
         socialAccountsRecyclerView?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         val socialAccountAdapter = SocialRVadapter(items = loginCommunicator.getSocialLoginAccountDataList(),context = activity,loadingProgressBar = progressBar)
-        socialAccountsRecyclerView.adapter = socialAccountAdapter
+        socialAccountsRecyclerView?.adapter = socialAccountAdapter
 
     }
 

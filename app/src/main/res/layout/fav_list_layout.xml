@@ -126,7 +126,7 @@
             android:layout_marginBottom="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
-            android:drawableLeft="@drawable/ic_delete_black_24dp"
+            android:drawableLeft="@drawable/ic_delete_black_24dp_fav"
             android:drawablePadding="3dp"
             android:padding="5dp"
             android:text="Delete"
