@@ -125,8 +125,7 @@ class WCGenderFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        /* val  gender = registrationCommunicator.getGender()
-           if (gender != null) {*/
+
 
         if (registrationCommunicator.getGender().equalIgnoreCase("M")) {
 
@@ -182,8 +181,6 @@ class WCGenderFragment : Fragment() {
             registrationCommunicator.wcGenderSelected("O")
 
         }
-
-        /*   }*/
 
 
     }

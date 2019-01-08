@@ -87,10 +87,6 @@ class WCPhoneEmailFragment : Fragment() {
 
             }
 
-
-
-
-
             when {
                 validateMobileNumber() -> {
 
