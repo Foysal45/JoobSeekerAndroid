@@ -10,6 +10,7 @@ data class JobDetailJsonModel(
 )
 
 data class JobDetailData(
+        @SerializedName("DeadlineDB") val DeadlineDB: String?,
         @SerializedName("JobId") val jobId: String?,
         @SerializedName("JobFound") val jobFound: String?,
         @SerializedName("CompnayName") val compnayName: String?,
