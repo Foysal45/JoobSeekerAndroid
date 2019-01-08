@@ -84,11 +84,18 @@ class ContactViewFragment : Fragment() {
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict) +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
-        val permanentAddress = info?.data?.get(0)?.presentVillage +
+        var permanentAddress = info?.data?.get(0)?.permanentVillage +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict) +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
+
+        val isSameOfPresent = info?.data?.get(0)?.addressType2
+
+        if (isSameOfPresent == "") {
+            permanentAddress = "Same as present address"
+        }
+
         tvPresentAddress.text = presentAddress
         tvPermanentAddress.text = permanentAddress
         tvMobileNo.text = info?.data?.get(0)?.mobile

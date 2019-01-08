@@ -159,7 +159,6 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         }
     }
 
-
     override fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean {
         if (et.getString().isEmpty()) {
             til.isErrorEnabled = true

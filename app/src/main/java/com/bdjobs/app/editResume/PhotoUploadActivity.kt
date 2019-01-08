@@ -89,9 +89,17 @@ class PhotoUploadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_upload)
-        setupToolbar(getString(R.string.hint_upload_photo))
         bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
         progressDialog = ProgressDialog(this@PhotoUploadActivity)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupToolbar(getString(R.string.hint_upload_photo))
+        if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
+            regPhotoUploadImageView.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+            Log.d("dgdsgdghjOnRes", bdjobsUserSession.userPicUrl)
+        }
         onClick()
     }
 
@@ -149,7 +157,7 @@ class PhotoUploadActivity : AppCompatActivity() {
         }
     }
 
-
+    @SuppressLint("SetTextI18n")
     fun makeHTTPCall() {
 
         val client = AsyncHttpClient()
@@ -172,8 +180,8 @@ class PhotoUploadActivity : AppCompatActivity() {
                 val gson = Gson()
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
                 val photoUrl = photoUploadModel.data[0].path
-                Log.d("dgdsgdghj", " $photoUrl")
-                bdjobsUserSession.updateUserPicUrl(photoUrl)
+                Log.d("dgdsgdghj", photoUrl)
+                bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
 
 
                 toast(photoUploadModel.message)
@@ -218,7 +226,7 @@ class PhotoUploadActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this@PhotoUploadActivity)
 
 
-        builder.setMessage("Are you sure you want to delet this photo?")
+        builder.setMessage("Are you sure you want to delete this photo?")
 
 
         builder.setPositiveButton("Confirm") { dialog, which ->

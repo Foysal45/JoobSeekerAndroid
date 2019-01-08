@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.GetPersInfo
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import kotlinx.android.synthetic.main.fragment_personal_details_view.*
@@ -48,6 +45,10 @@ class PersonalDetailsViewFragment : Fragment() {
         personalInfoCB.setEditButton(true, "editPersonal")
         personalInfoCB.setTitle(getString(R.string.title_personal))
         doWork()
+
+        d("editResPersView photo:" + session.userPicUrl)
+        d("editResPersView name:" + session.fullName)
+        d("editResPersView email:" + session.email)
     }
 
     private fun doWork() {
