@@ -49,7 +49,6 @@ data class DataItem(
 )
 
 data class GetExps(
-
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
 

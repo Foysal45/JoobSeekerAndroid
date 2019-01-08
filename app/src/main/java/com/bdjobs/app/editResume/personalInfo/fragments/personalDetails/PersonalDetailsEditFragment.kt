@@ -116,12 +116,10 @@ class PersonalDetailsEditFragment : Fragment() {
 
     private fun updateData() {
         Log.d("nation", "val : $nationality and ${etPerNationality.getString()}")
-        nationality = if (etPerNationality.getString().isEmpty()) "Bangladeshi"
-        else etPerNationality.getString()
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePersonalData(session.userId, session.decodId, session.IsResumeUpdate,
                 etPerFirstName.getString(), etPerLastName.getString(), etPerFName.getString(), etPerMName.getString(),
-                etPerDob.getString(), nationality, marital, gender, etPerNid.getString(), etPerReligion.getString())
+                etPerDob.getString(), etPerNationality.getString(), marital, gender, etPerNid.getString(), etPerReligion.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
