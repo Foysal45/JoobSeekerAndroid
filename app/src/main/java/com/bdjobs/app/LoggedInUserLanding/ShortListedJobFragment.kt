@@ -80,6 +80,7 @@ class ShortListedJobFragment : Fragment() {
                     val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Job"
                     jobCountTV?.text = Html.fromHtml(styledText)
                 }
+                //jobs count
 
 
             }
