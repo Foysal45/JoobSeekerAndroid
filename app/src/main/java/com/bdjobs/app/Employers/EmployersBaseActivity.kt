@@ -102,6 +102,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         }else if(value?.equals("joblist")){
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         }
+
     }
 
 }
