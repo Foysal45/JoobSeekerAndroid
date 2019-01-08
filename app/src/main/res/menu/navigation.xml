@@ -18,7 +18,7 @@
     <item
         android:id="@+id/navigation_mybdjobs"
         android:icon="@drawable/ic_person_black_24dp"
-        android:title="My Bdjobs" />
+        android:title="MyBdjobs" />
 
     <item
         android:id="@+id/navigation_more"
