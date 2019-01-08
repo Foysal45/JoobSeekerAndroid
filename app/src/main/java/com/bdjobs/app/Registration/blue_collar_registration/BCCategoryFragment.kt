@@ -65,11 +65,7 @@ class BCCategoryFragment : Fragment() {
 
             }
 
-
         }
-
-
-
 
     }
 
