@@ -1,8 +1,9 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,12 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
-import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_category.*
-import org.jetbrains.anko.makeCall
+import org.jetbrains.anko.toast
 
 
 class WCCategoryFragment : Fragment() {
@@ -69,6 +68,19 @@ class WCCategoryFragment : Fragment() {
         }
 
 
+        floatingActionButton.setOnClickListener {
+
+            if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
+
+                activity.toast("Please select your skill from following category")
+
+            }
+
+
+        }
+
+
+
     }
 
     private fun intialization(){
@@ -91,23 +103,13 @@ class WCCategoryFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-
-        val whiteCollarCategoryAdapter = WCCategoryAdapter(activity, categories)
-        wcCategoryList.setAdapter(whiteCollarCategoryAdapter)
-        whiteCollarCategoryAdapter.SetCategoryPositionSelected(selectedPosition)
-        whiteCollarCategoryAdapter.notifyDataSetChanged()
-        if (selectedPosition != -1) {
-           wcGoToNextStep()
-        }
-
-    }
-
-     fun wcGoToNextStep(){
+    fun wcGoToNextStep() {
 
         floatingActionButton.setOnClickListener {
+
             registrationCommunicator.wcGoToStepSocialInfo()
+
+
         }
 
 
