@@ -130,8 +130,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
                     }
 
-                    override fun onResponse(call: Call<JobDetailJsonModel>, response: Response<JobDetailJsonModel>)
-                    {
+                    override fun onResponse(call: Call<JobDetailJsonModel>, response: Response<JobDetailJsonModel>) {
 
                         try {
                             Log.d("ApiServiceJobs", "onResponse: ${response?.body()?.data?.get(0)?.jobTitle}")
@@ -209,15 +208,29 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     if (appliedJobs.isEmpty()) {
                                         jobsVH.appliedBadge.hide()
                                         if (applyOnline.equalIgnoreCase("True")) {
-                                            jobsVH.applyButton.visibility = View.VISIBLE
-                                            jobsVH.applyButton.setOnClickListener {
-                                                val bdjobsUserSession = BdjobsUserSession(context)
-                                                if (!bdjobsUserSession.isLoggedIn!!) {
-                                                    jobCommunicator?.goToLoginPage()
-                                                } else {
-                                                    showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                            // jobList?.get(position)?.deadlineDB
+                                            Log.d("datedddddd", "date = " + jobDetailResponseAll.DeadlineDB)
+                                            val currentDate = Date()
+                                            var deadline: Date? = null
+                                            try {
+                                                deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobDetailResponseAll.DeadlineDB)
+                                            } catch (e: Exception) {
+                                                logException(e)
+                                            }
+                                            if (currentDate > deadline) {
+                                                jobsVH.applyButton.visibility = View.GONE
+                                            } else {
+                                                jobsVH.applyButton.visibility = View.VISIBLE
+                                                jobsVH.applyButton.setOnClickListener {
+                                                    val bdjobsUserSession = BdjobsUserSession(context)
+                                                    if (!bdjobsUserSession.isLoggedIn!!) {
+                                                        jobCommunicator?.goToLoginPage()
+                                                    } else {
+                                                        showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                                    }
                                                 }
                                             }
+
 
                                         } else {
                                             jobsVH?.applyButton?.visibility = View.GONE
@@ -506,7 +519,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
-
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
         if (typedData?.isNullOrBlank()) {
@@ -740,9 +752,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     fun shorlistAndUnshortlistJob(position: Int) {
-        if(!bdjobsUserSession.isLoggedIn!!){
+        if (!bdjobsUserSession.isLoggedIn!!) {
             jobCommunicator?.goToLoginPage()
-        }else {
+        } else {
             doAsync {
                 val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
                 uiThread {

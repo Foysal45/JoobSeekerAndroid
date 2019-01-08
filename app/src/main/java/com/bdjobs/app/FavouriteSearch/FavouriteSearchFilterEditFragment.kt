@@ -20,6 +20,7 @@ import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_edit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -128,7 +129,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         }
 
         updateBTN.setOnClickListener {
-            updateFavSearch()
+            if(validateFilterName(filterNameET.getString(),filterNameTIL)) {
+                updateFavSearch()
+            }
+        }
+        filterNameET.easyOnTextChangedListener {
+            validateFilterName(filterNameET.getString(),filterNameTIL)
         }
 
         keywordET?.easyOnTextChangedListener { text ->
@@ -234,7 +240,10 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     }
 
     private fun updateFavSearch() {
+
         filterName = filterNameET.getString()
+
+
         val loadingDialog = indeterminateProgressDialog("Saving")
         loadingDialog?.setCancelable(false)
         loadingDialog?.show()
@@ -466,6 +475,16 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
+
+        if (typedData.trim().isNullOrBlank()) {
+            textInputLayout.showError(getString(R.string.field_empty_error_message_common))
+            return false
+        }
+        textInputLayout.hideError()
+        return true
     }
 
     private fun showHideCrossButton(editText: EditText) {

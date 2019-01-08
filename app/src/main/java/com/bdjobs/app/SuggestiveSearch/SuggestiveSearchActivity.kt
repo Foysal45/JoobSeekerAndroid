@@ -67,19 +67,28 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     }
 
 
-
     private fun setTextWatcher() {
 
         suggestiveSearchET?.easyOnTextChangedListener { e: CharSequence ->
             if (TextUtils.isEmpty(e)) {
-                suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0,  0, 0)
-                filterRV.hide()
-                historyViewCL.show()
+                suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
+                    filterRV.show()
+                    historyViewCL.show()
+                } else {
+                    filterRV.hide()
+                    historyViewCL.show()
+                }
             } else {
-                suggestiveSearchET?.setCompoundDrawablesWithIntrinsicBounds(0, 0,  R.drawable.ic_close_white, 0)
+                suggestiveSearchET?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_white, 0)
                 suggestiveSearchET?.clearTextOnDrawableRightClick()
-                filterRV.show()
-                historyViewCL.hide()
+                if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
+                    filterRV.show()
+                    historyViewCL.show()
+                } else {
+                    filterRV.show()
+                    historyViewCL.hide()
+                }
             }
             adapter?.filter?.filter(e)
         }
@@ -121,15 +130,15 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                 suggestiveSearchET?.hint = getString(R.string.hint_Category)
                 suggestionItems = dataStorage.allWhiteCollarCategories.toTypedArray()
             }
-            key_special_categoryET->{
+            key_special_categoryET -> {
                 suggestiveSearchET?.hint = getString(R.string.hint_Category)
                 suggestionItems = dataStorage.allBlueCollarCategoriesInBangla.toTypedArray()
             }
-            key_industryET->{
+            key_industryET -> {
                 suggestiveSearchET?.hint = "Industries"
                 suggestionItems = dataStorage.getAllIndustries
             }
-            key_newspaperET->{
+            key_newspaperET -> {
                 suggestiveSearchET?.hint = "NewsPaper"
                 suggestionItems = dataStorage.getAllNewspapers
             }

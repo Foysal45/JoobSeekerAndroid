@@ -43,7 +43,7 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun updateDateInView() {
-        val myFormat = "dd/mm/yyyy" // mention the format you need
+        val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         etPerDob.setText(sdf.format(now.time))
     }
@@ -116,12 +116,10 @@ class PersonalDetailsEditFragment : Fragment() {
 
     private fun updateData() {
         Log.d("nation", "val : $nationality and ${etPerNationality.getString()}")
-        nationality = if (etPerNationality.getString().isEmpty()) "Bangladeshi"
-        else etPerNationality.getString()
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePersonalData(session.userId, session.decodId, session.IsResumeUpdate,
                 etPerFirstName.getString(), etPerLastName.getString(), etPerFName.getString(), etPerMName.getString(),
-                etPerDob.getString(), nationality, marital, gender, etPerNid.getString(), etPerReligion.getString())
+                etPerDob.getString(), etPerNationality.getString(), marital, gender, etPerNid.getString(), etPerReligion.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -135,6 +133,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()
                         }
                     }

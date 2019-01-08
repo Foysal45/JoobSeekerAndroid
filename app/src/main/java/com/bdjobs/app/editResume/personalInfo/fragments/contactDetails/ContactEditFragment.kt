@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.contactInfo.fragments.contactDetails
+package com.bdjobs.app.editResume.personalInfo.fragments.contactDetails
 
 import android.app.Fragment
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
+import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -30,6 +31,7 @@ class ContactEditFragment : Fragment() {
     private var presentInOutBD: String = ""
     private var permanentInOutBD: String = ""
     private var sameAddress: String = ""
+    private lateinit var data: C_DataItem
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -56,11 +58,12 @@ class ContactEditFragment : Fragment() {
 
     private fun doWork() {
         preloadedData()
-        fab_contact_update.setOnClickListener {
-            updateData()
-        }
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            sameAddress = if (isChecked) "ON" else "OFF"
+            sameAddress = if (isChecked) "on" else "off"
+        }
+        fab_contact_update.setOnClickListener {
+            d("InOutBD : $presentInOutBD and $permanentInOutBD")
+            updateData()
         }
         setupViews()
     }
@@ -70,39 +73,14 @@ class ContactEditFragment : Fragment() {
         val presentAddressID = contactInfo.getContactData().presentAddressID
         val permanentAddressID = contactInfo.getContactData().permanentAddressID
         Log.d("prePer", "${prContactAddressTIETPR.getString()} and ${pmContactAddressTIETPRM.getString()}")
-
-
-        Log.d("dgjdgh", "PassingValue present in bd : ${presentInOutBD} " + "\n" +
-                " district presrent  :  ${getIdByName(prContactDistrictTIET1.getString())}" + "\n" +
-                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString())} " + "\n" +
-                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString())}" + "\n" +
-                " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
-                " country present : ${getIdByName(presentContactCountryTIET.getString())}" + "\n" +
-                " permanentInOutBD : ${permanentInOutBD}" + "\n" +
-                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString())}" + "\n" +
-                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString())}" + "\n" +
-                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString())}" + "\n" +
-                " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
-                " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
-                " same address : ${sameAddress}" + "\n" +
-                "permanentAddressID : ${permanentAddressID} " + "\n" +
-                "presentAddressID :  ${presentAddressID}" + "\n" +
-                "mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
-                " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
-                " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
-                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
-                " email address another: ${contactEmailAddressTIET1.getString()}")
-
-
         val call = ApiServiceMyBdjobs.create().updateContactData(session.userId, session.decodId, session.IsResumeUpdate,
-                presentInOutBD, getIdByName(prContactDistrictTIET1.getString()), getIdByName(prContactThanaTIET.getString()),
+                presentInOutBD, getIdByName(prContactDistrictTIET.getString()), getIdByName(prContactThanaTIET.getString()),
                 getIdByName(prContactPostOfficeTIET1.getString()), prContactAddressTIETPR.getString(),
                 getIdByName(presentContactCountryTIET.getString()), permanentInOutBD, getIdByName(pmContactDistrictTIET.getString()),
                 getIdByName(pmContactThanaTIETP.getString()), getIdByName(pmContactPostOfficeTIET.getString()), pmContactAddressTIETPRM.getString(),
                 getIdByName(permanentContactCountryTIETP.getString()), sameAddress, permanentAddressID, presentAddressID,
-                contactMobileNumberTIET.getString(), contactMobileNumber1TIET.getString(), contactMobileNumber2TIET.getString(),
+                contactMobileNumber1TIET.getString(), contactMobileNumberTIET.getString(), contactMobileNumber2TIET.getString(),
                 contactEmailAddressTIET.getString(), contactEmailAddressTIET1.getString())
-
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -114,7 +92,30 @@ class ContactEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
+
+                        Log.d("dgjdgh", "PassingValue present in bd : ${presentInOutBD} " + "\n" +
+                                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString())}" + "\n" +
+                                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString())} " + "\n" +
+                                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString())}" + "\n" +
+                                " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
+                                " country present : ${getIdByName(presentContactCountryTIET.getString())}" + "\n" +
+                                " presentInOutBD : ${presentInOutBD}" + "\n" +
+                                " permanentInOutBD : ${permanentInOutBD}" + "\n" +
+                                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString())}" + "\n" +
+                                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString())}" + "\n" +
+                                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString())}" + "\n" +
+                                " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
+                                " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
+                                " same address : ${sameAddress}" + "\n" +
+                                "permanentAddressID : ${permanentAddressID} " + "\n" +
+                                "presentAddressID :  ${presentAddressID}" + "\n" +
+                                "mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
+                                " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
+                                " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
+                                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
+                                " email address another: ${contactEmailAddressTIET1.getString()}")
                         if (response.body()?.statuscode == "4") {
+                            session.updateEmail(contactEmailAddressTIET.getString())
                             contactInfo.goBack()
                         }
                     }
@@ -132,16 +133,21 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun preloadedData() {
-        val data = contactInfo.getContactData()
+        data = contactInfo.getContactData()
         getDataFromChipGroup(cgPermanent)
         getDataFromChipGroup(cgPresent)
         val addressType = data.addressType1
 
-        addressCheckbox.isChecked = addressType == "3"
+        if (addressType == "3") {
+            addressCheckbox.isChecked = true
+        }
 
-        prContactDistrictTIET1?.setText(dataStorage.getLocationNameByID(data.presentDistrict))
+        prContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.presentDistrict))
+        d("dis : ${data.presentDistrict}")
         prContactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
+        d("thana : ${data.presentThana}")
         prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
+        d("thana : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
         //contactAddressTIET?.setText(data.presentVillage)
         presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
@@ -159,15 +165,19 @@ class ContactEditFragment : Fragment() {
         contactEmailAddressTIET?.setText(data.email)
         contactEmailAddressTIET1?.setText(data.alternativeEmail)
 
-        if (data.presentInsideOutsideBD == "False") {
+        presentInOutBD = if (data.presentInsideOutsideBD == "False") {
             selectChip(cgPresent, "Inside Bangladesh")
+            "0"
         } else {
             selectChip(cgPresent, "Outside Bangladesh")
+            "1"
         }
-        if (data.permanentInsideOutsideBD == "False") {
+        permanentInOutBD = if (data.permanentInsideOutsideBD == "False") {
             selectChip(cgPermanent, "Inside Bangladesh")
+            "0"
         } else {
             selectChip(cgPermanent, "Outside Bangladesh")
+            "1"
         }
     }
 
@@ -182,17 +192,17 @@ class ContactEditFragment : Fragment() {
             }
         }
 
-        prContactDistrictTIET1.setOnClickListener {
+        prContactDistrictTIET.setOnClickListener {
             var queryValue = prContactDivTIET.getString()
             queryValue = queryValue.replace("'", "''")
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
             activity?.selector("Please Select your District", districtList.toList()) { _, i ->
-                prContactDistrictTIET1.setText(districtList[i])
+                prContactDistrictTIET.setText(districtList[i])
                 contactDistrictTIL1.requestFocus()
             }
         }
         prContactThanaTIET.setOnClickListener {
-            var queryValue = prContactDistrictTIET1.getString()
+            var queryValue = prContactDistrictTIET.getString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
@@ -295,32 +305,6 @@ class ContactEditFragment : Fragment() {
                 presentContactCountryTILP.requestFocus()
             }
         }
-/*
-        pmContactThanaTIET.setOnClickListener {
-            var queryValue = prContactDistrictTIET1.getString()
-            queryValue = queryValue.replace("'", "''")
-
-            val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
-
-            activity?.selector("Please Select your police station", districtList.toList()) { _, i ->
-
-                pmContactThanaTIET.setText(districtList[i])
-                contactThanaTIL1.requestFocus()
-            }
-        }*/
-
-        /*contactPostOfficeTIET1.setOnClickListener {
-            var queryValue = contactThanaTIET.text.toString()
-            queryValue = queryValue.replace("'", "''")
-
-            val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInEnglish(queryValue)
-
-            activity?.selector("Please Select your post office", districtList.toList()) { _, i ->
-
-                contactPostOfficeTIET1.setText(districtList[i])
-                contactPostOfficeTIL1.requestFocus()
-            }
-        }*/
 
         presentContactCountryTIET.setOnClickListener {
 
@@ -349,41 +333,17 @@ class ContactEditFragment : Fragment() {
             }
         }
 
-        prContactDistrictTIET1.setOnClickListener {
+        prContactDistrictTIET.setOnClickListener {
             var queryValue = prContactDivTIET.getString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
             activity?.selector("Please Select your district", districtList.toList()) { _, i ->
-                prContactDistrictTIET1.setText(districtList[i])
+                prContactDistrictTIET.setText(districtList[i])
                 contactDistrictTIL1.requestFocus()
             }
         }
-
-        /* pmContactThanaTIET.setOnClickListener {
-
-             var queryValue = prContactDistrictTIET1.getString()
-             queryValue = queryValue.replace("'", "''")
-
-             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
-
-             activity?.selector("Please Select your police station", districtList.toList()) { dialogInterface, i ->
-                 pmContactThanaTIET.setText(districtList[i])
-                 contactThanaTIL1.requestFocus()
-             }
-         }*/
-        /*contactPostOfficeTIET1.setOnClickListener {
-            var queryValue = contactThanaTIET.text.toString()
-            queryValue = queryValue.replace("'", "''")
-
-            val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInEnglish(queryValue)
-
-            activity?.selector("Please Select your post office", districtList.toList()) { _, i ->
-                contactPostOfficeTIET1.setText(districtList[i])
-                contactPostOfficeTIL1.requestFocus()
-            }
-        }*/
 
         permanentContactCountryTIETP.setOnClickListener {
 
@@ -403,18 +363,18 @@ class ContactEditFragment : Fragment() {
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip_entry", "text: ${chip.text}")
-                val data = chip.text.toString()
+                val dataC = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.cgPresent -> {
-                        when (data) {
+                        when (dataC) {
                             "Inside Bangladesh" -> {
-                                presentInOutBD = "1"
+                                presentInOutBD = "0"
                                 presentInsideBangladeshLayout1.show()
                                 presentOutsideBangladeshLayout.hide()
 
                             }
                             "Outside Bangladesh" -> {
-                                presentInOutBD = "0"
+                                presentInOutBD = "1"
                                 presentInsideBangladeshLayout1.hide()
                                 presentOutsideBangladeshLayout.show()
 
@@ -424,7 +384,7 @@ class ContactEditFragment : Fragment() {
 
                     }
                     R.id.cgPermanent -> {
-                        when (data) {
+                        when (dataC) {
                             "Inside Bangladesh" -> {
                                 permanentInOutBD = "0"
 
@@ -434,7 +394,6 @@ class ContactEditFragment : Fragment() {
                             }
                             "Outside Bangladesh" -> {
                                 permanentInOutBD = "1"
-
                                 presentInsideBangladeshLayout.hide()
                                 presentOutsideBangladeshLayoutP.show()
 
