@@ -69,12 +69,37 @@ class ContactEditFragment : Fragment() {
         activity.showProgressBar(loadingProgressBar)
         val presentAddressID = contactInfo.getContactData().presentAddressID
         val permanentAddressID = contactInfo.getContactData().permanentAddressID
-        Log.d("prePer", "${contactAddressTIETPR.getString()} and ${contactAddressTIETPRM.getString()}")
+        Log.d("prePer", "${prContactAddressTIETPR.getString()} and ${pmContactAddressTIETPRM.getString()}")
+
+
+        Log.d("dgjdgh", "PassingValue present in bd : ${presentInOutBD} " + "\n" +
+                " district presrent  :  ${getIdByName(prContactDistrictTIET1.getString())}" + "\n" +
+                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString())} " + "\n" +
+                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString())}" + "\n" +
+                " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
+                " country present : ${getIdByName(presentContactCountryTIET.getString())}" + "\n" +
+                " permanentInOutBD : ${permanentInOutBD}" + "\n" +
+                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString())}" + "\n" +
+                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString())}" + "\n" +
+                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString())}" + "\n" +
+                " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
+                " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
+                " same address : ${sameAddress}" + "\n" +
+                "permanentAddressID : ${permanentAddressID} " + "\n" +
+                "presentAddressID :  ${presentAddressID}" + "\n" +
+                "mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
+                " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
+                " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
+                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
+                " email address another: ${contactEmailAddressTIET1.getString()}")
+
 
         val call = ApiServiceMyBdjobs.create().updateContactData(session.userId, session.decodId, session.IsResumeUpdate,
-                presentInOutBD, getIdByName(contactDistrictTIET1.getString()), getIdByName(contactThanaTIET.getString()), getIdByName(contactPostOfficeTIET1.getString()),
-                contactAddressTIETPR.getString(), getIdByName(presentContactCountryTIET.getString()), permanentInOutBD, getIdByName(contactDistrictTIET.getString()),
-                getIdByName(contactThanaTIETP.getString()), getIdByName(contactPostOfficeTIET1.getString()), contactAddressTIETPRM.getString(), getIdByName(permanentContactCountryTIETP.getString()), sameAddress, permanentAddressID, presentAddressID,
+                presentInOutBD, getIdByName(prContactDistrictTIET1.getString()), getIdByName(prContactThanaTIET.getString()),
+                getIdByName(prContactPostOfficeTIET1.getString()), prContactAddressTIETPR.getString(),
+                getIdByName(presentContactCountryTIET.getString()), permanentInOutBD, getIdByName(pmContactDistrictTIET.getString()),
+                getIdByName(pmContactThanaTIETP.getString()), getIdByName(pmContactPostOfficeTIET.getString()), pmContactAddressTIETPRM.getString(),
+                getIdByName(permanentContactCountryTIETP.getString()), sameAddress, permanentAddressID, presentAddressID,
                 contactMobileNumberTIET.getString(), contactMobileNumber1TIET.getString(), contactMobileNumber2TIET.getString(),
                 contactEmailAddressTIET.getString(), contactEmailAddressTIET1.getString())
 
@@ -103,7 +128,7 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun getIdByName(s: String): String {
-        return dataStorage.getLocationIDByName(s).toString()
+        return dataStorage.getLocationIDByName(s).toString().trim()
     }
 
     private fun preloadedData() {
@@ -114,17 +139,17 @@ class ContactEditFragment : Fragment() {
 
         addressCheckbox.isChecked = addressType == "3"
 
-        contactDistrictTIET1?.setText(dataStorage.getLocationNameByID(data.presentDistrict))
-        contactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
-        contactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
-        contactAddressTIETPR?.setText(data.presentVillage)
+        prContactDistrictTIET1?.setText(dataStorage.getLocationNameByID(data.presentDistrict))
+        prContactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
+        prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
+        prContactAddressTIETPR?.setText(data.presentVillage)
         //contactAddressTIET?.setText(data.presentVillage)
         presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
         // Permenant
-        contactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
-        contactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
-        contactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
-        contactAddressTIETPRM?.setText(data.permanentVillage)
+        pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
+        pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
+        pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
+        pmContactAddressTIETPRM?.setText(data.permanentVillage)
         //contactAddressTIET?.setText(data.permanentVillage)
         permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.presentCountry))
 
@@ -149,46 +174,46 @@ class ContactEditFragment : Fragment() {
     private fun setupViews() {
         ////Present Address---------------Start
 
-        contactDivTIET.setOnClickListener {
+        prContactDivTIET.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
             activity?.selector("Select Your Division", divisionList.toList()) { _, i ->
-                contactDivTIET.setText(divisionList[i])
+                prContactDivTIET.setText(divisionList[i])
                 contactDivTIL.requestFocus()
             }
         }
 
-        contactDistrictTIET1.setOnClickListener {
-            var queryValue = contactDivTIET.getString()
+        prContactDistrictTIET1.setOnClickListener {
+            var queryValue = prContactDivTIET.getString()
             queryValue = queryValue.replace("'", "''")
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
             activity?.selector("Please Select your District", districtList.toList()) { _, i ->
-                contactDistrictTIET1.setText(districtList[i])
+                prContactDistrictTIET1.setText(districtList[i])
                 contactDistrictTIL1.requestFocus()
             }
         }
-        contactThanaTIET.setOnClickListener {
-            var queryValue = contactDistrictTIET1.getString()
+        prContactThanaTIET.setOnClickListener {
+            var queryValue = prContactDistrictTIET1.getString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
             activity?.selector("Please Select your police station", districtList.toList()) { _, i ->
 
-                contactThanaTIET.setText(districtList[i])
+                prContactThanaTIET.setText(districtList[i])
                 contactThanaTIL1.requestFocus()
             }
         }
 
-        contactPostOfficeTIET1.setOnClickListener {
+        prContactPostOfficeTIET1.setOnClickListener {
 
-            var queryValue = contactThanaTIET.text.toString()
+            var queryValue = prContactThanaTIET.text.toString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentPostOfficeByParentNameInEnglish(queryValue)
 
             activity?.selector("Please Select your post office", districtList.toList()) { _, i ->
 
-                contactPostOfficeTIET1.setText(districtList[i])
+                prContactPostOfficeTIET1.setText(districtList[i])
                 contactPostOfficeTIL1.requestFocus()
 
             }
@@ -209,33 +234,33 @@ class ContactEditFragment : Fragment() {
 
         ////Parmanent Address---------------Start
 
-        contactDivTIET1.setOnClickListener {
+        pmContactDivTIET1.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
             activity?.selector("Select Your division", divisionList.toList()) { _, i ->
 
-                contactDivTIET1.setText(divisionList[i])
+                pmContactDivTIET1.setText(divisionList[i])
                 contactDivTIL1.requestFocus()
             }
         }
 
-        contactDistrictTIET.setOnClickListener {
+        pmContactDistrictTIET.setOnClickListener {
 
 
-            var queryValue = contactDivTIET1.getString()
+            var queryValue = pmContactDivTIET1.getString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
             activity?.selector("Please Select your district", districtList.toList()) { _, i ->
 
-                contactDistrictTIET.setText(districtList[i])
+                pmContactDistrictTIET.setText(districtList[i])
 
                 contactDistrictTIL.requestFocus()
             }
         }
 
-        contactThanaTIETP.setOnClickListener {
-            var queryValue = contactDistrictTIET.getString()
+        pmContactThanaTIETP.setOnClickListener {
+            var queryValue = pmContactDistrictTIET.getString()
             queryValue = queryValue.replace("'", "''")
             d("thana : $queryValue")
 
@@ -243,13 +268,13 @@ class ContactEditFragment : Fragment() {
 
             activity?.selector("Please Select your police station", districtList.toList()) { _, i ->
 
-                contactThanaTIETP.setText(districtList[i])
+                pmContactThanaTIETP.setText(districtList[i])
                 contactThanaTIL1.requestFocus()
             }
         }
 
-        contactPostOfficeTIET.setOnClickListener {
-            var queryValue = contactThanaTIETP.text.toString()
+        pmContactPostOfficeTIET.setOnClickListener {
+            var queryValue = pmContactThanaTIETP.text.toString()
             queryValue = queryValue.replace("'", "''")
             d("post office : $queryValue")
 
@@ -257,7 +282,7 @@ class ContactEditFragment : Fragment() {
 
             activity?.selector("Please Select your post office", districtList.toList()) { _, i ->
 
-                contactPostOfficeTIET.setText(districtList[i])
+                pmContactPostOfficeTIET.setText(districtList[i])
                 contactPostOfficeTIL.requestFocus()
 
             }
@@ -270,21 +295,21 @@ class ContactEditFragment : Fragment() {
                 presentContactCountryTILP.requestFocus()
             }
         }
-
-        contactThanaTIET.setOnClickListener {
-            var queryValue = contactDistrictTIET1.getString()
+/*
+        pmContactThanaTIET.setOnClickListener {
+            var queryValue = prContactDistrictTIET1.getString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
             activity?.selector("Please Select your police station", districtList.toList()) { _, i ->
 
-                contactThanaTIET.setText(districtList[i])
+                pmContactThanaTIET.setText(districtList[i])
                 contactThanaTIL1.requestFocus()
             }
-        }
+        }*/
 
-        contactPostOfficeTIET1.setOnClickListener {
+        /*contactPostOfficeTIET1.setOnClickListener {
             var queryValue = contactThanaTIET.text.toString()
             queryValue = queryValue.replace("'", "''")
 
@@ -295,7 +320,7 @@ class ContactEditFragment : Fragment() {
                 contactPostOfficeTIET1.setText(districtList[i])
                 contactPostOfficeTIL1.requestFocus()
             }
-        }
+        }*/
 
         presentContactCountryTIET.setOnClickListener {
 
@@ -315,40 +340,40 @@ class ContactEditFragment : Fragment() {
 
         ////Parmanent Address---------------Start
 
-        contactDivTIET1.setOnClickListener {
+        pmContactDivTIET1.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
             activity?.selector("Select Your division", divisionList.toList()) { dialogInterface, i ->
 
-                contactDivTIET1.setText(divisionList[i])
+                pmContactDivTIET1.setText(divisionList[i])
                 contactDivTIL1.requestFocus()
             }
         }
 
-        contactDistrictTIET1.setOnClickListener {
-            var queryValue = contactDivTIET.getString()
+        prContactDistrictTIET1.setOnClickListener {
+            var queryValue = prContactDivTIET.getString()
             queryValue = queryValue.replace("'", "''")
 
             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
-            activity?.selector("Please Select your district", districtList.toList()) { dialogInterface, i ->
-                contactDistrictTIET1.setText(districtList[i])
+            activity?.selector("Please Select your district", districtList.toList()) { _, i ->
+                prContactDistrictTIET1.setText(districtList[i])
                 contactDistrictTIL1.requestFocus()
             }
         }
 
-        contactThanaTIET.setOnClickListener {
+        /* pmContactThanaTIET.setOnClickListener {
 
-            var queryValue = contactDistrictTIET1.getString()
-            queryValue = queryValue.replace("'", "''")
+             var queryValue = prContactDistrictTIET1.getString()
+             queryValue = queryValue.replace("'", "''")
 
-            val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
+             val districtList: Array<String> = dataStorage.getDependentLocationByParentName(queryValue)
 
-            activity?.selector("Please Select your police station", districtList.toList()) { dialogInterface, i ->
-                contactThanaTIET.setText(districtList[i])
-                contactThanaTIL1.requestFocus()
-            }
-        }
-        contactPostOfficeTIET1.setOnClickListener {
+             activity?.selector("Please Select your police station", districtList.toList()) { dialogInterface, i ->
+                 pmContactThanaTIET.setText(districtList[i])
+                 contactThanaTIL1.requestFocus()
+             }
+         }*/
+        /*contactPostOfficeTIET1.setOnClickListener {
             var queryValue = contactThanaTIET.text.toString()
             queryValue = queryValue.replace("'", "''")
 
@@ -358,7 +383,7 @@ class ContactEditFragment : Fragment() {
                 contactPostOfficeTIET1.setText(districtList[i])
                 contactPostOfficeTIL1.requestFocus()
             }
-        }
+        }*/
 
         permanentContactCountryTIETP.setOnClickListener {
 
