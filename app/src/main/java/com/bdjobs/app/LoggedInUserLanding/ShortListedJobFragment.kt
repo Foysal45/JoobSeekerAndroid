@@ -22,7 +22,7 @@ import org.jetbrains.anko.uiThread
 class ShortListedJobFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
-    lateinit var joblistAdapter:JoblistAdapter
+    lateinit var joblistAdapter: JoblistAdapter
     lateinit var homeCommunicator: HomeCommunicator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,16 +50,16 @@ class ShortListedJobFragment : Fragment() {
 
             val jobList: MutableList<JobListModelData> = java.util.ArrayList()
 
-            for(item in shortListedJobs){
-                val jobListModelData= JobListModelData(
+            for (item in shortListedJobs) {
+                val jobListModelData = JobListModelData(
                         jobid = item.jobid,
                         jobTitle = item.jobtitle,
                         companyName = item.companyname,
                         deadline = item.deadline?.toSimpleDateString(),
                         eduRec = item.eduRec,
                         experience = item.experience,
-                        standout =  item.standout,
-                        logo =  item.logo,
+                        standout = item.standout,
+                        logo = item.logo,
                         lantype = item.lantype
                 )
                 jobList.add(jobListModelData)
@@ -72,8 +72,17 @@ class ShortListedJobFragment : Fragment() {
                 joblistAdapter?.addAllTest(jobList)
                 joblistAdapter.notifyDataSetChanged()
 
-                val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Job"
-                jobCountTV?.text = Html.fromHtml(styledText)
+
+                if (jobList.size > 1) {
+                    val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Jobs"
+                    jobCountTV?.text = Html.fromHtml(styledText)
+                } else {
+                    val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Job"
+                    jobCountTV?.text = Html.fromHtml(styledText)
+                }
+                //jobs count
+
+
             }
 
         }
