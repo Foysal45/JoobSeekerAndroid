@@ -10,6 +10,7 @@ class BdjobsJobCreator(private val appContext:Context) : JobCreator {
     override fun create(tag: String): Job? {
         return when (tag) {
             DatabaseUpdateJob.TAG -> DatabaseUpdateJob(appContext)
+            FavSearchDeleteJob.TAG -> FavSearchDeleteJob(appContext)
             else -> null
         }
     }

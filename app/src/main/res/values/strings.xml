@@ -6,7 +6,7 @@
     <!--facebook login related data end-->
 
 
-    <string name="app_name">Bdjobs</string>
+    <string name="app_name">Bdjobs.com</string>
     <string name="hint_keyword">Job title, Keyword</string>
     <string name="hint.location">Location</string>
     <string name="hint.Category">Category</string>

@@ -39,6 +39,7 @@ class FavouriteSearchBaseActivity : Activity(), FavCommunicator {
     }
 
     override fun scrollToUndoPosition(position: Int) {
+        if(position>=0)
         favouriteSearchFilterListFragment.scrollToUndoPosition(position)
     }
 

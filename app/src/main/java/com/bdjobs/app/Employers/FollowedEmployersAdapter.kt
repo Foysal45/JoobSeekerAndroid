@@ -119,42 +119,27 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         // here we show snackbar and undo option
 
         val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
-        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_INDEFINITE)
+        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
-                    //    "Applicant $name has been restored successfully!".toast(activity!!)
-                    // call?.doNothing(page, applyIDs(), applicantStatus())
-                    //  Log.d("checkingUndo", "${applyIDs()} and ${applicantStatus()}")
-
                     restoreMe(deletedItem!!, deletedIndex)
                     Log.d("comid", "comid")
-                    // restore the undo item
                 }
-        snack?.setActionTextColor(context.resources.getColor(R.color.undo))
-        snack?.duration = 5000
-        val view = snack.view
-        //view.layoutParams.height = 100
-        val tv = view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        view?.setBackgroundColor(Color.DKGRAY)
-        tv?.setTextColor(Color.WHITE)
-        tv?.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        tv?.gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
+
         snack?.show()
         Log.d("swipe", "dir to LEFT")
         snack?.addCallback(object : Snackbar.Callback() {
             override fun onShown(snackbar: Snackbar?) {
-                //  on show
-                //    Log.d("comid", "shown")
+
             }
 
             override fun onDismissed(snackbar: Snackbar?, event: Int) {
                 //   Log.d("comid", "dismissed")
                 Log.d("comid", "$undoButtonPressed")
-                if (undoButtonPressed == false) {
+                if (!undoButtonPressed) {
                     // deleting the item from db and server
                     deleteFromServer(company_ID, company_name)
                     deleteFromDB(company_ID)
                 }
-
             }
 
         })
