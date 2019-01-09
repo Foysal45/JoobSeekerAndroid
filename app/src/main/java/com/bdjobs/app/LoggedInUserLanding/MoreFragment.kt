@@ -80,6 +80,9 @@ class MoreFragment : Fragment() {
         settings_MBTN?.setOnClickListener {
             startActivity<SettingBaseActivity>()
         }
+        viewResume_MBTN.setOnClickListener {
+            homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
+        }
     }
     private fun clearAddPopulateData() {
         /*this  function deletes duplicates data lists  */

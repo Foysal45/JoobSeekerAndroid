@@ -125,11 +125,11 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                 if (isitFollowed) {
                     //do_work_to_unfollow_a_employer
                     callUnFollowApi(company_ID, company_NAME)
-                   // notifyDataSetChanged()
+                    // notifyDataSetChanged()
                 } else {
                     //do_work_to_follow_a_employer
                     callFollowApi(company_ID, company_NAME)
-                  //  notifyDataSetChanged()
+                    //  notifyDataSetChanged()
                 }
             }
         }
@@ -226,7 +226,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
                         uiThread {
                             notifyDataSetChanged()
-                            Toast.makeText(context,  message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                         }
 
                     }
@@ -282,6 +282,7 @@ class LoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.View
     val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
     val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
     val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
+
     init {
 
         mRetryBtn?.setOnClickListener(this)

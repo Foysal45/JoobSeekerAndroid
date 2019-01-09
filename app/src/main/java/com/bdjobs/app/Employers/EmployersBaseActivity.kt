@@ -39,6 +39,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private val followedEmployersListFragment = FollowedEmployersListFragment()
     private val employerJobListFragment = EmployerJobListFragment()
     private val employerListFragment = EmployerListFragment()
+    private val employerViewedMyResumeFragment = EmployerViewedMyResumeFragment()
     private var jobId = ""
     override fun gotoJobListFragment(companyID: String?, companyName: String?) {
         companyid = companyID!!
@@ -93,7 +94,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
-
+     //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
@@ -101,6 +102,9 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerListFragment, R.id.fragmentHolder)
         }else if(value?.equals("joblist")){
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
+        }
+        else if(value?.equals("vwdMyResume")){
+            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         }
 
     }

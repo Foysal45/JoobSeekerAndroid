@@ -34,6 +34,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
+    override fun goToEmployerViewedMyResume(from: String) {
+        startActivity<EmployersBaseActivity>("from" to from)
+    }
+
     private var time: String = ""
     override fun setTime(time: String) {
         this.time = time
