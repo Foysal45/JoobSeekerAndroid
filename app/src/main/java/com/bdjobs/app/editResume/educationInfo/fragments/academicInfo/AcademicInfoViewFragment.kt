@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.behaveYourself
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -51,6 +52,7 @@ class AcademicInfoViewFragment : Fragment() {
     }
 
     private fun doWork() {
+        rv_aca_view.behaveYourself(fab_aca_add)
         populateData()
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_academic))

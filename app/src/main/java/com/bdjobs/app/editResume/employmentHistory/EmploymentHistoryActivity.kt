@@ -10,10 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.getString
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AreaofExperienceItem
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.DataItem
@@ -82,25 +79,28 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     }
 
     override fun goToEditInfo(check: String) {
-        when (check) {
-            "add" -> {
-                editFragment.isEdit = false
-                transitFragment(editFragment, R.id.emp_his_container, true)
+        try {
+            when (check) {
+                "add" -> {
+                    editFragment.isEdit = false
+                    transitFragment(editFragment, R.id.emp_his_container, true)
+                }
+                "edit" -> {
+                    editFragment.isEdit = true
+                    transitFragment(editFragment, R.id.emp_his_container, true)
+                }
+                "army_edit" -> {
+                    armyEditFragment.isEdit = true
+                    transitFragment(armyEditFragment, R.id.emp_his_container, true)
+                }
+                "army_add" -> {
+                    armyEditFragment.isEdit = false
+                    transitFragment(armyEditFragment, R.id.emp_his_container, true)
+                }
             }
-            "edit" -> {
-                editFragment.isEdit = true
-                transitFragment(editFragment, R.id.emp_his_container, true)
-            }
-            "army_edit" -> {
-                armyEditFragment.isEdit = true
-                transitFragment(armyEditFragment, R.id.emp_his_container, true)
-            }
-            "army_add" -> {
-                armyEditFragment.isEdit = false
-                transitFragment(armyEditFragment, R.id.emp_his_container, true)
-            }
-            else -> {
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
         }
     }
 
@@ -182,5 +182,4 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
     }
-
 }

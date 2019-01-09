@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.behaveYourself
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -51,6 +52,7 @@ class TrainingViewFragment : Fragment() {
 
     private fun doWork() {
         populateData()
+        rv_tr_view.behaveYourself(fab_tr_add)
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_training))
         fab_tr_add.setOnClickListener {

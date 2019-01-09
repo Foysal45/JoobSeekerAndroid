@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.behaveYourself
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -52,6 +53,7 @@ class EmpHistoryViewFragment : Fragment() {
 
     private fun doWork() {
         shimmerStart()
+        rv_eh_view.behaveYourself(fab_eh_add)
         populateData()
         empHisCB.setDeleteButton(false)
         fab_eh_add.setOnClickListener {
@@ -73,7 +75,7 @@ class EmpHistoryViewFragment : Fragment() {
         call.enqueue(object : Callback<GetExps> {
             override fun onFailure(call: Call<GetExps>, t: Throwable) {
                 shimmerStop()
-                activity.toast("Error occurred")
+                activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetExps>, response: Response<GetExps>) {
