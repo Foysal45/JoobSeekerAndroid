@@ -59,11 +59,11 @@ class PersonalDetailsEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         personalInfo = activity as PersonalInfo
-        now = Calendar.getInstance()
     }
 
     override fun onResume() {
         super.onResume()
+        now = Calendar.getInstance()
         personalInfo.setTitle(getString(R.string.title_personal))
         personalInfo.setEditButton(false, "dd")
         doWork()
@@ -81,7 +81,9 @@ class PersonalDetailsEditFragment : Fragment() {
                 nationalityTIL.hide()
             }
         }
-        etPerDob.setOnClickListener { pickDate(activity, now, birthDateSetListener) }
+        etPerDob.setOnClickListener {
+            pickDate(activity, now, birthDateSetListener)
+        }
         fab_per_update.setOnClickListener {
             updateData()
         }
@@ -97,6 +99,13 @@ class PersonalDetailsEditFragment : Fragment() {
         etPerMName.setText(data.motherName)
         etPerReligion.setText(data.religion)
         etPerDob.setText(data.dateofBirth)
+        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
+        val date = formatter.parse(data.dateofBirth)
+        val year = date.year
+        val month = date.month
+        val day = date.day
+        now.set(year, month, day)
+        d("day: $day")
         etPerNid.setText(data.nationalIdNo)
         etPerNationality.setText(data.nationality)
         selectChip(cgGender, data.gender!!)
@@ -133,6 +142,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            session.updateIsCvPosted("true")
                             session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()
                         }

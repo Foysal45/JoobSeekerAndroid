@@ -59,6 +59,7 @@ class ContactViewFragment : Fragment() {
         call.enqueue(object : Callback<GetContactInfo> {
             override fun onFailure(call: Call<GetContactInfo>, t: Throwable) {
                 shimmerStop()
+                rlContactMain.show()
                 activity.toast(R.string.message_common_error)
             }
 
@@ -66,12 +67,14 @@ class ContactViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
+                        rlContactMain.show()
                         val respo = response.body()
                         contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
                     activity.toast("${response.body()?.message}")
+                    rlContactMain.show()
                     activity.logException(e)
                 }
             }

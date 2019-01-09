@@ -105,7 +105,7 @@
     <string name="hint.officePhone">Office Phone</string>
     <string name="hint.alter_email">Alternate Email</string>
     <string name="hint.objective">Objective *</string>
-    <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~</string>
+    <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%\'-.</string>
     <string name="hint.objective_v">Objective</string>
     <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
     <string name="hint.present_salary_tk_month_v">Present Salary</string>
@@ -220,4 +220,5 @@
     <string name="subtit.contact_detail">Contact Details</string>
     <string name="subtit.career_and_application_information">Career and Application Information</string>
     <string name="hint.alternet_email_address">Alternet Email Address</string>
+    <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
 </resources>

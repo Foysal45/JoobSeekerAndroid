@@ -3,13 +3,9 @@ package com.bdjobs.app.editResume.personalInfo
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.StyleSpan
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
@@ -188,23 +184,5 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         if (view.requestFocus()) {
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
-    }
-
-    fun getAlteredBoldStr(alteredStrArr: Array<String>,
-                          isFirstPartBold: Boolean): SpannableStringBuilder {
-        val str = SpannableStringBuilder()
-        var i = 0
-        val l = alteredStrArr.size
-        while (i < l) {
-            val s = alteredStrArr[i]
-            val pl = str.length
-            if (i > 0) str.append(" ")
-            str.append(s)
-            if (isFirstPartBold && i % 2 == 0 || !isFirstPartBold && i % 2 != 0)
-                str.setSpan(StyleSpan(Typeface.BOLD),
-                        pl, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            i++
-        }
-        return str
     }
 }
