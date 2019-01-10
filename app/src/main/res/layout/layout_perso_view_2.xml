@@ -26,7 +26,10 @@
                 android:id="@+id/imageView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
                 android:contentDescription="@string/title_home"
                 android:src="@drawable/ic_dob" />
 
@@ -47,7 +50,6 @@
                 android:layout_below="@+id/textView36"
                 android:layout_marginStart="43dp"
                 android:layout_marginTop="4dp"
-                android:text="@string/hint.father_name"
                 android:textColor="#393939"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -63,7 +65,10 @@
                 android:id="@+id/imageView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
                 android:contentDescription="@string/title_home"
                 android:src="@drawable/ic_religion" />
 
@@ -85,7 +90,6 @@
                 android:layout_alignStart="@+id/textView37"
                 android:layout_marginStart="-1dp"
                 android:layout_marginTop="4dp"
-                android:text="@string/hint.father_name"
                 android:textColor="#393939"
                 android:textSize="16sp"
                 android:textStyle="bold" />

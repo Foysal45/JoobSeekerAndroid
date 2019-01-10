@@ -1,13 +1,12 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
@@ -16,9 +15,6 @@ import com.bdjobs.app.Utilities.hideError
 import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_name.*
-import kotlinx.android.synthetic.main.fragment_wc_name.*
-import kotlinx.android.synthetic.main.fragment_wc_social_info.*
-import org.jetbrains.anko.makeCall
 
 
 class BCNameFragment : Fragment() {
@@ -53,7 +49,7 @@ class BCNameFragment : Fragment() {
 
             if(nameTIET.length() == 0 || nameTIET.length() < 2 ){
 
-                nameTIL.showError("Name can not be empty")
+                nameTIL.showError("নাম খালি রাখা যাবে না")
             } else {
 
                 registrationCommunicator.bcGoToStepGender()

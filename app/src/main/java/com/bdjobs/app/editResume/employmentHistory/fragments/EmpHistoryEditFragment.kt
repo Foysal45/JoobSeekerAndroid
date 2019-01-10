@@ -268,7 +268,7 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun updateDateInView(c: Int) {
-        val myFormat = "dd/MM/yyyy" // mention the format you need
+        val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         if (c == 0) {
             estartDateET.setText(sdf.format(now.time))

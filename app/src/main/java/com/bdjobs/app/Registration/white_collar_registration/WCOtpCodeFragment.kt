@@ -1,24 +1,17 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.footer_wc_layout.*
-import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
-import org.jetbrains.anko.makeCall
-import org.jetbrains.anko.toast
-import java.lang.Exception
 
 
 class WCOtpCodeFragment : Fragment() {
@@ -55,17 +48,23 @@ class WCOtpCodeFragment : Fragment() {
 
 
         wcOTPFAButton.setOnClickListener {
-            registrationCommunicator.wcSetOtp(wcOTPCodeTIET.text.toString())
-            registrationCommunicator.wcOtpVerify()
+
+            if (TextUtils.isEmpty(wcOTPCodeTIET.getString())) {
+
+                wcOTPCodeTIL.showError("Please type the code")
+
+
+            } else {
+
+                registrationCommunicator.wcSetOtp(wcOTPCodeTIET.text.toString())
+                registrationCommunicator.wcOtpVerify()
+
+            }
+
+
         }
 
-       /* timeLayout.setOnClickListener {
 
-           *//* activity.toast("time clicked")*//*
-
-
-            setTime()
-        }*/
 
         wcResendOtpTV.setOnClickListener {
             registrationCommunicator.bcResendOtp()

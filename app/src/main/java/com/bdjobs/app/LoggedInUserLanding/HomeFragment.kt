@@ -205,6 +205,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     favRV?.adapter = favouriteSearchFilterAdapter
                     blankCL?.hide()
                     mainLL?.show()
+                    myfavSearchTV?.text = "My favourite search filters (${favouriteSearchFilters?.size})"
                     favSearchView?.show()
                 }
             }
@@ -385,7 +386,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
         interviewList_MBTN?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
-            homeCommunicator.goToInterviewInvitation("homePage")
+            homeCommunicator.goToInterviewInvitation("popup")
         }
     }
 

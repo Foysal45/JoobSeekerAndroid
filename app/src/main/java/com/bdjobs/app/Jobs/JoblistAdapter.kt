@@ -3,6 +3,7 @@ package com.bdjobs.app.Jobs
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.text.Html
 
 
 import android.text.Layout.JUSTIFICATION_MODE_INTER_WORD
@@ -17,6 +18,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
 import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
+import com.bdjobs.app.BackgroundJob.ShortListedJobDeleteJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
@@ -24,7 +26,9 @@ import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -138,9 +142,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                             jobsVH?.shortListIconIV?.setImageDrawable(context.getDrawable(R.drawable.ic_star))
                         }
 
-                        if(appliedJobs.isEmpty()){
+                        if (appliedJobs.isEmpty()) {
                             jobsVH?.appliedBadge?.hide()
-                        }else{
+                        } else {
                             jobsVH?.appliedBadge?.show()
                         }
                     }
@@ -222,9 +226,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
                         }
 
-                        if(appliedJobs.isEmpty()){
+                        if (appliedJobs.isEmpty()) {
                             jobsVH?.appliedBadge?.hide()
-                        }else{
+                        } else {
                             jobsVH?.appliedBadge?.show()
                         }
                     }
@@ -309,84 +313,110 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         }
     }
 
+    private fun deleteShortListedJobwithUndo(position: Int) {
+        Log.d("czcx", "position: $position")
+
+        try {
+            if (jobList?.size != 0) {
+                val deletedItem = jobList?.get(position)
+                jobList?.removeAt(position)
+                notifyItemRemoved(position)
+                val actv = context as Activity
+                val deleteJobID = ShortListedJobDeleteJob.scheduleAdvancedJob(deletedItem?.jobid!!)
+                undoRemove(actv.mainCL, deletedItem, position, deleteJobID)
+                homeCommunicator?.decrementCounter()
+            } else {
+                context.toast("No items left here!")
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    private fun undoRemove(v: View, deletedItem: JobListModelData?, deletedIndex: Int, deleteJobID: Int) {
+        val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
+        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") {
+                    ShortListedJobDeleteJob.cancelJob(deleteJobID)
+                    restoreMe(deletedItem!!, deletedIndex)
+                    homeCommunicator?.scrollToUndoPosition(deletedIndex)
+                    Log.d("comid", "comid")
+                }
+
+        snack?.show()
+        Log.d("swipe", "dir to LEFT")
+    }
+
+    private fun restoreMe(item: JobListModelData, pos: Int) {
+        jobList?.add(pos, item)
+        notifyItemInserted(pos)
+    }
+
     private fun shorlistAndUnshortlistJob(position: Int) {
 
         if (!bdjobsUserSession.isLoggedIn!!) {
             jobCommunicator?.goToLoginPage()
         } else {
-            Log.d("strJobId", "strJobId: ${jobList?.get(position)?.jobid!!}")
-            doAsync {
-                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
-                uiThread {
-                    if (shortListed) {
+            if (homeCommunicator != null) {
+                deleteShortListedJobwithUndo(position)
+            } else {
+                Log.d("strJobId", "strJobId: ${jobList?.get(position)?.jobid!!}")
+                doAsync {
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+                    uiThread {
+                        if (shortListed) {
 
-                        ApiServiceMyBdjobs.create().unShortlistJob(
-                                userId = bdjobsUserSession.userId,
-                                decodeId = bdjobsUserSession.decodId,
-                                strJobId = jobList?.get(position)?.jobid!!
-                        ).enqueue(object : Callback<UnshorlistJobModel> {
-                            override fun onFailure(call: Call<UnshorlistJobModel>, t: Throwable) {
-                                error("onFailure", t)
+                            ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
+                            doAsync {
+                                bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                             }
-
-                            override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
-                                try {
-                                    context.toast(response.body()?.message!!)
-                                } catch (e: Exception) {
-                                    logException(e)
-                                }
-                            }
-                        })
-                        doAsync {
-                            bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
-                        }
-                        uiThread { notifyDataSetChanged() }
-
-                    } else {
-
-
-                        ApiServiceJobs.create().insertShortListJob(
-                                userID = bdjobsUserSession.userId,
-                                encoded = Constants.ENCODED_JOBS,
-                                jobID = jobList?.get(position)?.jobid!!
-                        ).enqueue(object : Callback<ShortlistJobModel> {
-                            override fun onFailure(call: Call<ShortlistJobModel>, t: Throwable) {
-                                error("onFailure", t)
-                            }
-
-                            override fun onResponse(call: Call<ShortlistJobModel>, response: Response<ShortlistJobModel>) {
-                                try {
-                                    context.toast(response.body()?.data?.get(0)?.message!!)
-                                } catch (e: Exception) {
-                                    logException(e)
-                                }
-                            }
-                        })
-
-
-                        doAsync {
-
-                            var deadline: Date? = null
-                            try {
-                                deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
-                            } catch (e: Exception) {
-                                logException(e)
-                            }
-                            Log.d("DeadLine", "DeadLine: $deadline")
-                            val shortlistedJob = ShortListedJobs(
-                                    jobid = jobList?.get(position)?.jobid!!,
-                                    jobtitle = jobList?.get(position)?.jobTitle!!,
-                                    companyname = jobList?.get(position)?.companyName!!,
-                                    deadline = deadline,
-                                    eduRec = jobList?.get(position)?.eduRec!!,
-                                    experience = jobList?.get(position)?.experience!!,
-                                    standout = jobList?.get(position)?.standout!!,
-                                    logo = jobList?.get(position)?.logo!!,
-                                    lantype = jobList?.get(position)?.lantype!!
-                            )
-
-                            bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                             uiThread { notifyDataSetChanged() }
+
+                        } else {
+
+                            ApiServiceJobs.create().insertShortListJob(
+                                    userID = bdjobsUserSession.userId,
+                                    encoded = Constants.ENCODED_JOBS,
+                                    jobID = jobList?.get(position)?.jobid!!
+                            ).enqueue(object : Callback<ShortlistJobModel> {
+                                override fun onFailure(call: Call<ShortlistJobModel>, t: Throwable) {
+                                    error("onFailure", t)
+                                }
+
+                                override fun onResponse(call: Call<ShortlistJobModel>, response: Response<ShortlistJobModel>) {
+                                    try {
+                                        context.toast(response.body()?.data?.get(0)?.message!!)
+                                    } catch (e: Exception) {
+                                        logException(e)
+                                    }
+                                }
+                            })
+
+
+                            doAsync {
+
+                                var deadline: Date? = null
+                                try {
+                                    deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+                                Log.d("DeadLine", "DeadLine: $deadline")
+                                val shortlistedJob = ShortListedJobs(
+                                        jobid = jobList?.get(position)?.jobid!!,
+                                        jobtitle = jobList?.get(position)?.jobTitle!!,
+                                        companyname = jobList?.get(position)?.companyName!!,
+                                        deadline = deadline,
+                                        eduRec = jobList?.get(position)?.eduRec!!,
+                                        experience = jobList?.get(position)?.experience!!,
+                                        standout = jobList?.get(position)?.standout!!,
+                                        logo = jobList?.get(position)?.logo!!,
+                                        lantype = jobList?.get(position)?.lantype!!
+                                )
+
+                                bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
+                                uiThread { notifyDataSetChanged() }
+                            }
                         }
                     }
                 }

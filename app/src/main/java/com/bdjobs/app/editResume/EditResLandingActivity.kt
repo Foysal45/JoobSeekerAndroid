@@ -3,15 +3,14 @@ package com.bdjobs.app.editResume
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_edit_res_landing.*
 import org.jetbrains.anko.startActivity
 
@@ -22,14 +21,24 @@ class EditResLandingActivity : Activity() {
         super.onCreate(savedInstanceState)
         session = BdjobsUserSession(this@EditResLandingActivity)
         setContentView(R.layout.activity_edit_res_landing)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!session.userPicUrl.isNullOrEmpty()) {
+            ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
+        } else {
+            ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
+        }
+        d("editResLanding photo:" + session.userPicUrl)
+        d("editResLanding name:" + session.fullName)
+        d("editResLanding email:" + session.email)
+        tvname.text = session.fullName
+        tvEmail.text = session.email
         doWork()
     }
 
     private fun doWork() {
-        ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
-        tvname.text = session.fullName
-        tvEmail.text = session.email
-
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
         }
@@ -69,24 +78,4 @@ class EditResLandingActivity : Activity() {
         }
     }
 
-
-    fun setToolbarTitle(appBarLayout: AppBarLayout, collapsingToolbarLayout: CollapsingToolbarLayout, title: String) {
-        appBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            var isShow = true
-            var scrollRange = -1
-
-            override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.totalScrollRange
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.title = SpannableString(title)
-                    isShow = true
-                } else if (isShow) {
-                    collapsingToolbarLayout.title = " "//careful there should a space between double quote otherwise it wont work
-                    isShow = false
-                }
-            }
-        })
-    }
 }

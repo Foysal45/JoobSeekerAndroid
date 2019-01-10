@@ -39,6 +39,14 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         startActivity<EmployersBaseActivity>("from" to from)
     }
 
+    override fun decrementCounter() {
+        shortListedJobFragment.decrementCounter()
+    }
+
+    override fun scrollToUndoPosition(position: Int) {
+        shortListedJobFragment.scrollToUndoPosition(position)
+    }
+
     private var time: String = ""
     override fun setTime(time: String) {
         this.time = time

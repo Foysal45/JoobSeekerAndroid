@@ -71,7 +71,7 @@
                     android:fontFamily="@font/roboto"
                     android:inputType="numberSigned"
                     android:maxLength="6"
-                    android:hint="কোড লিখুন"
+                    android:hint="কোডটি টাইপ করুন"
                     android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />

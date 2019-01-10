@@ -25,6 +25,8 @@ class ShortListedJobFragment : Fragment() {
     lateinit var joblistAdapter: JoblistAdapter
     lateinit var homeCommunicator: HomeCommunicator
 
+    var favListSize = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
     }
@@ -66,25 +68,47 @@ class ShortListedJobFragment : Fragment() {
             }
 
             uiThread {
-                shortListRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
                 joblistAdapter = JoblistAdapter(activity)
                 shortListRV?.adapter = joblistAdapter
                 joblistAdapter?.addAllTest(jobList)
                 joblistAdapter.notifyDataSetChanged()
 
+                favListSize= jobList.size
 
-                if (jobList.size > 1) {
-                    val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Jobs"
+                if (favListSize> 1) {
+                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
                     jobCountTV?.text = Html.fromHtml(styledText)
                 } else {
-                    val styledText = "<b><font color='#13A10E'>${jobList.size}</font></b> Job"
+                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
                     jobCountTV?.text = Html.fromHtml(styledText)
                 }
-                //jobs count
-
-
             }
 
+        }
+    }
+
+
+    fun scrollToUndoPosition(position:Int){
+        shortListRV?.scrollToPosition(position)
+        favListSize++
+        if (favListSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
+            jobCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
+            jobCountTV?.text = Html.fromHtml(styledText)
+        }
+
+    }
+
+    fun decrementCounter(){
+        favListSize--
+        if (favListSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
+            jobCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
+            jobCountTV?.text = Html.fromHtml(styledText)
         }
     }
 }
