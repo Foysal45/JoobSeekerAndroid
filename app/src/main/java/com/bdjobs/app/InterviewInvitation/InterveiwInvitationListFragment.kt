@@ -70,7 +70,12 @@ class InterveiwInvitationListFragment : Fragment() {
     }
 
     private fun showDataFromServer() {
-        ApiServiceMyBdjobs.create().getJobInvitationList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<JobInvitationListModel> {
+        ApiServiceMyBdjobs.create().getJobInvitationList(
+                userId = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId
+
+
+        ).enqueue(object : Callback<JobInvitationListModel> {
             override fun onFailure(call: Call<JobInvitationListModel>, t: Throwable) {
                 error("onFailure", t)
             }

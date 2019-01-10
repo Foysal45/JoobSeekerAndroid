@@ -41,6 +41,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private lateinit var employerViewedMyResumeAdapter: EmployerViewedMyResumeAdapter
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var employerCommunicator: EmployersCommunicator
+    private lateinit var isActivityDate : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         employerCommunicator = activity as EmployersCommunicator
+        isActivityDate = employerCommunicator.getTime()
         backIMV.setOnClickListener {
             employerCommunicator.backButtonPressed()
         }
@@ -88,15 +90,15 @@ class EmployerViewedMyResumeFragment : Fragment() {
             override fun loadMoreItems() {
                 isLoadings = true
                 pgNo++
-                loadNextPage()
+                loadNextPage(isActivityDate)
             }
         })
 
-        loadFirstPage()
+        loadFirstPage(isActivityDate)
 
     }
 
-    private fun loadFirstPage() {
+    private fun loadFirstPage(activityDate : String) {
 
         viewedMyResumeRV.hide()
         favCountTV.hide()
@@ -110,7 +112,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                 decodeId = bdjobsUserSession.decodId,
                 pageNumber = pgNo.toString(),
                 itemsPerPage = "10",
-                isActivityDate = "1",
+                isActivityDate = activityDate,
                 AppsDate = ""
 
 
@@ -166,13 +168,13 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     }
 
-    private fun loadNextPage() {
+    private fun loadNextPage(activityDate : String) {
         ApiServiceMyBdjobs.create().getEmpVwdMyResume(
                 userId = bdjobsUserSession.userId,
                 decodeId = bdjobsUserSession.decodId,
                 pageNumber = pgNo.toString(),
                 itemsPerPage = "10",
-                isActivityDate = "1",
+                isActivityDate = activityDate,
                 AppsDate = ""
 
 

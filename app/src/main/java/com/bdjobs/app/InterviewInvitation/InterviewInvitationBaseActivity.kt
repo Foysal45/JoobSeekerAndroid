@@ -7,9 +7,7 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 
 class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
-    override fun getFrom(): String {
-        return  from
-    }
+
 
     private var jobID = ""
     private var companyName = ""
@@ -20,15 +18,29 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     private var venue = ""
     private var lat = ""
     private var lan = ""
+    private var time = ""
 
     private val interveiwInvitationListFragment = InterveiwInvitationListFragment()
     private val interviewInvitationDetailsFragment = InterviewInvitationDetailsFragment()
+
+    override fun getTime(): String {
+        return time
+    }
+
+    override fun getFrom(): String {
+        return  from
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_interview_invitation_base)
         try{
             from = intent.getStringExtra("from")
+        }catch(e:Exception){
+            logException(e)
+        }
+        try{
+            time = intent.getStringExtra("time")
         }catch(e:Exception){
             logException(e)
         }

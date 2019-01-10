@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 
@@ -24,6 +25,7 @@ class FollowedEmployersListFragment : Fragment() {
     private var followedEmployersAdapter: FollowedEmployersAdapter? = null
     lateinit var employersCommunicator: EmployersCommunicator
     private var layoutManager: androidx.recyclerview.widget.LinearLayoutManager? = null
+    private lateinit var isActivityDate: String
 
     private var followedEmployerList: List<FollowedEmployer>? = null
 
@@ -41,6 +43,7 @@ class FollowedEmployersListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         employersCommunicator = activity as EmployersCommunicator
+        isActivityDate = employersCommunicator.getTime()
         bdjobsDB = BdjobsDB.getInstance(activity)
 
         backIMV.setOnClickListener {
@@ -48,8 +51,14 @@ class FollowedEmployersListFragment : Fragment() {
         }
 
 
+
         doAsync {
-            followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            if (isActivityDate == "0") {
+                followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            } else {
+                followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            }
+
             //   val followedEmployerJobCount = followedEmployerList?.size
             //  getJobCountOfFollowedEmployer()
             Log.d("follow", followedEmployerList.toString())
@@ -58,7 +67,7 @@ class FollowedEmployersListFragment : Fragment() {
                 followedEmployersAdapter = FollowedEmployersAdapter(activity!!)
                 followedRV!!.adapter = followedEmployersAdapter
                 followedRV!!.setHasFixedSize(true)
-                followedRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+                followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                 Log.d("initPag", "called")
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)

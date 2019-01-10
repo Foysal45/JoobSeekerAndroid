@@ -87,12 +87,15 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
     private fun bindViews(holder: EmployerViewedMyResumeVH, position: Int) {
         holder?.companyName?.text = vwdResumeList!![position].companyName
         holder?.appliedOn?.text = vwdResumeList!![position].viewedOn
-        //Log.d("hellohello", "hello= " + vwdResumeList!![position].summaryView)
+        Log.d("hellohello", "hello= " + vwdResumeList!![position].summaryView)
 
         if (vwdResumeList!![position].summaryView == "yes") {
             holder?.summaryView.visibility = View.VISIBLE
-        } else {
-            holder?.summaryView.visibility = View.GONE
+            holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
+        }
+        else if(vwdResumeList!![position].summaryView == "-"){
+            holder?.summaryView.visibility = View.VISIBLE
+            holder?.summaryView.setImageResource(R.drawable.ic_done_double)
         }
 
 
