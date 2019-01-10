@@ -13,6 +13,7 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
@@ -107,23 +108,28 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }*/
 
     private fun goToEditInfo(check: String) {
-        when (check) {
-            "add" -> {
+        try {
+            when (check) {
+                "add" -> {
 
+                }
+                "editPersonal" -> {
+                    transitFragment(personalEditFragment, R.id.personalinfo_container, true)
+                }
+                "editCareer" -> {
+                    transitFragment(careerEditFragment, R.id.personalinfo_container, true)
+                }
+                "editContact" -> {
+                    //contact edit fragment
+                    transitFragment(contactEditFragment, R.id.personalinfo_container, true)
+                }
+                else -> {
+                    iv_edit_data.hide()
+                }
             }
-            "editPersonal" -> {
-                transitFragment(personalEditFragment, R.id.personalinfo_container, true)
-            }
-            "editCareer" -> {
-                transitFragment(careerEditFragment, R.id.personalinfo_container, true)
-            }
-            "editContact" -> {
-                //contact edit fragment
-                transitFragment(contactEditFragment, R.id.personalinfo_container, true)
-            }
-            else -> {
-                iv_edit_data.hide()
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
         }
     }
 

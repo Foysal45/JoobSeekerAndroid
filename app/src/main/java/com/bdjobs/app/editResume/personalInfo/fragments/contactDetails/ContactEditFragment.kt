@@ -148,14 +148,14 @@ class ContactEditFragment : Fragment() {
         prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
         d("thana : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
-        //contactAddressTIET?.setText(data.presentVillage)
+        prContactDivTIET?.setText(dataStorage.getDivisionNameByDistrictName(data.presentDistrict.toString()))
         presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
         // Permenant
         pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
         pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
         pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
-        //contactAddressTIET?.setText(data.permanentVillage)
+        pmContactDivTIET1?.setText(dataStorage.getDivisionNameByDistrictName(data.permanentDistrict.toString()))
         permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.presentCountry))
 
         contactMobileNumberTIET?.setText(data.mobile)
@@ -165,10 +165,10 @@ class ContactEditFragment : Fragment() {
         contactEmailAddressTIET1?.setText(data.alternativeEmail)
 
         if (data.presentInsideOutsideBD == "False") {
-            selectChip(cgPermanent, "Inside Bangladesh")
+            selectChip(cgPresent, "Inside Bangladesh")
             presentInOutBD = "0"
         } else if (data.presentInsideOutsideBD == "True") {
-            selectChip(cgPermanent, "Outside Bangladesh")
+            selectChip(cgPresent, "Outside Bangladesh")
             presentInOutBD = "1"
         }
 
@@ -311,22 +311,18 @@ class ContactEditFragment : Fragment() {
 
             val countryList: Array<String> = dataStorage.allCountries
 
-            activity?.selector("Please select your country ", countryList.toList()) { dialogInterface, i ->
+            activity?.selector("Please select your country ", countryList.toList()) { _, i ->
 
                 presentContactCountryTIET.setText(countryList[i])
                 presentContactCountryTIL.requestFocus()
-
-
             }
-
-
         }
 
         ////Parmanent Address---------------Start
 
         pmContactDivTIET1.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
-            activity?.selector("Select Your division", divisionList.toList()) { dialogInterface, i ->
+            activity?.selector("Select Your division", divisionList.toList()) { _, i ->
 
                 pmContactDivTIET1.setText(divisionList[i])
                 contactDivTIL1.requestFocus()

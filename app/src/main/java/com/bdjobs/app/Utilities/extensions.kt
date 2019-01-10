@@ -254,7 +254,6 @@ fun ImageView.loadCircularImageFromUrl(url: String?) {
     }
 }
 
-
 fun EditText.clearText() {
     text?.clear()
 }

@@ -109,10 +109,6 @@ class EmpHistoryEditFragment : Fragment() {
         empHisCB = activity as EmpHisCB
         now = Calendar.getInstance()
         dataStorage = DataStorage(activity)
-    }
-
-    override fun onResume() {
-        super.onResume()
         empHisCB.setTitle(getString(R.string.title_emp_history))
         doWork()
         if (isEdit) {
@@ -125,6 +121,11 @@ class EmpHistoryEditFragment : Fragment() {
             clearEditText()
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
     }
 
     private fun doWork() {

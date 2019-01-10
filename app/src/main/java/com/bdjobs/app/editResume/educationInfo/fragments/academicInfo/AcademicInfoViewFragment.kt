@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.behaveYourself
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.AcademicInfoAdapter
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.GetAcademicInfo
@@ -95,7 +92,6 @@ class AcademicInfoViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    rv_aca_view.show()
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
@@ -104,12 +100,22 @@ class AcademicInfoViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 }

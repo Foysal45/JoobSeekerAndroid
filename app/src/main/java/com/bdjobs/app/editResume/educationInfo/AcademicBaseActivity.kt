@@ -11,10 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.getString
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
@@ -95,26 +92,31 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     }
 
     override fun goToEditInfo(check: String) {
-        when (check) {
-            "add" -> {
-                acaEditFragment.isEdit = false
-                transitFragment(acaEditFragment, R.id.edu_info_container, true)
-            }
-            "addTr" -> {
-                trainingEditFragment.isEdit = false
-                transitFragment(trainingEditFragment, R.id.edu_info_container, true)
-            }
-            "edit" -> {
-                acaEditFragment.isEdit = true
-                transitFragment(acaEditFragment, R.id.edu_info_container, true)
-            }
-            "editTr" -> {
-                trainingEditFragment.isEdit = true
-                transitFragment(trainingEditFragment, R.id.edu_info_container, true)
-            }
-            else -> {
+        try {
+            when (check) {
+                "add" -> {
+                    acaEditFragment.isEdit = false
+                    transitFragment(acaEditFragment, R.id.edu_info_container, true)
+                }
+                "addTr" -> {
+                    trainingEditFragment.isEdit = false
+                    transitFragment(trainingEditFragment, R.id.edu_info_container, true)
+                }
+                "edit" -> {
+                    acaEditFragment.isEdit = true
+                    transitFragment(acaEditFragment, R.id.edu_info_container, true)
+                }
+                "editTr" -> {
+                    trainingEditFragment.isEdit = true
+                    transitFragment(trainingEditFragment, R.id.edu_info_container, true)
+                }
+                else -> {
 
+                }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
         }
     }
 

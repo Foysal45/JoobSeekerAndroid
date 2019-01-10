@@ -103,13 +103,22 @@ class PersonalDetailsViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
-
 }
