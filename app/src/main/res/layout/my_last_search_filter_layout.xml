@@ -157,6 +157,7 @@
 
 
             <ProgressBar
+                android:theme="@style/BdjobsCircularProgress"
                 android:id="@+id/lastPrgrs"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"

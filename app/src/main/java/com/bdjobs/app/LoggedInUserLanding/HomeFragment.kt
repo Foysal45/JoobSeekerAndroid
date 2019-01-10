@@ -256,6 +256,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     val searchData = lastSearch?.get(0)
                     lastPrgrs?.show()
+                    lastSearchcounterTV?.text=""
                     ApiServiceJobs.create().getLastSearchCount(
                             jobLevel = searchData?.jobLevel,
                             Newspaper = searchData?.newsPaper,
