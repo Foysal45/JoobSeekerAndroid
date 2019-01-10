@@ -34,6 +34,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+    override fun decrementCounter() {
+        shortListedJobFragment.decrementCounter()
+    }
+
+    override fun scrollToUndoPosition(position: Int) {
+        shortListedJobFragment.scrollToUndoPosition(position)
+    }
+
     private var time: String = ""
     override fun setTime(time: String) {
         this.time = time

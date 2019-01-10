@@ -15,5 +15,7 @@ interface HomeCommunicator {
     fun getAllStatsData() : List<StatsModelClassData?>?
     fun goToAppliedJobs()
     fun setTime(time : String)
+    fun scrollToUndoPosition(position:Int)
+    fun decrementCounter()
 
 }
