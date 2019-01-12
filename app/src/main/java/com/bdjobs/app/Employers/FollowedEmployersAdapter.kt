@@ -5,8 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
@@ -14,32 +12,14 @@ import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.google.android.material.button.MaterialButton
-import android.widget.Toast
-import android.R.attr.data
-import android.app.PendingIntent.getActivity
-import android.graphics.Color
-import android.os.Handler
 import android.text.Html
 import android.util.Log
-import android.view.Gravity
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
-import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.FollowUnfollowModelClass
+import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
+import java.lang.Exception
 
 /*=============================================================================
  |
@@ -84,7 +64,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             here we start removing the unfollow item
              */
             undoButtonPressed = false
-            rmv(holder.adapterPosition, it)
+            removeItem(holder.adapterPosition, it)
         }
 
         var jobCount = followedEmployerList!![position].JobCount
@@ -104,76 +84,40 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
     }
 
-    fun rmv(position: Int, view: View) {
+    fun removeItem(position: Int, view: View) {
         if (followedEmployerList?.size != 0) {
             val deletedItem = followedEmployerList?.get(position)
+            val companyid = followedEmployerList?.get(position)?.CompanyID
+            val companyName = followedEmployerList?.get(position)?.CompanyName
+            Log.d("werywirye","companyid = $companyid companyname = $companyName")
             followedEmployerList?.removeAt(position)
             notifyItemRemoved(position)
-            undoRemove(view, deletedItem, position)
+            try {
+                val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
+                undoRemove(view, deletedItem, position, deleteJobID)
+            }
+            catch (e : Exception){
+
+            }
+
         } else {
             context.toast("No items left here!")
         }
     }
 
-    private fun undoRemove(v: View, deletedItem: FollowedEmployer?, deletedIndex: Int) {
+    private fun undoRemove(v: View, deletedItem: FollowedEmployer?, deletedIndex: Int, deleteJobID: Int) {
         // here we show snackbar and undo option
 
         val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
         val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
+                    FollowUnfollowJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     Log.d("comid", "comid")
                 }
 
         snack?.show()
         Log.d("swipe", "dir to LEFT")
-        snack?.addCallback(object : Snackbar.Callback() {
-            override fun onShown(snackbar: Snackbar?) {
-
-            }
-
-            override fun onDismissed(snackbar: Snackbar?, event: Int) {
-                //   Log.d("comid", "dismissed")
-                Log.d("comid", "$undoButtonPressed")
-                if (!undoButtonPressed) {
-                    // deleting the item from db and server
-                    deleteFromServer(company_ID, company_name)
-                    deleteFromDB(company_ID)
-                }
-            }
-
-        })
-    }
-
-    private fun deleteFromServer(companyid: String, companyName: String) {
-        ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = company_name, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fed", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass> {
-            override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
-                error("onFailure", t)
-            }
-
-            override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
-
-                try {
-                    var statuscode = response.body()?.statuscode
-                    var message = response.body()?.data?.get(0)?.message
-//                Log.d("msg", message)
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            }
-
-        })
-    }
-
-    private fun deleteFromDB(companyid: String) {
-        Log.d("comid", "comid")
-        Log.d("comid", "$companyid")
-        doAsync {
-
-            bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
-
-        }
     }
 
     private fun restoreMe(item: FollowedEmployer, pos: Int) {
