@@ -38,6 +38,11 @@ class TrainingEditFragment : Fragment() {
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
         doWork()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        d(isEdit.toString())
         if (isEdit) {
             hID = "2"
             eduCB.setDeleteButton(true)
@@ -50,11 +55,6 @@ class TrainingEditFragment : Fragment() {
             hTrainingID = ""
             d("hid val $isEdit: $hID")
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        d(isEdit.toString())
     }
 
     private fun preloadedData() {

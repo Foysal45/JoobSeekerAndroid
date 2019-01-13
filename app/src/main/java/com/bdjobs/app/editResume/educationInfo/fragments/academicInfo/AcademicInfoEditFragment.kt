@@ -51,6 +51,11 @@ class AcademicInfoEditFragment : Fragment() {
         debug("checkbox" + cbResHide.isChecked.toString())
         eduCB.setTitle(getString(R.string.title_academic))
         doWork()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        d(isEdit.toString())
         if (isEdit) {
             hID = "1"
             eduCB.setDeleteButton(true)
@@ -60,11 +65,6 @@ class AcademicInfoEditFragment : Fragment() {
             hID = "-1"
             clearEditText()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        d(isEdit.toString())
     }
 
     private fun preloadedData() {

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -65,6 +66,22 @@ class ContactEditFragment : Fragment() {
             d("InOutBD : $presentInOutBD and $permanentInOutBD")
             updateData()
         }
+        if (contactMobileNumber2TIET.isVisible)
+            contactAddMobileButton?.hide() else {
+            contactAddMobileButton?.show()
+            contactAddMobileButton?.setOnClickListener {
+                contactMobileNumber1TIET?.show()
+                contactMobileNumber2TIET?.show()
+            }
+        }
+
+        if (contactEmailAddressTIET1.isVisible)
+            contactAddEmailButton.hide()
+        else {
+            contactAddEmailButton.show()
+            contactAddEmailButton?.setOnClickListener { contactEmailAddressTIET1.show() }
+        }
+
         setupViews()
     }
 
@@ -85,9 +102,9 @@ class ContactEditFragment : Fragment() {
                 " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString())}" + "\n" +
                 " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
                 " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
-                " same address : ${sameAddress}" + "\n" +
-                "permanentAddressID : ${permanentAddressID} " + "\n" +
-                "presentAddressID :  ${presentAddressID}" + "\n" +
+                " same address : $sameAddress" + "\n" +
+                "permanentAddressID : $permanentAddressID " + "\n" +
+                "presentAddressID :  $presentAddressID" + "\n" +
                 "mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
                 " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
                 " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
@@ -136,6 +153,8 @@ class ContactEditFragment : Fragment() {
         getDataFromChipGroup(cgPermanent)
         getDataFromChipGroup(cgPresent)
         val addressType = data.addressType1
+        val homePhone = data.homePhone
+        val officePhone = data.officePhone
 
         if (addressType == "3") {
             addressCheckbox.isChecked = true
@@ -159,11 +178,20 @@ class ContactEditFragment : Fragment() {
         permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.presentCountry))
 
         contactMobileNumberTIET?.setText(data.mobile)
-        contactMobileNumber1TIET?.setText(data.officePhone)
-        contactMobileNumber2TIET?.setText(data.homePhone)
         contactEmailAddressTIET?.setText(data.email)
-        contactEmailAddressTIET1?.setText(data.alternativeEmail)
 
+        if (!homePhone.isNullOrEmpty()) {
+            contactMobileNumber2TIET?.show()
+            contactMobileNumber2TIET?.setText(data.homePhone)
+        } else contactMobileNumber2TIET?.hide()
+        if (!officePhone.isNullOrEmpty()) {
+            contactMobileNumber1TIET?.show()
+            contactMobileNumber1TIET?.setText(data.officePhone)
+        } else contactMobileNumber1TIET?.hide()
+        if (!data.alternativeEmail.isNullOrEmpty()) {
+            contactEmailAddressTIET1?.show()
+            contactEmailAddressTIET1?.setText(data.alternativeEmail)
+        } else contactEmailAddressTIET1?.hide()
         if (data.presentInsideOutsideBD == "False") {
             selectChip(cgPresent, "Inside Bangladesh")
             presentInOutBD = "0"
@@ -171,7 +199,6 @@ class ContactEditFragment : Fragment() {
             selectChip(cgPresent, "Outside Bangladesh")
             presentInOutBD = "1"
         }
-
         if (data.permanentInsideOutsideBD == "False") {
             selectChip(cgPermanent, "Inside Bangladesh")
             permanentInOutBD = "0"

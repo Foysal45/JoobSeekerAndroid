@@ -41,7 +41,6 @@ class CareerViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        contactCB.setEditButton(true, "editCareer")
         contactCB.setTitle(getString(R.string.title_career))
         doWork()
     }
@@ -67,6 +66,7 @@ class CareerViewFragment : Fragment() {
                         clContent.show()
                         val respo = response.body()
                         val data = respo?.data?.get(0)!!
+                        contactCB.setEditButton(true, "editCareer")
                         contactCB.passCareerData(data)
                         setupView(respo)
                     }

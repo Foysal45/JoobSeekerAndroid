@@ -126,6 +126,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
 
     override fun goBack() {
         onBackPressed()
+        empHisBaseCL.closeKeyboard(this@EmploymentHistoryActivity)
     }
 
     override fun setTitle(tit: String?) {

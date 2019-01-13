@@ -91,7 +91,7 @@ class TrainingViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    rv_tr_view.show()
+                    activity.toast("${response.body()?.message}")
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()

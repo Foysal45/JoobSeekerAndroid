@@ -3,7 +3,6 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,9 +82,6 @@ class EmpHistoryViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         val respo = response.body()
-                        Log.d("empTest", "${respo?.message}")
-                        Log.d("empTest1", "${respo?.toString()}")
-
                         //activity.toast("${respo?.message}")
                         arr = respo?.data as ArrayList<DataItem>
                         //activity.toast("${arr?.size}")

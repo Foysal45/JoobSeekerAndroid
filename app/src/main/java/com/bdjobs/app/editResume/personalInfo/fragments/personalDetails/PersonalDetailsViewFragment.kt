@@ -42,7 +42,6 @@ class PersonalDetailsViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        personalInfoCB.setEditButton(true, "editPersonal")
         personalInfoCB.setTitle(getString(R.string.title_personal))
         doWork()
 
@@ -71,6 +70,7 @@ class PersonalDetailsViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         nsView.show()
+                        personalInfoCB.setEditButton(true, "editPersonal")
                         val respo = response.body()
                         personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo)

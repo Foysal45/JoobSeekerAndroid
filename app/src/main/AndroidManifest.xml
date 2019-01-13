@@ -118,18 +118,23 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".editResume.EditResLandingActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".editResume.employmentHistory.EmploymentHistoryActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".editResume.personalInfo.PersonalInfoActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".editResume.otherInfo.OtherInfoActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".editResume.educationInfo.AcademicBaseActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
         <activity

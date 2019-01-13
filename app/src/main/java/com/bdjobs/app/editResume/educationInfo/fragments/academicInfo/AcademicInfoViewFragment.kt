@@ -92,6 +92,7 @@ class AcademicInfoViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
+                    activity.toast("${response.body()?.message}")
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()

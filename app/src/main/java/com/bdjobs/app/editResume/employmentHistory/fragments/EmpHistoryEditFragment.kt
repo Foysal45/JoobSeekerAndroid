@@ -67,6 +67,7 @@ class EmpHistoryEditFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
+        d("onCreateView")
         return v
     }
 
@@ -98,9 +99,10 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun removeItem(s: String) {
         val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
-        idArr.remove(id)
+        if (idArr.contains(id))
+            idArr.remove("$id")
         exps = TextUtils.join(",", idArr)
-        d("selected rmv: $exps")
+        d("selected rmv: $exps and $idArr")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -111,6 +113,22 @@ class EmpHistoryEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         empHisCB.setTitle(getString(R.string.title_emp_history))
         doWork()
+        d("onActivityCreated : ${savedInstanceState?.isEmpty}")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        val comName = outState?.putString("comName", "someval")
+        d("putComname : $comName")
+        d("onSaveInstanceState : $comName")
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
+        exps = ""
+        if (idArr.isNotEmpty())
+            idArr.clear()
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
@@ -118,14 +136,10 @@ class EmpHistoryEditFragment : Fragment() {
         } else {
             empHisCB.setDeleteButton(false)
             hID = "-4"
+            idArr.add(" ")
             clearEditText()
-
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
     }
 
     private fun doWork() {
@@ -167,23 +181,33 @@ class EmpHistoryEditFragment : Fragment() {
                 experiencesMACTV.setText(workExperineceList[i])
                 experiencesTIL.requestFocus()
                 workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(workExperineceList[i])!!
-                addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                if (idArr.size != 0) {
+                    if (!idArr.contains(workExperineceID))
+                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                    else
+                        activity.toast("Experience already added")
+                } else {
+                    addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                    d("Array size : ${idArr.size} and $exps")
+                }
             }
         }
 
         fab_eh?.setOnClickListener {
-            updateData()
+            //exps = TextUtils.join(",", idArr)
+            //exps = exps.replace(",,".toRegex(), ",")
+            debug("chiIDs: $exps, and ids $idArr")
+            updateData(exps)
         }
     }
 
-    private fun updateData() {
+    private fun updateData(exps: String) {
         activity.showProgressBar(loadingProgressBar)
-        debug("chiIDs: $exps")
-        Log.d("allValuesN", ",$exps,")
+        Log.d("allValuesN", exps)
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessID, companyLocationET.getString(), positionET.getString(),
                 departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
-                currentlyWorking, ",$exps,", hExpID, hID)
+                currentlyWorking, "$exps,", hExpID, hID)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -209,9 +233,12 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun addAsString(expID: String) {
-        idArr.add(expID)
-        exps = TextUtils.join(",", idArr)
-        d("selected exps: $exps")
+        if (!idArr.contains(expID)) {
+            idArr.add(expID.trim())
+            exps = TextUtils.join(",", idArr)
+        }
+
+        d("selected exps: $exps and ids $idArr")
     }
 
     private fun preloadedData() {

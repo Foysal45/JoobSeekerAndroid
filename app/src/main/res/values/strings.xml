@@ -192,6 +192,7 @@
     <string name="hint.contactAddress">House No/ Road / Village</string>
     <string name="hint.contactMobileNumber">Mobile No</string>
     <string name="hint.addMobileNumber">ADD MOBILE NO</string>
+    <string name="hint.addEmail">ADD EMAIL</string>
     <string name="hint.contactEmailadress">Email Address</string>
     <string name="hint.contactEmailButton">ADD EMAIL</string>
     <string name="hint.addressCheckbox">Same as Present Address</string>

@@ -45,7 +45,6 @@ class ContactViewFragment : Fragment() {
         super.onResume()
         d("onResume")
         contactCB.setTitle(getString(R.string.title_contact))
-        contactCB.setEditButton(true, "editContact")
         doWork()
     }
 
@@ -69,6 +68,7 @@ class ContactViewFragment : Fragment() {
                         shimmerStop()
                         rlContactMain.show()
                         val respo = response.body()
+                        contactCB.setEditButton(true, "editContact")
                         contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
