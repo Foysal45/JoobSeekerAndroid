@@ -19,6 +19,10 @@
         <item name="colorAccent">@color/colorBdjobsMajenta</item>
         <item name="android:progressBackgroundTint">#b7b7b7</item>
     </style>
+    <style name="BdjobsCircularProgress" parent="Theme.MaterialComponents.Light">
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="android:progressBackgroundTint">#b7b7b7</item>
+    </style>
 
     <style name="more.button" parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="android:fontFamily">@font/roboto_medium</item>
