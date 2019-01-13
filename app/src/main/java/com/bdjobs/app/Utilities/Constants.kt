@@ -2,6 +2,7 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
+        var myBdjobsStatsLastMonth = true
 
         var favSearchFiltersSynced =false
         var jobInvitationSynced =false

@@ -95,6 +95,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             try {
                 val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
                 undoRemove(view, deletedItem, position, deleteJobID)
+                employersCommunicator.decrementCounter()
             }
             catch (e : Exception){
 
@@ -113,6 +114,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 .setAction("UNDO") {
                     FollowUnfollowJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
+                    employersCommunicator?.scrollToUndoPosition(deletedIndex)
                     Log.d("comid", "comid")
                 }
 

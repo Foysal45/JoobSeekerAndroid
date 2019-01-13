@@ -33,6 +33,15 @@ import com.bdjobs.app.Utilities.transitFragment
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
+    override fun scrollToUndoPosition(position: Int) {
+        if (position >= 0)
+            followedEmployersListFragment.scrollToUndoPosition(position)
+    }
+
+    override fun decrementCounter() {
+        followedEmployersListFragment.decrementCounter()
+    }
+
 
     private var companyid = ""
     private var companyname = ""
@@ -47,6 +56,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     override fun getTime(): String {
         return time
     }
+
     override fun gotoJobListFragment(companyID: String?, companyName: String?) {
         companyid = companyID!!
         companyname = companyName!!

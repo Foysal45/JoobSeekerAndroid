@@ -26,7 +26,7 @@ class FollowedEmployersListFragment : Fragment() {
     lateinit var employersCommunicator: EmployersCommunicator
     private var layoutManager: androidx.recyclerview.widget.LinearLayoutManager? = null
     private lateinit var isActivityDate: String
-
+    var followedListSize = 0
     private var followedEmployerList: List<FollowedEmployer>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +50,6 @@ class FollowedEmployersListFragment : Fragment() {
             employersCommunicator?.backButtonPressed()
         }
 
-
-
         doAsync {
             if (isActivityDate == "0") {
                 followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
@@ -63,7 +61,7 @@ class FollowedEmployersListFragment : Fragment() {
             //  getJobCountOfFollowedEmployer()
             Log.d("follow", followedEmployerList.toString())
             uiThread {
-
+                followedListSize = followedEmployerList?.size!!
                 followedEmployersAdapter = FollowedEmployersAdapter(activity!!)
                 followedRV!!.adapter = followedEmployersAdapter
                 followedRV!!.setHasFixedSize(true)
@@ -76,6 +74,19 @@ class FollowedEmployersListFragment : Fragment() {
                 favCountTV?.text = Html.fromHtml(styledText)
             }
         }
+    }
+
+    fun scrollToUndoPosition(position:Int){
+        followedRV?.scrollToPosition(position)
+        followedListSize++
+        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+        favCountTV.text = Html.fromHtml(styledText)
+    }
+
+    fun decrementCounter(){
+        followedListSize--
+        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+        favCountTV.text = Html.fromHtml(styledText)
     }
 
 
