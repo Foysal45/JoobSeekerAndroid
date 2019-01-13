@@ -426,6 +426,18 @@ interface ApiServiceMyBdjobs {
             @Field("decodeid") decodeid: String): Call<PhotoInfoModel>
 
 
+    @FormUrlEncoded
+    @POST("apps_resume_view.asp")
+    fun getEmpVwdMyResume(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("pageNumber") pageNumber: String?,
+            @Field("itemsPerPage") itemsPerPage: String?,
+            @Field("isActivityDate") isActivityDate: String?,
+            @Field("AppsDate") AppsDate: String?
+    ): Call<EmplyerViewMyResume>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

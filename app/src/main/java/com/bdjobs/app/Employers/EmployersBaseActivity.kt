@@ -33,13 +33,30 @@ import com.bdjobs.app.Utilities.transitFragment
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
+    override fun scrollToUndoPosition(position: Int) {
+        if (position >= 0)
+            followedEmployersListFragment.scrollToUndoPosition(position)
+    }
+
+    override fun decrementCounter() {
+        followedEmployersListFragment.decrementCounter()
+    }
+
+
     private var companyid = ""
     private var companyname = ""
     private var value = ""
     private val followedEmployersListFragment = FollowedEmployersListFragment()
     private val employerJobListFragment = EmployerJobListFragment()
     private val employerListFragment = EmployerListFragment()
+    private val employerViewedMyResumeFragment = EmployerViewedMyResumeFragment()
     private var jobId = ""
+    private var time = ""
+
+    override fun getTime(): String {
+        return time
+    }
+
     override fun gotoJobListFragment(companyID: String?, companyName: String?) {
         companyid = companyID!!
         companyname = companyName!!
@@ -61,7 +78,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     }
 
     override fun getJobId(): String {
-        return  jobId
+        return jobId
     }
 
 
@@ -70,13 +87,18 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         setContentView(R.layout.activity_employers_base)
 
         try {
+            time = intent.getStringExtra("time")
+        } catch (e: Exception) {
+        }
+
+        try {
             jobId = intent.getStringExtra("jobId")
         } catch (e: Exception) {
         }
 
         try {
-           value = intent.getStringExtra("from")
-         //  value = "emplist"
+            value = intent.getStringExtra("from")
+            //  value = "emplist"
         } catch (e: Exception) {
             logException(e)
         }
@@ -93,14 +115,16 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
-
+        //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
-        } else if(value?.equals("employer"))  {
+        } else if (value?.equals("employer")) {
             transitFragment(employerListFragment, R.id.fragmentHolder)
-        }else if(value?.equals("joblist")){
+        } else if (value?.equals("joblist")) {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
+        } else if (value?.equals("vwdMyResume")) {
+            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         }
 
     }
