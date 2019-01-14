@@ -384,7 +384,6 @@ fun RecyclerView.bindFloatingActionButton(fab: FloatingActionButton) = this.addO
  */
 fun TextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = this.addTextChangedListener(object : TextWatcher {
     override fun afterTextChanged(p0: Editable) {
-
     }
 
     override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {

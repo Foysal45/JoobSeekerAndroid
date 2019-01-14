@@ -7,6 +7,7 @@
     tools:context=".editResume.educationInfo.fragments.academicInfo.AcademicInfoViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:padding="10dp"
         android:id="@+id/rv_aca_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -20,19 +20,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_c_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
+            android:id="@+id/iv_c_logo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="8dp"
-            android:padding="8dp"
+            android:background="@drawable/education_icon_bg_layout"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_work_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/linearLayout6"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/v_ll"
@@ -47,7 +47,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:orientation="vertical"
@@ -59,27 +58,30 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:fontFamily="@font/roboto_medium"
                 android:id="@+id/tvDes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/roboto_bold"
-                android:textStyle="bold"
-                android:text="@string/app_name" />
+                android:text="Concentration/Mejor Group"
+                android:textColor="#393939"
+                android:textSize="16sp" />
 
             <TextView
+                android:layout_marginTop="5dp"
+                android:text="Institution Name"
                 android:id="@+id/tvCom"
+                android:textColor="#767676"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/app_name" />
+                android:textSize="14sp" />
 
             <TextView
+                android:textColor="#767676"
+                android:textSize="14sp"
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/app_name" />
 
