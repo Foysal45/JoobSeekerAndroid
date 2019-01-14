@@ -1,20 +1,36 @@
 package com.bdjobs.app.AppliedJobs
 
+import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
+import com.bdjobs.app.API.ModelClasses.AppliedJobsSalaryEdit
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import android.widget.Toast
+import android.R.attr.data
+
+
 
 class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,6 +39,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
+    private var session: BdjobsUserSession = BdjobsUserSession(context)
 
     companion object {
         // View Types
@@ -89,38 +106,102 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         holder?.deadline?.text = appliedJobsLists!![position].deadLine
         holder?.expectedSalary?.text = appliedJobsLists!![position].expectedSalary
 
-        if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
+/*        if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
 
             holder?.employerViewIcon?.visibility = View.VISIBLE
+
 
         } else if (appliedJobsLists!![position].viewedByEmployer == "No") {
 
             holder?.employerViewIcon?.visibility = View.GONE
 
         }
+
         if (appliedJobsLists!![position].invitaion == "1") {
-            holder?.applicationBTN?.visibility = View.VISIBLE
-            holder?.applicationBTN?.text = "Interview Invitation"
-            holder?.applicationBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#AC016D")))
+            holder?.interviewInvitationBTN?.visibility = View.VISIBLE
 
         }
-        if (appliedJobsLists!![position].viewedByEmployer == "No") {
+        */
+        if (appliedJobsLists!![position].isUserSeenInvitation == "1") {
+
+            holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
+        }
+
+        if (appliedJobsLists!![position].invitaion == "1") {
+            holder?.interviewCancelBTN?.visibility = View.VISIBLE
+            holder?.interviewCancelBTN?.text = "Interview Invitation"
+            holder?.interviewCancelBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#AC016D")))
+
+
+        } else if (appliedJobsLists!![position].viewedByEmployer == "No") {
 
             try {
                 val deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
                 val todaysDate = Date()
                 if (deadline > todaysDate) {
-                    holder?.applicationBTN?.visibility = View.GONE
-                    holder?.applicationBTN?.text = "Cancel Application"
-                    holder?.applicationBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#767676")))
+                    holder?.interviewCancelBTN?.visibility = View.VISIBLE
+                    holder?.edit_SalaryIcon?.visibility = View.VISIBLE
+                    holder?.interviewCancelBTN?.text = "Cancel Application"
+                    holder?.interviewCancelBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#767676")))
+
                 }
             } catch (e: Exception) {
                 logException(e)
 
             }
+            holder?.edit_SalaryIcon?.setOnClickListener {
+                Log.d("huhu", "huhu")
+
+                val saveSearchDialog = Dialog(context)
+                saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
+                saveSearchDialog?.setCancelable(true)
+                saveSearchDialog?.show()
+                val updateBTN = saveSearchDialog?.findViewById(R.id.updateBTN) as Button
+                val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
+                val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
+                val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
+                val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
+                position_tv.text = appliedJobsLists!![position].title
+                employer_tv.text = appliedJobsLists!![position].companyName
+                accountResult_tv.text = session.userName
+
+
+                cancelBTN?.setOnClickListener {
+                    saveSearchDialog?.dismiss()
+                }
+                updateBTN.setOnClickListener {
+                    var salary = expected_salary_tv.getString()
+                    updateExpectedSalary(appliedJobsLists!![position].jobId!!, salary)
+                    saveSearchDialog?.dismiss()
+                }
+
+            }
 
         }
 
+
+    }
+
+    private fun updateExpectedSalary(jobid : String, expectedSalary : String){
+        ApiServiceMyBdjobs.create().getUpdateSalaryMsg(
+                userId = session.userId,
+                decodeId = session.decodId,
+                JobId = jobid,
+                txtExpectedSalary =  expectedSalary
+        ).enqueue(object : Callback<AppliedJobsSalaryEdit>{
+            override fun onFailure(call: Call<AppliedJobsSalaryEdit>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onResponse(call: Call<AppliedJobsSalaryEdit>, response: Response<AppliedJobsSalaryEdit>) {
+
+                if (response.body()?.statuscode == "0"){
+                    Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                }
+                  }
+
+        })
 
     }
 
@@ -178,9 +259,10 @@ class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val PositionName = view?.findViewById(R.id.textViewPositionName) as TextView
     val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
     val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
-    val applicationBTN = view?.findViewById(R.id.applicationBTN) as MaterialButton
-
-
+    val interactionBTN = view?.findViewById(R.id.interactionBTN) as MaterialButton
+    val interviewCancelBTN = view?.findViewById(R.id.interviewCancelBTN) as MaterialButton
+    val cardViewAppliedJobs = view?.findViewById(R.id.cardView) as CardView
+    val edit_SalaryIcon = view?.findViewById(R.id.edit_SalaryIcon) as ImageView
 }
 
 class LoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),

@@ -438,6 +438,16 @@ interface ApiServiceMyBdjobs {
     ): Call<EmplyerViewMyResume>
 
 
+    @FormUrlEncoded
+    @POST("apps_salary_edit.asp")
+    fun getUpdateSalaryMsg(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("JobId") JobId: String? ,
+            @Field("txtExpectedSalary") txtExpectedSalary: String?
+    ): Call<AppliedJobsSalaryEdit>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
