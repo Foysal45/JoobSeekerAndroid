@@ -102,13 +102,40 @@ class PersonalDetailsEditFragment : Fragment() {
             e.printStackTrace()
         }
         d("day: $date")
-        cal.time = date
-        val dpd = DatePickerDialog(activity,
-                listener,
-                // set DatePickerDialog to point to today's date when it loads up
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH))
+        val dpd: DatePickerDialog
+        val mYear = now.get(Calendar.YEAR) // current year
+        val mMonth = now.get(Calendar.MONTH) // current month
+        val mDay = now.get(Calendar.DAY_OF_MONTH) // current day
+        if (date != null) {
+            cal.time = date
+            dpd = DatePickerDialog(activity,
+                    listener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH))
+        } else {
+            dpd = DatePickerDialog(activity,
+                    listener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    mYear,
+                    mMonth,
+                    mDay)
+        }
+
+        val calendarMin = Calendar.getInstance()
+        calendarMin.set(Calendar.DAY_OF_MONTH, mDay)
+        calendarMin.set(Calendar.MONTH, mMonth)
+        calendarMin.set(Calendar.YEAR, mYear - 85)
+
+        val calendarMax = Calendar.getInstance()
+        calendarMax.set(Calendar.DAY_OF_MONTH, mDay)
+        calendarMax.set(Calendar.MONTH, mMonth)
+        calendarMax.set(Calendar.YEAR, mYear - 12)
+
+
+        dpd.datePicker.maxDate = calendarMax.timeInMillis
+        dpd.datePicker.minDate = calendarMin.timeInMillis
         dpd.show()
     }
 

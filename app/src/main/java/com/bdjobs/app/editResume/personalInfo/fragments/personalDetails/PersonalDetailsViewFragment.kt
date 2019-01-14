@@ -77,9 +77,11 @@ class PersonalDetailsViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    nsView.show()
-                    activity.toast("${response.body()?.message}")
-                    activity.logException(e)
+                    if (activity != null) {
+                        activity.toast("${response.body()?.message}")
+                        activity.logException(e)
+                        activity.error("++${e.message}")
+                    }
                 }
             }
         })

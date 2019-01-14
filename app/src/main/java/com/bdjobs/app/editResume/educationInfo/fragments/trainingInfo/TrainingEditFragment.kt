@@ -48,7 +48,6 @@ class TrainingEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         doWork()
-
         if (!isEdit) {
             eduCB.setDeleteButton(false)
             hID = "-2"
@@ -59,13 +58,6 @@ class TrainingEditFragment : Fragment() {
     }
 
     private fun initialization() {
-
-        /* etTrTopic.isFocusable = false*/
-        /*  etTrCountry.isFocusable = false*/
-        /* etTrTrainingYear.isFocusable = false
-         etTrInstitute.isFocusable = false*/
-        /*  etTrTitle.isFocusable = false*/
-
 
         etTrTopic?.addTextChangedListener(trainingTextWatcher(etTrTopic))
         etTrCountry?.addTextChangedListener(trainingTextWatcher(etTrCountry))

@@ -105,7 +105,7 @@ class DataStorage(context: Context) {
         get() {
             val OrgTypes = ArrayList<String>()
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
+            val selectQuery = "SELECT DISTINCT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
             Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
@@ -122,8 +122,6 @@ class DataStorage(context: Context) {
 
             return OrgTypes.toTypedArray()
         }
-
-
 
     fun workDisciplineIDByWorkDiscipline(name: String): String? {
 

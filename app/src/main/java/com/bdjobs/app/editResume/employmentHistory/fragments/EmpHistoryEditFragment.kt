@@ -196,6 +196,10 @@ class EmpHistoryEditFragment : Fragment() {
         fab_eh?.setOnClickListener {
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
+            val chars: Char = exps[0]
+            if (!chars.equals(","))
+                exps = ",$exps"
+            exps = exps.replace(",,".toRegex(), ",")
             debug("chiIDs: $exps, and ids $idArr")
             updateData(exps)
         }
@@ -238,7 +242,7 @@ class EmpHistoryEditFragment : Fragment() {
             exps = TextUtils.join(",", idArr)
         }
 
-        d("selected exps: $exps and ids $idArr")
+        d("selected exps:$exps and ids $idArr")
     }
 
     private fun preloadedData() {
