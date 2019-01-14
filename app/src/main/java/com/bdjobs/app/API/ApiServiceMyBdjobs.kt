@@ -437,6 +437,14 @@ interface ApiServiceMyBdjobs {
             @Field("AppsDate") AppsDate: String?
     ): Call<EmplyerViewMyResume>
 
+    @FormUrlEncoded
+    @POST("app_invite_interview_details.asp")
+    fun getIterviewInvitationDetails(
+            @Field("userId") userID: String,
+            @Field("decodeId") decodeID: String,
+            @Field("jobId") jobId: String
+    ): Call<InvitationDetailModels>
+
 
     companion object Factory {
 

@@ -16,36 +16,10 @@
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
-                                  <option name="children">
-                                    <map>
-                                      <entry key="backgroundImage">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="scalingPercent" value="80" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="foregroundImage">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="scalingPercent" value="80" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="C:\Users\RUBAY\Downloads\background_1.png" />
-                                      <entry key="foregroundImage" value="C:\Users\RUBAY\Downloads\foreground_1.png" />
+                                      <entry key="backgroundImage" value="C:\Users\RUBAY\Desktop\foreground.png" />
+                                      <entry key="foregroundImage" value="C:\Users\RUBAY\Desktop\background.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
