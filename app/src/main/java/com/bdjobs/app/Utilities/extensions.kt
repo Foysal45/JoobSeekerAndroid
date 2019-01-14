@@ -24,6 +24,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SplashActivity
@@ -115,6 +116,35 @@ fun pickDate(c: Context, now: Calendar, listener: DatePickerDialog.OnDateSetList
             now.get(Calendar.DAY_OF_MONTH))
     dpd.show()
 }
+
+
+fun NestedScrollView.behaveYourself(fab: FloatingActionButton) {
+    this.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+        if (scrollY > oldScrollY) {
+            fab.hide()
+        } else {
+            fab.show()
+        }
+    })
+}
+
+fun RecyclerView.behaveYourself(fab: FloatingActionButton) {
+    this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            if (dy > 0 || dy < 0 && fab.isShown)
+                fab.hide()
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                fab.show()
+            }
+            super.onScrollStateChanged(recyclerView, newState)
+        }
+    })
+}
+
 
 fun Any.simpleClassName(fragment: Fragment): String {
     return fragment::class.java.simpleName
@@ -223,7 +253,6 @@ fun ImageView.loadCircularImageFromUrl(url: String?) {
         logException(e)
     }
 }
-
 
 fun EditText.clearText() {
     text?.clear()
@@ -344,7 +373,7 @@ fun RecyclerView.bindFloatingActionButton(fab: FloatingActionButton) = this.addO
         super.onScrolled(recyclerView, dx, dy)
         if (dy > 0 && fab.isShown) {
             fab.hide()
-        } else if (dy < 0 && !fab.isShown) {
+        } else if (dy <= 0 && !fab.isShown) {
             fab.show()
         }
     }

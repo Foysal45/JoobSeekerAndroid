@@ -40,20 +40,16 @@ class CareerEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         personalInfo = activity as PersonalInfo
-    }
-
-    override fun onResume() {
-        super.onResume()
-        personalInfo.setTitle(getString(R.string.title_career))
-        personalInfo.setEditButton(false, "dd")
         doWork()
     }
 
     private fun doWork() {
-        preloadedData()
         fab_cai_edit.setOnClickListener {
             updateData()
         }
+        personalInfo.setTitle(getString(R.string.title_career))
+        personalInfo.setEditButton(false, "dd")
+        preloadedData()
     }
 
     private fun updateData() {

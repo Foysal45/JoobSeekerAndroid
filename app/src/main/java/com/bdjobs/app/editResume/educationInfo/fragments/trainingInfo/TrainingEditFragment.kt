@@ -37,12 +37,12 @@ class TrainingEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
+        doWork()
     }
 
     override fun onResume() {
         super.onResume()
         d(isEdit.toString())
-        doWork()
         if (isEdit) {
             hID = "2"
             eduCB.setDeleteButton(true)

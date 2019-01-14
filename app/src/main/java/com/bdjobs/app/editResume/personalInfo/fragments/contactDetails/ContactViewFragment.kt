@@ -45,7 +45,6 @@ class ContactViewFragment : Fragment() {
         super.onResume()
         d("onResume")
         contactCB.setTitle(getString(R.string.title_contact))
-        contactCB.setEditButton(true, "editContact")
         doWork()
     }
 
@@ -59,6 +58,7 @@ class ContactViewFragment : Fragment() {
         call.enqueue(object : Callback<GetContactInfo> {
             override fun onFailure(call: Call<GetContactInfo>, t: Throwable) {
                 shimmerStop()
+                rlContactMain.show()
                 activity.toast(R.string.message_common_error)
             }
 
@@ -66,12 +66,15 @@ class ContactViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
+                        rlContactMain.show()
                         val respo = response.body()
+                        contactCB.setEditButton(true, "editContact")
                         contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
                     activity.toast("${response.body()?.message}")
+                    rlContactMain.show()
                     activity.logException(e)
                 }
             }
@@ -111,12 +114,22 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 }

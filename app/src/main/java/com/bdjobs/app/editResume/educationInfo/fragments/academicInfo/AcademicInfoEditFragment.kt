@@ -49,13 +49,13 @@ class AcademicInfoEditFragment : Fragment() {
         eduCB = activity as EduInfo
         ds = eduCB.dataStorage()
         debug("checkbox" + cbResHide.isChecked.toString())
+        eduCB.setTitle(getString(R.string.title_academic))
+        doWork()
     }
 
     override fun onResume() {
         super.onResume()
         d(isEdit.toString())
-        eduCB.setTitle(getString(R.string.title_academic))
-        doWork()
         if (isEdit) {
             hID = "1"
             eduCB.setDeleteButton(true)
