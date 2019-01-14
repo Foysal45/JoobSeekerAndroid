@@ -1,7 +1,5 @@
 package com.bdjobs.app.Registration
 
-import org.jetbrains.anko.toast
-
 interface RegistrationCommunicator {
 
     //------------white collar-------------//
@@ -73,6 +71,8 @@ interface RegistrationCommunicator {
 
     fun showProgressBar()
     fun hideProgressBar()
+
+    fun getCategory(): String
 
 
 

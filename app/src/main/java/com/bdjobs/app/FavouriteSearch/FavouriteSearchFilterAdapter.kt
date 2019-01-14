@@ -2,7 +2,6 @@ package com.bdjobs.app.FavouriteSearch
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
+import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
@@ -27,8 +27,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_favourite_search_base.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,10 +44,6 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
     val activity = context as Activity
     var favCommunicator: FavCommunicator? = null
     var homeCommunicator: HomeCommunicator? = null
-    lateinit var mRecentlyDeletedItem: FavouriteSearch
-    var mRecentlyDeletedItemPosition = -1
-
-    private var undoButtonPressed: Boolean = false
 
     init {
 
@@ -138,63 +134,45 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
 
     private fun deleteFavSearch(position: Int) {
-        mRecentlyDeletedItem = items[position]
-        mRecentlyDeletedItemPosition = position
-        items.removeAt(position)
-        notifyItemRemoved(position)
-        favCommunicator?.decrementCounter()
-        showUndoSnackbar()
+        Log.d("czcx", "position: $position")
+
+        try {
+            if (items?.size != 0) {
+                val deletedItem = items?.get(position)
+                items?.removeAt(position)
+                notifyItemRemoved(position)
+                Log.d("ububua","ububua = "+deletedItem.filterid)
+
+                val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
+                undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
+                favCommunicator?.decrementCounter()
+            } else {
+                context.toast("No items left here!")
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
-    private fun showUndoSnackbar() {
-
-        val msg = Html.fromHtml("<font color=\"#ffffff\"> Your favourite search filter has been deleted </font>")
-        val sBar = Snackbar.make(activity.baseCL, msg,
-                Snackbar.LENGTH_LONG)
-        sBar?.setActionTextColor(context.resources.getColor(R.color.undo))
-        val view = sBar?.view
-        val tv = view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        view?.setBackgroundColor(Color.DKGRAY)
-        tv?.setTextColor(Color.WHITE)
-        sBar?.setAction("Undo") { undoDelete() }
-        sBar?.show()
-
-        sBar?.addCallback(object : Snackbar.Callback() {
-            override fun onShown(snackbar: Snackbar?) {
-
-            }
-
-            override fun onDismissed(snackbar: Snackbar?, event: Int) {
-                if (!undoButtonPressed) {
-
-                    doAsync {
-                        bdjobsDB.favouriteSearchFilterDao().deleteFavouriteSearchByID(mRecentlyDeletedItem.filterid!!)
-                    }
-
-                    ApiServiceMyBdjobs.create().deleteFavSearch(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intSfID = mRecentlyDeletedItem.filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
-                        override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
-                            error("onFailure", t)
-                        }
-
-                        override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
-                            try {
-
-                            } catch (e : Exception) {
-
-                            }
-                        }
-                    })
+    private fun undoRemove(v: View, deletedItem: FavouriteSearch?, deletedIndex: Int, deleteJobID: Int) {
+        val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
+        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") {
+                    FavSearchDeleteJob.cancelJob(deleteJobID)
+                    restoreMe(deletedItem!!, deletedIndex)
+                    favCommunicator?.scrollToUndoPosition(deletedIndex)
+                    Log.d("comid", "comid")
                 }
-            }
-        })
+
+        snack?.show()
+        Log.d("swipe", "dir to LEFT")
     }
 
-    private fun undoDelete() {
-        undoButtonPressed = true
-        items.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem)
-        notifyItemInserted(mRecentlyDeletedItemPosition)
-        favCommunicator?.scrollToUndoPosition(mRecentlyDeletedItemPosition)
+    private fun restoreMe(item: FavouriteSearch, pos: Int) {
+        items?.add(pos, item)
+        notifyItemInserted(pos)
     }
+
 
     private fun getFilterString(favouriteSearch: FavouriteSearch): String? {
 

@@ -48,7 +48,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                         "Jobs\nApplied" -> communicator.goToAppliedJobs()
                         "Employers\nFollowed" -> communicator.goToFollowedEmployerList("follow")
                         "Interview\nInvitations" -> communicator.goToInterviewInvitation("homePage")
-
+                        "Employers Viewed\nResume" -> communicator.goToEmployerViewedMyResume("vwdMyResume")
                         else -> { // Note the block
                             print("not found")
                         }

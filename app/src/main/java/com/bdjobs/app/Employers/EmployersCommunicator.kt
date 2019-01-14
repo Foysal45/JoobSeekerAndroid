@@ -6,5 +6,9 @@ interface EmployersCommunicator {
     fun getCompanyID() : String
     fun getCompanyName() : String
     fun getJobId() : String
+    fun getTime() : String
+    fun scrollToUndoPosition(position:Int)
+    fun decrementCounter()
+
 
 }

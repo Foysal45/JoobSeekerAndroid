@@ -81,7 +81,7 @@ class WCPhoneEmailFragment : Fragment() {
 
             if (mobileNumberTIET.getString().isNullOrEmpty() && emailTIET.getString().isNullOrEmpty()) {
 
-                mobileNumberTIL.showError("Please fill at least a Mobile Number or Email Address")
+                mobileNumberTIL.showError(" ")
                 emailTIL.showError("Please fill at least a Mobile Number or Email Address")
 
 

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
@@ -70,6 +71,7 @@ class MyBdjobsFragment : Fragment() {
     private fun onClick() {
         lastmonth_MBTN?.setOnClickListener {
             communicator.setTime("1")
+            Constants.myBdjobsStatsLastMonth = true
             lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background_black)
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
             all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
@@ -87,6 +89,7 @@ class MyBdjobsFragment : Fragment() {
         all_MBTN?.setOnClickListener {
 //testing
             communicator.setTime("0")
+            Constants.myBdjobsStatsLastMonth = false
             lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background)
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background_black)
             lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
@@ -100,12 +103,19 @@ class MyBdjobsFragment : Fragment() {
                 populateDataAllMonthStats()
             }
         }
-        lastmonth_MBTN?.performClick()
 
         nextButtonFAB?.setOnClickListener {
             startActivity<EditResLandingActivity>()
         }
 
+        Log.d("sagor", "sagor= "+ Constants.myBdjobsStatsLastMonth  )
+        if (Constants.myBdjobsStatsLastMonth){
+            lastmonth_MBTN?.performClick()
+        }
+        else if (!Constants.myBdjobsStatsLastMonth){
+            all_MBTN?.performClick()
+
+        }
     }
 
     private fun getStatsData() {

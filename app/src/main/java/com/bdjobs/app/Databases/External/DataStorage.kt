@@ -1062,7 +1062,29 @@ class DataStorage(context: Context) {
         return s
     }
 
+    fun getDivisionNameByDistrictName(locationName: String):String? {
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " = '" + locationName + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
 
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_TYPE))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
 
     fun getDependentLocationByParentName(locationName: String): Array<String> {
         val locationID = getLocationIDByName(locationName)

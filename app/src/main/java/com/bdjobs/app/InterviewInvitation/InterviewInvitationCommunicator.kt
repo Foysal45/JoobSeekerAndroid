@@ -13,4 +13,5 @@ interface InterviewInvitationCommunicator {
     fun getFrom(): String
     fun getCompanyLat(): String
     fun getCompanyLan(): String
+    fun getTime() : String
 }

@@ -37,6 +37,8 @@ import com.linkedin.platform.listeners.AuthListener
 import com.linkedin.platform.utils.Scope
 import kotlinx.android.synthetic.main.activity_registration_base.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
+import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
+import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,7 +61,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val wcCongratulationFragment = WCCongratulationFragment()
     private val wcMobileVerificationFragment = WCOtpCodeFragment()
     private lateinit var categoryId: String
-    private lateinit var category: String
+    private var category: String = ""
     private lateinit var dataStorage: DataStorage
     private  var name: String = ""
     private  var gender: String =""
@@ -404,31 +406,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                             loadingProgressBar.visibility = View.GONE
                             bcMobileNumberTIL?.showError(response.body()!!.message!!)
 
-                            /* val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
 
 
-
-                             isCVPostedRPS = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
-                             nameRPS = response.body()!!.data!!.get(0)!!.name.toString()
-                             emailRPS = response.body()!!.data!!.get(0)!!.email.toString()
-                             userID = response.body()!!.data!!.get(0)!!.userId.toString()
-                             decodeId = response.body()!!.data!!.get(0)!!.decodId.toString()
-                             userNameRPS = response.body()!!.data!!.get(0)!!.userName.toString()
-                             appsDate = response.body()!!.data!!.get(0)!!.appsDate.toString()
-                             ageRPS = response.body()!!.data!!.get(0)!!.age.toString()
-                             experienseRPS = response.body()!!.data!!.get(0)!!.exp.toString()
-                             categoryIDRPS = response.body()!!.data!!.get(0)!!.catagoryId.toString()
-                             genderRPS = response.body()!!.data!!.get(0)!!.gender.toString()
-                             resumeUpdateOn = response.body()!!.data!!.get(0)!!.resumeUpdateON.toString()
-                             isResumeUpdate = response.body()!!.data!!.get(0)!!.isResumeUpdate.toString()
-                             trainingId = response.body()!!.data!!.get(0)!!.trainingId.toString()
-                             userPicUrl = response.body()!!.data!!.get(0)!!.userPicUrl.toString()
-
-
-
-                             bdjobsUserSession.createSession(isCVPostedRPS,nameRPS,emailRPS,userID,decodeId,
-                                     userNameRPS,appsDate,ageRPS,experienseRPS,categoryIDRPS,genderRPS,
-                                     resumeUpdateOn,isResumeUpdate,trainingId,userPicUrl)*/
                         }
 
 
@@ -527,9 +506,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 Log.d("ResponseTesrt", " wcOtpVerify onResponse message ${response.body()!!.message}")
                 Log.d("ResponseTesrt", " wcOtpVerify onResponse statuscode ${response.body()!!.statuscode}")
 
-                val username = response.body()!!.data!!.get(0)!!.userName.toString()
+                /*    val username = response.body()!!.data!!.get(0)!!.userName.toString()
 
-                Log.d("ResponseTesrt", " wcOtpVerify name ${username}")
+                    Log.d("ResponseTesrt", " wcOtpVerify name ${username}")*/
 
                 if (categoryType.equals("0", true)) {
 
@@ -569,15 +548,16 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                         userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
                                         resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
 
+                                toast("Your account has been created successfully")
 
                             }
 
                         } else if (response.body()!!.statuscode.equals("3", true)) {
 
                             loadingProgressBar.visibility = View.GONE
+                            wcOTPCodeTIL.showError(response.body()!!.message!!)
                             toast(response.body()!!.message!!)
                         } else if (response.body()!!.statuscode.equals("1", true)) {
-
                             loadingProgressBar.visibility = View.GONE
                             toast(response.body()!!.message!!)
                         }
@@ -622,6 +602,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                         resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
 
                                 bcGoToStepBirthDate()
+                                toast("আপনার অ্যাকাউন্টটি তৈরি হয়েছে।")
                                 loadingProgressBar.visibility = View.GONE
 
 
@@ -629,11 +610,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                         } else if (response.body()!!.statuscode.equals("3", true)) {
 
-                            toast(response.body()!!.message!!)
+                            /* toast(response.body()!!.message!!)*/
                             loadingProgressBar.visibility = View.GONE
+                            bcOTPCodeTIL.showError("সঠিক কোডটি টাইপ করুন")
                         } else if (response.body()!!.statuscode.equals("1", true)) {
                             loadingProgressBar.visibility = View.GONE
                             toast(response.body()!!.message!!)
+                            bcOTPCodeTIL.showError(response.body()!!.message!!)
                         }
 
 
@@ -859,6 +842,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         Log.d("catagorySelected", "catagory $category")
         Log.d("catagorySelected", "categoryId $categoryId")
     }
+
+
+    override fun getCategory(): String {
+
+        return this.category
+
+    }
+
 
     override fun bcGenderSelected(gender: String) {
 

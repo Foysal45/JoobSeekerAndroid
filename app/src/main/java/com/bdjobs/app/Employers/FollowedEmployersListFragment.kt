@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 
@@ -24,7 +25,8 @@ class FollowedEmployersListFragment : Fragment() {
     private var followedEmployersAdapter: FollowedEmployersAdapter? = null
     lateinit var employersCommunicator: EmployersCommunicator
     private var layoutManager: androidx.recyclerview.widget.LinearLayoutManager? = null
-
+    private lateinit var isActivityDate: String
+    var followedListSize = 0
     private var followedEmployerList: List<FollowedEmployer>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,7 @@ class FollowedEmployersListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        //let do pushing
         return inflater.inflate(R.layout.fragment_followed_employers_list, container, false)
     }
 
@@ -41,24 +44,29 @@ class FollowedEmployersListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         employersCommunicator = activity as EmployersCommunicator
+        isActivityDate = employersCommunicator.getTime()
         bdjobsDB = BdjobsDB.getInstance(activity)
 
         backIMV.setOnClickListener {
             employersCommunicator?.backButtonPressed()
         }
 
-
         doAsync {
-            followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            if (isActivityDate == "0") {
+                followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            } else {
+                followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            }
+
             //   val followedEmployerJobCount = followedEmployerList?.size
             //  getJobCountOfFollowedEmployer()
             Log.d("follow", followedEmployerList.toString())
             uiThread {
-
+                followedListSize = followedEmployerList?.size!!
                 followedEmployersAdapter = FollowedEmployersAdapter(activity!!)
                 followedRV!!.adapter = followedEmployersAdapter
                 followedRV!!.setHasFixedSize(true)
-                followedRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+                followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                 Log.d("initPag", "called")
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
@@ -67,6 +75,19 @@ class FollowedEmployersListFragment : Fragment() {
                 favCountTV?.text = Html.fromHtml(styledText)
             }
         }
+    }
+
+    fun scrollToUndoPosition(position:Int){
+        followedRV?.scrollToPosition(position)
+        followedListSize++
+        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+        favCountTV.text = Html.fromHtml(styledText)
+    }
+
+    fun decrementCounter(){
+        followedListSize--
+        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+        favCountTV.text = Html.fromHtml(styledText)
     }
 
 

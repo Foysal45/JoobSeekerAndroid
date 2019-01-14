@@ -5,6 +5,7 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 interface HomeCommunicator {
     fun goToKeywordSuggestion()
     fun goToInterviewInvitation(from:String)
+    fun goToEmployerViewedMyResume(from:String)
     fun goToFollowedEmployerList(from:String)
     fun goToFavSearchFilters()
     fun goToJoblistFromLastSearch()
@@ -15,5 +16,7 @@ interface HomeCommunicator {
     fun getAllStatsData() : List<StatsModelClassData?>?
     fun goToAppliedJobs()
     fun setTime(time : String)
+    fun scrollToUndoPosition(position:Int)
+    fun decrementCounter()
 
 }

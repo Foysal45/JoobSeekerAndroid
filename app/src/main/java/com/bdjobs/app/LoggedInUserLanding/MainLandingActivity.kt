@@ -34,7 +34,37 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
+/*    override fun goToEmployerViewedMyResume(from: String) {
+        startActivity<EmployersBaseActivity>("from" to from)
+    }*/
+
+
+    private val homeFragment = HomeFragment()
+    private val hotJobsFragment = HotJobsFragment()
+    private val moreFragment = MoreFragment()
+    private val shortListedJobFragment = ShortListedJobFragment()
+    private val mybdjobsFragment = MyBdjobsFragment()
+    private lateinit var session: BdjobsUserSession
+    private var lastMonthStats: List<StatsModelClassData?>? = null
+    private var allTimeStats: List<StatsModelClassData?>? = null
+    override fun decrementCounter() {
+        shortListedJobFragment.decrementCounter()
+    }
+
+    override fun scrollToUndoPosition(position: Int) {
+        shortListedJobFragment.scrollToUndoPosition(position)
+    }
+
     private var time: String = ""
+
+    override fun goToEmployerViewedMyResume(from: String) {
+        startActivity<EmployersBaseActivity>(
+                "from" to from,
+                "time" to time
+        )
+    }
+
     override fun setTime(time: String) {
         this.time = time
     }
@@ -69,18 +99,12 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
 
     override fun goToFollowedEmployerList(from: String) {
-        startActivity<EmployersBaseActivity>("from" to from)
+        startActivity<EmployersBaseActivity>(
+                "from" to from,
+                "time" to time
+        )
     }
 
-
-    private val homeFragment = HomeFragment()
-    private val hotJobsFragment = HotJobsFragment()
-    private val moreFragment = MoreFragment()
-    private val shortListedJobFragment = ShortListedJobFragment()
-    private val mybdjobsFragment = MyBdjobsFragment()
-    private lateinit var session: BdjobsUserSession
-    private var lastMonthStats: List<StatsModelClassData?>? = null
-    private var allTimeStats: List<StatsModelClassData?>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
