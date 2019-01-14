@@ -84,6 +84,7 @@
                         android:id="@+id/etExamOtherTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLength="50"
                         android:hint="@string/hint.Other_exam_degree_title"
                         android:inputType="text"
                         android:textColor="#212121" />
@@ -201,6 +202,7 @@
                     android:visibility="gone">
 
                     <TextView
+                        android:inputType="numberDecimal"
                         style="@style/EHTextInputLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -237,7 +239,7 @@
                     android:weightSum="2">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/estartDateTIL"
+                        android:id="@+id/cGpaTIL"
                         style="@style/EHTextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -245,7 +247,7 @@
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCGPA"
+                            android:id="@+id/cgpaTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.cgpa"
@@ -258,13 +260,14 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/EHTextInputLayout"
+                        android:id="@+id/scaleTIL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etScale"
+                            android:id="@+id/etScaleTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.scale"

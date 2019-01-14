@@ -35,6 +35,10 @@ class AcademicInfoEditFragment : Fragment() {
     private var foreignInstitute: String = "0"
     private lateinit var ds: DataStorage
     private lateinit var data: AcaDataItem
+    private var marks: Int = 0
+    private var cgp: Double = 0.0
+    private var scale: Double = 0.0
+    private var resultValiadtionCode = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -77,8 +81,8 @@ class AcademicInfoEditFragment : Fragment() {
         etInstitute.setText(data.instituteName)
         etResults.setText(ds.getResultNameByResultID(resID))
         setView(resID.toInt())
-        etCGPA.setText(data.marks)
-        etScale.setText(data.scale)
+        cgpaTIET.setText(data.marks)
+        etScaleTIET.setText(data.scale)
         etPassignYear.setText(data.yearofPAssing)
         etDuration.setText(data.duration)
         etAchievement.setText(data.acievement)
@@ -130,7 +134,6 @@ class AcademicInfoEditFragment : Fragment() {
                 val examId = ds.getResultIDByResultName(result[i])
 
                 setView(examId.toInt())
-
                 Log.d("eduLevel", "examId $examId")
 
                 etResults.setText(ds.getResultNameByResultID(examId))
@@ -148,8 +151,190 @@ class AcademicInfoEditFragment : Fragment() {
         }
 
         fab_aca_edit.setOnClickListener {
-            updateData()
+
+            if (etResults.getString().equalIgnoreCase("First Division/Class")) {
+
+                /*    marks =  marksTIET.getString().toInt()*/
+
+                if (marksTIET.getString().isEmpty()) {
+                    resultValiadtionCode = 1
+                } else {
+
+                    resultValiadtionCode = 100
+                }
+
+            } else if (etResults.getString().equalIgnoreCase("Second Division/Class")) {
+
+                /*   marks =  marksTIET.getString().toInt()*/
+
+                if (marksTIET.getString().isEmpty()) {
+
+                    resultValiadtionCode = 2
+
+                } else {
+
+                    resultValiadtionCode = 100
+
+                }
+
+            } else if (etResults.getString().equalIgnoreCase("Third Division/Class")) {
+
+                /* marks =  marksTIET.getString().toInt()*/
+
+                if (marksTIET.getString().isEmpty()) {
+                    resultValiadtionCode = 3
+                } else {
+
+                    resultValiadtionCode = 100
+                }
+
+
+            } else if (etResults.getString().equalIgnoreCase("Grade")) {
+
+                Log.d("ResultValidation", " in condition 9 ")
+
+
+                if (cgpaTIET.getString().isEmpty()) {
+                    Log.d("ResultValidation", " in condition 2 ")
+                    resultValiadtionCode = 4
+
+                    if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
+                        resultValiadtionCode = 7
+
+                    }
+
+                } else if (etScaleTIET.getString().isEmpty()) {
+                    Log.d("ResultValidation", " in condition 100 ")
+                    resultValiadtionCode = 6
+
+                    if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
+                        Log.d("ResultValidation", " in condition 10 ")
+                        resultValiadtionCode = 7
+
+                    }
+
+                } else if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
+                    Log.d("ResultValidation", " in condition 120 ")
+                    resultValiadtionCode = 7
+
+                } else if (!cgpaTIET.getString().isEmpty() && !etScaleTIET.getString().isEmpty()) {
+
+                    Log.d("ResultValidation", " in condition 6 ")
+
+                    cgp = cgpaTIET.getString().toDouble()
+                    scale = etScaleTIET.getString().toDouble()
+
+                    if (cgp > scale) {
+
+                        Log.d("ResultValidation", " in condition 7 ")
+                        resultValiadtionCode = 5
+
+
+                    } else {
+                        Log.d("ResultValidation", " in condition 78 ")
+
+                        resultValiadtionCode = 100
+
+                    }
+
+                }
+
+            }
+
+
+
+            if (etExamTitle.getString().equalIgnoreCase("Other")) {
+                Log.d("ResultValidation", " in condition 3 ")
+
+                if (etExamOtherTitle.getString().isEmpty()) {
+
+                    resultValiadtionCode = 8
+
+                } else if (etExamOtherTitle.getString().isEmpty()) {
+
+                    if (resultValiadtionCode == 100) {
+
+                        resultValiadtionCode = 100
+                    } else {
+
+                        resultValiadtionCode = 8
+                    }
+
+
+                }
+
+
+            }
+
+
+            Log.d("ResultValidation", " dsjkgf $resultValiadtionCode")
+
+            when (resultValiadtionCode) {
+                1 -> {
+                    activity.toast(R.string.toast_marks_blank_texts)
+                    marksTIL.requestFocus()
+                }
+                2 -> {
+
+                    activity.toast(R.string.toast_marks_blank_texts)
+                    marksTIL.requestFocus()
+                }
+                3 -> {
+
+                    activity.toast(R.string.toast_marks_blank_texts)
+                    marksTIL.requestFocus()
+                }
+                4 -> {
+
+                    activity.toast(R.string.toast_cgpa_blank_texts)
+                    cGpaTIL.requestFocus()
+                }
+                5 -> {
+
+                    activity.toast(R.string.toast_cgpa_scale_michmatch_texts)
+                }
+                6 -> {
+
+                    activity.toast(R.string.toast_scale_blank_texts)
+                    scaleTIL.requestFocus()
+
+                }
+                7 -> {
+
+                    activity.toast(R.string.toast_scale_grade_blank_texts)
+                    cGpaTIL.requestFocus()
+                }
+                8 -> {
+
+                    activity.toast(R.string.toast_exam_degree_title_other_blank)
+
+                    examOtherTIL.requestFocus()
+                }
+                100 -> {
+
+                    updateData()
+                }
+                else -> {
+
+                    updateData()
+
+                }
+            }
+
+
         }
+    }
+
+
+    private fun marksValidation(marks: Int): Boolean {
+
+        if (marks > 100 || marks < 1) {
+
+            return true
+
+        }
+
+        return false
     }
 
     private fun updateData() {
@@ -166,7 +351,7 @@ class AcademicInfoEditFragment : Fragment() {
                 ds.getEduIDByEduLevel(etLevelEdu.getString()), etExamTitle.getString(), etInstitute.getString(),
                 etPassignYear.getString(), etMajor.getString(),
                 hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                etScale.getString(), etCGPA.getString(), etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
+                etScaleTIET.getString(), cgpaTIET.getString(), etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -224,8 +409,8 @@ class AcademicInfoEditFragment : Fragment() {
         etMajor.clear()
         etInstitute.clear()
         etResults.clear()
-        etCGPA.clear()
-        etScale.clear()
+        cgpaTIET.clear()
+        etScaleTIET.clear()
         etPassignYear.clear()
         etDuration.clear()
         etAchievement.clear()

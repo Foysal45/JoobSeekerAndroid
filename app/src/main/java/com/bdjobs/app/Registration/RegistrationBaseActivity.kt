@@ -633,6 +633,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
+
     override fun bcResendOtp() {
         loadingProgressBar.visibility = View.VISIBLE
         ApiServiceMyBdjobs.create().resendOtp(tempId, mobileNumber, "1").enqueue(object : Callback<ResendOtpModel> {
@@ -783,8 +784,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 Log.d("Ressdjg", " dkljgdslkjg ${response.body().toString()}")
 
                 Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.statuscode}")
-
-
                 if (response.body()!!.statuscode.equals("0", true)) {
 
                     val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
@@ -928,6 +927,43 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun onBackPressed() {
         super.onBackPressed()
         setProgreesBar()
+
+
+        /* val bcPhotoUploadFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+         val bcBirthDateFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+         val bcCongratulationFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+         val wcCongratulationFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+
+        *//* val blueCollarMoneyMethodNextFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+        val blueCollarMoneyMethodSelectedFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+      *//*
+
+        if (bcPhotoUploadFragment != null && bcPhotoUploadFragment!!.isVisible()) {
+            Toast.makeText(this, "You can not go back!", Toast.LENGTH_SHORT).show()
+        } else if (bcBirthDateFragment != null && bcBirthDateFragment!!.isVisible()) {
+            Toast.makeText(this, "You can not go back!", Toast.LENGTH_SHORT).show()
+        } else if (bcCongratulationFragment != null && bcCongratulationFragment!!.isVisible()) {
+           *//* wcGoToStepJobSearch()*//*
+
+            goToHomePage()
+
+        } else if (wcCongratulationFragment != null && wcCongratulationFragment!!.isVisible()) {
+           *//* wcGoToStepJobSearch()*//*
+            goToHomePage()
+
+        } else {
+            super.onBackPressed()
+        }*/
+
+
+
+
+
+
+
+
+
+
     }
 
     private fun setProgreesBar() {

@@ -28,7 +28,7 @@ interface EduInfo {
     fun passTrainingData(data: Tr_DataItem)
     fun getData(): AcaDataItem
     fun getTrainingData(): Tr_DataItem
-    fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean
+    fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
 }
 
