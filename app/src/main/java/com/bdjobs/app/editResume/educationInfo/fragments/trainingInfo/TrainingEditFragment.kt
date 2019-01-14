@@ -49,6 +49,13 @@ class TrainingEditFragment : Fragment() {
         initialization()
         doWork()
 
+        if (!isEdit) {
+            eduCB.setDeleteButton(false)
+            hID = "-2"
+            clearEditText()
+            hTrainingID = ""
+            d("hid val $isEdit: $hID")
+        }
     }
 
     private fun initialization() {
@@ -73,6 +80,7 @@ class TrainingEditFragment : Fragment() {
         eduCB = activity as EduInfo
         calendar = Calendar.getInstance()
 
+
     }
 
     override fun onResume() {
@@ -84,12 +92,6 @@ class TrainingEditFragment : Fragment() {
             eduCB.setDeleteButton(true)
             preloadedData()
             d("hid val $isEdit : $hID")
-        } else {
-            eduCB.setDeleteButton(false)
-            hID = "-2"
-            clearEditText()
-            hTrainingID = ""
-            d("hid val $isEdit: $hID")
         }
     }
 
