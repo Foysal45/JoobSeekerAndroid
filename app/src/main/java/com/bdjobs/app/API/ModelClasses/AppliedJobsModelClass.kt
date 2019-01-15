@@ -41,7 +41,7 @@ data class AppliedJobModelData(
     @SerializedName("deadLine")
     val deadLine: String?,
     @SerializedName("expectedSalary")
-    val expectedSalary: String?,
+    var expectedSalary: String?,
     @SerializedName("invitaion")
     val invitaion: String?,
     @SerializedName("isUserSeenInvitation")
