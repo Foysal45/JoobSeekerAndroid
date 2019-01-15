@@ -22,11 +22,13 @@ import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_training_edit.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TrainingEditFragment : Fragment() {
 
@@ -37,6 +39,7 @@ class TrainingEditFragment : Fragment() {
     private lateinit var hID: String
     private var calendar: Calendar? = null
     lateinit var datePickerDialog: DatePickerDialog
+    private var yearList = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -72,7 +75,6 @@ class TrainingEditFragment : Fragment() {
         etTrTrainingYear?.addTextChangedListener(trainingTextWatcher(etTrTrainingYear))
         etTrInstitute?.addTextChangedListener(trainingTextWatcher(etTrInstitute))
         etTrTitle?.addTextChangedListener(trainingTextWatcher(etTrTitle))
-
         etTrTopic?.addTextChangedListener(trainingTextWatcher(etTrTopic))
         etTrLoc?.addTextChangedListener(trainingTextWatcher(etTrLoc))
 
@@ -123,41 +125,20 @@ class TrainingEditFragment : Fragment() {
         eduCB.setTitle(getString(R.string.title_training))
         addTextChangedListener()
 
-
         etTrTrainingYear.setOnClickListener {
 
 
-            val mYear = calendar!!.get(Calendar.YEAR) // current year
-            val mMonth = calendar!!.get(Calendar.MONTH) // current month
-            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH) // current day
-            // date picker dialog
-            datePickerDialog = DatePickerDialog(activity,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        // set day of month , month and year value in the edit text
+            for (item in 1964..2019) {
+                yearList.add(item.toString())
+            }
+            activity.selector(getString(R.string.alert_exam_title), yearList.toList()) { _, i ->
 
-                        Log.d("Year", "$year")
+                etTrTrainingYear.setText(yearList[i])
+                trTrainingYearTIL.requestFocus()
 
-                        val date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
-                        etTrTrainingYear.text!!.clear()
-                        etTrTrainingYear.setText(year.toString())
-                        trTrainingYearTIL.isErrorEnabled = false
-
-                    }, mYear, mMonth, mDay)
-
-            val calendarMin = Calendar.getInstance()
-            calendarMin.set(Calendar.DAY_OF_MONTH, mDay)
-            calendarMin.set(Calendar.MONTH, mMonth)
-            calendarMin.set(Calendar.YEAR, mYear - 55)
-
-            val calendarMax = Calendar.getInstance()
-            calendarMax.set(Calendar.DAY_OF_MONTH, mDay)
-            calendarMax.set(Calendar.MONTH, mMonth)
-            calendarMax.set(Calendar.YEAR, mYear + 5)
+            }
 
 
-            datePickerDialog.datePicker.maxDate = calendarMax.timeInMillis
-            datePickerDialog.datePicker.minDate = calendarMin.timeInMillis
-            datePickerDialog.show()
 
         }
 
@@ -300,22 +281,22 @@ class TrainingEditFragment : Fragment() {
 
 
     private fun updateData() {
-        activity.showProgressBar(loadingProgressBar)
+        activity.showProgressBar(loadingProgressBarTraining)
         val call = ApiServiceMyBdjobs.create().updateTrainingList(session.userId, session.decodId, session.IsResumeUpdate,
                 etTrTitle.getString(), etTrInstitute.getString(), etTrCountry.getString(), etTrTrainingYear.getString(),
                 etTrDuration.getString(), hID, etTrTopic.getString(), etTrLoc.getString(), hTrainingID)
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
+                activity.stopProgressBar(loadingProgressBarTraining)
                 activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                activity.stopProgressBar(loadingProgressBar)
+                activity.stopProgressBar(loadingProgressBarTraining)
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity.stopProgressBar(loadingProgressBarTraining)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
@@ -323,7 +304,7 @@ class TrainingEditFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    activity.stopProgressBar(loadingProgressBarTraining)
                     e.printStackTrace()
                 }
             }
@@ -376,7 +357,7 @@ class TrainingEditFragment : Fragment() {
 
 
     fun dataDelete() {
-        activity.showProgressBar(loadingProgressBar)
+        activity.showProgressBar(loadingProgressBarTraining)
         val call = ApiServiceMyBdjobs.create().deleteData("Training", hTrainingID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -386,14 +367,14 @@ class TrainingEditFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity.stopProgressBar(loadingProgressBarTraining)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         clearEditText()
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    activity.stopProgressBar(loadingProgressBarTraining)
                     activity.toast(response.body()?.message.toString())
                     e.printStackTrace()
                 }

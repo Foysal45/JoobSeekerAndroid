@@ -18,11 +18,7 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/levelEduTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
@@ -40,13 +36,9 @@
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/examTitleTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
@@ -65,81 +57,62 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/examOtherTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#757575"
-                    android:visibility="gone">
+                android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etExamOtherTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="50"
-                        android:hint="@string/hint.Other_exam_degree_title"
+                        android:hint="Other Exam/Degree Title"
                         android:inputType="text"
                         android:textColor="#212121" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/companyLocationTIL"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mejorTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#757575">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etMajor"
+                <AutoCompleteTextView
+                    android:id="@+id/majorSubACTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.concentration_major_group"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="100"
+                    android:maxLength="150"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/instituteTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#757575">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etInstitute"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint.institute_name"
-                        android:inputType="text|textMultiLine"
-                        android:maxLength="80"
-                        android:textColor="#212121" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/instituteNameACTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.institute_name"
+                    android:inputType="text|textMultiLine"
+                    android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+
 
 
             <CheckBox
@@ -151,12 +124,10 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/hint.forinstitute" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilResults"
+                    android:id="@+id/resultTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,7 +144,7 @@
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+
 
             <CheckBox
                 android:id="@+id/cbResHide"
@@ -281,7 +252,7 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPassignYear"
+                android:id="@+id/acaPassingYearTIL"
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -292,8 +263,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.passingyear"
+                    android:focusableInTouchMode="true"
                     android:imeOptions="actionDone"
                     android:inputType="number"
+                    android:maxLength="10"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -311,7 +284,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.duration"
                     android:imeOptions="actionDone"
-                    android:inputType="number"
+                    android:inputType="text"
+                    android:maxLength="50"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -331,6 +305,7 @@
                     android:hint="@string/hint.achievement"
                     android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:maxLength="100"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
