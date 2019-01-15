@@ -29,8 +29,8 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
     override fun onBindViewHolder(holder: InterviewInvitationViewHolder, position: Int) {
         try {
 
-            lat = items[position].direction.lat
-            lan = items[position].direction.lan
+            lat = items[position].direction?.lat!!
+            lan = items[position].direction?.lan!!
 
             if (!TextUtils.isEmpty(lat) && !TextUtils.isEmpty(lan)) {
                 holder.directionTV.visibility = View.VISIBLE
@@ -77,45 +77,45 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
         }
 
 
-        if (items.get(position).confimationStatus.equalIgnoreCase("0")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("0")!!) {
             holder.notifyRL.visibility = View.GONE
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("1")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("1")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Confirmed"
             holder.notifyMsgTV.setTextColor(Color.parseColor("#13A10E"))
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#155724"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_confirm_ic, 0, 0, 0)
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("1") && !TextUtils.isEmpty(items.get(position).previousScheduleDate)) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("1")!! && !TextUtils.isEmpty(items.get(position).previousScheduleDate)) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Confirmed"
             holder.notifyMsgTV.setTextColor(Color.parseColor("#13A10E"))
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#155724"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_confirm_ic, 0, 0, 0)
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("2")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("2")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Not Confirmed"
             holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_cancel_ic, 0, 0, 0)
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("2") && !TextUtils.isEmpty(items.get(position).previousScheduleDate)) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("2")!! && !TextUtils.isEmpty(items.get(position).previousScheduleDate)) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Not Confirmed"
             holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_cancel_ic, 0, 0, 0)
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("3")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("3")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Request"
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_resch_ic, 0, 0, 0)
             holder.notifyMsgTV.setTextColor(Color.parseColor("#FF6F00"))
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#856404"))
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("4")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("4")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Rejected"
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_cancel_ic, 0, 0, 0)
@@ -123,18 +123,18 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
         }
 
-        if (items.get(position).confimationStatus.equalIgnoreCase("6")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("6")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Expired"
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_inv_expired_ic, 0, 0, 0)
             holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
             holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
         }
-        if (items.get(position).confimationStatus.equalIgnoreCase("5")) {
+        if (items.get(position).confimationStatus?.equalIgnoreCase("5")!!) {
             holder.notifyRL.visibility = View.GONE
         }
 
-        if (items.get(position).activity.equalIgnoreCase("4")) {
+        if (items.get(position).activity?.equalIgnoreCase("4")!!) {
             holder.rescheduleStattusTV.visibility = View.VISIBLE
         } else {
             holder.rescheduleStattusTV.visibility = View.GONE

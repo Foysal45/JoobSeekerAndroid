@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:background="@color/colorWhite"
+    android:paddingRight="20dp"
+    android:paddingBottom="28dp">
+
+    <ImageView
+        android:layout_marginRight="-10dp"
+        android:id="@+id/closeIMGV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:src="@drawable/ic_close_black_24dp" />
+
+    <ImageView
+        android:id="@+id/icon1IMGV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_bdjobs_app_logo" />
+
+    <TextView
+        android:id="@+id/heading1TV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon1IMGV"
+        android:layout_marginTop="20dp"
+        android:text="Please let us know your reason for not appearing in Interview"
+        android:textColor="#303030"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/reasonRG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heading1TV"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:layout_marginBottom="5dp"
+            android:id="@+id/reason1RB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The office is far away from my residence"
+            android:textColor="#303030"
+            android:textSize="13sp" />
+        <RadioButton
+            android:layout_marginBottom="5dp"
+            android:id="@+id/reason2RB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not interested to work in the organization"
+            android:textColor="#303030"
+            android:textSize="13sp" />
+        <RadioButton
+            android:layout_marginBottom="5dp"
+            android:id="@+id/reason3RB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I am already employed and do not want to switch job"
+            android:textColor="#303030"
+            android:textSize="13sp" />
+        <RadioButton
+            android:id="@+id/reason4RB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Others"
+            android:textColor="#303030"
+            android:textSize="13sp" />
+    </RadioGroup>
+    
+    <EditText
+        android:inputType="textFilter"
+        android:maxLength="200"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,:/-1234567890?"
+        android:visibility="gone"
+        android:gravity="top"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:hint="Write the reason"
+        android:background="@drawable/previous_sch_details_bg"
+        android:id="@+id/otherReasonET"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/reasonRG"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:paddingBottom="10dp"
+        android:paddingTop="8dp"
+        android:paddingRight="25dp"
+        android:paddingLeft="25dp"
+        android:textSize="14sp"
+        app:cornerRadius="4dp"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="#43A047"
+        android:id="@+id/submitTV"
+        android:textAllCaps="false"
+        android:text="Submit"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/otherReasonET"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    
+
+
+</RelativeLayout>

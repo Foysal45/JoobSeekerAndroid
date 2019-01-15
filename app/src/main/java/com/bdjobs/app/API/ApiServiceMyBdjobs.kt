@@ -446,6 +446,29 @@ interface ApiServiceMyBdjobs {
     ): Call<InvitationDetailModels>
 
 
+    @FormUrlEncoded
+    @POST("app_invite_interview_confirmation.asp")
+    fun sendInterviewConfirmation(
+            @Field("userId") userID: String,
+            @Field("decodeId") decodeID: String,
+            @Field("applyId") applyId: String,
+            @Field("activity") activity: String,
+            @Field("cancleReason") cancleReason: String="",
+            @Field("otherComment") otherComment: String="",
+            @Field("invitationId") invitationId: String,
+            @Field("rescheduleComment") rescheduleComment: String=""
+    ): Call<InvitationDetailModels>
+
+    @FormUrlEncoded
+    @POST("app_invite_interview_company_ratting.asp")
+    fun sendCompanyRating(
+            @Field("userId") userID: String,
+            @Field("decodeId") decodeID: String,
+            @Field("jobId") jobId: String,
+            @Field("ratting") ratting: String,
+            @Field("rattingComment") rattingComment: String
+    ): Call<InvitationDetailModels>
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
