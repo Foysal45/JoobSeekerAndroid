@@ -10,6 +10,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
@@ -230,6 +231,45 @@ fun Activity.enableUserInteraction() {
 
 fun EditText.getString(): String {
     return text.toString()
+}
+
+fun Activity.dateValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+    when {
+        TextUtils.isEmpty(char) -> {
+            til.showError(getString(R.string.field_empty_error_message_common))
+            this.requestFocus(et)
+            return false
+        }
+        else -> til.hideError()
+    }
+    return true
+}
+
+fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
+               etNext: TextInputEditText?, last: Boolean, validation: Int): Int {
+    var valid: Int = validation
+    if (last) {
+        if (TextUtils.isEmpty(etCurrent?.getString())) {
+            tilCurrent?.showError("This Field can not be empty")
+        } else {
+            valid++
+            tilCurrent?.isErrorEnabled = false
+            etNext?.requestFocus()
+        }
+    } else {
+        if (TextUtils.isEmpty(etCurrent?.getString())) {
+            tilCurrent?.showError("This Field can not be empty")
+            etCurrent?.requestFocus()
+        }
+        etNext?.requestFocus()
+    }
+    return valid
+}
+
+fun Activity.requestFocus(view: View) {
+    if (view.requestFocus()) {
+        this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
 }
 
 fun Any.logException(e: java.lang.Exception) {

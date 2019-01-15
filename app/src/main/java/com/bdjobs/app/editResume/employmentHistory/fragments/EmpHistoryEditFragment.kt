@@ -20,6 +20,8 @@ import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
@@ -112,8 +114,25 @@ class EmpHistoryEditFragment : Fragment() {
         now = Calendar.getInstance()
         dataStorage = DataStorage(activity)
         empHisCB.setTitle(getString(R.string.title_emp_history))
+        initViews()
         doWork()
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
+        if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            idArr.add(" ")
+            clearEditText()
+        }
+    }
+
+    private fun initViews() {
+
+        companyNameET?.addTextChangedListener(TW.CrossIconBehave(companyNameET))
+        //companyBusinessACTV?.addTextChangedListener(TW.CrossIconBehave(companyBusinessACTV))
+        companyLocationET?.addTextChangedListener(TW.CrossIconBehave(companyLocationET))
+        positionET?.addTextChangedListener(TW.CrossIconBehave(positionET))
+        departmentET?.addTextChangedListener(TW.CrossIconBehave(departmentET))
+        responsibilitiesET?.addTextChangedListener(TW.CrossIconBehave(responsibilitiesET))
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -127,28 +146,17 @@ class EmpHistoryEditFragment : Fragment() {
         super.onResume()
         Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         exps = ""
+        ehMailLL.clearFocus()
         if (idArr.isNotEmpty())
             idArr.clear()
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
             preloadedData()
-        } else {
-            empHisCB.setDeleteButton(false)
-            hID = "-4"
-            idArr.add(" ")
-            clearEditText()
         }
-
     }
 
     private fun doWork() {
-        estartDateET?.setOnClickListener {
-            pickDate(activity, now, startDateSetListener)
-        }
-        et_end_date?.setOnClickListener {
-            pickDate(activity, now, endDateSetListener)
-        }
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -159,6 +167,21 @@ class EmpHistoryEditFragment : Fragment() {
                 updateDateInView(1)
                 et_end_date?.isEnabled = true
             }
+        }
+        addTextChangedListener(companyNameET, companyNameTIL)
+        addTextChangedListener(companyBusinessACTV, companyBusinessTIL)
+        addTextChangedListener(positionET, positionTIL)
+        addTextChangedListener(estartDateET, estartDateTIL)
+        if (currentlyWorking != "ON") {
+            addTextChangedListener(et_end_date, endDateTIL)
+        }
+        //addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
+
+        estartDateET?.setOnClickListener {
+            pickDate(activity, now, startDateSetListener)
+        }
+        et_end_date?.setOnClickListener {
+            pickDate(activity, now, endDateSetListener)
         }
         companyBusinessACTV.setOnClickListener {
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
@@ -172,7 +195,6 @@ class EmpHistoryEditFragment : Fragment() {
                 Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
             }
         }
-
         experiencesMACTV.setOnClickListener {
 
             val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
@@ -192,16 +214,26 @@ class EmpHistoryEditFragment : Fragment() {
                 }
             }
         }
-
         fab_eh?.setOnClickListener {
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
-            val chars: Char = exps[0]
-            if (!chars.equals(","))
-                exps = ",$exps"
-            exps = exps.replace(",,".toRegex(), ",")
-            debug("chiIDs: $exps, and ids $idArr")
-            updateData(exps)
+            var validation = 0
+            validation = isValidate(companyNameET, companyNameTIL, companyNameET, true, validation)
+            validation = isValidate(companyBusinessACTV, companyBusinessTIL, companyBusinessACTV, true, validation)
+            validation = isValidate(positionET, positionTIL, positionET, true, validation)
+            validation = isValidate(estartDateET, estartDateTIL, companyNameET, true, validation)
+            //validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
+            //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
+            Log.d("validation", "validation : $validation")
+
+            if (validation == 5 || validation == 4) {
+                val chars: Char = exps[0]
+                if (!chars.equals(","))
+                    exps = ",$exps"
+                exps = exps.replace(",,".toRegex(), ",")
+                debug("chiIDs: $exps, and ids $idArr")
+                updateData(exps)
+            }
         }
     }
 
@@ -271,6 +303,7 @@ class EmpHistoryEditFragment : Fragment() {
             cb_present.isChecked = true
             et_end_date.isEnabled = false
         }
+        disableError()
 
     }
 
@@ -281,6 +314,12 @@ class EmpHistoryEditFragment : Fragment() {
             estartDateET.setText(sdf.format(now.time))
         } else {
             et_end_date.setText(sdf.format(now.time))
+        }
+    }
+
+    private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            empHisCB.validateField(charSequence.toString(), editText, inputLayout)
         }
     }
 
@@ -317,5 +356,15 @@ class EmpHistoryEditFragment : Fragment() {
         et_end_date.clear()
         cb_present.isChecked = false
         experiencesMACTV.clear()
+        disableError()
+    }
+
+    private fun disableError() {
+        companyNameTIL.hideError()
+        companyBusinessTIL.hideError()
+        positionTIL.hideError()
+        estartDateTIL.hideError()
+        endDateTIL.hideError()
+        experiencesTIL.hideError()
     }
 }
