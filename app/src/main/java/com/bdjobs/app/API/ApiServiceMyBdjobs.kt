@@ -448,6 +448,15 @@ interface ApiServiceMyBdjobs {
     ): Call<AppliedJobsSalaryEdit>
 
 
+    @FormUrlEncoded
+    @POST("apps_cancelApply.asp")
+    fun getAppliedCancelMsg(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("JobId") JobId: String?
+    ): Call<CancelAppliedJobs>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

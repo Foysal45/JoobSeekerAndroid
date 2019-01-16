@@ -14,6 +14,7 @@ class BdjobsJobCreator(private val appContext:Context) : JobCreator {
             ShortListedJobDeleteJob.TAG->ShortListedJobDeleteJob(appContext)
             FollowUnfollowJob.TAG -> FollowUnfollowJob(appContext)
             ExpectedSalaryJob.TAG -> ExpectedSalaryJob(appContext)
+            CancelAppliedJob.TAG -> CancelAppliedJob(appContext)
             else -> null
         }
     }

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModel
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
@@ -38,6 +39,7 @@ class AppliedJobsFragment : Fragment() {
     private var isLoadings = false
     private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
     private var time: String = ""
+    var jobsAppliedSize = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +56,11 @@ class AppliedJobsFragment : Fragment() {
 
     private fun initializeViews() {
         time = appliedJobsCommunicator.getTime()
+
         appliedJobsAdapter = AppliedJobsAdapter(activity)
         appliedJobsRV!!.adapter = appliedJobsAdapter
         appliedJobsRV!!.setHasFixedSize(true)
-        appliedJobsRV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        appliedJobsRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         Log.d("initPag", "called")
         appliedJobsRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         appliedJobsRV?.addOnScrollListener(object : PaginationScrollListener((appliedJobsRV.layoutManager as LinearLayoutManager?)!!) {
@@ -118,7 +121,7 @@ class AppliedJobsFragment : Fragment() {
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                     //   TOTAL_PAGES = 5
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
-
+                    jobsAppliedSize = totalRecords?.toInt()!!
                     Log.d("callAppliURl", response.body()?.data.toString())
 
                     if (!response?.body()?.data.isNullOrEmpty()) {
@@ -137,19 +140,14 @@ class AppliedJobsFragment : Fragment() {
 
                     }
 
-                   /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
-                    favCountTV.text = Html.fromHtml(styledText)*/
+                    /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
+                     favCountTV.text = Html.fromHtml(styledText)*/
 
-                    if (totalRecords?.toInt()!! > 1){
+                    if (totalRecords?.toInt()!! > 1) {
                         val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
                         favCountTV?.text = Html.fromHtml(styledText)
-                    }
-                    else if (totalRecords?.toInt()!! <= 1) {
+                    } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null) {
                         val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    }
-                    else if (totalRecords.toInt()!! == null){
-                        val styledText = "<b><font color='#13A10E'>0</font></b> Job Applied"
                         favCountTV?.text = Html.fromHtml(styledText)
                     }
 
@@ -206,6 +204,19 @@ class AppliedJobsFragment : Fragment() {
             }
 
         })
+    }
+
+    fun scrollToUndoPosition(position: Int) {
+        appliedJobsRV?.scrollToPosition(position)
+        jobsAppliedSize++
+        val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
+        favCountTV.text = Html.fromHtml(styledText)
+    }
+
+    fun decrementCounter() {
+        jobsAppliedSize--
+        val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
+        favCountTV.text = Html.fromHtml(styledText)
     }
 
 

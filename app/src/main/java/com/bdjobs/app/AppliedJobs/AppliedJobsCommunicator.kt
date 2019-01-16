@@ -4,6 +4,7 @@ interface AppliedJobsCommunicator {
     fun backButtonPressed()
     fun gotoAppliedJobsFragment()
     fun getTime(): String
-
+    fun scrollToUndoPosition(position:Int)
+    fun decrementCounter()
 
 }

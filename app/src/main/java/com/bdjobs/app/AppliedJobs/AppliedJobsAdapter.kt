@@ -1,9 +1,11 @@
 package com.bdjobs.app.AppliedJobs
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,35 +13,31 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
-import com.bdjobs.app.API.ModelClasses.AppliedJobsSalaryEdit
+import com.bdjobs.app.BackgroundJob.CancelAppliedJob
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import org.jetbrains.anko.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import android.widget.Toast
-import android.R.attr.data
 import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
+import com.google.android.material.snackbar.Snackbar
+import org.jetbrains.anko.toast
 
 
 class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
+    val activity = context as Activity
     private var appliedJobsLists: ArrayList<AppliedJobModelData>? = ArrayList()
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
     private var session: BdjobsUserSession = BdjobsUserSession(context)
+    private var communicator : AppliedJobsCommunicator = activity as AppliedJobsCommunicator
 
     companion object {
         // View Types
@@ -111,62 +109,45 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         }
 
         if (appliedJobsLists!![position].invitaion == "1") {
-            holder?.interviewCancelBTN?.visibility = View.VISIBLE
+            holder?.interviewBTN?.visibility = View.VISIBLE
+        } else if (appliedJobsLists!![position].invitaion == "0") {
+            holder?.interviewBTN?.visibility = View.GONE
         }
 
-        if(appliedJobsLists!![position].viewedByEmployer == "No"){
-           // holder?.cancelBTN?.visibility = View.VISIBLE
+
+        if (appliedJobsLists!![position].viewedByEmployer == "No") {
+            // holder?.cancelBTN?.visibility = View.VISIBLE
             try {
-                val deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
+                val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
                 val todaysDate = Date()
 
-                Log.d("date","$deadline - $todaysDate")
-                Log.d("jobtitle", "jobtitle = "+appliedJobsLists!![position].companyName
+                Log.d("date", "$deadline - $todaysDate")
+                Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
+                        "jobid = " + appliedJobsLists!![position].jobId
                         + "deadline=$deadline + \"todays=$todaysDate ")
 
                 val compare = deadline.compareTo(todaysDate)
-                Log.d("date","$compare")
-                if (compare.equals("1")){
-                    Log.d("date","$compare visible")
-                    holder?.cancelBTN?.visibility = View.VISIBLE
-                }
-
-
-
-            } catch (e: Exception) {
-                logException(e)
-                Log.d("date","e")
-
-            }
-        }
-
-     /*   if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
-
-            holder?.employerViewIcon?.visibility = View.VISIBLE
-        }
-        else if (appliedJobsLists!![position].viewedByEmployer == "No") {
-
-            try {
-                val deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists!![position].deadLine)
-                val todaysDate = Date()
-
-                Log.d("date","$deadline - $todaysDate")
-
+                Log.d("date", "compare = $compare")
+                /*  if (compare.equals("1")){
+                      Log.d("date","$compare visible")
+                      holder?.cancelBTN?.visibility = View.VISIBLE
+                  }*/
                 if (deadline > todaysDate) {
-                    holder?.cancelBTN.visibility = View.VISIBLE
+                    holder?.cancelBTN?.visibility = View.VISIBLE
+                    holder?.edit_SalaryIcon?.visibility = View.VISIBLE
+                }
 
-                }
-                else {
-                    holder?.cancelBTN.visibility = View.GONE
-                }
 
             } catch (e: Exception) {
                 logException(e)
+                Log.d("date", "e")
 
             }
-        }*/
-
-
+        } else if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
+            holder?.employerViewIcon?.visibility = View.VISIBLE
+            holder?.cancelBTN?.visibility = View.GONE
+            holder?.edit_SalaryIcon?.visibility = View.GONE
+        }
 
 
         holder?.edit_SalaryIcon?.setOnClickListener {
@@ -202,8 +183,54 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 
         }
+        holder?.cancelBTN?.setOnClickListener {
+            removeItem(holder.adapterPosition, it)
+        }
 
 
+    }
+
+    fun removeItem(position: Int, view: View) {
+        if (appliedJobsLists?.size != 0) {
+            val deletedItem = appliedJobsLists?.get(position)
+            val jobid = appliedJobsLists?.get(position)?.jobId
+            val companyName = appliedJobsLists?.get(position)?.companyName
+            Log.d("werywirye","jobid = $jobid companyname = $companyName")
+            appliedJobsLists?.removeAt(position)
+            notifyItemRemoved(position)
+            try {
+                val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
+                undoRemove(view, deletedItem, position, deleteJobID)
+                communicator.decrementCounter()
+            }
+            catch (e : Exception){
+
+            }
+
+        } else {
+            context.toast("No items left here!")
+        }
+    }
+    private fun undoRemove(v: View, deletedItem: AppliedJobModelData?, deletedIndex: Int, deleteJobID: Int) {
+        // here we show snackbar and undo option
+
+        val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
+        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") {
+                    CancelAppliedJob.cancelJob(deleteJobID)
+                    restoreMe(deletedItem!!, deletedIndex)
+                    communicator?.scrollToUndoPosition(deletedIndex)
+                    Log.d("comid", "comid")
+                }
+
+        snack?.show()
+        Log.d("swipe", "dir to LEFT")
+    }
+
+    private fun restoreMe(item: AppliedJobModelData, pos: Int) {
+        appliedJobsLists?.add(pos, item)
+        notifyItemInserted(pos)
+        //undoButtonPressed = true
     }
 
 
@@ -262,7 +289,7 @@ class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
     val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
     val interactionBTN = view?.findViewById(R.id.interactionBTN) as MaterialButton
-    val interviewCancelBTN = view?.findViewById(R.id.interviewCancelBTN) as MaterialButton
+    val interviewBTN = view?.findViewById(R.id.interviewInvitationBTN) as MaterialButton
     val cancelBTN = view?.findViewById(R.id.CancelBTN) as MaterialButton
     val cardViewAppliedJobs = view?.findViewById(R.id.cardView) as CardView
     val edit_SalaryIcon = view?.findViewById(R.id.edit_SalaryIcon) as ImageView
