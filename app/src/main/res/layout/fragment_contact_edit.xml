@@ -144,6 +144,7 @@
                         android:layout_marginEnd="5dp"
                         android:orientation="horizontal"
                         android:weightSum="2"
+                        android:baselineAligned="false"
                         app:layout_constraintTop_toBottomOf="@+id/presentInsideBangladeshLayout">
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -152,9 +153,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-
-                            >
+                            android:layout_weight="1">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/prContactThanaTIET"
@@ -173,9 +172,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-
-                            >
+                            android:layout_weight="1">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/prContactPostOfficeTIET1"
@@ -221,27 +218,6 @@
                             android:maxLength="50"
                             android:textColor="#212121" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <!--<com.google.android.material.textfield.TextInputLayout
-
-                        android:id="@+id/contactAddressTIL"
-                        style="@style/EHTextInputLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/contactAddressTIET"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/hint.contactAddress"
-                            android:inputType="number"
-                            android:maxLength="9"
-                            android:textColor="#212121" />
-                    </com.google.android.material.textfield.TextInputLayout>-->
-
 
                 </LinearLayout>
 
@@ -403,6 +379,7 @@
                         android:layout_marginEnd="5dp"
                         android:orientation="horizontal"
                         android:weightSum="2"
+                        android:baselineAligned="false"
                         app:layout_constraintTop_toBottomOf="@+id/presentInsideBangladeshLayout">
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -665,9 +642,12 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:indeterminate="true"
         android:theme="@style/BdjobsLinearProgress"
-        android:visibility="gone" />
-
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

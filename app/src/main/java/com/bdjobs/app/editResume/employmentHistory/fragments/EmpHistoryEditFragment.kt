@@ -126,7 +126,6 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun initViews() {
-
         companyNameET?.addTextChangedListener(TW.CrossIconBehave(companyNameET))
         //companyBusinessACTV?.addTextChangedListener(TW.CrossIconBehave(companyBusinessACTV))
         companyLocationET?.addTextChangedListener(TW.CrossIconBehave(companyLocationET))
@@ -226,7 +225,7 @@ class EmpHistoryEditFragment : Fragment() {
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
             Log.d("validation", "validation : $validation")
 
-            if (validation == 5 || validation == 4) {
+            if (validation >= 4) {
                 val chars: Char = exps[0]
                 if (!chars.equals(","))
                     exps = ",$exps"

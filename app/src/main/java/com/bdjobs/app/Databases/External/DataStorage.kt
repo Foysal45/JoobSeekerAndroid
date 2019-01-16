@@ -990,7 +990,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " = '" + locationName + "'"
-            Log.d("selectQuery", selectQuery)
+            Log.d("selectQueryDiv", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 

@@ -230,7 +230,7 @@ fun Activity.enableUserInteraction() {
 }
 
 fun EditText.getString(): String {
-    return text.toString()
+    return text.trim().toString()
 }
 
 fun Activity.dateValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {

@@ -17,6 +17,8 @@ import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
@@ -45,7 +47,6 @@ class ContactEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         contactInfo = activity as PersonalInfo
-
         d("onActivityCreated")
     }
 
@@ -54,17 +55,61 @@ class ContactEditFragment : Fragment() {
         d("onResume")
         contactInfo.setTitle(getString(R.string.title_contact))
         contactInfo.setEditButton(false, "dd")
+        initViews()
         doWork()
     }
 
+    private fun initViews() {
+        prContactDivTIET.addTextChangedListener(TW.CrossIconBehave(prContactDivTIET))
+        prContactDistrictTIET.addTextChangedListener(TW.CrossIconBehave(prContactDistrictTIET))
+        prContactThanaTIET.addTextChangedListener(TW.CrossIconBehave(prContactThanaTIET))
+        prContactPostOfficeTIET1.addTextChangedListener(TW.CrossIconBehave(prContactPostOfficeTIET1))
+        prContactAddressTIETPR.addTextChangedListener(TW.CrossIconBehave(prContactAddressTIETPR))
+        presentContactCountryTIET.addTextChangedListener(TW.CrossIconBehave(presentContactCountryTIET))
+
+        pmContactDivTIET1.addTextChangedListener(TW.CrossIconBehave(pmContactDivTIET1))
+        pmContactDistrictTIET.addTextChangedListener(TW.CrossIconBehave(pmContactDistrictTIET))
+        pmContactThanaTIETP.addTextChangedListener(TW.CrossIconBehave(pmContactThanaTIETP))
+        pmContactPostOfficeTIET.addTextChangedListener(TW.CrossIconBehave(pmContactPostOfficeTIET))
+        pmContactAddressTIETPRM.addTextChangedListener(TW.CrossIconBehave(pmContactAddressTIETPRM))
+        permanentContactCountryTIETP.addTextChangedListener(TW.CrossIconBehave(permanentContactCountryTIETP))
+
+
+    }
+
     private fun doWork() {
+
+        addTextChangedListener(prContactDivTIET, contactDivTIL)
+        addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
+        addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
+        addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
+        addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
+        addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
+
+        addTextChangedListener(pmContactDivTIET1, contactDivTIL1)
+        addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
+        addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
+        addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
+        addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
+        addTextChangedListener(permanentContactCountryTIETP, presentContactCountryTILP)
+
         preloadedData()
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
         }
         fab_contact_update.setOnClickListener {
             d("InOutBD : $presentInOutBD and $permanentInOutBD")
-            updateData()
+
+            var validation = 0
+            validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
+            validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
+            validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+            validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+            validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+            if (presentInOutBD == "1") {
+                validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
+            }
+            if (validation >= 3) updateData()
         }
         if (contactMobileNumber2TIET.isVisible)
             contactAddMobileButton?.hide() else {
@@ -146,6 +191,12 @@ class ContactEditFragment : Fragment() {
 
     private fun getIdByName(s: String): String {
         return dataStorage.getLocationIDByName(s).toString().trim()
+    }
+
+    private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            contactInfo.validateField(charSequence.toString(), editText, inputLayout)
+        }
     }
 
     private fun preloadedData() {
