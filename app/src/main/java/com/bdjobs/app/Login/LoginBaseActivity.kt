@@ -17,11 +17,12 @@ import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Web.WebActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_base.*
+import org.jetbrains.anko.startActivity
 
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
-
 
 
     private val loginUserNameFragment = LoginUserNameFragment()
@@ -51,6 +52,11 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     override fun backButtonClicked() {
         onBackPressed()
     }
+
+    override fun goToWebActivity(url: String, from: String) {
+        startActivity<WebActivity>("url" to url ,"from" to from)
+    }
+
 
     override fun goToPasswordFragment(userName: String?, userId: String?, fullName: String?, imageUrl: String?) {
         this.userName = userName
@@ -98,8 +104,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     }
 
     override fun goToRegistrationActivity() {
-        val intent = Intent(this, RegistrationBaseActivity::class.java)
-        startActivity(intent)
+        startActivity<RegistrationBaseActivity>()
     }
 
     override fun onPostResume() {

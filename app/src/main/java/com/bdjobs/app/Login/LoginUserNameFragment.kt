@@ -243,6 +243,13 @@ class LoginUserNameFragment : Fragment() {
             loginCommunicator?.backButtonClicked()
         }
 
+        textView2.setOnClickListener {
+            loginCommunicator.goToWebActivity(
+                    url="http://mybdjobs.bdjobs.com/mybdjobs/forgot_UserID_Password.asp?device=app",
+                    from = "forgotuserid"
+            )
+        }
+
         nextButtonFAB?.setOnClickListener {
             val userName = usernameTIET.getString()
             if (validateUserName(userName)) {
