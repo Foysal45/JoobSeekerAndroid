@@ -194,7 +194,6 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/messageHolderLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -215,7 +214,7 @@
             android:paddingTop="16dp"
             android:paddingRight="42dp"
             android:paddingBottom="15dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/messageTV"
@@ -290,7 +289,7 @@
             android:paddingTop="25dp"
             android:paddingRight="20dp"
             android:paddingBottom="25dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/ratingBTN"

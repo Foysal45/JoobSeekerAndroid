@@ -52,10 +52,15 @@ class LoginPasswordFragment : Fragment() {
 
     private fun setData() {
         profilePicIMGV?.loadCircularImageFromUrl(loginCommunicator.getImageUrl())
-        nameTV?.text=loginCommunicator.getFullName()
+        nameTV?.text = loginCommunicator.getFullName()
     }
 
     private fun onClicks() {
+        textView2.setOnClickListener {
+            val url = "http://mybdjobs.bdjobs.com/mybdjobs/forgot_UserID_Password.asp?id=${loginCommunicator.getUserName()}&device=app"
+            loginCommunicator.goToWebActivity(from = "forgotpassword", url = url)
+        }
+
         backBtnIMGV?.setOnClickListener {
             loginCommunicator?.backButtonClicked()
         }
@@ -134,11 +139,11 @@ class LoginPasswordFragment : Fragment() {
                 requestFocus(passwordTIET)
                 return false
             }
-           /* checkStringHasSymbol(password) -> {
-                passwordTIL?.showError("Password can not contain $symbol")
-                requestFocus(passwordTIET)
-                return false
-            }*/
+            /* checkStringHasSymbol(password) -> {
+                 passwordTIL?.showError("Password can not contain $symbol")
+                 requestFocus(passwordTIET)
+                 return false
+             }*/
             password.trim { it <= ' ' }.length < 5 || password.trim().length > 12 -> {
                 passwordTIL?.showError("Password should be 8 to 12 character long!")
                 requestFocus(passwordTIET)
