@@ -155,8 +155,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.duration_tr"
-                    android:inputType="numberDecimal"
-                    android:maxLength="20"
+                    android:inputType="text"
+                    android:maxLength="10"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -177,7 +177,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ProgressBar
-        android:id="@+id/loadingProgressBar"
+        android:id="@+id/loadingProgressBarTraining"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

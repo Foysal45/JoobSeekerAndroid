@@ -17,11 +17,13 @@ import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_training_edit.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TrainingEditFragment : Fragment() {
 
@@ -32,6 +34,7 @@ class TrainingEditFragment : Fragment() {
     private lateinit var hID: String
     private var calendar: Calendar? = null
     lateinit var datePickerDialog: DatePickerDialog
+    private var yearList = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -91,12 +94,10 @@ class TrainingEditFragment : Fragment() {
         disableError()
         d("values : ${data.country}")
     }
-
     private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
         editText.easyOnTextChangedListener { charSequence ->
             eduCB.validateField(charSequence.toString(), editText, inputLayout)
         }
-    }
 
     private fun doWork() {
         eduCB.setTitle(getString(R.string.title_training))
@@ -105,42 +106,20 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrCountry, trCountryTIL)
         addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
 
-        etTrDuration.easyOnTextChangedListener { charSequence ->
-            activity?.dateValidation(charSequence.toString(), etTrDuration, trDurTIL)
-        }
-
         etTrTrainingYear.setOnClickListener {
-            val mYear = calendar!!.get(Calendar.YEAR) // current year
-            val mMonth = calendar!!.get(Calendar.MONTH) // current month
-            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH) // current day
-            // date picker dialog
-            datePickerDialog = DatePickerDialog(activity,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        // set day of month , month and year value in the edit text
-
-                        Log.d("Year", "$year")
-
-                        val date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
-                        etTrTrainingYear.text!!.clear()
-                        etTrTrainingYear.setText(year.toString())
-                        trTrainingYearTIL.isErrorEnabled = false
-
-                    }, mYear, mMonth, mDay)
-
-            val calendarMin = Calendar.getInstance()
-            calendarMin.set(Calendar.DAY_OF_MONTH, mDay)
-            calendarMin.set(Calendar.MONTH, mMonth)
-            calendarMin.set(Calendar.YEAR, mYear - 55)
-
-            val calendarMax = Calendar.getInstance()
-            calendarMax.set(Calendar.DAY_OF_MONTH, mDay)
-            calendarMax.set(Calendar.MONTH, mMonth)
-            calendarMax.set(Calendar.YEAR, mYear + 5)
 
 
-            datePickerDialog.datePicker.maxDate = calendarMax.timeInMillis
-            datePickerDialog.datePicker.minDate = calendarMin.timeInMillis
-            datePickerDialog.show()
+            for (item in 1964..2019) {
+                yearList.add(item.toString())
+            }
+            activity.selector("Please Select Training Year", yearList.toList()) { _, i ->
+
+                etTrTrainingYear.setText(yearList[i])
+                trTrainingYearTIL.requestFocus()
+
+            }
+
+
 
         }
         fab_tr_update.setOnClickListener {
@@ -168,7 +147,6 @@ class TrainingEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-
                 activity.stopProgressBar(loadingProgressBar)
                 try {
                     if (response.isSuccessful) {

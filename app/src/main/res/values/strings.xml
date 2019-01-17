@@ -221,6 +221,8 @@
     <string name="subtit.career_and_application_information">Career and Application Information</string>
     <string name="hint.alternet_email_address">Alternet Email Address</string>
     <string name="toast.marks.blank.texts">Please enter Marks</string>
+    <string name="toast.invalide.cgpa.texts">Please enter valid CGPA</string>
+    <string name="toast.invalide.grade.texts">Please enter valid Scale</string>
     <string name="toast.cgpa.scale.michmatch.texts">CGPA can not be greater than Scale</string>
     <string name="toast.cgpa.blank.texts">Please enter CGPA </string>
     <string name="toast.scale.blank.texts">Please enter Scale </string>
