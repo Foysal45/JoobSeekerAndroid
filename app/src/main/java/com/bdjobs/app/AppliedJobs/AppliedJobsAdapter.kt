@@ -172,6 +172,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 saveSearchDialog?.dismiss()
             }
             updateBTN.setOnClickListener {
+                //update
                 var salary = expected_salary_tv.getString()
                 Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
                 ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists!![position].jobId!!, salary)
