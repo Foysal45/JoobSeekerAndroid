@@ -3,11 +3,33 @@ package com.bdjobs.app.AppliedJobs
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+
+    private var jobid : String = ""
+
+
+    override fun gotoEmployerInteractionFragment() {
+        transitFragment(employerInteractionFragment, R.id.fragmentHolder, false)
+    }
+
+    override fun gotoInterviewInvitationDetails(from: String, jobID: String, companyName: String, jobTitle: String) {
+
+        startActivity<InterviewInvitationBaseActivity>(
+                "from" to from,
+                "jobid" to jobID,
+                "companyname" to companyName,
+                "jobtitle" to jobTitle
+        )
+
+    }
+
+
     override fun scrollToUndoPosition(position: Int) {
         if (position  >0){
             appliedJobsFragment.scrollToUndoPosition(position)
@@ -20,6 +42,7 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
          }
 
     private val appliedJobsFragment = AppliedJobsFragment()
+    private val employerInteractionFragment = EmployerInteractionFragment()
     private var time: String = ""
 
     override fun getTime(): String {

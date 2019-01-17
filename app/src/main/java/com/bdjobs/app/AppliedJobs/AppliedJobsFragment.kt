@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModel
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 
@@ -122,13 +123,16 @@ class AppliedJobsFragment : Fragment() {
                     //   TOTAL_PAGES = 5
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
                     jobsAppliedSize = totalRecords?.toInt()!!
-                    Log.d("callAppliURl", response.body()?.data.toString())
+                    Log.d("callAppliURl", response.body()?.activity?.toString())
+
+
 
                     if (!response?.body()?.data.isNullOrEmpty()) {
                         appliedJobsRV!!.visibility = View.VISIBLE
                         var value = response.body()?.data
                         appliedJobsAdapter?.removeAll()
                         appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
+                        appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
 
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")

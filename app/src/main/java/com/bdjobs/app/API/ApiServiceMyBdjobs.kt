@@ -23,7 +23,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST(api_mybdjobs_app_agent_log)
-    fun doLogin(@Field("username") username: String?="",
+    fun doLogin(@Field("username") username: String? = "",
                 @Field("password") password: String? = "",
                 @Field("userId") userId: String? = "",
                 @Field("decodId") decodId: String? = "",
@@ -282,24 +282,23 @@ interface ApiServiceMyBdjobs {
     fun createAccount(
             @Field("firstName") firstName: String? = "",
             @Field("lastName") lastName: String? = "",
-            @Field("gender") gender:String? = "",
-            @Field("email") email:String? = "",
-            @Field("username") username:String? = "",
+            @Field("gender") gender: String? = "",
+            @Field("email") email: String? = "",
+            @Field("username") username: String? = "",
             @Field("password") password: String? = "",
             @Field("confirm") confirm: String? = "",
             @Field("mobile") mobile: String? = "",
             @Field("smid") smid: String? = "",
             @Field("isSMLogin") isSMLogin: String? = "",
-            @Field("categoryType") categoryType:String? = "",
-            @Field("userNameType") userNameType:String? = "",
-            @Field("smediatype") smediatype:String? = "",
+            @Field("categoryType") categoryType: String? = "",
+            @Field("userNameType") userNameType: String? = "",
+            @Field("smediatype") smediatype: String? = "",
             @Field("prefCat") prefCat: String? = "",
             @Field("txtCountryCode") txtCountryCode: String? = "",
             @Field("packageName") packageName: String? = "",
-            @Field("packageNameVersion") packageNameVersion:String? = ""
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
     ): Call<CreateAccountModel>
-
 
 
     @FormUrlEncoded
@@ -307,8 +306,8 @@ interface ApiServiceMyBdjobs {
     fun sendOtpToVerify(
             @Field("tmpUserId") tmpUserId: String? = "",
             @Field("optCode") optCode: String? = "",
-            @Field("packageName") packageName:String? = "",
-            @Field("packageNameVersion") packageNameVersion:String? = ""
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
 
     ): Call<CreateAccountModel>
@@ -317,21 +316,21 @@ interface ApiServiceMyBdjobs {
     @FormUrlEncoded
     @POST("apps_updateBlueCv.asp")
     fun sendBlueCollarUserInfo(
-            @Field("UserID") userid: String ="",
-            @Field("decodeId") decodeId: String="",
-            @Field("village") village: String ="",
-            @Field("locationID") locationID: String ="",
-            @Field("dob") dob: String ="",
+            @Field("UserID") userid: String = "",
+            @Field("decodeId") decodeId: String = "",
+            @Field("village") village: String = "",
+            @Field("locationID") locationID: String = "",
+            @Field("dob") dob: String = "",
             @Field("expYear") expYear: String = "",
             @Field("skillID") skillID: String = "",
-            @Field("age") age: String ="",
+            @Field("age") age: String = "",
             @Field("userName") userName: String = "",
-            @Field("levelOfEducation") levelOfEducation: String="",
+            @Field("levelOfEducation") levelOfEducation: String = "",
             @Field("institute") institute: String = "",
-            @Field("inlineRadioOptions") inlineRadioOptions: String="",
-            @Field("examDegreeTitle") examDegreeTitle: String ="",
-            @Field("yearOfPassing") yearOfPassing: String ="",
-            @Field("hasEdu") hasEdu: String =""
+            @Field("inlineRadioOptions") inlineRadioOptions: String = "",
+            @Field("examDegreeTitle") examDegreeTitle: String = "",
+            @Field("yearOfPassing") yearOfPassing: String = "",
+            @Field("hasEdu") hasEdu: String = ""
     ): Call<UpdateBlueCvModel>
 
 
@@ -340,7 +339,7 @@ interface ApiServiceMyBdjobs {
     fun resendOtp(
             @Field("userId") tmpUserId: String? = "",
             @Field("mobile") mobile: String? = "",
-            @Field("forCreateAccount") forCreateAccount:String? = ""
+            @Field("forCreateAccount") forCreateAccount: String? = ""
 
     ): Call<ResendOtpModel>
 
@@ -453,10 +452,10 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeID: String,
             @Field("applyId") applyId: String,
             @Field("activity") activity: String,
-            @Field("cancleReason") cancleReason: String="",
-            @Field("otherComment") otherComment: String="",
+            @Field("cancleReason") cancleReason: String = "",
+            @Field("otherComment") otherComment: String = "",
             @Field("invitationId") invitationId: String,
-            @Field("rescheduleComment") rescheduleComment: String=""
+            @Field("rescheduleComment") rescheduleComment: String = ""
     ): Call<InvitationDetailModels>
 
     @FormUrlEncoded
@@ -474,7 +473,7 @@ interface ApiServiceMyBdjobs {
     fun getUpdateSalaryMsg(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?,
-            @Field("JobId") JobId: String? ,
+            @Field("JobId") JobId: String?,
             @Field("txtExpectedSalary") txtExpectedSalary: String?
     ): Call<AppliedJobsSalaryEdit>
 
@@ -487,6 +486,16 @@ interface ApiServiceMyBdjobs {
             @Field("JobId") JobId: String?
     ): Call<CancelAppliedJobs>
 
+    @FormUrlEncoded
+    @POST("apps_update_application_status.asp")
+    fun getEmpInteraction(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("status") status: String?,
+            @Field("experienceId") experienceId: String?,
+            @Field("changeExprience") changeExprience: String?,
+            @Field("JobId") JobId: String?
+    ): Call<EmployerInteraction>
 
     companion object Factory {
 

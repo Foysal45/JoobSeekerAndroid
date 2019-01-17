@@ -19,6 +19,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     private var lat = ""
     private var lan = ""
     private var time = ""
+    private var value = ""
 
     private val interveiwInvitationListFragment = InterveiwInvitationListFragment()
     private val interviewInvitationDetailsFragment = InterviewInvitationDetailsFragment()
@@ -44,7 +45,27 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         }catch(e:Exception){
             logException(e)
         }
+        try{
+            jobID = intent.getStringExtra("jobid")
+        }catch(e:Exception){
+            logException(e)
+        }
+        try{
+            companyName = intent.getStringExtra("companyname")
+        }catch(e:Exception){
+            logException(e)
+        }
+        try{
+            jobTitle = intent.getStringExtra("jobtitle")
+        }catch(e:Exception){
+            logException(e)
+        }
+
         transitFragment(interveiwInvitationListFragment,R.id.interViewfragmentHolder)
+
+        if (from?.equals("appliedjobs")) {
+            goToInvitationDetails(jobID,companyName,jobTitle)
+        }
     }
 
 

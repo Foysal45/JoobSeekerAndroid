@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.BackgroundJob.CancelAppliedJob
 import com.bdjobs.app.R
@@ -27,17 +28,19 @@ import java.util.*
 import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.toast
+import kotlin.collections.ArrayList
 
 
 class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val activity = context as Activity
     private var appliedJobsLists: ArrayList<AppliedJobModelData>? = ArrayList()
+    private var appliedjobsActitivityLists: ArrayList<AppliedJobModelActivity>? = ArrayList()
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
     private var session: BdjobsUserSession = BdjobsUserSession(context)
-    private var communicator : AppliedJobsCommunicator = activity as AppliedJobsCommunicator
+    private var communicator: AppliedJobsCommunicator = activity as AppliedJobsCommunicator
 
     companion object {
         // View Types
@@ -104,6 +107,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         holder?.deadline?.text = appliedJobsLists!![position].deadLine
         holder?.expectedSalary?.text = appliedJobsLists!![position].expectedSalary
 
+        Log.d("activity", appliedjobsActitivityLists?.toString())
+
         if (appliedJobsLists!![position].isUserSeenInvitation == "0") {
             holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
         }
@@ -135,6 +140,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 if (deadline > todaysDate) {
                     holder?.cancelBTN?.visibility = View.VISIBLE
                     holder?.edit_SalaryIcon?.visibility = View.VISIBLE
+                } else if (deadline < todaysDate) {
+                    holder?.cancelBTN?.visibility = View.GONE
+                    holder?.edit_SalaryIcon?.visibility = View.GONE
                 }
 
 
@@ -187,7 +195,17 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         holder?.cancelBTN?.setOnClickListener {
             removeItem(holder.adapterPosition, it)
         }
-
+        holder?.interviewBTN?.setOnClickListener {
+            communicator.gotoInterviewInvitationDetails(
+                    from = "appliedjobs",
+                    jobID = appliedJobsLists!![position].jobId!!,
+                    jobTitle = appliedJobsLists!![position].title!!,
+                    companyName = appliedJobsLists!![position].companyName!!
+            )
+        }
+        holder?.interactionBTN?.setOnClickListener {
+            communicator?.gotoEmployerInteractionFragment()
+        }
 
     }
 
@@ -196,15 +214,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             val deletedItem = appliedJobsLists?.get(position)
             val jobid = appliedJobsLists?.get(position)?.jobId
             val companyName = appliedJobsLists?.get(position)?.companyName
-            Log.d("werywirye","jobid = $jobid companyname = $companyName")
+            Log.d("werywirye", "jobid = $jobid companyname = $companyName")
             appliedJobsLists?.removeAt(position)
             notifyItemRemoved(position)
             try {
                 val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
                 undoRemove(view, deletedItem, position, deleteJobID)
                 communicator.decrementCounter()
-            }
-            catch (e : Exception){
+            } catch (e: Exception) {
 
             }
 
@@ -212,6 +229,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             context.toast("No items left here!")
         }
     }
+
     private fun undoRemove(v: View, deletedItem: AppliedJobModelData?, deletedIndex: Int, deleteJobID: Int) {
         // here we show snackbar and undo option
 
@@ -251,8 +269,21 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         }
     }
 
+    fun addActivity(r: AppliedJobModelActivity) {
+        appliedjobsActitivityLists?.add(r)
+        notifyItemInserted(appliedjobsActitivityLists!!.size - 1)
+
+    }
+
+    fun addAllActivity(moveResults: List<AppliedJobModelActivity>) {
+        for (result in moveResults!!) {
+            addActivity(result)
+        }
+    }
+
     fun removeAll() {
         appliedJobsLists?.clear()
+        appliedjobsActitivityLists?.clear()
         notifyDataSetChanged()
     }
 
