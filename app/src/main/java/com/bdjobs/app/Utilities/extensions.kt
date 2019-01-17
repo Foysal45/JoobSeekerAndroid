@@ -262,6 +262,7 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
             etCurrent?.requestFocus()
         }
         etNext?.requestFocus()
+        tilCurrent?.hideError()
     }
     return valid
 }
