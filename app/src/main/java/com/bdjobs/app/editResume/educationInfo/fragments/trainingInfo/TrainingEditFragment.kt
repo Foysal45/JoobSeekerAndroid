@@ -131,7 +131,7 @@ class TrainingEditFragment : Fragment() {
             for (item in 1964..2019) {
                 yearList.add(item.toString())
             }
-            activity.selector(getString(R.string.alert_exam_title), yearList.toList()) { _, i ->
+            activity.selector("Please Select Training Year", yearList.toList()) { _, i ->
 
                 etTrTrainingYear.setText(yearList[i])
                 trTrainingYearTIL.requestFocus()
