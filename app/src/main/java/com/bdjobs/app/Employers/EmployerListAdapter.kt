@@ -84,8 +84,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
         if (jobCountint!! > 0) {
             holder.employersListCard.setOnClickListener {
-                var company_name_1 = employerList!![position].companyname!!
-                var company_ID_1 = employerList!![position].companyid!!
+                val company_name_1 = employerList!![position].companyname!!
+                val company_ID_1 = employerList!![position].companyid!!
                 employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
                 Log.d("companyid", company_ID_1)
                 Log.d("companyid", company_name_1)
@@ -95,7 +95,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
         doAsync {
             val company_ID = employerList!![position].companyid!!
-            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID)
+            val companyName=employerList!![position].companyname!!
+            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,companyName)
 
             uiThread {
                 if (isitFollowed) {
@@ -116,7 +117,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
             val company_NAME = employerList!![position].companyname!!
             val jobcount = employerList!![position].totaljobs!!
 
-            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID)
+            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,company_NAME)
 
             Log.d("companyinfo", "companyid: $company_ID \n companyname: $company_NAME \n isitFollowed: $isitFollowed")
 

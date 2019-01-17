@@ -185,7 +185,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     jobCommunicator?.goToLoginPage()
                                 } else {
                                     doAsync {
-                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
+                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
                                         uiThread {
                                             if (isItFollowed) {
                                                 jobsVH?.followTV?.setTextColor(Color.parseColor("#13A10E"))
@@ -207,7 +207,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             doAsync {
 
                                 val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
-                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
+                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
                                 uiThread {
                                     if (appliedJobs.isEmpty()) {
                                         jobsVH.appliedBadge.hide()

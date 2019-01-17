@@ -264,7 +264,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 qRetiredArmy = army,
                 savefilterid = filterID,
                 userId = bdjobsUserSession.userId,
-                filterName = filterNameET.getString(),
+                filterName = filterNameET.getString().trim(),
                 qAge = age,
                 newspaper = newspaper,
                 encoded = Constants.ENCODED_JOBS
@@ -285,7 +285,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         doAsync {
                             val favouriteSearch = FavouriteSearch(
                                     filterid = filterID,
-                                    filtername = filterName,
+                                    filtername = filterName.trim(),
                                     industrialCat = industry,
                                     functionalCat = category,
                                     location = location,

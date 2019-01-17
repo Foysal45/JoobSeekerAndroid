@@ -20,12 +20,12 @@ interface FollowedEmployerDao {
     @Query("SELECT SUM(JobCount) FROM FollowedEmployer")
     fun getJobCountOfFollowedEmployer(): Int
 
-    @Query("SELECT * FROM FollowedEmployer WHERE CompanyID=:companyID")
-    fun getFollowedEmployerByCompanyID(companyID:String): List<FollowedEmployer>
+    @Query("SELECT * FROM FollowedEmployer WHERE CompanyID=:companyID AND CompanyName=:companyName")
+    fun getFollowedEmployer(companyID:String, companyName:String): List<FollowedEmployer>
 
     @Transaction
-    fun isItFollowed(companyID:String): Boolean {
-        val jobs = getFollowedEmployerByCompanyID(companyID)
+    fun isItFollowed(companyID:String,companyName: String): Boolean {
+        val jobs = getFollowedEmployer(companyID,companyName)
         if (jobs.isNullOrEmpty()) {
             return false
         }
