@@ -11,7 +11,6 @@ import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.uiThread
 
 class BdjobsUserSession(val context: Context) {
@@ -125,6 +124,7 @@ class BdjobsUserSession(val context: Context) {
         pref?.edit {
             putString(Constants.session_key_isCvPosted, isCvPosted)
         }
+        pref?.edit()?.apply()
     }
 
     fun updateFullName(name: String) {

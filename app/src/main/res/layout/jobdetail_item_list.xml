@@ -179,7 +179,7 @@
                 <TextView
                     android:id="@+id/locationText"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="8dp"
                     android:drawableLeft="@drawable/ic_location_ic"

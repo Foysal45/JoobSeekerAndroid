@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/examTitleTV"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:drawableLeft="@drawable/ic_exam_title_ic"
+        android:drawablePadding="7dp"
+        android:gravity="center_vertical"
+        android:text="Written"
+        android:textColor="#0E73A9"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rescheduleStattusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/examTitleTV"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/examTitleTV"
+        android:drawableLeft="@drawable/job_res_status_ic"
+        android:drawablePadding="7dp"
+        android:gravity="center"
+        android:text="Rescheduled"
+        android:textColor="#909092"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/inviteDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/examTitleTV"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="8dp"
+        android:drawableLeft="@drawable/job_cal_ic"
+        android:drawablePadding="7dp"
+        android:gravity="center"
+        android:text="13 Sep, 2018"
+        android:textColor="#7D7D7D"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/examMsgTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/examTitleTV"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Congratulation! You have been selected for an interview and it's scheduled on"
+        android:textColor="#383D41" />
+
+    <RelativeLayout
+        android:id="@+id/examInfoRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/examMsgTV"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/exam_details_bg"
+        android:paddingLeft="14dp"
+        android:paddingTop="14dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/dateHeadingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="70dp"
+            android:drawableLeft="@drawable/job_cal_ic"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Date"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/examDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dateHeadingTV"
+            android:layout_alignLeft="@id/dateHeadingTV"
+            android:layout_marginRight="40dp"
+            android:gravity="center"
+            android:text="20 Sep, 2018"
+            android:textColor="#303030"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/timeHeadingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_toRightOf="@id/dateHeadingTV"
+            android:drawableLeft="@drawable/job_time_ic"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Time"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/examTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeHeadingTV"
+            android:layout_alignLeft="@id/timeHeadingTV"
+            android:gravity="center"
+            android:text="12.30pm"
+            android:textColor="#303030"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/venueHeadingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/examDateTV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="70dp"
+            android:drawableLeft="@drawable/job_loc_ic"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Venue Details"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/examVenueTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/venueHeadingTV"
+            android:layout_alignLeft="@id/venueHeadingTV"
+            android:layout_marginRight="40dp"
+            android:text="19th floor, Bdjobs.com,BDBL Bhaban,  Karwan Bazar"
+            android:textColor="#303030"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/directionTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/examVenueTV"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:drawableLeft="@drawable/job_direc_ic"
+            android:drawablePadding="5dp"
+            android:text="Get Direction"
+            android:textColor="#43A047"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/notifyRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/examInfoRL"
+        android:layout_marginLeft="24dp"
+        android:visibility="gone">
+
+
+        <TextView
+
+            android:id="@+id/notifyMsgTV"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:drawableLeft="@drawable/job_confirm_ic"
+            android:drawablePadding="7dp"
+            android:gravity="center_vertical"
+            android:textColor="#13A10E"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Reschedule Confirmed" />
+
+        <TextView
+            android:id="@+id/notifyDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/notifyMsgTV"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:drawableLeft="@drawable/job_cal_ic"
+            android:drawablePadding="7dp"
+            android:gravity="center"
+            android:text="13 Sep, 2018"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/notifyDetailsTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notifyMsgTV"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="15dp"
+            android:text="Congratulation! You have been selected for an interview and it's scheduled on"
+            android:textColor="#155724" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/prevSchRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notifyRL"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/previous_sch_details_bg"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/prevSchHeadingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Previous schedule"
+            android:textColor="#767676"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/preSchDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prevSchHeadingTV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@drawable/job_cal_ic"
+            android:gravity="center"
+            android:text="15 Sep, 2018"
+            android:textColor="#767676"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/preSchTimeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prevSchHeadingTV"
+            android:layout_alignBaseline="@id/preSchDateTV"
+            android:layout_toRightOf="@id/preSchDateTV"
+            android:drawableLeft="@drawable/job_time_ic"
+            android:gravity="center"
+            android:text="12.30pm"
+            android:textColor="#767676"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:layout_below="@id/prevSchRL"
+        android:src="@drawable/job_divider_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

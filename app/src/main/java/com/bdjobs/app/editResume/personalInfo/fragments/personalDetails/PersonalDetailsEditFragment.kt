@@ -22,6 +22,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +34,8 @@ class PersonalDetailsEditFragment : Fragment() {
     private lateinit var now: Calendar
     private var gender = ""
     private var marital = ""
+    private var dob = ""
+    private var date: Date? = null
     private var nationality = "Bangladeshi"
 
     private val birthDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -46,6 +49,7 @@ class PersonalDetailsEditFragment : Fragment() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         etPerDob.setText(sdf.format(now.time))
+        dob = etPerDob.getString()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -60,13 +64,13 @@ class PersonalDetailsEditFragment : Fragment() {
         session = BdjobsUserSession(activity)
         personalInfo = activity as PersonalInfo
         now = Calendar.getInstance()
+        personalInfo.setTitle(getString(R.string.title_personal))
+        doWork()
     }
 
     override fun onResume() {
         super.onResume()
-        personalInfo.setTitle(getString(R.string.title_personal))
         personalInfo.setEditButton(false, "dd")
-        doWork()
     }
 
     private fun doWork() {
@@ -81,10 +85,31 @@ class PersonalDetailsEditFragment : Fragment() {
                 nationalityTIL.hide()
             }
         }
-        etPerDob.setOnClickListener { pickDate(activity, now, birthDateSetListener) }
+        etPerDob.setOnClickListener {
+            pickDateOfBirth(birthDateSetListener)
+        }
         fab_per_update.setOnClickListener {
             updateData()
         }
+    }
+
+    private fun pickDateOfBirth(listener: DatePickerDialog.OnDateSetListener) {
+        val cal = Calendar.getInstance()
+        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
+        try {
+            date = formatter.parse(dob)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        d("day: $date")
+        cal.time = date
+        val dpd = DatePickerDialog(activity,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+        dpd.show()
     }
 
     private fun preloadedData() {
@@ -96,6 +121,7 @@ class PersonalDetailsEditFragment : Fragment() {
         etPerFName.setText(data.fatherName)
         etPerMName.setText(data.motherName)
         etPerReligion.setText(data.religion)
+        dob = data.dateofBirth.toString()
         etPerDob.setText(data.dateofBirth)
         etPerNid.setText(data.nationalIdNo)
         etPerNationality.setText(data.nationality)
@@ -133,6 +159,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            session.updateIsCvPosted("true")
                             session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()
                         }

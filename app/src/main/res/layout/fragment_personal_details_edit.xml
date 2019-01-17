@@ -319,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.national_id_no"
                     android:inputType="number"
-                    android:maxLength="50"
+                    android:maxLength="17"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>

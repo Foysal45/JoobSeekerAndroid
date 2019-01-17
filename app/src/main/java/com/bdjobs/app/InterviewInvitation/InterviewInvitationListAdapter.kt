@@ -37,11 +37,11 @@ class InterviewInvitationListAdapter(private val context: Context, private val i
         holder?.appliedDateTV?.text = items[position].inviteDate?.split(" ")?.get(0)
 
         holder?.itemView?.setOnClickListener {
-            /*interviewInvitationCommunicator.goToInvitationDetails(
+            interviewInvitationCommunicator.goToInvitationDetails(
                     jobID = items[position].jobId!!,
                     jobTitle = items[position].jobTitle!!,
                     companyName = items[position].companyName!!
-            )*/
+            )
         }
     }
 }

@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="8dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +73,6 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         shimmer:duration="800"
         shimmer:layout_constraintBottom_toBottomOf="parent"
@@ -110,8 +108,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
+        android:elevation="8dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/ic_home_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_medium"
             android:text="TextView"
             android:textColor="#000000"
@@ -137,9 +136,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto"
-            android:text="TextView"
             android:textColor="#767676"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -156,16 +154,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
+            android:letterSpacing="0"
             android:text="View Job Details"
             android:textAllCaps="false"
             android:textColor="#007FE3"
-            android:letterSpacing="0"
             android:textSize="14sp"
             app:icon="@drawable/ic_keyboard_arrow_right_black_24dp"
             app:iconGravity="textStart"
-            app:layout_constraintBaseline_toBaselineOf="@+id/appliedDateTV"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
@@ -186,15 +185,170 @@
         android:id="@+id/followedRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/messageHolderLL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
+    <LinearLayout
+        android:id="@+id/messageHolderLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <RelativeLayout
+            android:id="@+id/questionRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#AC016D"
+            android:gravity="center"
+            android:paddingLeft="42dp"
+            android:paddingTop="16dp"
+            android:paddingRight="42dp"
+            android:paddingBottom="15dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/messageTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Do you want to present in the interview on Thursday, 15th Sep 2018, at 12.30 PM in Bdjobs.com Ltd?"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/btnRL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/messageTV"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/yesBTN"
+                     style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center"
+                    android:text="Yes"
+                    android:textAllCaps="false"
+                    android:textColor="#AC016D"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/noBTN"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@id/yesBTN"
+                    android:gravity="center"
+                    android:text="No"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/rescheduleRequestTV"
+                android:layout_width="wrap_content"
+                android:textAllCaps="false"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnRL"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
+                android:clickable="true"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="Request for Reschedule"
+                android:textColor="#DD99C4"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ratingInputRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242"
+            android:paddingLeft="20dp"
+            android:paddingTop="25dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="25dp"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ratingBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rate this company"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ratingShowRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242"
+            android:paddingLeft="32dp"
+            android:paddingTop="25dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="25dp"
+            android:visibility="gone">
+
+            <RatingBar
+                android:id="@+id/companyRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1.0" />
+
+            <TextView
+                android:id="@+id/ratingMsgTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/companyRatingBar"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="The company's recruiting process was quite legnthy to me."
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/ratingDateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ratingMsgTV"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="70dp"
+                android:drawableLeft="@drawable/job_cal_ic"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="Date: 20 Sep, 2018"
+                android:textColor="#7D7D7D"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

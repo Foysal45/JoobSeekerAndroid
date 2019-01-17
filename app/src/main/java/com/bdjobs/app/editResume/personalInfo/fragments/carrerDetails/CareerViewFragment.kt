@@ -41,7 +41,6 @@ class CareerViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        contactCB.setEditButton(true, "editCareer")
         contactCB.setTitle(getString(R.string.title_career))
         doWork()
     }
@@ -67,6 +66,7 @@ class CareerViewFragment : Fragment() {
                         clContent.show()
                         val respo = response.body()
                         val data = respo?.data?.get(0)!!
+                        contactCB.setEditButton(true, "editCareer")
                         contactCB.passCareerData(data)
                         setupView(respo)
                     }
@@ -88,12 +88,22 @@ class CareerViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 }

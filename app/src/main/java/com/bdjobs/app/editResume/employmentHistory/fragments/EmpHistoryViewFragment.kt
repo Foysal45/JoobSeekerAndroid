@@ -3,7 +3,6 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.behaveYourself
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -52,6 +52,7 @@ class EmpHistoryViewFragment : Fragment() {
 
     private fun doWork() {
         shimmerStart()
+        rv_eh_view.behaveYourself(fab_eh_add)
         populateData()
         empHisCB.setDeleteButton(false)
         fab_eh_add.setOnClickListener {
@@ -73,7 +74,7 @@ class EmpHistoryViewFragment : Fragment() {
         call.enqueue(object : Callback<GetExps> {
             override fun onFailure(call: Call<GetExps>, t: Throwable) {
                 shimmerStop()
-                activity.toast("Error occurred")
+                activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetExps>, response: Response<GetExps>) {
@@ -81,9 +82,6 @@ class EmpHistoryViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         val respo = response.body()
-                        Log.d("empTest", "${respo?.message}")
-                        Log.d("empTest1", "${respo?.toString()}")
-
                         //activity.toast("${respo?.message}")
                         arr = respo?.data as ArrayList<DataItem>
                         //activity.toast("${arr?.size}")
@@ -103,12 +101,22 @@ class EmpHistoryViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 }

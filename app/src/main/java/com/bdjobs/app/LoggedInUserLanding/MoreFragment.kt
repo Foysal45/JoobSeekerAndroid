@@ -42,7 +42,7 @@ class MoreFragment : Fragment() {
             startActivity<JobBaseActivity>("keyword" to "")
         }
         appGuides_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("http://bdjobs.com/apps/ios/index.html")
+            activity?.openUrlInBrowser("https://bdjobs.com/apps/guide.html")
         }
         rateUs_MBTN?.setOnClickListener {
             activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")

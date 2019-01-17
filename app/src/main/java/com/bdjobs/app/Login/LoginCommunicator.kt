@@ -16,4 +16,5 @@ interface LoginCommunicator {
     fun getGoToHome(): Boolean?
     fun goToHomePage()
     fun goToRegistrationActivity()
+    fun goToWebActivity(url:String,from:String)
 }

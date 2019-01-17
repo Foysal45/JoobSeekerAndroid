@@ -42,7 +42,6 @@ class PersonalDetailsViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        personalInfoCB.setEditButton(true, "editPersonal")
         personalInfoCB.setTitle(getString(R.string.title_personal))
         doWork()
 
@@ -71,6 +70,7 @@ class PersonalDetailsViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         nsView.show()
+                        personalInfoCB.setEditButton(true, "editPersonal")
                         val respo = response.body()
                         personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo)
@@ -103,13 +103,22 @@ class PersonalDetailsViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
-
 }

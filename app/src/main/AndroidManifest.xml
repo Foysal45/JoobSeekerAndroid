@@ -17,11 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Web.WebActivity"></activity>
+
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.1" />
-
-        <!-- facebook login related data start -->
+            android:value="2.1" /> <!-- facebook login related data start -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -43,9 +43,7 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-        </activity>
-        <!-- facebook login related data end -->
-
+        </activity> <!-- facebook login related data end -->
         <activity
             android:name=".SplashActivity"
             android:launchMode="singleTop"
@@ -118,24 +116,27 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".editResume.EditResLandingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".editResume.employmentHistory.EmploymentHistoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".editResume.personalInfo.PersonalInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".editResume.otherInfo.OtherInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".editResume.educationInfo.AcademicBaseActivity"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".editResume.PhotoUploadActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".AppliedJobs.AppliedJobsActivity"
             android:screenOrientation="portrait" />

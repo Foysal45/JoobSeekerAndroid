@@ -61,12 +61,6 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         empHisCB = activity as EmpHisCB
         now = Calendar.getInstance()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        d(isEdit.toString())
         doWork()
         if (isEdit) {
             hID = "13"
@@ -77,6 +71,11 @@ class ArmyEmpHistoryEditFragment : Fragment() {
             hID = "-13"
             clearEditText()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        d(isEdit.toString())
     }
 
     private fun doWork() {

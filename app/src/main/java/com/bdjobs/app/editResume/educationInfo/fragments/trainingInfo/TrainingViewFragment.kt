@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.TrainingInfoAdapter
 import com.bdjobs.app.editResume.adapters.models.GetTrainingInfo
 import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
@@ -51,6 +49,7 @@ class TrainingViewFragment : Fragment() {
 
     private fun doWork() {
         populateData()
+        rv_tr_view.behaveYourself(fab_tr_add)
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_training))
         fab_tr_add.setOnClickListener {
@@ -92,7 +91,7 @@ class TrainingViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    rv_tr_view.show()
+                    activity.toast("${response.body()?.message}")
                     activity.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
@@ -101,13 +100,23 @@ class TrainingViewFragment : Fragment() {
     }
 
     private fun shimmerStart() {
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList.startShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
     private fun shimmerStop() {
-        shimmer_view_container_JobList.hide()
-        shimmer_view_container_JobList.stopShimmerAnimation()
+        try {
+            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList.stopShimmerAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
     }
 
 }
