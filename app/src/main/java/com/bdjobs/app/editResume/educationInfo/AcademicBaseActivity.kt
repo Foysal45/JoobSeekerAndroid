@@ -6,8 +6,6 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
-import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
@@ -166,23 +164,17 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         when {
             TextUtils.isEmpty(char) -> {
                 til.showError(getString(R.string.field_empty_error_message_common))
-                requestFocus(et)
+                this.requestFocus(et)
                 return false
             }
             char.length < 2 -> {
                 til.showError(" it is too short")
-                requestFocus(et)
+                this.requestFocus(et)
                 return false
             }
             else -> til.hideError()
         }
         return true
-    }
-
-    private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        }
     }
 
 }

@@ -17,6 +17,8 @@ import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_personal_details_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -37,6 +39,7 @@ class PersonalDetailsEditFragment : Fragment() {
     private var dob = ""
     private var date: Date? = null
     private var nationality = "Bangladeshi"
+    private var isNotBangladeshi = false
 
     private val birthDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -71,28 +74,56 @@ class PersonalDetailsEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         personalInfo.setEditButton(false, "dd")
+        initViews()
+    }
+
+    private fun initViews() {
+        etPerFirstName?.addTextChangedListener(TW.CrossIconBehave(etPerFirstName))
+        etPerDob?.addTextChangedListener(TW.CrossIconBehave(etPerDob))
+        etPerNationality?.addTextChangedListener(TW.CrossIconBehave(etPerNationality))
     }
 
     private fun doWork() {
+        addTextChangedListener(etPerFirstName, firstNameTIL)
+        addTextChangedListener(etPerDob, dobTIL)
+        addTextChangedListener(etPerNationality, nationalityTIL)
         preloadedData()
         cbPerIsBd.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) {
+            isNotBangladeshi = if (!isChecked) {
                 nidTIL.hide()
                 nationalityTIL.show()
+                true
             } else {
                 etPerNationality.setText(nationality)
                 nidTIL.show()
                 nationalityTIL.hide()
+                false
             }
         }
         etPerDob.setOnClickListener {
             pickDateOfBirth(birthDateSetListener)
         }
         fab_per_update.setOnClickListener {
-            updateData()
+            var validation = 0
+            validation = isValidate(etPerFirstName, firstNameTIL, etPerFirstName, true, validation)
+            validation = isValidate(etPerDob, dobTIL, etPerDob, true, validation)
+            if (isNotBangladeshi) {
+                validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
+            }
+            if (validation >= 2) {
+                updateData()
+            } else {
+                assert(activity != null)
+                activity?.toast("Please fill up the mandatory field first")
+            }
         }
     }
 
+    private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            personalInfo.validateField(charSequence.toString(), editText, inputLayout)
+        }
+    }
     private fun pickDateOfBirth(listener: DatePickerDialog.OnDateSetListener) {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
@@ -102,13 +133,40 @@ class PersonalDetailsEditFragment : Fragment() {
             e.printStackTrace()
         }
         d("day: $date")
-        cal.time = date
-        val dpd = DatePickerDialog(activity,
-                listener,
-                // set DatePickerDialog to point to today's date when it loads up
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH))
+        val dpd: DatePickerDialog
+        val mYear = now.get(Calendar.YEAR) // current year
+        val mMonth = now.get(Calendar.MONTH) // current month
+        val mDay = now.get(Calendar.DAY_OF_MONTH) // current day
+        if (date != null) {
+            cal.time = date
+            dpd = DatePickerDialog(activity,
+                    listener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH))
+        } else {
+            dpd = DatePickerDialog(activity,
+                    listener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    mYear,
+                    mMonth,
+                    mDay)
+        }
+
+        val calendarMin = Calendar.getInstance()
+        calendarMin.set(Calendar.DAY_OF_MONTH, mDay)
+        calendarMin.set(Calendar.MONTH, mMonth)
+        calendarMin.set(Calendar.YEAR, mYear - 85)
+
+        val calendarMax = Calendar.getInstance()
+        calendarMax.set(Calendar.DAY_OF_MONTH, mDay)
+        calendarMax.set(Calendar.MONTH, mMonth)
+        calendarMax.set(Calendar.YEAR, mYear - 12)
+
+
+        dpd.datePicker.maxDate = calendarMax.timeInMillis
+        dpd.datePicker.minDate = calendarMin.timeInMillis
         dpd.show()
     }
 

@@ -60,9 +60,13 @@ class PersonalDetailsViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getPersonalInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetPersInfo> {
             override fun onFailure(call: Call<GetPersInfo>, t: Throwable) {
-                shimmerStop()
-                nsView.show()
-                activity.toast("Error occurred")
+                try {
+                    shimmerStop()
+                    nsView.show()
+                    activity.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<GetPersInfo>, response: Response<GetPersInfo>) {
@@ -77,9 +81,11 @@ class PersonalDetailsViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    nsView.show()
-                    activity.toast("${response.body()?.message}")
-                    activity.logException(e)
+                    if (activity != null) {
+                        activity.toast("${response.body()?.message}")
+                        activity.logException(e)
+                        activity.error("++${e.message}")
+                    }
                 }
             }
         })

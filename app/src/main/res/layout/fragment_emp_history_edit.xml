@@ -174,7 +174,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="-5dp"
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -189,6 +188,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/endDateTIL"
                     style="@style/EHTextInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
