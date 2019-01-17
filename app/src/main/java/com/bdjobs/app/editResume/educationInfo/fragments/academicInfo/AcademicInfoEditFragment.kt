@@ -48,6 +48,7 @@ class AcademicInfoEditFragment : Fragment() {
     private var resultValiadtionCode = 0
     private var yearList = ArrayList<String>()
     var validation = 0
+    private var examdegree = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -174,10 +175,12 @@ class AcademicInfoEditFragment : Fragment() {
                     marks = marksTIET.getString().toInt()
 
                     if (marks > 100 || marks < 1) {
-                        resultValiadtionCode = 99
-                    } else {
 
-                        resultValiadtionCode = 100
+                        resultValiadtionCode = 99
+                        validation--
+
+                    } else {
+                        resultValiadtionCode = 0
                     }
 
 
@@ -213,17 +216,19 @@ class AcademicInfoEditFragment : Fragment() {
                     if (cgp > scale) {
 
                         resultValiadtionCode = 5
+                        validation--
 
 
-                    } /*else if(cgp < scale) {
+                    } else {
 
                         resultValiadtionCode = 0
 
-                    }*/
+                    }
 
                     if (cgp > 5.00 || cgp < 1.00) {
 
                         resultValiadtionCode = 2
+                        validation--
                     } /*else {
 
                        resultValiadtionCode = 0
@@ -232,6 +237,7 @@ class AcademicInfoEditFragment : Fragment() {
                     if (scale > 5.00 || scale < 1.00) {
 
                         resultValiadtionCode = 3
+                        validation--
                     } /*else{
 
                        resultValiadtionCode = 0
@@ -753,62 +759,6 @@ class AcademicInfoEditFragment : Fragment() {
 
     }
 
-
-/*private fun validateScale(): Boolean {
-    if (gradeLL.getVisibility() == View.VISIBLE) {
-        var i = 0f
-        try {
-            i = java.lang.Float.parseFloat(scaleET.getText().toString())
-        } catch (ex: NumberFormatException) { // handle your exception
-
-        }
-
-        if (scaleET.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            scaleTIL.setErrorEnabled(true)
-            scaleTIL.setError(getResources().getString(R.string.field_empty_error_message_common))
-            requestFocus(scaleET)
-            return false
-        } else if (i > 5.00 || i < 1.00) {
-            scaleTIL.setErrorEnabled(true)
-            scaleTIL.setError("CGPA Scale can not be greater than 5.00 or less than 1.00")
-            requestFocus(scaleET)
-            return false
-        } else {
-            scaleTIL.setErrorEnabled(false)
-        }
-        return true
-    }
-    return false
-}
-
-private fun validateCgpa(): Boolean {
-    if (gradeLL.getVisibility() == View.VISIBLE) {
-        var i = 0f
-        try {
-            i = java.lang.Float.parseFloat(cgpaET.getText().toString())
-        } catch (ex: NumberFormatException) { // handle your exception
-
-        }
-
-        if (cgpaET.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            cgpaTIL.setErrorEnabled(true)
-            cgpaTIL.setError(getResources().getString(R.string.field_empty_error_message_common))
-            requestFocus(cgpaET)
-            return false
-        } else if (i > 5.00 || i < 1.00) {
-            cgpaTIL.setErrorEnabled(true)
-            cgpaTIL.setError("CGPA can not be greater than 5.00 or less than 1.00")
-            requestFocus(cgpaET)
-            return false
-        } else {
-            cgpaTIL.setErrorEnabled(false)
-        }
-        return true
-    }
-    return false
-}*/
-
-
     private fun setDialog() {
         val institutes = ds.allInstitutes
         val majorSubjects = ds.allInMajorSubjects
@@ -849,6 +799,7 @@ private fun validateCgpa(): Boolean {
                 examTitleTIL.requestFocus()
                 Log.d("eduLevel", "ExamTitle ${examList[i]}")
                 if (examList[i].equals("Other")) {
+
 
                     examOtherTIL.show()
                     examOtherTIL.isErrorEnabled = false
@@ -927,8 +878,17 @@ private fun validateCgpa(): Boolean {
     private fun updateData() {
 
         activity.showProgressBar(loadingProgressBar)
+
+        if (etExamTitle.getString().equalIgnoreCase("Other")) {
+
+            examdegree = etExamOtherTitle.getString()
+
+        } else {
+            examdegree = etExamTitle.getString()
+        }
+
         val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
-                ds.getEduIDByEduLevel(etLevelEdu.getString()), etExamTitle.getString(), instituteNameACTV.getString(),
+                ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                 etPassignYear.getString(), majorSubACTV.getString(),
                 hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
                 etScaleTIET.getString(), cgpaTIET.getString(), etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
