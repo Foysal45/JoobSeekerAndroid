@@ -34,6 +34,7 @@ class ContactEditFragment : Fragment() {
     private var presentInOutBD: String? = ""
     private var permanentInOutBD: String? = ""
     private var sameAddress: String = ""
+    private var count: Int = 0
     private lateinit var data: C_DataItem
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -74,24 +75,37 @@ class ContactEditFragment : Fragment() {
         pmContactAddressTIETPRM.addTextChangedListener(TW.CrossIconBehave(pmContactAddressTIETPRM))
         permanentContactCountryTIETP.addTextChangedListener(TW.CrossIconBehave(permanentContactCountryTIETP))
 
-
+        contactMobileNumberTIET.addTextChangedListener(TW.CrossIconBehave(contactMobileNumberTIET))
+        contactMobileNumber1TIET.addTextChangedListener(TW.CrossIconBehave(contactMobileNumber1TIET))
+        contactMobileNumber2TIET.addTextChangedListener(TW.CrossIconBehave(contactMobileNumber2TIET))
+        contactEmailAddressTIET.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET))
+        contactEmailAddressTIET1.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET1))
     }
 
     private fun doWork() {
-
+        count = 0
         addTextChangedListener(prContactDivTIET, contactDivTIL)
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
-        addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
+        //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
         addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
+        addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
 
-        addTextChangedListener(pmContactDivTIET1, contactDivTIL1)
-        addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
-        addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
-        addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
-        addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
-        addTextChangedListener(permanentContactCountryTIETP, presentContactCountryTILP)
+        if (pmContactDivTIET1.getString() != "" || pmContactAddressTIETPRM.getString() != "") {
+            addTextChangedListener(pmContactDivTIET1, contactDivTIL1)
+            addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
+            addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
+            //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
+            addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
+            addTextChangedListener(permanentContactCountryTIETP, presentContactCountryTILP)
+        } else {
+            contactDivTIL1.hideError()
+            contactDistrictTIL.hideError()
+            contactThanaTIL.hideError()
+            contactAddressTILPRM.hideError()
+            if (permanentInOutBD != "1") presentContactCountryTILP.hideError()
+        }
 
         preloadedData()
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -109,22 +123,25 @@ class ContactEditFragment : Fragment() {
             if (presentInOutBD == "1") {
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
             }
+            if (permanentInOutBD == "1") {
+                validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+            }
             if (validation >= 3) updateData()
         }
-        if (contactMobileNumber2TIET.isVisible)
-            contactAddMobileButton?.hide() else {
-            contactAddMobileButton?.show()
-            contactAddMobileButton?.setOnClickListener {
-                contactMobileNumber1TIET?.show()
-                contactMobileNumber2TIET?.show()
-            }
+        contactAddMobileButton?.setOnClickListener {
+            count++
+            if (count == 1) contactMobileNumber1TIL?.show() else contactMobileNumber2TIL?.show()
+            if (contactMobileNumber2TIL.isVisible)
+                contactAddMobileButton?.hide() else contactAddMobileButton?.show()
         }
 
-        if (contactEmailAddressTIET1.isVisible)
-            contactAddEmailButton.hide()
-        else {
-            contactAddEmailButton.show()
-            contactAddEmailButton?.setOnClickListener { contactEmailAddressTIET1.show() }
+        contactAddEmailButton?.setOnClickListener {
+            contactEmailAddressTIL1.show()
+            if (contactEmailAddressTIL1.isVisible)
+                contactAddEmailButton.invisible()
+            else {
+                contactAddEmailButton.show()
+            }
         }
 
         setupViews()
@@ -218,44 +235,61 @@ class ContactEditFragment : Fragment() {
         prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
         d("thana : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
-        prContactDivTIET?.setText(dataStorage.getDivisionNameByDistrictName(data.presentDistrict.toString()))
+        val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
+        prContactDivTIET?.setText(prDiv)
+        d("division : ${dataStorage.getDivisionNameByDistrictName(data.presentDistrict.toString())}")
         presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
         // Permenant
         pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
         pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
         pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
-        pmContactDivTIET1?.setText(dataStorage.getDivisionNameByDistrictName(data.permanentDistrict.toString()))
+        val pmDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.permanentDistrict).toString())
+        pmContactDivTIET1?.setText(pmDiv)
+        d("divisionPm : id : ${data.permanentDistrict} & ${dataStorage.getLocationNameByID(data.permanentDistrict)}")
         permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.presentCountry))
 
         contactMobileNumberTIET?.setText(data.mobile)
         contactEmailAddressTIET?.setText(data.email)
 
-        if (!homePhone.isNullOrEmpty()) {
-            contactMobileNumber2TIET?.show()
+        if (!homePhone?.isEmpty()!!) {
+            contactMobileNumber2TIL?.show()
+            contactAddEmailButton.hide()
             contactMobileNumber2TIET?.setText(data.homePhone)
-        } else contactMobileNumber2TIET?.hide()
-        if (!officePhone.isNullOrEmpty()) {
-            contactMobileNumber1TIET?.show()
+        } else contactMobileNumber2TIL?.hide()
+        if (!officePhone?.isEmpty()!!) {
+            contactMobileNumber1TIL?.show()
             contactMobileNumber1TIET?.setText(data.officePhone)
-        } else contactMobileNumber1TIET?.hide()
-        if (!data.alternativeEmail.isNullOrEmpty()) {
-            contactEmailAddressTIET1?.show()
+        } else contactMobileNumber1TIL?.hide()
+        if (!data.alternativeEmail?.isEmpty()!!) {
+            contactEmailAddressTIL1?.show()
+            contactAddEmailButton.invisible()
             contactEmailAddressTIET1?.setText(data.alternativeEmail)
-        } else contactEmailAddressTIET1?.hide()
+        } else {
+            contactEmailAddressTIL1?.hide()
+            contactAddEmailButton.show()
+        }
         if (data.presentInsideOutsideBD == "False") {
             selectChip(cgPresent, "Inside Bangladesh")
             presentInOutBD = "0"
+            presentInsideBangladeshLayout1.show()
+            presentOutsideBangladeshLayout.hide()
         } else if (data.presentInsideOutsideBD == "True") {
             selectChip(cgPresent, "Outside Bangladesh")
             presentInOutBD = "1"
+            presentInsideBangladeshLayout1.hide()
+            presentOutsideBangladeshLayout.show()
         }
         if (data.permanentInsideOutsideBD == "False") {
             selectChip(cgPermanent, "Inside Bangladesh")
             permanentInOutBD = "0"
+            presentInsideBangladeshLayout.show()
+            presentOutsideBangladeshLayoutP.hide()
         } else if (data.permanentInsideOutsideBD == "True") {
             selectChip(cgPermanent, "Outside Bangladesh")
             permanentInOutBD = "1"
+            presentInsideBangladeshLayout.hide()
+            presentOutsideBangladeshLayoutP.show()
         }
     }
 
@@ -504,5 +538,14 @@ class ContactEditFragment : Fragment() {
             }
         }
     }
+
+    /*private fun disableError() {
+        companyNameTIL.hideError()
+        companyBusinessTIL.hideError()
+        positionTIL.hideError()
+        estartDateTIL.hideError()
+        endDateTIL.hideError()
+        experiencesTIL.hideError()
+    }*/
 
 }
