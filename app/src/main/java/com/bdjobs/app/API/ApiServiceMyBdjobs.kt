@@ -469,6 +469,25 @@ interface ApiServiceMyBdjobs {
             @Field("rattingComment") rattingComment: String
     ): Call<InvitationDetailModels>
 
+    @FormUrlEncoded
+    @POST("apps_salary_edit.asp")
+    fun getUpdateSalaryMsg(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("JobId") JobId: String? ,
+            @Field("txtExpectedSalary") txtExpectedSalary: String?
+    ): Call<AppliedJobsSalaryEdit>
+
+
+    @FormUrlEncoded
+    @POST("apps_cancelApply.asp")
+    fun getAppliedCancelMsg(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("JobId") JobId: String?
+    ): Call<CancelAppliedJobs>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
