@@ -97,4 +97,19 @@ class BCCategoryFragment : Fragment() {
 
     }
 
+
+    override fun onResume() {
+        super.onResume()
+
+        bcCategoryFAButton.setOnClickListener {
+
+            if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
+
+                activity.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
+
+            }
+
+        }
+
+    }
 }

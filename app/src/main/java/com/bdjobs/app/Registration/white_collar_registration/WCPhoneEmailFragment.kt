@@ -52,7 +52,7 @@ class WCPhoneEmailFragment : Fragment() {
 
             if (mobileNumberValidityCheck(charSequence.toString())) {
 
-                emailTIL.isErrorEnabled = false
+                emailTIL.hideError()
 
 
             }
@@ -68,7 +68,7 @@ class WCPhoneEmailFragment : Fragment() {
 
             if (emailValidityCheck(charSequence.toString())) {
 
-                mobileNumberTIL.isErrorEnabled = false
+                mobileNumberTIL.hideError()
 
 
             }
@@ -81,7 +81,7 @@ class WCPhoneEmailFragment : Fragment() {
 
             if (mobileNumberTIET.getString().isNullOrEmpty() && emailTIET.getString().isNullOrEmpty()) {
 
-                mobileNumberTIL.showError(" ")
+                mobileNumberTIL.showError("Please fill at least a Mobile Number or Email Address")
                 emailTIL.showError("Please fill at least a Mobile Number or Email Address")
 
 

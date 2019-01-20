@@ -43,36 +43,28 @@ interface RegistrationCommunicator {
     fun bcGoToStepCongratulation()
     fun bcCategorySelected(category: String, position: Int)
     fun bcGenderSelected(gender: String)
-
     fun bcBirthDateAndAgeSelected(birthDate: String, age: String)
     fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String)
     fun bcAddressSelected(division: String, district: String, thana: String, postOffice: String, address: String, locationID: String)
-
     fun bcGetAge():String
-
     fun bcResendOtp()
-
-
     fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String)
 
     ////-------------common-----------//
     fun nameSelected(name : String)
-
     fun goToHomePage()
     fun getUserId():String
     fun getDecodeId():String
     fun regWithGoogle()
     fun regWithFacebook()
     fun regWithLinkedIn()
-
     fun getName():String
     fun getEmail():String
     fun getGender():String
-
     fun showProgressBar()
     fun hideProgressBar()
-
     fun getCategory(): String
+    fun clearData()
 
 
 

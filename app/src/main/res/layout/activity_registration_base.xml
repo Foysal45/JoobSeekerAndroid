@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:visibility="gone"
+
             android:id="@+id/stepProgressBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
@@ -51,6 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/backIcon" />
 
         <FrameLayout
+            android:layout_marginTop="10dp"
             android:id="@+id/registrationFragmentHolderFL"
             android:layout_width="0dp"
             android:layout_height="0dp"

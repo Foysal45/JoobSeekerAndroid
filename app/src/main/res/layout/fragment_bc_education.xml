@@ -184,6 +184,7 @@
                    android:fontFamily="@font/roboto"
                    android:hint="শিক্ষা প্রতিষ্ঠানের নাম"
                    android:inputType="text"
+                   android:maxLength="80"
                    android:singleLine="true"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />
