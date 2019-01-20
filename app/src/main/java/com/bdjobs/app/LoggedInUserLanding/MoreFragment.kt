@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.app.Fragment
+import android.os.Handler
 import android.util.Log
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,11 +33,22 @@ class MoreFragment : Fragment() {
         initializeViews()
         clearAddPopulateData()
         onclick()
-        shakeHorizontaList()
+
     }
 
     private fun shakeHorizontaList() {
-       // horizontal_RV?.smoothScrollToPosition()
+        Log.d("horizontaList","horizontaList: ${horizontaList.size}")
+       Handler().postDelayed({
+            horizontal_RV?.post {
+            horizontal_RV.smoothScrollToPosition(horizontaList.size-1)
+        }
+        }, 1000)
+
+        Handler().postDelayed({
+            horizontal_RV?.post {
+                horizontal_RV.smoothScrollToPosition(0)
+            }
+        }, 2000)
     }
 
     private fun onclick() {
@@ -100,6 +112,7 @@ class MoreFragment : Fragment() {
             populateData()
         }
         horizontalAdapter?.addAll(horizontaList)
+        shakeHorizontaList()
     }
     private fun populateData() {
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
