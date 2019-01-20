@@ -14,8 +14,8 @@ interface FollowedEmployerDao {
     @Query("DELETE FROM FollowedEmployer")
     fun deleteAllFollowedEmployer()
 
-    @Query("DELETE FROM FollowedEmployer WHERE CompanyID =:companyID")
-    fun deleteFollowedEmployerByCompanyID(companyID:String)
+    @Query("DELETE FROM FollowedEmployer WHERE CompanyID =:companyID AND CompanyName=:companyName")
+    fun deleteFollowedEmployerByCompanyID(companyID:String,companyName:String)
 
     @Query("SELECT SUM(JobCount) FROM FollowedEmployer")
     fun getJobCountOfFollowedEmployer(): Int

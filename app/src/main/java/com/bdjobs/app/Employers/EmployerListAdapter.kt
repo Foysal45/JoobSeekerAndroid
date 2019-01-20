@@ -252,7 +252,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     var message = response.body()?.data?.get(0)?.message
                     Log.d("msg", message)
                     doAsync {
-                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
+                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid,companyName)
 
                         uiThread {
                             notifyDataSetChanged()

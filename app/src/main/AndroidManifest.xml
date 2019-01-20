@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Web.WebActivity"></activity>
+        <activity android:name=".InviteCode.InviteCodeBaseActivity"></activity>
+        <activity android:name=".Web.WebActivity" />
 
         <meta-data
             android:name="android.max_aspect"
