@@ -90,6 +90,7 @@ class WCPhoneEmailFragment : Fragment() {
             when {
                 validateMobileNumber() -> {
 
+                    //hrllo
 
                     registrationCommunicator.wcGoToStepPassword()
                     registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.getString())
