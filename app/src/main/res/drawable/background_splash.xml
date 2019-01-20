@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/splash_background" />
+    <item android:drawable="@color/colorWhite" />
     <item
+        android:gravity="center"
+        android:drawable="@drawable/ic_bdjobs_app_logo"
         android:bottom="80dp">
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/bdjobs_app_logo" />
+
     </item>
     <item
-        android:gravity="bottom"
+        android:height="30dp"
+        android:width="127dp"
+        android:drawable="@drawable/ic_bdjobs_logo"
+        android:gravity="bottom|center"
         android:bottom="80dp">
-        <bitmap
-            android:gravity="bottom"
-            android:src="@drawable/bdjobs_logo" />
+
     </item>
 </layer-list>

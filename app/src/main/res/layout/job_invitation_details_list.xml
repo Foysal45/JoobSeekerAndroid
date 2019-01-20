@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:paddingTop="15dp">
@@ -262,6 +264,13 @@
 
 
     </RelativeLayout>
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:layout_below="@id/prevSchRL"
+        android:src="@drawable/job_divider_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>

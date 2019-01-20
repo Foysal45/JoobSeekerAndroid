@@ -11,13 +11,13 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 618 //58
-        versionName "600.0.4.7.6"  //2.0
+        versionCode 620 //58
+        versionName "600.0.4.7.8"  //2.0
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-           /* minifyEnabled true
+            /* minifyEnabled true
             shrinkResources true*/
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

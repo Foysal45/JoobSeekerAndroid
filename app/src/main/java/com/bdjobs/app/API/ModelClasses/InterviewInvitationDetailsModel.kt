@@ -1,39 +1,67 @@
 package com.bdjobs.app.API.ModelClasses
+import com.google.gson.annotations.SerializedName
+
 
 data class InvitationDetailModels(
-    val common: InvitationDetailModelsCommon,
-    val `data`: List<InvitationDetailModelsData>,
-    val message: String,
-    val statuscode: String
+    @SerializedName("common")
+    val common: InvitationDetailModelsCommon? = InvitationDetailModelsCommon(),
+    @SerializedName("data")
+    val `data`: List<InvitationDetailModelsData>? = listOf(),
+    @SerializedName("message")
+    val message: String? = "",
+    @SerializedName("statuscode")
+    val statuscode: String? = ""
 )
 
 data class InvitationDetailModelsCommon(
-    val applyDate: String,
-    val applyId: String,
-    val jobClosed: String,
-    val rating: String,
-    val ratingDate: String,
-    val ratingMessage: String
+    @SerializedName("applyDate")
+    val applyDate: String? = "",
+    @SerializedName("applyId")
+    val applyId: String? = "",
+    @SerializedName("jobClosed")
+    val jobClosed: String? = "",
+    @SerializedName("rating")
+    val rating: String? = "",
+    @SerializedName("ratingDate")
+    val ratingDate: String? = "",
+    @SerializedName("ratingMessage")
+    val ratingMessage: String? = ""
 )
 
 data class InvitationDetailModelsData(
-    val activity: String,
-    val confimationStatus: String,
-    val confirmationDate: String,
-    val confirmationMessage: String,
-    val direction: Direction,
-    val examDate: String,
-    val examMessage: String,
-    val examTime: String,
-    val examTitle: String,
-    val invitationDate: String,
-    val invitationId: String,
-    val previousScheduleDate: String,
-    val previousScheduleTime: String,
-    val venue: String
+    @SerializedName("activity")
+    val activity: String? = "",
+    @SerializedName("confimationStatus")
+    val confimationStatus: String? = "",
+    @SerializedName("confirmationDate")
+    val confirmationDate: String? = "",
+    @SerializedName("confirmationMessage")
+    val confirmationMessage: String? = "",
+    @SerializedName("direction")
+    val direction: Direction? = Direction(),
+    @SerializedName("examDate")
+    val examDate: String? = "",
+    @SerializedName("examMessage")
+    val examMessage: String? = "",
+    @SerializedName("examTime")
+    val examTime: String? = "",
+    @SerializedName("examTitle")
+    val examTitle: String? = "",
+    @SerializedName("invitationDate")
+    val invitationDate: String? = "",
+    @SerializedName("invitationId")
+    val invitationId: String? = "",
+    @SerializedName("previousScheduleDate")
+    val previousScheduleDate: String? = "",
+    @SerializedName("previousScheduleTime")
+    val previousScheduleTime: String? = "",
+    @SerializedName("venue")
+    val venue: String? = ""
 )
 
 data class Direction(
-    val lan: String,
-    val lat: String
+    @SerializedName("lan")
+    val lan: String? = "",
+    @SerializedName("lat")
+    val lat: String? = ""
 )

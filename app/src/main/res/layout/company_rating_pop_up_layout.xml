@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:background="@color/colorWhite"
+    android:paddingRight="20dp"
+    android:paddingBottom="28dp">
+
+    <ImageView
+        android:layout_marginRight="-10dp"
+        android:id="@+id/closeIMGV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:src="@drawable/ic_close_black_24dp" />
+
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/heading1TV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon1IMGV"
+        android:layout_marginTop="24dp"
+        android:text="How satisfied are you with this company?"
+        android:textColor="#303030"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <RatingBar
+        android:stepSize="1"
+        android:numStars="5"
+        android:isIndicator="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/companyRatingBar"
+        android:layout_below="@id/heading1TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <EditText
+        android:inputType="textFilter"
+        android:maxLength="200"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,:/-1234567890?"
+        android:gravity="top"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:hint="Write your feedback"
+        android:background="@drawable/previous_sch_details_bg"
+        android:id="@+id/otherReasonET"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/companyRatingBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:textColor="@color/colorWhite"
+        app:backgroundTint="#43A047"
+        android:id="@+id/submitTV"
+        android:textAllCaps="false"
+        android:text="Submit"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/otherReasonET"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    
+
+
+</RelativeLayout>

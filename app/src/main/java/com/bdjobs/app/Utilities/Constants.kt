@@ -77,5 +77,4 @@ class Constants {
         const val BROADCAST_DATABASE_UPDATE_JOB = "com.bdjobs.dataBaseUpdateJob.jobComplete"
 
     }
-
 }

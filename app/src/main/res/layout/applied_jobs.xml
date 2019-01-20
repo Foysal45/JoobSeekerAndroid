@@ -161,8 +161,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
             android:src="@drawable/ic_summary_resume_view"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -170,12 +168,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
         <ImageView
-            android:id="@+id/shortlist_icon2"
+            android:id="@+id/edit_SalaryIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:visibility="gone"
             android:src="@drawable/ic_expected_salary_edit"
             app:layout_constraintStart_toEndOf="@+id/exSalary_tv"
             app:layout_constraintTop_toTopOf="@+id/exSalary_tv" />
@@ -193,19 +192,47 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/applicationBTN"
+            android:id="@+id/interactionBTN"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="5dp"
             android:letterSpacing="0"
-            android:text="Cancel Application"
+            android:text="Employer Interaction"
+            android:textColor="#13A10E"
             android:textAllCaps="false"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deadline_tv"
             app:layout_constraintVertical_bias="0.69" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/interviewInvitationBTN"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Interview Invitation"
+            android:textColor="#AC016D"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/interactionBTN"
+            app:layout_constraintTop_toTopOf="@+id/interactionBTN" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/CancelBTN"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:letterSpacing="0"
+            android:text="Cancel Application"
+            android:textColor="#767676"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/interactionBTN"
+            app:layout_constraintTop_toTopOf="@+id/interactionBTN" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

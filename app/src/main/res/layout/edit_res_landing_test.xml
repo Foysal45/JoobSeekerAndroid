@@ -122,7 +122,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="-50dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/bdjobs_app_logo" />
+                    android:src="@drawable/ic_bdjobs_app_logo" />
 
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>

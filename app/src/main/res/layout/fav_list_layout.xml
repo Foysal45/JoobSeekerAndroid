@@ -59,27 +59,30 @@
             android:layout_width="56dp"
             android:layout_height="64dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/roboto_medium"
-            tools:text="0"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:backgroundTint="#F7894A"
             app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
 
         <TextView
             android:id="@+id/favTitle1TV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_medium"
+            android:singleLine="true"
             android:text="Graphic Design  "
             android:textColor="#000000"
             android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/editTV"
             app:layout_constraintStart_toEndOf="@+id/favcounter1BTN"
             app:layout_constraintTop_toTopOf="@+id/favcounter1BTN" />
 

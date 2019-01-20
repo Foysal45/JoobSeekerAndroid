@@ -15,6 +15,8 @@ import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_career_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -40,16 +42,36 @@ class CareerEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         personalInfo = activity as PersonalInfo
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initViews()
         doWork()
     }
 
+    private fun initViews() {
+        etCrObj?.addTextChangedListener(TW.CrossIconBehave(etCrObj))
+        etCrPresentSalary?.addTextChangedListener(TW.CrossIconBehave(etCrPresentSalary))
+        etCrExpSalary?.addTextChangedListener(TW.CrossIconBehave(etCrExpSalary))
+    }
+
     private fun doWork() {
+        addTextChangedListener(etCrObj, crObjTIL)
         fab_cai_edit.setOnClickListener {
-            updateData()
+            var validation = 0
+            validation = isValidate(etCrObj, crObjTIL, etCrObj, true, validation)
+            if (validation == 1) {
+                updateData()
+            } else {
+                assert(activity != null)
+                activity?.toast("Please fill up the mandatory field first")
+            }
         }
         personalInfo.setTitle(getString(R.string.title_career))
         personalInfo.setEditButton(false, "dd")
         preloadedData()
+        crObjTIL.hideError()
     }
 
     private fun updateData() {
@@ -78,6 +100,12 @@ class CareerEditFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            personalInfo.validateField(charSequence.toString(), editText, inputLayout)
+        }
     }
 
     private fun preloadedData() {

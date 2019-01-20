@@ -185,7 +185,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     jobCommunicator?.goToLoginPage()
                                 } else {
                                     doAsync {
-                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
+                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
                                         uiThread {
                                             if (isItFollowed) {
                                                 jobsVH?.followTV?.setTextColor(Color.parseColor("#13A10E"))
@@ -207,7 +207,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             doAsync {
 
                                 val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
-                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!)
+                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
                                 uiThread {
                                     if (appliedJobs.isEmpty()) {
                                         jobsVH.appliedBadge.hide()
@@ -419,7 +419,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH?.tvJobSource?.text = jobSourceData
                                 jobsVH?.tvCompanyAddress?.text = companyAddress
                                 jobsVH?.tvCompanyName?.text = companyName
-                                jobsVH?.viewAllJobsTV.text = "View all jobs of this Company ($companyOtherJobs)"
+
+                                var job = "job"
+                                try {
+                                    if(companyOtherJobs.toInt()>0){
+                                        job = "jobs"
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+
+                                jobsVH?.viewAllJobsTV.text = "View $companyOtherJobs more $job of this company"
 
 
                             } else {
@@ -427,7 +437,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH?.tvJobSource?.text = jobSourceData
                                 jobsVH?.tvCompanyAddress?.text = companyAddress
                                 jobsVH?.tvCompanyName?.text = companyName
-                                jobsVH?.viewAllJobsTV?.text = "View all jobs of this Company ($companyOtherJobs)"
+
+                                var job = "job"
+                                try {
+                                    if(companyOtherJobs.toInt()>0){
+                                        job = "jobs"
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+
+                                jobsVH?.viewAllJobsTV?.text = "View $companyOtherJobs more $job of this company"
 
                                 jobsVH?.govtJobsIMGV?.loadImageFromUrl(jobDetailResponseAll.jObIMage)
                                 jobsVH?.govtJobsIMGV?.setOnClickListener {
@@ -893,7 +913,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
                         doAsync {
-                            bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid)
+                            bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid,companyName)
                         }
                     }
                 } catch (e: Exception) {

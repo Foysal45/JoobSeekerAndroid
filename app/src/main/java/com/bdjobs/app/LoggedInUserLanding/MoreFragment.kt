@@ -9,7 +9,6 @@ import android.util.Log
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
-import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
@@ -33,7 +32,13 @@ class MoreFragment : Fragment() {
         initializeViews()
         clearAddPopulateData()
         onclick()
+        shakeHorizontaList()
     }
+
+    private fun shakeHorizontaList() {
+       // horizontal_RV?.smoothScrollToPosition()
+    }
+
     private fun onclick() {
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
@@ -42,7 +47,7 @@ class MoreFragment : Fragment() {
             startActivity<JobBaseActivity>("keyword" to "")
         }
         appGuides_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("http://bdjobs.com/apps/ios/index.html")
+            activity?.openUrlInBrowser("https://bdjobs.com/apps/guide.html")
         }
         rateUs_MBTN?.setOnClickListener {
             activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
@@ -105,9 +110,8 @@ class MoreFragment : Fragment() {
     }
     private fun initializeViews(){
         horizontalAdapter = HorizontalAdapter(activity)
-        horizontal_RV!!.adapter = horizontalAdapter
-        horizontal_RV!!.setHasFixedSize(true)
-        horizontal_RV?.layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
+        horizontal_RV?.adapter = horizontalAdapter
+        horizontal_RV?.setHasFixedSize(true)
         Log.d("initPag", "called")
 
     }
