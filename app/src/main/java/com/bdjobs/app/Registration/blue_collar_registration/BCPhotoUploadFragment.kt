@@ -100,8 +100,6 @@ class BCPhotoUploadFragment : Fragment() {
             } else {
 
                 registrationCommunicator.showProgressBar()
-
-
                 ApiServiceMyBdjobs.create().getPhotoInfo(registrationCommunicator.getUserId(), registrationCommunicator.getDecodeId()).enqueue(object : Callback<PhotoInfoModel> {
                     override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
 
@@ -206,7 +204,7 @@ class BCPhotoUploadFragment : Fragment() {
                 val bdjobsUserSession = BdjobsUserSession(activity)
                 bdjobsUserSession.updateUserPicUrl(photoUrl)
 
-                toast(photoUploadModel.message)
+                /*  toast(photoUploadModel.message)*/
                 registrationCommunicator.hideProgressBar()
                 registrationCommunicator.bcGoToStepCongratulation()
 
