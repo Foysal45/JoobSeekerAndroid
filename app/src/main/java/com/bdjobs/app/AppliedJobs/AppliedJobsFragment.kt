@@ -15,6 +15,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModel
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.Jobs.PaginationScrollListener
 
 import com.bdjobs.app.R
@@ -33,6 +34,7 @@ class AppliedJobsFragment : Fragment() {
 
     private lateinit var bdjobsUsersession: BdjobsUserSession
     private var appliedJobsAdapter: AppliedJobsAdapter? = null
+    private lateinit var experienceList : List<AppliedJobModelExprience>
     private val PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
@@ -124,6 +126,7 @@ class AppliedJobsFragment : Fragment() {
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
                     jobsAppliedSize = totalRecords?.toInt()!!
                     Log.d("callAppliURl", response.body()?.activity?.toString())
+                    Log.d("callAppliURlex", response.body()?.exprience?.toString())
 
 
 
@@ -134,6 +137,7 @@ class AppliedJobsFragment : Fragment() {
                         appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
                         appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
 
+                       // experienceList.
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
                             appliedJobsAdapter?.addLoadingFooter()

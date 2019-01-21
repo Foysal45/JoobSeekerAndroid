@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.showProgressBar
+import com.bdjobs.app.Utilities.stopProgressBar
 import kotlinx.android.synthetic.main.fragment_employer_interaction.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -24,24 +27,28 @@ import java.lang.Exception
 
 class EmployerInteractionFragment : Fragment() {
 
-    private lateinit var bdjobsUserSession : BdjobsUserSession
+    private lateinit var bdjobsUserSession: BdjobsUserSession
     private var status: String = ""
+    private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_employer_interaction, container, false)
-        bdjobsUserSession = BdjobsUserSession(activity)
+
+
     }
 
     override fun onResume() {
         super.onResume()
+        bdjobsUserSession = BdjobsUserSession(activity)
+        appliedJobsCommunicator = activity as AppliedJobsCommunicator
         onClick()
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -102,25 +109,37 @@ class EmployerInteractionFragment : Fragment() {
             notContractedBTN.setTextColor(resources.getColor(R.color.colorPrimary))
             status = "3"
             // registrationCommunicator.bcGenderSelected("O")
-
+        }
 
             EmpInteractionFab.setOnClickListener {
-
+                activity.showProgressBar(loadingProgressBar)
                 ApiServiceMyBdjobs.create().getEmpInteraction(
                         userId = bdjobsUserSession.userId,
                         decodeId = bdjobsUserSession.decodId,
                         status = status,
-                        experienceId = "",
-                        changeExprience = "",
-                        JobId = ""
+                        experienceId = "null",
+                        changeExprience = "0",
+                        JobId = appliedJobsCommunicator.getjobID()
                 ).enqueue(object : Callback<EmployerInteraction> {
+
                     override fun onFailure(call: Call<EmployerInteraction>, t: Throwable) {
+                        activity.stopProgressBar(loadingProgressBar)
                         error("onFailure", t)
+                        Log.d("key", "userid = " + bdjobsUserSession.userId
+                                + "decode id = " + bdjobsUserSession.decodId + "status = "
+                                + status + "jobid = " + appliedJobsCommunicator.getjobID())
                     }
 
                     override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
+                        Log.d("key", "userid = " + bdjobsUserSession.userId
+                                + "decode id = " + bdjobsUserSession.decodId + "status = "
+                                + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                        )
                         try {
-                            toast("${response.body()?.message}")
+                            activity.stopProgressBar(loadingProgressBar)
+                            if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")
+                                toast("${response.body()?.message}")
+                            appliedJobsCommunicator?.backButtonPressed()
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -129,6 +148,10 @@ class EmployerInteractionFragment : Fragment() {
 
                 })
             }
+
+
+        backIMV?.setOnClickListener {
+            appliedJobsCommunicator.backButtonPressed()
         }
 
 

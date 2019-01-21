@@ -8,5 +8,7 @@ interface AppliedJobsCommunicator {
     fun decrementCounter()
     fun gotoInterviewInvitationDetails(from: String, jobID: String, companyName: String, jobTitle: String)
     fun gotoEmployerInteractionFragment()
+    fun getjobID() : String
+    fun setjobID(jobid : String)
 
 }

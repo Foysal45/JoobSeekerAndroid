@@ -171,9 +171,12 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
             val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
             val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
+            val expected_salary_ET = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
             position_tv.text = appliedJobsLists!![position].title
             employer_tv.text = appliedJobsLists!![position].companyName
             accountResult_tv.text = session.userName
+            var expectedSalary = appliedJobsLists!![position].expectedSalary
+            expected_salary_ET.setText(expectedSalary.toString())
 
 
             cancelBTN?.setOnClickListener {
@@ -204,6 +207,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             )
         }
         holder?.interactionBTN?.setOnClickListener {
+            communicator?.setjobID(appliedJobsLists!![position].jobId!!)
             communicator?.gotoEmployerInteractionFragment()
         }
 

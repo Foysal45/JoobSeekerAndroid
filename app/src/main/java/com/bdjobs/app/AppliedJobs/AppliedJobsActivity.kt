@@ -10,12 +10,19 @@ import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+    override fun setjobID(jobid: String) {
+        this.jobid = jobid
+    }
+
+    override fun getjobID(): String {
+        return jobid
+    }
 
     private var jobid : String = ""
 
 
     override fun gotoEmployerInteractionFragment() {
-        transitFragment(employerInteractionFragment, R.id.fragmentHolder, false)
+        transitFragment(employerInteractionFragment, R.id.fragmentHolder, true)
     }
 
     override fun gotoInterviewInvitationDetails(from: String, jobID: String, companyName: String, jobTitle: String) {
