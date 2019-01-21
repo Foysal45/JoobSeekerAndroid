@@ -217,7 +217,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
-                            session.updateIsCvPosted("true")
+                            session.updateIsResumeUpdate("true")
                             session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()
                         }
@@ -255,8 +255,10 @@ class PersonalDetailsEditFragment : Fragment() {
             } else {
                 when (chipGroup.id) {
                     R.id.cgGender -> {
+                        gender = ""
                     }
                     R.id.cgMarital -> {
+                        marital = ""
                     }
                 }
             }

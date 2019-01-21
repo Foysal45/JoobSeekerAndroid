@@ -15,6 +15,7 @@
 
         <LinearLayout
             android:id="@+id/ehMailLL"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -35,6 +36,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.company_name"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:inputType="text|textMultiLine"
                         android:maxLength="100"
                         android:textColor="#212121" />
@@ -61,6 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.company_business"
+                        android:focusable="false"
                         android:inputType="text|textMultiLine"
                         android:textColor="#212121" />
 
@@ -70,7 +74,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/companyLocationTIL"
@@ -84,6 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.company_location"
+                        android:focusableInTouchMode="true"
                         android:inputType="text|textMultiLine"
                         android:maxLength="100"
                         android:textColor="#212121" />
@@ -93,7 +97,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/positionTIL"
@@ -107,6 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.position_held"
+                        android:focusableInTouchMode="true"
                         android:inputType="text|textMultiLine"
                         android:maxLength="100"
                         android:textColor="#212121" />
@@ -131,6 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.department"
+                        android:focusableInTouchMode="true"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -155,6 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.responsibilities"
+                        android:focusableInTouchMode="true"
                         android:inputType="text|textMultiLine"
                         android:textColor="#212121" />
 
@@ -224,20 +232,21 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/experiencesTIL"
+                    android:focusableInTouchMode="true"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="false"
                     android:textColorHint="#757575"
                     app:helperText="@string/msg.you_can_add_maximum_3_work_discipline">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                             android:id="@+id/experiencesMACTV"
-                            android:focusableInTouchMode="false"
+                        android:focusableInTouchMode="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.area_of_experiences"
                             android:imeOptions="actionDone"
+                        android:padding="15dp"
                             android:inputType="text"
                             android:textColor="#212121" />
 

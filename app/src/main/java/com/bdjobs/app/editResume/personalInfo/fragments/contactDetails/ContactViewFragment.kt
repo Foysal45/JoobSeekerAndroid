@@ -71,7 +71,7 @@ class ContactViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     if (activity != null) {
-                        activity.toast("${response.body()?.message}")
+                        //activity.toast("${response.body()?.message}")
                         activity.logException(e)
                         activity.error("++${e.message}")
                     }
@@ -86,16 +86,16 @@ class ContactViewFragment : Fragment() {
                 " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
                 " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict) +
                 " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
-        var permanentAddress = info?.data?.get(0)?.permanentVillage +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict) +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
 
-        val isSameOfPresent = info?.data?.get(0)?.addressType2
-
-        if (isSameOfPresent == "") {
-            permanentAddress = "Same as present address"
+        val isSameOfPresent = info?.data?.get(0)?.addressType1
+        val permanentAddress = if (isSameOfPresent == "3") {
+            "Same as present address"
+        } else {
+            info?.data?.get(0)?.permanentVillage +
+                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
+                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
+                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict) +
+                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
         }
         tvPresentAddress.text = presentAddress
         tvPermanentAddress.text = permanentAddress

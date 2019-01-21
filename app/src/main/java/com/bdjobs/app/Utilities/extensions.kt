@@ -18,10 +18,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.NonNull
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -233,11 +230,16 @@ fun EditText.getString(): String {
     return text.trim().toString()
 }
 
-fun Activity.dateValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+fun Activity.ACTVValidation(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {
     when {
         TextUtils.isEmpty(char) -> {
             til.showError(getString(R.string.field_empty_error_message_common))
-            this.requestFocus(et)
+            requestFocus(et)
+            return false
+        }
+        char.length < 2 -> {
+            til.showError("it is too short")
+            requestFocus(et)
             return false
         }
         else -> til.hideError()

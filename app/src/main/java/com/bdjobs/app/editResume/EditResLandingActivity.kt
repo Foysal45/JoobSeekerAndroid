@@ -35,13 +35,13 @@ class EditResLandingActivity : Activity() {
         } else {
             ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
         }
-        isResumeUpdate = session.isCvPosted.toString()
+        isResumeUpdate = session.IsResumeUpdate.toString()
         d("editResLanding photo:" + session.userPicUrl)
         d("editResLanding name:" + session.fullName)
         d("editResLanding isResumeUpdate:$isResumeUpdate")
         tvname.text = session.fullName
         tvEmail.text = session.email
-        if (isResumeUpdate.equalIgnoreCase("False")) {
+        if (isResumeUpdate.equalIgnoreCase("false")) {
             disableAll()
             btnPerItem1.setOnClickListener {
                 goToFragment("personal", "P")
@@ -49,6 +49,9 @@ class EditResLandingActivity : Activity() {
 
         } else {
             doWork()
+        }
+        icBackEr.setOnClickListener {
+            finish()
         }
     }
 
@@ -74,10 +77,6 @@ class EditResLandingActivity : Activity() {
         }
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
-        }
-
-        icBackEr.setOnClickListener {
-            finish()
         }
 
     }
@@ -118,6 +117,10 @@ class EditResLandingActivity : Activity() {
             this.setRippleColorResource(R.color.ripple_transparent)
             this.setTextColor(Color.parseColor("#9C9C9C"))
             this.setOnClickListener { toast(getString(R.string.error_fill_up_personal)) }
+        } else {
+            this.setTextIsSelectable(false)
+            this.setRippleColorResource(R.color.colorAccent)
+            this.setTextColor(Color.parseColor("#212121"))
         }
     }
 

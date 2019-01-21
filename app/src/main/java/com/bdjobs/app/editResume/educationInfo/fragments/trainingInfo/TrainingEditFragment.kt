@@ -71,6 +71,8 @@ class TrainingEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         d(isEdit.toString())
+        etTrTitle.requestFocus()
+        etTrDuration.clearFocus()
         if (isEdit) {
             hID = "2"
             eduCB.setDeleteButton(true)
@@ -109,7 +111,7 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrInstitute, trInstituteTIL)
         addTextChangedListener(etTrCountry, trCountryTIL)
         addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
-        addTextChangedListener(etTrDuration, trDurTIL)
+        addTextChangedListener(etTrDuration, trainingTitleTIL)
 
         etTrTrainingYear.setOnClickListener {
             for (item in 1964..2019) {
