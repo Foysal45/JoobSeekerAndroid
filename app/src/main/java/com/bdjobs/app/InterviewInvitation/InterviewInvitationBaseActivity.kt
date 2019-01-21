@@ -7,6 +7,12 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 
 class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
+    override fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String) {
+        this.jobID = jobID
+        this.jobTitle = jobTitle
+        this.companyName = companyName
+        transitFragment(interviewInvitationDetailsFragment,R.id.interViewfragmentHolder,false)
+    }
 
 
     private var jobID = ""
@@ -64,7 +70,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         transitFragment(interveiwInvitationListFragment,R.id.interViewfragmentHolder)
 
         if (from?.equals("appliedjobs")) {
-            goToInvitationDetails(jobID,companyName,jobTitle)
+            goToInvitationDetailsForAppliedJobs(jobID,companyName,jobTitle)
         }
     }
 
