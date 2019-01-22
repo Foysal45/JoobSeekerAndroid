@@ -29,6 +29,10 @@ import android.app.Dialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.widget.*
+import android.widget.RadioButton
+import android.widget.RadioGroup
+
+
 
 
 class EmployerInteractionFragment : Fragment() {
@@ -39,6 +43,7 @@ class EmployerInteractionFragment : Fragment() {
     private var populateshowExp = "no"
     private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
     private var experienceListInteraction: ArrayList<AppliedJobModelExprience>? = ArrayList()
+    //val buttons = 5
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -69,7 +74,71 @@ class EmployerInteractionFragment : Fragment() {
         experienceListInteraction?.clear()
     }
 
-    private fun addRadioButton() {
+    private fun addRadioButton(){
+       // val rgp = findViewById(com.bdjobs.app.R.id.radio_group) as RadioGroup
+        populateshowExp = "yes"
+        var buttonsize = experienceListInteraction?.size
+        foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
+        buttonsize = buttonsize?.minus(1)
+        for (i in 0..buttonsize!!) {
+            val designationradioBTN = RadioButton(activity)
+            val companyTV = TextView(activity)
+            designationradioBTN.id = View.generateViewId()
+            companyTV.id = View.generateViewId()
+            designationradioBTN.text = experienceListInteraction?.get(i)?.designation?.trim()
+            companyTV.text = experienceListInteraction?.get(i)?.companyName?.trim()
+
+            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            designationradioBTN.setTextSize(16F)
+            companyTV.setTextSize(14F)
+            designationradioBTN.layoutParams = params
+            companyTV.layoutParams = paramsTV
+            params.setMargins(0, 10, 0, 0);
+            paramsTV.setMargins(90, 0, 0, 25);
+
+            radio_group.addView(designationradioBTN)
+            radio_group.addView(companyTV)
+
+            designationradioBTN.setOnClickListener {
+                expID = experienceListInteraction?.get(i)?.experienceID!!
+                toast(experienceListInteraction?.get(i)?.designation!! + " = " +expID)
+            }
+        }
+
+
+
+        val addExp = RadioButton(activity)
+        val expTV = TextView(activity)
+        addExp.id = View.generateViewId()
+        addExp.text = "Add Experience"
+        expTV.id = View.generateViewId()
+        expTV.text = "New work experience"
+        val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        expTV.setTextSize(14F)
+        addExp.setTextSize(16F)
+        addExp.layoutParams = params
+        expTV.layoutParams = paramsTV
+        params.setMargins(0, 10, 0, 0);
+        paramsTV.setMargins(90, 0, 0, 25);
+        radio_group.addView(addExp)
+        radio_group.addView(expTV)
+
+
+        addExp.setOnClickListener {
+            val updateExpDialog = Dialog(activity)
+            updateExpDialog?.setContentView(com.bdjobs.app.R.layout.update_exp_popup)
+            updateExpDialog?.setCancelable(true)
+            updateExpDialog?.show()
+            val cancelBTN = updateExpDialog?.findViewById(com.bdjobs.app.R.id.cancelBTN) as Button
+            cancelBTN?.setOnClickListener {
+                updateExpDialog.dismiss()
+            }
+        }
+    }
+
+    /*private fun addRadioButton() {
         populateshowExp = "yes"
         var buttons = experienceListInteraction?.size
 
@@ -91,30 +160,24 @@ class EmployerInteractionFragment : Fragment() {
 
 
 
-            //rbn.text = experienceListInteraction?.get(i)?.designation + "\n" + experienceListInteraction?.get(i)?.companyTVName
+            //rbn.text = experienceListInteraction?.get(i)?.designation + "\n" + experienceListInteraction?.get(i)?.companyName
             rbn.text = experienceListInteraction?.get(i)?.designation
             companyTV.text = experienceListInteraction?.get(i)?.companyName
+            companyTV.setTextSize(14F)
+            rbn.setTextSize(16F)
 
-            rbn.setOnClickListener {
-                toast("msg = "+ experienceListInteraction?.get(i)?.experienceID)
-            }
 
 
             val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            companyTV.setTextSize(14F)
-            rbn.setTextSize(16F)
-
-/*            rbn.setTextColor(Color.parseColor("#212121"))
-            companyTV.setTextColor(Color.parseColor(" #767676"))
-            companyTV.setTextSize(14F)
-            rbn.setTextSize(16F)*/
 
             rbn.layoutParams = params
             companyTV.layoutParams = paramsTV
 
             params.setMargins(0, 10, 0, 0);
             paramsTV.setMargins(90, 0, 0, 25);
+
+           // radio_group.removeAllViews()
 
             radio_group.addView(rbn)
             radio_group.addView(companyTV)
@@ -150,7 +213,7 @@ class EmployerInteractionFragment : Fragment() {
             }
         }
 
-    }
+    }*/
 
     private fun hiredLayoutShow() {
         scrollView.visibility = View.VISIBLE
@@ -238,7 +301,7 @@ class EmployerInteractionFragment : Fragment() {
                     userId = bdjobsUserSession.userId,
                     decodeId = bdjobsUserSession.decodId,
                     status = status,
-                    experienceId = "null",
+                    experienceId = expID,
                     changeExprience = "0",
                     JobId = appliedJobsCommunicator.getjobID()
             ).enqueue(object : Callback<EmployerInteraction> {
