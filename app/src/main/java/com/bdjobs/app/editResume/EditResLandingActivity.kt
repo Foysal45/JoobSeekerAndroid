@@ -35,13 +35,13 @@ class EditResLandingActivity : Activity() {
         } else {
             ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
         }
-        isResumeUpdate = session.IsResumeUpdate.toString()
+        isResumeUpdate = session.isCvPosted.toString()
         d("editResLanding photo:" + session.userPicUrl)
         d("editResLanding name:" + session.fullName)
         d("editResLanding isResumeUpdate:$isResumeUpdate")
         tvname.text = session.fullName
         tvEmail.text = session.email
-        if (isResumeUpdate.equalIgnoreCase("false")) {
+        if (isResumeUpdate.equalIgnoreCase("False")) {
             disableAll()
             btnPerItem1.setOnClickListener {
                 goToFragment("personal", "P")

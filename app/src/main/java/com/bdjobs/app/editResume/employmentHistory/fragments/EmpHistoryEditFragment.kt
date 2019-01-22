@@ -141,8 +141,8 @@ class EmpHistoryEditFragment : Fragment() {
         super.onResume()
         Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         exps = ""
+        positionTIL.clearFocus()
         companyNameET.requestFocus()
-        positionET.clearFocus()
         //ehMailLL.clearFocus()
         if (idArr.isNotEmpty())
             idArr.clear()
@@ -209,10 +209,11 @@ class EmpHistoryEditFragment : Fragment() {
                 experiencesMACTV.setAdapter(expsAdapter)
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
-                    workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(workExperineceList[position + 1])!!
                     d("Array size : pos : $position id : $id")
-                    activity.toast("Selected : ${workExperineceList[position + 1]}")
-                    /*if (idArr.size != 0) {
+                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
+                    if (idArr.size != 0) {
                         if (!idArr.contains(workExperineceID))
                             addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         else
@@ -220,25 +221,9 @@ class EmpHistoryEditFragment : Fragment() {
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")
-                    }*/
+                    }
                 }
             }
-
-
-            /*activity.selector("Select your area of work experience", workExperineceList.toList()) { dialogInterface, i ->
-                experiencesMACTV.setText(workExperineceList[i])
-                experiencesTIL.requestFocus()
-                workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(workExperineceList[i])!!
-                if (idArr.size != 0) {
-                    if (!idArr.contains(workExperineceID))
-                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                    else
-                        activity.toast("Experience already added")
-                } else {
-                    addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                    d("Array size : ${idArr.size} and $exps")
-                }
-            }*/
         }
         fab_eh?.setOnClickListener {
             //exps = TextUtils.join(",", idArr)
@@ -266,6 +251,7 @@ class EmpHistoryEditFragment : Fragment() {
     private fun updateData(exps: String) {
         activity.showProgressBar(loadingProgressBar)
         Log.d("allValuesN", exps)
+        companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessID, companyLocationET.getString(), positionET.getString(),
                 departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
@@ -383,6 +369,8 @@ class EmpHistoryEditFragment : Fragment() {
         cb_present.isChecked = false
         experiencesMACTV.setText("")
         //experiencesMACTV.clear()
+        positionTIL.clearFocus()
+        companyNameET.requestFocus()
         disableError()
     }
 
