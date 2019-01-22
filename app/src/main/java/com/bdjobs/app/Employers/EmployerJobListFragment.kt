@@ -1,17 +1,13 @@
 package com.bdjobs.app.Employers
 
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.os.Bundle
 import android.app.Fragment
-import android.os.Build
+import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModel
@@ -66,10 +62,8 @@ class EmployerJobListFragment : Fragment() {
         favCountTV?.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
-        Log.d("hello", "hello")
+        Log.d("hello", "getCompanyID = ${communicator.getCompanyID()}\ncompanyname = ${communicator.getCompanyName()}\n")
         ApiServiceJobs.create().getEmpJobLists(id = communicator.getCompanyID(), companyname = communicator.getCompanyName(), encoded = Constants.ENCODED_JOBS, jobid = communicator.getJobId()).enqueue(object : Callback<EmployerJobListsModel> {
-            @TargetApi(Build.VERSION_CODES.M)
-            @RequiresApi(Build.VERSION_CODES.M)
             override fun onFailure(call: Call<EmployerJobListsModel>, t: Throwable) {
                 error("onFailure", t)
             }

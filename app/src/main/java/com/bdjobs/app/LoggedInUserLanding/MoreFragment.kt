@@ -112,9 +112,10 @@ class MoreFragment : Fragment() {
             populateData()
         }
         horizontalAdapter?.addAll(horizontaList)
-        shakeHorizontaList()
+        //shakeHorizontaList()
     }
     private fun populateData() {
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "ইনভাইট &\nআর্ন"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))

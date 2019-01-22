@@ -84,28 +84,28 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Confirmed"
             holder.notifyMsgTV.setTextColor(Color.parseColor("#13A10E"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#155724"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_confirm_ic, 0, 0, 0)
         }
         if (items.get(position).confimationStatus?.equalIgnoreCase("1")!! && !TextUtils.isEmpty(items.get(position).previousScheduleDate)) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Confirmed"
             holder.notifyMsgTV.setTextColor(Color.parseColor("#13A10E"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#155724"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_confirm_ic, 0, 0, 0)
         }
         if (items.get(position).confimationStatus?.equalIgnoreCase("2")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Not Confirmed"
-            holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
+            holder.notifyMsgTV.setTextColor(Color.parseColor("#FF3144"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_cancel_ic, 0, 0, 0)
         }
         if (items.get(position).confimationStatus?.equalIgnoreCase("2")!! && !TextUtils.isEmpty(items.get(position).previousScheduleDate)) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Not Confirmed"
-            holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
+            holder.notifyMsgTV.setTextColor(Color.parseColor("#FF3144"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_cancel_ic, 0, 0, 0)
         }
         if (items.get(position).confimationStatus?.equalIgnoreCase("3")!!) {
@@ -113,22 +113,22 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
             holder.notifyMsgTV.text = "Reschedule Request"
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_resch_ic, 0, 0, 0)
             holder.notifyMsgTV.setTextColor(Color.parseColor("#FF6F00"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#856404"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
         }
         if (items.get(position).confimationStatus?.equalIgnoreCase("4")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Reschedule Rejected"
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_cancel_ic, 0, 0, 0)
-            holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
+            holder.notifyMsgTV.setTextColor(Color.parseColor("#FF3144"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
         }
 
         if (items.get(position).confimationStatus?.equalIgnoreCase("6")!!) {
             holder.notifyRL.visibility = View.VISIBLE
             holder.notifyMsgTV.text = "Expired"
             holder.notifyMsgTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_inv_expired_ic, 0, 0, 0)
-            holder.notifyMsgTV.setTextColor(Color.parseColor("#B71C1C"))
-            holder.notifyDetailsTV.setTextColor(Color.parseColor("#721C24"))
+            holder.notifyMsgTV.setTextColor(Color.parseColor("#FF3144"))
+            holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
         }
         if (items.get(position).confimationStatus?.equalIgnoreCase("5")!!) {
             holder.notifyRL.visibility = View.GONE

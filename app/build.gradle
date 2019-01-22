@@ -86,5 +86,9 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.0.0'
 
+    //----navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09"
+
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_owner_invite_code"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="ইনভাইট" />
+    <item
+        android:id="@+id/navigation_owner_invite_list"
+        android:icon="@drawable/ic_hotjob"
+        android:title="ইনভাইট লিস্ট" />
+
+    <item
+        android:id="@+id/navigation_owner_balance"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:title="ব্যাল্যান্স" />
+
+    <item
+        android:id="@+id/navigation_owner_statement"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:title="স্টেটমেন্ট" />
+
+</menu>

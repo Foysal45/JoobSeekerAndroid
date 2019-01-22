@@ -87,7 +87,6 @@ class InterviewInvitationDetailsFragment : Fragment() {
                     try {
                         progressDialog.dismiss()
                     } catch (e: Exception) {
-
                         e.printStackTrace()
                     }
                 }

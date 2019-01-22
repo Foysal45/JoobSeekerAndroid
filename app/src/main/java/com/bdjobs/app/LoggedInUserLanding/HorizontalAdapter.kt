@@ -8,6 +8,7 @@ import android.view.animation.AlphaAnimation
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
+import com.bdjobs.app.InviteCode.InviteCodeBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.editResume.EditResLandingActivity
 import org.jetbrains.anko.startActivity
@@ -52,12 +53,12 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
                 "Manage\nResume"->{
                     context.startActivity<EditResLandingActivity>()
                 }
+
+                "ইনভাইট &\nআর্ন"->{
+                    context.startActivity<InviteCodeBaseActivity>()
+                }
             }
         }
-
-
-
-
 
        }
 
