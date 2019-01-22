@@ -66,7 +66,7 @@
     <string name="hint.department">Department</string>
     <string name="hint.responsibilities">Responsibilities</string>
     <string name="hint.currently_working_here">Currently working</string>
-    <string name="hint.area_of_experiences">Area of Experiences *</string>
+    <string name="hint.area_of_experiences">\u0020Area of Experiences *</string>
     <string name="msg.you_can_add_maximum_3_work_discipline">Max 3 working disciplines</string>
     <string name="hint.extracurricular_activities">Extracurricular Activities</string>
     <string name="hint.skill_description">Skill Description</string>

@@ -164,7 +164,6 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         when {
             TextUtils.isEmpty(char) -> {
                 til.showError(getString(R.string.field_empty_error_message_common))
-                this.requestFocus(et)
                 return false
             }
             char.length < 2 -> {

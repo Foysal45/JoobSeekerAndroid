@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -23,6 +24,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
+import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -117,12 +119,6 @@ class EmpHistoryEditFragment : Fragment() {
         initViews()
         doWork()
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
-        if (!isEdit) {
-            empHisCB.setDeleteButton(false)
-            hID = "-4"
-            idArr.add(" ")
-            clearEditText()
-        }
     }
 
     private fun initViews() {
@@ -145,13 +141,20 @@ class EmpHistoryEditFragment : Fragment() {
         super.onResume()
         Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         exps = ""
-        ehMailLL.clearFocus()
+        positionTIL.clearFocus()
+        companyNameET.requestFocus()
+        //ehMailLL.clearFocus()
         if (idArr.isNotEmpty())
             idArr.clear()
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
             preloadedData()
+        } else if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            idArr.add(" ")
+            clearEditText()
         }
     }
 
@@ -171,6 +174,10 @@ class EmpHistoryEditFragment : Fragment() {
         addTextChangedListener(companyBusinessACTV, companyBusinessTIL)
         addTextChangedListener(positionET, positionTIL)
         addTextChangedListener(estartDateET, estartDateTIL)
+        /*experiencesMACTV.easyOnTextChangedListener { charSequence ->
+            activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, estartDateTIL)
+        }*/
+
         if (currentlyWorking != "ON") {
             addTextChangedListener(et_end_date, endDateTIL)
         }
@@ -194,22 +201,27 @@ class EmpHistoryEditFragment : Fragment() {
                 Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
             }
         }
-        experiencesMACTV.setOnClickListener {
-
-            val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
-
-            activity.selector("Select your area of work experience", workExperineceList.toList()) { dialogInterface, i ->
-                experiencesMACTV.setText(workExperineceList[i])
-                experiencesTIL.requestFocus()
-                workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(workExperineceList[i])!!
-                if (idArr.size != 0) {
-                    if (!idArr.contains(workExperineceID))
+        experiencesMACTV.onFocusChange { _, hasFocus ->
+            if (hasFocus) {
+                val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
+                val expsAdapter = ArrayAdapter<String>(activity,
+                        android.R.layout.simple_dropdown_item_1line, workExperineceList)
+                experiencesMACTV.setAdapter(expsAdapter)
+                experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                experiencesMACTV.setOnItemClickListener { _, _, position, id ->
+                    d("Array size : pos : $position id : $id")
+                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
+                    if (idArr.size != 0) {
+                        if (!idArr.contains(workExperineceID))
+                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                        else
+                            activity.toast("Experience already added")
+                    } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                    else
-                        activity.toast("Experience already added")
-                } else {
-                    addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                    d("Array size : ${idArr.size} and $exps")
+                        d("Array size : ${idArr.size} and $exps and id : $id")
+                    }
                 }
             }
         }
@@ -239,6 +251,7 @@ class EmpHistoryEditFragment : Fragment() {
     private fun updateData(exps: String) {
         activity.showProgressBar(loadingProgressBar)
         Log.d("allValuesN", exps)
+        companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessID, companyLocationET.getString(), positionET.getString(),
                 departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
@@ -354,7 +367,10 @@ class EmpHistoryEditFragment : Fragment() {
         estartDateET.clear()
         et_end_date.clear()
         cb_present.isChecked = false
-        experiencesMACTV.clear()
+        experiencesMACTV.setText("")
+        //experiencesMACTV.clear()
+        positionTIL.clearFocus()
+        companyNameET.requestFocus()
         disableError()
     }
 
@@ -364,6 +380,6 @@ class EmpHistoryEditFragment : Fragment() {
         positionTIL.hideError()
         estartDateTIL.hideError()
         endDateTIL.hideError()
-        experiencesTIL.hideError()
+        experiencesTIL.clearFocus()
     }
 }
