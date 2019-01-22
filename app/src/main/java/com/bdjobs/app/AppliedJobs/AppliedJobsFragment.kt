@@ -34,7 +34,7 @@ class AppliedJobsFragment : Fragment() {
 
     private lateinit var bdjobsUsersession: BdjobsUserSession
     private var appliedJobsAdapter: AppliedJobsAdapter? = null
-    private lateinit var experienceList : List<AppliedJobModelExprience>
+    private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
     private val PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
@@ -126,7 +126,7 @@ class AppliedJobsFragment : Fragment() {
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
                     jobsAppliedSize = totalRecords?.toInt()!!
                     Log.d("callAppliURl", response.body()?.activity?.toString())
-                    Log.d("callAppliURlex", response.body()?.exprience?.toString())
+
 
 
 
@@ -137,7 +137,11 @@ class AppliedJobsFragment : Fragment() {
                         appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
                         appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
 
-                       // experienceList.
+                        experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
+                        Log.d("callAppliURlex", experienceList?.size?.toString())
+                        appliedJobsCommunicator.setexperienceList(experienceList!!)
+
+
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
                             appliedJobsAdapter?.addLoadingFooter()
@@ -171,6 +175,18 @@ class AppliedJobsFragment : Fragment() {
             }
 
         })
+    }
+
+    fun addExp(r: AppliedJobModelExprience) {
+        experienceList?.add(r)
+       // notifyItemInserted(appliedJobsLists!!.size - 1)
+    }
+
+
+    fun addAll(moveResults: List<AppliedJobModelExprience>) {
+        for (result in moveResults!!) {
+            addExp(result)
+        }
     }
 
     private fun loadNextPage(activityDate: String) {

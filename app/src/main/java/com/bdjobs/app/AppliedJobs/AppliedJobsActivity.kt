@@ -3,6 +3,7 @@ package com.bdjobs.app.AppliedJobs
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
@@ -10,6 +11,18 @@ import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+
+    private var jobid: String = ""
+    private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
+
+    override fun setexperienceList(AppliedJobExprience: ArrayList<AppliedJobModelExprience>) {
+        this.experienceList = AppliedJobExprience
+    }
+
+    override fun getExperience(): ArrayList<AppliedJobModelExprience> {
+        return experienceList!!
+    }
+
     override fun setjobID(jobid: String) {
         this.jobid = jobid
     }
@@ -18,7 +31,6 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
         return jobid
     }
 
-    private var jobid : String = ""
 
 
     override fun gotoEmployerInteractionFragment() {
@@ -38,15 +50,15 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
 
 
     override fun scrollToUndoPosition(position: Int) {
-        if (position  >0){
+        if (position > 0) {
             appliedJobsFragment.scrollToUndoPosition(position)
         }
     }
 
     override fun decrementCounter() {
-       appliedJobsFragment.decrementCounter()
+        appliedJobsFragment.decrementCounter()
 
-         }
+    }
 
     private val appliedJobsFragment = AppliedJobsFragment()
     private val employerInteractionFragment = EmployerInteractionFragment()
@@ -55,7 +67,6 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
     override fun getTime(): String {
         return time
     }
-
 
 
     override fun backButtonPressed() {
