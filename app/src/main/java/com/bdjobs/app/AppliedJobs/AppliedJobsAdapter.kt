@@ -151,10 +151,22 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 Log.d("date", "e")
 
             }
-        } else if (appliedJobsLists!![position].viewedByEmployer == "Yes") {
+        } else if (appliedJobsLists!![position].viewedByEmployer == "Yes" || appliedJobsLists!![position].status?.isNullOrEmpty()!!) {
             holder?.employerViewIcon?.visibility = View.VISIBLE
+            holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_done_appliedadap)
             holder?.cancelBTN?.visibility = View.GONE
             holder?.edit_SalaryIcon?.visibility = View.GONE
+        }
+
+        if (appliedJobsLists!![position].status == "1") {
+            holder?.employerViewIcon?.visibility = View.VISIBLE
+            holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
+        } else if (appliedJobsLists!![position].status == "2") {
+            holder?.employerViewIcon?.visibility = View.VISIBLE
+            holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
+        } else if (appliedJobsLists!![position].status == "3") {
+            holder?.employerViewIcon?.visibility = View.VISIBLE
+            holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
         }
 
 

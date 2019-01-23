@@ -497,6 +497,23 @@ interface ApiServiceMyBdjobs {
             @Field("JobId") JobId: String?
     ): Call<EmployerInteraction>
 
+
+    @FormUrlEncoded
+    @POST("apps_update_account.asp")
+    fun getChangePassword(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("userName") userName: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("OldPass") OldPass: String?,
+            @Field("NewPass") NewPass: String?,
+            @Field("ConfirmPass") ConfirmPass: String?,
+            @Field("isSmMedia") isSmMedia: String?,
+            @Field("packageName") packageName: String?,
+            @Field("packageNameVersion") packageNameVersion: String?
+    ): Call<ChangePassword>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

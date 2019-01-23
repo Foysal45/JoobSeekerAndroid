@@ -33,13 +33,11 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 
 
-
-
 class EmployerInteractionFragment : Fragment() {
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private var status: String = ""
-    private var expID : String = ""
+    private var expID: String = "0"
     private var populateshowExp = "no"
     private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
     private var experienceListInteraction: ArrayList<AppliedJobModelExprience>? = ArrayList()
@@ -74,8 +72,8 @@ class EmployerInteractionFragment : Fragment() {
         experienceListInteraction?.clear()
     }
 
-    private fun addRadioButton(){
-       // val rgp = findViewById(com.bdjobs.app.R.id.radio_group) as RadioGroup
+    private fun addRadioButton() {
+        // val rgp = findViewById(com.bdjobs.app.R.id.radio_group) as RadioGroup
         populateshowExp = "yes"
         var buttonsize = experienceListInteraction?.size
         foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
@@ -95,17 +93,16 @@ class EmployerInteractionFragment : Fragment() {
             designationradioBTN.layoutParams = params
             companyTV.layoutParams = paramsTV
             params.setMargins(0, 10, 0, 0);
-            paramsTV.setMargins(90, 0, 0, 25);
+            paramsTV.setMargins(80, 0, 0, 25);
 
             radio_group.addView(designationradioBTN)
             radio_group.addView(companyTV)
 
             designationradioBTN.setOnClickListener {
                 expID = experienceListInteraction?.get(i)?.experienceID!!
-                toast(experienceListInteraction?.get(i)?.designation!! + " = " +expID)
+                toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
             }
         }
-
 
 
         val addExp = RadioButton(activity)
@@ -121,7 +118,7 @@ class EmployerInteractionFragment : Fragment() {
         addExp.layoutParams = params
         expTV.layoutParams = paramsTV
         params.setMargins(0, 10, 0, 0);
-        paramsTV.setMargins(90, 0, 0, 25);
+        paramsTV.setMargins(80, 0, 0, 25);
         radio_group.addView(addExp)
         radio_group.addView(expTV)
 
@@ -311,13 +308,15 @@ class EmployerInteractionFragment : Fragment() {
                     error("onFailure", t)
                     Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
-                            + status + "jobid = " + appliedJobsCommunicator.getjobID())
+                            + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                            + "experienceid = " + expID)
                 }
 
                 override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
                     Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                            + "experienceid = " + expID
                     )
                     try {
                         activity.stopProgressBar(loadingProgressBar)
