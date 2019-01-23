@@ -55,7 +55,7 @@
     <string name="hint.country_v">Country</string>
     <string name="hint.training_title">Training Title *</string>
     <string name="hint.topic">Topic</string>
-    <string name="hint.topic_covered">Topic Covered</string>
+    <string name="hint.topic_covered">Topics Covered</string>
     <string name="hint.year">Year *</string>
     <string name="hint.training_year">Training Year *</string>
     <string name="err_msg_experience">You can  not add more than 3 work discipline!</string>

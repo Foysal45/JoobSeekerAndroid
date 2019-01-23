@@ -45,7 +45,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var currentlyWorking: String = "OFF"
     private var companyBusinessID = ""
     private var workExperineceID = ""
-    private var newWorkExperineceID = ""
+    private var isFirst = false
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
     var isEdit = false
@@ -117,6 +117,13 @@ class EmpHistoryEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         empHisCB.setTitle(getString(R.string.title_emp_history))
         initViews()
+        isFirst = true
+        if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            idArr.add(" ")
+            clearEditText()
+        }
         doWork()
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
     }
@@ -210,14 +217,16 @@ class EmpHistoryEditFragment : Fragment() {
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
                     d("Array size : pos : $position id : $id")
-                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
                     if (idArr.size != 0) {
                         if (!idArr.contains(workExperineceID))
                             addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                        else
+                        else {
+                            experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
+                        }
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")

@@ -49,15 +49,15 @@ class ContactEditFragment : Fragment() {
         session = BdjobsUserSession(activity)
         contactInfo = activity as PersonalInfo
         d("onActivityCreated")
+        contactInfo.setTitle(getString(R.string.title_contact))
+        contactInfo.setEditButton(false, "dd")
+        initViews()
+        doWork()
     }
 
     override fun onResume() {
         super.onResume()
         d("onResume")
-        contactInfo.setTitle(getString(R.string.title_contact))
-        contactInfo.setEditButton(false, "dd")
-        initViews()
-        doWork()
     }
 
     private fun initViews() {

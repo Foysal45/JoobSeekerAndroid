@@ -114,7 +114,7 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrDuration, trainingTitleTIL)
 
         etTrTrainingYear.setOnClickListener {
-            for (item in 1964..2019) {
+            for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
             activity.selector("Please Select Training Year", yearList.toList()) { _, i ->
