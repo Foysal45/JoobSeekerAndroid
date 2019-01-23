@@ -26,14 +26,14 @@
             android:textSize="14sp" />
 
         <LinearLayout
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:paddingTop="5dp"
-            android:background="@drawable/invite_category_bg"
+            android:background="@drawable/ic_invite_code_owner_bg"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -61,23 +61,26 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:paddingBottom="5dp"
             android:id="@+id/shareIMGV"
-            app:iconGravity="start"
-            app:iconSize="14dp"
+            app:iconGravity="textStart"
+            app:iconSize="18dp"
+            app:iconPadding="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
             app:icon="@drawable/ic_share_black_24dp"
             style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:textAllCaps="false"
             android:text="ইনভাইট করুন"
             app:backgroundTint="#13A10E"
             app:cornerRadius="4dp"
             android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/categeroryMsgTV"
@@ -93,8 +96,12 @@
             tools:text="ডাটা এন্ট্রি/ কম্পিউটার অপারেটর সহ অন্যান্য পদে চাকরি খুঁজছেন এমন কাউকে ইনভাইট করুন।" />
 
 
-        <RelativeLayout
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/categoryRL"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="1dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="ক্যাটাগরি লিস্ট এবং আয়ের পরিমাণ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
@@ -102,23 +109,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"/>
 
 
-            <TextView
-                android:id="@+id/categoryListTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ক্যাটাগরি লিস্ট এবং আয়ের পরিমাণ"
-                android:textColor="#1565C0"
-                android:textSize="12dp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/rigt_arrow_promocode_bg" />
-        </RelativeLayout>
     </LinearLayout>
 
 
