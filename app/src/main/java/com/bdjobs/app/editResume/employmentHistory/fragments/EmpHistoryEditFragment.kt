@@ -49,6 +49,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
     var isEdit = false
+    var validation = 0
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
 
@@ -160,7 +161,7 @@ class EmpHistoryEditFragment : Fragment() {
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
-            idArr.add(" ")
+            idArr.add("")
             clearEditText()
         }
     }
@@ -171,10 +172,12 @@ class EmpHistoryEditFragment : Fragment() {
                 currentlyWorking = "ON"
                 et_end_date?.setText("")
                 et_end_date?.isEnabled = false
+                endDateTIL.hideError()
             } else {
                 currentlyWorking = "OFF"
                 updateDateInView(1)
                 et_end_date?.isEnabled = true
+                validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
             }
         }
         addTextChangedListener(companyNameET, companyNameTIL)
@@ -237,7 +240,6 @@ class EmpHistoryEditFragment : Fragment() {
         fab_eh?.setOnClickListener {
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
-            var validation = 0
             validation = isValidate(companyNameET, companyNameTIL, companyNameET, true, validation)
             validation = isValidate(companyBusinessACTV, companyBusinessTIL, companyBusinessACTV, true, validation)
             validation = isValidate(positionET, positionTIL, positionET, true, validation)
@@ -278,6 +280,7 @@ class EmpHistoryEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            validation = 0
                             empHisCB.goBack()
                         }
                     }
