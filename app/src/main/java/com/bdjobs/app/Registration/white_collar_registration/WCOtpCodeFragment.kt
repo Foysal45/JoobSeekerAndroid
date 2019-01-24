@@ -39,7 +39,7 @@ class WCOtpCodeFragment : Fragment() {
     private fun initialization(){
 
         registrationCommunicator = activity as RegistrationCommunicator
-        wcInfoMobileNumberTV.text = " Please type the verification code sent to ${registrationCommunicator.wcGetMobileNumber()} "
+        wcInfoMobileNumberTV.text = "A code has been sent to ${registrationCommunicator.wcGetMobileNumber()} by SMS, please enter the code."
 
     }
 

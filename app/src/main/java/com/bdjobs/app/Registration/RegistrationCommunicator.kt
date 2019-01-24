@@ -67,5 +67,6 @@ interface RegistrationCommunicator {
     fun clearData()
 
 
+    fun getINLROData(): String
 
 }

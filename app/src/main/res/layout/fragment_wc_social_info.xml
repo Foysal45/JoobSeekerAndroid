@@ -125,7 +125,7 @@
                 android:backgroundTint="#000000"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:text="Enter Your Information"
+                android:text="Enter your information"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 app:cornerRadius="5dp"

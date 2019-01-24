@@ -23,7 +23,7 @@ class Constants {
         const val ENCODED_JOBS ="02041526JSBJ2"
 
         const val RC_SIGN_IN = 9001
-        const val counterTimeLimit = 60000
+        const val counterTimeLimit = 30000
         const val key_true = "true"
         const val key_false = "false"
         const val name_sharedPref = "bdjobs"

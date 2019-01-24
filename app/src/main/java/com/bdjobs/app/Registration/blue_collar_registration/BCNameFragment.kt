@@ -47,7 +47,7 @@ class BCNameFragment : Fragment() {
         bcNameFAButton.setOnClickListener {
 
 
-            if(nameTIET.length() == 0 || nameTIET.length() < 2 ){
+            if (nameTIET.length() == 0 || nameTIET.length() < 1) {
 
                 nameTIL.showError("নাম খালি রাখা যাবে না")
             } else {
@@ -100,11 +100,7 @@ class BCNameFragment : Fragment() {
                 requestFocus(nameTIET)
                 return false
             }
-            name.length < 2  -> {
-                nameTIL.showError("Your name is too short")
-                requestFocus(nameTIET)
-                return false
-            }
+
             else -> nameTIL.hideError()
         }
         return true
