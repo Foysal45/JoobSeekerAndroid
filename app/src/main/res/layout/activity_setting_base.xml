@@ -1,109 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Settings.SettingBaseActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".Settings.SettingBaseActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<FrameLayout
+    android:id="@+id/fragmentHolder"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            tools:layout_editor_absoluteX="16dp">
-
-            <TextView
-                android:id="@+id/suggestiveSearchET"
-                android:layout_width="0dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="32dp"
-                android:drawablePadding="5dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:singleLine="true"
-                android:text="Setting"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backIV"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/backIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signOutBTN"
-        style="@style/more.button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="Sign Out"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        android:textSize="14dp"
-        app:icon="@drawable/ic_exit_to_app_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.0" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/changepass"
-        style="@style/more.button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="Change Password"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        android:textSize="14dp"
-        app:icon="@drawable/ic_exit_to_app_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signOutBTN"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <FrameLayout
-        android:id="@+id/fragmentHolder"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changepass" />
 </androidx.constraintlayout.widget.ConstraintLayout>

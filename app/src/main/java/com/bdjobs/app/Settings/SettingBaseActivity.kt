@@ -15,8 +15,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SettingBaseActivity : Activity(), SettingsCommunicator {
-    override fun gotoChangePasswordFragment() {
 
+    private val logoutFragment = LogoutFragment()
+
+    override fun gotoChangePasswordFragment() {
+        transitFragment(changePasswordFragment, R.id.fragmentHolder, true)
     }
 
     override fun backButtonPressed() {
@@ -29,23 +32,24 @@ class SettingBaseActivity : Activity(), SettingsCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_base)
         bdjobsUserSession = BdjobsUserSession(this@SettingBaseActivity)
-        signOutBTN.setOnClickListener {
-            logout()
-        }
-        backIV.setOnClickListener {
-            onBackPressed()
-        }
-        changepass.setOnClickListener {
+        transitFragment(logoutFragment, R.id.fragmentHolder)
+        /*    signOutBTN.setOnClickListener {
+                logout()
+            }
+            backIV.setOnClickListener {
+                onBackPressed()
+            }
+            changepass.setOnClickListener {
 
-            transitFragment(changePasswordFragment, R.id.fragmentHolder, true)
-        }
+                transitFragment(changePasswordFragment, R.id.fragmentHolder, true)
+            }*/
     }
 
     private fun logout() {
         val loadingDialog = indeterminateProgressDialog("Logging out")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
-        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId,decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<CookieModel> {
+        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
                 error("onFailure", t)
                 loadingDialog.dismiss()

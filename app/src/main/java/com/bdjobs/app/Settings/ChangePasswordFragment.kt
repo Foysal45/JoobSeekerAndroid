@@ -3,6 +3,7 @@ package com.bdjobs.app.Settings
 
 import android.os.Bundle
 import android.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,7 @@ class ChangePasswordFragment : Fragment() {
         super.onResume()
         bdjobsUserSession = BdjobsUserSession(activity)
         communicator = activity as SettingsCommunicator
+        tv_username.text = bdjobsUserSession.userName
         onClick()
     }
 
@@ -55,7 +57,7 @@ class ChangePasswordFragment : Fragment() {
                     OldPass = et_old_pass.text.toString(),
                     NewPass = et_new_pass.text.toString(),
                     ConfirmPass = et_confirm_pass.text.toString(),
-                    isSmMedia = "",
+                    isSmMedia = "false",
                     packageName = "",
                     packageNameVersion = ""
 
@@ -66,7 +68,18 @@ class ChangePasswordFragment : Fragment() {
                 }
 
                 override fun onResponse(call: Call<ChangePassword>, response: Response<ChangePassword>) {
-                   toast(response.body()?.message!!)
+                    // toast(response.body()?.message!!)
+
+                    Log.d("msg", "user = " + bdjobsUserSession.userId +
+                            "decode = " + bdjobsUserSession.decodId
+
+
+                    )
+                    if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
+                        Log.d("msg", response.body()?.message)
+                        toast(response.body()?.message!!)
+                    }
+
                 }
 
             })
