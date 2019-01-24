@@ -71,7 +71,7 @@
                     android:fontFamily="@font/roboto"
                     android:inputType="numberSigned"
                     android:maxLength="6"
-                    android:hint="কোডটি টাইপ করুন"
+                    android:hint="কোডটি লিখুন"
                     android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />
@@ -132,7 +132,7 @@
                     android:fontFamily="@font/roboto"
                     android:gravity="center_vertical"
                     android:visibility="gone"
-                    android:text="Resend Code"
+                    android:text="@string/resend_message"
                     android:textAllCaps="false"
                     android:textColor="#1565C0"
                     android:textSize="18sp"

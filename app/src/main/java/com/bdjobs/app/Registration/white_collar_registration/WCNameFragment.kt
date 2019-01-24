@@ -48,9 +48,9 @@ class WCNameFragment : Fragment() {
 
         nameFAButton.setOnClickListener {
 
-            if (usernameTIET.length() == 0 || usernameTIET.length() < 2) {
+            if (usernameTIET.length() == 0 || usernameTIET.length() < 1) {
 
-                userNameTIL.showError("Name cannot be empty")
+                userNameTIL.showError("Name can not be empty")
 
                 } else {
 
@@ -87,15 +87,11 @@ class WCNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(mobileNumber) -> {
-                userNameTIL.showError(getString(R.string.field_empty_error_message_common))
+                userNameTIL.showError("Name can not be empty")
                 requestFocus(usernameTIET)
                 return false
             }
-            mobileNumber.length < 2  -> {
-                userNameTIL.showError("Your name is too short")
-                requestFocus(usernameTIET)
-                return false
-            }
+
             else -> userNameTIL.hideError()
         }
         return true

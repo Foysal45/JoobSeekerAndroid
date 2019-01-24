@@ -13,6 +13,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.getString
+import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
 import java.util.*
@@ -47,24 +48,23 @@ class BCExperienceFragment : Fragment() {
 
         bcExperinceFAButton.setOnClickListener {
 
-           if (bcExperienceTIET.text!!.length  > 0){
-
-
+            if (bcExperienceTIET.text!!.isNotEmpty()) {
                var subCategoriesID = ""
                for (i in selectedSubcategories.indices) {
                    if (i == selectedSubcategories.size - 1) {
-                       subCategoriesID = subCategoriesID + dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i])
+                       subCategoriesID += dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i])
                    } else {
                        subCategoriesID = subCategoriesID + dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i]) + ","
                    }
                }
 
                registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.getString())
-               //progressDialog.setMessage("Please Wait");
-               //progressDialog.show();
                registrationCommunicator.bcGoToStepEducation()
 
-           }
+            } else {
+
+                bcExperienceTIL.showError("কর্ম দক্ষতা গুলো নির্বাচন করুন")
+            }
 
 
 
@@ -74,7 +74,7 @@ class BCExperienceFragment : Fragment() {
 
 
             val builder = AlertDialog.Builder(activity)
-            builder.setTitle("আপনার কর্ম দক্ষতাগুলো নির্বাচন করুন")
+            builder.setTitle("নিচের অপশন থেকে কাজের ধরন নির্বাচন করুন")
                     .setMultiChoiceItems(subCategories, null) { dialog, which, isChecked ->
                         /*if (isChecked) {
                     selectedSubcategories.add(subCategories[which]);
@@ -91,7 +91,7 @@ class BCExperienceFragment : Fragment() {
                                 selectedSubcategories.remove(subCategories[which])
                             }
                         } else if (count > 10) {
-                            Toast.makeText(activity, "কাজের ধরন ১০টির বেশি নির্বাচন করা যাবে না।",
+                            Toast.makeText(activity, "সর্বোচ্চ ১০টি কর্ম দক্ষতা নির্বাচন করতে পারবেন",
                                     Toast.LENGTH_SHORT).show()
 
                             count--
@@ -106,6 +106,7 @@ class BCExperienceFragment : Fragment() {
                         }
                         cat = cat.replace(", $".toRegex(), "")
                         bcExperienceTIET.setText(cat)
+                        bcExperienceTIL.isErrorEnabled = false
                         dialog.dismiss()
                     }
             val dialog = builder.create()

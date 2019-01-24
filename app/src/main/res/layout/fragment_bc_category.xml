@@ -40,7 +40,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="24dp"
-                android:text="নিম্ন তালিকা থেকে দক্ষতা নির্বাচন করুন"
+                android:text="নিচের তালিকা থেকে দক্ষতা নির্বাচন করুন"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"

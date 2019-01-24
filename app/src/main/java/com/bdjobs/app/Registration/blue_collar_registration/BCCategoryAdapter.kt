@@ -25,25 +25,20 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        /* holder.favTitle1TV.text = items[position].filtername
-         holder.dateTV.text = items[position].createdon?.toSimpleDateString()
-         holder.timeTV.text = items[position].createdon?.toSimpleTimeString()*/
 
-        holder.categoryTV.text = items.get(position)
+        holder.categoryTV.text = items[position]
 
         Log.d("elkgjtsdlgfghfdh","Item ${items.get(position)}")
-
+        Log.d("elkgjtsdlgfghfdh", "position $position")
 
         holder.categoryTV.setOnClickListener {
-
-            Log.d("selectedPosition","selectedPosition $selectedPosition  ${items.get(position)}")
-            registrationCommunicator.bcCategorySelected("${items.get(position)}",selectedPosition)
             selectedPosition = position
+            registrationCommunicator.bcCategorySelected(items[position], selectedPosition)
             notifyDataSetChanged()
+            Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
 
         }
-
-        if (selectedPosition == position){
+        if (selectedPosition == position) {
 
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorPrimary)
             holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorWhite))
@@ -57,11 +52,24 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
     }
 
     override fun getItemCount(): Int {
-        return items?.size!!
+        return items.size
+    }
+
+
+    fun SetCategoryPositionSelected(categoryPositionSelected: Int) {
+        selectedPosition = categoryPositionSelected
+        notifyDataSetChanged()
+
+        Log.d("SetCategory", categoryPositionSelected.toString())
+
     }
 
 
 }
+
+
+
+
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to

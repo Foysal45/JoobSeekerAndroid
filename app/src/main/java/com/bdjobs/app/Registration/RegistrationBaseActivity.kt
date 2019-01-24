@@ -112,7 +112,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private var educationType = ""
     private var hasEducation = ""
 
-
+    private var categorySelectedPosition = -1
     //-------------api response value----------//
 
     private var isCVPostedRPS = ""
@@ -173,6 +173,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
     override fun gotToStepWhiteCollar() {
+
         categoryType = "0"
         transitFragment(wccategoryFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
@@ -235,11 +236,17 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun wcCategorySelected(category: String, position: Int) {
 
+        categorySelectedPosition = position
         wccategoryFragment.wcGoToNextStep()
         categoryId = dataStorage.getCategoryIDByName(category)!!
         this.category = category
         Log.d("catagorySelected", "catagory $category")
         Log.d("catagorySelected", "categoryId $categoryId")
+
+
+        Log.d("selectedPosition", " in activity $categorySelectedPosition")
+
+        wccategoryFragment.getSelectedPosition(position)
 
     }
 
@@ -465,6 +472,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                             loadingProgressBar.visibility = View.GONE
                             toast(response.body()!!.message!!)
+
                         }
 
 
@@ -666,8 +674,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     // -----------------------------  blue Collar start ------------------  //
     override fun goToStepBlueCollar() {
-        categoryType = "1"
 
+        categoryType = "1"
         transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 10
@@ -762,12 +770,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
         )
 
-
-
-
-
-
-
         ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, address, locationID, birthDate!!,
                 experience, subcategoriesID, age, userName, eduLevel, instName,
                 educationType, eduDegree, passingYear, hasEducation).enqueue(object : Callback<UpdateBlueCvModel> {
@@ -834,12 +836,18 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun bcCategorySelected(category: String, position: Int) {
 
+        categorySelectedPosition = position
+
 
         bcCategoryFragment.bcGoToNextStep()
+
+
+
         categoryId = dataStorage.getCategoryIDByBanglaName(category)!!
         this.category = category
         Log.d("catagorySelected", "catagory $category")
         Log.d("catagorySelected", "categoryId $categoryId")
+        bcCategoryFragment.getSelectedPosition(position)
     }
 
 
@@ -933,8 +941,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         Log.d("curretFragment", "curretFragment $curretFragment")
 
         when (curretFragment) {
-            bcPhotoUploadFragment -> Toast.makeText(this, "You can not go back!", Toast.LENGTH_SHORT).show()
-            bcBirthDateFragment -> Toast.makeText(this, "You can not go back!", Toast.LENGTH_SHORT).show()
+            bcPhotoUploadFragment -> Toast.makeText(this, "আগের পেজে যেতে পারবেন না ", Toast.LENGTH_SHORT).show()
+            bcBirthDateFragment -> Toast.makeText(this, "আগের পেজে যেতে পারবেন না", Toast.LENGTH_SHORT).show()
             bcCongratulationFragment -> goToHomePage()
             wcCongratulationFragment -> goToHomePage()
             else -> super.onBackPressed()
@@ -1051,13 +1059,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun clearData() {
 
 
-        this.name = ""
-        this.gender = ""
-        this.wcEmail = ""
-
     }
 
-
+    override fun getINLROData(): String {
+        return educationType
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")

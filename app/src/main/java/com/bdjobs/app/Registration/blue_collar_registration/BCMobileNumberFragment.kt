@@ -69,7 +69,7 @@ class BCMobileNumberFragment : Fragment() {
 
                 if (TextUtils.isEmpty(bcMobileNumberTIET.getString())) {
 
-                    bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না ")
+                    bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
                 }
 
 
@@ -125,7 +125,7 @@ class BCMobileNumberFragment : Fragment() {
         val yesButton = dialog.findViewById<TextView>(R.id.bcYesTV)
         val noButton = dialog.findViewById<TextView>(R.id.bcNoTV)
         val mobileNumberTV = dialog.findViewById<TextView>(R.id.mobileNumberTV)
-        mobileNumberTV.text = "${bcMobileNumberTIET.getString()} এই নম্বরটিই কি আপনার?"
+        mobileNumberTV.text = "${bcMobileNumberTIET.getString()} এই নাম্বারটিই কি আপনার?"
 
 
         noButton.setOnClickListener {
@@ -170,8 +170,8 @@ class BCMobileNumberFragment : Fragment() {
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
-            validateMobileNumber() == false -> {
-                bcMobileNumberTIL.showError("Mobile Number is not valid")
+            !validateMobileNumber() -> {
+                bcMobileNumberTIL.showError("মোবাইল নাম্বারটি প্রযোজ্য নয়")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
