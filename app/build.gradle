@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 618 //58
-        versionName "600.0.4.7.6"  //2.0
+        versionCode 622 //58
+        versionName "600.0.4.8"  //2.0
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -85,6 +85,13 @@ dependencies {
     implementation 'com.droidninja:filepicker:2.0.3'
 
     implementation 'androidx.browser:browser:1.0.0'
+
+    //----navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09"
+
+    //-----google maps
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
 
 }
 apply plugin: 'com.google.gms.google-services'

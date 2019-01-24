@@ -108,10 +108,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
-        android:elevation="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_home_card"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
@@ -208,7 +208,7 @@
             android:id="@+id/questionRL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#AC016D"
+            android:background="@drawable/ic_confirmed_bg_shape"
             android:gravity="center"
             android:paddingLeft="42dp"
             android:paddingTop="16dp"
@@ -236,15 +236,17 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/yesBTN"
-                     style="@style/Widget.MaterialComponents.Button"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
+                    android:backgroundTint="@color/colorWhite"
                     android:gravity="center"
                     android:text="Yes"
                     android:textAllCaps="false"
-                    android:textColor="#AC016D"
-                    android:textSize="14sp" />
+                    android:textColor="#13A10E"
+                    android:textSize="14sp"
+                    app:cornerRadius="4dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/noBTN"
@@ -255,26 +257,30 @@
                     android:layout_toRightOf="@id/yesBTN"
                     android:gravity="center"
                     android:text="No"
+                    app:backgroundTint="#00FFFFFF"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="@color/colorWhite"
+                    app:strokeWidth="1dp" />
             </RelativeLayout>
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/rescheduleRequestTV"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:textAllCaps="false"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btnRL"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="5dp"
                 android:clickable="true"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:text="Request for Reschedule"
-                android:textColor="#DD99C4"
+                android:textAllCaps="false"
+                android:textColor="#67C264"
                 android:textSize="14sp" />
 
 
@@ -284,7 +290,7 @@
             android:id="@+id/ratingInputRL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#424242"
+            android:background="@drawable/ic_companey_rate_bg"
             android:paddingLeft="20dp"
             android:paddingTop="25dp"
             android:paddingRight="20dp"
@@ -293,6 +299,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/ratingBTN"
+                app:cornerRadius="8dp"
+                app:backgroundTint="#13A10E"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rate this company"
@@ -305,7 +313,7 @@
             android:id="@+id/ratingShowRL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#424242"
+            android:background="@drawable/ic_rating_show_company_bg_shape"
             android:paddingLeft="32dp"
             android:paddingTop="25dp"
             android:paddingRight="32dp"

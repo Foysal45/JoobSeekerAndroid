@@ -6,7 +6,7 @@
     android:paddingRight="20dp"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
-    android:paddingTop="15dp">
+    android:paddingTop="30dp">
 
     <TextView
         android:id="@+id/examTitleTV"
@@ -17,7 +17,7 @@
         android:drawablePadding="7dp"
         android:gravity="center_vertical"
         android:text="Written"
-        android:textColor="#0E73A9"
+        android:textColor="#2F64A3"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -66,13 +66,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/examMsgTV"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/exam_details_bg"
         android:paddingLeft="14dp"
         android:paddingTop="14dp"
         android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="14dp">
 
         <TextView
             android:id="@+id/dateHeadingTV"
@@ -124,10 +124,25 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/venueHeadingTV"
+            android:id="@+id/contactHeadingTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/examDateTV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="70dp"
+            android:drawableLeft="@drawable/ic_call_black_14dp"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Contact No"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/venueHeadingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phoneNumberTV"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="12dp"
             android:layout_marginRight="70dp"
@@ -137,6 +152,30 @@
             android:text="Venue Details"
             android:textColor="#7D7D7D"
             android:textSize="14sp" />
+        <TextView
+            android:singleLine="true"
+            android:id="@+id/phoneNumberTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactHeadingTV"
+            android:layout_alignLeft="@id/contactHeadingTV"
+            android:layout_marginRight="5dp"
+            android:text="+88 01234 556 778"
+            android:textColor="#303030"
+            android:textSize="14sp" />
+        <ImageView
+            android:layout_marginTop="-1dp"
+            android:layout_marginRight="20dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:id="@+id/infoIMGV"
+            android:clickable="true"
+            android:padding="5dp"
+            android:foregroundGravity="center"
+            android:layout_below="@id/contactHeadingTV"
+            android:layout_toRightOf="@id/phoneNumberTV"
+            android:src="@drawable/ic_info_black_12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/examVenueTV"
@@ -266,11 +305,13 @@
     </RelativeLayout>
 
     <ImageView
+        android:layout_marginTop="20dp"
+        android:layerType="software"
         android:scaleType="fitXY"
         android:layout_below="@id/prevSchRL"
         android:src="@drawable/job_divider_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="5dp" />
 
 
 </RelativeLayout>

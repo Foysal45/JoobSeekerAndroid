@@ -8,6 +8,17 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 
 class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+    override fun scrollToUndoPosition(position: Int) {
+        if (position  >0){
+            appliedJobsFragment.scrollToUndoPosition(position)
+        }
+    }
+
+    override fun decrementCounter() {
+       appliedJobsFragment.decrementCounter()
+
+         }
+
     private val appliedJobsFragment = AppliedJobsFragment()
     private var time: String = ""
 

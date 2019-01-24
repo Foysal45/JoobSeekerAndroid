@@ -152,7 +152,6 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:padding="10dp"
         android:text="Search"
         android:textAllCaps="false"

@@ -52,6 +52,8 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
         android:id="@+id/horizontal_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

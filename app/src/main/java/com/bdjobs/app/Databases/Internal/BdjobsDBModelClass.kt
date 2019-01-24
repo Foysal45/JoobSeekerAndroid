@@ -20,7 +20,7 @@ data class Suggestion(@ColumnInfo(name = "Suggestions")
     var id: Int? = null
 }
 
-@Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyID"], unique = true))])
+@Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyName"], unique = true))])
 data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
                             val CompanyID: String?,
                             @ColumnInfo(name = "CompanyName")

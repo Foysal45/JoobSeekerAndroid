@@ -1,6 +1,5 @@
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +8,6 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
-import com.bdjobs.app.AppliedJobs.AppliedJobsFragment
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
@@ -17,15 +15,14 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.transitFragment
 import com.crashlytics.android.Crashlytics
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -109,7 +106,6 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
-        disableShiftMode(bottom_navigation)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -203,35 +199,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 "trainingId = ${session.trainingId}\n")
     }
 
-
-    @SuppressLint("RestrictedApi")
-    fun disableShiftMode(view: BottomNavigationView) {
-        val menuView = view.getChildAt(0) as BottomNavigationMenuView
-        menuView?.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-        menuView?.buildMenuView()
-        try {
-            menuView?.javaClass.getDeclaredField("mShiftingMode").also { shiftMode ->
-                shiftMode?.isAccessible = true
-                shiftMode?.setBoolean(menuView, false)
-                shiftMode?.isAccessible = false
-            }
-            for (i in 0 until menuView.childCount) {
-                (menuView.getChildAt(i) as BottomNavigationItemView).also { item ->
-                    item?.setShifting(false) // shifting animation
-                    item?.setChecked(item.itemData.isChecked)
-                    debug("navigation position is : $i")
-                }
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }
-    }
-
     override fun shortListedClicked(Position: Int) {
         startActivity<JobBaseActivity>("from" to "shortListedJob", "position" to Position)
 
     }
-
 
     private fun getStatsData(activityDate: String) {
         ApiServiceMyBdjobs.create().mybdjobStats(

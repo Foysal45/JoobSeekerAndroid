@@ -60,7 +60,7 @@ class FollowUnfollowJob(private val appContext: Context) : Job() {
         if (companyID.isNotEmpty()) {
             doAsync {
               //  bdjobsDB.favouriteSearchFilterDao().deleteFavouriteSearchByID(companyID)
-                bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyID)
+                bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyID,companyName)
             }
 
             ApiServiceJobs.create().getUnfollowMessage(

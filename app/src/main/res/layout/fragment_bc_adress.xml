@@ -183,6 +183,7 @@
                    android:hint="এলাকার ঠিকানা বাড়ি/মহল্লা"
                    android:inputType="text"
                    android:singleLine="true"
+                   android:maxLength="250"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />
            </com.google.android.material.textfield.TextInputLayout>

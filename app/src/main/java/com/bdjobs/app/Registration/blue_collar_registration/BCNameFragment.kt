@@ -71,12 +71,13 @@ class BCNameFragment : Fragment() {
 
         bcGoogleButton.setOnClickListener {
 
+            /*   registrationCommunicator.clearData()*/
             registrationCommunicator.regWithGoogle()
 
         }
         bc_facebookButton.setOnClickListener {
 
-
+            /* registrationCommunicator.clearData()*/
             registrationCommunicator.regWithFacebook()
 
         }
@@ -95,7 +96,7 @@ class BCNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(name) -> {
-                nameTIL.showError(getString(R.string.field_empty_error_message_common))
+                nameTIL.showError("নাম খালি রাখা যাবে না")
                 requestFocus(nameTIET)
                 return false
             }
