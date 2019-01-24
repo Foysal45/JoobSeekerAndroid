@@ -215,3 +215,17 @@ data class LastSearch(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }
+
+
+@Entity(tableName = "InviteCodeInfo", indices = [(Index(value = ["userId"], unique = true))])
+data class InviteCodeInfo(@ColumnInfo(name = "userId")
+                            val userId: String?,
+                            @ColumnInfo(name = "userType")
+                            val userType: String?,
+                            @ColumnInfo(name = "pcOwnerID")
+                            val pcOwnerID: String?="",
+                            @ColumnInfo(name = "inviteCodeStatus")
+                            val inviteCodeStatus: String?) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

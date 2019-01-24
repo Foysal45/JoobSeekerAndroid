@@ -18,5 +18,8 @@ interface HomeCommunicator {
     fun setTime(time : String)
     fun scrollToUndoPosition(position:Int)
     fun decrementCounter()
+    fun getInviteCodeUserType():String?
+    fun getInviteCodepcOwnerID():String?
+    fun getInviteCodeStatus():String?
 
 }

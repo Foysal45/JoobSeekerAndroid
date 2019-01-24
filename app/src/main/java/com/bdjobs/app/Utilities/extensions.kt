@@ -9,6 +9,7 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.tasks.OnCompleteListener
@@ -46,8 +48,75 @@ fun Activity.callHelpLine() {
     startActivity(intent)
 }
 
+fun Context.getDeviceID():String{
+    return try {
+        Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
+    }
+}
+
+
+fun Context.isBlueCollarUser(): Boolean {
+    val bdjobsUserSession = BdjobsUserSession(this)
+    val catId = bdjobsUserSession.catagoryId
+    var isBlueCollar = false
+    try {
+        if (catId != null) {
+            val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            for (i in aList.indices) {
+                println(" -->" + aList[i])
+                Log.d("ListOutput", "ListOutput " + aList[i])
+                if (!TextUtils.isEmpty(aList[i].toString().trim { it <= ' ' })) {
+                    val temCat = Integer.parseInt(aList[i].toString().trim { it <= ' ' })
+                    Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
+                    if (temCat > 59) {
+                        Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
+                        isBlueCollar = true
+                        Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
+                        break
+                    }
+                }
+            }
+        }
+    } catch (e: NumberFormatException) {
+        e.printStackTrace()
+    }
+    return isBlueCollar
+}
+
+
+fun Context.getBlueCollarUserId(): Int {
+    val bdjobsUserSession = BdjobsUserSession(this)
+    val catId = bdjobsUserSession.catagoryId
+    var blueCollarId = 0
+    try {
+        if (catId != null) {
+            val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            for (i in aList.indices) {
+                println(" -->" + aList[i])
+                Log.d("ListOutput", "ListOutput " + aList[i])
+                if (!TextUtils.isEmpty(aList[i].toString().trim { it <= ' ' })) {
+
+                    val temCat = Integer.parseInt(aList[i].toString().trim { it <= ' ' })
+                    Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
+                    if (temCat > 59) {
+                        blueCollarId = temCat
+                        break
+                    }
+                }
+            }
+        }
+    } catch (e: NumberFormatException) {
+        e.printStackTrace()
+    }
+    return blueCollarId
+}
+
+
 fun Context.openUrlInBrowser(url: String?) {
-    if(url.isNullOrBlank())
+    if (url.isNullOrBlank())
         return
     val intentBuilder = CustomTabsIntent.Builder()
     intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
