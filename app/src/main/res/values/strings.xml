@@ -230,4 +230,6 @@
     <string name="toast.exam.degree.title.other.blank">Exam/Degree Title can not be empty</string>
     <string name="hint.addEmail">ADD EMAIL</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
+    <string name="subtit.ori_info">Other Relevant Information</string>
+    <string name="title_ORI">Other Relevant Information</string>
 </resources>

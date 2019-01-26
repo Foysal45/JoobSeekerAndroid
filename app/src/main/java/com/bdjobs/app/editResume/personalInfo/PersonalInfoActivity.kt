@@ -13,12 +13,15 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
+import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.contactDetails.ContactViewFragment
+import com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo.ORIEditFragment
+import com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo.ORIViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
 import com.google.android.material.snackbar.Snackbar
@@ -34,9 +37,12 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val careerEditFragment = CareerEditFragment()
     private val contactViewFragment = ContactViewFragment()
     private val contactEditFragment = ContactEditFragment()
+    private val oriViewFragment = ORIViewFragment()
+    private val oriEditFragment = ORIEditFragment()
     private lateinit var dataCa: Ca_DataItem
     private lateinit var dataCon: C_DataItem
     private lateinit var dataPer: P_DataItem
+    private lateinit var dataOri: ORIdataItem
     private lateinit var name: String
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -54,6 +60,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
             "personal" -> transitFragment(personalViewFragment, R.id.personalinfo_container, false)
             "contact" -> transitFragment(contactViewFragment, R.id.personalinfo_container, false)
             "career" -> transitFragment(careerViewFragment, R.id.personalinfo_container, false)
+            "ori" -> transitFragment(oriViewFragment, R.id.personalinfo_container, false)
         }
     }
 
@@ -86,6 +93,14 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         this.dataCon = data
     }
 
+    override fun getOriData(): ORIdataItem {
+        return dataOri
+    }
+
+    override fun passOriData(data: ORIdataItem) {
+        this.dataOri = data
+    }
+
     override fun setEditButton(b: Boolean, type: String) {
         if (b) {
             iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
@@ -106,8 +121,8 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private fun goToEditInfo(check: String) {
         try {
             when (check) {
-                "add" -> {
-
+                "editORI" -> {
+                    transitFragment(oriEditFragment, R.id.personalinfo_container, true)
                 }
                 "editPersonal" -> {
                     transitFragment(personalEditFragment, R.id.personalinfo_container, true)

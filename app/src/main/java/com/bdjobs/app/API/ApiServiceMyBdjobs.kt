@@ -100,6 +100,13 @@ interface ApiServiceMyBdjobs {
     ): Call<GetContactInfo>
 
     @FormUrlEncoded
+    @POST("apps_step_01_view_ori.asp")
+    fun getORIInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetORIResponse>
+
+    @FormUrlEncoded
     @POST("apps_step_01_view_cai.asp")
     fun getCareerInfo(
             @Field("userId") userId: String?,

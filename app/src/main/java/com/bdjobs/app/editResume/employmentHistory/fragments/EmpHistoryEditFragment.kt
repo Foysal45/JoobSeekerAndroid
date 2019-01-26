@@ -162,6 +162,7 @@ class EmpHistoryEditFragment : Fragment() {
             empHisCB.setDeleteButton(false)
             hID = "-4"
             idArr.add("")
+            cb_present?.isChecked = true
             clearEditText()
         }
     }
@@ -171,26 +172,26 @@ class EmpHistoryEditFragment : Fragment() {
             if (isChecked) {
                 currentlyWorking = "ON"
                 et_end_date?.setText("")
-                et_end_date?.isEnabled = false
                 endDateTIL.hideError()
             } else {
                 currentlyWorking = "OFF"
                 updateDateInView(1)
-                et_end_date?.isEnabled = true
-                validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
+                endDateTIL?.isEnabled = true
+                //et_end_date?.error = "Can't be empty"
+                //endDateTIL.hideError()
             }
         }
         addTextChangedListener(companyNameET, companyNameTIL)
         addTextChangedListener(companyBusinessACTV, companyBusinessTIL)
         addTextChangedListener(positionET, positionTIL)
         addTextChangedListener(estartDateET, estartDateTIL)
-        /*experiencesMACTV.easyOnTextChangedListener { charSequence ->
+        experiencesMACTV.easyOnTextChangedListener { charSequence ->
             activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, estartDateTIL)
-        }*/
-
-        if (currentlyWorking != "ON") {
-            addTextChangedListener(et_end_date, endDateTIL)
         }
+
+        /*if (cb_present?.isChecked as Boolean) {
+            addTextChangedListener(et_end_date, endDateTIL)
+        }*/
         //addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
 
         estartDateET?.setOnClickListener {
@@ -244,11 +245,12 @@ class EmpHistoryEditFragment : Fragment() {
             validation = isValidate(companyBusinessACTV, companyBusinessTIL, companyBusinessACTV, true, validation)
             validation = isValidate(positionET, positionTIL, positionET, true, validation)
             validation = isValidate(estartDateET, estartDateTIL, companyNameET, true, validation)
+            validation = isValidateAutoCompleteTV(experiencesMACTV, estartDateTIL, companyNameET, true, validation)
             //validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
             Log.d("validation", "validation : $validation")
 
-            if (validation >= 4) {
+            if (validation >= 5) {
                 val chars: Char = exps[0]
                 if (!chars.equals(","))
                     exps = ",$exps"

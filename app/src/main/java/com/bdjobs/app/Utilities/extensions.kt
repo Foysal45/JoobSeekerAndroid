@@ -269,6 +269,28 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
     return valid
 }
 
+fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextInputLayout?,
+                             etNext: TextInputEditText?, last: Boolean, validation: Int): Int {
+    var valid: Int = validation
+    if (last) {
+        if (TextUtils.isEmpty(etCurrent?.getString())) {
+            tilCurrent?.showError("This Field can not be empty")
+        } else {
+            valid++
+            tilCurrent?.isErrorEnabled = false
+            etNext?.requestFocus()
+        }
+    } else {
+        if (TextUtils.isEmpty(etCurrent?.getString())) {
+            tilCurrent?.showError("This Field can not be empty")
+            etCurrent?.requestFocus()
+        }
+        etNext?.requestFocus()
+        tilCurrent?.hideError()
+    }
+    return valid
+}
+
 fun Activity.requestFocus(view: View) {
     if (view.requestFocus()) {
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)

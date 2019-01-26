@@ -72,6 +72,9 @@ class EditResLandingActivity : Activity() {
         btnPerItem3.setOnClickListener {
             goToFragment("career", "P")
         }
+        btnPerItem4.setOnClickListener {
+            goToFragment("ori", "P")
+        }
         btnEduItem1.setOnClickListener {
             goToFragment("academic", "E")
         }
