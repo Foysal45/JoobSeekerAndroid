@@ -202,7 +202,7 @@ class EmpHistoryEditFragment : Fragment() {
         }
         companyBusinessACTV.setOnClickListener {
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
-            activity.selector("Select your area of company business", organizationList.toList()) { _, i ->
+            activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
 
                 companyBusinessACTV.setText(organizationList[i])
                 companyBusinessTIL.requestFocus()
