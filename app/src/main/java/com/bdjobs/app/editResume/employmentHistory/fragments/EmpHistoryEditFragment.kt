@@ -48,8 +48,8 @@ class EmpHistoryEditFragment : Fragment() {
     private var isFirst = false
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
+    private var isEmpty = false
     var isEdit = false
-    var validation = 0
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
 
@@ -122,7 +122,7 @@ class EmpHistoryEditFragment : Fragment() {
         if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
-            idArr.add(" ")
+            idArr.add("")
             clearEditText()
         }
         doWork()
@@ -162,7 +162,7 @@ class EmpHistoryEditFragment : Fragment() {
             empHisCB.setDeleteButton(false)
             hID = "-4"
             idArr.add("")
-            cb_present?.isChecked = true
+            isEmpty = true
             clearEditText()
         }
     }
@@ -186,12 +186,12 @@ class EmpHistoryEditFragment : Fragment() {
         addTextChangedListener(positionET, positionTIL)
         addTextChangedListener(estartDateET, estartDateTIL)
         experiencesMACTV.easyOnTextChangedListener { charSequence ->
-            activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, estartDateTIL)
+            activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, experiencesTIL)
         }
 
-        /*if (cb_present?.isChecked as Boolean) {
+        if (cb_present?.isChecked as Boolean) {
             addTextChangedListener(et_end_date, endDateTIL)
-        }*/
+        }
         //addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
 
         estartDateET?.setOnClickListener {
@@ -231,26 +231,38 @@ class EmpHistoryEditFragment : Fragment() {
                             experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
                         }
+                        experiencesTIL.hideError()
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")
+                        isEmpty = true
+                        experiencesTIL.isErrorEnabled = true
                     }
                 }
             }
         }
         fab_eh?.setOnClickListener {
+            var validation = 0
+            if (entry_chip_group.childCount >= 1) {
+                experiencesTIL.hideError()
+                isEmpty = false
+            } else {
+                experiencesTIL.isErrorEnabled = true
+                isEmpty = true
+            }
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
-            validation = isValidate(companyNameET, companyNameTIL, companyNameET, true, validation)
-            validation = isValidate(companyBusinessACTV, companyBusinessTIL, companyBusinessACTV, true, validation)
-            validation = isValidate(positionET, positionTIL, positionET, true, validation)
-            validation = isValidate(estartDateET, estartDateTIL, companyNameET, true, validation)
-            validation = isValidateAutoCompleteTV(experiencesMACTV, estartDateTIL, companyNameET, true, validation)
+            validation = isValidate(companyNameET, companyNameTIL, companyBusinessACTV, true, validation)
+            validation = isValidate(companyBusinessACTV, companyBusinessTIL, positionET, true, validation)
+            validation = isValidate(positionET, positionTIL, estartDateET, true, validation)
+            validation = isValidate(estartDateET, estartDateTIL, et_end_date, true, validation)
+            validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, isEmpty, validation)
             //validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
-            Log.d("validation", "validation : $validation")
+            Log.d("validation", "validation : $validation and $isEmpty")
 
-            if (validation >= 5) {
+            if (validation >= 4) {
+                disableError()
                 val chars: Char = exps[0]
                 if (!chars.equals(","))
                     exps = ",$exps"
@@ -282,7 +294,6 @@ class EmpHistoryEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
-                            validation = 0
                             empHisCB.goBack()
                         }
                     }
@@ -395,5 +406,6 @@ class EmpHistoryEditFragment : Fragment() {
         estartDateTIL.hideError()
         endDateTIL.hideError()
         experiencesTIL.clearFocus()
+        experiencesTIL.hideError()
     }
 }
