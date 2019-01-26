@@ -58,7 +58,7 @@ class ORIViewFragment : Fragment() {
         call.enqueue(object : Callback<GetORIResponse> {
             override fun onFailure(call: Call<GetORIResponse>, t: Throwable) {
                 shimmerStop()
-                clORIMainLayout.show()
+                clORIMainLayout.hide()
                 activity.toast(R.string.message_common_error)
             }
 
@@ -88,8 +88,8 @@ class ORIViewFragment : Fragment() {
         val data = info.data?.get(0)
         tvORICareerSummary.text = data?.careerSummery
         tvORISpecialQualificaiton.text = data?.specialQualifications
-        val keywords = data?.keywords
-        val keyArray: List<String>? = keywords?.split(", ")?.map { it.trim() }
+        val keywords = data?.keywords?.removeLastComma()
+        val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
             addChip(it)
         }
@@ -98,7 +98,7 @@ class ORIViewFragment : Fragment() {
 
 
     private fun addChip(input: String) {
-        val c1 = getChip(input, R.xml.chip_entry)
+        val c1 = getChip(input, R.xml.chip_highlighted)
         entry_chip_group.addView(c1)
         LL_ORI_Keyword?.closeKeyboard(activity)
     }
