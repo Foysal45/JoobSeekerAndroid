@@ -35,7 +35,7 @@
 
     </style>
 
-    <style name="AppEditTextTheme" parent="Base.Widget.MaterialComponents.TextInputEditText">
+    <style name="AppEditTextTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/hintColor</item>
