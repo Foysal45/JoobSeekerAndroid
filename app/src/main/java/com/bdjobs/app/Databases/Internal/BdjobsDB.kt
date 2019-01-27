@@ -15,7 +15,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     AppliedJobs::class,
     JobInvitation::class,
     B2CCertification::class,
-    LastSearch::class], version = 1, exportSchema = false)
+    LastSearch::class,
+    InviteCodeInfo::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -27,6 +28,7 @@ abstract class BdjobsDB : RoomDatabase() {
     abstract fun jobInvitationDao(): JobInvitationDao
     abstract fun b2CCertificationDao(): B2CCertificationDao
     abstract fun lastSearchDao(): LastSearchDao
+    abstract fun inviteCodeUserInfoDao(): InviteCodeUserInfoDao
 
 
     companion object {

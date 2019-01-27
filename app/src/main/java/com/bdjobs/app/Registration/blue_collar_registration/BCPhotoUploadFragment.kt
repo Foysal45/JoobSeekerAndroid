@@ -178,6 +178,21 @@ class BCPhotoUploadFragment : Fragment() {
     }
 
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_CAMERA -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openCamera()
+
+                } else {
+                    /* Toasty.error(this@PhotoUpload, "Permission Denied").show()*/
+                }
+                return
+            }
+        }
+    }
+
     fun makeHTTPCall() {
 
         val client = AsyncHttpClient()
@@ -202,7 +217,11 @@ class BCPhotoUploadFragment : Fragment() {
                 val photoUrl = photoUploadModel.data[0].path
                 Log.d("dgdsgdghj", " $photoUrl")
                 val bdjobsUserSession = BdjobsUserSession(activity)
-                bdjobsUserSession.updateUserPicUrl(photoUrl)
+                bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
+
+
+
+             
 
                 /*  toast(photoUploadModel.message)*/
                 registrationCommunicator.hideProgressBar()
@@ -230,21 +249,7 @@ class BCPhotoUploadFragment : Fragment() {
 
     fun performFileSearch() {
 
-        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
-        // browser.
-        //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
-        // Filter to only show results that can be "opened", such as a
-        // file (as opposed to a list of contacts or timezones)
-        //intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Filter to show only images, using the image MIME data type.
-        // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
-        // To search for all documents available via installed storage providers,
-        // it would be "*/*".
-        //intent.setType("image/*");
-
-        //startActivityForResult(intent, READ_REQUEST_CODE);
 
         FilePickerBuilder.getInstance().setMaxCount(1)
                 .setSelectedFiles(filePaths)
@@ -435,6 +440,8 @@ class BCPhotoUploadFragment : Fragment() {
             openCamera()
 
         }
+
+
     }
 
 

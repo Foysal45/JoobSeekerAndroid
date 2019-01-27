@@ -11,10 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.hideError
-import com.bdjobs.app.Utilities.showError
+import com.bdjobs.app.Utilities.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
@@ -140,11 +137,17 @@ class BCBirthDateFragment : Fragment() {
                         val date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
                         bcAgeTIET.text!!.clear()
 
+                        Log.d("Test", " date default ${date} ")
+
                         bcBirthDateTIET.setText(date)
                         var ageTemp = 0
-                        val sdf = SimpleDateFormat("MM/dd/yyyy")
+                        val sdf = SimpleDateFormat("dd/MM/yyyy")
                         try {
+
                             val birthDate = sdf.parse(date)
+
+                            Log.d("Test", " date after formate ${birthDate} ")
+
                             ageTemp = calculateAge(birthDate)
                         } catch (e: ParseException) {
                             e.printStackTrace()
@@ -157,6 +160,7 @@ class BCBirthDateFragment : Fragment() {
                             ageLimit = true
                             bcBirthDateTIL.hideError()
                             bcAgeTIL.hideError()
+                            bcAgeTIET.isFocusableInTouchMode = true
 
                         } else {
                             ageLimit = false
@@ -215,7 +219,6 @@ class BCBirthDateFragment : Fragment() {
 
         bcBirthDateTIET.easyOnTextChangedListener { charSequence ->
 
-
             birthdateValidation(charSequence.toString(), bcBirthDateTIET, bcBirthDateTIL, "জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
 
         }
@@ -259,6 +262,7 @@ class BCBirthDateFragment : Fragment() {
 
                 if (ageLimit) {
                     til.hideError()
+                    bcBirthDateTIET.clear()
                     bcBirthDateTIL.hideError()
                 } else {
                     til.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")

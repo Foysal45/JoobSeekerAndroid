@@ -40,7 +40,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="24dp"
-                android:text="Select Your Skill From Following List"
+                android:text="Select skills from the list "
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"

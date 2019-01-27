@@ -13,6 +13,7 @@ import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
@@ -37,11 +38,11 @@ class MoreFragment : Fragment() {
     }
 
     private fun shakeHorizontaList() {
-        Log.d("horizontaList","horizontaList: ${horizontaList.size}")
-       Handler().postDelayed({
+        Log.d("horizontaList", "horizontaList: ${horizontaList.size}")
+        Handler().postDelayed({
             horizontal_RV?.post {
-            horizontal_RV.smoothScrollToPosition(horizontaList.size-1)
-        }
+                horizontal_RV.smoothScrollToPosition(horizontaList.size - 1)
+            }
         }, 1000)
 
         Handler().postDelayed({
@@ -101,12 +102,12 @@ class MoreFragment : Fragment() {
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
         }
     }
+
     private fun clearAddPopulateData() {
         /*this  function deletes duplicates data lists  */
-        if (horizontaList.isNullOrEmpty()){
+        if (horizontaList.isNullOrEmpty()) {
             populateData()
-        }
-        else {
+        } else {
             horizontalAdapter?.removeAll()
             horizontaList.clear()
             populateData()
@@ -114,15 +115,23 @@ class MoreFragment : Fragment() {
         horizontalAdapter?.addAll(horizontaList)
         //shakeHorizontaList()
     }
+
     private fun populateData() {
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "ইনভাইট &\nআর্ন"))
+
+        homeCommunicator.getInviteCodeUserType()?.let { txt ->
+            if (txt.equalIgnoreCase("o") || txt.equalIgnoreCase("u") || txt.equalIgnoreCase("n")) {
+                horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট &\nআর্ন"))
+            }
+        }
+
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
     }
-    private fun initializeViews(){
+
+    private fun initializeViews() {
         horizontalAdapter = HorizontalAdapter(activity)
         horizontal_RV?.adapter = horizontalAdapter
         horizontal_RV?.setHasFixedSize(true)
