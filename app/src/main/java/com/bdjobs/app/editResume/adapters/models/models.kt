@@ -352,6 +352,37 @@ data class GetCarrerInfo(
         val message: String? = null
 )
 
+// ORI Info
+data class GetORIResponse(
+
+        @field:SerializedName("statuscode")
+        val statuscode: String? = null,
+
+        @field:SerializedName("data")
+        val data: List<ORIdataItem?>? = null,
+
+        @field:SerializedName("common")
+        val common: Any? = null,
+
+        @field:SerializedName("message")
+        val message: String? = null
+)
+
+data class ORIdataItem(
+
+        @field:SerializedName("messageType")
+        val messageType: String? = null,
+
+        @field:SerializedName("keywords")
+        val keywords: String? = null,
+
+        @field:SerializedName("specialQualifications")
+        val specialQualifications: String? = null,
+
+        @field:SerializedName("careerSummery")
+        val careerSummery: String? = null
+)
+
 // Training Info
 data class Tr_DataItem(
         val duration: String? = null,

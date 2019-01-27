@@ -41,6 +41,15 @@ class EditResLandingActivity : Activity() {
         d("editResLanding isResumeUpdate:$isResumeUpdate")
         tvname.text = session.fullName
         tvEmail.text = session.email
+
+
+        // test purpose
+        ivProfileImage.setOnClickListener {
+            startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
+        }
+
+
+
         if (isResumeUpdate.equalIgnoreCase("False")) {
             disableAll()
             btnPerItem1.setOnClickListener {
@@ -62,6 +71,9 @@ class EditResLandingActivity : Activity() {
         }
         btnPerItem3.setOnClickListener {
             goToFragment("career", "P")
+        }
+        btnPerItem4.setOnClickListener {
+            goToFragment("ori", "P")
         }
         btnEduItem1.setOnClickListener {
             goToFragment("academic", "E")
@@ -106,7 +118,7 @@ class EditResLandingActivity : Activity() {
             "E" ->
                 startActivity<AcademicBaseActivity>("name" to s)
             "Emp" ->
-                startActivity<EmploymentHistoryActivity>("name" to s)
+                startActivity<EmploymentHistoryActivity>("name" to s, "emp_his_add" to "null")
         }
     }
 

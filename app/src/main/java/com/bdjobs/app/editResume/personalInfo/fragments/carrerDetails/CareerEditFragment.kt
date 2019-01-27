@@ -42,10 +42,6 @@ class CareerEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         personalInfo = activity as PersonalInfo
-    }
-
-    override fun onResume() {
-        super.onResume()
         initViews()
         doWork()
     }

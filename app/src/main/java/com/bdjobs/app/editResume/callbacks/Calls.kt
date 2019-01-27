@@ -41,6 +41,8 @@ interface PersonalInfo {
     fun passPersonalData(data: P_DataItem)
     fun getContactData(): C_DataItem
     fun passContactData(data: C_DataItem)
+    fun getOriData(): ORIdataItem
+    fun passOriData(data: ORIdataItem)
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     //fun setDeleteButton(b: Boolean)
     //fun goToEditInfo(check: String)
