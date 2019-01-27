@@ -434,7 +434,7 @@ interface ApiServiceMyBdjobs {
             @Field("itemsPerPage") itemsPerPage: String?,
             @Field("isActivityDate") isActivityDate: String?,
             @Field("AppsDate") AppsDate: String?
-    ): Call<EmplyerViewMyResume>
+    ): Call<EmpVwdResume>
 
     @FormUrlEncoded
     @POST("app_invite_interview_details.asp")

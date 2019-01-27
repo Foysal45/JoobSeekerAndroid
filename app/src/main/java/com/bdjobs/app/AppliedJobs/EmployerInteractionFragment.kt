@@ -24,13 +24,14 @@ import retrofit2.Response
 import java.lang.Exception
 import androidx.appcompat.widget.AppCompatRadioButton
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
-import android.R
+
 import android.app.Dialog
-import android.content.res.ColorStateList
-import android.graphics.Color
+
 import android.widget.*
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
+import org.jetbrains.anko.startActivity
 
 
 class EmployerInteractionFragment : Fragment() {
@@ -67,7 +68,7 @@ class EmployerInteractionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        toast("$populateshowExp")
+        //toast("$populateshowExp")
         populateshowExp = "no"
         experienceListInteraction?.clear()
     }
@@ -76,7 +77,7 @@ class EmployerInteractionFragment : Fragment() {
         // val rgp = findViewById(com.bdjobs.app.R.id.radio_group) as RadioGroup
         populateshowExp = "yes"
         var buttonsize = experienceListInteraction?.size
-        foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
+        //foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
         buttonsize = buttonsize?.minus(1)
         for (i in 0..buttonsize!!) {
             val designationradioBTN = RadioButton(activity)
@@ -100,7 +101,7 @@ class EmployerInteractionFragment : Fragment() {
 
             designationradioBTN.setOnClickListener {
                 expID = experienceListInteraction?.get(i)?.experienceID!!
-                toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
+               // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
             }
         }
 
@@ -129,6 +130,12 @@ class EmployerInteractionFragment : Fragment() {
             updateExpDialog?.setCancelable(true)
             updateExpDialog?.show()
             val cancelBTN = updateExpDialog?.findViewById(com.bdjobs.app.R.id.cancelBTN) as Button
+            val yesBTN = updateExpDialog?.findViewById(com.bdjobs.app.R.id.updateBTN) as Button
+            yesBTN?.setOnClickListener {
+                activity?.startActivity<EmploymentHistoryActivity>(
+                        "name" to "null",
+                        "emp_his_add" to "addDirect")
+            }
             cancelBTN?.setOnClickListener {
                 updateExpDialog.dismiss()
             }

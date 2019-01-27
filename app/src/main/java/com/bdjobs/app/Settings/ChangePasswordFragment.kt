@@ -23,20 +23,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
 
-
-
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
-
 class ChangePasswordFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var communicator: SettingsCommunicator
@@ -96,9 +82,15 @@ class ChangePasswordFragment : Fragment() {
 
 
                     )
+                    toast(response.body()?.message!!)
                     if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
                         Log.d("msg", response.body()?.message)
-                        toast(response.body()?.message!!)
+                       // toast(response.body()?.message!!)
+                        if (response.body()?.message == "The information has been updated Successfully"){
+                            communicator.backButtonPressed()
+                        }
+
+
                     }
 
                 }
