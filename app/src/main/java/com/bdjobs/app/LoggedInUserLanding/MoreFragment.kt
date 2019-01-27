@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
@@ -100,6 +101,9 @@ class MoreFragment : Fragment() {
         }
         viewResume_MBTN.setOnClickListener {
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
+        }
+        emailResume_MBTN.setOnClickListener {
+            startActivity<ManageResumeActivity>()
         }
     }
 
