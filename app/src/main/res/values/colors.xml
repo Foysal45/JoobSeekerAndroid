@@ -16,5 +16,7 @@
     <color name="unfollow">#E6E5EB</color>
     <color name="chip_select_color">#2F64A3</color>
     <color name="chip_default_color">#FFFFFF</color>
-
+    <color name="itemsColor">#767676</color>
+    <color name="signInColorActivated">#006F94</color>
+    <color name="hintColor">#99BBD6</color>
 </resources>

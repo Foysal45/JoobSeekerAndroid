@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModel
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.Jobs.PaginationScrollListener
 
 import com.bdjobs.app.R
@@ -32,6 +34,7 @@ class AppliedJobsFragment : Fragment() {
 
     private lateinit var bdjobsUsersession: BdjobsUserSession
     private var appliedJobsAdapter: AppliedJobsAdapter? = null
+    private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
     private val PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
@@ -122,13 +125,22 @@ class AppliedJobsFragment : Fragment() {
                     //   TOTAL_PAGES = 5
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
                     jobsAppliedSize = totalRecords?.toInt()!!
-                    Log.d("callAppliURl", response.body()?.data.toString())
+                    Log.d("callAppliURl", response.body()?.activity?.toString())
+
+
+
 
                     if (!response?.body()?.data.isNullOrEmpty()) {
                         appliedJobsRV!!.visibility = View.VISIBLE
                         var value = response.body()?.data
                         appliedJobsAdapter?.removeAll()
                         appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
+                        appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
+
+                        experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
+                        Log.d("callAppliURlex", experienceList?.size?.toString())
+                        appliedJobsCommunicator.setexperienceList(experienceList!!)
+
 
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
@@ -163,6 +175,18 @@ class AppliedJobsFragment : Fragment() {
             }
 
         })
+    }
+
+    fun addExp(r: AppliedJobModelExprience) {
+        experienceList?.add(r)
+       // notifyItemInserted(appliedJobsLists!!.size - 1)
+    }
+
+
+    fun addAll(moveResults: List<AppliedJobModelExprience>) {
+        for (result in moveResults!!) {
+            addExp(result)
+        }
     }
 
     private fun loadNextPage(activityDate: String) {
