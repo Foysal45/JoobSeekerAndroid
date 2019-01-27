@@ -6,15 +6,11 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
-import android.view.WindowManager
+import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.getString
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
@@ -174,21 +170,20 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         }
     }
 
-    override fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean {
-        if (et.getString().isEmpty()) {
-            til.isErrorEnabled = true
-            til.error = resources.getString(R.string.field_empty_error_message_common)
-            requestFocus(et)
-            return false
-        } else {
-            til.isErrorEnabled = false
+    override fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+        when {
+            TextUtils.isEmpty(char) -> {
+                til.showError(getString(R.string.field_empty_error_message_common))
+                this.requestFocus(et)
+                return false
+            }
+            char.length < 2 -> {
+                til.showError(" it is too short")
+                this.requestFocus(et)
+                return false
+            }
+            else -> til.hideError()
         }
         return true
-    }
-
-    private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        }
     }
 }

@@ -20,6 +20,7 @@
                android:fontFamily="@font/roboto"
                android:textColor="#2F64A3"
                android:textSize="16sp"
+               android:checked="true"
                android:id="@+id/checkBox"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
                android:layout_marginTop="45dp"
                android:layout_marginEnd="8dp"
                android:fontFamily="@font/roboto"
-               android:text="আপনার সর্বশেষ শিক্ষাগত যোগ্যতা"
+               android:text="সর্বশেষ শিক্ষাগত যোগ্যতা"
                android:textColor="#000000"
                android:textSize="18sp"
                app:layout_constraintEnd_toEndOf="parent"
@@ -46,13 +47,11 @@
                app:layout_constraintTop_toTopOf="parent" />
 
            <TextView
-
                android:id="@+id/textView34"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="8dp"
                android:layout_marginEnd="8dp"
-
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toEndOf="@+id/checkBox"
@@ -82,13 +81,13 @@
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcEduLevelTIET"
                    android:layout_width="match_parent"
-                   android:focusable="false"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:hint="সর্বশেষ শিক্ষা পর্যায়"
                    android:inputType="text"
                    android:singleLine="true"
-                   android:enabled="false"
+                   android:editable="false"
+                   android:focusableInTouchMode="false"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />
            </com.google.android.material.textfield.TextInputLayout>
@@ -115,8 +114,8 @@
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcEduDegreeTIET"
                    android:layout_width="match_parent"
-                   android:focusable="false"
-                   android:enabled="false"
+                   android:editable="false"
+                   android:focusableInTouchMode="false"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:hint="পরীক্ষা/ডিগ্রীর নাম"
@@ -148,10 +147,10 @@
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcEduDegreeOtherTIET"
                    android:layout_width="match_parent"
-
+                   android:hint="পরীক্ষা/ডিগ্রীর নাম"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
-                   android:hint="অন্যান্য "
+                   android:maxLength="50"
                    android:inputType="text"
                    android:singleLine="true"
                    android:typeface="normal"
@@ -180,10 +179,11 @@
                    android:id="@+id/bcInstituteNameTIET"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                    android:enabled="false"
                    android:fontFamily="@font/roboto"
                    android:hint="শিক্ষা প্রতিষ্ঠানের নাম"
                    android:inputType="text"
+                   android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'. "
+                   android:maxLength="80"
                    android:singleLine="true"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />
@@ -212,10 +212,11 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
-                   android:enabled="false"
                    android:maxLength="4"
-                   android:hint="পাশ করার বছর "
-                   android:inputType="text"
+                   android:editable="false"
+                   android:focusableInTouchMode="false"
+                   android:hint="পাশ করার বছর"
+                   android:inputType="number"
                    android:singleLine="true"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />

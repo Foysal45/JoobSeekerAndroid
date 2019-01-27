@@ -25,7 +25,7 @@
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/roboto"
-                android:text="আপনার কাজের দক্ষতা নির্বাচন করুন"
+                android:text="কর্ম দক্ষতা নির্বাচন করুন "
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +135,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:hint="অভিজ্ঞতা (বছর)"
-                    android:inputType="text"
+                    android:inputType="number"
+                    android:maxLength="2"
                     android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />

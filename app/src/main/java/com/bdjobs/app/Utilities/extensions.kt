@@ -9,7 +9,9 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.provider.Settings
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
@@ -17,16 +19,14 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.NonNull
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.tasks.OnCompleteListener
@@ -48,8 +48,75 @@ fun Activity.callHelpLine() {
     startActivity(intent)
 }
 
+fun Context.getDeviceID():String{
+    return try {
+        Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
+    }
+}
+
+
+fun Context.isBlueCollarUser(): Boolean {
+    val bdjobsUserSession = BdjobsUserSession(this)
+    val catId = bdjobsUserSession.catagoryId
+    var isBlueCollar = false
+    try {
+        if (catId != null) {
+            val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            for (i in aList.indices) {
+                println(" -->" + aList[i])
+                Log.d("ListOutput", "ListOutput " + aList[i])
+                if (!TextUtils.isEmpty(aList[i].toString().trim { it <= ' ' })) {
+                    val temCat = Integer.parseInt(aList[i].toString().trim { it <= ' ' })
+                    Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
+                    if (temCat > 59) {
+                        Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
+                        isBlueCollar = true
+                        Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
+                        break
+                    }
+                }
+            }
+        }
+    } catch (e: NumberFormatException) {
+        e.printStackTrace()
+    }
+    return isBlueCollar
+}
+
+
+fun Context.getBlueCollarUserId(): Int {
+    val bdjobsUserSession = BdjobsUserSession(this)
+    val catId = bdjobsUserSession.catagoryId
+    var blueCollarId = 0
+    try {
+        if (catId != null) {
+            val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            for (i in aList.indices) {
+                println(" -->" + aList[i])
+                Log.d("ListOutput", "ListOutput " + aList[i])
+                if (!TextUtils.isEmpty(aList[i].toString().trim { it <= ' ' })) {
+
+                    val temCat = Integer.parseInt(aList[i].toString().trim { it <= ' ' })
+                    Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
+                    if (temCat > 59) {
+                        blueCollarId = temCat
+                        break
+                    }
+                }
+            }
+        }
+    } catch (e: NumberFormatException) {
+        e.printStackTrace()
+    }
+    return blueCollarId
+}
+
+
 fun Context.openUrlInBrowser(url: String?) {
-    if(url.isNullOrBlank())
+    if (url.isNullOrBlank())
         return
     val intentBuilder = CustomTabsIntent.Builder()
     intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
@@ -229,7 +296,52 @@ fun Activity.enableUserInteraction() {
 }
 
 fun EditText.getString(): String {
-    return text.toString()
+    return text.trim().toString()
+}
+
+fun Activity.ACTVValidation(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {
+    when {
+        TextUtils.isEmpty(char) -> {
+            til.showError(getString(R.string.field_empty_error_message_common))
+            requestFocus(et)
+            return false
+        }
+        char.length < 2 -> {
+            til.showError("it is too short")
+            requestFocus(et)
+            return false
+        }
+        else -> til.hideError()
+    }
+    return true
+}
+
+fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
+               etNext: TextInputEditText?, last: Boolean, validation: Int): Int {
+    var valid: Int = validation
+    if (last) {
+        if (TextUtils.isEmpty(etCurrent?.getString())) {
+            tilCurrent?.showError("This Field can not be empty")
+        } else {
+            valid++
+            tilCurrent?.isErrorEnabled = false
+            etNext?.requestFocus()
+        }
+    } else {
+        if (TextUtils.isEmpty(etCurrent?.getString())) {
+            tilCurrent?.showError("This Field can not be empty")
+            etCurrent?.requestFocus()
+        }
+        etNext?.requestFocus()
+        tilCurrent?.hideError()
+    }
+    return valid
+}
+
+fun Activity.requestFocus(view: View) {
+    if (view.requestFocus()) {
+        this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
 }
 
 fun Any.logException(e: java.lang.Exception) {

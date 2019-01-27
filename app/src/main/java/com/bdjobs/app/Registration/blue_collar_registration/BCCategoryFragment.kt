@@ -27,7 +27,7 @@ class BCCategoryFragment : Fragment() {
     private lateinit var bcCategories: ArrayList<String>
     private lateinit var bcCategoryAdapter: BCCategoryAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
-
+    private var selectedPosition = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,6 +55,7 @@ class BCCategoryFragment : Fragment() {
 
             activity.callHelpLine()
         }
+
 
 
         bcCategoryFAButton.setOnClickListener {
@@ -95,6 +96,42 @@ class BCCategoryFragment : Fragment() {
        }
 
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        val bcCategoryAdapter = BCCategoryAdapter(activity, bcCategories)
+        bcCategoryList.adapter = bcCategoryAdapter
+        bcCategoryAdapter.SetCategoryPositionSelected(selectedPosition)
+
+
+
+        bcCategoryFAButton.setOnClickListener {
+
+            if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
+
+                activity.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
+
+            }
+
+        }
+
+        if (selectedPosition != -1) {
+            bcCategoryFAButton.setOnClickListener {
+
+                registrationCommunicator.bcGoToStepName()
+
+
+            }
+        }
+
+    }
+
+
+    fun getSelectedPosition(position: Int) {
+        selectedPosition = position
     }
 
 }

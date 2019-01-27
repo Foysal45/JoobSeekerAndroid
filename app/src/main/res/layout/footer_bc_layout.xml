@@ -8,73 +8,7 @@
     android:background="@drawable/ic_welcome_bg"
 
     >
-  <!--  <TextView
-            android:id="@+id/supportTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
-            android:text="যেকোন সাহায্যের জন্য"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
 
-        <LinearLayout
-            android:id="@+id/bcHelpLineLayout"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/supportTextView">
-
-            <TextView
-                android:textSize="16sp"
-                android:textColor="#13A10E"
-                android:id="@+id/callTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="ফোন করুন"
-                app:layout_constraintEnd_toStartOf="@+id/imageView9"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </TextView>
-
-            <ImageView
-                android:id="@+id/imageView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_call_ic"
-                app:layout_constraintStart_toEndOf="@+id/callTextView"
-                tools:layout_editor_absoluteY="5dp" />
-
-
-            <TextView
-                android:textSize="16sp"
-                android:textColor="#13A10E"
-                android:id="@+id/numberTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="১৬৪৭৯"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.543"
-                app:layout_constraintStart_toEndOf="@+id/imageView9"
-                tools:layout_editor_absoluteY="0dp">
-
-            </TextView>
-
-
-        </LinearLayout>-->
 
 
 
@@ -112,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="ফোন করুন"
+            android:text="কল করুন"
             app:layout_constraintEnd_toStartOf="@+id/imageView9"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">

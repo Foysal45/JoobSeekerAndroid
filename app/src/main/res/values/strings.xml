@@ -66,7 +66,7 @@
     <string name="hint.department">Department</string>
     <string name="hint.responsibilities">Responsibilities</string>
     <string name="hint.currently_working_here">Currently working</string>
-    <string name="hint.area_of_experiences">Area of Experiences</string>
+    <string name="hint.area_of_experiences">\u0020Area of Experiences *</string>
     <string name="msg.you_can_add_maximum_3_work_discipline">Max 3 working disciplines</string>
     <string name="hint.extracurricular_activities">Extracurricular Activities</string>
     <string name="hint.skill_description">Skill Description</string>
@@ -221,6 +221,8 @@
     <string name="subtit.career_and_application_information">Career and Application Information</string>
     <string name="hint.alternet_email_address">Alternet Email Address</string>
     <string name="toast.marks.blank.texts">Please enter Marks</string>
+    <string name="toast.invalide.cgpa.texts">Please enter valid CGPA</string>
+    <string name="toast.invalide.grade.texts">Please enter valid Scale</string>
     <string name="toast.cgpa.scale.michmatch.texts">CGPA can not be greater than Scale</string>
     <string name="toast.cgpa.blank.texts">Please enter CGPA </string>
     <string name="toast.scale.blank.texts">Please enter Scale </string>
@@ -234,4 +236,5 @@
     <string name="err_msg_password_use">Please use only letters (a-z), numbers (0-9) and punctuations</string>
     <string name="err_msg_password_not_match">These Passwords do not match</string>
 
+    <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
 </resources>

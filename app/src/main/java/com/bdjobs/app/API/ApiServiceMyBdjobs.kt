@@ -513,6 +513,16 @@ interface ApiServiceMyBdjobs {
             @Field("packageNameVersion") packageNameVersion: String?
     ): Call<ChangePassword>
 
+    @FormUrlEncoded
+    @POST("apps_prc_home.asp")
+    fun getInviteCodeUserOwnerInfo(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("mobileNumber") mobileNumber: String?,
+            @Field("catId") catId: String?,
+            @Field("deviceID") deviceID: String?
+    ): Call<InviteCodeHomeModel>
+
 
     companion object Factory {
 

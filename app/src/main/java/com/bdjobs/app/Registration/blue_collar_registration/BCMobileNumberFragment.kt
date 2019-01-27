@@ -1,13 +1,15 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
+import android.app.Activity
+import android.app.Dialog
 import android.app.Fragment
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
+import android.widget.TextView
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
@@ -22,6 +24,8 @@ class BCMobileNumberFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var returnView: View
     private lateinit var dataStorage: DataStorage
+    private lateinit var dialog: Dialog
+    private var countryCode = ""
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initialization()
@@ -32,22 +36,19 @@ class BCMobileNumberFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        returnView =  inflater.inflate(R.layout.fragment_bc_mobile_number, container, false)
+        returnView = inflater.inflate(R.layout.fragment_bc_mobile_number, container, false)
         return returnView
     }
 
 
-
-
-    private fun initialization(){
+    private fun initialization() {
 
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
 
     }
 
-    private fun onClick(){
-
+    private fun onClick() {
 
 
         bcMobileNumberTIET.easyOnTextChangedListener { charSequence ->
@@ -58,25 +59,21 @@ class BCMobileNumberFragment : Fragment() {
 
         bcMobileNumberFAButton.setOnClickListener {
 
-            if (validateMobileNumber())  {
+            if (validateMobileNumber()) {
 
-                registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET.getString())
-            registrationCommunicator.wcUserNameTypeSelected("mobile")
-                registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET.getString())
-            Log.d("CountryCode", "${bcCountryCodeTIET.text}")
-            val countryCode: String
-                val countryNameAndCountryCode = bcCountryCodeTIET.getString()
-            val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-            countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
 
-            registrationCommunicator.wcCountrySeledted(countryCode)
+                showDialog(activity)
 
-                ///-------------------api------------calling------------------
 
-                registrationCommunicator.wcCreateAccount()
-              /*  registrationCommunicator.bcGoToStepOtpCode()*/
+            } else {
 
-        }
+                if (TextUtils.isEmpty(bcMobileNumberTIET.getString())) {
+
+                    bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
+                }
+
+
+            }
 
 
         }
@@ -117,16 +114,64 @@ class BCMobileNumberFragment : Fragment() {
     }
 
 
+    private fun showDialog(activity: Activity) {
+        dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_verify_number_layout)
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        val yesButton = dialog.findViewById<TextView>(R.id.bcYesTV)
+        val noButton = dialog.findViewById<TextView>(R.id.bcNoTV)
+        val mobileNumberTV = dialog.findViewById<TextView>(R.id.mobileNumberTV)
+        mobileNumberTV.text = "${bcMobileNumberTIET.getString()} এই নাম্বারটিই কি আপনার?"
+
+
+        noButton.setOnClickListener {
+
+            dialog.dismiss()
+
+        }
+
+        yesButton.setOnClickListener {
+
+            registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET.getString())
+            registrationCommunicator.wcUserNameTypeSelected("mobile")
+            registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET.getString())
+            Log.d("CountryCode", "${bcCountryCodeTIET.text}")
+
+            val countryNameAndCountryCode = bcCountryCodeTIET.getString()
+            val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+            countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
+
+            registrationCommunicator.wcCountrySeledted(countryCode)
+            ///-------------------api------------calling------------------
+
+            registrationCommunicator.wcCreateAccount()
+            /* registrationCommunicator.bcGoToStepOtpCode()*/
+
+            dialog.dismiss()
+
+        }
+
+
+
+        dialog.show()
+
+    }
+
+
     private fun mobileNumberValidityCheck(mobileNumber: String): Boolean {
 
         when {
             TextUtils.isEmpty(mobileNumber) -> {
-                bcMobileNumberTIL.showError(getString(R.string.field_empty_error_message_common))
+                bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
-            validateMobileNumber() == false -> {
-                bcMobileNumberTIL.showError("Mobile Number is not valid")
+            !validateMobileNumber() -> {
+                bcMobileNumberTIL.showError("মোবাইল নাম্বারটি প্রযোজ্য নয়")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }

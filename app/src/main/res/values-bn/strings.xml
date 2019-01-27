@@ -4,4 +4,5 @@
     <string name="hint.location">স্থান</string>
     <string name="hint.Category">বিভাগ</string>
     <string name="field_empty_error_message_common">এই ক্ষেত্রটি খালি রাখা যাবে না!</string>
+
 </resources>

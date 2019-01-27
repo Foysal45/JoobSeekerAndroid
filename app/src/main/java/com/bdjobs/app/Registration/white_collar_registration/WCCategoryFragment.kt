@@ -55,7 +55,7 @@ class WCCategoryFragment : Fragment() {
 
     private fun onClick(){
 
-        Log.d("selectedPosition","selectedPosition in fragment $selectedPosition  }")
+
         wcSupportTextView.setOnClickListener {
 
             activity.callHelpLine()
@@ -114,4 +114,31 @@ class WCCategoryFragment : Fragment() {
 
 
     }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("selectedPosition", "selectedPosition in fragment $selectedPosition  }")
+
+        val wccategoryadater = WCCategoryAdapter(activity, categories)
+        wcCategoryList.adapter = wccategoryadater
+        wccategoryadater.setCategoryPositionSelected(selectedPosition)
+        if (selectedPosition != -1) {
+            floatingActionButton.setOnClickListener {
+
+                registrationCommunicator.wcGoToStepSocialInfo()
+
+
+            }
+
+        }
+
+    }
+
+
+    fun getSelectedPosition(position: Int) {
+        selectedPosition = position
+    }
+
 }

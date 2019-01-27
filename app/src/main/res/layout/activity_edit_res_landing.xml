@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F2F2F2"
     android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
     tools:ignore="HardcodedText">
 
     <androidx.core.widget.NestedScrollView
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:animateLayoutChanges="true"
             android:paddingBottom="15dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,10 +39,10 @@
                     android:id="@+id/icBackEr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:contentDescription="@string/app_name"
+                    android:padding="10dp"
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     app:layout_constraintEnd_toStartOf="@+id/ivProfileImage"
                     app:layout_constraintHorizontal_bias="0.12"
@@ -113,7 +115,6 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/subtit.personal_detail"
                 android:textAllCaps="false"
-                android:textColor="#212121"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_personal_detail" />
 

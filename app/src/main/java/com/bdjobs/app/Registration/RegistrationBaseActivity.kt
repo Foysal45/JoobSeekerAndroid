@@ -63,8 +63,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private lateinit var categoryId: String
     private var category: String = ""
     private lateinit var dataStorage: DataStorage
-    private  var name: String = ""
-    private  var gender: String =""
+    private var name: String = ""
+    private var gender: String = ""
     private var mobileNumber: String = ""
     private var wcEmail: String = ""
     private var userNameType: String = ""
@@ -112,7 +112,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private var educationType = ""
     private var hasEducation = ""
 
-
+    private var categorySelectedPosition = -1
     //-------------api response value----------//
 
     private var isCVPostedRPS = ""
@@ -173,6 +173,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
     override fun gotToStepWhiteCollar() {
+
         categoryType = "0"
         transitFragment(wccategoryFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
@@ -235,11 +236,17 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun wcCategorySelected(category: String, position: Int) {
 
+        categorySelectedPosition = position
         wccategoryFragment.wcGoToNextStep()
         categoryId = dataStorage.getCategoryIDByName(category)!!
         this.category = category
         Log.d("catagorySelected", "catagory $category")
         Log.d("catagorySelected", "categoryId $categoryId")
+
+
+        Log.d("selectedPosition", " in activity $categorySelectedPosition")
+
+        wccategoryFragment.getSelectedPosition(position)
 
     }
 
@@ -407,7 +414,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                             bcMobileNumberTIL?.showError(response.body()!!.message!!)
 
 
-
                         }
 
 
@@ -466,6 +472,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                             loadingProgressBar.visibility = View.GONE
                             toast(response.body()!!.message!!)
+
                         }
 
 
@@ -481,14 +488,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
-   override fun showProgressBar(){
+    override fun showProgressBar() {
 
         loadingProgressBar.visibility = View.VISIBLE
     }
 
-   override  fun hideProgressBar(){
+    override fun hideProgressBar() {
 
-       loadingProgressBar.visibility = View.GONE
+        loadingProgressBar.visibility = View.GONE
     }
 
     override fun wcOtpVerify() {
@@ -602,7 +609,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                         resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
 
                                 bcGoToStepBirthDate()
-                                toast("আপনার অ্যাকাউন্টটি তৈরি হয়েছে।")
+                                /*  toast("আপনার অ্যাকাউন্টটি তৈরি হয়েছে।")*/
                                 loadingProgressBar.visibility = View.GONE
 
 
@@ -633,7 +640,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
-
     override fun bcResendOtp() {
         loadingProgressBar.visibility = View.VISIBLE
         ApiServiceMyBdjobs.create().resendOtp(tempId, mobileNumber, "1").enqueue(object : Callback<ResendOtpModel> {
@@ -645,7 +651,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             override fun onResponse(call: Call<ResendOtpModel>, response: Response<ResendOtpModel>) {
 
                 Log.d("resendOtp", " sjkafhsakfljh ${response.message()}")
-              /*  toast(response.message())*/
+                /*  toast(response.message())*/
                 loadingProgressBar.visibility = View.GONE
 
             }
@@ -668,8 +674,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     // -----------------------------  blue Collar start ------------------  //
     override fun goToStepBlueCollar() {
-        categoryType = "1"
 
+        categoryType = "1"
         transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 10
@@ -764,22 +770,18 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
         )
 
-
-
-
-
-
-
         ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, address, locationID, birthDate!!,
                 experience, subcategoriesID, age, userName, eduLevel, instName,
                 educationType, eduDegree, passingYear, hasEducation).enqueue(object : Callback<UpdateBlueCvModel> {
             override fun onFailure(call: Call<UpdateBlueCvModel>, t: Throwable) {
                 Log.d("Ressdjg", " onFailure ${t.message}")
+                loadingProgressBar.visibility = View.GONE
+                toast("Server Error!! Please try again later")
             }
 
             override fun onResponse(call: Call<UpdateBlueCvModel>, response: Response<UpdateBlueCvModel>) {
 
-              /*  toast("On response ")*/
+                /*  toast("On response ")*/
                 Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.message}")
                 Log.d("Ressdjg", " dkljgdslkjg ${response.body().toString()}")
 
@@ -834,12 +836,18 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun bcCategorySelected(category: String, position: Int) {
 
+        categorySelectedPosition = position
+
 
         bcCategoryFragment.bcGoToNextStep()
+
+
+
         categoryId = dataStorage.getCategoryIDByBanglaName(category)!!
         this.category = category
         Log.d("catagorySelected", "catagory $category")
         Log.d("catagorySelected", "categoryId $categoryId")
+        bcCategoryFragment.getSelectedPosition(position)
     }
 
 
@@ -925,40 +933,20 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     //-------------blue Collar End-----------------//
 
     override fun onBackPressed() {
-        super.onBackPressed()
+
         setProgreesBar()
 
+        val curretFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
 
-        /* val bcPhotoUploadFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
-         val bcBirthDateFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
-         val bcCongratulationFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
-         val wcCongratulationFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
+        Log.d("curretFragment", "curretFragment $curretFragment")
 
-        *//* val blueCollarMoneyMethodNextFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
-        val blueCollarMoneyMethodSelectedFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
-      *//*
-
-        if (bcPhotoUploadFragment != null && bcPhotoUploadFragment!!.isVisible()) {
-            Toast.makeText(this, "You can not go back!", Toast.LENGTH_SHORT).show()
-        } else if (bcBirthDateFragment != null && bcBirthDateFragment!!.isVisible()) {
-            Toast.makeText(this, "You can not go back!", Toast.LENGTH_SHORT).show()
-        } else if (bcCongratulationFragment != null && bcCongratulationFragment!!.isVisible()) {
-           *//* wcGoToStepJobSearch()*//*
-
-            goToHomePage()
-
-        } else if (wcCongratulationFragment != null && wcCongratulationFragment!!.isVisible()) {
-           *//* wcGoToStepJobSearch()*//*
-            goToHomePage()
-
-        } else {
-            super.onBackPressed()
-        }*/
-
-
-
-
-
+        when (curretFragment) {
+            bcPhotoUploadFragment -> Toast.makeText(this, "আগের পেজে যেতে পারবেন না ", Toast.LENGTH_SHORT).show()
+            bcBirthDateFragment -> Toast.makeText(this, "আগের পেজে যেতে পারবেন না", Toast.LENGTH_SHORT).show()
+            bcCongratulationFragment -> goToHomePage()
+            wcCongratulationFragment -> goToHomePage()
+            else -> super.onBackPressed()
+        }
 
 
 
@@ -973,21 +961,19 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         when (currentFragment) {
 
             registrationLandingFragment -> {
-
-                Log.d("stepChange", " in registrationLandingFragment")
                 stepProgressBar.visibility = View.GONE
 
             }
             wccategoryFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 17
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
             wcSocialInfoFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 34
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcNameFragment -> {
 
@@ -1070,7 +1056,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
+    override fun clearData() {
 
+
+    }
+
+    override fun getINLROData(): String {
+        return educationType
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
@@ -1081,8 +1074,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
 
-            Log.d("GoffleSignIn"," isSuccess ${result.isSuccess}")
-            Log.d("GoffleSignIn"," signInAccount ${result.signInAccount}")
+            Log.d("GoffleSignIn", " isSuccess ${result.isSuccess}")
+            Log.d("GoffleSignIn", " signInAccount ${result.signInAccount}")
             if (result.isSuccess) {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = result.signInAccount
@@ -1092,15 +1085,15 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
                 Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
-                 signOutFromGoogle()
+                signOutFromGoogle()
                 /* socialMediaMapping(sid, semial, Constants.SOCIAL_MEDIA_GOOGLE)*/
 
 
                 // Google Sign In was successful, authenticate with Firebase
 
                 //Toast.makeText(RegistrationFina.this, "Success", Toast.LENGTH_SHORT).show();
-               val  fname = account!!.givenName
-               val lname = account.familyName
+                val fname = account!!.givenName
+                val lname = account.familyName
                 socialMediaId = account.id!!
                 isSMediaLogin = "True"
                 socialMediaType = "G"
@@ -1108,7 +1101,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                 this.name = name
 
-                Log.d("Gmail","${this.name}  ${this.wcEmail} ")
+                Log.d("Gmail", "${this.name}  ${this.wcEmail} ")
 
                 wcEmail = account.email!!
                 userNameType = ""
@@ -1117,10 +1110,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 if (categoryType.equals("0", ignoreCase = true)) {
 
 
-
                     isSMediaLogin = "True"
                     socialMediaType = "G"
-                   /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
+                    /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
 
                     wcGoToStepName()
 
@@ -1129,8 +1121,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
                 }
-               /* firebaseAuthWithGoogle(account)*/
-
+                /* firebaseAuthWithGoogle(account)*/
 
 
             } else {
@@ -1173,30 +1164,28 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                 sMid = response.getString("id")
                             }
 
-                           /* if (response.has("id")) {
-                                sMid = response.getString("id")
-                            }*/
+                            /* if (response.has("id")) {
+                                 sMid = response.getString("id")
+                             }*/
 
                             /* socialMediaMapping(sMid, lemail, Constants.SOCIAL_MEDIA_LINKEDIN)*/
                             Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
 
 
-
-                           /* val  fname = account!!.givenName
-                            val lname = account.familyName*/
+                            /* val  fname = account!!.givenName
+                             val lname = account.familyName*/
                             socialMediaId = sMid
                             isSMediaLogin = "True"
                             socialMediaType = "L"
-                          /*  name = fname + " " + lname*/
+                            /*  name = fname + " " + lname*/
 
-                          /*  this.name = name*/
+                            /*  this.name = name*/
 
                             wcEmail = lemail
                             userNameType = ""
                             gender = ""
 
                             if (categoryType.equals("0", ignoreCase = true)) {
-
 
 
                                 isSMediaLogin = "True"
@@ -1262,22 +1251,22 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                 var sgender = ""
                                 var sfirstname = ""
                                 var slastname = ""
-                                var sMid =""
-                                var fbPicUrl=""
+                                var sMid = ""
+                                var fbPicUrl = ""
 
-                              /*  var semail: String? = null
-                                var sMid: String? = null
+                                /*  var semail: String? = null
+                                  var sMid: String? = null
 
-                                try {
-                                    if (profileData.has(Constants.FB_KEY_EMAIL)) {
-                                        semail = profileData.getString(Constants.FB_KEY_EMAIL)
-                                    }
-                                    if (profileData.has(Constants.FB_KEY_ID)) {
-                                        sMid = profileData.getString(Constants.FB_KEY_ID)
-                                    }
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }*/
+                                  try {
+                                      if (profileData.has(Constants.FB_KEY_EMAIL)) {
+                                          semail = profileData.getString(Constants.FB_KEY_EMAIL)
+                                      }
+                                      if (profileData.has(Constants.FB_KEY_ID)) {
+                                          sMid = profileData.getString(Constants.FB_KEY_ID)
+                                      }
+                                  } catch (e: Exception) {
+                                      e.printStackTrace()
+                                  }*/
 
 
                                 signOutFromFacebook()
@@ -1293,7 +1282,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                                 if (`object`.has("gender")) {
                                     sgender = `object`.getString("gender")
-                                    Log.d("Gender"," $sgender")
+                                    Log.d("Gender", " $sgender")
                                 }
 
                                 if (`object`.has("first_name")) {
@@ -1313,7 +1302,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                     gender = "M"
                                 }
 
-                                Log.d("Gender","$sgender")
+                                Log.d("Gender", "$sgender")
 
                                 name = "$sfirstname $slastname"
                                 wcEmail = semail
@@ -1358,14 +1347,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                     override fun onCancel() {
 
-                       /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
+                        /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
                         Toast.makeText(this@RegistrationBaseActivity, "Please sign in to facebook first to complete your sign in by facebook", Toast.LENGTH_LONG).show()
 
                     }
 
                     override fun onError(exception: FacebookException) {
 
-                       /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
+                        /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
                         Toast.makeText(this@RegistrationBaseActivity, exception.toString(), Toast.LENGTH_LONG).show()
                         println("gfkhghgj " + exception.toString())
 
@@ -1398,30 +1387,30 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     private fun initializeFacebookRegistration() {
         callbackManager = CallbackManager.Factory.create()
-       /* LoginManager.getInstance().registerCallback(callbackManager,
-                object : FacebookCallback<LoginResult> {
-                    override fun onSuccess(loginResult: LoginResult) {
-                        Log.d("LoginActivity", "onsucess Called")
-                        val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
-                            Log.d("LoginActivity", response.toString())
-                            try {
-                                var semail: String? = null
-                                var sMid: String? = null
+        /* LoginManager.getInstance().registerCallback(callbackManager,
+                 object : FacebookCallback<LoginResult> {
+                     override fun onSuccess(loginResult: LoginResult) {
+                         Log.d("LoginActivity", "onsucess Called")
+                         val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
+                             Log.d("LoginActivity", response.toString())
+                             try {
+                                 var semail: String? = null
+                                 var sMid: String? = null
 
-                                try {
-                                    if (profileData.has(Constants.FB_KEY_EMAIL)) {
-                                        semail = profileData.getString(Constants.FB_KEY_EMAIL)
-                                    }
-                                    if (profileData.has(Constants.FB_KEY_ID)) {
-                                        sMid = profileData.getString(Constants.FB_KEY_ID)
-                                    }
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
+                                 try {
+                                     if (profileData.has(Constants.FB_KEY_EMAIL)) {
+                                         semail = profileData.getString(Constants.FB_KEY_EMAIL)
+                                     }
+                                     if (profileData.has(Constants.FB_KEY_ID)) {
+                                         sMid = profileData.getString(Constants.FB_KEY_ID)
+                                     }
+                                 } catch (e: Exception) {
+                                     e.printStackTrace()
+                                 }
 
 
-                                  signOutFromFacebook()
-                                 *//* socialMediaMapping(sMid, semail, Constants.SOCIAL_MEDIA_FACEBOOK)*//*
+                                   signOutFromFacebook()
+                                  *//* socialMediaMapping(sMid, semail, Constants.SOCIAL_MEDIA_FACEBOOK)*//*
 
 
                                 Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
@@ -1454,7 +1443,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun getEmail(): String {
-       return wcEmail
+        return wcEmail
     }
 
     override fun getGender(): String {

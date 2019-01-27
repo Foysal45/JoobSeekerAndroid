@@ -20,7 +20,7 @@ data class Suggestion(@ColumnInfo(name = "Suggestions")
     var id: Int? = null
 }
 
-@Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyID"], unique = true))])
+@Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyName"], unique = true))])
 data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
                             val CompanyID: String?,
                             @ColumnInfo(name = "CompanyName")
@@ -212,6 +212,20 @@ data class LastSearch(
         @ColumnInfo(name = "version")
         val version: String? = ""
 ) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+
+@Entity(tableName = "InviteCodeInfo", indices = [(Index(value = ["userId"], unique = true))])
+data class InviteCodeInfo(@ColumnInfo(name = "userId")
+                            val userId: String?,
+                            @ColumnInfo(name = "userType")
+                            val userType: String?,
+                            @ColumnInfo(name = "pcOwnerID")
+                            val pcOwnerID: String?="",
+                            @ColumnInfo(name = "inviteCodeStatus")
+                            val inviteCodeStatus: String?) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }

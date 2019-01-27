@@ -50,6 +50,9 @@ class EditResLandingActivity : Activity() {
         } else {
             doWork()
         }
+        icBackEr.setOnClickListener {
+            finish()
+        }
     }
 
     private fun doWork() {
@@ -74,10 +77,6 @@ class EditResLandingActivity : Activity() {
         }
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
-        }
-
-        icBackEr.setOnClickListener {
-            finish()
         }
 
     }
@@ -118,6 +117,10 @@ class EditResLandingActivity : Activity() {
             this.setRippleColorResource(R.color.ripple_transparent)
             this.setTextColor(Color.parseColor("#9C9C9C"))
             this.setOnClickListener { toast(getString(R.string.error_fill_up_personal)) }
+        } else {
+            this.setTextIsSelectable(false)
+            this.setRippleColorResource(R.color.colorAccent)
+            this.setTextColor(Color.parseColor("#212121"))
         }
     }
 

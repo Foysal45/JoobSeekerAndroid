@@ -1,19 +1,15 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_social_info.*
-import org.jetbrains.anko.makeCall
 
 
 class WCSocialInfoFragment : Fragment() {
@@ -61,18 +57,21 @@ class WCSocialInfoFragment : Fragment() {
 
         google_button.setOnClickListener {
 
+            /*   registrationCommunicator.clearData()*/
             registrationCommunicator.regWithGoogle()
 
         }
 
         facebook_button.setOnClickListener {
 
+            /*  registrationCommunicator.clearData()*/
             registrationCommunicator.regWithFacebook()
 
         }
 
         linkedIn_button.setOnClickListener {
 
+            /*  registrationCommunicator.clearData()*/
             registrationCommunicator.regWithLinkedIn()
 
         }

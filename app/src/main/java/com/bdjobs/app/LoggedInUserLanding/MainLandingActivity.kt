@@ -1,15 +1,16 @@
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
-import com.bdjobs.app.AppliedJobs.AppliedJobsFragment
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.InviteCodeInfo
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
@@ -22,23 +23,34 @@ import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.crashlytics.android.Crashlytics
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main_landing.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+    override fun getInviteCodepcOwnerID(): String? {
+        return pcOwnerID
+    }
+
+    override fun getInviteCodeStatus(): String? {
+       return inviteCodeStatus
+    }
 
 /*    override fun goToEmployerViewedMyResume(from: String) {
         startActivity<EmployersBaseActivity>("from" to from)
     }*/
 
+    override fun getInviteCodeUserType(): String? {
+        return inviteCodeuserType
+    }
+
+    private lateinit var bdjobsDB: BdjobsDB
 
     private val homeFragment = HomeFragment()
     private val hotJobsFragment = HotJobsFragment()
@@ -48,6 +60,11 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private lateinit var session: BdjobsUserSession
     private var lastMonthStats: List<StatsModelClassData?>? = null
     private var allTimeStats: List<StatsModelClassData?>? = null
+    private var inviteCodeuserType: String? = null
+    private var pcOwnerID: String? = null
+    private var inviteCodeStatus: String? = null
+
+
     override fun decrementCounter() {
         shortListedJobFragment.decrementCounter()
     }
@@ -109,16 +126,81 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
-        disableShiftMode(bottom_navigation)
+        bdjobsDB = BdjobsDB.getInstance(this@MainLandingActivity)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
+
+        if (isBlueCollarUser()) {
+            getInviteCodeInformation()
+        }
+
         getStatsData("0")
         getStatsData("1")
 
         tetsLog()
+    }
+
+    private fun getInviteCodeInformation() {
+        doAsync {
+            val inviteCodeUserInfo = bdjobsDB.inviteCodeUserInfoDao().getInviteCodeInformation(session.userId!!)
+            uiThread {
+
+                if (inviteCodeUserInfo.isNullOrEmpty()) {
+
+                    Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
+                            "decodeID = ${session.decodId},\n" +
+                            "mobileNumber = ${session.userName},\n" +
+                            "catId = ${getBlueCollarUserId()},\n" +
+                            "deviceID = ${getDeviceID()}")
+
+
+                    ApiServiceMyBdjobs.create().getInviteCodeUserOwnerInfo(
+                            userID = session.userId,
+                            decodeID = session.decodId,
+                            mobileNumber = session.userName,
+                            catId = getBlueCollarUserId().toString(),
+                            deviceID = getDeviceID()
+                    )
+                            .enqueue(object : Callback<InviteCodeHomeModel> {
+                                override fun onFailure(call: Call<InviteCodeHomeModel>, t: Throwable) {
+                                    error("onFailure", t)
+                                }
+
+                                override fun onResponse(call: Call<InviteCodeHomeModel>, response: Response<InviteCodeHomeModel>) {
+
+                                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+
+                                        val inviteCodeInfo = InviteCodeInfo(
+                                                userId = session.userId,
+                                                userType = response.body()?.data?.get(0)?.userType,
+                                                pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
+                                                inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
+                                        )
+                                        Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
+                                                "userType = ${response.body()?.data?.get(0)?.userType},\n" +
+                                                "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +
+                                                "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")
+
+                                        doAsync {
+                                            bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
+                                        }
+                                        inviteCodeuserType = inviteCodeInfo.userType
+                                        pcOwnerID = inviteCodeInfo.pcOwnerID
+                                        inviteCodeStatus = inviteCodeInfo.inviteCodeStatus
+                                    }
+                                }
+                            })
+                } else {
+                    inviteCodeuserType = inviteCodeUserInfo[0].userType
+                    pcOwnerID = inviteCodeUserInfo[0].pcOwnerID
+                    inviteCodeStatus = inviteCodeUserInfo[0].inviteCodeStatus
+                    Log.d("inviteCodeUserInfo", "inviteCodeuserType = $inviteCodeuserType")
+                }
+            }
+        }
     }
 
     override fun goToKeywordSuggestion() {
@@ -203,35 +285,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 "trainingId = ${session.trainingId}\n")
     }
 
-
-    @SuppressLint("RestrictedApi")
-    fun disableShiftMode(view: BottomNavigationView) {
-        val menuView = view.getChildAt(0) as BottomNavigationMenuView
-        menuView?.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-        menuView?.buildMenuView()
-        try {
-            menuView?.javaClass.getDeclaredField("mShiftingMode").also { shiftMode ->
-                shiftMode?.isAccessible = true
-                shiftMode?.setBoolean(menuView, false)
-                shiftMode?.isAccessible = false
-            }
-            for (i in 0 until menuView.childCount) {
-                (menuView.getChildAt(i) as BottomNavigationItemView).also { item ->
-                    item?.setShifting(false) // shifting animation
-                    item?.setChecked(item.itemData.isChecked)
-                    debug("navigation position is : $i")
-                }
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }
-    }
-
     override fun shortListedClicked(Position: Int) {
         startActivity<JobBaseActivity>("from" to "shortListedJob", "position" to Position)
 
     }
-
 
     private fun getStatsData(activityDate: String) {
         ApiServiceMyBdjobs.create().mybdjobStats(

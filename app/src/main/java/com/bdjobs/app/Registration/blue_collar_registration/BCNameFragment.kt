@@ -47,7 +47,7 @@ class BCNameFragment : Fragment() {
         bcNameFAButton.setOnClickListener {
 
 
-            if(nameTIET.length() == 0 || nameTIET.length() < 2 ){
+            if (nameTIET.length() == 0 || nameTIET.length() < 1) {
 
                 nameTIL.showError("নাম খালি রাখা যাবে না")
             } else {
@@ -71,12 +71,13 @@ class BCNameFragment : Fragment() {
 
         bcGoogleButton.setOnClickListener {
 
+            /*   registrationCommunicator.clearData()*/
             registrationCommunicator.regWithGoogle()
 
         }
         bc_facebookButton.setOnClickListener {
 
-
+            /* registrationCommunicator.clearData()*/
             registrationCommunicator.regWithFacebook()
 
         }
@@ -95,15 +96,11 @@ class BCNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(name) -> {
-                nameTIL.showError(getString(R.string.field_empty_error_message_common))
+                nameTIL.showError("নাম খালি রাখা যাবে না")
                 requestFocus(nameTIET)
                 return false
             }
-            name.length < 2  -> {
-                nameTIL.showError("Your name is too short")
-                requestFocus(nameTIET)
-                return false
-            }
+
             else -> nameTIL.hideError()
         }
         return true

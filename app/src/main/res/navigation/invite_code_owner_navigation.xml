@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/navigation_owner_invite_code"
+    android:id="@+id/invite_code_owner_navigation">
+
+    <fragment
+        android:id="@+id/navigation_owner_invite_code"
+        android:name="com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerInviteCodeFragment"
+        android:label="invite_code"
+        tools:layout="@layout/invite_code_owner_invite_code_fragment"/>
+    <fragment
+        android:id="@+id/navigation_owner_invite_list"
+        android:name="com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerInviteListFragment"
+        android:label="invite_list"
+        tools:layout="@layout/invite_code_owner_invite_list_fragment"/>
+    <fragment
+        android:id="@+id/navigation_owner_balance"
+        android:name="com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerBalanceFragment"
+        android:label="balance"
+        tools:layout="@layout/invite_code_owner_balance_fragment"/>
+    <fragment
+        android:id="@+id/navigation_owner_statement"
+        android:name="com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerStatementFragment"
+        android:label="statement"
+        tools:layout="@layout/invite_code_owner_statement_fragment"/>
+
+
+</navigation>

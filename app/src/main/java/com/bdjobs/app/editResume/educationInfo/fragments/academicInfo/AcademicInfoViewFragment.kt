@@ -92,8 +92,11 @@ class AcademicInfoViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    activity.toast("${response.body()?.message}")
-                    activity.error("++${e.message}")
+                    if (activity != null) {
+                        //activity.toast("${response.body()?.message}")
+                        activity.logException(e)
+                        activity.error("++${e.message}")
+                    }
                 }
                 adapter?.notifyDataSetChanged()
             }

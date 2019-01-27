@@ -6,8 +6,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
-import android.view.WindowManager
+import android.text.TextUtils
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
@@ -166,21 +165,20 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         }
     }
 
-    override fun validateField(et: TextInputEditText, til: TextInputLayout): Boolean {
-        if (et.getString().isEmpty()) {
-            til.isErrorEnabled = true
-            til.error = resources.getString(R.string.field_empty_error_message_common)
-            requestFocus(et)
-            return false
-        } else {
-            til.isErrorEnabled = false
+    override fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+        when {
+            TextUtils.isEmpty(char) -> {
+                til.showError(getString(R.string.field_empty_error_message_common))
+                this.requestFocus(et)
+                return false
+            }
+            char.length < 2 -> {
+                til.showError(" it is too short")
+                this.requestFocus(et)
+                return false
+            }
+            else -> til.hideError()
         }
         return true
-    }
-
-    private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        }
     }
 }

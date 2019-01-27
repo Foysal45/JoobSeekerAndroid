@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
         android:layout_marginBottom="50dp"
-        android:text="Need Any Support ?"
+        android:text="For any help "
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Call"
+            android:text="Call at"
             app:layout_constraintEnd_toStartOf="@+id/imageView9"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
