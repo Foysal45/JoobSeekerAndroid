@@ -31,12 +31,12 @@ class ContactEditFragment : Fragment() {
     private lateinit var contactInfo: PersonalInfo
     private lateinit var session: BdjobsUserSession
     private lateinit var dataStorage: DataStorage
+    private lateinit var data: C_DataItem
     private var presentInOutBD: String? = ""
     private var permanentInOutBD: String? = ""
     private var sameAddress: String = ""
     private var count: Int = 0
-    private lateinit var data: C_DataItem
-    
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -165,9 +165,9 @@ class ContactEditFragment : Fragment() {
                 " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
                 " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
                 " same address : $sameAddress" + "\n" +
-                "permanentAddressID : $permanentAddressID " + "\n" +
-                "presentAddressID :  $presentAddressID" + "\n" +
-                "mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
+                " permanentAddressID : $permanentAddressID " + "\n" +
+                " presentAddressID :  $presentAddressID" + "\n" +
+                " mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
                 " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
                 " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
                 " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +

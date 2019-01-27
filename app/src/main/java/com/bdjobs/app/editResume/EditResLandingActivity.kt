@@ -44,11 +44,9 @@ class EditResLandingActivity : Activity() {
 
 
         // test purpose
-        ivProfileImage.setOnClickListener {
+        /*ivProfileImage.setOnClickListener {
             startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
-        }
-
-
+        }*/
 
         if (isResumeUpdate.equalIgnoreCase("False")) {
             disableAll()

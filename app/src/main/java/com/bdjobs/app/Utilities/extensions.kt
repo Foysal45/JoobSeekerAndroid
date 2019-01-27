@@ -48,7 +48,7 @@ fun Activity.callHelpLine() {
     startActivity(intent)
 }
 
-fun Context.getDeviceID():String{
+fun Context.getDeviceID(): String {
     return try {
         Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
     } catch (e: Exception) {
@@ -343,12 +343,12 @@ fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextI
     var valid: Int = validation
     if (isEmpty) {
         tilCurrent?.isErrorEnabled = true
-            tilCurrent?.showError("This Field can not be empty")
-        } else {
-            valid++
-            tilCurrent?.isErrorEnabled = false
-            etNext?.requestFocus()
-        }
+        tilCurrent?.showError("This Field can not be empty")
+    } else {
+        valid++
+        tilCurrent?.isErrorEnabled = false
+        etNext?.requestFocus()
+    }
     return valid
 }
 
