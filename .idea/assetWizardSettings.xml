@@ -50,7 +50,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_forward_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_today_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -64,10 +64,10 @@
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="767676" />
                             <entry key="height" value="20" />
-                            <entry key="outputName" value="account_icon" />
+                            <entry key="outputName" value="transection_icon" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="G:\VypressRecieved\IT36-Md. Badiour Rahman Ext.165\promocode icons\account_icon.svg" />
-                            <entry key="width" value="34" />
+                            <entry key="sourceFile" value="G:\VypressRecieved\IT36-Md. Badiour Rahman Ext.165\promocode icons\transection_icon.svg" />
+                            <entry key="width" value="22" />
                           </map>
                         </option>
                       </PersistentState>

@@ -523,6 +523,40 @@ interface ApiServiceMyBdjobs {
             @Field("deviceID") deviceID: String?
     ): Call<InviteCodeHomeModel>
 
+    @FormUrlEncoded
+    @POST("apps_invite_code.asp")
+    fun getOwnerInviteCode(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("ownerID") ownerID: String?
+    ): Call<OwnerInviteCodeModel>
+
+    @FormUrlEncoded
+    @POST("apps_category_amount.asp")
+    fun getCategoryAmount(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?=""
+    ): Call<InviteCodeCategoryAmountModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_get_invite_list.asp")
+    fun getOwnerInviteList(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?,
+            @Field("verify_status") verify_status: String?
+    ): Call<OwnerInviteListModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_balance_report.asp")
+    fun getOwnerStatement(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?
+    ): Call<InviteCodeOwnerStatementModel>
+
 
     companion object Factory {
 

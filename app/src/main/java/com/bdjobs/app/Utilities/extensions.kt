@@ -48,6 +48,32 @@ fun Activity.callHelpLine() {
     startActivity(intent)
 }
 
+fun String.toBanglaDigit():String{
+    val banglaDigits = charArrayOf('০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯')
+
+    if (this == null)
+        return ""
+    val builder = StringBuilder()
+    try {
+        for (i in 0 until this.length) {
+            if (Character.isDigit(this[i])) {
+                if (this[i].toInt() - 48 <= 9) {
+                    builder.append(banglaDigits[this.get(i).toInt() - 48])
+                } else {
+                    builder.append(this.get(i))
+                }
+            } else {
+                builder.append(this[i])
+            }
+        }
+    } catch (e: Exception) {
+        //logger.debug("getDigitBanglaFromEnglish: ",e);
+        return ""
+    }
+
+    return builder.toString()
+}
+
 fun Context.getDeviceID():String{
     return try {
         Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)

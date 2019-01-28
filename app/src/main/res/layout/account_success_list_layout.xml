@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:elevation="8dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    app:cardCornerRadius="8dp">
+
+    <RelativeLayout
+        android:background="@drawable/ic_home_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/profileIMGV"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/g_user" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/nameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/moneyTypeTV"
+            android:layout_toRightOf="@id/profileIMGV"
+            android:text="জন স্মিথ"
+            android:textColor="#303030"
+            android:textSize="16sp" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/moneyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="25dp"
+            android:text="২০/-"
+            android:textColor="#AC016D"
+            android:textSize="12dp" />
+
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/moneyTypeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="21dp"
+            android:text="জমা হয়েছে"
+            android:textColor="#43A047"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/moneyIconIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/moneyTV"
+            android:background="@drawable/account_list_money_icon" />
+
+        <ImageView
+            android:id="@+id/categoryicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileIMGV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/account_category_icon" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/heading1TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileIMGV"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/categoryicon"
+            android:text="ক্যাটাগরী"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/heading2TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileIMGV"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:text="অ্যাকাউন্ট খোলার তারিখ"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+
+        <ImageView
+
+            android:id="@+id/account_date_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileIMGV"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="18dp"
+            android:layout_toLeftOf="@id/heading2TV"
+            android:src="@drawable/account_date_icon" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/categoryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryicon"
+            android:layout_alignLeft="@id/categoryicon"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="184dp"
+            android:layout_marginBottom="15dp"
+            android:text="ডাটা এন্ট্রি/ কম্পিউটার অপারেটর"
+            android:textColor="#303030"
+            android:textSize="12dp" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/dateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account_date_icon"
+            android:layout_alignLeft="@id/account_date_icon"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="15dp"
+            android:layout_toRightOf="@id/categoryTv"
+            android:text="২৬-১২-২০১৬"
+            android:textColor="#303030"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+

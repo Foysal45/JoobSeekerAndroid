@@ -21,3 +21,101 @@ data class InviteCodeHomeModelData(
     @SerializedName("userType")
     val userType: String = ""
 )
+
+
+data class OwnerInviteCodeModel(
+    @SerializedName("common")
+    val common: Any = Any(),
+    @SerializedName("data")
+    val `data`: List<OwnerInviteCodeModelData> = listOf(),
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("statuscode")
+    val statuscode: String = ""
+)
+
+data class OwnerInviteCodeModelData(
+    @SerializedName("inviteCode")
+    val inviteCode: String = ""
+)
+
+
+
+data class InviteCodeCategoryAmountModel(
+    @SerializedName("common")
+    val common: Any = Any(),
+    @SerializedName("data")
+    val `data`: List<InviteCodeCategoryAmountModelData> = listOf(),
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("statuscode")
+    val statuscode: String = ""
+)
+
+data class InviteCodeCategoryAmountModelData(
+    @SerializedName("categoryName")
+    val categoryName: String = "",
+    @SerializedName("ownerAmount")
+    val ownerAmount: String = ""
+)
+
+
+data class OwnerInviteListModel(
+    @SerializedName("common")
+    val common: OwnerInviteListModelCommon = OwnerInviteListModelCommon(),
+    @SerializedName("data")
+    val `data`: List<OwnerInviteListModelData> = listOf(),
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("statuscode")
+    val statuscode: String = ""
+)
+
+data class OwnerInviteListModelData(
+    @SerializedName("category")
+    val category: String = "",
+    @SerializedName("created_date")
+    val createdDate: String = "",
+    @SerializedName("name")
+    val name: String = "",
+    @SerializedName("ownerAmount")
+    val ownerAmount: String = "",
+    @SerializedName("paidStatus")
+    val paidStatus: String = "",
+    @SerializedName("photoUrl")
+    val photoUrl: String = "",
+    @SerializedName("userID")
+    val userID: String = "",
+    @SerializedName("verifyStatus")
+    val verifyStatus: String = ""
+)
+
+data class OwnerInviteListModelCommon(
+    @SerializedName("totalInvitation")
+    val totalInvitation: String = "",
+    @SerializedName("total_account")
+    val totalAccount: String = ""
+)
+
+
+data class InviteCodeOwnerStatementModel(
+    @SerializedName("common")
+    val common: Any = Any(),
+    @SerializedName("data")
+    val `data`: List<InviteCodeOwnerStatementModelData> = listOf(),
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("statuscode")
+    val statuscode: String = ""
+)
+
+data class InviteCodeOwnerStatementModelData(
+    @SerializedName("amount")
+    val amount: String = "",
+    @SerializedName("balance")
+    val balance: String = "",
+    @SerializedName("date")
+    val date: String = "",
+    @SerializedName("type")
+    val type: String = ""
+)

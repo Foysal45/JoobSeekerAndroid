@@ -123,8 +123,10 @@ class MoreFragment : Fragment() {
     private fun populateData() {
 
         homeCommunicator.getInviteCodeUserType()?.let { txt ->
-            if (txt.equalIgnoreCase("o") || txt.equalIgnoreCase("u") || txt.equalIgnoreCase("n")) {
-                horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট &\nআর্ন"))
+            when {
+                txt.equalIgnoreCase("o") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট &\nআর্ন"))
+                txt.equalIgnoreCase("u") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট\nকোড"))
+                else -> { }
             }
         }
 
