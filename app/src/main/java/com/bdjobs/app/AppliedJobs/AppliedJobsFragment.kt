@@ -35,6 +35,7 @@ class AppliedJobsFragment : Fragment() {
     private lateinit var bdjobsUsersession: BdjobsUserSession
     private var appliedJobsAdapter: AppliedJobsAdapter? = null
     private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
+    private var appliedData: ArrayList<AppliedJobModelData>? = ArrayList()
     private val PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
@@ -135,6 +136,7 @@ class AppliedJobsFragment : Fragment() {
                         var value = response.body()?.data
                         appliedJobsAdapter?.removeAll()
                         appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
+                        appliedData?.addAll(response.body()?.data as ArrayList<AppliedJobModelData>)
                         appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
 
                         experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
@@ -179,7 +181,7 @@ class AppliedJobsFragment : Fragment() {
 
     fun addExp(r: AppliedJobModelExprience) {
         experienceList?.add(r)
-       // notifyItemInserted(appliedJobsLists!!.size - 1)
+        // notifyItemInserted(appliedJobsLists!!.size - 1)
     }
 
 

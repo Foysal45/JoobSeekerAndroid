@@ -48,21 +48,23 @@ class ChangePasswordFragment : Fragment() {
         }
 
         cbFAB.setOnClickListener {
+            Log.d("value", validateOldPassword2().toString())
+
             login()
         }
-   /*     if (oldpassword_TIL.isNotEmpty()){
-           // onClick()
-            login()
-        }*/
+        /*     if (oldpassword_TIL.isNotEmpty()){
+                // onClick()
+                 login()
+             }*/
 
         et_old_pass.easyOnTextChangedListener { charSequence ->
             validateOldPassword2()
         }
-        et_new_pass.easyOnTextChangedListener {charSequence ->
+        et_new_pass.easyOnTextChangedListener { charSequence ->
             validateNewPassword2()
 
         }
-        et_confirm_pass.easyOnTextChangedListener {charSequence ->
+        et_confirm_pass.easyOnTextChangedListener { charSequence ->
             validateConfirmPassword2()
 
         }
@@ -72,6 +74,7 @@ class ChangePasswordFragment : Fragment() {
     private fun login() {
         if (!validateOldPassword2()) {
             return
+
         }
 
         if (!validateNewPassword2()) {
@@ -83,11 +86,11 @@ class ChangePasswordFragment : Fragment() {
         }
 
         networkCall()
-      //  Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show()
+        //  Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show()
     }
 
 
-    private fun networkCall(){
+    private fun networkCall() {
         ApiServiceMyBdjobs.create().getChangePassword(
                 userId = bdjobsUserSession.userId,
                 decodeId = bdjobsUserSession.decodId,
@@ -118,7 +121,7 @@ class ChangePasswordFragment : Fragment() {
                 if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
                     Log.d("msg", response.body()?.message)
                     // toast(response.body()?.message!!)
-                    if (response.body()?.message == "The information has been updated Successfully"){
+                    if (response.body()?.message == "The information has been updated Successfully") {
                         communicator.backButtonPressed()
                     }
 
@@ -140,7 +143,7 @@ class ChangePasswordFragment : Fragment() {
             return false
         } else if (checkStringHasSymbol(pass)) {
             oldpassword_TIL.setErrorEnabled(true)
-          //  oldpassword_TIL.setError("Password can not contain $symbol")
+            //  oldpassword_TIL.setError("Password can not contain $symbol")
             oldpassword_TIL.setError(getString(R.string.err_msg_password_use))
             requestFocus(et_old_pass)
             return false
@@ -155,6 +158,7 @@ class ChangePasswordFragment : Fragment() {
 
         return true
     }
+
     private fun validateNewPassword2(): Boolean {
         val pass = et_new_pass.getText().toString()
         if (et_new_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
@@ -164,7 +168,7 @@ class ChangePasswordFragment : Fragment() {
             return false
         } else if (checkStringHasSymbol(pass)) {
             newpassword_TIL.setErrorEnabled(true)
-           // newpassword_TIL.setError("Password can not contain $symbol")
+            // newpassword_TIL.setError("Password can not contain $symbol")
             newpassword_TIL.setError(getString(R.string.err_msg_password_use))
             requestFocus(et_new_pass)
             return false
@@ -179,6 +183,7 @@ class ChangePasswordFragment : Fragment() {
 
         return true
     }
+
     private fun validateConfirmPassword2(): Boolean {
         val pass = et_confirm_pass.getText().toString()
         if (et_confirm_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
@@ -186,11 +191,14 @@ class ChangePasswordFragment : Fragment() {
             confirmpassword_TIL.setError(getString(R.string.err_msg_password_confirm_not_empty))
             requestFocus(et_confirm_pass)
             return false
-        }
-        else if (!pass.equals(et_new_pass.text.toString(),true)) {
-            return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(com.bdjobs.app.R.string.err_msg_password_not_match) )
-        }
-        else if (checkStringHasSymbol(pass)) {
+        } else if (!pass.equals(et_new_pass.text.toString(), true)) {
+            // return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(com.bdjobs.app.R.string.err_msg_password_not_match) )
+            confirmpassword_TIL.setErrorEnabled(true)
+            confirmpassword_TIL.setError(getString(R.string.err_msg_password_not_match))
+            requestFocus(et_confirm_pass)
+            return false
+
+        } else if (checkStringHasSymbol(pass)) {
             confirmpassword_TIL.setErrorEnabled(true)
             confirmpassword_TIL.setError(getString(R.string.err_msg_password_use))
             requestFocus(et_confirm_pass)
@@ -200,9 +208,7 @@ class ChangePasswordFragment : Fragment() {
             confirmpassword_TIL.setError("Password should be 8 to 12 character long!")
             requestFocus(et_confirm_pass)
             return false
-        }
-
-        else {
+        } else {
             confirmpassword_TIL.setErrorEnabled(false)
         }
 
@@ -210,10 +216,7 @@ class ChangePasswordFragment : Fragment() {
     }
 
 
-
-
-    private fun enableValidation(til : TextInputLayout, tied : TextInputEditText, errorText : String) : Boolean
-    {
+    private fun enableValidation(til: TextInputLayout, tied: TextInputEditText, errorText: String): Boolean {
         til.setErrorEnabled(true)
         til.setError(errorText)
         requestFocus(tied)
@@ -238,12 +241,11 @@ class ChangePasswordFragment : Fragment() {
 
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
-           // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
             activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         }
     }
-
 
 
 }

@@ -3,6 +3,7 @@ package com.bdjobs.app.AppliedJobs
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
@@ -11,9 +12,28 @@ import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+    override fun setTitle(title: String) {
+        this.title = title
+    }
 
+    override fun getTitle2(): String {
+    return title
+    }
+
+    override fun setComapany(company: String) {
+        this.company = company
+    }
+
+    override fun getCompany(): String {
+        return company
+    }
+
+
+    private var title: String = ""
     private var jobid: String = ""
+    private var company: String = ""
     private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
+
 
     override fun setexperienceList(AppliedJobExprience: ArrayList<AppliedJobModelExprience>) {
         this.experienceList = AppliedJobExprience
@@ -30,7 +50,6 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
     override fun getjobID(): String {
         return jobid
     }
-
 
 
     override fun gotoEmployerInteractionFragment() {
