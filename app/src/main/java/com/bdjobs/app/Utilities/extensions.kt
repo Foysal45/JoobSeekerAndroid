@@ -371,6 +371,9 @@ fun ImageView.loadImageFromUrl(url: String) {
     }
 }
 
+fun TextInputEditText.enableOrdisableEdit(b: Boolean) {
+    this.isEnabled = b
+}
 
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {

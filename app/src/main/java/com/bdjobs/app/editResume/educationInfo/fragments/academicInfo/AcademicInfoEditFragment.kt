@@ -162,7 +162,7 @@ class AcademicInfoEditFragment : Fragment() {
         }
 
         fab_aca_edit.setOnClickListener {
-
+            fragAcaInfoEdit.closeKeyboard(activity)
             validation = 0
             checkValidity()
             if (etResults.getString().equalIgnoreCase("First Division/Class")

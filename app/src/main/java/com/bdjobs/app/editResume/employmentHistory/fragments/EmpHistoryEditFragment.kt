@@ -240,6 +240,7 @@ class EmpHistoryEditFragment : Fragment() {
             }
         }
         fab_eh?.setOnClickListener {
+            clEmploymentHistory.closeKeyboard(activity)
             var validation = 0
             if (entry_chip_group.childCount >= 1) {
                 experiencesTIL.hideError()

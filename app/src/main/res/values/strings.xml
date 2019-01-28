@@ -101,8 +101,8 @@
     <string name="hint.presentAddress_v">Present Address</string>
     <string name="hint.permanentAddress">Permanent Address</string>
     <string name="hint.currentLocation">Current Location *</string>
-    <string name="hint.homePhone">Home Phone</string>
-    <string name="hint.officePhone">Office Phone</string>
+    <string name="hint.homePhone">Mobile No 1</string>
+    <string name="hint.officePhone">Mobile No 2</string>
     <string name="hint.alter_email">Alternate Email</string>
     <string name="hint.objective">Objective *</string>
     <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~</string>
@@ -140,6 +140,7 @@
     <string name="edit_resume">Edit Resume</string>
     <string name="date_to">to</string>
     <string name="employment_history_title">Employment History</string>
+    <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="content_desce">content description</string>
     <string name="hint.ba_type">BA *</string>
@@ -191,9 +192,9 @@
     <string name="hint.contactThana">Thana</string>
     <string name="hint.contactPost">P.O</string>
     <string name="hint.contactAddress">House No/ Road / Village</string>
-    <string name="hint.contactMobileNumber">Mobile No</string>
+    <string name="hint.contactMobileNumber">Primary Mobile No</string>
     <string name="hint.addMobileNumber">ADD MOBILE NO</string>
-    <string name="hint.contactEmailadress">Email Address</string>
+    <string name="hint.contactEmailadress">Primary Email</string>
     <string name="hint.contactEmailButton">ADD EMAIL</string>
     <string name="hint.addressCheckbox">Same as Present Address</string>
     <string name="bangladesh_technical_education_board">Bangladesh Technical Education Board</string>

@@ -93,6 +93,11 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     override fun goToEditInfo(check: String) {
         try {
             when (check) {
+                "addDirect" -> {
+                    acaEditFragment.isEdit = false
+                    transitFragment(acaEditFragment, R.id.edu_info_container, false)
+                    Constants.isDirectCall = true
+                }
                 "add" -> {
                     acaEditFragment.isEdit = false
                     transitFragment(acaEditFragment, R.id.edu_info_container, true)
@@ -121,6 +126,8 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
 
     override fun goBack() {
         onBackPressed()
+        if (Constants.isDirectCall) finish()
+        educationBaseCL.closeKeyboard(this@AcademicBaseActivity)
     }
 
     override fun setTitle(tit: String?) {

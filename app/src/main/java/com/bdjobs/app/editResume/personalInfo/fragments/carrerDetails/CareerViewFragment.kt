@@ -72,7 +72,6 @@ class CareerViewFragment : Fragment() {
                         setupView(respo)
                     }
                 } catch (e: Exception) {
-                    clContent.show()
                     if (activity != null) {
                         activity.toast("${response.body()?.message}")
                         activity.logException(e)

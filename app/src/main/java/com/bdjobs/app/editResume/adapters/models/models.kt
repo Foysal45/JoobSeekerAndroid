@@ -230,13 +230,13 @@ data class P_DataItem(
         @field:SerializedName("motherName")
         val motherName: String? = null,
 
-        @field:SerializedName("National Id No")
+        @field:SerializedName("nationalIdNo")
         val nationalIdNo: String? = null,
 
         @field:SerializedName("maritalStatus")
         val maritalStatus: String? = null,
 
-        @field:SerializedName("Nationality")
+        @field:SerializedName("nationality")
         val nationality: String? = null,
 
         @field:SerializedName("religion")
@@ -266,15 +266,15 @@ data class C_DataItem(
         val addressType2: String?,
         @SerializedName("alternativeEmail")
         val alternativeEmail: String?,
-        @SerializedName("email")
+        @SerializedName("primaryEmail")
         val email: String?,
-        @SerializedName("homePhone")
+        @SerializedName("mobileNo1")
         val homePhone: String?,
         @SerializedName("messageType")
         val messageType: String?,
-        @SerializedName("mobile")
+        @SerializedName("primaryMobileNo")
         val mobile: String?,
-        @SerializedName("officePhone")
+        @SerializedName("mobileNo2")
         val officePhone: String?,
         @SerializedName("permanentAddressID")
         val permanentAddressID: String?,
