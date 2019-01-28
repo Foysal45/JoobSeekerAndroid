@@ -171,21 +171,25 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#_-+/*!?.=&amp;$"
             android:focusable="true"
             android:foregroundTintMode="src_over"
             android:hint="Message"
             android:inputType="textCapSentences|textMultiLine"
-            android:lines="6"
+
+            android:lines="10"
+            android:minLines="5"
+            android:gravity="top|left"
+            android:maxLines="15"
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:textSize="14sp"
             tools:backgroundTintMode="multiply"
 
             />
-    </com.google.android.material.textfield.TextInputLayout>
 
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
