@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:background="#FAFAFA"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/personlRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/cancelIconImgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_close_ash" />
+
+        <ImageView
+            android:id="@+id/profilePicIMGV"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/nameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profilePicIMGV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="জন স্মিথ"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/categoryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameTV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="22dp"
+            android:text="ডাটা এন্ট্রি/ কম্পিউটার অপারেটর"
+            android:textColor="#FFFFFF"
+            android:textSize="12dp" />
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/categoryDateicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/personlRL"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/account_date_icon" />
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:id="@+id/heading2TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/personlRL"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="23dp"
+        android:layout_toRightOf="@id/categoryDateicon"
+        android:text="অ্যাকাউন্ট খোলার তারিখ"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:id="@+id/categoryDateTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/categoryDateicon"
+        android:layout_below="@id/categoryDateicon"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="3dp"
+        android:text="২৬-১২-২০১৬ ৪:০০ পি এম"
+        android:textColor="#303030"
+        android:textSize="12sp" />
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:id="@+id/heading3TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/categoryDateTv"
+        android:layout_below="@id/categoryDateTv"
+        android:layout_marginTop="30dp"
+        android:text="বর্তমানে সিভিতে যেসব তথ্য পূরণ করেছেন"
+        android:textColor="#303030"
+        android:textSize="14dp" />
+
+    <RelativeLayout
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heading3TV"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/icon1IMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/acc_icon" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/heading4TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/icon1IMGV"
+            android:text="ব্যক্তিগত তথ্য"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/personalIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/acount_right_icon" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/l5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp">
+
+        <ImageView
+            android:id="@+id/icon4IMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/experince_icon" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/heading1TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/icon4IMGV"
+            android:text="কর্ম দক্ষতা"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/skillIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/acount_right_icon" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l5"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp">
+
+        <ImageView
+            android:id="@+id/icon2IMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/edu_icon" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/heading5TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/icon2IMGV"
+            android:text="শিক্ষাগত যোগ্যতা"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/educationIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/acount_right_icon" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/l3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l2"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp">
+
+        <ImageView
+            android:id="@+id/icon3IMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/pic_icon" />
+
+        <TextView
+            android:fontFamily="@font/noto_sans"
+            android:id="@+id/heading6TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/icon3IMGV"
+            android:text="ছবি"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/pictureIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/account_cross_icon" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

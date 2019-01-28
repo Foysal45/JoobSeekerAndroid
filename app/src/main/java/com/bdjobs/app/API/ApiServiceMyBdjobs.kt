@@ -558,6 +558,32 @@ interface ApiServiceMyBdjobs {
     ): Call<InviteCodeOwnerStatementModel>
 
 
+    @FormUrlEncoded
+    @POST("apps_invited_user_status.asp")
+    fun getInviteCodeUserStatus(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("invited_user_id") invited_user_id: String?
+    ): Call<InviteCodeUserStatusModel>
+
+    @FormUrlEncoded
+    @POST("apps_get_balance.asp")
+    fun getOwnerBalance(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?
+    ): Call<InviteCodeBalanceModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_get_payment_method.asp")
+    fun getPaymentMethod(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("userType") userType: String?
+    ): Call<InviteCodePaymentMethodModel>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
