@@ -1,8 +1,8 @@
 package com.bdjobs.app.Settings
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -105,7 +105,7 @@ class ChangePasswordFragment : Fragment() {
     private fun validateoldPassword(): Boolean {
         val pass = et_old_pass.getText().toString()
         if (et_old_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            return enableValidation(oldpassword_TIL,et_old_pass, getString(com.bdjobs.app.R.string.err_msg_password_not_empty) )
+            return enableValidation(oldpassword_TIL,et_old_pass, getString(R.string.err_msg_password_not_empty) )
         }
 
   /*      else if (checkStringHasSymbol(pass)) {
@@ -125,13 +125,13 @@ class ChangePasswordFragment : Fragment() {
     private fun validateNewPassword(): Boolean {
         val pass = et_new_pass.getText().toString()
         if (et_new_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            return enableValidation(newpassword_TIL,et_new_pass, getString(com.bdjobs.app.R.string.err_msg_password_not_empty) )
+            return enableValidation(newpassword_TIL,et_new_pass, getString(R.string.err_msg_password_not_empty) )
 
         } else if (checkStringHasSymbol(pass)) {
-            return enableValidation(newpassword_TIL,et_new_pass, getString(com.bdjobs.app.R.string.err_msg_password_use))
+            return enableValidation(newpassword_TIL,et_new_pass, getString(R.string.err_msg_password_use))
 
         } else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
-            return enableValidation(newpassword_TIL,et_new_pass, getString(com.bdjobs.app.R.string.err_msg_password_limit))
+            return enableValidation(newpassword_TIL,et_new_pass, getString(R.string.err_msg_password_limit))
         } else {
             newpassword_TIL.setErrorEnabled(false)
         }
@@ -141,10 +141,10 @@ class ChangePasswordFragment : Fragment() {
     private fun validateConfirmPassword(): Boolean {
         val pass = et_confirm_pass.getText().toString()
         if (et_confirm_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(com.bdjobs.app.R.string.err_msg_password_confirm_not_empty) )
+            return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(R.string.err_msg_password_confirm_not_empty) )
         }
         else if (!pass.equals(et_new_pass.text.toString(),true)) {
-            return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(com.bdjobs.app.R.string.err_msg_password_not_match) )
+            return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(R.string.err_msg_password_not_match) )
         }
      /*   else if (checkStringHasSymbol(pass)) {
             return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(com.bdjobs.app.R.string.err_msg_password_use) )

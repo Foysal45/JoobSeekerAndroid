@@ -55,7 +55,7 @@
     <string name="hint.country_v">Country</string>
     <string name="hint.training_title">Training Title *</string>
     <string name="hint.topic">Topic</string>
-    <string name="hint.topic_covered">Topic Covered</string>
+    <string name="hint.topic_covered">Topics Covered</string>
     <string name="hint.year">Year *</string>
     <string name="hint.training_year">Training Year *</string>
     <string name="err_msg_experience">You can  not add more than 3 work discipline!</string>
@@ -101,11 +101,12 @@
     <string name="hint.presentAddress_v">Present Address</string>
     <string name="hint.permanentAddress">Permanent Address</string>
     <string name="hint.currentLocation">Current Location *</string>
-    <string name="hint.homePhone">Home Phone</string>
-    <string name="hint.officePhone">Office Phone</string>
+    <string name="hint.homePhone">Mobile No 1</string>
+    <string name="hint.officePhone">Mobile No 2</string>
     <string name="hint.alter_email">Alternate Email</string>
     <string name="hint.objective">Objective *</string>
     <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~</string>
+    <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
     <string name="hint.objective_v">Objective</string>
     <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
     <string name="hint.present_salary_tk_month_v">Present Salary</string>
@@ -139,6 +140,7 @@
     <string name="edit_resume">Edit Resume</string>
     <string name="date_to">to</string>
     <string name="employment_history_title">Employment History</string>
+    <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="content_desce">content description</string>
     <string name="hint.ba_type">BA *</string>
@@ -190,9 +192,9 @@
     <string name="hint.contactThana">Thana</string>
     <string name="hint.contactPost">P.O</string>
     <string name="hint.contactAddress">House No/ Road / Village</string>
-    <string name="hint.contactMobileNumber">Mobile No</string>
+    <string name="hint.contactMobileNumber">Primary Mobile No</string>
     <string name="hint.addMobileNumber">ADD MOBILE NO</string>
-    <string name="hint.contactEmailadress">Email Address</string>
+    <string name="hint.contactEmailadress">Primary Email</string>
     <string name="hint.contactEmailButton">ADD EMAIL</string>
     <string name="hint.addressCheckbox">Same as Present Address</string>
     <string name="bangladesh_technical_education_board">Bangladesh Technical Education Board</string>
@@ -230,11 +232,15 @@
     <string name="toast.exam.degree.title.other.blank">Exam/Degree Title can not be empty</string>
     <string name="hint.addEmail">ADD EMAIL</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
+    <string name="subtit.ori_info">Other Relevant Information</string>
+    <string name="title_ORI">Other Relevant Information</string>
+    <string name="resend_code">কোডটি পুনঃরায় পাঠান</string>
+    <string name="hint.special_qualification">Special Qualification</string>
+    <string name="hint.career_summary">Career Summary</string>
+    <string name="hint.keywords">Keywords *</string>
     <string name="err_msg_password_not_empty">Password cannot be empty</string>
     <string name="err_msg_password_confirm_not_empty">Confirm Password cannot be empty</string>
     <string name="err_msg_password_limit">Use at least 8 to 12 characters</string>
     <string name="err_msg_password_use">Please use only letters (a-z), numbers (0-9) and punctuations</string>
     <string name="err_msg_password_not_match">These Passwords do not match</string>
-
-    <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
 </resources>
