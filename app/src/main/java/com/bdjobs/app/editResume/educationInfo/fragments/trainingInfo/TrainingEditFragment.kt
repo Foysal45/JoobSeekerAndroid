@@ -114,7 +114,7 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrDuration, trainingTitleTIL)
 
         etTrTrainingYear.setOnClickListener {
-            for (item in 1964..2019) {
+            for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
             activity.selector("Please Select Training Year", yearList.toList()) { _, i ->
@@ -126,6 +126,7 @@ class TrainingEditFragment : Fragment() {
 
         }
         fab_tr_update.setOnClickListener {
+            clTrainingEdit.closeKeyboard(activity)
             var validation = 0
             validation = isValidate(etTrTitle, trainingTitleTIL, etTrInstitute, true, validation)
             validation = isValidate(etTrInstitute, trInstituteTIL, etTrCountry, true, validation)

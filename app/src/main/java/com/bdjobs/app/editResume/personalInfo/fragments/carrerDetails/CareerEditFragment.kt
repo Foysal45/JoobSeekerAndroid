@@ -42,10 +42,6 @@ class CareerEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         personalInfo = activity as PersonalInfo
-    }
-
-    override fun onResume() {
-        super.onResume()
         initViews()
         doWork()
     }
@@ -59,6 +55,7 @@ class CareerEditFragment : Fragment() {
     private fun doWork() {
         addTextChangedListener(etCrObj, crObjTIL)
         fab_cai_edit.setOnClickListener {
+            clCareerEdit.closeKeyboard(activity)
             var validation = 0
             validation = isValidate(etCrObj, crObjTIL, etCrObj, true, validation)
             if (validation == 1) {

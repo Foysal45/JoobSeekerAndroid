@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clContactEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -500,7 +501,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/contactMobileNumber1TIL"
+                android:id="@+id/contactMobileNumber2TIL"
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -513,17 +514,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/contactMobileNumberTIL">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/contactMobileNumber1TIET"
+                    android:id="@+id/contactMobileNumber2TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.officePhone"
+                    android:hint="@string/hint.homePhone"
                     android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/contactMobileNumber2TIL"
+                android:id="@+id/contactMobileNumber1TIL"
                 style="@style/EHTextInputLayout"
                 android:layout_marginEnd="24dp"
                 android:layout_width="match_parent"
@@ -533,10 +534,10 @@
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/contactMobileNumber2TIET"
+                    android:id="@+id/contactMobileNumber1TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.homePhone"
+                    android:hint="@string/hint.officePhone"
                     android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -627,7 +628,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
         android:indeterminate="true"
         android:theme="@style/BdjobsLinearProgress"
         android:visibility="gone"

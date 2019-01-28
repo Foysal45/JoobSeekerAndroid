@@ -230,13 +230,13 @@ data class P_DataItem(
         @field:SerializedName("motherName")
         val motherName: String? = null,
 
-        @field:SerializedName("National Id No")
+        @field:SerializedName("nationalIdNo")
         val nationalIdNo: String? = null,
 
         @field:SerializedName("maritalStatus")
         val maritalStatus: String? = null,
 
-        @field:SerializedName("Nationality")
+        @field:SerializedName("nationality")
         val nationality: String? = null,
 
         @field:SerializedName("religion")
@@ -266,15 +266,15 @@ data class C_DataItem(
         val addressType2: String?,
         @SerializedName("alternativeEmail")
         val alternativeEmail: String?,
-        @SerializedName("email")
+        @SerializedName("primaryEmail")
         val email: String?,
-        @SerializedName("homePhone")
+        @SerializedName("mobileNo1")
         val homePhone: String?,
         @SerializedName("messageType")
         val messageType: String?,
-        @SerializedName("mobile")
+        @SerializedName("primaryMobileNo")
         val mobile: String?,
-        @SerializedName("officePhone")
+        @SerializedName("mobileNo2")
         val officePhone: String?,
         @SerializedName("permanentAddressID")
         val permanentAddressID: String?,
@@ -350,6 +350,37 @@ data class GetCarrerInfo(
 
         @field:SerializedName("message")
         val message: String? = null
+)
+
+// ORI Info
+data class GetORIResponse(
+
+        @field:SerializedName("statuscode")
+        val statuscode: String? = null,
+
+        @field:SerializedName("data")
+        val data: List<ORIdataItem?>? = null,
+
+        @field:SerializedName("common")
+        val common: Any? = null,
+
+        @field:SerializedName("message")
+        val message: String? = null
+)
+
+data class ORIdataItem(
+
+        @field:SerializedName("messageType")
+        val messageType: String? = null,
+
+        @field:SerializedName("keywords")
+        val keywords: String? = null,
+
+        @field:SerializedName("specialQualifications")
+        val specialQualifications: String? = null,
+
+        @field:SerializedName("careerSummery")
+        val careerSummery: String? = null
 )
 
 // Training Info

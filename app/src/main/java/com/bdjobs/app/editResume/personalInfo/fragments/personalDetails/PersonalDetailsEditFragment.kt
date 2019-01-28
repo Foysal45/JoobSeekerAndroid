@@ -49,7 +49,7 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun updateDateInView() {
-        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val myFormat = "MMM dd, yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         etPerDob.setText(sdf.format(now.time))
         dob = etPerDob.getString()
@@ -68,18 +68,22 @@ class PersonalDetailsEditFragment : Fragment() {
         personalInfo = activity as PersonalInfo
         now = Calendar.getInstance()
         personalInfo.setTitle(getString(R.string.title_personal))
+        personalInfo.setEditButton(false, "dd")
         doWork()
+        nationalityTIL.hideError()
+        dobTIL.hideError()
     }
 
     override fun onResume() {
         super.onResume()
-        personalInfo.setEditButton(false, "dd")
         initViews()
+        etPerNationality.clearFocus()
+        etPerFirstName.requestFocus()
     }
 
     private fun initViews() {
         etPerFirstName?.addTextChangedListener(TW.CrossIconBehave(etPerFirstName))
-        etPerDob?.addTextChangedListener(TW.CrossIconBehave(etPerDob))
+        //etPerDob?.addTextChangedListener(TW.CrossIconBehave(etPerDob))
         etPerNationality?.addTextChangedListener(TW.CrossIconBehave(etPerNationality))
     }
 
@@ -134,9 +138,9 @@ class PersonalDetailsEditFragment : Fragment() {
         }
         d("day: $date")
         val dpd: DatePickerDialog
-        val mYear = now.get(Calendar.YEAR) // current year
-        val mMonth = now.get(Calendar.MONTH) // current month
-        val mDay = now.get(Calendar.DAY_OF_MONTH) // current day
+        val mYear = cal.get(Calendar.YEAR) // current year
+        val mMonth = cal.get(Calendar.MONTH) // current month
+        val mDay = cal.get(Calendar.DAY_OF_MONTH) // current day
         if (date != null) {
             cal.time = date
             dpd = DatePickerDialog(activity,
@@ -164,6 +168,7 @@ class PersonalDetailsEditFragment : Fragment() {
         calendarMax.set(Calendar.MONTH, mMonth)
         calendarMax.set(Calendar.YEAR, mYear - 12)
 
+        Log.d("calValue", "year : $mYear")
 
         dpd.datePicker.maxDate = calendarMax.timeInMillis
         dpd.datePicker.minDate = calendarMin.timeInMillis

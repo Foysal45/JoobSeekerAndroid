@@ -33,9 +33,7 @@ import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -380,10 +378,14 @@ class PhotoUploadActivity : AppCompatActivity() {
             }
 
         } else {
-
             openCamera()
-
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (Constants.isDirectCall) finish()
+        clPhotoUpload.closeKeyboard(this@PhotoUploadActivity)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

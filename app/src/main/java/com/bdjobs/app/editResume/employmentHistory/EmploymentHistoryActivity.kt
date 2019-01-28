@@ -33,6 +33,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private var dataExps: AreaofExperienceItem? = null
     private var dataitArmy: ArmydataItem? = null
     lateinit var name: String
+    lateinit var gotToAddEmployment: String
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -80,6 +81,11 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     override fun goToEditInfo(check: String) {
         try {
             when (check) {
+                "addDirect" -> {
+                    editFragment.isEdit = false
+                    transitFragment(editFragment, R.id.emp_his_container, false)
+                    Constants.isDirectCall = true
+                }
                 "add" -> {
                     editFragment.isEdit = false
                     transitFragment(editFragment, R.id.emp_his_container, true)
@@ -95,6 +101,9 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
                 "army_add" -> {
                     armyEditFragment.isEdit = false
                     transitFragment(armyEditFragment, R.id.emp_his_container, true)
+                }
+                else -> {
+                    debug("No fragment Found $gotToAddEmployment")
                 }
             }
         } catch (e: Exception) {
@@ -121,10 +130,13 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
 
     private fun getIntentValues() {
         name = intent.getStringExtra("name")
+        gotToAddEmployment = intent.getStringExtra("emp_his_add")
+        goToEditInfo(gotToAddEmployment)
     }
 
     override fun goBack() {
         onBackPressed()
+        if (Constants.isDirectCall) finish()
         empHisBaseCL.closeKeyboard(this@EmploymentHistoryActivity)
     }
 

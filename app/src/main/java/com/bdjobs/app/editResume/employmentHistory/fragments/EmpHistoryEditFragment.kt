@@ -45,9 +45,10 @@ class EmpHistoryEditFragment : Fragment() {
     private var currentlyWorking: String = "OFF"
     private var companyBusinessID = ""
     private var workExperineceID = ""
-    private var newWorkExperineceID = ""
+    private var isFirst = false
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
+    private var isEmpty = false
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -117,6 +118,13 @@ class EmpHistoryEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         empHisCB.setTitle(getString(R.string.title_emp_history))
         initViews()
+        isFirst = true
+        if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            idArr.add("")
+            clearEditText()
+        }
         doWork()
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
     }
@@ -153,7 +161,8 @@ class EmpHistoryEditFragment : Fragment() {
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
-            idArr.add(" ")
+            idArr.add("")
+            isEmpty = true
             clearEditText()
         }
     }
@@ -163,22 +172,24 @@ class EmpHistoryEditFragment : Fragment() {
             if (isChecked) {
                 currentlyWorking = "ON"
                 et_end_date?.setText("")
-                et_end_date?.isEnabled = false
+                endDateTIL.hideError()
             } else {
                 currentlyWorking = "OFF"
                 updateDateInView(1)
-                et_end_date?.isEnabled = true
+                endDateTIL?.isEnabled = true
+                //et_end_date?.error = "Can't be empty"
+                //endDateTIL.hideError()
             }
         }
         addTextChangedListener(companyNameET, companyNameTIL)
         addTextChangedListener(companyBusinessACTV, companyBusinessTIL)
         addTextChangedListener(positionET, positionTIL)
         addTextChangedListener(estartDateET, estartDateTIL)
-        /*experiencesMACTV.easyOnTextChangedListener { charSequence ->
-            activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, estartDateTIL)
-        }*/
+        experiencesMACTV.easyOnTextChangedListener { charSequence ->
+            activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, experiencesTIL)
+        }
 
-        if (currentlyWorking != "ON") {
+        if (cb_present?.isChecked as Boolean) {
             addTextChangedListener(et_end_date, endDateTIL)
         }
         //addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
@@ -191,13 +202,10 @@ class EmpHistoryEditFragment : Fragment() {
         }
         companyBusinessACTV.setOnClickListener {
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
-            activity.selector("Select your area of company business", organizationList.toList()) { _, i ->
-
+            activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
                 companyBusinessACTV.setText(organizationList[i])
                 companyBusinessTIL.requestFocus()
-
                 companyBusinessID = dataStorage.getOrgIDByOrgName(organizationList[i])
-
                 Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
             }
         }
@@ -210,47 +218,74 @@ class EmpHistoryEditFragment : Fragment() {
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
                     d("Array size : pos : $position id : $id")
-                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
                     if (idArr.size != 0) {
                         if (!idArr.contains(workExperineceID))
                             addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                        else
+                        else {
+                            experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
+                        }
+                        experiencesTIL.hideError()
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")
+                        /*isEmpty = true
+                        experiencesTIL.isErrorEnabled = true*/
+                        experiencesTIL.hideError()
                     }
                 }
             }
         }
         fab_eh?.setOnClickListener {
+            clEmploymentHistory.closeKeyboard(activity)
+            var validation = 0
+            if (entry_chip_group.childCount >= 1) {
+                experiencesTIL.hideError()
+                isEmpty = false
+            } else {
+                experiencesTIL.isErrorEnabled = true
+                isEmpty = true
+            }
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
-            var validation = 0
-            validation = isValidate(companyNameET, companyNameTIL, companyNameET, true, validation)
-            validation = isValidate(companyBusinessACTV, companyBusinessTIL, companyBusinessACTV, true, validation)
-            validation = isValidate(positionET, positionTIL, positionET, true, validation)
-            validation = isValidate(estartDateET, estartDateTIL, companyNameET, true, validation)
+            validation = isValidate(companyNameET, companyNameTIL, companyBusinessACTV, true, validation)
+            validation = isValidate(companyBusinessACTV, companyBusinessTIL, positionET, true, validation)
+            validation = isValidate(positionET, positionTIL, estartDateET, true, validation)
+            validation = isValidate(estartDateET, estartDateTIL, et_end_date, true, validation)
+            validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, isEmpty, validation)
             //validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
-            Log.d("validation", "validation : $validation")
+            Log.d("validation", "validation : $validation and $isEmpty")
 
             if (validation >= 4) {
-                val chars: Char = exps[0]
-                if (!chars.equals(","))
-                    exps = ",$exps"
-                exps = exps.replace(",,".toRegex(), ",")
+                disableError()
+                try {
+                    val chars: Char = exps[0]
+                    if (!chars.equals(","))
+                        exps = ",$exps"
+                    exps = exps.replace(",,".toRegex(), ",")
+                } catch (e: Exception) {
+                    Log.e("updateEx: ", "error: ${e.printStackTrace()}")
+                }
                 debug("chiIDs: $exps, and ids $idArr")
-                updateData(exps)
+                if (idArr.size == 0 || exps.equals("")) {
+                    activity?.toast("Please select at least one experience")
+                    experiencesTIL.isErrorEnabled = true
+                    experiencesTIL?.showError("This Field can not be empty")
+                } else {
+                    experiencesTIL.hideError()
+                    updateData(exps)
+                }
             }
         }
     }
 
     private fun updateData(exps: String) {
         activity.showProgressBar(loadingProgressBar)
-        Log.d("allValuesN", exps)
+        Log.d("allValuesExp", exps)
         companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessID, companyLocationET.getString(), positionET.getString(),
@@ -381,5 +416,6 @@ class EmpHistoryEditFragment : Fragment() {
         estartDateTIL.hideError()
         endDateTIL.hideError()
         experiencesTIL.clearFocus()
+        experiencesTIL.hideError()
     }
 }

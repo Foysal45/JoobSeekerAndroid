@@ -1,41 +1,38 @@
-
+*.iml
 .gradle
 /local.properties
+/.idea/caches/build_file_checksums.ser
+/.idea/assetWizardSettings.xml
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
-
-
-# IntelliJ
-*.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/assetWizardSettings.xml
-.idea/dictionaries
-.idea/libraries
-.idea/caches
-
-# Android Studio 3 in .gitignore file.
-.idea/caches/build_file_checksums.ser
-.idea/modules.xml
-
-
-# Version control
-vcs.xml
-
-# lint
-lint/intermediates/
-lint/generated/
-lint/outputs/
-lint/tmp/
-
-# Generated files
-bin/
-gen/
-out/
-
-# Android Studio captures folder
-captures/
-
+linkedin-sdk/build/generated/renderscript_source_output_dir/
+linkedin-sdk/build/generated/res/
+linkedin-sdk/build/generated/source/apt/
+linkedin-sdk/build/intermediates/annotation_processor_list/
+linkedin-sdk/build/intermediates/annotations_typedef_file/
+linkedin-sdk/build/intermediates/annotations_zip/
+linkedin-sdk/build/intermediates/check_manifest_result/
+linkedin-sdk/build/intermediates/compile_only_not_namespaced_r_class_jar/
+linkedin-sdk/build/intermediates/incremental/debug-mergeJavaRes/
+linkedin-sdk/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/
+linkedin-sdk/build/intermediates/incremental/packageDebugResources/stripped.dir/
+linkedin-sdk/build/intermediates/intermediate-jars/debug/jni/
+linkedin-sdk/build/intermediates/jniLibs/
+linkedin-sdk/build/intermediates/library_and_local_jars_jni/
+linkedin-sdk/build/intermediates/library_assets/
+linkedin-sdk/build/intermediates/library_manifest/
+linkedin-sdk/build/intermediates/lint_jar/
+linkedin-sdk/build/intermediates/merged_manifests/
+linkedin-sdk/build/intermediates/packaged-classes/
+linkedin-sdk/build/intermediates/public_res/
+linkedin-sdk/build/intermediates/rs/
+linkedin-sdk/build/intermediates/shader_assets/
+linkedin-sdk/build/intermediates/shaders/
+linkedin-sdk/build/intermediates/transforms/mergeJavaRes/
+linkedin-sdk/build/outputs/aar/
+linkedin-sdk/build/tmp/
