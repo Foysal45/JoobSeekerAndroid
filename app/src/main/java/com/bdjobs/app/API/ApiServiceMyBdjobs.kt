@@ -523,6 +523,20 @@ interface ApiServiceMyBdjobs {
             @Field("deviceID") deviceID: String?
     ): Call<InviteCodeHomeModel>
 
+    @FormUrlEncoded
+    @POST("apps_EmailCv.asp")
+    fun getEmailResumeMsg(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("userEmail") userEmail: String?,
+            @Field("companyEmail") companyEmail: String?,
+            @Field("mailSubject") mailSubject: String?,
+            @Field("application") application: String?,
+            @Field("fullName") fullName: String?,
+            @Field("uploadedCv") uploadedCv: String?,
+            @Field("Jobid") Jobid: String?
+    ): Call<EmailResume>
 
     companion object Factory {
 
