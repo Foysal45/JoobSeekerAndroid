@@ -267,7 +267,7 @@ class BCAddressFragment : Fragment() {
                             bcThanaTIET.setOnClickListener(null)
                             bcPostOfficeTIET.setOnClickListener(null)
 
-                            bcVillageTIET.isFocusableInTouchMode = true
+
                             bcVillageTIL.isErrorEnabled = false
 
                             var queryValue = editText.text.toString()
