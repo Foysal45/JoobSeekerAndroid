@@ -66,6 +66,8 @@ interface RegistrationCommunicator {
     fun getCategory(): String
     fun clearData()
 
+    fun checkInviteCodeEligibility()
+
 
     fun getINLROData(): String
 

@@ -2,6 +2,7 @@ package com.bdjobs.app.InviteCode
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -12,7 +13,8 @@ import kotlinx.android.synthetic.main.activity_invite_code_base.*
 class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
 
 
-
+    private var paymentMethod: String = ""
+    private var accountNumber: String = ""
     private var inviteCodeuserType: String = ""
     private var pcOwnerID: String = ""
     private var inviteCodeStatus: String = ""
@@ -46,8 +48,15 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
             }
         }
         navHostFragment.navController.graph = graph
+
+    }
+    override fun getPaymentMethod(): String? {
+        return paymentMethod
     }
 
+    override fun getAccountNumber(): String? {
+        return accountNumber
+    }
 
     override fun getInviteCodeUserType(): String? {
        return  inviteCodeuserType
@@ -62,5 +71,14 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
     }
     override fun backButtonClicked() {
        onBackPressed()
+    }
+
+    override fun goToPaymentMethod(paymentMethod: String, accountNumber: String) {
+
+        val navController = Navigation.findNavController(this@InviteCodeBaseActivity, R.id.inviteCodeBaseNavFragment)
+        navController.navigate(R.id.navigation_payment_method)
+
+        this.accountNumber=accountNumber
+        this.paymentMethod=paymentMethod
     }
 }

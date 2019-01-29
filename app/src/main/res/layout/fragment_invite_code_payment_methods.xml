@@ -1,6 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backIconArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+
+            <TextView
+                android:fontFamily="@font/noto_sans"
+                android:id="@+id/paymentMediaTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="27dp"
+                android:text="টাকা পাওয়ার মাধ্যম"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:theme="@style/BdjobsLinearProgress"
+            android:visibility="gone"
+            android:id="@+id/loadingProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:fontFamily="@font/noto_sans"
+                    android:id="@+id/timingTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="20dp"
+                    android:text="টাকা পাওয়ার নিয়ম ও সময়"
+                    android:textColor="#2F64A3"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:fontFamily="@font/noto_sans"
+                    android:id="@+id/moneyInstructionTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:text="সর্বনিম্ন ৫০/- টাকা হলে বিডিজবস থেকে টাকা পাঠানো হবে। সাধারনত প্রতি সোমবার ও বৃহস্পতিবার পেমেন্ট করা হয়।"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bdjobsBTN"
+                    android:fontFamily="@font/noto_sans"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginRight="48dp"
+                    android:elevation="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="বিডিজবস অফিস "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    app:backgroundTint="@color/colorWhite"
+                    app:icon="@drawable/location"
+                    app:iconGravity="start"
+                    android:gravity="left|center"
+                    app:iconTint="@color/colorPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:id="@+id/bkashBTN"
+                    android:fontFamily="@font/noto_sans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="48dp"
+                    app:backgroundTint="@color/colorWhite"
+                    app:icon="@drawable/ic_bkash"
+                    app:iconGravity="start"
+                    app:iconTint="@color/colorPrimary"
+                    android:elevation="8dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/colorPrimary"
+                    android:paddingBottom="10dp"
+                    android:gravity="left|center"
+                    android:text="বিকাশ অ্যাকাউন্ট"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:id="@+id/rocketBTN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="48dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="48dp"
+                    android:gravity="left|center"
+                    android:text="রকেট অ্যাকাউন্ট"
+                    android:textSize="14sp"
+                    app:backgroundTint="@color/colorWhite"
+                    app:icon="@drawable/ic_rocket"
+                    app:iconGravity="start"
+                    app:iconTint="@color/colorPrimary"
+                    android:elevation="8dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/colorPrimary"
+                    android:paddingBottom="10dp"
+                    />
+
+
+                <LinearLayout
+                    android:id="@+id/accountNumberlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/accountNumberTIL"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="46dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/accountNumberTIET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:hint="অ্যাকাউন্ট নম্বর লিখুন"
+                            android:inputType="number"
+                            android:maxLength="12"
+                            android:textSize="18sp"
+                            android:singleLine="true"
+                            android:typeface="normal"
+                            app:fontFamily="@font/noto_sans" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:fontFamily="@font/noto_sans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="আপনার নিজস্ব অ্যাকাউন্ট নম্বর লিখুন। এজেন্ট নম্বরে কোন টাকা পাঠানো হয় না। ভুল করে এজেন্ট নম্বর দিলে এবং টাকা উত্তোলন করতে না পারলে তার জন্য বিডিজবস কর্তৃপক্ষ দায়ী থাকবে না।"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/nextButton"
+                        android:elevation="16dp"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/ic_arrow_forward_black_24dp"
+                        android:windowSoftInputMode="adjustResize"
+                        app:backgroundTint="#13A10E"
+                        app:fabSize="normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="48dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </LinearLayout>

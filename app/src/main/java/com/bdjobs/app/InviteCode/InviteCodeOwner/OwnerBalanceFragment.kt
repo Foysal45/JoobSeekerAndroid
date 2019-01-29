@@ -28,7 +28,8 @@ import retrofit2.Response
 class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private var inviteCodeCommunicator: InviteCodeCommunicator? = null
-
+    var  paymentType =""
+    var accountNumber=""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.invite_code_owner_balance_fragment, container, false)
@@ -80,6 +81,16 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
         getBalanceInfo(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())
         getPaymentMethodType(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodeUserType())
 
+        onClicks()
+    }
+
+    private fun onClicks() {
+        moneyMethodChangeRL.setOnClickListener {
+            inviteCodeCommunicator?.goToPaymentMethod(paymentType,accountNumber)
+        }
+        moneyWithdrawRL.setOnClickListener {
+            inviteCodeCommunicator?.goToPaymentMethod()
+        }
     }
 
     private fun getPaymentMethodType(userId: String?, decodId: String?, inviteCodeUserType: String?) {
@@ -101,8 +112,8 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
                             if (response.isSuccessful) {
 
                                 val isExists = response.body()!!.data[0].isExist
-                                val paymentType = response.body()!!.data[0].paymentType
-                                val accountNumber = response.body()!!.data[0].accountNo
+                                 paymentType = response.body()!!.data[0].paymentType
+                                 accountNumber = response.body()!!.data[0].accountNo
                                 Log.d("paymentType", "paymentType = $paymentType")
 
                                 Log.d("isExists", isExists)
@@ -144,15 +155,11 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
                                 } else {
 
                                 }
-
-
-
                             }
                         } catch (e: Exception) {
 
                             e.printStackTrace()
                         }
-
 
                     }
 
