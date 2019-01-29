@@ -27,6 +27,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
@@ -77,6 +78,8 @@ class PhotoUploadActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var resultUri: Uri
+    private var changeClickStatus = false
 
     private fun setupToolbar(title: String?) {
         tv_tb_title?.text = title
@@ -91,66 +94,51 @@ class PhotoUploadActivity : AppCompatActivity() {
         setContentView(R.layout.activity_photo_upload)
         bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
         progressDialog = ProgressDialog(this@PhotoUploadActivity)
+        if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
+            editResPhotoUploadImageView.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+            Log.d("dgdsgdghjOnRes", "Session url ${bdjobsUserSession.userPicUrl}")
+            noPhotoTV.text = "You can change or delete your photo"
+            photoInfoTV.hide()
+            editResPhotoUploadButton.hide()
+            editResChangePhotoButton.show()
+            ic_edit_photo.show()
+            photoDeleteButton.show()
+        } else if (bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
+            noPhotoTV.show()
+            photoInfoTV.show()
+            editResPhotoUploadButton.show()
+            editResChangePhotoButton.hide()
+            ic_edit_photo.hide()
+            photoDeleteButton.hide()
+
+
+        }
     }
 
     override fun onResume() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
-        if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
-            regPhotoUploadImageView.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
-            Log.d("dgdsgdghjOnRes", bdjobsUserSession.userPicUrl)
-        }
+        /* if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()){
+             Log.d("dgdsgdghjOnRes", "result uri ${resultUri}" )
+
+
+         }*/
+
+
         onClick()
     }
 
     private fun onClick() {
-        regPhotoUploadImageView.setOnClickListener {
+        editResPhotoUploadImageView.setOnClickListener {
             showDialog(this@PhotoUploadActivity)
         }
-        regPhotoUploadButton.setOnClickListener {
-            if (encodedString.isBlank()) {
-                registrationCommunicator.bcGoToStepCongratulation()
-            } else {
-                progressDialog.setTitle("Uploading Photo..")
-                progressDialog.show()
-
-                ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
-                    override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-                        Log.d("PhotoUpload", " onFailure ${t.message}")
-                    }
-
-                    override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
-
-                        Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
-                        Log.d("PhotoUpload", " response ${response.body()!!.message}")
-
-
-                        if (response.body()!!.statuscode.equals("0", true)) {
-
-                            userId = response.body()!!.data[0].userId
-                            decodeId = response.body()!!.data[0].decodId
-                            folderName = response.body()!!.data[0].folderName
-                            folderId = response.body()!!.data[0].folderId
-                            imageName = response.body()!!.data[0].imageName
-                            isResumeUpdate = response.body()!!.data[0].isResumeUpdate
-                            params.put("Image", encodedString)
-                            params.put("userid", bdjobsUserSession.userId)
-                            params.put("decodeid", bdjobsUserSession.decodId)
-                            params.put("folderName", folderName)
-                            params.put("folderId", folderId)
-                            params.put("imageName", imageName)
-                            params.put("isResumeUpdate", isResumeUpdate)
-                            params.put("status", "upload")
-                            makeHTTPCall()
-
-                        }
-                    }
-                })
-            }
-
-        }
-        regChangePhotoButton.setOnClickListener {
+        editResPhotoUploadButton.setOnClickListener {
             showDialog(this@PhotoUploadActivity)
+        }
+        editResChangePhotoButton.setOnClickListener {
+            changeClickStatus = true
+            showDialog(this@PhotoUploadActivity)
+
         }
         photoDeleteButton.setOnClickListener {
             deletePhoto()
@@ -181,18 +169,27 @@ class PhotoUploadActivity : AppCompatActivity() {
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
                 val photoUrl = photoUploadModel.data[0].path
                 Log.d("dgdsgdghj", photoUrl)
+
                 bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
 
-
-                toast(photoUploadModel.message)
-                progressDialog.dismiss()
                 Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
-
                 noPhotoTV.text = "You can change or delete your photo"
                 photoInfoTV.hide()
-                regPhotoUploadButton.hide()
-                regChangePhotoButton.show()
+                editResPhotoUploadButton.hide()
+                editResChangePhotoButton.show()
+                photoDeleteButton.show()
+                progressDialog.dismiss()
 
+                if (ic_edit_photo.isVisible) {
+
+                    toast("Photo has been updated successfully")
+
+                } else {
+
+                    toast(photoUploadModel.message)
+                }
+
+                ic_edit_photo.show()
 
                 /* } catch (e: JSONException) {
                      e.printStackTrace()
@@ -213,24 +210,52 @@ class PhotoUploadActivity : AppCompatActivity() {
         })
     }
 
+    private fun uploadPhoto() {
+        progressDialog.setTitle("Uploading Photo..")
+        progressDialog.show()
+        ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
+            override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
+                Log.d("PhotoUpload", " onFailure ${t.message}")
+            }
+
+            override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
+
+                Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
+                Log.d("PhotoUpload", " response ${response.body()!!.message}")
+
+
+                if (response.body()!!.statuscode.equals("0", true)) {
+
+                    userId = response.body()!!.data[0].userId
+                    decodeId = response.body()!!.data[0].decodId
+                    folderName = response.body()!!.data[0].folderName
+                    folderId = response.body()!!.data[0].folderId
+                    imageName = response.body()!!.data[0].imageName
+                    isResumeUpdate = response.body()!!.data[0].isResumeUpdate
+                    params.put("Image", encodedString)
+                    params.put("userid", bdjobsUserSession.userId)
+                    params.put("decodeid", bdjobsUserSession.decodId)
+                    params.put("folderName", folderName)
+                    params.put("folderId", folderId)
+                    params.put("imageName", imageName)
+                    params.put("isResumeUpdate", isResumeUpdate)
+                    params.put("status", "upload")
+                    makeHTTPCall()
+
+                }
+            }
+        })
+
+
+    }
+
 
     private fun deletePhoto() {
 
-
-        /*  val dialog = builder.create()
-        dialog.setCancelable(false)
-        dialog.setTitle("Are you sure to delete this data?")
-        dialog.show()*/
-
-
         val builder = AlertDialog.Builder(this@PhotoUploadActivity)
 
-
-        builder.setMessage("Are you sure you want to delete this photo?")
-
-
         builder.setPositiveButton("Confirm") { dialog, which ->
-            progressDialog.setTitle("Deleting")
+            progressDialog.setTitle("Deleting.....")
             progressDialog.show()
             ApiServiceMyBdjobs.create()
                     .getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId)
@@ -281,7 +306,7 @@ class PhotoUploadActivity : AppCompatActivity() {
 
         val dialog = builder.create()
         dialog.setCancelable(false)
-        dialog.setTitle("Are you sure to delete this data?")
+        dialog.setTitle("Are you sure to delete this photo?")
         dialog.show()
 
     }
@@ -316,10 +341,12 @@ class PhotoUploadActivity : AppCompatActivity() {
                 noPhotoTV.text = "No photo is uploaded yet"
                 photoInfoTV.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
                 photoInfoTV.show()
-                regPhotoUploadButton.show()
-                regChangePhotoButton.hide()
-                regPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
-
+                editResPhotoUploadButton.show()
+                editResChangePhotoButton.hide()
+                ic_edit_photo.hide()
+                photoDeleteButton.hide()
+                editResPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
+                bdjobsUserSession.updateUserPicUrl("")
                 /* }*/
 
 
@@ -459,22 +486,24 @@ class PhotoUploadActivity : AppCompatActivity() {
                 "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)
 
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
-            val resultUri = UCrop.getOutput(data)
+            resultUri = UCrop.getOutput(data)!!
             val tempURI = Uri.fromFile(File("/sdcard/"))
 
 
-            regPhotoUploadImageView.loadCircularImageFromUrl(tempURI.toString())
-            regPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
+            /*   regPhotoUploadImageView.loadImageFromUrl(tempURI.toString())*/
+            editResPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
 
-            /* regPhotoUploadImageView.imageURI = tempURI
-             regPhotoUploadImageView.imageURI = resultUri*/
+            uploadPhoto()
 
-            regPhotoUploadButton.isEnabled = true
-            regPhotoUploadButton.show()
-            regChangePhotoButton.hide()
+            /*    regPhotoUploadImageView.imageURI = tempURI*/
+            /*   regPhotoUploadImageView.imageURI = resultUri*/
+
+            editResPhotoUploadButton.isEnabled = true
+            editResPhotoUploadButton.show()
+            editResChangePhotoButton.hide()
 
             dialog.dismiss()
-            val path = resultUri!!.path
+            val path = resultUri.path
             /*  UploadBTN.setVisibility(View.GONE)*/
             val file = File(path)
             val size = file.length()
@@ -538,7 +567,7 @@ class PhotoUploadActivity : AppCompatActivity() {
         dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
-        dialog.setContentView(R.layout.photo_upload_dialog_layout)
+        dialog.setContentView(R.layout.edit_res_photo_diaolg_layout)
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val deleteImageView = dialog.findViewById<ImageView>(R.id.deleteIV)
@@ -547,17 +576,8 @@ class PhotoUploadActivity : AppCompatActivity() {
         val galleryButton = dialog.findViewById<TextView>(R.id.gallery_button)
 
 
-        cameraButton.text = "Capture Photo"
-        galleryButton.text = "Browse Gallery"
-        photoUploadTV.text = "Upload Photo"
-        /* dialogButton.setOnClickListener( View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 dialog.dismiss();
-             }
-         })*/
 
-        /* dialogButton.setOO*/
+
 
         deleteImageView.setOnClickListener {
 
