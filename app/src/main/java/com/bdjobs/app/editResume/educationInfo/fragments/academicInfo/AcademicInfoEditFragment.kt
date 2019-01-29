@@ -191,7 +191,6 @@ class AcademicInfoEditFragment : Fragment() {
             checkValidity()
 
 
-
             if (etResults.getString().equalIgnoreCase("First Division/Class")
                     || etResults.getString().equalIgnoreCase("Second Division/Class")
                     || etResults.getString().equalIgnoreCase("Third Division/Class")) {
