@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
@@ -101,6 +102,9 @@ class MoreFragment : Fragment() {
         viewResume_MBTN.setOnClickListener {
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
         }
+        emailResume_MBTN.setOnClickListener {
+            startActivity<ManageResumeActivity>()
+        }
     }
 
     private fun clearAddPopulateData() {
@@ -119,8 +123,10 @@ class MoreFragment : Fragment() {
     private fun populateData() {
 
         homeCommunicator.getInviteCodeUserType()?.let { txt ->
-            if (txt.equalIgnoreCase("o") || txt.equalIgnoreCase("u") || txt.equalIgnoreCase("n")) {
-                horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট &\nআর্ন"))
+            when {
+                txt.equalIgnoreCase("o") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট &\nআর্ন"))
+                txt.equalIgnoreCase("u") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট\nকোড"))
+                else -> { }
             }
         }
 

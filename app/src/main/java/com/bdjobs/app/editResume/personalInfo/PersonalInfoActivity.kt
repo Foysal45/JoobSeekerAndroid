@@ -121,6 +121,11 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private fun goToEditInfo(check: String) {
         try {
             when (check) {
+                "addDirect" -> {
+                    //personalEditFragment.isEdit = false
+                    transitFragment(personalEditFragment, R.id.personalinfo_container, false)
+                    Constants.isDirectCall = true
+                }
                 "editORI" -> {
                     transitFragment(oriEditFragment, R.id.personalinfo_container, true)
                 }
@@ -146,6 +151,8 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
 
     override fun goBack() {
         onBackPressed()
+        if (Constants.isDirectCall) finish()
+        CLpersonalBase.closeKeyboard(this@PersonalInfoActivity)
     }
 
     override fun setTitle(tit: String?) {

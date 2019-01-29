@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/mainRL"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:id="@+id/dateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="০১ সেপ্টেম্বর ২০১৮"
+        android:textColor="#424242"
+        android:textSize="13sp" />
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:id="@+id/moneyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="৳ ৫০ (+)"
+        android:textColor="#43A047"
+        android:textSize="13sp" />
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:id="@+id/balanceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="৳ ৫০"
+        android:textColor="#43A047"
+        android:textSize="13sp" />
+</RelativeLayout>

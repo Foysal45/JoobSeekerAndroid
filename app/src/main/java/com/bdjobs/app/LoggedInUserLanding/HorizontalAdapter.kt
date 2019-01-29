@@ -60,6 +60,13 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
                             "pcOwnerID" to homeCommunicator.getInviteCodepcOwnerID(),
                             "inviteCodeStatus" to homeCommunicator.getInviteCodeStatus())
                 }
+
+                "ইনভাইট\nকোড"->{
+                    context.startActivity<InviteCodeBaseActivity>(
+                            "userType" to homeCommunicator.getInviteCodeUserType(),
+                            "pcOwnerID" to homeCommunicator.getInviteCodepcOwnerID(),
+                            "inviteCodeStatus" to homeCommunicator.getInviteCodeStatus())
+                }
             }
         }
 

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.trimmedLength
 import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
@@ -31,15 +32,14 @@ class ContactEditFragment : Fragment() {
     private lateinit var contactInfo: PersonalInfo
     private lateinit var session: BdjobsUserSession
     private lateinit var dataStorage: DataStorage
+    private lateinit var data: C_DataItem
     private var presentInOutBD: String? = ""
     private var permanentInOutBD: String? = ""
     private var sameAddress: String = ""
     private var count: Int = 0
-    private lateinit var data: C_DataItem
-    
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contact_edit, container, false)
     }
 
@@ -58,6 +58,7 @@ class ContactEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         d("onResume")
+        preloadedData()
     }
 
     private fun initViews() {
@@ -92,6 +93,15 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
 
+        contactMobileNumberTIET.easyOnTextChangedListener {
+            if (it.trimmedLength() >= 2)
+                contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
+        }
+        contactEmailAddressTIET.easyOnTextChangedListener {
+            if (it.trimmedLength() >= 2)
+                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+        }
+
         if (pmContactDivTIET1.getString() != "" || pmContactAddressTIETPRM.getString() != "") {
             addTextChangedListener(pmContactDivTIET1, contactDivTIL1)
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
@@ -99,6 +109,8 @@ class ContactEditFragment : Fragment() {
             //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
             addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
             addTextChangedListener(permanentContactCountryTIETP, presentContactCountryTILP)
+            addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
+            addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
         } else {
             contactDivTIL1.hideError()
             contactDistrictTIL.hideError()
@@ -107,19 +119,43 @@ class ContactEditFragment : Fragment() {
             if (permanentInOutBD != "1") presentContactCountryTILP.hideError()
         }
 
-        preloadedData()
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
+            if (isChecked) {
+                cgPermanent.clearCheck()
+                pmContactDivTIET1.enableOrdisableEdit(false)
+                pmContactDistrictTIET.enableOrdisableEdit(false)
+                pmContactThanaTIETP.enableOrdisableEdit(false)
+                pmContactPostOfficeTIET.enableOrdisableEdit(false)
+                pmContactAddressTIETPRM.enableOrdisableEdit(false)
+                pmContactDivTIET1.clear()
+                pmContactDistrictTIET.clear()
+                pmContactThanaTIETP.clear()
+                pmContactPostOfficeTIET.clear()
+                pmContactAddressTIETPRM.clear()
+                permanentContactCountryTIETP.clear()
+            } else {
+                pmContactDivTIET1.enableOrdisableEdit(true)
+                pmContactDistrictTIET.enableOrdisableEdit(true)
+                pmContactThanaTIETP.enableOrdisableEdit(true)
+                pmContactPostOfficeTIET.enableOrdisableEdit(true)
+                pmContactAddressTIETPRM.enableOrdisableEdit(true)
+            }
         }
         fab_contact_update.setOnClickListener {
             d("InOutBD : $presentInOutBD and $permanentInOutBD")
+            clContactEdit.closeKeyboard(activity!!)
 
             var validation = 0
             validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
             validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
             validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
-            validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
-            validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+            if (contactEmailAddressTIET.getString().trim() == "") {
+                validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+            }
+            if (contactMobileNumberTIET.getString().trim() == "") {
+                validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+            }
             if (presentInOutBD == "1") {
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
             }
@@ -165,9 +201,9 @@ class ContactEditFragment : Fragment() {
                 " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
                 " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
                 " same address : $sameAddress" + "\n" +
-                "permanentAddressID : $permanentAddressID " + "\n" +
-                "presentAddressID :  $presentAddressID" + "\n" +
-                "mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
+                " permanentAddressID : $permanentAddressID " + "\n" +
+                " presentAddressID :  $presentAddressID" + "\n" +
+                " mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
                 " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
                 " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
                 " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
@@ -224,9 +260,11 @@ class ContactEditFragment : Fragment() {
         val homePhone = data.homePhone
         val officePhone = data.officePhone
 
-        if (addressType == "3") {
-            addressCheckbox.isChecked = true
-        }
+        this.addressCheckbox.isChecked = addressType == "3"
+
+        if (data.permanentInsideOutsideBD == "") cgPermanent.clearCheck()
+
+        if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
 
         prContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.presentDistrict))
         d("dis : ${data.presentDistrict}")
@@ -247,7 +285,7 @@ class ContactEditFragment : Fragment() {
         val pmDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.permanentDistrict).toString())
         pmContactDivTIET1?.setText(pmDiv)
         d("divisionPm : id : ${data.permanentDistrict} & ${dataStorage.getLocationNameByID(data.permanentDistrict)}")
-        permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.presentCountry))
+        permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.permanentCountry))
 
         contactMobileNumberTIET?.setText(data.mobile)
         contactEmailAddressTIET?.setText(data.email)
@@ -538,14 +576,4 @@ class ContactEditFragment : Fragment() {
             }
         }
     }
-
-    /*private fun disableError() {
-        companyNameTIL.hideError()
-        companyBusinessTIL.hideError()
-        positionTIL.hideError()
-        estartDateTIL.hideError()
-        endDateTIL.hideError()
-        experiencesTIL.hideError()
-    }*/
-
 }

@@ -203,12 +203,9 @@ class EmpHistoryEditFragment : Fragment() {
         companyBusinessACTV.setOnClickListener {
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
             activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
-
                 companyBusinessACTV.setText(organizationList[i])
                 companyBusinessTIL.requestFocus()
-
                 companyBusinessID = dataStorage.getOrgIDByOrgName(organizationList[i])
-
                 Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
             }
         }
@@ -235,13 +232,15 @@ class EmpHistoryEditFragment : Fragment() {
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")
-                        isEmpty = true
-                        experiencesTIL.isErrorEnabled = true
+                        /*isEmpty = true
+                        experiencesTIL.isErrorEnabled = true*/
+                        experiencesTIL.hideError()
                     }
                 }
             }
         }
         fab_eh?.setOnClickListener {
+            clEmploymentHistory.closeKeyboard(activity)
             var validation = 0
             if (entry_chip_group.childCount >= 1) {
                 experiencesTIL.hideError()
@@ -263,19 +262,30 @@ class EmpHistoryEditFragment : Fragment() {
 
             if (validation >= 4) {
                 disableError()
-                val chars: Char = exps[0]
-                if (!chars.equals(","))
-                    exps = ",$exps"
-                exps = exps.replace(",,".toRegex(), ",")
+                try {
+                    val chars: Char = exps[0]
+                    if (!chars.equals(","))
+                        exps = ",$exps"
+                    exps = exps.replace(",,".toRegex(), ",")
+                } catch (e: Exception) {
+                    Log.e("updateEx: ", "error: ${e.printStackTrace()}")
+                }
                 debug("chiIDs: $exps, and ids $idArr")
-                updateData(exps)
+                if (idArr.size == 0 || exps.equals("")) {
+                    activity?.toast("Please select at least one experience")
+                    experiencesTIL.isErrorEnabled = true
+                    experiencesTIL?.showError("This Field can not be empty")
+                } else {
+                    experiencesTIL.hideError()
+                    updateData(exps)
+                }
             }
         }
     }
 
     private fun updateData(exps: String) {
         activity.showProgressBar(loadingProgressBar)
-        Log.d("allValuesN", exps)
+        Log.d("allValuesExp", exps)
         companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessID, companyLocationET.getString(), positionET.getString(),

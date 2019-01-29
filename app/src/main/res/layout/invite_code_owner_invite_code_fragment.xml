@@ -13,6 +13,7 @@
 
 
         <TextView
+            android:fontFamily="@font/noto_sans"
             android:id="@+id/msgTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:fontFamily="@font/noto_sans"
                 android:id="@+id/shareTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,6 +50,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:fontFamily="@font/noto_sans"
                 android:id="@+id/inviteCodeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,6 +67,7 @@
             android:id="@+id/shareIMGV"
             app:iconGravity="textStart"
             app:iconSize="18dp"
+            android:fontFamily="@font/noto_sans"
             app:iconPadding="15dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
@@ -83,6 +87,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:fontFamily="@font/noto_sans"
             android:id="@+id/categeroryMsgTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,6 +105,7 @@
             android:id="@+id/categoryRL"
             app:strokeColor="@color/colorPrimary"
             app:strokeWidth="1dp"
+            android:fontFamily="@font/noto_sans"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:text="ক্যাটাগরি লিস্ট এবং আয়ের পরিমাণ"
             android:layout_width="match_parent"
@@ -110,9 +116,6 @@
             android:layout_marginTop="10dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"/>
-
-
-
     </LinearLayout>
 
 

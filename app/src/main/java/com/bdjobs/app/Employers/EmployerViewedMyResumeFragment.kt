@@ -1,8 +1,5 @@
 package com.bdjobs.app.Employers
 
-import android.app.Activity
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
 import android.text.Html
@@ -14,8 +11,8 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.EmplyerViewMyResume
-import com.bdjobs.app.API.ModelClasses.EmplyerViewMyResumeData
+import com.bdjobs.app.API.ModelClasses.EmpVwdResume
+import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 
 import com.bdjobs.app.R
@@ -59,6 +56,11 @@ class EmployerViewedMyResumeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         employerCommunicator = activity as EmployersCommunicator
         isActivityDate = employerCommunicator.getTime()
+        Log.d("test", "test"+isActivityDate)
+        if (isActivityDate.isNullOrEmpty()){
+            isActivityDate = "1"
+            // this 1 / 0 value is for last time and all time
+        }
         backIMV.setOnClickListener {
             employerCommunicator.backButtonPressed()
         }
@@ -113,24 +115,40 @@ class EmployerViewedMyResumeFragment : Fragment() {
                 pageNumber = pgNo.toString(),
                 itemsPerPage = "10",
                 isActivityDate = activityDate,
-                AppsDate = ""
+                AppsDate = "1"
 
+            /*    userId = "241028",
+                decodeId = "T8B8Rx",
+                pageNumber = "1",
+                itemsPerPage = "10",
+                isActivityDate = "1",
+                AppsDate = ""*/
 
-        ).enqueue(object : Callback<EmplyerViewMyResume> {
-            override fun onFailure(call: Call<EmplyerViewMyResume>, t: Throwable) {
+        ).enqueue(object : Callback<EmpVwdResume> {
+            override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
                 toast("${t.message}")
-            }
+                }
 
-            override fun onResponse(call: Call<EmplyerViewMyResume>, response: Response<EmplyerViewMyResume>) {
+            override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
+                Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
+                        "de-" + bdjobsUserSession.decodId!! )
+
+                Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
+                Log.d("callAppliURl", "url: ${response.body()?.data}")
+
+
+
                 try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and ")
+                    Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
+                    Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                     var totalRecords = response.body()?.common?.totalNumberOfItems
                     if (!response?.body()?.data.isNullOrEmpty()) {
+                        Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
                         viewedMyResumeRV!!.visibility = View.VISIBLE
                         var value = response.body()?.data
                         employerViewedMyResumeAdapter?.removeAll()
-                        employerViewedMyResumeAdapter?.addAll(value as List<EmplyerViewMyResumeData>)
+                        employerViewedMyResumeAdapter?.addAll(value as List<EmpVwdResumeData>)
 
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
@@ -158,10 +176,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
                     shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
 
                 } catch (exception: Exception) {
+                    Log.d("issue", exception.toString())
 
                 }
-
-            }
+                   }
 
         })
 
@@ -178,18 +196,19 @@ class EmployerViewedMyResumeFragment : Fragment() {
                 AppsDate = ""
 
 
-        ).enqueue(object : Callback<EmplyerViewMyResume> {
-            override fun onFailure(call: Call<EmplyerViewMyResume>, t: Throwable) {
+        ).enqueue(object : Callback<EmpVwdResume> {
+            override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
                 toast("${t.message}")
-            }
+                  }
 
-            override fun onResponse(call: Call<EmplyerViewMyResume>, response: Response<EmplyerViewMyResume>) {
+            override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
+
                 try {
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                     employerViewedMyResumeAdapter?.removeLoadingFooter()
                     isLoadings = false
 
-                    employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmplyerViewMyResumeData>)
+                    employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
 
 
                     if (pgNo != TOTAL_PAGES)
@@ -201,8 +220,9 @@ class EmployerViewedMyResumeFragment : Fragment() {
                 } catch (e: Exception) {
                     logException(e)
                 }
+                    }
 
-            }
+
 
         })
 

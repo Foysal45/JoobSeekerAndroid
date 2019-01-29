@@ -9,6 +9,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -43,12 +44,14 @@ class EditResLandingActivity : Activity() {
         tvEmail.text = session.email
 
 
-        // test purpose
+        /*// test purpose
         ivProfileImage.setOnClickListener {
+            //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
             startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
-        }
-
-
+            startActivity<PersonalInfoActivity>("name" to "null", "personal_info_edit" to "addDirect")
+            startActivity<AcademicBaseActivity>("name" to "null", "education_info_edi" to "addDirect")
+            startActivity<PhotoUploadActivity>()
+        }*/
 
         if (isResumeUpdate.equalIgnoreCase("False")) {
             disableAll()
@@ -62,6 +65,8 @@ class EditResLandingActivity : Activity() {
         icBackEr.setOnClickListener {
             finish()
         }
+        btnPerItem4.hide()
+        btnEmpItem2.hide()
     }
 
     private fun doWork() {
@@ -83,6 +88,9 @@ class EditResLandingActivity : Activity() {
         }
         btnEmpItem1.setOnClickListener {
             goToFragment("employ", "Emp")
+        }
+        btnEmpItem2.setOnClickListener {
+            goToFragment("army", "Emp")
         }
         btnUploadPhoto.setOnClickListener {
             startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
@@ -114,9 +122,9 @@ class EditResLandingActivity : Activity() {
     private fun goToFragment(s: String, check: String) {
         when (check) {
             "P" ->
-                startActivity<PersonalInfoActivity>("name" to s)
+                startActivity<PersonalInfoActivity>("name" to s, "personal_info_edit" to "null")
             "E" ->
-                startActivity<AcademicBaseActivity>("name" to s)
+                startActivity<AcademicBaseActivity>("name" to s, "education_info_edit" to "null")
             "Emp" ->
                 startActivity<EmploymentHistoryActivity>("name" to s, "emp_his_add" to "null")
         }

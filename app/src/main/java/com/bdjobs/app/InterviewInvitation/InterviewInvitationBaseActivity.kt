@@ -7,6 +7,12 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 
 class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
+    override fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String) {
+        this.jobID = jobID
+        this.jobTitle = jobTitle
+        this.companyName = companyName
+        transitFragment(interviewInvitationDetailsFragment,R.id.interViewfragmentHolder,false)
+    }
 
 
     private var jobID = ""
@@ -19,6 +25,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     private var lat = ""
     private var lan = ""
     private var time = ""
+    private var value = ""
 
     private val interveiwInvitationListFragment = InterveiwInvitationListFragment()
     private val interviewInvitationDetailsFragment = InterviewInvitationDetailsFragment()
@@ -44,7 +51,27 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         }catch(e:Exception){
             logException(e)
         }
+        try{
+            jobID = intent.getStringExtra("jobid")
+        }catch(e:Exception){
+            logException(e)
+        }
+        try{
+            companyName = intent.getStringExtra("companyname")
+        }catch(e:Exception){
+            logException(e)
+        }
+        try{
+            jobTitle = intent.getStringExtra("jobtitle")
+        }catch(e:Exception){
+            logException(e)
+        }
+
         transitFragment(interveiwInvitationListFragment,R.id.interViewfragmentHolder)
+
+        if (from?.equals("appliedjobs")) {
+            goToInvitationDetailsForAppliedJobs(jobID,companyName,jobTitle)
+        }
     }
 
 

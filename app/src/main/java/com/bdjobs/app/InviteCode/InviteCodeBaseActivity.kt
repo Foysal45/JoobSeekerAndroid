@@ -38,8 +38,7 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
         if (inviteCodeuserType.equalIgnoreCase("o")) {
             graph.startDestination = R.id.navigation_owner_base
 
-        } else if (inviteCodeuserType.equalIgnoreCase("n")) {
-
+        } else if (inviteCodeuserType.equalIgnoreCase("u")) {
             if (inviteCodeStatus.equalIgnoreCase("0")) {
                 graph.startDestination = R.id.navigation_user_invite_code_submit
             } else if (inviteCodeStatus.equalIgnoreCase("1")) {

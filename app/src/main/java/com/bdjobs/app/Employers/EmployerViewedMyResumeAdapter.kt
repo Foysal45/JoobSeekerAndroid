@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ModelClasses.EmplyerViewMyResumeData
+import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
 import com.bdjobs.app.R
 
 class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -16,7 +16,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
-    private var vwdResumeList: ArrayList<EmplyerViewMyResumeData> = ArrayList()
+    private var vwdResumeList: ArrayList<EmpVwdResumeData> = ArrayList()
 
     companion object {
         // View Types
@@ -80,7 +80,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
         return if (position == vwdResumeList!!.size - 1 && isLoadingAdded) LOADING else ITEM
     }
 
-    private fun getItem(position: Int): EmplyerViewMyResumeData? {
+    private fun getItem(position: Int): EmpVwdResumeData? {
         return vwdResumeList!![position]
     }
 
@@ -93,7 +93,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
             holder?.summaryView.visibility = View.VISIBLE
             holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
         }
-        else if(vwdResumeList!![position].summaryView == "-"){
+        else if(vwdResumeList!![position].detailView == "yes"){
             holder?.summaryView.visibility = View.VISIBLE
             holder?.summaryView.setImageResource(R.drawable.ic_done_double)
         }
@@ -103,13 +103,13 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
 
     //----------------
 
-    fun add(r: EmplyerViewMyResumeData) {
+    fun add(r: EmpVwdResumeData) {
         vwdResumeList?.add(r)
         notifyItemInserted(vwdResumeList!!.size - 1)
     }
 
 
-    fun addAll(moveResults: List<EmplyerViewMyResumeData>) {
+    fun addAll(moveResults: List<EmpVwdResumeData>) {
         for (result in moveResults!!) {
             add(result)
         }

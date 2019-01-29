@@ -126,6 +126,7 @@ class TrainingEditFragment : Fragment() {
 
         }
         fab_tr_update.setOnClickListener {
+            clTrainingEdit.closeKeyboard(activity)
             var validation = 0
             validation = isValidate(etTrTitle, trainingTitleTIL, etTrInstitute, true, validation)
             validation = isValidate(etTrInstitute, trInstituteTIL, etTrCountry, true, validation)

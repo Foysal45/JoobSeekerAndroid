@@ -174,7 +174,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/emailResume_MBTN"
                 style="@style/more.button"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email Resume"

@@ -23,7 +23,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST(api_mybdjobs_app_agent_log)
-    fun doLogin(@Field("username") username: String?="",
+    fun doLogin(@Field("username") username: String? = "",
                 @Field("password") password: String? = "",
                 @Field("userId") userId: String? = "",
                 @Field("decodId") decodId: String? = "",
@@ -289,24 +289,23 @@ interface ApiServiceMyBdjobs {
     fun createAccount(
             @Field("firstName") firstName: String? = "",
             @Field("lastName") lastName: String? = "",
-            @Field("gender") gender:String? = "",
-            @Field("email") email:String? = "",
-            @Field("username") username:String? = "",
+            @Field("gender") gender: String? = "",
+            @Field("email") email: String? = "",
+            @Field("username") username: String? = "",
             @Field("password") password: String? = "",
             @Field("confirm") confirm: String? = "",
             @Field("mobile") mobile: String? = "",
             @Field("smid") smid: String? = "",
             @Field("isSMLogin") isSMLogin: String? = "",
-            @Field("categoryType") categoryType:String? = "",
-            @Field("userNameType") userNameType:String? = "",
-            @Field("smediatype") smediatype:String? = "",
+            @Field("categoryType") categoryType: String? = "",
+            @Field("userNameType") userNameType: String? = "",
+            @Field("smediatype") smediatype: String? = "",
             @Field("prefCat") prefCat: String? = "",
             @Field("txtCountryCode") txtCountryCode: String? = "",
             @Field("packageName") packageName: String? = "",
-            @Field("packageNameVersion") packageNameVersion:String? = ""
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
     ): Call<CreateAccountModel>
-
 
 
     @FormUrlEncoded
@@ -314,8 +313,8 @@ interface ApiServiceMyBdjobs {
     fun sendOtpToVerify(
             @Field("tmpUserId") tmpUserId: String? = "",
             @Field("optCode") optCode: String? = "",
-            @Field("packageName") packageName:String? = "",
-            @Field("packageNameVersion") packageNameVersion:String? = ""
+            @Field("packageName") packageName: String? = "",
+            @Field("packageNameVersion") packageNameVersion: String? = ""
 
 
     ): Call<CreateAccountModel>
@@ -324,21 +323,21 @@ interface ApiServiceMyBdjobs {
     @FormUrlEncoded
     @POST("apps_updateBlueCv.asp")
     fun sendBlueCollarUserInfo(
-            @Field("UserID") userid: String ="",
-            @Field("decodeId") decodeId: String="",
-            @Field("village") village: String ="",
-            @Field("locationID") locationID: String ="",
-            @Field("dob") dob: String ="",
+            @Field("UserID") userid: String = "",
+            @Field("decodeId") decodeId: String = "",
+            @Field("village") village: String = "",
+            @Field("locationID") locationID: String = "",
+            @Field("dob") dob: String = "",
             @Field("expYear") expYear: String = "",
             @Field("skillID") skillID: String = "",
-            @Field("age") age: String ="",
+            @Field("age") age: String = "",
             @Field("userName") userName: String = "",
-            @Field("levelOfEducation") levelOfEducation: String="",
+            @Field("levelOfEducation") levelOfEducation: String = "",
             @Field("institute") institute: String = "",
-            @Field("inlineRadioOptions") inlineRadioOptions: String="",
-            @Field("examDegreeTitle") examDegreeTitle: String ="",
-            @Field("yearOfPassing") yearOfPassing: String ="",
-            @Field("hasEdu") hasEdu: String =""
+            @Field("inlineRadioOptions") inlineRadioOptions: String = "",
+            @Field("examDegreeTitle") examDegreeTitle: String = "",
+            @Field("yearOfPassing") yearOfPassing: String = "",
+            @Field("hasEdu") hasEdu: String = ""
     ): Call<UpdateBlueCvModel>
 
 
@@ -347,7 +346,7 @@ interface ApiServiceMyBdjobs {
     fun resendOtp(
             @Field("userId") tmpUserId: String? = "",
             @Field("mobile") mobile: String? = "",
-            @Field("forCreateAccount") forCreateAccount:String? = ""
+            @Field("forCreateAccount") forCreateAccount: String? = ""
 
     ): Call<ResendOtpModel>
 
@@ -442,7 +441,7 @@ interface ApiServiceMyBdjobs {
             @Field("itemsPerPage") itemsPerPage: String?,
             @Field("isActivityDate") isActivityDate: String?,
             @Field("AppsDate") AppsDate: String?
-    ): Call<EmplyerViewMyResume>
+    ): Call<EmpVwdResume>
 
     @FormUrlEncoded
     @POST("app_invite_interview_details.asp")
@@ -460,10 +459,10 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeID: String,
             @Field("applyId") applyId: String,
             @Field("activity") activity: String,
-            @Field("cancleReason") cancleReason: String="",
-            @Field("otherComment") otherComment: String="",
+            @Field("cancleReason") cancleReason: String = "",
+            @Field("otherComment") otherComment: String = "",
             @Field("invitationId") invitationId: String,
-            @Field("rescheduleComment") rescheduleComment: String=""
+            @Field("rescheduleComment") rescheduleComment: String = ""
     ): Call<InvitationDetailModels>
 
     @FormUrlEncoded
@@ -481,7 +480,7 @@ interface ApiServiceMyBdjobs {
     fun getUpdateSalaryMsg(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?,
-            @Field("JobId") JobId: String? ,
+            @Field("JobId") JobId: String?,
             @Field("txtExpectedSalary") txtExpectedSalary: String?
     ): Call<AppliedJobsSalaryEdit>
 
@@ -495,6 +494,33 @@ interface ApiServiceMyBdjobs {
     ): Call<CancelAppliedJobs>
 
     @FormUrlEncoded
+    @POST("apps_update_application_status.asp")
+    fun getEmpInteraction(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("status") status: String?,
+            @Field("experienceId") experienceId: String?,
+            @Field("changeExprience") changeExprience: String?,
+            @Field("JobId") JobId: String?
+    ): Call<EmployerInteraction>
+
+
+    @FormUrlEncoded
+    @POST("apps_update_account.asp")
+    fun getChangePassword(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("userName") userName: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("OldPass") OldPass: String?,
+            @Field("NewPass") NewPass: String?,
+            @Field("ConfirmPass") ConfirmPass: String?,
+            @Field("isSmMedia") isSmMedia: String?,
+            @Field("packageName") packageName: String?,
+            @Field("packageNameVersion") packageNameVersion: String?
+    ): Call<ChangePassword>
+
+    @FormUrlEncoded
     @POST("apps_prc_home.asp")
     fun getInviteCodeUserOwnerInfo(
             @Field("userID") userID: String?,
@@ -503,6 +529,66 @@ interface ApiServiceMyBdjobs {
             @Field("catId") catId: String?,
             @Field("deviceID") deviceID: String?
     ): Call<InviteCodeHomeModel>
+
+    @FormUrlEncoded
+    @POST("apps_invite_code.asp")
+    fun getOwnerInviteCode(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("ownerID") ownerID: String?
+    ): Call<OwnerInviteCodeModel>
+
+    @FormUrlEncoded
+    @POST("apps_category_amount.asp")
+    fun getCategoryAmount(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?=""
+    ): Call<InviteCodeCategoryAmountModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_get_invite_list.asp")
+    fun getOwnerInviteList(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?,
+            @Field("verify_status") verify_status: String?
+    ): Call<OwnerInviteListModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_balance_report.asp")
+    fun getOwnerStatement(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?
+    ): Call<InviteCodeOwnerStatementModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_invited_user_status.asp")
+    fun getInviteCodeUserStatus(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("invited_user_id") invited_user_id: String?
+    ): Call<InviteCodeUserStatusModel>
+
+    @FormUrlEncoded
+    @POST("apps_get_balance.asp")
+    fun getOwnerBalance(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?
+    ): Call<InviteCodeBalanceModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_get_payment_method.asp")
+    fun getPaymentMethod(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("userType") userType: String?
+    ): Call<InviteCodePaymentMethodModel>
 
 
     companion object Factory {
