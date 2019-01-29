@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.FileInfo
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
@@ -63,7 +64,12 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private var inviteCodeuserType: String? = null
     private var pcOwnerID: String? = null
     private var inviteCodeStatus: String? = null
+    var cvUpload: String = "" // if this value = 0 or 4 then cv file is uploaded else not uploaded
 
+
+    override fun isGetCvUploaded(): String {
+        return cvUpload
+    }
 
     override fun decrementCounter() {
         shortListedJobFragment.decrementCounter()
@@ -139,6 +145,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
         getStatsData("0")
         getStatsData("1")
+        getIsCvUploaded()
 
         tetsLog()
     }
@@ -320,6 +327,30 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                     }
 
                 })
+    }
+
+    private fun getIsCvUploaded() {
+        ApiServiceMyBdjobs.create().getCvFileAvailable(
+                userID = session.userId,
+                decodeID = session.decodId
+
+        ).enqueue(object : Callback<FileInfo> {
+            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
+                error("onFailure", t)
+                toast("${t.toString()}")
+            }
+
+            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
+                //toast("${response.body()?.statuscode}")
+                if (response.isSuccessful){
+                    cvUpload = response.body()?.statuscode!!
+                    Log.d("value", "val " + cvUpload)
+
+                }
+            }
+
+        })
+
     }
 
 }

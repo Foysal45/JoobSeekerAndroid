@@ -24,6 +24,7 @@ class MoreFragment : Fragment() {
     private var horizontalAdapter: HorizontalAdapter? = null
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
+    var cvUploadMore: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_more_layout, container, false)!!
@@ -34,10 +35,15 @@ class MoreFragment : Fragment() {
         homeCommunicator = activity as HomeCommunicator
         initializeViews()
         clearAddPopulateData()
+        getIfCVuploaded()
         onclick()
+
 
     }
 
+    fun getIfCVuploaded(){
+        cvUploadMore = homeCommunicator.isGetCvUploaded()
+    }
     private fun shakeHorizontaList() {
         Log.d("horizontaList", "horizontaList: ${horizontaList.size}")
         Handler().postDelayed({
@@ -103,7 +109,9 @@ class MoreFragment : Fragment() {
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
         }
         emailResume_MBTN.setOnClickListener {
-            startActivity<ManageResumeActivity>()
+            startActivity<ManageResumeActivity>(
+                    "cvUploaded" to cvUploadMore
+            )
         }
     }
 

@@ -235,6 +235,9 @@
     <string name="err_msg_password_limit">Use at least 8 to 12 characters</string>
     <string name="err_msg_password_use">Please use only letters (a-z), numbers (0-9) and punctuations</string>
     <string name="err_msg_password_not_match">These Passwords do not match</string>
+    <string name="type_email">Email can not be empty </string>
 
+    <string name="valid_email">Please type valid Email</string>
+    <string name="email_subj">Subject can not be empty </string>
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
 </resources>

@@ -538,6 +538,15 @@ interface ApiServiceMyBdjobs {
             @Field("Jobid") Jobid: String?
     ): Call<EmailResume>
 
+
+    @FormUrlEncoded
+    @POST("apps_file_upload_info.asp")
+    fun getCvFileAvailable(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?
+
+    ): Call<FileInfo>
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
