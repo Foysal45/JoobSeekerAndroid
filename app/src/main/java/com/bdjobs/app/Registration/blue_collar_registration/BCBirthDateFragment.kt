@@ -32,7 +32,6 @@ class BCBirthDateFragment : Fragment() {
     private lateinit var returnView: View
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         returnView = inflater.inflate(R.layout.fragment_bc_birth_date, container, false)
         return returnView
     }
@@ -42,7 +41,7 @@ class BCBirthDateFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         intialization()
         onClick()
-
+        registrationCommunicator.checkInviteCodeEligibility()
     }
 
     override fun onResume() {

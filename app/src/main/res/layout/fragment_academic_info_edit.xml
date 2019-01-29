@@ -20,104 +20,106 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/levelEduTIL"
-                    style="@style/EHTextInputLayout"
+                android:id="@+id/levelEduTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLevelEdu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#757575">
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/hint.level_of_education"
+                    android:inputType="text"
+                    android:maxLength="100"
+                    android:textColor="#212121" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etLevelEdu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:hint="@string/hint.level_of_education"
-                        android:inputType="text"
-                        android:maxLength="100"
-                        android:textColor="#212121" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/examTitleTIL"
-                    style="@style/EHTextInputLayout"
+                android:id="@+id/examTitleTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etExamTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#757575">
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/hint.exam_degree_title"
+                    android:inputType="text"
+                    android:textColor="#212121" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etExamTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:hint="@string/hint.exam_degree_title"
-                        android:inputType="text"
-                        android:textColor="#212121" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/examOtherTIL"
-                    style="@style/EHTextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#757575"
+                android:id="@+id/examOtherTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575"
                 android:visibility="gone">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etExamOtherTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLength="50"
-                        android:focusableInTouchMode="true"
-                        android:hint="Other Exam/Degree Title"
-                        android:inputType="text"
-                        android:textColor="#212121" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etExamOtherTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="Exam/Degree Title *"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mejorTIL"
-                    style="@style/EHTextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#757575">
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575">
 
                 <AutoCompleteTextView
                     android:id="@+id/majorSubACTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint.concentration_major_group"
-                        android:inputType="text|textMultiLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.concentration_major_group"
+                    android:inputType="text|textMultiLine"
                     android:maxLength="150"
-                        android:textColor="#212121" />
+                    android:padding="15dp"
+                    android:textColor="#212121" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/instituteTIL"
+                android:id="@+id/instituteTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
-                    style="@style/EHTextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#757575">
+                android:textColorHint="#757575">
 
 
                 <AutoCompleteTextView
-
-                    android:focusableInTouchMode="true"
                     android:id="@+id/instituteNameACTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
                     android:hint="@string/hint.institute_name"
                     android:inputType="text|textMultiLine"
+                    android:maxLength="80"
+                    android:padding="15dp"
                     android:textColor="#212121" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <CheckBox
@@ -130,25 +132,24 @@
                 android:text="@string/hint.forinstitute" />
 
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/resultTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/resultTIL"
-                    style="@style/EHTextInputLayout"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etResults"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#757575">
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/hint.results"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="50"
+                    android:textColor="#212121" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etResults"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:hint="@string/hint.results"
-                        android:inputType="text|textMultiLine"
-                        android:maxLength="50"
-                        android:textColor="#212121" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <CheckBox
@@ -178,11 +179,11 @@
                     android:visibility="gone">
 
                     <TextView
-                        android:inputType="numberDecimal"
                         style="@style/EHTextInputLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
+                        android:inputType="numberDecimal"
                         android:text="Marks(%)"
                         android:textSize="16sp" />
 
@@ -236,8 +237,8 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/EHTextInputLayout"
                         android:id="@+id/scaleTIL"
+                        style="@style/EHTextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -248,7 +249,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.scale"
-                            android:inputType="numberDecimal"
+                            android:inputType="numberSigned"
                             android:maxLength="4"
                             android:textColor="#212121" />
 
@@ -268,9 +269,9 @@
                     android:id="@+id/etPassignYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.passingyear"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
+                    android:hint="@string/hint.passingyear"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="10"

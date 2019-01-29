@@ -8,19 +8,19 @@ import android.view.View
 import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CreateAccountModel
+import com.bdjobs.app.API.ModelClasses.InviteCodeUserVerifyModel
 import com.bdjobs.app.API.ModelClasses.ResendOtpModel
 import com.bdjobs.app.API.ModelClasses.UpdateBlueCvModel
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Databases.Internal.InviteCodeInfo
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.blue_collar_registration.*
 import com.bdjobs.app.Registration.white_collar_registration.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.showError
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_registration_base.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -159,6 +160,45 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         super.onPostResume()
         setProgreesBar()
     }
+
+
+    override fun checkInviteCodeEligibility() {
+        val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
+        ApiServiceMyBdjobs.create().inviteCodeUserVerify(
+                userID= bdjobsUserSession.userId,
+                decodeID = bdjobsUserSession.decodId,
+                mobileNumber = bdjobsUserSession.userName,
+                catId = getBlueCollarUserId().toString(),
+                deviceID = getDeviceID()
+        ).enqueue(object:Callback<InviteCodeUserVerifyModel>{
+            override fun onFailure(call: Call<InviteCodeUserVerifyModel>, t: Throwable) {
+                error("onFailure",t)
+            }
+
+            override fun onResponse(call: Call<InviteCodeUserVerifyModel>, response: Response<InviteCodeUserVerifyModel>) {
+                try {
+                    if(response?.body()?.data?.get(0)?.eligible?.equalIgnoreCase("True")!!){
+                        val inviteCodeInfo = InviteCodeInfo(
+                                userId = bdjobsUserSession.userId,
+                                userType = "U",
+                                pcOwnerID = "",
+                                inviteCodeStatus = "0"
+                        )
+                        val bdjobsDB = BdjobsDB.getInstance(this@RegistrationBaseActivity)
+                        Log.d("inviteCodeUserInfoReg", "userID = ${inviteCodeInfo.userId},\n" +
+                                "userType = ${inviteCodeInfo.userType},\n" +
+                                "inviteCodeStatus = ${inviteCodeInfo.inviteCodeStatus}")
+                        doAsync {
+                            bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
+                        }
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+        })
+    }
+
 
     override fun goToHomePage() {
 
@@ -530,7 +570,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                 wcGoToStepCongratulation()
                                 loadingProgressBar.visibility = View.GONE
                                 val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
-
 
 
                                 isCVPostedRPS = response.body()!!.data!!.get(0)!!.isCvPosted.toString()

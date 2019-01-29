@@ -41,7 +41,10 @@ class BCExperienceFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         onClick()
         initialization()
+
     }
+
+
 
 
     private fun onClick(){

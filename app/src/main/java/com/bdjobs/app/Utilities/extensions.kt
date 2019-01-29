@@ -37,6 +37,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
@@ -403,7 +404,7 @@ fun TextInputEditText.enableOrdisableEdit(b: Boolean) {
 
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
-        Picasso.get().load(url).transform(CircleTransform()).memoryPolicy(MemoryPolicy.NO_CACHE).into(this)
+        Picasso.get().load(url).transform(CircleTransform()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(this)
     } catch (e: Exception) {
         logException(e)
     }
