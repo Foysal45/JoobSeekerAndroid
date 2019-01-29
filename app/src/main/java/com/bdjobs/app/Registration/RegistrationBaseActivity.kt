@@ -532,7 +532,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                 val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
 
 
-
                                 isCVPostedRPS = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
                                 nameRPS = response.body()!!.data!!.get(0)!!.name.toString()
                                 emailRPS = response.body()!!.data!!.get(0)!!.email.toString()
