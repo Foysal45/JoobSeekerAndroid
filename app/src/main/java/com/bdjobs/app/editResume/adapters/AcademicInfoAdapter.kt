@@ -35,9 +35,32 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.d("aca", "calling")
         holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_education_icon))
+
+
         val dModel = itemList?.get(position)!!
+
+        if (dModel.marks.equals("0")) {
+
+            holder.tvAcaResult!!.hide()
+
+        } else {
+
+            holder.tvAcaResult!!.text = dModel.marks
+        }
+
+        /*else if (dModel.scale.equals("0")){
+
+
+        }*/
+
+
+
+
+
+
+
         holder.tvDegree?.text = dModel.examDegreeTitle
-        holder.tvAcaResult?.text = dModel.result
+        /*  holder.tvAcaResult?.text = dModel.result*/
         holder.tvUniName?.text = dModel.instituteName
         if (dModel.acievement == "") {
             holder.moreActionDetails?.hide()
