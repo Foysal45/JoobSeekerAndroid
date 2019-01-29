@@ -591,6 +591,38 @@ interface ApiServiceMyBdjobs {
     ): Call<InviteCodePaymentMethodModel>
 
 
+    @FormUrlEncoded
+    @POST("apps_payment_system_insert.asp")
+    fun insertPaymentMethod(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("userType") userType: String?,
+            @Field("paymentType") paymentType: String?,
+            @Field("accountNo") accountNo: String?
+    ): Call<PaymentTypeInsertModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_code_submit.asp")
+    fun insertInviteCode(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("mobileNumber") mobileNumber: String?,
+            @Field("catId") catId: String?,
+            @Field("deviceID") deviceID: String?,
+            @Field("promoCode") promoCode: String?
+    ): Call<PaymentTypeInsertModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_verify_user.asp")
+    fun inviteCodeUserVerify(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("mobileNumber") mobileNumber: String?,
+            @Field("catId") catId: String?,
+            @Field("deviceID") deviceID: String?
+    ): Call<InviteCodeUserVerifyModel>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

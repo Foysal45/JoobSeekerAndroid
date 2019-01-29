@@ -35,6 +35,9 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
     private var inviteCodeCommunicator: InviteCodeCommunicator?=null
     private var dataStorage: DataStorage?=null
 
+    var  paymentType =""
+    var accountNumber=""
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,8 +47,10 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mapView2?.onCreate(savedInstanceState)
-        mapView2?.getMapAsync(this)
+        mapView?.onCreate(savedInstanceState)
+        mapView?.getMapAsync(this)
+
+        onClicks()
 
         bdjobsUserSession = BdjobsUserSession(activity!!)
         inviteCodeCommunicator = activity as InviteCodeCommunicator
@@ -74,37 +79,47 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
                 inviteCodeUserType = inviteCodeCommunicator?.getInviteCodeUserType())
     }
 
+    private fun onClicks() {
+        changeRelativeLayout.setOnClickListener {
+            inviteCodeCommunicator?.goToPaymentMethod(paymentType,accountNumber)
+        }
+        moneyWithdrawLayout.setOnClickListener {
+            inviteCodeCommunicator?.goToPaymentMethod()
+        }
+    }
+
+
     override fun onMapReady(googleMap: GoogleMap) {
         val coordinates = LatLng(23.750839, 90.393307)
         googleMap.addMarker(MarkerOptions().position(coordinates).title("BDJOBS.COM LTD (DHAKA)")).showInfoWindow()
         googleMap.uiSettings.isMapToolbarEnabled = true
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15f))
-        mapView2?.onResume()
+        mapView?.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mapView2?.onPause()
+        mapView?.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView2?.onDestroy()
+        mapView?.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        mapView2?.onSaveInstanceState(outState)
+        mapView?.onSaveInstanceState(outState)
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView2?.onLowMemory()
+        mapView?.onLowMemory()
     }
 
     override fun onResume() {
         super.onResume()
-        mapView2?.onResume()
+        mapView?.onResume()
     }
 
 
@@ -126,11 +141,9 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
                         try {
                             if (response.isSuccessful) {
 
-
-
                                 val isExists = response.body()!!.data[0].isExist
-                                val paymentType = response.body()!!.data[0].paymentType
-                                val accountNumber = response.body()!!.data[0].accountNo
+                                paymentType = response.body()!!.data[0].paymentType
+                                accountNumber = response.body()!!.data[0].accountNo
                                 Log.d("paymentType", "paymentType = $paymentType")
 
                                 Log.d("isExists", isExists)

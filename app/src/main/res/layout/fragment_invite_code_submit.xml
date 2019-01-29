@@ -1,10 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FAFAFA"
+    android:orientation="vertical">
 
-    <TextView
-        android:text="Submit"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:padding="10dp"
+            android:id="@+id/backImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            />
+
+
+        <TextView
+            android:id="@+id/headingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="27dp"
+            android:text="ইনভাইট কোড"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
+
+            <ImageView
+                android:id="@+id/promobg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_applied" />
+
+
+            <TextView
+                android:id="@+id/instructionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:text="আপনার প্রাপ্ত ইনভাইট কোডটি নিচের ফাঁকা অংশে লিখুন। কোড লিখলে আপনি নগদ ৫০/- টাকা আয় করতে পারবেন।"
+                android:textColor="#303030"
+                android:textSize="14sp" />
+
+
+            <EditText
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                android:id="@+id/promoCodeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="46dp"
+                android:gravity="center"
+                android:hint="কোডটি লিখুন"
+                android:maxLength="8"
+                android:textSize="18sp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/incorrectTV"
+                android:textSize="12sp"
+                android:textColor="#FF0000"
+                android:layout_marginLeft="20dp"
+                android:text="কোডটি সঠিক নয়"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/nextButton"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_arrow_forward_black_24dp"
+                android:windowSoftInputMode="adjustResize"
+                app:backgroundTint="#13A10E"
+                app:fabSize="normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="48dp"
+                android:enabled="true" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>
+
+

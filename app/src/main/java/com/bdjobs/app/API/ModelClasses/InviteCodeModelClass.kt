@@ -199,3 +199,38 @@ data class InviteCodeBalanceModelData(
         @SerializedName("las_withDraw_date")
         val las_withDraw_date: String = ""
 )
+
+
+data class PaymentTypeInsertModel(
+    @SerializedName("common")
+    val common: Any = Any(),
+    @SerializedName("data")
+    val `data`: List<PaymentTypeInsertModelData> = listOf(),
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("statuscode")
+    val statuscode: String = ""
+)
+
+data class PaymentTypeInsertModelData(
+    @SerializedName("inserted")
+    val inserted: String = ""
+)
+
+data class InviteCodeUserVerifyModel(
+    @SerializedName("common")
+    val common: Any = Any(),
+    @SerializedName("data")
+    val `data`: List<InviteCodeUserVerifyModelData> = listOf(),
+    @SerializedName("message")
+    val message: String = "",
+    @SerializedName("statuscode")
+    val statuscode: String = ""
+)
+
+data class InviteCodeUserVerifyModelData(
+    @SerializedName("Amount")
+    val amount: String = "",
+    @SerializedName("Eligible")
+    val eligible: String = ""
+)
