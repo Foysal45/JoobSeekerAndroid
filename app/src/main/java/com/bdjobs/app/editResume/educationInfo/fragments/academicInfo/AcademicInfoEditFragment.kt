@@ -60,8 +60,6 @@ class AcademicInfoEditFragment : Fragment() {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_academic_info_edit, container, false)
         return v
-
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

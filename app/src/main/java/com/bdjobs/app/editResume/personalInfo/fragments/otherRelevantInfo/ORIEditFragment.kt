@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
@@ -20,6 +22,9 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_oriedit.*
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ORIEditFragment : Fragment() {
     private lateinit var oriEditCB: PersonalInfo
@@ -48,13 +53,31 @@ class ORIEditFragment : Fragment() {
 
     private fun doWork() {
         data = oriEditCB.getOriData()
+        etOriKeywords.easyOnTextChangedListener { charSequence ->
+            oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
+        }
+        etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
         Log.d("ORIData", "data: ${data.keywords}")
         val keywords = data.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
             addChip(it)
         }
-
+        fab_ori_update.setOnClickListener {
+            clORIedit.closeKeyboard(activity)
+            val isEmpty = ori_entry_chip_group.childCount < 1
+            if (!isEmpty) {
+                textInputLayout4.hideError()
+                updateData()
+            } else {
+                if (idArr.isEmpty()) {
+                    textInputLayout4.isErrorEnabled = true
+                    textInputLayout4.error = "Please add keywords"
+                    activity?.toast("Please type at least one keyword")
+                }
+                activity?.toast("Pgasdinkgyword")
+            }
+        }
         etOriCareerSummary.setText(data.careerSummery)
         etOriSpecialQualification.setText(data.specialQualifications)
 
@@ -102,6 +125,36 @@ class ORIEditFragment : Fragment() {
             exps = TextUtils.join(",", idArr)
         }
         d("selected exps:$exps and ids $idArr")
+        if (!idArr.isEmpty())
+            textInputLayout4.hideError()
+    }
+
+    private fun updateData() {
+        activity.showProgressBar(loadingProgressBar)
+        val call = ApiServiceMyBdjobs.create().updateORIData(session.userId, session.decodId, session.IsResumeUpdate,
+                etOriCareerSummary.getString(), etOriSpecialQualification.getString(), exps)
+        call.enqueue(object : Callback<AddorUpdateModel> {
+            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
+                activity.toast("Can not connect to the server! Try again")
+            }
+
+            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity.toast(it) }
+                        if (response.body()?.statuscode == "4") {
+                            oriEditCB.goBack()
+                        }
+                    }
+                } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
+                    e.printStackTrace()
+                    logException(e)
+                }
+            }
+        })
     }
 
     private fun removeItem(s: String) {
