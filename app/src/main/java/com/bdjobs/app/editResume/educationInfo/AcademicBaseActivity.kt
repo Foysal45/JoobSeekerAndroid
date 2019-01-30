@@ -39,6 +39,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private lateinit var dataTr: Tr_DataItem
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
+    lateinit var gotToAddEmployment: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,8 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
 
     private fun getIntentValues() {
         name = intent.getStringExtra("name")
+        gotToAddEmployment = intent.getStringExtra("education_info_add")
+        goToEditInfo(gotToAddEmployment)
     }
 
     override fun setDeleteButton(b: Boolean) {
