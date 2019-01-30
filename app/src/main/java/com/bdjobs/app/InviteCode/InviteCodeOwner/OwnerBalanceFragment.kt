@@ -86,7 +86,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
 
     private fun onClicks() {
         moneyMethodChangeRL.setOnClickListener {
-            inviteCodeCommunicator?.goToPaymentMethod(paymentType,accountNumber)
+            inviteCodeCommunicator?.goToPaymentMethod(paymentMethod = paymentType,accountNumber = accountNumber)
         }
         moneyWithdrawRL.setOnClickListener {
             inviteCodeCommunicator?.goToPaymentMethod()

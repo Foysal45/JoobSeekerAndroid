@@ -26,6 +26,7 @@
 
 
         <TextView
+            android:fontFamily="@font/noto_sans"
             android:id="@+id/headingTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,6 +37,14 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+    <ProgressBar
+        android:theme="@style/BdjobsLinearProgress"
+        android:visibility="gone"
+        android:id="@+id/loadingProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -49,14 +58,16 @@
 
 
             <ImageView
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/promobg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/ic_applied" />
+                android:src="@drawable/ic_promo_code" />
 
 
             <TextView
+                android:fontFamily="@font/noto_sans"
                 android:id="@+id/instructionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,18 +79,32 @@
                 android:textSize="14sp" />
 
 
-            <EditText
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-                android:id="@+id/promoCodeEditText"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/promoCodeTIL"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginTop="46dp"
-                android:gravity="center"
-                android:hint="কোডটি লিখুন"
-                android:maxLength="8"
-                android:textSize="18sp" />
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:id="@+id/promoCodeEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="কোডটি লিখুন"
+                    android:inputType="text"
+                    android:maxLength="8"
+                    android:textSize="18sp"
+                    android:singleLine="true"
+                    android:typeface="normal"
+                    app:fontFamily="@font/noto_sans" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:visibility="gone"
