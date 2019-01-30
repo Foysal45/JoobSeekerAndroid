@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -25,7 +26,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
-import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,12 +43,13 @@ class EmpHistoryEditFragment : Fragment() {
     private var hID: String = ""
     private var hExpID: String? = ""
     private var currentlyWorking: String = "OFF"
-    private var companyBusinessID = ""
+    //private var companyBusinessID = ""
     private var workExperineceID = ""
     private var isFirst = false
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
     private var isEmpty = false
+    private var alreadyLoaded = true
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -82,7 +83,9 @@ class EmpHistoryEditFragment : Fragment() {
             val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
-        } else activity.toast("Maximum 3 experiences can be added.")
+        } else {
+            activity.toast("Maximum 3 experiences can be added.")
+        }
         experiencesMACTV?.closeKeyboard(activity)
     }
 
@@ -119,13 +122,13 @@ class EmpHistoryEditFragment : Fragment() {
         empHisCB.setTitle(getString(R.string.title_emp_history))
         initViews()
         isFirst = true
+        doWork()
         if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
             idArr.add("")
             clearEditText()
         }
-        doWork()
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
     }
 
@@ -147,7 +150,7 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
+        //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         exps = ""
         positionTIL.clearFocus()
         companyNameET.requestFocus()
@@ -157,7 +160,10 @@ class EmpHistoryEditFragment : Fragment() {
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
-            preloadedData()
+            if (alreadyLoaded) {
+                preloadedData()
+                alreadyLoaded = false
+            }
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
@@ -182,7 +188,10 @@ class EmpHistoryEditFragment : Fragment() {
             }
         }
         addTextChangedListener(companyNameET, companyNameTIL)
-        addTextChangedListener(companyBusinessACTV, companyBusinessTIL)
+        //addTextChangedListener(companyBusinessACTV, companyBusinessTIL)
+        companyBusinessACTV.easyOnTextChangedListener { charSequence ->
+            validateAutoCompleteField(charSequence.toString(), companyBusinessACTV, companyBusinessTIL)
+        }
         addTextChangedListener(positionET, positionTIL)
         addTextChangedListener(estartDateET, estartDateTIL)
         experiencesMACTV.easyOnTextChangedListener { charSequence ->
@@ -200,14 +209,26 @@ class EmpHistoryEditFragment : Fragment() {
         et_end_date?.setOnClickListener {
             pickDate(activity, now, endDateSetListener)
         }
-        companyBusinessACTV.setOnClickListener {
+        companyBusinessACTV.onFocusChange { _, hasFocus ->
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
-            activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
+
+            if (hasFocus) {
+                val orgsAdapter = ArrayAdapter<String>(activity,
+                        android.R.layout.simple_dropdown_item_1line, organizationList)
+                companyBusinessACTV.setAdapter(orgsAdapter)
+                companyBusinessACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                companyBusinessACTV.setOnItemClickListener { _, _, position, id ->
+                    val selectedItem = companyBusinessACTV.text.toString()
+                    activity?.toast("business selected item : $selectedItem")
+                }
+            }
+
+            /*activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
                 companyBusinessACTV.setText(organizationList[i])
                 companyBusinessTIL.requestFocus()
                 companyBusinessID = dataStorage.getOrgIDByOrgName(organizationList[i])
                 Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-            }
+            }*/
         }
         experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
@@ -251,8 +272,8 @@ class EmpHistoryEditFragment : Fragment() {
             }
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
-            validation = isValidate(companyNameET, companyNameTIL, companyBusinessACTV, true, validation)
-            validation = isValidate(companyBusinessACTV, companyBusinessTIL, positionET, true, validation)
+            validation = isValidate(companyNameET, companyNameTIL, positionET, true, validation)
+            validation = isValidateAutoCompleteTV(companyBusinessACTV, companyBusinessTIL, positionET, true, validation)
             validation = isValidate(positionET, positionTIL, estartDateET, true, validation)
             validation = isValidate(estartDateET, estartDateTIL, et_end_date, true, validation)
             validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, isEmpty, validation)
@@ -286,9 +307,9 @@ class EmpHistoryEditFragment : Fragment() {
     private fun updateData(exps: String) {
         activity.showProgressBar(loadingProgressBar)
         Log.d("allValuesExp", exps)
-        companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
+        //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
-                companyBusinessID, companyLocationET.getString(), positionET.getString(),
+                companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
                 departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
                 currentlyWorking, "$exps,", hExpID, hID)
         call.enqueue(object : Callback<AddorUpdateModel> {
@@ -336,7 +357,7 @@ class EmpHistoryEditFragment : Fragment() {
         hExpID = data.expId
         companyNameET.setText(data.companyName)
 
-        companyBusinessACTV.setText(dataStorage.getOrgNameByID(data.companyBusiness!!))
+        companyBusinessACTV.setText(data.companyBusiness)
         companyLocationET.setText(data.companyLocation)
         positionET.setText(data.positionHeld)
         departmentET.setText(data.departmant)
@@ -394,7 +415,7 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun clearEditText() {
         companyNameET.clear()
-        companyBusinessACTV.clear()
+        companyBusinessACTV.setText("")
         companyLocationET.clear()
         positionET.clear()
         departmentET.clear()
@@ -417,5 +438,22 @@ class EmpHistoryEditFragment : Fragment() {
         endDateTIL.hideError()
         experiencesTIL.clearFocus()
         experiencesTIL.hideError()
+    }
+
+    fun validateAutoCompleteField(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {
+        when {
+            TextUtils.isEmpty(char) -> {
+                til.showError(getString(R.string.field_empty_error_message_common))
+                activity?.requestFocus(et)
+                return false
+            }
+            char.length < 2 -> {
+                til.showError(" it is too short")
+                activity?.requestFocus(et)
+                return false
+            }
+            else -> til.hideError()
+        }
+        return true
     }
 }

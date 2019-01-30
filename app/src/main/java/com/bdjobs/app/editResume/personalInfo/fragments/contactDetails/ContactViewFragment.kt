@@ -115,9 +115,13 @@ class ContactViewFragment : Fragment() {
         }
         if (info?.data?.get(0)?.permanentInsideOutsideBD == "False") {
             permanentAddress = permanentAddress.replace(", ,".toRegex(), ",")
-            tvPermanentAddress.text = permanentAddress.removeLastComma()
+            tvPermanentAddress.text = permanentAddress
         } else {
-            val finalValue = TextUtils.concat(permanentAddress, ",", dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)).trim().replace(",".toRegex(), "")
+            val sb = StringBuilder()
+            //val finalValue = sb.append("$permanentAddress, ").append(dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)).replace(",".toRegex(), "")
+            val finalValue = TextUtils.concat(permanentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry))
+            //finalValue = finalValue.replace(",, ".toRegex(), ",")
+            toast("$finalValue")
             tvPermanentAddress.text = finalValue
         }
         tvMobileNo.text = info?.data?.get(0)?.mobile

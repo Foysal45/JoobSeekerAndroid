@@ -68,6 +68,7 @@ class AcademicInfoEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         doWork()
+        fragAcaInfoEdit.closeKeyboard(activity)
     }
 
     override fun onResume() {

@@ -44,6 +44,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private lateinit var dataPer: P_DataItem
     private lateinit var dataOri: ORIdataItem
     private lateinit var name: String
+    private lateinit var gotToAddEmployment: String
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -66,6 +67,8 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
 
     private fun getIntentValues() {
         name = intent.getStringExtra("name")
+        gotToAddEmployment = intent.getStringExtra("personal_info_edit")
+        goToEditInfo(gotToAddEmployment)
     }
 
     override fun getPersonalData(): P_DataItem {
