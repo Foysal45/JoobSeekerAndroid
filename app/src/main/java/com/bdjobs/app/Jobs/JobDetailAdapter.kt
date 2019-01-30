@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.net.Uri
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,9 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -39,6 +36,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -47,10 +45,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         // View Types
         private val BASIC = 0
         private val LOADING = 1
-        private val STANDOUT = 2
-        private val BASIC_AD = 3
-        private val STANDOUT_AD = 4
-        private var showAD = true
+
     }
 
     private val bdjobsDB = BdjobsDB.getInstance(context)
@@ -78,6 +73,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var companyOtherJobs = ""
     var applyOnline = ""
     private lateinit var dialog: Dialog
+    private val applyonlinePostions = ArrayList<Int>()
 
 
     init {
@@ -101,8 +97,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 val viewLoading = inflater.inflate(R.layout.item_progress, parent, false)
                 viewHolder = LoadingVH(viewLoading)
             }
-
-
         }
 
         return viewHolder!!
@@ -113,6 +107,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
         when (getItemViewType(position)) {
             BASIC -> {
+
+               // holder.setIsRecyclable(false)
 
                 val jobsVH = holder as JobsListVH
                 jobsVH.itemView.setOnClickListener {
@@ -156,6 +152,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyLogoUrl = jobDetailResponseAll.jobLOgoName!!
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
+
+                            if(applyOnline?.equalIgnoreCase("True")){
+                                applyonlinePostions.add(position)
+                            }
 
                             jobsVH.tvPosName.text = jobDetailResponseAll.jobTitle
                             jobsVH.tvComName.text = jobDetailResponseAll.compnayName
@@ -203,43 +203,29 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
                             }
 
+                            Log.d("applyPostion","online: $applyonlinePostions")
+                            if (applyOnline.equalIgnoreCase("True")) {
+                                    jobsVH.applyButton.visibility = View.VISIBLE
+                                    jobsVH.applyButton.setOnClickListener {
+                                        val bdjobsUserSession = BdjobsUserSession(context)
+                                        if (!bdjobsUserSession.isLoggedIn!!) {
+                                            jobCommunicator?.goToLoginPage()
+                                        } else {
+                                            showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                        }
+                                    }
+                            } else {
+                                jobsVH?.applyButton?.visibility = View.GONE
+                            }
+
 
                             doAsync {
-
                                 val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
                                 val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
+
                                 uiThread {
                                     if (appliedJobs.isEmpty()) {
                                         jobsVH.appliedBadge.hide()
-                                        if (applyOnline.equalIgnoreCase("True")) {
-                                            // jobList?.get(position)?.deadlineDB
-                                            Log.d("datedddddd", "date = " + jobDetailResponseAll.DeadlineDB)
-                                            val currentDate = Date()
-                                            var deadline: Date? = null
-                                            try {
-                                                deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobDetailResponseAll.DeadlineDB)
-                                            } catch (e: Exception) {
-                                                logException(e)
-                                            }
-                                            if (currentDate > deadline) {
-                                                jobsVH.applyButton.visibility = View.GONE
-                                            } else {
-                                                jobsVH.applyButton.visibility = View.VISIBLE
-                                                jobsVH.applyButton.setOnClickListener {
-                                                    val bdjobsUserSession = BdjobsUserSession(context)
-                                                    if (!bdjobsUserSession.isLoggedIn!!) {
-                                                        jobCommunicator?.goToLoginPage()
-                                                    } else {
-                                                        showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-                                                    }
-                                                }
-                                            }
-
-
-                                        } else {
-                                            jobsVH?.applyButton?.visibility = View.GONE
-                                        }
-
                                     } else {
                                         jobsVH?.appliedBadge?.show()
                                         jobsVH?.applyButton?.visibility = View.GONE
@@ -599,26 +585,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     override fun getItemViewType(position: Int): Int {
 
-        if (showAD && (position % 3 == 0)) {
-            if (position == jobList!!.size - 1 && isLoadingAdded) {
-                return LOADING
-            } else if (jobList!![position].standout.equals("1")) {
-                return BASIC
-            } else if (jobList!![position].standout.equals("0")) {
-                return BASIC
-            }
-
-        } else {
-            if (position == jobList!!.size - 1 && isLoadingAdded) {
-                return LOADING
-            } else if (jobList!![position].standout.equals("1")) {
-                return BASIC
-            } else if (jobList!![position].standout.equals("0")) {
-                return BASIC
-            }
+        if (position == jobList!!.size - 1 && isLoadingAdded) {
+            return LOADING
+        } else if (jobList!![position].standout.equals("1")) {
+            return BASIC
+        }
+        else if (jobList!![position].standout.equals("0")) {
+            return BASIC
         }
         return LOADING
     }
+
+
 
 
     fun add(r: JobListModelData) {
