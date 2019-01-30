@@ -21,7 +21,9 @@ import java.util.regex.Pattern
 import android.util.Patterns
 import android.text.TextUtils
 import android.widget.Toast
+import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
+import com.bdjobs.app.Utilities.transitFragment
 import com.facebook.FacebookSdk.getApplicationContext
 
 
@@ -56,7 +58,8 @@ class EmailResumeFragment : Fragment() {
             uploadResume.isEnabled = false
         }
         cbFAB.setOnClickListener {
-            validation()
+           // validation()
+            communicator.gotoupload()
         }
 
 

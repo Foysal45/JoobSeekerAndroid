@@ -16,8 +16,18 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
+    override fun gotoupload() {
+        transitFragment(a, R.id.fragmentHolder, true)
+    }
+
+    override fun gotouploaddone() {
+        transitFragment(b, R.id.fragmentHolder, true)
+    }
+
     lateinit var bdjobsUserSession: BdjobsUserSession
     private val emailResumeFragment = EmailResumeFragment()
+    private val a = UploadResumeFragment()
+    private val b = UploadResumeDoneFragment()
     var cvUpload: String = ""
 
 
