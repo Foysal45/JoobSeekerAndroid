@@ -50,9 +50,8 @@ class AcademicInfoEditFragment : Fragment() {
     var validation = 0
     private var examdegree = ""
     private var instSuggession = false
-    private var gradePassingValue = "0"
-    private var CGPAOrMarks = ""
-
+    private var gradeOrMarks = "0"
+    private var scaleORCgpa = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -108,6 +107,13 @@ class AcademicInfoEditFragment : Fragment() {
         setView(resID.toInt())
         cgpaTIET.setText(data.marks)
         etScaleTIET.setText(data.scale)
+
+
+        if (data.scale!!.equalIgnoreCase("0")) {
+
+            marksTIET.setText(data.marks)
+        }
+
         etPassignYear.setText(data.yearofPAssing)
         etDuration.setText(data.duration)
         etAchievement.setText(data.acievement)
@@ -155,6 +161,7 @@ class AcademicInfoEditFragment : Fragment() {
                         marksLayout.hide()
                         cgpaTIET.clear()
                         etScaleTIET.clear()
+                        etScaleTIET.clearFocus()
                         cGpaTIL.isErrorEnabled = false
                         scaleTIL.isErrorEnabled = false
 
@@ -191,278 +198,150 @@ class AcademicInfoEditFragment : Fragment() {
             validation = 0
             checkValidity()
 
+            /*   if (!cbResHide.isChecked) {
+                   if (etResults.getString().equalIgnoreCase("First Division/Class")
+                           || etResults.getString().equalIgnoreCase("Second Division/Class")
+                           || etResults.getString().equalIgnoreCase("Third Division/Class")) {
+                       if (marksTIET.getString().isEmpty()) {
+                           resultValiadtionCode = 1
+                       } else {
+                           marks = marksTIET.getString().toDouble()
 
-            if (etResults.getString().equalIgnoreCase("First Division/Class")
-                    || etResults.getString().equalIgnoreCase("Second Division/Class")
-                    || etResults.getString().equalIgnoreCase("Third Division/Class")) {
-                if (marksTIET.getString().isEmpty()) {
-                    resultValiadtionCode = 1
-                } else {
-                    marks = marksTIET.getString().toDouble()
+                           if (marks > 100 || marks < 1) {
 
-                    if (marks > 100 || marks < 1) {
+                               resultValiadtionCode = 99
+                               validation--
 
-                        resultValiadtionCode = 99
-                        validation--
-
-                    } else {
-                        resultValiadtionCode = 0
-                    }
-
-
-                }
-
-            } else if (etResults.getString().equalIgnoreCase("Grade")) {
-
-                if (cgpaTIET.getString().isEmpty()) {
-                    resultValiadtionCode = 4
-
-                    if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
-                        resultValiadtionCode = 7
-
-                    }
-
-                } else if (etScaleTIET.getString().isEmpty()) {
-
-                    resultValiadtionCode = 6
-                    if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
-                        resultValiadtionCode = 7
-
-                    }
-
-                } else if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
-
-                    resultValiadtionCode = 7
-
-                } else if (!cgpaTIET.getString().isEmpty() && !etScaleTIET.getString().isEmpty()) {
-
-                    cgp = cgpaTIET.getString().toDouble()
-                    scale = etScaleTIET.getString().toDouble()
-
-                    if (cgp > scale) {
-
-                        resultValiadtionCode = 5
-                        validation--
+                           } else {
+                               resultValiadtionCode = 0
+                           }
 
 
-                    } else {
+                       }
 
-                        resultValiadtionCode = 0
+                   } else if (etResults.getString().equalIgnoreCase("Grade")) {
 
-                    }
+                       if (cgpaTIET.getString().isEmpty()) {
+                           resultValiadtionCode = 4
 
-                    if (cgp > 10.00 || cgp < 1.00) {
+                           if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
+                               resultValiadtionCode = 7
 
-                        resultValiadtionCode = 2
-                        validation--
-                    }
+                           }
+
+                       } else if (etScaleTIET.getString().isEmpty()) {
+
+                           resultValiadtionCode = 6
+                           if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
+                               resultValiadtionCode = 7
+
+                           }
+
+                       } else if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
+
+                           resultValiadtionCode = 7
+
+                       } else if (!cgpaTIET.getString().isEmpty() && !etScaleTIET.getString().isEmpty()) {
+
+                           cgp = cgpaTIET.getString().toDouble()
+                           scale = etScaleTIET.getString().toDouble()
+
+                           if (cgp > scale) {
+
+                               resultValiadtionCode = 5
+                               validation--
 
 
+                           } else {
 
-                    if (scale > 10.00 || scale < 1.00) {
+                               resultValiadtionCode = 0
 
-                        resultValiadtionCode = 3
-                        validation--
-                    }
+                           }
 
-                }
+                           if (cgp > 10.00 || cgp < 1.00) {
 
-            }
+                               resultValiadtionCode = 2
+                               validation--
+                           }
 
 
 
-            if (etExamTitle.getString().equalIgnoreCase("Other")) {
+                           if (scale > 10.00 || scale < 1.00) {
 
-                if (etExamOtherTitle.getString().isEmpty()) {
+                               resultValiadtionCode = 3
+                               validation--
+                           }
 
-                    resultValiadtionCode = 8
+                       }
 
-                } else if (etExamOtherTitle.getString().isEmpty())
+                   }
 
+               }*/
 
-                    resultValiadtionCode = 8
-
-
-            }
-
-
-            Log.d("Validation", " resultValiadtionCode : $resultValiadtionCode")
-            Log.d("Validation", " validation :  $validation")
-
-            if (validation >= 4) {
-
-                if (etResults.getString().equalIgnoreCase("First Division/Class")
-                        || etResults.getString().equalIgnoreCase("Second Division/Class")
-                        || etResults.getString().equalIgnoreCase("Third Division/Class")
-                        || etResults.getString().equalIgnoreCase("Grade")) {
-
-                    Log.d("Validation", " else if condition $validation")
+            /* updateData()*/
 
 
-                    when (resultValiadtionCode) {
-                        1 -> {
+            if (validateLevelofEducation()) {
 
-                            marksTIL.showError("Please enter Marks")
-                            marksTIL.requestFocus()
-                        }
+                if (validateExamDegreeTile() || validateExamDegreeTitleOther()) if (validateMajor() || !validateMajor()) {
 
-                        2 -> {
+                    if (validateInstituteName()) {
 
-                            cGpaTIL.showError("Please enter valid CGPA")
-                            cgpaTIET.requestFocus()
-
-                        }
-                        3 -> {
-
-                            scaleTIL.showError("Please enter valid Scale")
-                            etScaleTIET.requestFocus()
-
-                        }
-                        4 -> {
+                        if (validateResult()) {
 
 
-                            cGpaTIL.showError("Please enter CGPA")
-                            cGpaTIL.requestFocus()
-                        }
-                        5 -> {
+                            if (cbResHide.isVisible) {
 
-                            activity.toast(R.string.toast_cgpa_scale_michmatch_texts)
-                        }
-                        6 -> {
+                                if (!cbResHide.isChecked) {
 
+                                    if (validateMarks()) {
 
-                            scaleTIL.showError("Please enter Scale")
-                            scaleTIL.requestFocus()
+                                        if (validatePassingYear()) {
 
-                        }
-                        7 -> {
+                                            Log.d("dshjfdg", " in first condition")
+                                            updateData()
 
-                            if (!cbResHide.isChecked) {
+                                        }
 
 
-                                scaleTIL.showError("Scale cam not be empty")
-                                cGpaTIL.showError("Grade can not be empty")
-                                cGpaTIL.requestFocus()
+                                    }
+
+                                    if (validateCgpa() && validateScale()) {
+                                        if (validatePassingYear()) {
+
+                                            Log.d("dshjfdg", " in second condition")
+                                            updateData()
+
+                                        }
+
+                                    }
+
+                                } else {
+
+                                    if (validatePassingYear()) {
+
+                                        Log.d("dshjfdg", " in third condition")
+                                        updateData()
+
+                                    }
+                                }
+
+                            } else {
+
+                                if (validatePassingYear()) {
+
+                                    Log.d("dshjfdg", " in fourth condition")
+                                    updateData()
+
+                                }
                             }
 
 
                         }
-                        8 -> {
-
-
-                            examOtherTIL.showError("Exam/Degree Title can not be empty")
-                            examOtherTIL.requestFocus()
-                        }
-
-                        99 -> {
-
-                            marksTIL.showError("Please enter a valid marks")
-                            marksTIET.requestFocus()
-                        }
 
                     }
 
                 }
-
-
-            }
-
-
-            if (etExamTitle.getString().equalIgnoreCase("Other")) {
-
-                Log.d("Validation", " in Other $validation")
-
-                if (etResults.getString().equalIgnoreCase("Appeared")
-                        || etResults.getString().equalIgnoreCase("Enrolled")
-                        || etResults.getString().equalIgnoreCase("Awarded")
-                        || etResults.getString().equalIgnoreCase("Do not mention")
-                        || etResults.getString().equalIgnoreCase("Pass") || cbResHide.isChecked) {
-
-
-                    if (validation == 7) {
-
-                        updateData()
-                    }
-
-                } else if (etResults.getString().equalIgnoreCase("Grade") && !cbResHide.isChecked) {
-
-
-                    Log.d("Validation", " in Grade $validation")
-
-
-
-
-                    if (validation == 9) {
-
-                        updateData()
-                    }
-
-                } else if (etResults.getString().equalIgnoreCase("First Division/Class")
-                        || etResults.getString().equalIgnoreCase("Second Division/Class")
-                        || etResults.getString().equalIgnoreCase("Third Division/Class")) {
-
-
-                    Log.d("Validation", " in first division 2nd division $validation")
-
-
-
-                    if (!cbResHide.isChecked) {
-
-                        if (validation == 8) {
-
-                            updateData()
-                        }
-
-                    }
-
-                }
-
-
-            } else if (!etExamTitle.getString().equalIgnoreCase("Other")) {
-
-                Log.d("Validation", " in not Other $validation")
-                if (etResults.getString().equalIgnoreCase("Appeared")
-                        || etResults.getString().equalIgnoreCase("Enrolled")
-                        || etResults.getString().equalIgnoreCase("Awarded")
-                        || etResults.getString().equalIgnoreCase("Do not mention")
-                        || etResults.getString().equalIgnoreCase("Pass") || cbResHide.isChecked) {
-
-                    Log.d("Validation", " result not viewed $validation")
-
-                    if (validation == 6) {
-
-                        updateData()
-                    }
-
-
-                } else if (etResults.getString().equalIgnoreCase("Grade") && !cbResHide.isChecked) {
-
-
-                    Log.d("Validation", " not other in Grade $validation")
-
-                    if (validation == 8) {
-
-                        updateData()
-                    }
-
-                } else if (etResults.getString().equalIgnoreCase("First Division/Class")
-                        || etResults.getString().equalIgnoreCase("Second Division/Class")
-                        || etResults.getString().equalIgnoreCase("Third Division/Class")) {
-
-
-                    Log.d("Validation", " not other in first division 2nd division $validation")
-
-                    if (!cbResHide.isChecked) {
-
-                        if (validation == 7) {
-
-                            updateData()
-                        }
-
-                    }
-
-                }
-
 
             }
 
@@ -471,9 +350,6 @@ class AcademicInfoEditFragment : Fragment() {
 
 
     }
-
-
-
 
 
     private fun addTextChangedListener() {
@@ -502,13 +378,11 @@ class AcademicInfoEditFragment : Fragment() {
 
         }
 
-
         instituteNameACTV.easyOnTextChangedListener { charSequence ->
 
             validateACTV(charSequence.toString(), instituteNameACTV, instituteTIL)
 
         }
-
 
         etResults.easyOnTextChangedListener { charSequence ->
 
@@ -529,8 +403,6 @@ class AcademicInfoEditFragment : Fragment() {
             eduCB.validateField(charSequence.toString(), marksTIET, marksTIL)
 
         }
-
-
 
         cgpaTIET.easyOnTextChangedListener { charSequence ->
 
@@ -592,6 +464,8 @@ class AcademicInfoEditFragment : Fragment() {
     private fun checkValidity() {
 
 
+        etLevelEdu.easyOnTextChangedListener { }
+
         // Level of education
         if (TextUtils.isEmpty(etLevelEdu.getString())) {
 
@@ -609,18 +483,23 @@ class AcademicInfoEditFragment : Fragment() {
 
         // exam degree title
 
-        if (TextUtils.isEmpty(etExamTitle.getString())) {
+        if (examTitleTIL.isVisible) {
 
-            examTitleTIL.showError("This Field can not be empty")
+            if (TextUtils.isEmpty(etExamTitle.getString())) {
 
-        } else {
+                examTitleTIL.showError("This Field can not be empty")
 
-            validation++
-            examTitleTIL.isErrorEnabled = false
-            Log.d("Validation", " valiadtion value 2 $validation")
+            } else {
 
+                validation++
+                examTitleTIL.isErrorEnabled = false
+                Log.d("Validation", " valiadtion value 2 $validation")
+
+
+            }
 
         }
+
 
         // exam degree title other
 
@@ -644,18 +523,23 @@ class AcademicInfoEditFragment : Fragment() {
 
         // concentration major group
 
-        if (TextUtils.isEmpty(majorSubACTV.getString())) {
+        if (mejorTIL.isVisible) {
 
-            mejorTIL.showError("This Field can not be empty")
+            if (TextUtils.isEmpty(majorSubACTV.getString())) {
 
-        } else {
+                mejorTIL.showError("This Field can not be empty")
 
-            validation++
-            mejorTIL.isErrorEnabled = false
-            Log.d("Validation", " valiadtion value 4 $validation")
+            } else {
 
+                validation++
+                mejorTIL.isErrorEnabled = false
+                Log.d("Validation", " valiadtion value 4 $validation")
+
+
+            }
 
         }
+
 
         //institute
         if (TextUtils.isEmpty(instituteNameACTV.getString())) {
@@ -792,7 +676,7 @@ class AcademicInfoEditFragment : Fragment() {
                 val eduLevel = ds.getEduIDByEduLevel(eduLevelList[i])
                 etLevelEdu.setText(ds.getEduLevelByID(eduLevel))
 
-                if (eduLevelList[i].equalIgnoreCase("Bachelor/Honors") || eduLevelList[i].equalIgnoreCase("Masters")) {
+                if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5")) {
 
                     instituteNameACTV.setAdapter(universityAdapter)
                 } else {
@@ -800,6 +684,34 @@ class AcademicInfoEditFragment : Fragment() {
                     instituteNameACTV.setAdapter(null)
                 }
 
+                if (eduLevel.equalIgnoreCase("6")) {
+                    examTitleTIL.hide()
+                    etExamTitle.hide()
+                    etExamOtherTitle.clear()
+                    examOtherTIL.isErrorEnabled = false
+                    examOtherTIL.show()
+                    etExamOtherTitle.show()
+                } else {
+                    examTitleTIL.show()
+                    etExamTitle.show()
+                    examOtherTIL.hide()
+                    etExamOtherTitle.hide()
+                }
+
+
+                if (eduLevel.equalIgnoreCase("-3") || eduLevel.equalIgnoreCase("-2")) {
+
+                    mejorTIL.hide()
+                } else {
+
+
+                    majorSubACTV.clearText()
+                    mejorTIL.isErrorEnabled = false
+                    majorSubACTV.clearFocus()
+                    mejorTIL.show()
+
+
+                }
 
                 Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
@@ -813,10 +725,10 @@ class AcademicInfoEditFragment : Fragment() {
                 etExamTitle.setText(examList[i])
                 examTitleTIL.requestFocus()
                 Log.d("eduLevel", "ExamTitle ${examList[i]}")
-                if (examList[i].equals("Other")) {
-
+                if (examList[i].equalIgnoreCase("Other")) {
 
                     examOtherTIL.show()
+                    etExamOtherTitle.show()
                     examOtherTIL.isErrorEnabled = false
 
                     if (!isEdit) {
@@ -881,37 +793,283 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
 
-    private fun updateData() {
+    private fun validateLevelofEducation(): Boolean {
+        if (etLevelEdu.getString().trim().isEmpty()) {
+            levelEduTIL.isErrorEnabled = true
+            levelEduTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(etLevelEdu)
+            return false
+        } else {
+            levelEduTIL.isErrorEnabled = false
+        }
+        return true
+    }
 
-        activity.showProgressBar(loadingProgressBar)
 
-        examdegree = if (etExamTitle.getString().equalIgnoreCase("Other")) etExamOtherTitle.getString()
-        else etExamTitle.getString()
+    private fun validateExamDegreeTile(): Boolean {
 
 
+        if (examTitleTIL.isVisible) {
 
-        hideRes = if (cbResHide.isChecked) "1" else "0"
+            if (etExamTitle.getString().trim().isEmpty()) {
+                examTitleTIL.isErrorEnabled = true
+                examTitleTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                requestFocus(etExamTitle)
+                return false
+            } else {
+                examTitleTIL.isErrorEnabled = true
+                return true
+            }
 
-        if (cbResHide.isChecked) {
-
-            gradePassingValue = "0"
         }
 
+        return false
+
+    }
+
+
+    private fun validateExamDegreeTitleOther(): Boolean {
+        if (etExamOtherTitle.isVisible) {
+            if (etExamOtherTitle.getString().trim().isEmpty()) {
+                examOtherTIL.isErrorEnabled = true
+                examOtherTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                requestFocus(etExamOtherTitle)
+                return false
+            } else {
+                examOtherTIL.isErrorEnabled = false
+                return true
+            }
+
+        }
+
+        return false
+    }
+
+
+    private fun validateMajor(): Boolean {
+
+        if (majorSubACTV.isVisible) {
+            if (majorSubACTV.getString().trim().isEmpty()) {
+                mejorTIL.isErrorEnabled = true
+                mejorTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                requestFocus(majorSubACTV)
+                return false
+            } else {
+                mejorTIL.isErrorEnabled = false
+                return true
+            }
+
+        }
+
+        return false
+
+    }
+
+    private fun validateInstituteName(): Boolean {
+        if (instituteNameACTV.getString().trim().isEmpty()) {
+            instituteTIL.isErrorEnabled = true
+            instituteTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(instituteNameACTV)
+            return false
+        } else {
+            instituteTIL.isErrorEnabled = false
+            return true
+        }
+
+    }
+
+    private fun validateResult(): Boolean {
+        if (etResults.getString().trim().isEmpty()) {
+            resultTIL.isErrorEnabled = true
+            resultTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(etResults)
+            return false
+        } else {
+            resultTIL.isErrorEnabled = false
+            return true
+        }
+
+    }
+
+    private fun validatePassingYear(): Boolean {
+        if (etPassignYear.getString().trim().isEmpty()) {
+            acaPassingYearTIL.isErrorEnabled = true
+            acaPassingYearTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(etPassignYear)
+            return false
+        } else {
+            acaPassingYearTIL.isErrorEnabled = false
+            return true
+        }
+
+    }
+
+    private fun validateMarks(): Boolean {
+        if (marksTIL.isVisible) {
+            if (marksTIET.getString().trim().isEmpty()) {
+                marksTIL.isErrorEnabled = true
+                marksTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                requestFocus(marksTIET)
+                return false
+            } else {
+
+                marks = marksTIET.getString().toDouble()
+
+                if (marks > 100 || marks < 1) {
+
+                    marksTIL.showError("Please enter a valid marks")
+
+                } else {
+                    marksTIL.isErrorEnabled = false
+                    return true
+                }
+
+            }
+
+        }
+        return false
+    }
+
+
+    private fun validateScale(): Boolean {
         if (gradeLayout.isVisible) {
-            gradePassingValue = etScaleTIET.getString()
-            CGPAOrMarks = cgpaTIET.getString()
-        } else if (marksLayout.isVisible) {
-            CGPAOrMarks = marksTIET.getString()
-            gradePassingValue = "0"
+            var scale = 0f
+            var cgpa = 0f
+            if (!cgpaTIET.getString().trim().isEmpty()) {
+                try {
+                    cgpa = java.lang.Float.parseFloat(cgpaTIET.getString())
+                } catch (ex: NumberFormatException) { // handle your exception
+
+                }
+
+            }
+
+            try {
+                scale = java.lang.Float.parseFloat(etScaleTIET.getString())
+            } catch (ex: NumberFormatException) { // handle your exception
+
+            }
+
+            when {
+                etScaleTIET.getString().trim().isEmpty() -> {
+                    scaleTIL.isErrorEnabled = true
+                    scaleTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                    requestFocus(etScaleTIET)
+                    return false
+                }
+                scale > 10.00 || scale < 1.00 -> {
+                    scaleTIL.isErrorEnabled = true
+                    scaleTIL.error = "Please enter a valid scale"
+                    requestFocus(etScaleTIET)
+                    return false
+                }
+                cgpa > scale -> {
+
+                    if (!cgpaTIET.getString().trim().isEmpty()) {
+                        toast("CGPA can not be greater than Scale")
+                        return false
+                    }
+
+
+                }
+
+                else -> return true
+
+            }
+
+        }
+        return false
+    }
+
+    private fun validateCgpa(): Boolean {
+        if (gradeLayout.isVisible) {
+            var scale = 0f
+            var cgpa = 0f
+            try {
+                cgpa = java.lang.Float.parseFloat(cgpaTIET.getString())
+            } catch (ex: NumberFormatException) { // handle your exception
+
+            }
+            if (!etScaleTIET.getString().trim().isEmpty()) {
+                try {
+                    scale = java.lang.Float.parseFloat(etScaleTIET.getString())
+                } catch (ex: NumberFormatException) { // handle your exception
+
+                }
+
+            }
+
+            when {
+                cgpaTIET.getString().trim().isEmpty() -> {
+                    cGpaTIL.isErrorEnabled = true
+                    cGpaTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                    requestFocus(cgpaTIET)
+                    return false
+                }
+                cgpa > 10.00 || cgpa < 1.00 -> {
+                    cGpaTIL.isErrorEnabled = true
+                    cGpaTIL.error = "Please enter valid CGPA"
+                    requestFocus(cgpaTIET)
+                    return true
+                }
+                cgpa > scale -> {
+
+                    if (!etScaleTIET.getString().trim().isEmpty()) {
+
+                        toast("CGPA can not be greater than Scale")
+                        return false
+                    }
+
+
+                }
+                else -> return true
+            }
         }
 
+        return false
+    }
+
+
+    /* if (!cgpaTIET.getString().isEmpty() && !etScaleTIET.getString().isEmpty()) {
+
+        cgp = cgpaTIET.getString().toDouble()
+        scale = etScaleTIET.getString().toDouble()
+
+        if (cgp > scale) {
+
+            cGpaTIL.error = "CGPA can not be greater than Scale"
+
+
+        }
+
+        return false
+    } else {
+        cGpaTIL.setErrorEnabled(false)
+    }*/
+
+    private fun updateData() {
+        activity.showProgressBar(loadingProgressBar)
+        examdegree = if (etExamTitle.getString().equalIgnoreCase("Other") || etLevelEdu.getString().equalIgnoreCase("Doctoral")) etExamOtherTitle.getString()
+        else etExamTitle.getString()
+        hideRes = if (cbResHide.isChecked) "1" else "0"
+        if (cbResHide.isChecked) {
+            gradeOrMarks = "0"
+            scaleORCgpa = "0"
+        }
+        if (gradeLayout.isVisible) {
+            gradeOrMarks = cgpaTIET.getString()
+            scaleORCgpa = etScaleTIET.getString()
+        } else if (marksLayout.isVisible) {
+            scaleORCgpa = "0"
+            gradeOrMarks = marksTIET.getString()
+        }
 
 
         val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
                 ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                 etPassignYear.getString(), majorSubACTV.getString(),
                 hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                CGPAOrMarks, gradePassingValue, etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
+                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -1028,11 +1186,12 @@ class AcademicInfoEditFragment : Fragment() {
 
                     llResultFields.show()
                     gradeLayout.show()
+                    marksLayout.hide()
+                    cgpaTIET.clear()
+                    etScaleTIET.clear()
                     cGpaTIL.isErrorEnabled = false
                     scaleTIL.isErrorEnabled = false
                     etScaleTIET.clearFocus()
-
-                    marksLayout.hide()
 
 
                 }
@@ -1057,4 +1216,7 @@ class AcademicInfoEditFragment : Fragment() {
             }
         }
     }
+
+
 }
+
