@@ -25,7 +25,9 @@ data class InvitationDetailModelsCommon(
     @SerializedName("ratingDate")
     val ratingDate: String? = "",
     @SerializedName("ratingMessage")
-    val ratingMessage: String? = ""
+    val ratingMessage: String? = "",
+    @SerializedName("showUndo")
+    val showUndo: String? = ""
 )
 
 data class InvitationDetailModelsData(
@@ -56,7 +58,11 @@ data class InvitationDetailModelsData(
     @SerializedName("previousScheduleTime")
     val previousScheduleTime: String? = "",
     @SerializedName("venue")
-    val venue: String? = ""
+    val venue: String? = "",
+    @SerializedName("alertMessage")
+    val alertMessage: String? = "",
+    @SerializedName("contactNo")
+    val contactNo: String? = ""
 )
 
 data class Direction(
