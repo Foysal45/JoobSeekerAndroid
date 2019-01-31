@@ -10,10 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
 
@@ -39,28 +36,43 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
 
         val dModel = itemList?.get(position)!!
 
-        if (dModel.marks.equals("0")) {
+        val resultId = dModel.resultId!!
 
+        if (resultId.equalIgnoreCase("0")) {
             holder.tvAcaResult!!.hide()
-
-        } else {
-
-            holder.tvAcaResult!!.text = dModel.marks
         }
 
-        /*else if (dModel.scale.equals("0")){
+
+        if (resultId.equalIgnoreCase("8") ||
+                resultId.equalIgnoreCase("9") ||
+                resultId.equalIgnoreCase("10") ||
+                resultId.equalIgnoreCase("12")) {
+            holder.tvAcaResult!!.show()
+            holder.tvAcaResult!!.text = dModel.result
+        } else {
+            when {
+                dModel.marks.equals("0") && dModel.scale.equals("0") -> holder.tvAcaResult!!.hide()
+                !dModel.marks.equals("0") && !dModel.scale.equals("0") -> {
+                    holder.tvAcaResult!!.show()
+                    holder.tvAcaResult!!.text = "CGPA ${dModel.marks} 0ut of ${dModel.scale}"
+
+                }
+                !dModel.marks.equals("0") && dModel.scale.equals("0") -> {
+                    holder.tvAcaResult!!.show()
+                    holder.tvAcaResult!!.text = "Marks ${dModel.marks}%"
+
+                }
 
 
-        }*/
+            }
 
-
-
+        }
 
 
 
 
         holder.tvDegree?.text = dModel.examDegreeTitle
-        /*  holder.tvAcaResult?.text = dModel.result*/
+
         holder.tvUniName?.text = dModel.instituteName
         if (dModel.acievement == "") {
             holder.moreActionDetails?.hide()
