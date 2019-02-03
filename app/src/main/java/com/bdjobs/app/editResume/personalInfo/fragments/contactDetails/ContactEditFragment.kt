@@ -147,9 +147,36 @@ class ContactEditFragment : Fragment() {
             clContactEdit.closeKeyboard(activity!!)
 
             var validation = 0
-            validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
-            validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
-            validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+            when (presentInOutBD) {
+                "0" -> {
+                    validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
+                    validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
+                    validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("CValidaiton", "(out 1.1) value : $validation")
+                }
+                "1" -> {
+                    validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
+                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("CValidaiton", "(out 1.2) value : $validation")
+                }
+            }
+
+            when (permanentInOutBD) {
+                "1" -> {
+                    validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                    validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                    Log.d("CValidaiton", "(out 2.2) value : $validation")
+                }
+                "0" -> {
+                    validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
+                    validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
+                    validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
+                    validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                    Log.d("CValidaiton", "(out 2.1) value : $validation")
+                }
+            }
+
             if (contactEmailAddressTIET.getString().trim() == "") {
                 validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
             }
@@ -157,11 +184,19 @@ class ContactEditFragment : Fragment() {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
             }
             if (presentInOutBD == "1") {
+                prContactDivTIET.clear()
+                prContactDistrictTIET.clear()
+                prContactThanaTIET.clear()
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            }
+            } else presentContactCountryTIET.clear()
             if (permanentInOutBD == "1") {
+                pmContactDivTIET1.clear()
+                pmContactDistrictTIET.clear()
+                pmContactThanaTIETP.clear()
                 validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            }
+            } else permanentContactCountryTIETP.clear()
+            Log.d("checkValid", " val : $validation ")
+            Log.d("checkValid", " val : $validation ")
             if (validation >= 3) updateData()
         }
         contactAddMobileButton?.setOnClickListener {

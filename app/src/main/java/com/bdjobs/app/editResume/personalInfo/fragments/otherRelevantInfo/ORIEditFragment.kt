@@ -53,8 +53,12 @@ class ORIEditFragment : Fragment() {
 
     private fun doWork() {
         data = oriEditCB.getOriData()
+
         etOriKeywords.easyOnTextChangedListener { charSequence ->
-            oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
+            if (!idArr.isEmpty()) {
+                textInputLayout4.hideError()
+            } else
+                oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
         }
         etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
         Log.d("ORIData", "data: ${data.keywords}")
@@ -70,12 +74,8 @@ class ORIEditFragment : Fragment() {
                 textInputLayout4.hideError()
                 updateData()
             } else {
-                if (idArr.isEmpty()) {
-                    textInputLayout4.isErrorEnabled = true
-                    textInputLayout4.error = "Please add keywords"
-                    activity?.toast("Please type at least one keyword")
-                }
-                activity?.toast("Pgasdinkgyword")
+                checkIfEmpty()
+                //activity?.toast("Pgasdinkgyword")
             }
         }
         etOriCareerSummary.setText(data.careerSummery)
@@ -89,6 +89,14 @@ class ORIEditFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun checkIfEmpty() {
+        if (idArr.isEmpty()) {
+            textInputLayout4.isErrorEnabled = true
+            textInputLayout4.error = "Please add keywords"
+            activity?.toast("Please type at least one keyword")
         }
     }
 
@@ -161,7 +169,10 @@ class ORIEditFragment : Fragment() {
         if (idArr.contains(s))
             idArr.remove(s)
         exps = TextUtils.join(",", idArr)
+        checkIfEmpty()
+
         d("selected rmv: $exps and $idArr")
+
     }
 
 }
