@@ -7,12 +7,12 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiServiceMyBdjobs {
 
@@ -547,6 +547,13 @@ interface ApiServiceMyBdjobs {
 
     ): Call<FileInfo>
 
+    @Multipart
+    @POST("file_upload.aspx")
+     fun UploadCV(
+            @PartMap partMap: Map<String, RequestBody>?,
+            @Part file: MultipartBody.Part?
+    ): Call<ADDorUpdateModel>
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
@@ -556,6 +563,14 @@ interface ApiServiceMyBdjobs {
                     .build()
             return retrofit.create(ApiServiceMyBdjobs::class.java)
         }
+
+    /*    fun create1(): ApiServiceMyBdjobs {
+            val retrofit = Retrofit.Builder()
+                    .baseUrl(Constants.baseUrlMyBdjobs1)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+            return retrofit.create(ApiServiceMyBdjobs::class.java)
+        }*/
     }
 
 }
