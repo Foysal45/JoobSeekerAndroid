@@ -330,8 +330,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="#757575"
-                android:visibility="gone"
-                app:helperText="This field can not be blank">
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerNationality"

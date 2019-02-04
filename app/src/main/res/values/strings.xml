@@ -233,6 +233,7 @@
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
     <string name="subtit.ori_info">Other Relevant Information</string>
     <string name="title_ORI">Other Relevant Information</string>
+    <string name="title_army_emp_his">Employment History (Retired Army Person)</string>
     <string name="resend_code">কোডটি পুনঃরায় পাঠান</string>
     <string name="hint.special_qualification">Special Qualification</string>
     <string name="hint.career_summary">Career Summary</string>
@@ -244,4 +245,7 @@
     <string name="err_msg_password_not_match">These Passwords do not match</string>
     <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
     <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
+    <string name="tool_tip_summary">What is Career Summary</string>
+    <string name="tool_tip_what_is_special_qualification">What is Special Qualification</string>
+    <string name="tool_tip_what_is_keywords">What is Keywords</string>
 </resources>

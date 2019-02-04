@@ -24,16 +24,19 @@
                 android:weightSum="2">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ba"
                     style="@style/EHTextInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusableInTouchMode="true"
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_ba_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:hint="@string/hint.ba_type"
                         android:inputType="text"
                         android:textColor="#212121" />
@@ -41,6 +44,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ba_no"
                     style="@style/EHTextInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -52,7 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.ba_no"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -63,6 +67,7 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -70,7 +75,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.army_ranks"
-                    android:inputType="text|textMultiLine"
+                    android:focusable="false"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />
 
@@ -81,6 +87,7 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -88,7 +95,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.army_type"
-                    android:inputType="text|textMultiLine"
+                    android:focusable="false"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />
 
@@ -99,6 +107,7 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -106,7 +115,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.army_arms"
-                    android:inputType="text|textMultiLine"
+                    android:focusable="false"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />
 
@@ -153,6 +163,7 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -172,6 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
+                android:focusableInTouchMode="true"
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText

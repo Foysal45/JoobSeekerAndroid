@@ -14,7 +14,10 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_army_emp_history.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,6 +64,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         empHisCB = activity as EmpHisCB
         now = Calendar.getInstance()
+        empHisCB.setTitle(getString(R.string.army_employment_history_title))
         doWork()
         if (isEdit) {
             hID = "13"
@@ -76,25 +80,38 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         d(isEdit.toString())
+        et_ba_no?.addTextChangedListener(TW.CrossIconBehave(et_ba_no))
+        et_trade?.addTextChangedListener(TW.CrossIconBehave(et_trade))
+        et_course?.addTextChangedListener(TW.CrossIconBehave(et_course))
     }
 
     private fun doWork() {
-        empHisCB.setTitle(getString(R.string.army_employment_history_title))
-        /*et_ba_type.setOnClickListener {
-            val divisionList: Array<String> = dataStorage.
+        addTextChangedListener(et_ba_type, til_ba)
+        addTextChangedListener(et_ba_no, til_ba_no)
+        addTextChangedListener(et_ranks, til_ranks)
+        addTextChangedListener(et_type, til_type)
+        addTextChangedListener(et_arms, til_arms)
+        addTextChangedListener(et_commission, til_commission)
+        addTextChangedListener(et_retire, til_retire)
 
-            selector("বিভাগ নির্বাচন করুন", divisionList.toList()) { dialogInterface, i ->
+        et_ba_type.setOnClickListener { setData(editText = et_ba_type, arrayResource = R.array.army_ba, heading = "Select BA Type") }
+        et_ranks.setOnClickListener { setData(editText = et_ranks, arrayResource = R.array.army_ranks, heading = "Select RANK") }
+        et_type.setOnClickListener { setData(editText = et_type, arrayResource = R.array.army_type, heading = "Select TYPE") }
+        et_arms.setOnClickListener { setData(editText = et_arms, arrayResource = R.array.army_arms, heading = "Select ARMS") }
 
-                bcDivisionTIET.setText(divisionList[i])
-                bcDistrictTIL.requestFocus()
-
-            }
-        }*/
         et_commission.setOnClickListener { pickDate(activity, now, commissionDateSetListener) }
         et_retire.setOnClickListener { pickDate(activity, now, retireDateSetListener) }
         fab_eh_army.setOnClickListener {
             clArmyEmpHistory.closeKeyboard(activity)
-            updateData()
+            var validation = 0
+            validation = isValidate(et_ba_type, til_ba, et_ba_type, true, validation)
+            validation = isValidate(et_ranks, til_ranks, et_ranks, true, validation)
+            validation = isValidate(et_ba_no, til_ba_no, et_ba_no, true, validation)
+            validation = isValidate(et_type, til_type, et_type, true, validation)
+            validation = isValidate(et_arms, til_arms, et_arms, true, validation)
+            validation = isValidate(et_commission, til_commission, et_commission, true, validation)
+            validation = isValidate(et_retire, til_retire, et_retire, true, validation)
+            if (validation == 6) updateData()
         }
     }
 
@@ -115,7 +132,9 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
-                        empHisCB.goBack()
+                        if (resp?.statuscode == "4") {
+                            empHisCB.goBack()
+                        }
                     }
                 } catch (e: Exception) {
                     activity.stopProgressBar(loadingProgressBar)
@@ -127,7 +146,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun updateDateInView(c: Int) {
-        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val myFormat = "dd/MM/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         if (c == 0) {
             et_commission.setText(sdf.format(now.time))
@@ -161,6 +180,17 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         et_trade.clear()
         et_commission.clear()
         et_retire.clear()
+        disableError()
+    }
+
+    private fun disableError() {
+        til_ba.hideError()
+        til_ba_no.hideError()
+        til_ranks.hideError()
+        til_type.hideError()
+        til_arms.hideError()
+        til_commission.hideError()
+        til_retire.hideError()
     }
 
     fun dataDelete() {
@@ -187,5 +217,19 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            empHisCB.validateField(charSequence.toString(), editText, inputLayout)
+        }
+    }
+
+    private fun setData(editText: TextInputEditText, arrayResource: Int, heading: String) {
+        val list = resources.getStringArray(arrayResource).toList()
+        activity.selector(heading, list) { _, i ->
+            editText.setText(list[i])
+            editText.requestFocus()
+        }
     }
 }

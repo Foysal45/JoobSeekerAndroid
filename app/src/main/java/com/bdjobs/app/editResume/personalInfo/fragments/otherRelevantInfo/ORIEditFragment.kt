@@ -21,7 +21,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_oriedit.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,6 +56,7 @@ class ORIEditFragment : Fragment() {
 
     private fun doWork() {
         data = oriEditCB.getOriData()
+        onClicks()
 
         etOriKeywords.easyOnTextChangedListener { charSequence ->
             if (!idArr.isEmpty()) {
@@ -89,6 +93,27 @@ class ORIEditFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun onClicks() {
+        tv_info_career.setOnClickListener {
+            activity?.alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
+                yesButton { activity?.toast("Oh…") }
+                noButton {}
+            }?.show()
+        }
+        tv_info_spec.setOnClickListener {
+            activity?.alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
+                yesButton { activity?.toast("Oh…") }
+                noButton {}
+            }?.show()
+        }
+        tv_info_keyword.setOnClickListener {
+            activity?.alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
+                yesButton { activity?.toast("Oh…") }
+                noButton {}
+            }?.show()
         }
     }
 

@@ -1,6 +1,7 @@
 package com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo
 
 
+import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
@@ -16,13 +17,14 @@ import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_training_edit.*
-import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class TrainingEditFragment : Fragment() {
 
@@ -32,6 +34,7 @@ class TrainingEditFragment : Fragment() {
     private lateinit var hTrainingID: String
     private lateinit var hID: String
     private var calendar: Calendar? = null
+    private var yearSelected = false
     private var yearList = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +47,6 @@ class TrainingEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
-        calendar = Calendar.getInstance()
         eduCB.setTitle(getString(R.string.title_training))
         initialization()
         doWork()
@@ -114,15 +116,15 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrDuration, trainingTitleTIL)
 
         etTrTrainingYear.setOnClickListener {
-            for (item in 1964..2024) {
+
+            pickDateA()
+            /*for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
-            activity.selector("Please Select Training Year", yearList.toList()) { _, i ->
-
+            activity.selector("Select Year", yearList.toList()) { _, i ->
                 etTrTrainingYear.setText(yearList[i])
                 trTrainingYearTIL.requestFocus()
-
-            }
+            }*/
 
         }
         fab_tr_update.setOnClickListener {
@@ -136,6 +138,13 @@ class TrainingEditFragment : Fragment() {
             Log.d("validation", "validation : $validation")
             if (validation == 5) updateData()
         }
+    }
+
+    private fun updateDateInView(year: Int) {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        yearSelected = true
+        etTrTrainingYear.setText(year.toString())
     }
 
     private fun updateData() {
@@ -213,5 +222,29 @@ class TrainingEditFragment : Fragment() {
                 }
             }
         })
+    }
+
+    fun pickDateA() {
+        yearSelected = false
+        val now = Calendar.getInstance()
+        val dateSelectedListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            now?.set(Calendar.YEAR, year)
+            now?.set(Calendar.MONTH, monthOfYear)
+            now?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView(year)
+        }
+        val dpd = DatePickerDialog(activity,
+                dateSelectedListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                now.get(Calendar.YEAR),
+                now.get(Calendar.YEAR),
+                now.get(Calendar.YEAR))
+
+        /*now.add(yearT, -55) // subtract 2 years from now
+        dpd.datePicker.minDate = now.timeInMillis
+        now.add(yearT, 5) // add 4 years to min date to have 2 years after now
+        dpd.datePicker.maxDate = now.timeInMillis*/
+        dpd.datePicker.touchables[0].performClick()
+        dpd.show()
     }
 }
