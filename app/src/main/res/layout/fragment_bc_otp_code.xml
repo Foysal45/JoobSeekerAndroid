@@ -127,19 +127,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:drawablePadding="6dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center_vertical"
-                    android:visibility="gone"
-                    android:text="@string/resend_message"
+                    android:text="@string/resend_code"
                     android:textAllCaps="false"
                     android:textColor="#1565C0"
                     android:textSize="18sp"
                     android:typeface="normal"
+                    android:visibility="gone"
                     app:icon="@drawable/ic_refresh_black_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Resend Code" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

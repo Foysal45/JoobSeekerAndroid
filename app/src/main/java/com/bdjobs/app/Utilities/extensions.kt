@@ -37,6 +37,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,6 +47,32 @@ fun Activity.callHelpLine() {
     val intent = Intent(Intent.ACTION_DIAL)
     intent.data = Uri.parse("tel:16479")
     startActivity(intent)
+}
+
+fun String.toBanglaDigit():String{
+    val banglaDigits = charArrayOf('০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯')
+
+    if (this == null)
+        return ""
+    val builder = StringBuilder()
+    try {
+        for (i in 0 until this.length) {
+            if (Character.isDigit(this[i])) {
+                if (this[i].toInt() - 48 <= 9) {
+                    builder.append(banglaDigits[this.get(i).toInt() - 48])
+                } else {
+                    builder.append(this.get(i))
+                }
+            } else {
+                builder.append(this[i])
+            }
+        }
+    } catch (e: Exception) {
+        //logger.debug("getDigitBanglaFromEnglish: ",e);
+        return ""
+    }
+
+    return builder.toString()
 }
 
 fun Context.getDeviceID():String{
@@ -338,6 +365,20 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
     return valid
 }
 
+fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextInputLayout?,
+                             etNext: TextInputEditText?, isEmpty: Boolean, validation: Int): Int {
+    var valid: Int = validation
+    if (isEmpty) {
+        tilCurrent?.isErrorEnabled = true
+        tilCurrent?.showError("This Field can not be empty")
+    } else {
+        valid++
+        tilCurrent?.isErrorEnabled = false
+        etNext?.requestFocus()
+    }
+    return valid
+}
+
 fun Activity.requestFocus(view: View) {
     if (view.requestFocus()) {
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -357,10 +398,13 @@ fun ImageView.loadImageFromUrl(url: String) {
     }
 }
 
+fun TextInputEditText.enableOrdisableEdit(b: Boolean) {
+    this.isEnabled = b
+}
 
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
-        Picasso.get().load(url).transform(CircleTransform()).memoryPolicy(MemoryPolicy.NO_CACHE).into(this)
+        Picasso.get().load(url).transform(CircleTransform()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(this)
     } catch (e: Exception) {
         logException(e)
     }

@@ -162,52 +162,60 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                             "mobileNumber = ${session.userName},\n" +
                             "catId = ${getBlueCollarUserId()},\n" +
                             "deviceID = ${getDeviceID()}")
+                    updateInviteCodeOwnerInformation()
 
-
-                    ApiServiceMyBdjobs.create().getInviteCodeUserOwnerInfo(
-                            userID = session.userId,
-                            decodeID = session.decodId,
-                            mobileNumber = session.userName,
-                            catId = getBlueCollarUserId().toString(),
-                            deviceID = getDeviceID()
-                    )
-                            .enqueue(object : Callback<InviteCodeHomeModel> {
-                                override fun onFailure(call: Call<InviteCodeHomeModel>, t: Throwable) {
-                                    error("onFailure", t)
-                                }
-
-                                override fun onResponse(call: Call<InviteCodeHomeModel>, response: Response<InviteCodeHomeModel>) {
-
-                                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
-
-                                        val inviteCodeInfo = InviteCodeInfo(
-                                                userId = session.userId,
-                                                userType = response.body()?.data?.get(0)?.userType,
-                                                pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
-                                                inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
-                                        )
-                                        Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
-                                                "userType = ${response.body()?.data?.get(0)?.userType},\n" +
-                                                "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +
-                                                "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")
-
-                                        doAsync {
-                                            bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
-                                        }
-                                        inviteCodeuserType = inviteCodeInfo.userType
-                                        pcOwnerID = inviteCodeInfo.pcOwnerID
-                                        inviteCodeStatus = inviteCodeInfo.inviteCodeStatus
-                                    }
-                                }
-                            })
                 } else {
                     inviteCodeuserType = inviteCodeUserInfo[0].userType
                     pcOwnerID = inviteCodeUserInfo[0].pcOwnerID
                     inviteCodeStatus = inviteCodeUserInfo[0].inviteCodeStatus
-                    Log.d("inviteCodeUserInfo", "inviteCodeuserType = $inviteCodeuserType")
+
+
+                    if(!inviteCodeuserType?.equalIgnoreCase("u")!!){
+                        updateInviteCodeOwnerInformation()
+                    }
+
+                    Log.d("inviteCodeUserInfo", "pcOwnerID = $pcOwnerID")
                 }
             }
         }
+    }
+
+    private fun updateInviteCodeOwnerInformation() {
+        ApiServiceMyBdjobs.create().getInviteCodeUserOwnerInfo(
+                userID = session.userId,
+                decodeID = session.decodId,
+                mobileNumber = session.userName,
+                catId = getBlueCollarUserId().toString(),
+                deviceID = getDeviceID()
+        ).enqueue(object : Callback<InviteCodeHomeModel> {
+                    override fun onFailure(call: Call<InviteCodeHomeModel>, t: Throwable) {
+                        error("onFailure", t)
+                    }
+
+                    override fun onResponse(call: Call<InviteCodeHomeModel>, response: Response<InviteCodeHomeModel>) {
+
+                        if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+
+                            val inviteCodeInfo = InviteCodeInfo(
+                                    userId = session.userId,
+                                    userType = response.body()?.data?.get(0)?.userType,
+                                    pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
+                                    inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
+                            )
+                            Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
+                                    "userType = ${response.body()?.data?.get(0)?.userType},\n" +
+                                    "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +
+                                    "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")
+
+                            doAsync {
+                                bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
+                            }
+                            inviteCodeuserType = inviteCodeInfo.userType
+                            pcOwnerID = inviteCodeInfo.pcOwnerID
+                            inviteCodeStatus = inviteCodeInfo.inviteCodeStatus
+                        }
+                    }
+                })
     }
 
     override fun goToKeywordSuggestion() {

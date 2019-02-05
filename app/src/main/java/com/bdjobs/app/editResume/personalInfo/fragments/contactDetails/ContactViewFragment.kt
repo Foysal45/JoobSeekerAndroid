@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.personalInfo.fragments.contactDetails
 
 import android.app.Fragment
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,24 +82,48 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
-        val presentAddress = info?.data?.get(0)?.presentVillage +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict) +
-                " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
+        var presentAddress = if (info?.data?.get(0)?.presentDistrict.equals("")) "" else info?.data?.get(0)?.presentVillage +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict)
+        //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
 
         val isSameOfPresent = info?.data?.get(0)?.addressType1
-        val permanentAddress = if (isSameOfPresent == "3") {
-            "Same as present address"
-        } else {
-            info?.data?.get(0)?.permanentVillage +
-                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
-                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
-                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict) +
-                    " " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
+        var permanentAddress = when {
+            isSameOfPresent == "3" -> "Same as present address"
+            info?.data?.get(0)?.permanentDistrict?.trim().equals("") -> ""
+            else ->
+                info?.data?.get(0)?.permanentVillage +
+                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
+                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
+                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict)
+            //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
         }
-        tvPresentAddress.text = presentAddress
-        tvPermanentAddress.text = permanentAddress
+
+        if (info?.data?.get(0)?.permanentVillage?.trim().equals("") && isSameOfPresent != "3") rl_2.hide() else rl_2.show()
+        if (info?.data?.get(0)?.email?.trim().equals("") && info?.data?.get(0)?.alternativeEmail?.trim().equals("")) rl_4.hide() else rl_4.show()
+        if (info?.data?.get(0)?.mobile?.trim().equals("") && info?.data?.get(0)?.homePhone?.trim().equals("")
+                && info?.data?.get(0)?.homePhone?.trim().equals("")) rl_3.hide() else rl_3.show()
+
+        if (info?.data?.get(0)?.presentInsideOutsideBD == "False") {
+            presentAddress = presentAddress.replace(", ,".toRegex(), ",")
+            tvPresentAddress.text = presentAddress.removeLastComma()
+        } else {
+            var finalValue = TextUtils.concat(presentAddress, ", ", dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry))
+            finalValue = finalValue.replace(", ,".toRegex(), ",")
+            tvPresentAddress.text = finalValue.removeLastComma()
+        }
+        if (info?.data?.get(0)?.permanentInsideOutsideBD == "False") {
+            permanentAddress = permanentAddress.replace(", ,".toRegex(), ",")
+            tvPermanentAddress.text = permanentAddress
+        } else {
+            val sb = StringBuilder()
+            //val finalValue = sb.append("$permanentAddress, ").append(dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)).replace(",".toRegex(), "")
+            val finalValue = TextUtils.concat(permanentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry))
+            //finalValue = finalValue.replace(",, ".toRegex(), ",")
+            toast("$finalValue")
+            tvPermanentAddress.text = finalValue
+        }
         tvMobileNo.text = info?.data?.get(0)?.mobile
         val a = info?.data?.get(0)?.email + "\n"
         val b = info?.data?.get(0)?.alternativeEmail

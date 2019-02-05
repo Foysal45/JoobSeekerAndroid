@@ -188,8 +188,9 @@
                    android:layout_height="wrap_content"
                    android:hint="এলাকার ঠিকানা বাড়ি/মহল্লা"
                    android:inputType="textMultiLine"
-                   android:singleLine="true"
+                   android:focusableInTouchMode="true"
                    android:maxLength="250"
+                   android:singleLine="true"
                    android:typeface="normal"
                    app:fontFamily="@font/roboto" />
            </com.google.android.material.textfield.TextInputLayout>

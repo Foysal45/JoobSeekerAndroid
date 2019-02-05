@@ -138,6 +138,16 @@
                 app:icon="@drawable/ic_carrer" />
 
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPerItem4"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/subtit.ori_info"
+                app:icon="@drawable/ic_carrer" />
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -199,6 +209,17 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/title_emp_his"
+                app:icon="@drawable/ic_employment_history" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEmpItem2"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="@string/army_employment_history_title"
                 app:icon="@drawable/ic_employment_history" />
 
             <View

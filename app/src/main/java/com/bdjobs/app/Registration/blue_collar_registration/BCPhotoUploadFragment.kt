@@ -87,6 +87,7 @@ class BCPhotoUploadFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         onClick()
+        registrationCommunicator.checkInviteCodeEligibility()
     }
 
 

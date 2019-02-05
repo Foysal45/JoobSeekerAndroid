@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/invite_category_list_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="86dp"
+        android:id="@+id/categoryNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="12dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="12dp"
+        android:text="প্লাম্বার/পাইপফিটিং"
+        android:textColor="#303030" />
+
+    <TextView
+        android:fontFamily="@font/noto_sans"
+        android:layout_centerVertical="true"
+        android:id="@+id/categoryMoneyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="12dp"
+        android:paddingRight="10dp"
+        android:paddingTop="12dp"
+        android:text="৳৫০/-"
+        android:textColor="@color/colorPrimary" />
+
+</RelativeLayout>

@@ -79,7 +79,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        empHisCB.setTitle("Employment History (Retired Army Person)")
+        empHisCB.setTitle(getString(R.string.army_employment_history_title))
         /*et_ba_type.setOnClickListener {
             val divisionList: Array<String> = dataStorage.
 
@@ -92,7 +92,10 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         }*/
         et_commission.setOnClickListener { pickDate(activity, now, commissionDateSetListener) }
         et_retire.setOnClickListener { pickDate(activity, now, retireDateSetListener) }
-        fab_eh_army.setOnClickListener { updateData() }
+        fab_eh_army.setOnClickListener {
+            clArmyEmpHistory.closeKeyboard(activity)
+            updateData()
+        }
     }
 
     private fun updateData() {

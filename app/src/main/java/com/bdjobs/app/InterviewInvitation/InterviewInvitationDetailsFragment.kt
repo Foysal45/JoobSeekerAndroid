@@ -20,6 +20,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_interview_invitation_details.*
 import org.jetbrains.anko.startActivity
 import retrofit2.Call
@@ -70,7 +71,17 @@ class InterviewInvitationDetailsFragment : Fragment() {
         ratingBTN.setOnClickListener { showRatingPopUp() }
         rescheduleRequestTV.setOnClickListener { showReschedulePopUp() }
         yesBTN.setOnClickListener {
-            val progressDialog = ProgressDialog(activity)
+
+
+            sendInterviewConfirmation(
+                    applyID = applyID,
+                    userActivity = "3",
+                    invitationID = invitationID
+            )
+
+
+
+            /*val progressDialog = ProgressDialog(activity)
             progressDialog.setMessage("Please wait")
             progressDialog.setCancelable(false)
             progressDialog.show()
@@ -108,7 +119,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
 
                 }
 
-            })
+            })*/
         }
     }
 
@@ -118,6 +129,10 @@ class InterviewInvitationDetailsFragment : Fragment() {
         followedRV?.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
+        Log.d("sdofjwioapfgh","userId= ${bdjobsUserSession.userId!!}" +
+                "decodId= ${bdjobsUserSession.decodId!!}" +
+                "CompanyJobID= ${interviewInvitationCommunicator.getCompanyJobID()}")
+
         ApiServiceMyBdjobs.create().getIterviewInvitationDetails(
                 userID = bdjobsUserSession.userId!!,
                 decodeID = bdjobsUserSession.decodId!!,
@@ -138,7 +153,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
                         shimmer_view_container_JobList?.hide()
                         shimmer_view_container_JobList?.stopShimmerAnimation()
 
-                        Log.d("sdofjwioapfgh", "res: ${response.body()?.message}")
+                        Log.d("sdofjwioapfgh", "res: ${response.body()}")
                         if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                             appliedDateTV.text = "Applied on: ${response.body()!!.common?.applyDate}"
                             val interviewInvitationDetailsAdapter = InterviewInvitationDetailsAdapter(activity, (response?.body()?.data!!))
@@ -192,6 +207,19 @@ class InterviewInvitationDetailsFragment : Fragment() {
             } else {
                 questionRL.visibility = View.GONE
             }
+
+            if(common.showUndo?.equalIgnoreCase("1")!!){
+                val snack = Snackbar.make(invDetailsRoot, "Your request has been sent to the employer.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("UNDO") {
+                            sendInterviewConfirmation(
+                                    applyID = applyID,
+                                    userActivity = "6",
+                                    invitationID = invitationID
+                            )
+                        }
+
+                snack?.show()
+            }
         }
     }
 
@@ -217,10 +245,15 @@ class InterviewInvitationDetailsFragment : Fragment() {
                 TextUtils.isEmpty(reason) -> Toast.makeText(activity, "Please write your reason for rescheduling.", Toast.LENGTH_SHORT).show()
                 reason.trim { it <= ' ' }.isEmpty() -> Toast.makeText(activity, "Please write your reason for rescheduling.", Toast.LENGTH_SHORT).show()
                 else -> {
-                    //post request
                     dialog.dismiss()
+                    sendInterviewConfirmation(
+                            applyID = applyID,
+                            userActivity = "4",
+                            invitationID = invitationID,
+                            rescheduleComment = reason
+                    )
 
-                    val progressDialog = ProgressDialog(activity)
+                    /*val progressDialog = ProgressDialog(activity)
                     progressDialog.setMessage("Please wait")
                     progressDialog.setCancelable(false)
                     progressDialog.show()
@@ -260,7 +293,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
 
                         }
 
-                    })
+                    })*/
                 }
             }
         }
@@ -393,9 +426,16 @@ class InterviewInvitationDetailsFragment : Fragment() {
             } else if (selectedReason.equals("4", ignoreCase = true) && otherReason.trim { it <= ' ' }.length == 0) {
                 Toast.makeText(activity, "Please write your reason briefly.", Toast.LENGTH_SHORT).show()
             } else {
-                //post request
                 dialog.dismiss()
-                val progressDialog = ProgressDialog(activity)
+                sendInterviewConfirmation(
+                        applyID = applyID,
+                        userActivity = "2",
+                        selectedReason=selectedReason,
+                        otherReason=otherReason,
+                        invitationID = invitationID
+                )
+
+                /*val progressDialog = ProgressDialog(activity)
                 progressDialog.setMessage("Please wait")
                 progressDialog.setCancelable(false)
                 progressDialog.show()
@@ -433,16 +473,64 @@ class InterviewInvitationDetailsFragment : Fragment() {
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
-
                     }
 
-                })
+                })*/
             }
         }
 
         dialog.setCancelable(true)
         dialog.show()
     }
+
+
+    private fun sendInterviewConfirmation(applyID:String, userActivity:String, selectedReason:String="", otherReason:String="", invitationID:String,rescheduleComment:String="")
+    {
+        val progressDialog = ProgressDialog(activity)
+        progressDialog.setMessage("Please wait")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        ApiServiceMyBdjobs.create().sendInterviewConfirmation(
+                userID = bdjobsUserSession.userId!!,
+                decodeID = bdjobsUserSession.decodId!!,
+                applyId = applyID,
+                activity = userActivity,
+                invitationId = invitationID,
+                cancleReason = selectedReason,
+                otherComment = otherReason,
+                rescheduleComment = rescheduleComment
+        ).enqueue(object : Callback<InvitationDetailModels> {
+            override fun onFailure(call: Call<InvitationDetailModels>, t: Throwable) {
+                error("onFailure", t)
+                try {
+                    progressDialog.dismiss()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
+                try {
+                    progressDialog.dismiss()
+                    if (response.isSuccessful) {
+                        if (response.body()!!.statuscode?.equalIgnoreCase("4")!!) {
+                            Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                            getDetailsFromServer()
+                        } else {
+                            Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+
+        })
+    }
+
+
 
 
 }

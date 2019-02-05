@@ -35,8 +35,8 @@
     <string name="message.checkbox.degreeShow">Show this degree in summary view at employers end</string>
     <string name="hint.exam_degree_title">Exam / Degree Title *</string>
     <string name="hint.Other_exam_degree_title">Other</string>
-    <string name="hint.concentration_major_group">Concentration / Major / Group *</string>
-    <string name="hint.institute_name">Institute Name *</string>
+    <string name="hint.concentration_major_group">\u0020Concentration / Major / Group *</string>
+    <string name="hint.institute_name">\u0020Institute Name *</string>
     <string name="hint.institute_name_tr">Institute *</string>
     <string name="message.foreign_institute">Is specified institute is a foreign institute?</string>
     <string name="hint.yes">Yes</string>
@@ -164,7 +164,7 @@
     <string name="hint.cgpa">CGPA *</string>
     <string name="hint.hideresult">Hide Result</string>
     <string name="hint.forinstitute">Foreign Institute</string>
-    <string name="hint.results">Results *</string>
+    <string name="hint.results">Result *</string>
     <string name="hint.passingyear">Passing Year *</string>
     <string name="title_career">Career and Application</string>
     <string name="title_contact">Contact Details</string>
@@ -230,6 +230,13 @@
     <string name="toast.exam.degree.title.other.blank">Exam/Degree Title can not be empty</string>
     <string name="hint.addEmail">ADD EMAIL</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
+    <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
+    <string name="subtit.ori_info">Other Relevant Information</string>
+    <string name="title_ORI">Other Relevant Information</string>
+    <string name="resend_code">কোডটি পুনঃরায় পাঠান</string>
+    <string name="hint.special_qualification">Special Qualification</string>
+    <string name="hint.career_summary">Career Summary</string>
+    <string name="hint.keywords">Keywords *</string>
     <string name="err_msg_password_not_empty">Password cannot be empty</string>
     <string name="err_msg_password_confirm_not_empty">Confirm Password cannot be empty</string>
     <string name="err_msg_password_limit">Use at least 8 to 12 characters</string>
@@ -240,4 +247,6 @@
     <string name="valid_email">Please type valid Email</string>
     <string name="email_subj">Subject can not be empty </string>
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
+    <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
+    <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
 </resources>

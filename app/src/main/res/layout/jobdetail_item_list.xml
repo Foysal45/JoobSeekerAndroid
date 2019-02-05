@@ -802,7 +802,7 @@
 
     <com.google.android.material.button.MaterialButton
 
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/applyButton"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"

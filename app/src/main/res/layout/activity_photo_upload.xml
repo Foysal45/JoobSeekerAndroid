@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/clPhotoUpload"
     tools:ignore="HardcodedText"
     tools:context=".editResume.PhotoUploadActivity">
 
@@ -54,17 +55,42 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/regPhotoUploadImageView"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_photo_upload"
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto" />
+        app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto"
+
+        >
+
+        <ImageView
+            android:id="@+id/editResPhotoUploadImageView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_photo_upload"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto" />
+
+        <ImageView
+            android:id="@+id/ic_edit_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="7dp"
+            android:src="@drawable/ic_edit_photo"
+
+            />
+
+
+    </FrameLayout>
 
 
     <TextView
@@ -80,7 +106,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regPhotoUploadImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/framelayout" />
 
     <TextView
         android:id="@+id/photoInfoTV"
@@ -99,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/noPhotoTV" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/regPhotoUploadButton"
+        android:id="@+id/editResPhotoUploadButton"
         style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,7 +137,7 @@
         android:paddingStart="15dp"
         android:paddingTop="12dp"
         android:paddingEnd="15dp"
-        android:enabled="false"
+        android:enabled="true"
         android:paddingBottom="12dp"
         android:text="Upload Photo"
         android:textAllCaps="false"
@@ -128,7 +154,7 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/regChangePhotoButton"
+        android:id="@+id/editResChangePhotoButton"
         style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="170dp"
         android:layout_height="wrap_content"

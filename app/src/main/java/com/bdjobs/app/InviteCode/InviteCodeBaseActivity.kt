@@ -1,9 +1,11 @@
 package com.bdjobs.app.InviteCode
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
@@ -12,10 +14,12 @@ import kotlinx.android.synthetic.main.activity_invite_code_base.*
 class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
 
 
-
+    private var paymentMethod: String = ""
+    private var accountNumber: String = ""
     private var inviteCodeuserType: String = ""
     private var pcOwnerID: String = ""
     private var inviteCodeStatus: String = ""
+    private var fromInviteCodeSubmitPage=false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +42,7 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
         if (inviteCodeuserType.equalIgnoreCase("o")) {
             graph.startDestination = R.id.navigation_owner_base
 
-        } else if (inviteCodeuserType.equalIgnoreCase("n")) {
-
+        } else if (inviteCodeuserType.equalIgnoreCase("u")) {
             if (inviteCodeStatus.equalIgnoreCase("0")) {
                 graph.startDestination = R.id.navigation_user_invite_code_submit
             } else if (inviteCodeStatus.equalIgnoreCase("1")) {
@@ -47,8 +50,15 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
             }
         }
         navHostFragment.navController.graph = graph
+
+    }
+    override fun getPaymentMethod(): String? {
+        return paymentMethod
     }
 
+    override fun getAccountNumber(): String? {
+        return accountNumber
+    }
 
     override fun getInviteCodeUserType(): String? {
        return  inviteCodeuserType
@@ -64,4 +74,29 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
     override fun backButtonClicked() {
        onBackPressed()
     }
+
+    override fun goToPaymentMethod(paymentMethod: String, accountNumber: String, fromInviteCodeSubmitPage: Boolean) {
+        val navController = Navigation.findNavController(this@InviteCodeBaseActivity, R.id.inviteCodeBaseNavFragment)
+        navController.navigate(R.id.navigation_payment_method)
+
+        this.accountNumber=accountNumber
+        this.paymentMethod=paymentMethod
+        this.fromInviteCodeSubmitPage = fromInviteCodeSubmitPage
+    }
+
+    override fun getfromInviteCodeSubmitPage(): Boolean {
+        return fromInviteCodeSubmitPage
+    }
+
+    override fun onBackPressed() {
+        if(fromInviteCodeSubmitPage){
+            val intent = Intent(this@InviteCodeBaseActivity, MainLandingActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finishAffinity()
+        }else {
+            super.onBackPressed()
+        }
+    }
+
 }

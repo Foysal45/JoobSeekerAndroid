@@ -39,6 +39,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private lateinit var dataTr: Tr_DataItem
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
+    lateinit var gotToAddEmployment: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,8 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
 
     private fun getIntentValues() {
         name = intent.getStringExtra("name")
+        gotToAddEmployment = intent.getStringExtra("education_info_add")
+        goToEditInfo(gotToAddEmployment)
     }
 
     override fun setDeleteButton(b: Boolean) {
@@ -93,6 +96,11 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     override fun goToEditInfo(check: String) {
         try {
             when (check) {
+                "addDirect" -> {
+                    acaEditFragment.isEdit = false
+                    transitFragment(acaEditFragment, R.id.edu_info_container, false)
+                    Constants.isDirectCall = true
+                }
                 "add" -> {
                     acaEditFragment.isEdit = false
                     transitFragment(acaEditFragment, R.id.edu_info_container, true)
@@ -121,6 +129,8 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
 
     override fun goBack() {
         onBackPressed()
+        if (Constants.isDirectCall) finish()
+        educationBaseCL.closeKeyboard(this@AcademicBaseActivity)
     }
 
     override fun setTitle(tit: String?) {

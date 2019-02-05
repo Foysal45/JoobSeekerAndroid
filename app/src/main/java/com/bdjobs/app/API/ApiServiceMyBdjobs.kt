@@ -100,6 +100,13 @@ interface ApiServiceMyBdjobs {
     ): Call<GetContactInfo>
 
     @FormUrlEncoded
+    @POST("apps_step_01_view_ori.asp")
+    fun getORIInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetORIResponse>
+
+    @FormUrlEncoded
     @POST("apps_step_01_view_cai.asp")
     fun getCareerInfo(
             @Field("userId") userId: String?,
@@ -524,6 +531,98 @@ interface ApiServiceMyBdjobs {
     ): Call<InviteCodeHomeModel>
 
     @FormUrlEncoded
+    @POST("apps_invite_code.asp")
+    fun getOwnerInviteCode(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("ownerID") ownerID: String?
+    ): Call<OwnerInviteCodeModel>
+
+    @FormUrlEncoded
+    @POST("apps_category_amount.asp")
+    fun getCategoryAmount(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?=""
+    ): Call<InviteCodeCategoryAmountModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_get_invite_list.asp")
+    fun getOwnerInviteList(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?,
+            @Field("verify_status") verify_status: String?
+    ): Call<OwnerInviteListModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_balance_report.asp")
+    fun getOwnerStatement(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?
+    ): Call<InviteCodeOwnerStatementModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_invited_user_status.asp")
+    fun getInviteCodeUserStatus(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("invited_user_id") invited_user_id: String?
+    ): Call<InviteCodeUserStatusModel>
+
+    @FormUrlEncoded
+    @POST("apps_get_balance.asp")
+    fun getOwnerBalance(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pcOwnerId") pcOwnerId: String?
+    ): Call<InviteCodeBalanceModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_get_payment_method.asp")
+    fun getPaymentMethod(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("userType") userType: String?
+    ): Call<InviteCodePaymentMethodModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_payment_system_insert.asp")
+    fun insertPaymentMethod(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("userType") userType: String?,
+            @Field("paymentType") paymentType: String?,
+            @Field("accountNo") accountNo: String?
+    ): Call<PaymentTypeInsertModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_code_submit.asp")
+    fun insertInviteCode(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("mobileNumber") mobileNumber: String?,
+            @Field("catId") catId: String?,
+            @Field("deviceID") deviceID: String?,
+            @Field("promoCode") promoCode: String?
+    ): Call<PaymentTypeInsertModel>
+
+    @FormUrlEncoded
+    @POST("apps_prc_verify_user.asp")
+    fun inviteCodeUserVerify(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("mobileNumber") mobileNumber: String?,
+            @Field("catId") catId: String?,
+            @Field("deviceID") deviceID: String?
+    ): Call<InviteCodeUserVerifyModel>
+
+    @FormUrlEncoded
     @POST("apps_EmailCv.asp")
     fun getEmailResumeMsg(
             @Field("userID") userID: String?,
@@ -563,14 +662,6 @@ interface ApiServiceMyBdjobs {
                     .build()
             return retrofit.create(ApiServiceMyBdjobs::class.java)
         }
-
-    /*    fun create1(): ApiServiceMyBdjobs {
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.baseUrlMyBdjobs1)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-            return retrofit.create(ApiServiceMyBdjobs::class.java)
-        }*/
     }
 
 }
