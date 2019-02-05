@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string-array name="available">
-        <item>Full Time</item>
-        <item>Part Time</item>
-        <item>Contract</item>
-    </string-array>
-
     <string-array name="army_ba">
         <item>BA</item>
-        <item>NYA</item>
-        <item>BJO</item>
-        <item>BSP</item>
         <item>BSS</item>
         <item>JSS</item>
+        <item>BSP</item>
+        <item>BJO</item>
         <item>NO</item>
+        <!--<item>NYA</item>
         <item>PA</item>
         <item>SP</item>
-        <item>PE</item>
+        <item>PE</item>-->
     </string-array>
 
     <string-array name="army_type">
@@ -33,41 +26,40 @@
         <item>Maj</item>
         <item>Lt Col</item>
         <item>Col</item>
-        <item>Brig</item>
+        <item>Brig Gen</item>
         <item>Maj Gen</item>
         <item>Lt Gen</item>
         <item>Gen</item>
+        <item>Snk</item>
+        <item>L/cpl</item>
+        <item>Cpl</item>
+        <item>Sgt</item>
         <item>WO</item>
         <item>SWO</item>
         <item>MWO</item>
         <item>H/Lt</item>
         <item>H/Capt</item>
-        <item>Snk</item>
-        <item>L/cpl</item>
-        <item>H/LI</item>
-        <item>Cpl</item>
-        <item>Sgt</item>
     </string-array>
 
     <string-array name="army_arms">
         <item>AC</item>
+        <item>Arty</item>
         <item>EB</item>
         <item>BIR</item>
+        <item>Sigs</item>
+        <item>Engr</item>
+        <item>EME</item>
+        <item>Ord</item>
+        <item>ASC</item>
+        <item>AMC</item>
+        <item>AEC</item>
         <item>CMP</item>
         <item>ADC</item>
-        <item>AEC</item>
         <item>AFNS</item>
-        <item>AMC</item>
-        <item>Arty</item>
-        <item>ASC</item>
-        <item>EME</item>
-        <item>Engr</item>
-        <item>Ord</item>
         <item>RVFC</item>
         <item>ACC</item>
-        <item>Sigs</item>
-        <item>Staff</item>
-        <item>SS</item>
+        <!--<item>Staff</item>
+        <item>SS</item>-->
     </string-array>
 
     <string-array name="language_level">

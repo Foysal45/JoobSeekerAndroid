@@ -4,6 +4,7 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,10 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     var isEdit = false
     private var hID: String = ""
     private var armyID: String = ""
+    private var baID: String = ""
+    private var ranksID: String = ""
+    private var typeID: String = ""
+    private var armsID: String = ""
     private lateinit var v: View
 
     private val commissionDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -94,10 +99,10 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         addTextChangedListener(et_commission, til_commission)
         addTextChangedListener(et_retire, til_retire)
 
-        et_ba_type.setOnClickListener { setData(editText = et_ba_type, arrayResource = R.array.army_ba, heading = "Select BA Type") }
-        et_ranks.setOnClickListener { setData(editText = et_ranks, arrayResource = R.array.army_ranks, heading = "Select RANK") }
-        et_type.setOnClickListener { setData(editText = et_type, arrayResource = R.array.army_type, heading = "Select TYPE") }
-        et_arms.setOnClickListener { setData(editText = et_arms, arrayResource = R.array.army_arms, heading = "Select ARMS") }
+        et_ba_type.setOnClickListener { setData(editText = et_ba_type, arrayResource = R.array.army_ba, heading = "Select BA Type", tag = "ba") }
+        et_ranks.setOnClickListener { setData(editText = et_ranks, arrayResource = R.array.army_ranks, heading = "Select RANK", tag = "rank") }
+        et_type.setOnClickListener { setData(editText = et_type, arrayResource = R.array.army_type, heading = "Select TYPE", tag = "type") }
+        et_arms.setOnClickListener { setData(editText = et_arms, arrayResource = R.array.army_arms, heading = "Select ARMS", tag = "arms") }
 
         et_commission.setOnClickListener { pickDate(activity, now, commissionDateSetListener) }
         et_retire.setOnClickListener { pickDate(activity, now, retireDateSetListener) }
@@ -111,15 +116,20 @@ class ArmyEmpHistoryEditFragment : Fragment() {
             validation = isValidate(et_arms, til_arms, et_arms, true, validation)
             validation = isValidate(et_commission, til_commission, et_commission, true, validation)
             validation = isValidate(et_retire, til_retire, et_retire, true, validation)
-            if (validation == 6) updateData()
+            if (validation == 7) updateData()
         }
     }
 
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
-        val call = ApiServiceMyBdjobs.create().updateArmyExpsList(session.userId, session.decodId, session.IsResumeUpdate,
-                et_ba_no.getString(), et_ba_type.getString(), et_arms.getString(), et_type.getString(),
-                et_course.getString(), et_trade.getString(), et_commission.getString(), et_retire.getString(), armyID, hID)
+        val call = ApiServiceMyBdjobs.create().updateArmyExpsList(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
+                txtBANo = et_ba_no.getString(), comboBANo = et_ba_type.getString(), comboArms = et_arms.getString(), comboRank = et_ranks.getString(), comboType = et_type.getString(),
+                txtCourse = et_course.getString(), txtTrade = et_trade.getString(), cboCommissionDate = et_commission.getString(), cboRetirementDate = et_retire.getString(), arm_id = armyID, hId = hID)
+
+        Log.d("armyHis", "${session.userId}, ${session.decodId}, ${session.IsResumeUpdate},\n" +
+                "comboBANo = ${et_ba_no.getString()}, txtBANo = $baID, comboArms = $armsID, comboRank = $ranksID, comboType = $typeID,\n" +
+                "                txtCourse = ${et_course.getString()}, txtTrade = ${et_trade.getString()}, cboCommissionDate = ${et_commission.getString()}, cboRetirementDate = ${et_retire.getString()}, arm_id = $armyID, hId = $hID")
+
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -225,11 +235,22 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         }
     }
 
-    private fun setData(editText: TextInputEditText, arrayResource: Int, heading: String) {
+    private fun setData(editText: TextInputEditText, arrayResource: Int, heading: String, tag: String) {
         val list = resources.getStringArray(arrayResource).toList()
         activity.selector(heading, list) { _, i ->
+            //activity?.toast("position : $i")
+            getPosition(tag, i)
             editText.setText(list[i])
             editText.requestFocus()
+        }
+    }
+
+    private fun getPosition(tag: String, pos: Int) {
+        when (tag) {
+            "ba" -> baID = pos.toString()
+            "rank" -> ranksID = pos.toString()
+            "type" -> typeID = pos.toString()
+            "arms" -> armsID = pos.toString()
         }
     }
 }

@@ -10,7 +10,6 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
@@ -64,6 +63,7 @@ class ArmyEmpHisViewFragment : Fragment() {
 
     private fun populateData() {
         armyMainCl.hide()
+        fab_eh_army.hide()
         val call = ApiServiceMyBdjobs.create().getArmyExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetArmyEmpHis> {
             override fun onFailure(call: Call<GetArmyEmpHis>, t: Throwable) {
@@ -78,34 +78,37 @@ class ArmyEmpHisViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         tv_no_data.hide()
+                        fab_eh_army.show()
                         nsArmyEmp.show()
                         val respo = response.body()
-                        dModel = respo?.armydata?.get(0)!!
-                        armyMainCl.show()
-                        noData = false
-                        fab_eh_army.setImageResource(R.drawable.ic_edit_white)
-                        empHisCB.passArmyData(dModel)
-                        tvBa?.text = dModel.baNo1
-                        tvBaNo?.text = dModel.baNo2
-                        tvRank?.text = dModel.rank
-                        tvArmyType?.text = dModel.type
-                        tvTrade?.text = dModel.trade
-                        tvArms?.text = dModel.arms
-                        tvCourse?.text = dModel.course
-                        tvCommisDate?.text = dModel.dateOfCommission
-                        tvRetireDate?.text = dModel.dateOfRetirement
-                    } else {
-                        d("else resp : " + response.code() + "message: ${response.body()?.message}")
-                        //activity.toast(response.body()?.message.toString())
+                        if (respo?.armydata?.size == 0 || respo?.armydata != null) {
+                            dModel = respo.armydata[0]!!
+                            armyMainCl.show()
+                            noData = false
+                            fab_eh_army.setImageResource(R.drawable.ic_edit_white)
+                            empHisCB.passArmyData(dModel)
+                            tvBa?.text = dModel.baNo1
+                            tvBaNo?.text = dModel.baNo2
+                            tvRank?.text = dModel.rank
+                            tvArmyType?.text = dModel.type
+                            tvTrade?.text = dModel.trade
+                            tvArms?.text = dModel.arms
+                            tvCourse?.text = dModel.course
+                            tvCommisDate?.text = dModel.dateOfCommission
+                            tvRetireDate?.text = dModel.dateOfRetirement
+                        } else {
+                            noData = true
+                            nsArmyEmp.hide()
+                            tv_no_data.text = respo?.message.toString()
+                            tv_no_data.show()
+                            fab_eh_army.show()
+                            fab_eh_army.setImageResource(R.drawable.ic_add_white)
+                        }
                     }
                 } catch (e: Exception) {
-                    noData = true
-                    nsArmyEmp.hide()
-                    tv_no_data.show()
-                    fab_eh_army.setImageResource(R.drawable.ic_add_white)
                     //activity.toast(response.body()?.message.toString())
                     //armyMainCl.invisible()
-                    activity.error("++${e.message}")
+                    d("++${e.message}")
                 }
             }
         })

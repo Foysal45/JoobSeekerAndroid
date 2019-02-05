@@ -231,7 +231,7 @@
     <string name="hint.addEmail">ADD EMAIL</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
-    <string name="subtit.ori_info">Other Relevant Information</string>
+    <string name="title_pref_areas">Preferred Areas</string>
     <string name="title_ORI">Other Relevant Information</string>
     <string name="title_army_emp_his">Employment History (Retired Army Person)</string>
     <string name="resend_code">কোডটি পুনঃরায় পাঠান</string>

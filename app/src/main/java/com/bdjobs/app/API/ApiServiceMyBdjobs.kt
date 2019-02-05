@@ -235,6 +235,7 @@ interface ApiServiceMyBdjobs {
             @Field("comboBANo") comboBANo: String?,
             @Field("txtBANo") txtBANo: String?,
             @Field("comboArms") comboArms: String?,
+            @Field("comboRank") comboRank: String?,
             @Field("comboType") comboType: String?,
             @Field("txtCourse") txtCourse: String?,
             @Field("txtTrade") txtTrade: String?,

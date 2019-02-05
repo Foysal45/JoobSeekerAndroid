@@ -56,6 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.ba_no"
+                        android:maxLength="10"
                         android:inputType="number"
                         android:textColor="#212121" />
 
@@ -153,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.army_course"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="50"
+                    android:maxLength="100"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
