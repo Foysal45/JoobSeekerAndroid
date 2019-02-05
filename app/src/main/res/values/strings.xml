@@ -246,7 +246,7 @@
 
     <string name="valid_email">Please type valid Email</string>
     <string name="email_subj">Subject can not be empty </string>
-    <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
+
     <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
     <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
 </resources>

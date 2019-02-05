@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.ADDorUpdateModel
-import com.bdjobs.app.R
+import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.facebook.FacebookSdk.getApplicationContext
@@ -23,23 +23,29 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.toast
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.util.ArrayList
 import java.util.HashMap
 
+
+
+
 class UploadResumeAppFragment : Fragment() {
     lateinit var communicator: ManageResumeCommunicator
     internal var filePaths = ArrayList<String>()
     private val RESULT_LOAD_IMG = 1
+    //val bdjobsUserSession = BdjobsUserSession(activity)
     lateinit var bdjobsUserSession: BdjobsUserSession
     internal lateinit var multipartBodyPart: MultipartBody.Part
     internal var map = HashMap<String, RequestBody>()
     internal lateinit var requestFile: RequestBody
+    internal lateinit var requestBodyid: RequestBody
     internal lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_upload_resume, container, false)
+        return inflater.inflate(com.bdjobs.app.R.layout.fragment_upload_resume, container, false)
     }
 
     private fun initializer() {
@@ -52,7 +58,7 @@ class UploadResumeAppFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-       // initializer()
+        // initializer()
         communicator = activity as ManageResumeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
         submitTV?.setOnClickListener {
@@ -117,8 +123,16 @@ class UploadResumeAppFragment : Fragment() {
             if (fileinfo.extension.equalIgnoreCase("pdf") || fileinfo.extension.equalIgnoreCase("doc") || fileinfo.extension.equalIgnoreCase("docx")) {
                 toast("ok")
                 val mediaType = "application/" + fileinfo.extension
-                requestFile = RequestBody.create(MediaType.parse(mediaType), File(uri.path))
-                multipartBodyPart = MultipartBody.Part.createFormData("File", fileinfo.fileName, requestFile)
+             //   requestFile = RequestBody.create(MediaType.parse(mediaType), File(uri.path))
+             //   multipartBodyPart = MultipartBody.Part.createFormData("File", fileinfo.fileName, requestFile)
+              //---------------------------------
+                val file1 = File(uri.path)
+                val id = 24
+                 requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file1)
+                 multipartBodyPart = MultipartBody.Part.createFormData("File", fileinfo.fileName, requestFile)
+               // requestBodyid = RequestBody.create(MediaType.parse("multipart/form-data"), id)
+
+
                 val userid = createPartFromString(bdjobsUserSession.userId!!)
                 val decodeid = createPartFromString(bdjobsUserSession.decodId!!)
                 val status = createPartFromString("upload")
@@ -133,6 +147,15 @@ class UploadResumeAppFragment : Fragment() {
                 map.put("fileType", fileType)
                 map.put("fileName", fileName)
 
+                Log.d("upload",
+                        "value = " + "user id =  " + bdjobsUserSession.userId +
+                                " #decodeid = " + bdjobsUserSession.decodId +
+                                " #status = " + status +
+                                " #fileex = " + fileExtension +
+                                " #filetype = " + fileType +
+                                " #filename = " + fileName
+                )
+
                 uploadCV()
             }
 
@@ -140,21 +163,31 @@ class UploadResumeAppFragment : Fragment() {
     }
 
     private fun uploadCV() {
-      //  progressDialog.setTitle("Saving")
-     //   progressDialog.show()
+        //  progressDialog.setTitle("Saving")
+        //   progressDialog.show()
 
 
-
-        ApiServiceMyBdjobs.create().UploadCV(
+/*        ApiServiceMyBdjobs.create().UploadCV(
                 partMap = map,
                 file = multipartBodyPart
 
-        ).enqueue(object : retrofit2.Callback<ADDorUpdateModel>{
-            override fun onFailure(call: Call<ADDorUpdateModel>, t: Throwable) {
+        ).enqueue(object : retrofit2.Callback<UploadResume>{
+            override fun onFailure(call: Call<UploadResume>, t: Throwable) {
                 toast("${t.message}")
+                Log.d("mapmapmap", "map=" + map +
+                        "multi = " + multipartBodyPart +
+                        " status = 123"+ " failil"+
+                        t.toString()
+                )
             }
 
-            override fun onResponse(call: Call<ADDorUpdateModel>, response: Response<ADDorUpdateModel>) {
+            override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
+                Log.d("mapmapmap", "map=" + map +
+                        "multi = " + multipartBodyPart +
+                        " status = 123"+response.code()
+                )
+                toast("${response.code()}")
+
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         toast("${response.body()?.message}")
@@ -163,6 +196,27 @@ class UploadResumeAppFragment : Fragment() {
                         //   progressDialog.dismiss()
                     }
                 }
+            }
+
+
+
+        })*/
+
+
+        ApiServiceMyBdjobs.create().UploadCV2(
+                partMap = map,
+                file = multipartBodyPart
+        ).enqueue(object : Callback<ADDorUpdateModel> {
+            override fun onFailure(call: Call<ADDorUpdateModel>, t: Throwable) {
+                Log.d("mapmapmap", "map=" + map +
+                        "multi = " + multipartBodyPart +
+                        " status = 123" + " failil" +
+                        t.toString()
+                )
+            }
+
+            override fun onResponse(call: Call<ADDorUpdateModel>, response: Response<ADDorUpdateModel>) {
+                toast("${response.code()}")
             }
 
         })
