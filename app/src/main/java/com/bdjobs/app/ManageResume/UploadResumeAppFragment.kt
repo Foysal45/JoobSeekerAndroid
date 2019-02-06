@@ -13,14 +13,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.ADDorUpdateModel
+import com.bdjobs.app.API.ModelClasses.TrainingList
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.facebook.FacebookSdk.getApplicationContext
 import kotlinx.android.synthetic.main.fragment_upload_resume.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,6 +70,9 @@ class UploadResumeAppFragment : Fragment() {
             BrowseFile()
             // photoupload()
 
+        }
+        button2.setOnClickListener {
+           startActivity<TrainingListAcitivity>()
         }
     }
 

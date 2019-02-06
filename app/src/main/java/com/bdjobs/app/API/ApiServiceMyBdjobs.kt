@@ -659,6 +659,15 @@ interface ApiServiceMyBdjobs {
             @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
             @Part file: MultipartBody.Part): Call<ADDorUpdateModel>
 
+    @FormUrlEncoded
+    @POST("app_training.asp")
+    fun getTrainingList(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?
+
+    ): Call<TrainingList>
+
+
 
     companion object Factory {
 
