@@ -71,6 +71,7 @@ class EmpHistoryViewFragment : Fragment() {
         call.enqueue(object : Callback<GetExps> {
             override fun onFailure(call: Call<GetExps>, t: Throwable) {
                 shimmerStop()
+                assert(activity != null)
                 activity.toast(R.string.message_common_error)
             }
 

@@ -338,7 +338,6 @@ data class Ca_DataItem(
 )
 
 data class GetCarrerInfo(
-
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
 
@@ -402,5 +401,68 @@ data class GetTrainingInfo(
         val common: Any? = null,
         val message: String? = null
 )
+
+// preferred Areas
+data class GetPreferredAreas(
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val prefData: List<PreferredAreasData?>? = listOf(),
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
+)
+
+data class PreferredAreasData(
+        @SerializedName("inside")
+        val inside: List<Inside?>? = listOf(),
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("outside")
+        val outside: List<Outside?>? = listOf(),
+        @SerializedName("preferredBlueCategories")
+        val preferredBlueCategories: List<PreferredBlueCategory?>? = listOf(),
+        @SerializedName("prefferedJobCategories")
+        val preferredJobCategories: List<PreferredJobCategory?>? = listOf(),
+        @SerializedName("prefferedOrganizationType")
+        val preferredOrganizationType: List<PreferredOrgType?>? = listOf()
+)
+
+data class PreferredOrgType(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("pref_org_name")
+        val prefOrgName: String?
+)
+
+data class Outside(
+        @SerializedName("country_name")
+        val countryName: String?,
+        @SerializedName("id")
+        val id: String?
+)
+
+data class Inside(
+        @SerializedName("district_name")
+        val districtName: String?,
+        @SerializedName("id")
+        val id: String?
+)
+
+data class PreferredBlueCategory(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("pref_blue_cat_name")
+        val prefBlueCatName: String?
+)
+
+data class PreferredJobCategory(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("pref_cat_name")
+        val prefCatName: String?
+)
+
 
 // Landing List

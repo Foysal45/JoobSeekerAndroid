@@ -248,4 +248,10 @@
     <string name="tool_tip_summary">What is Career Summary</string>
     <string name="tool_tip_what_is_special_qualification">What is Special Qualification</string>
     <string name="tool_tip_what_is_keywords">What is Keywords</string>
+    <string name="subtit_pref_func_job">Preferred Functional Job Categories</string>
+    <string name="subtit_pref_skilled_job">Preferred Special Skilled Job Categories</string>
+    <string name="subtit_pref_org_type">Preferred Organization Type</string>
+    <string name="subtit_pref_locs">Preferred Job Location</string>
+    <string name="subtit_pref_locs_inside">Inside Bangladesh</string>
+    <string name="subtit_pref_locs_outside">Outside Bangladesh</string>
 </resources>

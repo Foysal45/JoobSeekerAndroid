@@ -15,8 +15,6 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiServiceMyBdjobs {
-
-
     @FormUrlEncoded
     @POST(api_mybdjobs_app_signinprocess)
     fun getLoginUserDetails(@Field("username") username: String?): Call<LoginUserModel>
@@ -84,6 +82,13 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<GetTrainingInfo>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_view_jclo.asp")
+    fun getPreferredAreaInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetPreferredAreas>
 
     @FormUrlEncoded
     @POST("apps_step_01_view_per.asp")

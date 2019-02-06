@@ -151,12 +151,10 @@ class EmpHistoryEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-        exps = ""
+        //exps = ""
         positionTIL.clearFocus()
         companyNameET.requestFocus()
         //ehMailLL.clearFocus()
-        if (idArr.isNotEmpty())
-            idArr.clear()
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
@@ -174,6 +172,8 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
+        if (idArr.isNotEmpty())
+            idArr.clear()
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -292,7 +292,7 @@ class EmpHistoryEditFragment : Fragment() {
                     Log.e("updateEx: ", "error: ${e.printStackTrace()}")
                 }
                 debug("chiIDs: $exps, and ids $idArr")
-                if (idArr.size == 0 || exps.equals("")) {
+                if (idArr.size == 0) {
                     activity?.toast("Please select at least one experience")
                     experiencesTIL.isErrorEnabled = true
                     experiencesTIL?.showError("This Field can not be empty")
