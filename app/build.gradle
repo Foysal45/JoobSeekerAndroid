@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 625 //58
-        versionName "600.0.4.8.2"  //2.0
+        versionCode 626 //58
+        versionName "600.0.4.8.3"  //2.0
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -59,6 +59,7 @@ dependencies {
     implementation "com.google.code.gson:gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.7.0'
 
     //----jetbrains kotlin extension
     implementation "org.jetbrains.anko:anko:$anko_version"
@@ -87,8 +88,8 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha11"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha11"
 
     //-----google maps
     implementation "com.google.android.gms:play-services-maps:16.0.0"

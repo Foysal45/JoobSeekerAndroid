@@ -801,7 +801,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         doAsync {
                             var deadline: Date? = null
                             try {
-                                deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                                deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
                             } catch (e: Exception) {
                                 logException(e)
                             }

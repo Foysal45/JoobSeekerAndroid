@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.app.Fragment
 import android.text.Html
+import android.util.Log
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ModelClasses.JobListModelData
@@ -53,6 +54,7 @@ class ShortListedJobFragment : Fragment() {
             val jobList: MutableList<JobListModelData> = java.util.ArrayList()
 
             for (item in shortListedJobs) {
+                Log.d("shortListedJobs","Deadline: ${item.deadline}")
                 val jobListModelData = JobListModelData(
                         jobid = item.jobid,
                         jobTitle = item.jobtitle,
