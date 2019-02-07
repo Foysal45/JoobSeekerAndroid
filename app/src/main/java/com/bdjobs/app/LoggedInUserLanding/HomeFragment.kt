@@ -429,8 +429,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         calendar.add(Calendar.DAY_OF_YEAR, 2)
         val deadlineNext2Days = calendar.time
 
-
-
         doAsync {
             val shortlistedjobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
             uiThread {
@@ -454,13 +452,14 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                 //selectChip(deadlineCG,"Next 2 days")
 
-
                 cancelIV.setOnClickListener {
                     dialog.dismiss()
                 }
 
-
-
+                showButton.setOnClickListener {
+                    homeCommunicator.goToShortListedFragment(2)
+                    dialog?.dismiss()
+                }
                 dialog.show()
             }
         }
