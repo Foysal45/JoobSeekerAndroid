@@ -28,9 +28,6 @@ class WCNameFragment : Fragment() {
         registrationCommunicator = activity as RegistrationCommunicator
 
         setName()
-
-
-
         onClick()
 
 

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment">
+    tools:context=".editResume.educationInfo.fragments.professionalQualification.ProfessionalQLFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_reference_view"
+        android:id="@+id/rv_professional_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container_reference"
+        android:id="@+id/shimmer_view_container_Prf_List"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -52,7 +52,7 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_reference_add"
+        android:id="@+id/fab_professional_add"
         style="@style/FabStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

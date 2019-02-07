@@ -365,6 +365,21 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
     return valid
 }
 
+fun marksValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+    when {
+        TextUtils.isEmpty(char) -> {
+            til.showError("This Field can not be empty")
+            return false
+        }
+        char.length < 1 -> {
+            et.requestFocus()
+            return false
+        }
+        else -> til.hideError()
+    }
+    return true
+}
+
 fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextInputLayout?,
                              etNext: TextInputEditText?, isEmpty: Boolean, validation: Int): Int {
     var valid: Int = validation

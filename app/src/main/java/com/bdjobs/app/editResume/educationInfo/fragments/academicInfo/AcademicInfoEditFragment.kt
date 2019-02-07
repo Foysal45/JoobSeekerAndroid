@@ -107,8 +107,6 @@ class AcademicInfoEditFragment : Fragment() {
         setView(resID.toInt())
         cgpaTIET.setText(data.marks)
         etScaleTIET.setText(data.scale)
-
-
         if (data.scale!!.equalIgnoreCase("0")) {
 
             marksTIET.setText(data.marks)
@@ -119,7 +117,6 @@ class AcademicInfoEditFragment : Fragment() {
         etAchievement.setText(data.acievement)
         cbResHide.isChecked = data.showMarks.equals("1")
         cbForInstitute.isChecked = data.instituteType.equals("1")
-
         levelEduTIL.isErrorEnabled = false
         examTitleTIL.isErrorEnabled = false
         mejorTIL.isErrorEnabled = false
@@ -137,8 +134,61 @@ class AcademicInfoEditFragment : Fragment() {
 
     }
 
-    private fun doWork() {
+    private fun checkValidity(editText: TextInputEditText, textInputLayout: TextInputLayout) {
+        if (TextUtils.isEmpty(editText.getString())) {
+            textInputLayout.showError("This Field can not be empty")
+        } else {
+            textInputLayout.isErrorEnabled = false
+        }
 
+
+    }
+
+    private fun addValidityCheck() {
+        checkValidity(etLevelEdu, levelEduTIL)
+        if (examTitleTIL.isVisible) {
+            checkValidity(etExamTitle, examTitleTIL)
+        }
+        // exam degree title other
+        if (etExamOtherTitle.isVisible) {
+            checkValidity(etExamOtherTitle, examOtherTIL)
+        }
+        // concentration major group
+        if (mejorTIL.isVisible) {
+            if (TextUtils.isEmpty(majorSubACTV.getString())) {
+                mejorTIL.showError("This Field can not be empty")
+            } else {
+                mejorTIL.isErrorEnabled = false
+
+            }
+
+        }
+        //institute
+        if (TextUtils.isEmpty(instituteNameACTV.getString())) {
+            instituteTIL.showError("This Field can not be empty")
+        } else {
+            instituteTIL.isErrorEnabled = false
+        }
+        // result
+        checkValidity(etResults, resultTIL)
+        //passing year
+        checkValidity(etPassignYear, acaPassingYearTIL)
+        //marks validation
+        if (marksLayout.isVisible) {
+            checkValidity(marksTIET, marksTIL)
+
+        }
+        //Grade  and scale validation
+        Log.d("Validation", " gradeLayout.isVisible ${gradeLayout.isVisible}")
+        if (gradeLayout.isVisible) {
+            checkValidity(cgpaTIET, cGpaTIL)
+            checkValidity(etScaleTIET, scaleTIL)
+
+        }
+
+    }
+
+    private fun doWork() {
         addTextChangedListener()
         setDialog()
         cbResHide.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -192,118 +242,22 @@ class AcademicInfoEditFragment : Fragment() {
             }
 
         }
-
         fab_aca_edit.setOnClickListener {
             fragAcaInfoEdit.closeKeyboard(activity)
-            validation = 0
-            checkValidity()
-
-            /*   if (!cbResHide.isChecked) {
-                   if (etResults.getString().equalIgnoreCase("First Division/Class")
-                           || etResults.getString().equalIgnoreCase("Second Division/Class")
-                           || etResults.getString().equalIgnoreCase("Third Division/Class")) {
-                       if (marksTIET.getString().isEmpty()) {
-                           resultValiadtionCode = 1
-                       } else {
-                           marks = marksTIET.getString().toDouble()
-
-                           if (marks > 100 || marks < 1) {
-
-                               resultValiadtionCode = 99
-                               validation--
-
-                           } else {
-                               resultValiadtionCode = 0
-                           }
-
-
-                       }
-
-                   } else if (etResults.getString().equalIgnoreCase("Grade")) {
-
-                       if (cgpaTIET.getString().isEmpty()) {
-                           resultValiadtionCode = 4
-
-                           if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
-                               resultValiadtionCode = 7
-
-                           }
-
-                       } else if (etScaleTIET.getString().isEmpty()) {
-
-                           resultValiadtionCode = 6
-                           if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
-                               resultValiadtionCode = 7
-
-                           }
-
-                       } else if (cgpaTIET.getString().isEmpty() && etScaleTIET.getString().isEmpty()) {
-
-                           resultValiadtionCode = 7
-
-                       } else if (!cgpaTIET.getString().isEmpty() && !etScaleTIET.getString().isEmpty()) {
-
-                           cgp = cgpaTIET.getString().toDouble()
-                           scale = etScaleTIET.getString().toDouble()
-
-                           if (cgp > scale) {
-
-                               resultValiadtionCode = 5
-                               validation--
-
-
-                           } else {
-
-                               resultValiadtionCode = 0
-
-                           }
-
-                           if (cgp > 10.00 || cgp < 1.00) {
-
-                               resultValiadtionCode = 2
-                               validation--
-                           }
-
-
-
-                           if (scale > 10.00 || scale < 1.00) {
-
-                               resultValiadtionCode = 3
-                               validation--
-                           }
-
-                       }
-
-                   }
-
-               }*/
-
-            /* updateData()*/
-
-
+            addValidityCheck()
             if (validateLevelofEducation()) {
-
                 if (validateExamDegreeTile() || validateExamDegreeTitleOther()) if (validateMajor() || !validateMajor()) {
-
                     if (validateInstituteName()) {
-
                         if (validateResult()) {
-
-
                             if (cbResHide.isVisible) {
-
                                 if (!cbResHide.isChecked) {
-
                                     if (validateMarks()) {
-
                                         if (validatePassingYear()) {
 
                                             Log.d("dshjfdg", " in first condition")
                                             updateData()
 
                                         }
-
-
                                     }
 
                                     if (validateCgpa() && validateScale()) {
@@ -354,24 +308,14 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun addTextChangedListener() {
 
-
-        etLevelEdu.easyOnTextChangedListener { charSequence ->
-            eduCB.validateField(charSequence.toString(), etLevelEdu, levelEduTIL)
-        }
-
-        etExamTitle.easyOnTextChangedListener { charSequence ->
-
-            eduCB.validateField(charSequence.toString(), etExamTitle, examTitleTIL)
-            d("etTrInst : ->$charSequence|")
-
-        }
-
-        etExamOtherTitle.easyOnTextChangedListener { charSequence ->
-
-            eduCB.validateField(charSequence.toString(), etExamOtherTitle, examOtherTIL)
-
-        }
-
+        addTextChangedListener(etLevelEdu, levelEduTIL)
+        addTextChangedListener(etExamTitle, examTitleTIL)
+        addTextChangedListener(etExamOtherTitle, examOtherTIL)
+        addTextChangedListener(etResults, resultTIL)
+        addTextChangedListener(etPassignYear, acaPassingYearTIL)
+        addTextChangedListenerMark(marksTIET, marksTIL)
+        addTextChangedListenerMark(cgpaTIET, cGpaTIL)
+        addTextChangedListenerMark(etScaleTIET, scaleTIL)
         majorSubACTV.easyOnTextChangedListener { charSequence ->
 
             validateACTV(charSequence.toString(), majorSubACTV, mejorTIL)
@@ -383,39 +327,6 @@ class AcademicInfoEditFragment : Fragment() {
             validateACTV(charSequence.toString(), instituteNameACTV, instituteTIL)
 
         }
-
-        etResults.easyOnTextChangedListener { charSequence ->
-
-
-            eduCB.validateField(charSequence.toString(), etResults, resultTIL)
-
-        }
-
-        etPassignYear.easyOnTextChangedListener { charSequence ->
-
-
-            eduCB.validateField(charSequence.toString(), etPassignYear, acaPassingYearTIL)
-
-        }
-
-        marksTIET.easyOnTextChangedListener { charSequence ->
-
-            eduCB.validateField(charSequence.toString(), marksTIET, marksTIL)
-
-        }
-
-        cgpaTIET.easyOnTextChangedListener { charSequence ->
-
-            validateGradeEt(charSequence.toString(), cgpaTIET, cGpaTIL)
-
-        }
-
-        etScaleTIET.easyOnTextChangedListener { charSequence ->
-
-            validateGradeEt(charSequence.toString(), etScaleTIET, scaleTIL)
-
-        }
-
 
     }
 
@@ -438,22 +349,6 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
 
-    private fun validateGradeEt(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
-        when {
-            TextUtils.isEmpty(char) -> {
-                til.showError(getString(R.string.field_empty_error_message_common))
-                requestFocus(et)
-                return false
-            }
-            char.length < 1 -> {
-                til.showError("it is too short")
-                requestFocus(et)
-                return false
-            }
-            else -> til.hideError()
-        }
-        return true
-    }
 
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
@@ -461,187 +356,6 @@ class AcademicInfoEditFragment : Fragment() {
         }
     }
 
-    private fun checkValidity() {
-
-
-        etLevelEdu.easyOnTextChangedListener { }
-
-        // Level of education
-        if (TextUtils.isEmpty(etLevelEdu.getString())) {
-
-            levelEduTIL.showError("This Field can not be empty")
-
-        } else {
-
-            validation++
-            levelEduTIL.isErrorEnabled = false
-
-            Log.d("Validation", " valiadtion value 1 $validation")
-
-
-        }
-
-        // exam degree title
-
-        if (examTitleTIL.isVisible) {
-
-            if (TextUtils.isEmpty(etExamTitle.getString())) {
-
-                examTitleTIL.showError("This Field can not be empty")
-
-            } else {
-
-                validation++
-                examTitleTIL.isErrorEnabled = false
-                Log.d("Validation", " valiadtion value 2 $validation")
-
-
-            }
-
-        }
-
-
-        // exam degree title other
-
-
-        if (etExamOtherTitle.isVisible) {
-
-            if (TextUtils.isEmpty(etExamOtherTitle.getString())) {
-
-                examOtherTIL.showError("This Field can not be empty")
-
-            } else {
-
-                validation++
-                examOtherTIL.isErrorEnabled = false
-                Log.d("Validation", " valiadtion value 3 $validation")
-
-
-            }
-        }
-
-
-        // concentration major group
-
-        if (mejorTIL.isVisible) {
-
-            if (TextUtils.isEmpty(majorSubACTV.getString())) {
-
-                mejorTIL.showError("This Field can not be empty")
-
-            } else {
-
-                validation++
-                mejorTIL.isErrorEnabled = false
-                Log.d("Validation", " valiadtion value 4 $validation")
-
-
-            }
-
-        }
-
-
-        //institute
-        if (TextUtils.isEmpty(instituteNameACTV.getString())) {
-
-            instituteTIL.showError("This Field can not be empty")
-
-        } else {
-
-            validation++
-            instituteTIL.isErrorEnabled = false
-            Log.d("Validation", " valiadtion value 5 $validation")
-
-
-        }
-
-        // result
-
-        if (TextUtils.isEmpty(etResults.getString())) {
-
-            resultTIL.showError("This Field can not be empty")
-
-        } else {
-
-            validation++
-            resultTIL.isErrorEnabled = false
-            Log.d("Validation", " valiadtion value 6 $validation")
-
-
-        }
-
-        //passing year
-        if (TextUtils.isEmpty(etPassignYear.getString())) {
-
-            acaPassingYearTIL.showError("This Field can not be empty")
-
-        } else {
-
-            validation++
-            acaPassingYearTIL.isErrorEnabled = false
-            Log.d("Validation", " valiadtion value 7 $validation")
-
-
-        }
-
-        //marks validation
-
-        if (marksLayout.isVisible) {
-
-            if (TextUtils.isEmpty(marksTIET.getString())) {
-
-                marksTIL.showError("This Field can not be empty")
-
-            } else {
-
-                validation++
-                marksTIL.isErrorEnabled = false
-                Log.d("Validation", " valiadtion value 8 $validation")
-
-            }
-
-
-        }
-
-
-        //Grade  and scale validation
-
-        Log.d("Validation", " gradeLayout.isVisible ${gradeLayout.isVisible}")
-
-        if (gradeLayout.isVisible) {
-
-            if (TextUtils.isEmpty(cgpaTIET.getString())) {
-
-                cGpaTIL.showError("This Field can not be empty")
-
-            } else {
-
-                validation++
-                cGpaTIL.isErrorEnabled = false
-                Log.d("Validation", " valiadtion value 9 $validation")
-
-            }
-
-            if (TextUtils.isEmpty(etScaleTIET.getString())) {
-
-                scaleTIL.showError("This Field can not be empty")
-
-            } else {
-
-                validation++
-                scaleTIL.isErrorEnabled = false
-                Log.d("Validation", " valiadton value 10 $validation")
-
-            }
-
-        }
-
-
-
-
-        Log.d("Validation", "value $validation")
-
-    }
 
     private fun setDialog() {
 
@@ -659,14 +373,11 @@ class AcademicInfoEditFragment : Fragment() {
 
         if (instSuggession) {
             instituteNameACTV.setAdapter(universityAdapter)
-            Log.d("instSuggession", "setDialog in suggession condition")
+
         } else {
             instituteNameACTV.setAdapter(null)
-            Log.d("instSuggession", "in  not suggession condition")
+
         }
-
-
-
 
         etLevelEdu.setOnClickListener {
             val eduLevelList: Array<String> = ds.allEduLevels
@@ -1029,23 +740,17 @@ class AcademicInfoEditFragment : Fragment() {
         return false
     }
 
-
-    /* if (!cgpaTIET.getString().isEmpty() && !etScaleTIET.getString().isEmpty()) {
-
-        cgp = cgpaTIET.getString().toDouble()
-        scale = etScaleTIET.getString().toDouble()
-
-        if (cgp > scale) {
-
-            cGpaTIL.error = "CGPA can not be greater than Scale"
-
-
+    private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            eduCB.validateField(charSequence.toString(), editText, inputLayout)
         }
+    }
 
-        return false
-    } else {
-        cGpaTIL.setErrorEnabled(false)
-    }*/
+    private fun addTextChangedListenerMark(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            marksValidation(charSequence.toString(), editText, inputLayout)
+        }
+    }
 
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
@@ -1166,12 +871,9 @@ class AcademicInfoEditFragment : Fragment() {
                     marksLayout.show()
                     marksTIET.clear()
                     marksTIL.isErrorEnabled = false
-
-
                 }
 
             }
-
             11 -> {
 
                 cbResHide.show()
@@ -1195,8 +897,6 @@ class AcademicInfoEditFragment : Fragment() {
 
 
                 }
-
-
             }
             0 -> {
                 cbResHide.hide()

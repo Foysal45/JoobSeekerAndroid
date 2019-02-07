@@ -184,6 +184,15 @@
                 android:text="@string/title_training"
                 app:icon="@drawable/ic_training_sum" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfessional"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/title_professional_qualification"
+                app:icon="@drawable/ic_training_sum" />
+
 
             <View
                 android:layout_width="match_parent"
@@ -221,6 +230,49 @@
                 android:singleLine="true"
                 android:text="@string/army_employment_history_title"
                 app:icon="@drawable/ic_employment_history" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/title_other_information"
+                android:textColor="#999999" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSpecilaization"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/title_specialization"
+                app:icon="@drawable/ic_employment_history" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLanguage"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="@string/title_language"
+                app:icon="@drawable/ic_employment_history" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReferences"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:singleLine="true"
+                android:text="@string/title_reference"
+                app:icon="@drawable/ic_employment_history" />
+
 
             <View
                 android:layout_width="match_parent"

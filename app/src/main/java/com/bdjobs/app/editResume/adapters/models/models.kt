@@ -150,7 +150,6 @@ data class GetAcademicInfo(
 )
 
 data class AcaDataItem(
-
         @field:SerializedName("eduType")
         val eduType: String? = null,
 
@@ -305,6 +304,7 @@ data class C_DataItem(
         @SerializedName("presentVillage")
         val presentVillage: String?
 )
+
 data class GetContactInfo(
         @SerializedName("common")
         val common: Any?,
@@ -315,6 +315,7 @@ data class GetContactInfo(
         @SerializedName("statuscode")
         val statuscode: String?
 )
+
 // Career Info
 data class Ca_DataItem(
 
@@ -404,3 +405,98 @@ data class GetTrainingInfo(
 )
 
 // Landing List
+
+
+//LanguageInfo
+
+data class LanguageModel(
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val `data`: List<LanguageDataModel?>?,
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
+)
+
+data class LanguageDataModel(
+        @SerializedName("language")
+        val language: String?,
+        @SerializedName("ln_id")
+        val lnId: String?,
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("reading")
+        val reading: String?,
+        @SerializedName("speaking")
+        val speaking: String?,
+        @SerializedName("writing")
+        val writing: String?
+)
+
+
+data class ReferenceModel(
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val `data`: List<ReferenceDataModel?>?,
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
+)
+
+data class ReferenceDataModel(
+        @SerializedName("address")
+        val address: String?,
+        @SerializedName("designation")
+        val designation: String?,
+        @SerializedName("email")
+        val email: String?,
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("mobile")
+        val mobile: String?,
+        @SerializedName("name")
+        val name: String?,
+        @SerializedName("organization")
+        val organization: String?,
+        @SerializedName("phone_office")
+        val phoneOffice: String?,
+        @SerializedName("phone_res")
+        val phoneRes: String?,
+        @SerializedName("ref_id")
+        val refId: String?,
+        @SerializedName("relation")
+        val relation: String?
+)
+
+
+data class ProfessionalModel(
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val `data`: List<ProfessionalDataModel?>?,
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
+)
+
+data class ProfessionalDataModel(
+        @SerializedName("certification")
+        val certification: String?,
+        @SerializedName("from")
+        val from: String?,
+        @SerializedName("institute")
+        val institute: String?,
+        @SerializedName("location")
+        val location: String?,
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("prId")
+        val prId: String?,
+        @SerializedName("to")
+        val to: String?
+)

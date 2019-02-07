@@ -44,20 +44,20 @@
 
                 <TextView
                     android:id="@+id/topicsCoverd"
-                    android:textColor="#393939"
-                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@string/hint.topic_covered" />
+                    android:text="@string/hint.ref_mobile"
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:textSize="14sp"
                     android:id="@+id/tvTrTopic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/app_name" />
+                    android:text="@string/app_name"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -71,20 +71,20 @@
 
                 <TextView
                     android:id="@+id/Country"
-                    android:textColor="#393939"
-                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@string/hint.country_v" />
+                    android:text="@string/hint.ref_email"
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:textSize="14sp"
                     android:id="@+id/tvTrCountry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/app_name" />
+                    android:text="@string/app_name"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -100,49 +100,23 @@
 
                 <TextView
                     android:id="@+id/Location"
-                    android:textColor="#393939"
-                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@string/hint.location" />
+                    android:text="@string/hint.ref_relation"
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:textSize="14sp"
                     android:id="@+id/tvTrLoc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/app_name" />
+                    android:text="@string/app_name"
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="vertical">
 
-                <TextView
-                    android:textColor="#393939"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/hint.duration" />
-
-                <TextView
-                    android:textSize="14sp"
-                    android:id="@+id/tvTrDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/title_home" />
-
-            </LinearLayout>
         </LinearLayout>
 
         <ImageView

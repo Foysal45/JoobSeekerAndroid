@@ -42,10 +42,7 @@ class TrainingEditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        eduCB = activity as EduInfo
-        calendar = Calendar.getInstance()
-        eduCB.setTitle(getString(R.string.title_training))
+
         initialization()
         doWork()
         if (!isEdit) {
@@ -58,6 +55,11 @@ class TrainingEditFragment : Fragment() {
     }
 
     private fun initialization() {
+
+        session = BdjobsUserSession(activity)
+        eduCB = activity as EduInfo
+        calendar = Calendar.getInstance()
+        eduCB.setTitle(getString(R.string.title_training))
         etTrTopic?.addTextChangedListener(TW.CrossIconBehave(etTrTopic))
         etTrCountry?.addTextChangedListener(TW.CrossIconBehave(etTrCountry))
         etTrTrainingYear?.addTextChangedListener(TW.CrossIconBehave(etTrTrainingYear))
