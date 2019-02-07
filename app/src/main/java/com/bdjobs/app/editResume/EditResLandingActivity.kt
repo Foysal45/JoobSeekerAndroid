@@ -9,7 +9,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -71,7 +70,7 @@ class EditResLandingActivity : Activity() {
         }
         //btnPerItem4.hide()
         //btnEmpItem2.hide()
-        btnPerItem5.hide()
+        //btnPerItem5.hide()
     }
 
     private fun doWork() {
@@ -106,31 +105,17 @@ class EditResLandingActivity : Activity() {
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
         }
-
-
         btnSpecilaization.setOnClickListener {
-
             goToFragment("specialization", "Other")
-
         }
-
         btnLanguage.setOnClickListener {
-
             goToFragment("language", "Other")
-
         }
-
         btnReferences.setOnClickListener {
-
             goToFragment("reference", "Other")
-
         }
-
         btnProfessional.setOnClickListener {
-
-
             goToFragment("professional", "E")
-
         }
 
     }

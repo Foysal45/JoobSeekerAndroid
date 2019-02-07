@@ -67,14 +67,11 @@ class LangPrViewFragment : Fragment() {
 
     private fun doWork() {
         populateData()
-        rv_lang_view.behaveYourself(fab_language_add)
         eduCB.setDeleteButton(false)
         eduCB.setTitle(resources.getString(R.string.title_language))
 
         fab_language_add.setOnClickListener {
-
             eduCB.goToEditInfo("addLanguage")
-
         }
 
     }
@@ -112,6 +109,7 @@ class LangPrViewFragment : Fragment() {
 
                         if (arr!!.size < 3) {
                             fab_language_add.show()
+                            rv_lang_view.behaveYourself(fab_language_add)
                             //activity.toast("else : ${arr?.size}")
                         }
 

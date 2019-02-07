@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:fontFamily="@font/roboto"
-            android:hint="Language *"
+            android:hint="@string/hint_others_language"
             android:inputType="text"
             android:maxLength="50"
             android:singleLine="true"
@@ -84,10 +84,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.high"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -98,10 +98,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="88dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.medium"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -112,10 +112,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.law"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -164,10 +164,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.high"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -178,10 +178,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="88dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.medium"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -192,7 +192,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
@@ -243,10 +243,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.high"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -257,10 +257,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="88dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.medium"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -271,10 +271,10 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hint.law"
                 android:textColor="@drawable/bg_chip_text_state_list"
                 app:chipBackgroundColor="@drawable/bg_chip_state_list"

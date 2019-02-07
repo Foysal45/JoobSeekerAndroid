@@ -102,10 +102,10 @@
     <string name="hint.ref_relative">Relative</string>
     <string name="hint.writing">Writing *</string>
     <string name="hint.speaking">Speaking *</string>
-    <string name="hint.high">High </string>
+    <string name="hint.high">High</string>
     <string name="hint.ref_Relative">Relative </string>
-    <string name="hint.medium">Medium </string>
-    <string name="hint.law">Law </string>
+    <string name="hint.medium">Medium</string>
+    <string name="hint.law">Low</string>
     <string name="hint.ref_other">Other</string>
     <string name="hint.ref_professional">Professional</string>
     <string name="hint.ref_family_friend">Family Friend</string>
@@ -291,5 +291,7 @@
     <string name="hint.Writing">Writing</string>
     <string name="hint.heading_speaking">Speaking</string>
     <string name="email_invalid_message">Please type a valid Email Address</string>
+    <string name="hint_others_language">Language *</string>
+    <string name="btn_example">Example</string>
 
 </resources>

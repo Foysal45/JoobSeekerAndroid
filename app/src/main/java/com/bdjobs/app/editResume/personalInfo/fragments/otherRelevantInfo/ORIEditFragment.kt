@@ -22,7 +22,6 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_oriedit.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import retrofit2.Call
@@ -98,21 +97,28 @@ class ORIEditFragment : Fragment() {
 
     private fun onClicks() {
         tv_info_career.setOnClickListener {
-            activity?.alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
-                yesButton { activity?.toast("Oh…") }
-                noButton {}
+            activity?.alert(Constants.career_tips_details, Constants.career_tips) {
+                yesButton { it.dismiss() }
             }?.show()
         }
         tv_info_spec.setOnClickListener {
-            activity?.alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
-                yesButton { activity?.toast("Oh…") }
-                noButton {}
+            activity?.alert(Constants.spQ_tips_details, Constants.spQ_tips) {
+                yesButton { it.dismiss() }
             }?.show()
         }
         tv_info_keyword.setOnClickListener {
-            activity?.alert("Hi, I'm Roy", "Have you tried turning it off and on again?") {
-                yesButton { activity?.toast("Oh…") }
-                noButton {}
+            activity?.alert(Constants.keyword_tips_details, Constants.keyword_tips) {
+                yesButton { it.dismiss() }
+            }?.show()
+        }
+        btn_career_sum.setOnClickListener {
+            activity?.alert(Constants.career_tips_details, Constants.career_tips) {
+                yesButton { it.dismiss() }
+            }?.show()
+        }
+        btn_spq.setOnClickListener {
+            activity?.alert(Constants.spQ_tips_details, Constants.spQ_tips) {
+                yesButton { it.dismiss() }
             }?.show()
         }
     }

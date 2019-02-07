@@ -22,7 +22,6 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -226,13 +225,13 @@ class TrainingEditFragment : Fragment() {
     }
 
     fun pickDateA() {
-        yearSelected = false
+        //yearSelected = false
         val now = Calendar.getInstance()
         val dateSelectedListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             now?.set(Calendar.YEAR, year)
             now?.set(Calendar.MONTH, monthOfYear)
             now?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDateInView(year)
+            //updateDateInView(year)
         }
         val dpd = DatePickerDialog(activity,
                 dateSelectedListener,
