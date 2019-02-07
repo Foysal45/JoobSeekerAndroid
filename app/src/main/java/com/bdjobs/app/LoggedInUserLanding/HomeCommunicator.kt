@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.util.Log
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 
 interface HomeCommunicator {

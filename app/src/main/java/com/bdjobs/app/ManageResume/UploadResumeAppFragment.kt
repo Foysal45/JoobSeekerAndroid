@@ -71,9 +71,7 @@ class UploadResumeAppFragment : Fragment() {
             // photoupload()
 
         }
-        button2.setOnClickListener {
-           startActivity<TrainingListAcitivity>()
-        }
+
     }
 
     private fun BrowseFile() {

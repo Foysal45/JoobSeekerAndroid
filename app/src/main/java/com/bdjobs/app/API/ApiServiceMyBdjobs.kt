@@ -663,7 +663,9 @@ interface ApiServiceMyBdjobs {
     @POST("app_training.asp")
     fun getTrainingList(
             @Field("userID") userID: String?,
-            @Field("decodeID") decodeID: String?
+            @Field("decodeID") decodeID: String?,
+            @Field("traingId") traingId: String?,
+            @Field("AppsDate") AppsDate: String?
 
     ): Call<TrainingList>
 

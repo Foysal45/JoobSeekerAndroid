@@ -14,10 +14,12 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
+import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MoreFragment : Fragment() {
 
@@ -101,6 +103,9 @@ class MoreFragment : Fragment() {
         }
         interviewinvitation_MBTN?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
+        }
+        training_MBTN?.setOnClickListener {
+            startActivity<TrainingListAcitivity>()
         }
         settings_MBTN?.setOnClickListener {
             startActivity<SettingBaseActivity>()

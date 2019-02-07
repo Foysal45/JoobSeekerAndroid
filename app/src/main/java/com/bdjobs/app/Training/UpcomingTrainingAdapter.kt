@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TrainingListData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Web.WebActivity
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.lang.Exception
 
@@ -29,12 +31,11 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
                 val url = "http://bdjobstraining.com/trainingdetails.asp?" + trainingList!![position].detailurl
                 println("my page $url")
 
-//                val webview = Intent(context, Web_link::class.java)
-//                webview.putExtra("link", url)
-//                webview.putExtra("page", "training")
-//                startActivity(webview)
+                context.startActivity<WebActivity>(
+                        "from" to "training",
+                        "url" to url
 
-
+                )
             } catch (e: Exception) {
                logException(e)
 
@@ -62,6 +63,11 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
         for (result in moveResults) {
             add(result)
         }
+    }
+
+    fun removeAll() {
+        trainingList?.clear()
+        notifyDataSetChanged()
     }
 }
 

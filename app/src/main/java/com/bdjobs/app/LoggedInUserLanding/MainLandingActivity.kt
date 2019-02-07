@@ -35,6 +35,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
     override fun getInviteCodepcOwnerID(): String? {
         return pcOwnerID
     }
@@ -137,6 +138,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         Crashlytics.setUserIdentifier(session.userId)
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
+
 
 
         if (isBlueCollarUser()) {

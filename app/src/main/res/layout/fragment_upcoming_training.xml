@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Training.UpcomingTrainingFragment">
 
@@ -63,17 +64,94 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <LinearLayout
+        android:id="@+id/buttonLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/myBdjobsgridView_RV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
+
+        <Button
+            android:id="@+id/lastmonth_MBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:gravity="center_horizontal|center_vertical"
+            android:lineSpacingExtra="0sp"
+            android:text="Matched"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/all_MBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:lineSpacingExtra="0sp"
+            android:text="All Time"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container_trainingList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+
+        app:layout_constraintTop_toBottomOf="@+id/buttonLL"
+        shimmer:duration="800"
+        shimmer:layout_constraintBottom_toBottomOf="parent"
+        shimmer:layout_constraintEnd_toEndOf="parent"
+        shimmer:layout_constraintStart_toStartOf="parent">
+
+        <!-- Adding 7 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trainListRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

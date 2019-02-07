@@ -5,7 +5,10 @@ import android.os.Bundle
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
 
-class TrainingListAcitivity : AppCompatActivity() {
+class TrainingListAcitivity : AppCompatActivity(), TrainingCommunicator {
+    override fun backButtonClicked() {
+        onBackPressed()
+    }
 
     private var upcomingTrainingFragment = UpcomingTrainingFragment()
 
