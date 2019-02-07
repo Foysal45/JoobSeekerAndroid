@@ -9,6 +9,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -21,6 +22,7 @@ import org.jetbrains.anko.toast
 class EditResLandingActivity : Activity() {
 
     private var isResumeUpdate = ""
+    private var demoPic = "https://mybdjobs.bdjobs.com/mybdjobs/images/male.png"
     private lateinit var session: BdjobsUserSession
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class EditResLandingActivity : Activity() {
         session = BdjobsUserSession(this@EditResLandingActivity)
         if (!session.userPicUrl.isNullOrEmpty()) {
             ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
+        } else if (session.userPicUrl.equals(demoPic)) {
+            ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
         } else {
             ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
         }
@@ -66,6 +70,7 @@ class EditResLandingActivity : Activity() {
         }
         //btnPerItem4.hide()
         //btnEmpItem2.hide()
+        btnPerItem5.hide()
     }
 
     private fun doWork() {
