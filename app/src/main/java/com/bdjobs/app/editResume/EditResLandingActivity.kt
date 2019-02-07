@@ -13,6 +13,7 @@ import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
+import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_edit_res_landing.*
@@ -106,6 +107,32 @@ class EditResLandingActivity : Activity() {
             goToFragment("personal", "P")
         }
 
+
+        btnSpecilaization.setOnClickListener {
+
+            goToFragment("specialization", "Other")
+
+        }
+
+        btnLanguage.setOnClickListener {
+
+            goToFragment("language", "Other")
+
+        }
+
+        btnReferences.setOnClickListener {
+
+            goToFragment("reference", "Other")
+
+        }
+
+        btnProfessional.setOnClickListener {
+
+
+            goToFragment("professional", "E")
+
+        }
+
     }
 
     private fun disableAll() {
@@ -134,6 +161,9 @@ class EditResLandingActivity : Activity() {
                 startActivity<AcademicBaseActivity>("name" to s, "education_info_add" to "null")
             "Emp" ->
                 startActivity<EmploymentHistoryActivity>("name" to s, "emp_his_add" to "null")
+            "Other" ->
+                startActivity<OtherInfoBaseActivity>("name" to s, "other_info_add" to "null")
+
         }
     }
 

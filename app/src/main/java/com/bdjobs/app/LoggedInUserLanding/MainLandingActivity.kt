@@ -163,7 +163,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                     inviteCodeStatus = inviteCodeUserInfo[0].inviteCodeStatus
 
 
-                    if(inviteCodeuserType?.equalIgnoreCase("o")!!){
+                    if(!inviteCodeuserType?.equalIgnoreCase("u")!!){
                         updateInviteCodeOwnerInformation()
                     }
 

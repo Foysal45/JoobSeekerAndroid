@@ -1,10 +1,11 @@
 package com.bdjobs.app.InviteCode
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
@@ -18,6 +19,7 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
     private var inviteCodeuserType: String = ""
     private var pcOwnerID: String = ""
     private var inviteCodeStatus: String = ""
+    private var fromInviteCodeSubmitPage=false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,12 +75,28 @@ class InviteCodeBaseActivity : FragmentActivity(),InviteCodeCommunicator {
        onBackPressed()
     }
 
-    override fun goToPaymentMethod(paymentMethod: String, accountNumber: String) {
-
+    override fun goToPaymentMethod(paymentMethod: String, accountNumber: String, fromInviteCodeSubmitPage: Boolean) {
         val navController = Navigation.findNavController(this@InviteCodeBaseActivity, R.id.inviteCodeBaseNavFragment)
         navController.navigate(R.id.navigation_payment_method)
 
         this.accountNumber=accountNumber
         this.paymentMethod=paymentMethod
+        this.fromInviteCodeSubmitPage = fromInviteCodeSubmitPage
     }
+
+    override fun getfromInviteCodeSubmitPage(): Boolean {
+        return fromInviteCodeSubmitPage
+    }
+
+    override fun onBackPressed() {
+        if(fromInviteCodeSubmitPage){
+            val intent = Intent(this@InviteCodeBaseActivity, MainLandingActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finishAffinity()
+        }else {
+            super.onBackPressed()
+        }
+    }
+
 }

@@ -103,7 +103,7 @@ class PaymentMethodFragment : Fragment() {
     }
 
     private fun insertPaymentType(userId: String?, decodId: String?, inviteCodeUserType: String?, paymentMethod: String, accountNumber: String) {
-        loadingProgressBar?.show()
+        activity?.showProgressBar(loadingProgressBar)
         ApiServiceMyBdjobs.create().insertPaymentMethod(
                 userID = userId,
                 decodeID = decodId,
@@ -114,12 +114,12 @@ class PaymentMethodFragment : Fragment() {
                 object : Callback<PaymentTypeInsertModel> {
                     override fun onFailure(call: Call<PaymentTypeInsertModel>, t: Throwable) {
                         error("onFailure", t)
-                        loadingProgressBar?.hide()
+                        activity?.stopProgressBar(loadingProgressBar)
                         toast("আপনার টাকা পাওয়ার মাধ্যম সফলভাবে নিবন্ধন করা যায়নি। দয়াকরে আবার চেষ্টা করুন।")
                     }
 
                     override fun onResponse(call: Call<PaymentTypeInsertModel>, response: Response<PaymentTypeInsertModel>) {
-                        loadingProgressBar?.hide()
+                        activity?.stopProgressBar(loadingProgressBar)
                         try {
                             if (response.body()?.data?.get(0)?.inserted?.equalIgnoreCase("True")!!) {
                                 toast("আপনার টাকা পাওয়ার মাধ্যম সফলভাবে নিবন্ধিত হয়েছে।")
@@ -188,4 +188,6 @@ class PaymentMethodFragment : Fragment() {
             activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
     }
+
+
 }

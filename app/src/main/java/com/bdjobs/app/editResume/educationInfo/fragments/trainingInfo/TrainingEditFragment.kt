@@ -17,6 +17,7 @@ import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_training_edit.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,7 +35,7 @@ class TrainingEditFragment : Fragment() {
     private lateinit var hTrainingID: String
     private lateinit var hID: String
     private var calendar: Calendar? = null
-    private var yearSelected = false
+    //private var yearSelected = false
     private var yearList = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -116,15 +117,15 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrDuration, trainingTitleTIL)
 
         etTrTrainingYear.setOnClickListener {
-
-            pickDateA()
-            /*for (item in 1964..2024) {
+            for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
-            activity.selector("Select Year", yearList.toList()) { _, i ->
+            activity.selector("Please Select Training Year", yearList.toList()) { _, i ->
+
                 etTrTrainingYear.setText(yearList[i])
                 trTrainingYearTIL.requestFocus()
-            }*/
+
+            }
 
         }
         fab_tr_update.setOnClickListener {
@@ -140,12 +141,12 @@ class TrainingEditFragment : Fragment() {
         }
     }
 
-    private fun updateDateInView(year: Int) {
+    /*private fun updateDateInView(year: Int) {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         yearSelected = true
         etTrTrainingYear.setText(year.toString())
-    }
+    }*/
 
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)

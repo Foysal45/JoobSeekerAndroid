@@ -30,7 +30,27 @@ interface EduInfo {
     fun getTrainingData(): Tr_DataItem
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
+    fun passProfessionalData(Data: ProfessionalDataModel)
+    fun getProfessionalData(): ProfessionalDataModel
 }
+
+
+interface OtherInfo {
+    fun setTitle(tit: String?)
+    fun dataStorage(): DataStorage
+    fun setDeleteButton(b: Boolean)
+    fun goToEditInfo(check: String)
+    fun passLanguageData(data: LanguageDataModel)
+    fun passSpacializationData(data: Tr_DataItem)
+    fun passReferenceData(data: ReferenceDataModel)
+    fun getReferenceData(): ReferenceDataModel
+    fun getLanguageData(): LanguageDataModel
+    fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
+    fun goBack()
+
+}
+
+
 
 interface PersonalInfo {
     fun setTitle(tit: String?)

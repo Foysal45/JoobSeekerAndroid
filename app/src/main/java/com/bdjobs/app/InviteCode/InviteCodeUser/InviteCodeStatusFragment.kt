@@ -81,7 +81,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
 
     private fun onClicks() {
         changeRelativeLayout.setOnClickListener {
-            inviteCodeCommunicator?.goToPaymentMethod(paymentType,accountNumber)
+            inviteCodeCommunicator?.goToPaymentMethod(paymentMethod = paymentType,accountNumber = accountNumber)
         }
         moneyWithdrawLayout.setOnClickListener {
             inviteCodeCommunicator?.goToPaymentMethod()
@@ -298,7 +298,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
                    activity?.startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
             }
             "education" -> {
-                   activity?.startActivity<AcademicBaseActivity>("name" to "null", "education_info_edi" to "addDirect")
+                   activity?.startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")
             }
             "photo" -> {
                    activity?.startActivity<PhotoUploadActivity>()
@@ -321,13 +321,17 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
 
                     override fun onResponse(call: Call<InviteCodeUserStatusModel>, response: Response<InviteCodeUserStatusModel>) {
 
-                        if (response.isSuccessful) {
-                            setdata(personal = response.body()!!.data[0].personalInfo,
-                                    experience = response.body()!!.data[0].skills,
-                                    education = response.body()!!.data[0].educationInfo,
-                                    photo = response.body()!!.data[0].photoInfo,
-                                    verified = response.body()!!.data[0].verifiedStatus,
-                                    paid = response.body()!!.data[0].paidStatus)
+                        try {
+                            if (response.isSuccessful) {
+                                setdata(personal = response.body()!!.data[0].personalInfo,
+                                        experience = response.body()!!.data[0].skills,
+                                        education = response.body()!!.data[0].educationInfo,
+                                        photo = response.body()!!.data[0].photoInfo,
+                                        verified = response.body()!!.data[0].verifiedStatus,
+                                        paid = response.body()!!.data[0].paidStatus)
+                            }
+                        } catch (e: Exception) {
+                            logException(e)
                         }
                     }
                 }

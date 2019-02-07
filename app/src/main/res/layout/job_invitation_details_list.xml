@@ -303,12 +303,24 @@
 
 
     </RelativeLayout>
+    <TextView
+        android:layout_marginLeft="24dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="13dp"
+        android:textColor="#A6882E"
+        tools:text="Job Expired but you were present on your scheduled interview. From next time, please provide proper response on My Bbdjobs Panel to increase your reputation of future job applications to other employers."
+        android:background="@drawable/msg_bg"
+        android:layout_below="@id/prevSchRL"
+        android:id="@+id/msgTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
     <ImageView
         android:layout_marginTop="20dp"
         android:layerType="software"
         android:scaleType="fitXY"
-        android:layout_below="@id/prevSchRL"
+        android:layout_below="@id/msgTV"
         android:src="@drawable/job_divider_bg"
         android:layout_width="match_parent"
         android:layout_height="5dp" />

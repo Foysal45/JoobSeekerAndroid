@@ -1,17 +1,25 @@
 package com.bdjobs.app.InterviewInvitation
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.InvitationDetailModelsData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 
 class InterviewInvitationDetailsAdapter(private val context: Context, private val items: List<InvitationDetailModelsData>):  RecyclerView.Adapter<InterviewInvitationViewHolder>() {
 
@@ -139,6 +147,37 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
         } else {
             holder.rescheduleStattusTV.visibility = View.GONE
         }
+
+        if(items.get(position).alertMessage!!.isNotEmpty()){
+            holder.msgTV.show()
+            holder.msgTV.text = items.get(position).alertMessage
+        }else{
+            holder.msgTV.hide()
+        }
+
+        if(items.get(position).contactNo!!.isNotEmpty()){
+            holder.contactHeadingTV.show()
+            holder.phoneNumberTV.show()
+            holder.infoIMGV.show()
+            holder.phoneNumberTV.text = items.get(position).contactNo
+            holder.infoIMGV.setOnClickListener {
+                context.alert("For further assistance, you can call this number in office hours.") {
+                    yesButton { dialog ->
+                        dialog.dismiss()
+                    }
+                }.show()
+            }
+            holder.phoneNumberTV.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${items.get(position).contactNo}")
+                context.startActivity(intent)
+            }
+
+        }else{
+            holder.contactHeadingTV.hide()
+            holder.phoneNumberTV.hide()
+            holder.infoIMGV.hide()
+        }
     }
 }
 
@@ -159,4 +198,9 @@ class  InterviewInvitationViewHolder(view: View) : RecyclerView.ViewHolder(view)
     val notifyDateTV = view.findViewById<View>(R.id.notifyDateTV) as TextView
     val prevSchRL = view.findViewById<View>(R.id.prevSchRL) as RelativeLayout
     val notifyRL = view.findViewById<View>(R.id.notifyRL) as RelativeLayout
+    val msgTV = view.findViewById<View>(R.id.msgTV) as TextView
+
+    val contactHeadingTV = view.findViewById<View>(R.id.contactHeadingTV) as TextView
+    val phoneNumberTV = view.findViewById<View>(R.id.phoneNumberTV) as TextView
+    val infoIMGV = view.findViewById<View>(R.id.infoIMGV) as ImageView
 }

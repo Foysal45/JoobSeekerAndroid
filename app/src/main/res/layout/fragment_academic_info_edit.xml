@@ -73,6 +73,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="Exam/Degree Title *"
                     android:inputType="text"
+                    android:imeOptions="actionDone"
                     android:maxLength="50"
                     android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -93,6 +94,7 @@
                     android:hint="@string/hint.concentration_major_group"
                     android:inputType="text|textMultiLine"
                     android:maxLength="150"
+                    android:imeOptions="actionNext"
                     android:padding="15dp"
                     android:textColor="#212121" />
 
@@ -114,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.institute_name"
+                    android:imeOptions="actionNext"
                     android:inputType="text|textMultiLine"
                     android:maxLength="80"
                     android:padding="15dp"
@@ -291,7 +294,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.duration"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -311,7 +314,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.achievement"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLength="100"
                     android:textColor="#212121" />

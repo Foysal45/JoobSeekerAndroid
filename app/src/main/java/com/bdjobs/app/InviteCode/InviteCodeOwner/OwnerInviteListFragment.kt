@@ -215,6 +215,7 @@ class OwnerInviteListFragment : Fragment() {
                             loadingDialog?.dismiss()
                             if (response.isSuccessful) {
 
+
                                 showCategoryDialog(
                                         response.body()!!.data[0].name,
                                         response.body()!!.data[0].category,
@@ -222,7 +223,8 @@ class OwnerInviteListFragment : Fragment() {
                                         response.body()!!.data[0].personalInfo,
                                         response.body()!!.data[0].educationInfo,
                                         response.body()!!.data[0].photoInfo,
-                                        response.body()!!.data[0].createdDate
+                                        response.body()!!.data[0].createdDate,
+                                        response?.body()?.data?.get(0)?.skills!!
                                 )
                             }
                         } catch (e: Exception) {
@@ -237,9 +239,13 @@ class OwnerInviteListFragment : Fragment() {
 
     }
 
-    private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String) {
+    private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String,skillInfo:String) {
 
-        Log.d("showCategoryDialog","name: $name")
+        Log.d("showCategoryDialog","" +
+                "educationInfo: $educationInfo" +
+                "personalInfo: $personalInfo" +
+                "photoInfo:$photoInfo" +
+                "name: $name")
 
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -252,7 +258,9 @@ class OwnerInviteListFragment : Fragment() {
         val profilePicIV = dialog.findViewById(R.id.profilePicIMGV) as ImageView
         val personalImageView = dialog.findViewById(R.id.personalIMGV) as ImageView
         val educationaImageView = dialog.findViewById(R.id.educationIMGV) as ImageView
+        val skillIMGV = dialog.findViewById(R.id.skillIMGV) as ImageView
         val photInfoImageView = dialog.findViewById(R.id.pictureIMGV) as ImageView
+
 
 
         nameTV.text = name
@@ -263,7 +271,7 @@ class OwnerInviteListFragment : Fragment() {
         profilePicIV.loadCircularImageFromUrl(photoUrl)
 
 
-        if (educationInfo.equals("True", ignoreCase = true)) {
+        if (personalInfo.equals("True", ignoreCase = true)) {
 
             personalImageView.setBackgroundResource(R.drawable.acount_right_icon)
 
@@ -272,7 +280,7 @@ class OwnerInviteListFragment : Fragment() {
             personalImageView.setBackgroundResource(R.drawable.account_cross_icon)
         }
 
-        if (personalInfo.equals("True", ignoreCase = true)) {
+        if (educationInfo.equals("True", ignoreCase = true)) {
 
             educationaImageView.setBackgroundResource(R.drawable.acount_right_icon)
 
@@ -292,8 +300,15 @@ class OwnerInviteListFragment : Fragment() {
 
         }
 
+        if (skillInfo.equals("True", ignoreCase = true)) {
 
+            skillIMGV.setBackgroundResource(R.drawable.acount_right_icon)
 
+        } else {
+
+            skillIMGV.setBackgroundResource(R.drawable.account_cross_icon)
+
+        }
 
         val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
 
