@@ -654,7 +654,7 @@ interface ApiServiceMyBdjobs {
     ): Call<UploadResume>
 
     @Multipart
-    @POST("mybdjobs/file_upload.aspx")
+    @POST("file_upload.aspx")
      fun UploadCV2(
             @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
             @Part file: MultipartBody.Part): Call<ADDorUpdateModel>

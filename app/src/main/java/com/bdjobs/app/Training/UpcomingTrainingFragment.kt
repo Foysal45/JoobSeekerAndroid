@@ -28,6 +28,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UpcomingTrainingFragment : Fragment() {
+    private var topBottomPadding: Int = 0
+    private var leftRightPadding: Int = 0
     private var bdjobsUserSession: BdjobsUserSession? = null
     private var upcomingTrainingAdapter: UpcomingTrainingAdapter? = null
     private var trainingCommunicator: TrainingCommunicator? = null
@@ -44,13 +46,18 @@ class UpcomingTrainingFragment : Fragment() {
         upcomingTrainingAdapter = UpcomingTrainingAdapter(activity!!)
         trainingCommunicator = activity as TrainingCommunicator
 
+        val scale = resources.displayMetrics.density
+        topBottomPadding = (8 * scale + 0.5f).toInt()
+        leftRightPadding = (16 * scale + 0.5f).toInt()
+        Log.d("scale", "s = "+scale)
+
         if (Constants.matchedTraining) {
 
-            lastmonth_MBTN.performClick()
+            allTV.performClick()
             lastOnClickAction()
         } else if (!Constants.matchedTraining) {
 
-            all_MBTN.performClick()
+            matchedTV.performClick()
             allOnClickAction()
 
         }
@@ -63,14 +70,14 @@ class UpcomingTrainingFragment : Fragment() {
         backIMV.setOnClickListener {
             trainingCommunicator?.backButtonClicked()
         }
-        lastmonth_MBTN.setOnClickListener {
+        matchedTV.setOnClickListener {
             if (!Constants.matchedTraining) {
 
                 lastOnClickAction()
             }
         }
 
-        all_MBTN.setOnClickListener {
+        allTV.setOnClickListener {
             if (Constants.matchedTraining) {
 
                 allOnClickAction()
@@ -82,12 +89,14 @@ class UpcomingTrainingFragment : Fragment() {
     }
 
     private fun lastOnClickAction() {
+       // lastSelected()
         lastSelected()
         loadTrainingList(bdjobsUserSession?.trainingId!!)
         Constants.matchedTraining = true
     }
 
     private fun allOnClickAction() {
+       // allSelected()
         allSelected()
         Constants.matchedTraining = false
         loadTrainingList("")
@@ -141,20 +150,41 @@ class UpcomingTrainingFragment : Fragment() {
 
     }
 
-    private fun lastSelected() {
-        lastmonth_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#424242"))
-        all_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+/*    private fun lastSelected() {
+        lastmonth_MBTN.setBackgroundColor(Color.parseColor("#424242"))
+        all_MBTN.setBackgroundColor(Color.parseColor("#FFFFFF"))
         all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#424242")))
         lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
     }
 
     private fun allSelected() {
 
-        lastmonth_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-        all_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#424242"))
+        lastmonth_MBTN.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        all_MBTN.setBackgroundColor(Color.parseColor("#424242"))
         lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#424242")))
         all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
-    }
+    }*/
 
+    private fun lastSelected() {
+        matchedTV.setTextColor(Color.parseColor("#FFFFFF"))
+        matchedTV.setBackgroundResource(R.drawable.success_active_bg)
+        allTV.setTextColor(Color.parseColor("#424242"))
+        allTV.setBackgroundResource(R.drawable.pending_inactive_bg)
+        matchedTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
+        allTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
+//        state = 0
+//        verifyStatus = "1"
 
+      }
+
+    private fun allSelected() {
+        allTV.setTextColor(Color.parseColor("#FFFFFF"))
+        allTV.setBackgroundResource(R.drawable.pending_active_bg)
+        matchedTV.setTextColor(Color.parseColor("#424242"))
+        matchedTV.setBackgroundResource(R.drawable.success_inactive_bg)
+        matchedTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
+        allTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
+//        state = 1
+//        verifyStatus = "0"
+         }
 }

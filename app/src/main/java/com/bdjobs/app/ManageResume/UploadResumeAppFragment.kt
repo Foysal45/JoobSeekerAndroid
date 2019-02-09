@@ -29,6 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.net.URL
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -160,11 +161,35 @@ class UploadResumeAppFragment : Fragment() {
                                 " #filename = " + fileName
                 )
 
-                uploadCV()
+               // uploadCV()
+               // uploadMultipart("resume", file1, fileinfo.fileName, fileinfo.type)
+
+
+
             }
 
         }
     }
+
+    private fun uploadMultipart(fieldName: String, uploadFile: File, fileName: String, fileType: String) {
+        val url = URL("https://my.bdjobs.com/apps/mybdjobs/v1/file_upload.aspx")
+        val multipart = Multipart(url)
+        multipart.addHeaderField("userId", bdjobsUserSession.userId!!)
+        multipart.addHeaderField("decodeId", bdjobsUserSession.decodId!!)
+        multipart.addHeaderField("status", "upload")
+        multipart.addFilePart(fieldName, uploadFile, fileName, fileType)
+        multipart.upload(object : Multipart.OnFileUploadedListener{
+            override fun onFileUploadingSuccess(response: String) {
+                toast(response)
+            }
+
+            override fun onFileUploadingFailed(responseCode: Int) {
+               toast(responseCode)
+                 }
+
+        })
+    }
+
 
     private fun uploadCV() {
         //  progressDialog.setTitle("Saving")
