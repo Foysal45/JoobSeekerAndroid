@@ -71,6 +71,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_career_sum"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -119,6 +120,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_spq"
+                android:layout_width="wrap_content"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
