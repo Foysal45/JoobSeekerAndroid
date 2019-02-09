@@ -27,15 +27,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class UpcomingTrainingFragment : Fragment() {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private var upcomingTrainingAdapter: UpcomingTrainingAdapter? = null
@@ -54,15 +45,13 @@ class UpcomingTrainingFragment : Fragment() {
         trainingCommunicator = activity as TrainingCommunicator
 
         if (Constants.matchedTraining) {
-            last()
+
             lastmonth_MBTN.performClick()
-            loadTrainingList(bdjobsUserSession?.trainingId!!)
-            Constants.matchedTraining = true
+            lastOnClickAction()
         } else if (!Constants.matchedTraining) {
-            all()
+
             all_MBTN.performClick()
-            Constants.matchedTraining = false
-            loadTrainingList("")
+            allOnClickAction()
 
         }
 
@@ -71,33 +60,37 @@ class UpcomingTrainingFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-
-        /*  if (Constants.matchedTraining) {
-              lastmonth_MBTN.performClick()
-          } else if (!Constants.matchedTraining) {
-              all_MBTN.performClick()
-          }*/
         backIMV.setOnClickListener {
             trainingCommunicator?.backButtonClicked()
         }
         lastmonth_MBTN.setOnClickListener {
             if (!Constants.matchedTraining) {
-                last()
-                loadTrainingList(bdjobsUserSession?.trainingId!!)
-                Constants.matchedTraining = true
+
+                lastOnClickAction()
             }
         }
 
         all_MBTN.setOnClickListener {
             if (Constants.matchedTraining) {
-                all()
-                Constants.matchedTraining = false
-                loadTrainingList("")
+
+                allOnClickAction()
             }
 
         }
 
 
+    }
+
+    private fun lastOnClickAction() {
+        lastSelected()
+        loadTrainingList(bdjobsUserSession?.trainingId!!)
+        Constants.matchedTraining = true
+    }
+
+    private fun allOnClickAction() {
+        allSelected()
+        Constants.matchedTraining = false
+        loadTrainingList("")
     }
 
     private fun loadTrainingList(trainid: String) {
@@ -135,6 +128,7 @@ class UpcomingTrainingFragment : Fragment() {
                     trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                     upcomingTrainingAdapter?.removeAll()
                     upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
+                    numberTV.text = response.body()?.data?.size.toString()
                 }
                 trainListRV?.show()
                 shimmer_view_container_trainingList?.hide()
@@ -147,17 +141,18 @@ class UpcomingTrainingFragment : Fragment() {
 
     }
 
-    private fun last() {
-      //  lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background_black)
-      //  all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
-        all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
+    private fun lastSelected() {
+        lastmonth_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#424242"))
+        all_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+        all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#424242")))
         lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
     }
 
-    private fun all() {
-      //  lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background)
-     //   all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background_black)
-        lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
+    private fun allSelected() {
+
+        lastmonth_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+        all_MBTN.backgroundTintList=ColorStateList.valueOf(Color.parseColor("#424242"))
+        lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#424242")))
         all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
     }
 

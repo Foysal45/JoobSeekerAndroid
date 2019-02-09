@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Training.UpcomingTrainingFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -64,41 +64,85 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/buttonLL"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/bLL"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/myBdjobsgridView_RV"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="20dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
-        <Button
-            android:id="@+id/lastmonth_MBTN"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="3dp">
 
-            android:gravity="center_horizontal|center_vertical"
-            android:lineSpacingExtra="0sp"
-            android:text="Matched"
-            android:textAllCaps="false"
-            android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/all_MBTN"
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:text="Total Training List"
+                android:textColor="#767676"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/icon1IMGV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTV"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/account_icon" />
+
+            <TextView
+                android:id="@+id/numberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTV"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/icon1IMGV"
+                android:fontFamily="@font/noto_sans"
+                android:textColor="#2F64A3"
+                android:textSize="12sp"
+                tools:text="৩০০" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonLL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:lineSpacingExtra="0sp"
-            android:text="All Time"
-            android:textAllCaps="false"
-            android:textSize="12sp" />
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/lastmonth_MBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal|center_vertical"
+                android:lineSpacingExtra="0sp"
+                android:text="Matched"
+                android:textAllCaps="false"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/all_MBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:lineSpacingExtra="0sp"
+                android:text="All Time"
+                android:textAllCaps="false"
+                android:textSize="12sp" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container_trainingList"
@@ -108,7 +152,7 @@
         android:orientation="vertical"
         android:visibility="gone"
 
-        app:layout_constraintTop_toBottomOf="@+id/buttonLL"
+        app:layout_constraintTop_toBottomOf="@+id/bLL"
         shimmer:duration="800"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
@@ -152,6 +196,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLL" />
+        app:layout_constraintTop_toBottomOf="@+id/bLL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
