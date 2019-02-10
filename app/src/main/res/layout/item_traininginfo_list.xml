@@ -43,6 +43,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/topicsCoverd"
                     android:textColor="#393939"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
@@ -69,6 +70,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/Country"
                     android:textColor="#393939"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
@@ -97,6 +99,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/Location"
                     android:textColor="#393939"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"

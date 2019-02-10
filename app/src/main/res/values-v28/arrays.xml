@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="army_ba">
+        <item>BA</item>
+        <item>BSS</item>
+        <item>JSS</item>
+        <item>BSP</item>
+        <item>BJO</item>
+        <item>NO</item>
+        <!--<item>NYA</item>
+        <item>PA</item>
+        <item>SP</item>
+        <item>PE</item>-->
+    </string-array>
+
+    <string-array name="army_type">
+        <item>Officer</item>
+        <item>JCO</item>
+        <item>NCO</item>
+    </string-array>
+
+    <string-array name="army_ranks">
+        <item>2Lt</item>
+        <item>Lt</item>
+        <item>Capt</item>
+        <item>Maj</item>
+        <item>Lt Col</item>
+        <item>Col</item>
+        <item>Brig Gen</item>
+        <item>Maj Gen</item>
+        <item>Lt Gen</item>
+        <item>Gen</item>
+        <item>Snk</item>
+        <item>L/cpl</item>
+        <item>Cpl</item>
+        <item>Sgt</item>
+        <item>WO</item>
+        <item>SWO</item>
+        <item>MWO</item>
+        <item>H/Lt</item>
+        <item>H/Capt</item>
+    </string-array>
+
+    <string-array name="army_arms">
+        <item>AC</item>
+        <item>Arty</item>
+        <item>EB</item>
+        <item>BIR</item>
+        <item>Sigs</item>
+        <item>Engr</item>
+        <item>EME</item>
+        <item>Ord</item>
+        <item>ASC</item>
+        <item>AMC</item>
+        <item>AEC</item>
+        <item>CMP</item>
+        <item>ADC</item>
+        <item>AFNS</item>
+        <item>RVFC</item>
+        <item>ACC</item>
+        <!--<item>Staff</item>
+        <item>SS</item>-->
+    </string-array>
+
+    <string-array name="language_level">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Chinese</item>
+        <item>Spanish</item>
+        <item>English</item>
+        <item>Hindi</item>
+        <item>Arabic</item>
+        <item>Portuguese</item>
+        <item>Bangla</item>
+        <item>Russian</item>
+        <item>Japanese</item>
+        <item>German</item>
+        <item>Javanese</item>
+        <item>Urdu</item>
+        <item>Malay</item>
+    </string-array>
+
+    <string-array name="relations">
+        <item>Relative</item>
+        <item>Family Friend</item>
+        <item>Academic</item>
+        <item>Professional</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="cLocation">
+        <item>Select</item>
+        <item>Inside BD</item>
+        <item>Outside BD</item>
+    </string-array>
+
+</resources>

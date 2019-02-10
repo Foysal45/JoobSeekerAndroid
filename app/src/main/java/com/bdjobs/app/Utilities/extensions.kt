@@ -348,7 +348,7 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
     var valid: Int = validation
     if (last) {
         if (TextUtils.isEmpty(etCurrent?.getString())) {
-            tilCurrent?.showError("This Field can not be empty")
+            tilCurrent?.showError("This field can not be empty")
         } else {
             valid++
             tilCurrent?.isErrorEnabled = false
@@ -356,7 +356,7 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
         }
     } else {
         if (TextUtils.isEmpty(etCurrent?.getString())) {
-            tilCurrent?.showError("This Field can not be empty")
+            tilCurrent?.showError("This field can not be empty")
             etCurrent?.requestFocus()
         }
         etNext?.requestFocus()
@@ -365,12 +365,27 @@ fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
     return valid
 }
 
+fun marksValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+    when {
+        TextUtils.isEmpty(char) -> {
+            til.showError("This Field can not be empty")
+            return false
+        }
+        char.length < 1 -> {
+            et.requestFocus()
+            return false
+        }
+        else -> til.hideError()
+    }
+    return true
+}
+
 fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextInputLayout?,
                              etNext: TextInputEditText?, isEmpty: Boolean, validation: Int): Int {
     var valid: Int = validation
     if (isEmpty) {
         tilCurrent?.isErrorEnabled = true
-        tilCurrent?.showError("This Field can not be empty")
+        tilCurrent?.showError("This field can not be empty")
     } else {
         valid++
         tilCurrent?.isErrorEnabled = false

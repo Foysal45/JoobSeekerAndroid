@@ -12,10 +12,13 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
+import com.bdjobs.app.editResume.adapters.models.ProfessionalDataModel
 import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.bdjobs.app.editResume.educationInfo.fragments.academicInfo.AcademicInfoEditFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.academicInfo.AcademicInfoViewFragment
+import com.bdjobs.app.editResume.educationInfo.fragments.professionalQualification.ProfessionalQLEditFragment
+import com.bdjobs.app.editResume.educationInfo.fragments.professionalQualification.ProfessionalQLViewFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingEditFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment
 import com.google.android.material.snackbar.Snackbar
@@ -24,10 +27,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
-    override fun dataStorage(): DataStorage {
-        dataStorage = DataStorage(this@AcademicBaseActivity)
-        return dataStorage
-    }
+
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
@@ -35,8 +35,11 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private val acaViewFragment = AcademicInfoViewFragment()
     private val trainingEditFragment = TrainingEditFragment()
     private val trainingViewFragment = TrainingViewFragment()
+    private val professionalQLEditFragment = ProfessionalQLEditFragment()
+    private val professionalQLViewFragment = ProfessionalQLViewFragment()
     private lateinit var datait: AcaDataItem
     private lateinit var dataTr: Tr_DataItem
+    private lateinit var dataPrq: ProfessionalDataModel
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddEmployment: String
@@ -52,6 +55,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         when (name) {
             "academic" -> transitFragment(acaViewFragment, R.id.edu_info_container, false)
             "training" -> transitFragment(trainingViewFragment, R.id.edu_info_container, false)
+            "professional" -> transitFragment(professionalQLViewFragment, R.id.edu_info_container, false)
         }
     }
 
@@ -70,6 +74,9 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
                 }
                 if (trainingEditFragment.isEdit) {
                     trainingEditFragment.dataDelete()
+                }
+                if (professionalQLEditFragment.isEdit) {
+                    professionalQLEditFragment.dataDelete()
                 }
             }
         } else {
@@ -116,6 +123,14 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
                 "editTr" -> {
                     trainingEditFragment.isEdit = true
                     transitFragment(trainingEditFragment, R.id.edu_info_container, true)
+                }
+                "addProfessional" -> {
+                    professionalQLEditFragment.isEdit = false
+                    transitFragment(professionalQLEditFragment, R.id.edu_info_container, true)
+                }
+                "editProfessional" -> {
+                    professionalQLEditFragment.isEdit = true
+                    transitFragment(professionalQLEditFragment, R.id.edu_info_container, true)
                 }
                 else -> {
 
@@ -184,6 +199,22 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
             else -> til.hideError()
         }
         return true
+    }
+
+    override fun dataStorage(): DataStorage {
+        dataStorage = DataStorage(this@AcademicBaseActivity)
+        return dataStorage
+    }
+
+
+    override fun passProfessionalData(data: ProfessionalDataModel) {
+
+        this.dataPrq = data
+
+    }
+
+    override fun getProfessionalData(): ProfessionalDataModel {
+        return dataPrq
     }
 
 }

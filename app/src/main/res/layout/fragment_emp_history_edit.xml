@@ -61,6 +61,7 @@
                         android:id="@+id/companyBusinessACTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:focusableInTouchMode="true"
                         android:hint="@string/hint.company_business"
                         android:imeOptions="actionDone"
@@ -139,7 +140,7 @@
                         android:focusableInTouchMode="true"
                         android:hint="@string/hint.department"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="50"
+                        android:maxLength="49"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -243,8 +244,9 @@
                         android:id="@+id/experiencesMACTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="true"
                         android:hint="@string/hint.area_of_experiences"
+                        android:focusableInTouchMode="true"
+                        android:singleLine="true"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:padding="15dp"
