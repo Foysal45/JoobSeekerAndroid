@@ -53,11 +53,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto"
             android:gravity="center"
             android:maxLines="1"
-            android:fontFamily="@font/roboto"
-            android:text="John Doe"
             android:singleLine="true"
+            android:text="John Doe"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,9 +71,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="username@email.com"
             android:gravity="center"
             android:maxLines="1"
+            android:text="username@email.com"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
@@ -245,6 +245,14 @@
                 android:singleLine="true"
                 android:text="@string/army_employment_history_title"
                 app:icon="@drawable/ic_employment_history" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="30dp"
+                android:background="#E0E0E0"
+                android:visibility="visible" />
 
 
             <TextView

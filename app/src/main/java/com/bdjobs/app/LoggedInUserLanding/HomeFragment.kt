@@ -79,7 +79,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getInterviewInvitation()
-        showShortListedJobsExpirationPopUP()
+        if(Constants.showShortListedPopUp) {
+            showShortListedJobsExpirationPopUP()
+        }
     }
 
 
@@ -432,35 +434,44 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         doAsync {
             val shortlistedjobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
             uiThread {
-                Log.d("ShortListedJobPopup","Job found: ${shortlistedjobs.size}")
-                val dialog = Dialog(activity)
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                dialog.setCancelable(true)
-                dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
-                dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                Log.d("ShortListedJobPopup", "Job found: ${shortlistedjobs.size}")
 
-                val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
-                val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
-                val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
-                val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
-               // val deadlineCG = dialog.findViewById<ChipGroup>(R.id.deadlineCG)
-                var job = "Job"
-                if(shortlistedjobs.size>1)
-                    job = "Jobs"
+                if (shortlistedjobs.isNotEmpty()) {
+                    val dialog = Dialog(activity)
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    dialog.setCancelable(true)
+                    dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
+                    dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                jobCountTV.text = "${shortlistedjobs.size} $job found"
+                    val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
+                    val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
+                    val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
+                    val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+                    // val deadlineCG = dialog.findViewById<ChipGroup>(R.id.deadlineCG)
+                    checkBox.setOnCheckedChangeListener { _, isChecked ->
+                        Constants.showShortListedPopUp = !isChecked
+                    }
 
-                //selectChip(deadlineCG,"Next 2 days")
 
-                cancelIV.setOnClickListener {
-                    dialog.dismiss()
+                    var job = "Job"
+                    if (shortlistedjobs.size > 1)
+                        job = "Jobs"
+
+                    jobCountTV.text = "${shortlistedjobs.size} $job found"
+
+                    //selectChip(deadlineCG,"Next 2 days")
+
+                    cancelIV.setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    showButton.setOnClickListener {
+                        homeCommunicator.setShortListFilter("Next 2 days")
+                        homeCommunicator.goToShortListedFragment(2)
+                        dialog?.dismiss()
+                    }
+                    dialog.show()
                 }
-
-                showButton.setOnClickListener {
-                    homeCommunicator.goToShortListedFragment(2)
-                    dialog?.dismiss()
-                }
-                dialog.show()
             }
         }
 

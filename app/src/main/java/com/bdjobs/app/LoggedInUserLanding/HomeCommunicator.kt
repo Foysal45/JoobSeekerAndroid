@@ -22,5 +22,7 @@ interface HomeCommunicator {
     fun getInviteCodepcOwnerID():String?
     fun getInviteCodeStatus():String?
     fun goToShortListedFragment(deadline:Int)
+    fun setShortListFilter(filter:String)
+    fun getShortListFilter():String
 
 }
