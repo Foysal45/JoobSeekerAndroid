@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_other_info_base.*
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
 
 
+
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val languageEditFrgamnet = LangProficiencyEditFragment()
@@ -126,6 +127,17 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     }
 
+
+    override fun setEditButton() {
+        iv_OI_delete_data.setImageResource(R.drawable.specialization_edit_icon)
+        iv_OI_delete_data.show()
+        iv_OI_delete_data.setOnClickListener {
+
+            goToEditInfo("editSpecialization")
+
+        }
+    }
+
     override fun goToEditInfo(check: String) {
 
         try {
@@ -140,11 +152,11 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
                     transitFragment(languageEditFrgamnet, R.id.other_info_container, true)
                 }
                 "addSpecialization" -> {
-                    /* trainingEditFragment.isEdit = false*/
+                    specializationEditFragment.isEdit = false
                     transitFragment(specializationEditFragment, R.id.other_info_container, true)
                 }
                 "editSpecialization" -> {
-                    /*  acaEditFragment.isEdit = true*/
+                    specializationEditFragment.isEdit = true
                     transitFragment(specializationEditFragment, R.id.other_info_container, true)
                 }
                 "addReference" -> {

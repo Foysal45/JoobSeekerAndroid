@@ -99,6 +99,13 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId: String?
     ): Call<LanguageModel>
 
+    @FormUrlEncoded
+    @POST("apps_step_04_view_spe.asp")
+    fun getSpecializationInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<SpecialzationModel>
+
 
     @FormUrlEncoded
     @POST("apps_step_04_view_ref.asp")

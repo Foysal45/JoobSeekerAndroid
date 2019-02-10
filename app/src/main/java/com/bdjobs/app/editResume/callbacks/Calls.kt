@@ -47,6 +47,7 @@ interface OtherInfo {
     fun getLanguageData(): LanguageDataModel
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
+    fun setEditButton()
 
 }
 
