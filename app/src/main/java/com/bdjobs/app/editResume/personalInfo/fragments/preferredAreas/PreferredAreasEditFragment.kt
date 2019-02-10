@@ -190,6 +190,58 @@ class PreferredAreasEditFragment : Fragment() {
                 }
             }
         }
+        acInsideBD.onFocusChange { _, hasFocus ->
+            if (hasFocus) {
+                val acList: Array<String> = ds.allDomesticLocations
+                val expsAdapter = ArrayAdapter<String>(activity,
+                        android.R.layout.simple_dropdown_item_1line, acList)
+                acInsideBD.setAdapter(expsAdapter)
+                acInsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acInsideBD.setOnItemClickListener { _, _, position, id ->
+                    d("Selected : ${acList[position + 1]} and gotStr : ${acInsideBD.text}")
+                    val inputId = ds.getLocationIDByName(acInsideBD.text.toString())
+                    if (idArr.size != 0) {
+                        if (!idArr.contains(inputId))
+                            addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
+                        else {
+                            acInsideBD.closeKeyboard(activity)
+                            activity.toast("Organization type already added")
+                        }
+                        tilInsideBD.hideError()
+                    } else {
+                        addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
+                        d("Array size : ${idArr.size} and $exps and id : $id")
+                        tilInsideBD.hideError()
+                    }
+                }
+            }
+        }
+        acOutsideBD.onFocusChange { _, hasFocus ->
+            if (hasFocus) {
+                val acList: Array<String> = ds.allCountries
+                val expsAdapter = ArrayAdapter<String>(activity,
+                        android.R.layout.simple_dropdown_item_1line, acList)
+                acOutsideBD.setAdapter(expsAdapter)
+                acOutsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acOutsideBD.setOnItemClickListener { _, _, position, id ->
+                    d("Selected : ${acList[position + 1]} and gotStr : ${acOutsideBD.text}")
+                    val inputId = ds.getLocationIDByName(acOutsideBD.text.toString())
+                    if (idArr.size != 0) {
+                        if (!idArr.contains(inputId))
+                            addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
+                        else {
+                            acOutsideBD.closeKeyboard(activity)
+                            activity.toast("Organization type already added")
+                        }
+                        tilOutsideBD.hideError()
+                    } else {
+                        addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
+                        d("Array size : ${idArr.size} and $exps and id : $id")
+                        tilOutsideBD.hideError()
+                    }
+                }
+            }
+        }
 
     }
 

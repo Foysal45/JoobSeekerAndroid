@@ -108,9 +108,12 @@ class PreferredAreasViewFragment : Fragment() {
         preferredInsideBDLocs?.forEach {
             addChip(it?.districtName!!, cg_org_pref_locs)
         }
-        preferredOutsideBDLocs?.forEach {
-            addChip(it?.countryName!!, cg_org_pref_out_locs)
-        }
+        if (preferredOutsideBDLocs != null) {
+            textView51.show()
+            preferredOutsideBDLocs.forEach {
+                addChip(it?.countryName!!, cg_org_pref_out_locs)
+            }
+        } else textView51.hide()
     }
 
 
