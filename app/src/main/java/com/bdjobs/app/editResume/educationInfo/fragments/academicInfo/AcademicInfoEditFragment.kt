@@ -488,14 +488,10 @@ class AcademicInfoEditFragment : Fragment() {
             for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
-            activity.selector("Please Select Passing Year", yearList.toList()) { _, i ->
-
+            activity.selector("Select Year of Passing", yearList.toList()) { _, i ->
                 etPassignYear.setText(yearList[i])
                 acaPassingYearTIL.requestFocus()
-
             }
-
-
         }
 
 

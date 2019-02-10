@@ -60,10 +60,11 @@ class CareerEditFragment : Fragment() {
             validation = isValidate(etCrObj, crObjTIL, etCrObj, true, validation)
             if (validation == 1) {
                 updateData()
-            } else {
+                Log.d("chip_entry2", "text:$jobNature and $jobLevel")
+            }/* else {
                 assert(activity != null)
                 activity?.toast("Please fill up the mandatory field first")
-            }
+            }*/
         }
         personalInfo.setTitle(getString(R.string.title_career))
         personalInfo.setEditButton(false, "dd")
@@ -78,7 +79,7 @@ class CareerEditFragment : Fragment() {
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
-                activity.toast("Can not connect to the server! Try again")
+                activity.toast(getString(R.string.message_common_error))
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -117,8 +118,9 @@ class CareerEditFragment : Fragment() {
     }
 
 
-    private fun getDataFromChipGroup(chipGroup: ChipGroup) {
-        chipGroup.setOnCheckedChangeListener { chipGroup, i ->
+    private fun getDataFromChipGroup(cg: ChipGroup) {
+        cg.setOnCheckedChangeListener { chipGroup, i ->
+            debug("valueig : $i")
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip_entry", "text: ${chip.text}")
@@ -135,12 +137,15 @@ class CareerEditFragment : Fragment() {
                     }
                 }
             } else {
+                debug("value3 : $i and $jobLevel")
                 when (chipGroup.id) {
-                    R.id.jobLevelCG -> {
+                    R.id.cgLookingFor -> {
                         jobLevel = ""
+                        debug("value2 : $jobLevel")
                     }
-                    R.id.jobNatureCG -> {
+                    R.id.cgAvailable -> {
                         jobNature = ""
+                        debug("value2 : $jobNature")
                     }
                 }
             }

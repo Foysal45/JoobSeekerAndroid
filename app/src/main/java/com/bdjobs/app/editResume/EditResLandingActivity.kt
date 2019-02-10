@@ -9,6 +9,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -69,8 +70,8 @@ class EditResLandingActivity : Activity() {
             finish()
         }
         //btnPerItem4.hide()
-        //btnEmpItem2.hide()
-        //btnPerItem5.hide()
+        btnSpecilaization.hide()
+        btnPerItem5.hide()
     }
 
     private fun doWork() {

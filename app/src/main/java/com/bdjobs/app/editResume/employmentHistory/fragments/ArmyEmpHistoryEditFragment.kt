@@ -156,7 +156,8 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun updateDateInView(c: Int) {
-        val myFormat = "dd/MM/yyyy" // mention the format you need
+        //val myFormat = "MMM dd, yyyy" // mention the format you need
+        val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         if (c == 0) {
             et_commission.setText(sdf.format(now.time))
@@ -218,7 +219,6 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
-                        clearEditText()
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -236,12 +236,19 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun setData(editText: TextInputEditText, arrayResource: Int, heading: String, tag: String) {
-        val list = resources.getStringArray(arrayResource).toList()
-        activity.selector(heading, list) { _, i ->
-            //activity?.toast("position : $i")
-            getPosition(tag, i)
-            editText.setText(list[i])
-            editText.requestFocus()
+        try {
+            val res = activity?.resources
+            if (res != null) {
+                val list = res.getStringArray(arrayResource).toList()
+                activity.selector(heading, list) { _, i ->
+                    //activity?.toast("position : $i")
+                    getPosition(tag, i)
+                    editText.setText(list[i])
+                    editText.requestFocus()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("gettingArray", "Error: ${e.printStackTrace()}")
         }
     }
 

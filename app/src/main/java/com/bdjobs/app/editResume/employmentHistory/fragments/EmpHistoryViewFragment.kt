@@ -81,12 +81,18 @@ class EmpHistoryViewFragment : Fragment() {
                         shimmerStop()
                         val respo = response.body()
                         //activity.toast("${respo?.message}")
-                        arr = respo?.data as ArrayList<DataItem>
                         //activity.toast("${arr?.size}")
-                        if (arr != null) {
+                        //if (arr != null) {
+                        if (respo?.data?.size == 0 || respo?.data != null) {
+                            arr = respo.data as ArrayList<DataItem>
+                            rv_eh_view.show()
                             //adapter?.addAll(arr!!)
                             setupRV(arr!!)
                             adapter?.notifyDataSetChanged()
+                        } else {
+                            rv_eh_view.hide()
+                            tv_no_data.text = respo?.message.toString()
+                            tv_no_data.show()
                         }
                     }
                 } catch (e: Exception) {

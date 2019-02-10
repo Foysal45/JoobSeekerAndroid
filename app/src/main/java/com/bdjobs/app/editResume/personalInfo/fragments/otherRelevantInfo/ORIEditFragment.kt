@@ -55,8 +55,9 @@ class ORIEditFragment : Fragment() {
 
     private fun doWork() {
         data = oriEditCB.getOriData()
+        btn_spq.hide()
+        btn_career_sum.hide()
         onClicks()
-
         etOriKeywords.easyOnTextChangedListener { charSequence ->
             if (!idArr.isEmpty()) {
                 textInputLayout4.hideError()

@@ -243,14 +243,14 @@ class ContactEditFragment : Fragment() {
                 " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
                 " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
                 " email address another: ${contactEmailAddressTIET1.getString()}")
-        val call = ApiServiceMyBdjobs.create().updateContactData(session.userId, session.decodId, session.IsResumeUpdate,
-                presentInOutBD, getIdByName(prContactDistrictTIET.getString()), getIdByName(prContactThanaTIET.getString()),
-                getIdByName(prContactPostOfficeTIET1.getString()), prContactAddressTIETPR.getString(),
-                getIdByName(presentContactCountryTIET.getString()), permanentInOutBD, getIdByName(pmContactDistrictTIET.getString()),
-                getIdByName(pmContactThanaTIETP.getString()), getIdByName(pmContactPostOfficeTIET.getString()), pmContactAddressTIETPRM.getString(),
-                getIdByName(permanentContactCountryTIETP.getString()), sameAddress, permanentAddressID, presentAddressID,
-                contactMobileNumber1TIET.getString(), contactMobileNumberTIET.getString(), contactMobileNumber2TIET.getString(),
-                contactEmailAddressTIET.getString(), contactEmailAddressTIET1.getString())
+        val call = ApiServiceMyBdjobs.create().updateContactData(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
+                inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString()), present_thana = getIdByName(prContactThanaTIET.getString()),
+                present_p_office = getIdByName(prContactPostOfficeTIET1.getString()), present_Village = prContactAddressTIETPR.getString(),
+                present_country_list = getIdByName(presentContactCountryTIET.getString()), permInOut = permanentInOutBD, permanent_district = getIdByName(pmContactDistrictTIET.getString()),
+                permanent_thana = getIdByName(pmContactThanaTIETP.getString()), permanent_p_office = getIdByName(pmContactPostOfficeTIET.getString()), permanent_Village = pmContactAddressTIETPRM.getString(),
+                permanent_country_list = getIdByName(permanentContactCountryTIETP.getString()), same_address = sameAddress, permanent_adrsID = permanentAddressID, present_adrsID = presentAddressID,
+                officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), homePhone = contactMobileNumber2TIET.getString(),
+                email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)

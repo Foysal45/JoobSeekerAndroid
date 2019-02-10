@@ -127,8 +127,8 @@
     <string name="hint.presentAddress_v">Present Address</string>
     <string name="hint.permanentAddress">Permanent Address</string>
     <string name="hint.currentLocation">Current Location *</string>
-    <string name="hint.homePhone">Mobile No 1</string>
-    <string name="hint.officePhone">Mobile No 2</string>
+    <string name="hint.homePhone">Mobile No 2</string>
+    <string name="hint.officePhone">Mobile No 1</string>
     <string name="hint.alter_email">Alternate Email</string>
     <string name="hint.objective">Objective *</string>
     <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~</string>
