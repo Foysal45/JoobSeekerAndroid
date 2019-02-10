@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
     override fun showShortListedIcon() {
@@ -236,49 +237,63 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 }
 
                 "shortListedJob" -> {
-                    clickedPosition = intent.getIntExtra("position", 0)
+                    try {
+                        clickedPosition = intent.getIntExtra("position", 0)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
 
                     Log.d("shortListedJob", "shortListedJob: $clickedPosition")
+                    var shortListFilter = ""
+                    try {
+                        shortListFilter = intent.getStringExtra("shortListFilter")
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
 
-                    doAsync {
-                        val shortListedJobs = bdjobsDB.shortListedJobDao().getAllShortListedJobs()
-
-                        val jobList: MutableList<JobListModelData> = java.util.ArrayList()
-
-                        for (item in shortListedJobs) {
-
-                            val jobListModelData = JobListModelData(
-                                    jobid = item.jobid,
-                                    jobTitle = item.jobtitle,
-                                    companyName = item.companyname,
-                                    deadline = item.deadline?.toSimpleDateString(),
-                                    eduRec = item.eduRec,
-                                    experience = item.experience,
-                                    standout = item.standout,
-                                    logo = item.logo,
-                                    lantype = item.lantype
-                            )
-
-                            jobList.add(jobListModelData)
+                    when (shortListFilter) {
+                        "" -> {
+                            showAllshortListedJobs()
                         }
-
-                        uiThread {
-                            setJobList(jobList)
-                            totalRecordsFound = jobList.size
-                            pgNumber=1
-                            totalPages=1
-                            isLastPage=true
-                            transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+                        "Today" -> {
+                            val calendar = Calendar.getInstance()
+                            val deadlineToday = calendar.time
+                            getShortListedJobsByDeadline(deadlineToday)
+                        }
+                        "Tomorrow" -> {
+                            val calendar = Calendar.getInstance()
+                            calendar.add(Calendar.DAY_OF_YEAR, 1)
+                            val deadlineNextDay = calendar.time
+                            getShortListedJobsByDeadline(deadlineNextDay)
+                        }
+                        "Next 2 days" -> {
+                            val calendar = Calendar.getInstance()
+                            calendar.add(Calendar.DAY_OF_YEAR, 2)
+                            val deadlineNext2Days = calendar.time
+                            getShortListedJobsByDeadline(deadlineNext2Days)
+                        }
+                        "Next 3 days" -> {
+                            val calendar = Calendar.getInstance()
+                            calendar.add(Calendar.DAY_OF_YEAR, 3)
+                            val deadlineNext3Days = calendar.time
+                            getShortListedJobsByDeadline(deadlineNext3Days)
+                        }
+                        "Next 4 days" -> {
+                            val calendar = Calendar.getInstance()
+                            calendar.add(Calendar.DAY_OF_YEAR, 4)
+                            val deadlineNext4Days = calendar.time
+                            getShortListedJobsByDeadline(deadlineNext4Days)
                         }
                     }
+
                 }
 
-                "employer"->{
+                "employer" -> {
                     clickedPosition = intent.getIntExtra("position", 0)
                     val jobList: MutableList<JobListModelData> = java.util.ArrayList()
                     val jobids = intent.getStringArrayListExtra("jobids")
                     val lns = intent.getStringArrayListExtra("lns")
-                    for(i in 0 until jobids.size){
+                    for (i in 0 until jobids.size) {
                         val jobListModelData = JobListModelData(
                                 jobid = jobids[i],
                                 jobTitle = "",
@@ -291,14 +306,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                                 lantype = lns[i]
                         )
                         jobList.add(jobListModelData)
-                        Log.d("employerJobid","jobid: ${jobids[i]} ln: ${lns[i]}")
+                        Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
                     }
 
                     setJobList(jobList)
                     totalRecordsFound = jobList.size
-                    pgNumber=1
-                    totalPages=1
-                    isLastPage=true
+                    pgNumber = 1
+                    totalPages = 1
+                    isLastPage = true
                     transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
                 }
 
@@ -310,6 +325,75 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             transitFragment(joblistFragment, R.id.jobFragmentHolder)
         }
 
+    }
+
+    private fun getShortListedJobsByDeadline(deadline: Date) {
+        doAsync {
+            val shortListedJobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadline)
+
+            val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+
+            for (item in shortListedJobs) {
+
+                val jobListModelData = JobListModelData(
+                        jobid = item.jobid,
+                        jobTitle = item.jobtitle,
+                        companyName = item.companyname,
+                        deadline = item.deadline?.toSimpleDateString(),
+                        eduRec = item.eduRec,
+                        experience = item.experience,
+                        standout = item.standout,
+                        logo = item.logo,
+                        lantype = item.lantype
+                )
+
+                jobList.add(jobListModelData)
+            }
+
+            uiThread {
+                setJobList(jobList)
+                totalRecordsFound = jobList.size
+                pgNumber = 1
+                totalPages = 1
+                isLastPage = true
+                transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+            }
+        }
+
+    }
+
+    private fun showAllshortListedJobs() {
+        doAsync {
+            val shortListedJobs = bdjobsDB.shortListedJobDao().getAllShortListedJobs()
+
+            val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+
+            for (item in shortListedJobs) {
+
+                val jobListModelData = JobListModelData(
+                        jobid = item.jobid,
+                        jobTitle = item.jobtitle,
+                        companyName = item.companyname,
+                        deadline = item.deadline?.toSimpleDateString(),
+                        eduRec = item.eduRec,
+                        experience = item.experience,
+                        standout = item.standout,
+                        logo = item.logo,
+                        lantype = item.lantype
+                )
+
+                jobList.add(jobListModelData)
+            }
+
+            uiThread {
+                setJobList(jobList)
+                totalRecordsFound = jobList.size
+                pgNumber = 1
+                totalPages = 1
+                isLastPage = true
+                transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+            }
+        }
     }
 
 
