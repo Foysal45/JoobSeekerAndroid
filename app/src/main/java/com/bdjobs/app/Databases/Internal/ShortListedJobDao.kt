@@ -21,8 +21,8 @@ interface ShortListedJobDao {
     @Query("SELECT * FROM ShortListedJobs WHERE jobid =:jobId")
     fun getShortListedJobById(jobId: String): List<ShortListedJobs>
 
-    @Query("SELECT * FROM ShortListedJobs WHERE deadline<=:deadline and deadline>=:today ORDER BY id DESC")
-    fun getAllShortListedJobsByDeadline(deadline:Date,today:Date): List<ShortListedJobs>
+    @Query("SELECT * FROM ShortListedJobs WHERE deadline<=:deadline and deadline>:yesterday ORDER BY id DESC")
+    fun getAllShortListedJobsByDeadline(deadline:Date,yesterday:Date): List<ShortListedJobs>
 
     @Transaction
     fun isItShortListed(jobId: String): Boolean {
@@ -35,7 +35,10 @@ interface ShortListedJobDao {
 
     @Transaction
     fun getShortListedJobsBYDeadline(deadline:Date): List<ShortListedJobs>{
-        return getAllShortListedJobsByDeadline(deadline,Date())
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        val yesterday = calendar.time
+        return getAllShortListedJobsByDeadline(deadline,yesterday)
     }
 
 
