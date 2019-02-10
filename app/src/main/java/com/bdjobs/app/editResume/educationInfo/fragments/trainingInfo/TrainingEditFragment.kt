@@ -1,6 +1,7 @@
 package com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo
 
 
+import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,7 @@ import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 class TrainingEditFragment : Fragment() {
 
     var isEdit: Boolean = false
@@ -32,6 +34,7 @@ class TrainingEditFragment : Fragment() {
     private lateinit var hTrainingID: String
     private lateinit var hID: String
     private var calendar: Calendar? = null
+    //private var yearSelected = false
     private var yearList = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +45,9 @@ class TrainingEditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        session = BdjobsUserSession(activity)
+        eduCB = activity as EduInfo
+        eduCB.setTitle(getString(R.string.title_training))
         initialization()
         doWork()
         if (!isEdit) {
@@ -55,11 +60,6 @@ class TrainingEditFragment : Fragment() {
     }
 
     private fun initialization() {
-
-        session = BdjobsUserSession(activity)
-        eduCB = activity as EduInfo
-        calendar = Calendar.getInstance()
-        eduCB.setTitle(getString(R.string.title_training))
         etTrTopic?.addTextChangedListener(TW.CrossIconBehave(etTrTopic))
         etTrCountry?.addTextChangedListener(TW.CrossIconBehave(etTrCountry))
         etTrTrainingYear?.addTextChangedListener(TW.CrossIconBehave(etTrTrainingYear))
@@ -140,6 +140,13 @@ class TrainingEditFragment : Fragment() {
         }
     }
 
+    /*private fun updateDateInView(year: Int) {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        yearSelected = true
+        etTrTrainingYear.setText(year.toString())
+    }*/
+
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateTrainingList(session.userId, session.decodId, session.IsResumeUpdate,
@@ -215,5 +222,29 @@ class TrainingEditFragment : Fragment() {
                 }
             }
         })
+    }
+
+    fun pickDateA() {
+        //yearSelected = false
+        val now = Calendar.getInstance()
+        val dateSelectedListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            now?.set(Calendar.YEAR, year)
+            now?.set(Calendar.MONTH, monthOfYear)
+            now?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            //updateDateInView(year)
+        }
+        val dpd = DatePickerDialog(activity,
+                dateSelectedListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                now.get(Calendar.YEAR),
+                now.get(Calendar.YEAR),
+                now.get(Calendar.YEAR))
+
+        /*now.add(yearT, -55) // subtract 2 years from now
+        dpd.datePicker.minDate = now.timeInMillis
+        now.add(yearT, 5) // add 4 years to min date to have 2 years after now
+        dpd.datePicker.maxDate = now.timeInMillis*/
+        dpd.datePicker.touchables[0].performClick()
+        dpd.show()
     }
 }

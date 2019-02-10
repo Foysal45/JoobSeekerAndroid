@@ -34,7 +34,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.reference_name"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="50"
+                    android:maxLength="49"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -56,7 +56,7 @@
                     android:hint="@string/hint.reference_organization"
                     android:imeOptions="actionNext"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="50"
+                    android:maxLength="49"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -118,7 +118,7 @@
                     android:hint="@string/hint.rf_phone_office"
                     android:imeOptions="actionNext"
                     android:inputType="numberSigned"
-                    android:maxLength="50"
+                    android:maxLength="49"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -139,7 +139,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.ref_phone_res"
                     android:inputType="numberSigned"
-                    android:maxLength="50"
+                    android:maxLength="49"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -159,7 +159,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.ref_mobile"
                     android:inputType="numberSigned"
-                    android:maxLength="50"
+                    android:maxLength="49"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -179,7 +179,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.ref_email"
                     android:inputType="textEmailAddress"
-                    android:maxLength="50"
+                    android:maxLength="49"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -116,10 +116,10 @@ class PersonalDetailsEditFragment : Fragment() {
             }
             if (validation >= 2) {
                 updateData()
-            } else {
+            }/* else {
                 assert(activity != null)
                 activity?.toast("Please fill up the mandatory field first")
-            }
+            }*/
         }
     }
 

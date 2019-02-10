@@ -15,8 +15,6 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiServiceMyBdjobs {
-
-
     @FormUrlEncoded
     @POST(api_mybdjobs_app_signinprocess)
     fun getLoginUserDetails(@Field("username") username: String?): Call<LoginUserModel>
@@ -86,6 +84,13 @@ interface ApiServiceMyBdjobs {
     ): Call<GetTrainingInfo>
 
     @FormUrlEncoded
+    @POST("apps_step_01_view_jclo.asp")
+    fun getPreferredAreaInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetPreferredAreas>
+
+    @FormUrlEncoded
     @POST("apps_step_02_view_prq.asp")
     fun getProfessionalInfoList(
             @Field("userId") userId: String?,
@@ -153,6 +158,17 @@ interface ApiServiceMyBdjobs {
             @Field("expSalary") expSalary: String?,
             @Field("lookingFor") lookingFor: String?,
             @Field("availableFor") availableFor: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_update_ori.asp")
+    fun updateORIData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("careerSummary") objective: String?,
+            @Field("specialQual") presentSalary: String?,
+            @Field("keywords") expSalary: String?
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
@@ -253,6 +269,7 @@ interface ApiServiceMyBdjobs {
             @Field("comboBANo") comboBANo: String?,
             @Field("txtBANo") txtBANo: String?,
             @Field("comboArms") comboArms: String?,
+            @Field("comboRank") comboRank: String?,
             @Field("comboType") comboType: String?,
             @Field("txtCourse") txtCourse: String?,
             @Field("txtTrade") txtTrade: String?,

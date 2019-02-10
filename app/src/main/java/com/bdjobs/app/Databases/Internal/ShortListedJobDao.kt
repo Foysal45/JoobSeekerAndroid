@@ -1,6 +1,7 @@
 package com.bdjobs.app.Databases.Internal
 
 import androidx.room.*
+import java.util.*
 
 @Dao
 interface ShortListedJobDao {
@@ -20,6 +21,9 @@ interface ShortListedJobDao {
     @Query("SELECT * FROM ShortListedJobs WHERE jobid =:jobId")
     fun getShortListedJobById(jobId: String): List<ShortListedJobs>
 
+    @Query("SELECT * FROM ShortListedJobs WHERE deadline<=:deadline and deadline>=:today ORDER BY id DESC")
+    fun getAllShortListedJobsByDeadline(deadline:Date,today:Date): List<ShortListedJobs>
+
     @Transaction
     fun isItShortListed(jobId: String): Boolean {
         val jobs = getShortListedJobById(jobId)
@@ -27,6 +31,11 @@ interface ShortListedJobDao {
             return false
         }
         return true
+    }
+
+    @Transaction
+    fun getShortListedJobsBYDeadline(deadline:Date): List<ShortListedJobs>{
+        return getAllShortListedJobsByDeadline(deadline,Date())
     }
 
 

@@ -7,6 +7,21 @@
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     tools:context=".editResume.employmentHistory.fragments.EmpHistoryViewFragment">
 
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="@string/select_doc_text"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_eh_view"
         android:layout_width="match_parent"

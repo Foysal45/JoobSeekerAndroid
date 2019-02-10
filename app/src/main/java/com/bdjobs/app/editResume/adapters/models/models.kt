@@ -18,7 +18,7 @@ data class DataItem(
         val departmant: String? = null,
 
         @field:SerializedName("areaofExperience")
-        val areaofExperience: List<AreaofExperienceItem?>? = null,
+        val areaofExperience: List<AreaofExperienceItem?>? = listOf(),
 
         @field:SerializedName("messageType")
         val messageType: String? = null,
@@ -53,7 +53,7 @@ data class GetExps(
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: List<DataItem?>? = null,
+        val data: List<DataItem?>? = listOf(),
 
         @field:SerializedName("common")
         val common: Any? = null,
@@ -71,7 +71,7 @@ data class GetArmyEmpHis(
         val common: Any? = null,
 
         @field:SerializedName("data")
-        val armydata: List<ArmydataItem?>? = null,
+        val armydata: List<ArmydataItem?>? = listOf(),
 
         @field:SerializedName("message")
         val message: String? = null
@@ -140,7 +140,7 @@ data class GetAcademicInfo(
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: List<AcaDataItem?>? = null,
+        val data: List<AcaDataItem?>? = listOf(),
 
         @field:SerializedName("common")
         val common: Any? = null,
@@ -248,7 +248,7 @@ data class GetPersInfo(
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: List<P_DataItem?>? = null,
+        val data: List<P_DataItem?>? = listOf(),
 
         @field:SerializedName("common")
         val common: Any? = null,
@@ -309,7 +309,7 @@ data class GetContactInfo(
         @SerializedName("common")
         val common: Any?,
         @SerializedName("data")
-        val `data`: List<C_DataItem?>?,
+        val data: List<C_DataItem?>? = listOf(),
         @SerializedName("message")
         val message: String?,
         @SerializedName("statuscode")
@@ -339,12 +339,11 @@ data class Ca_DataItem(
 )
 
 data class GetCarrerInfo(
-
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: List<Ca_DataItem?>? = null,
+        val data: List<Ca_DataItem?>? = listOf(),
 
         @field:SerializedName("common")
         val common: Any? = null,
@@ -360,7 +359,7 @@ data class GetORIResponse(
         val statuscode: String? = null,
 
         @field:SerializedName("data")
-        val data: List<ORIdataItem?>? = null,
+        val data: List<ORIdataItem?>? = listOf(),
 
         @field:SerializedName("common")
         val common: Any? = null,
@@ -399,10 +398,73 @@ data class Tr_DataItem(
 
 data class GetTrainingInfo(
         val statuscode: String? = null,
-        val data: List<Tr_DataItem?>? = null,
+        val data: List<Tr_DataItem?>? = listOf(),
         val common: Any? = null,
         val message: String? = null
 )
+
+// preferred Areas
+data class GetPreferredAreas(
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val prefData: List<PreferredAreasData?>? = listOf(),
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
+)
+
+data class PreferredAreasData(
+        @SerializedName("inside")
+        val inside: List<Inside?>? = listOf(),
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("outside")
+        val outside: List<Outside?>? = listOf(),
+        @SerializedName("preferredBlueCategories")
+        val preferredBlueCategories: List<PreferredBlueCategory?>? = listOf(),
+        @SerializedName("prefferedJobCategories")
+        val preferredJobCategories: List<PreferredJobCategory?>? = listOf(),
+        @SerializedName("prefferedOrganizationType")
+        val preferredOrganizationType: List<PreferredOrgType?>? = listOf()
+)
+
+data class PreferredOrgType(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("pref_org_name")
+        val prefOrgName: String?
+)
+
+data class Outside(
+        @SerializedName("country_name")
+        val countryName: String?,
+        @SerializedName("id")
+        val id: String?
+)
+
+data class Inside(
+        @SerializedName("district_name")
+        val districtName: String?,
+        @SerializedName("id")
+        val id: String?
+)
+
+data class PreferredBlueCategory(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("pref_blue_cat_name")
+        val prefBlueCatName: String?
+)
+
+data class PreferredJobCategory(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("pref_cat_name")
+        val prefCatName: String?
+)
+
 
 // Landing List
 

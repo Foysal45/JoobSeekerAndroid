@@ -102,10 +102,10 @@
     <string name="hint.ref_relative">Relative</string>
     <string name="hint.writing">Writing *</string>
     <string name="hint.speaking">Speaking *</string>
-    <string name="hint.high">High </string>
+    <string name="hint.high">High</string>
     <string name="hint.ref_Relative">Relative </string>
-    <string name="hint.medium">Medium </string>
-    <string name="hint.law">Law </string>
+    <string name="hint.medium">Medium</string>
+    <string name="hint.law">Low</string>
     <string name="hint.ref_other">Other</string>
     <string name="hint.ref_professional">Professional</string>
     <string name="hint.ref_family_friend">Family Friend</string>
@@ -127,8 +127,8 @@
     <string name="hint.presentAddress_v">Present Address</string>
     <string name="hint.permanentAddress">Permanent Address</string>
     <string name="hint.currentLocation">Current Location *</string>
-    <string name="hint.homePhone">Home Phone</string>
-    <string name="hint.officePhone">Office Phone</string>
+    <string name="hint.homePhone">Mobile No 2</string>
+    <string name="hint.officePhone">Mobile No 1</string>
     <string name="hint.alter_email">Alternate Email</string>
     <string name="hint.objective">Objective *</string>
     <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~</string>
@@ -198,7 +198,6 @@
     <string name="title_personal_info">Personal Information</string>
     <string name="title_emp_his">Employment History</string>
     <string name="title_specialization">Specialization</string>
-
     <string name="title_reference">References</string>
     <string name="title_academic">Academic Qualification</string>
     <string name="title_training">Training Summary</string>
@@ -222,9 +221,9 @@
     <string name="hint.contactThana">Thana</string>
     <string name="hint.contactPost">P.O</string>
     <string name="hint.contactAddress">House No/ Road / Village</string>
-    <string name="hint.contactMobileNumber">Mobile No</string>
+    <string name="hint.contactMobileNumber">Primary Mobile No</string>
     <string name="hint.addMobileNumber">ADD MOBILE NO</string>
-    <string name="hint.contactEmailadress">Email Address</string>
+    <string name="hint.contactEmailadress">Primary Email</string>
     <string name="hint.contactEmailButton">ADD EMAIL</string>
     <string name="hint.addressCheckbox">Same as Present Address</string>
     <string name="bangladesh_technical_education_board">Bangladesh Technical Education Board</string>
@@ -264,8 +263,9 @@
     <string name="hint.addEmail">ADD EMAIL</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
-    <string name="subtit.ori_info">Other Relevant Information</string>
+    <string name="title_pref_areas">Preferred Areas</string>
     <string name="title_ORI">Other Relevant Information</string>
+    <string name="title_army_emp_his">Employment History (Retired Army Person)</string>
     <string name="resend_code">কোডটি পুনঃরায় পাঠান</string>
     <string name="hint.special_qualification">Special Qualification</string>
     <string name="hint.career_summary">Career Summary</string>
@@ -277,6 +277,15 @@
     <string name="err_msg_password_not_match">These Passwords do not match</string>
     <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
     <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
+    <string name="tool_tip_summary">What is Career Summary</string>
+    <string name="tool_tip_what_is_special_qualification">What is Special Qualification</string>
+    <string name="tool_tip_what_is_keywords">What is Keywords</string>
+    <string name="subtit_pref_func_job">Preferred Functional Job Categories</string>
+    <string name="subtit_pref_skilled_job">Preferred Special Skilled Job Categories</string>
+    <string name="subtit_pref_org_type">Preferred Organization Type</string>
+    <string name="subtit_pref_locs">Preferred Job Location</string>
+    <string name="subtit_pref_locs_inside">Inside Bangladesh</string>
+    <string name="subtit_pref_locs_outside">Outside Bangladesh</string>
     <string name="hint.language_heading">English</string>
     <string name="hint.Reading">Reading</string>
     <string name="hint.Writing">Writing</string>
@@ -286,5 +295,18 @@
     <string name="specialization_extra_curricular_heading">Extracurricular Activities</string>
     <string name="email_invalid_message">Email is not valid</string>
 
+    <string name="email_invalid_message">Please type a valid Email Address</string>
+    <string name="hint_others_language">Language *</string>
+    <string name="btn_example">Example</string>
+    <string name="hint.prefAreasJobCategory">Preferred Functional Job Categories *</string>
+    <string name="hint.prefAreas_preferred_job_location">Preferred Job Location *</string>
+    <string name="hint.prefAreas_inside_bangladesh">Inside Bangladesh</string>
+    <string name="hint.prefAreas_add_district">Add District</string>
+    <string name="hint.prefAreas_select_districts">Select Districts</string>
+    <string name="hint.prefAreas_anywhere_in_bangladesh">Anywhere in Bangladesh</string>
+    <string name="hint.prefAreas_add_country">Add Country</string>
+    <string name="hint.prefAreas_outside_bangladesh">Outside Bangladesh</string>
+    <string name="hint.prefAreasBCJobCategory">Preferred Special Skilled Job Categories</string>
+    <string name="hint.prefAreasOrgType">Preferred Organization Type</string>
 
 </resources>

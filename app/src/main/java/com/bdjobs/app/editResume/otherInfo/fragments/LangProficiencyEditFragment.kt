@@ -117,19 +117,11 @@ class LangProficiencyEditFragment : Fragment() {
         getDataFromChip()
 
         fab_language_update.setOnClickListener {
-
             if (languageValidity()) {
-
                 if (languageLevelValidity()) {
                     updateData()
-
-
                 }
-
-
             }
-
-
         }
     }
 
@@ -191,12 +183,9 @@ class LangProficiencyEditFragment : Fragment() {
 
 
     private fun getDataFromChip() {
-
-
         getDataFromChipGroup(cgReading)
         getDataFromChipGroup(cgWriting)
         getDataFromChipGroup(cgSpeaking)
-
     }
 
 
@@ -252,7 +241,7 @@ class LangProficiencyEditFragment : Fragment() {
                         val chips = when (data) {
                             "High" -> "High"
                             "Medium" -> "Medium"
-                            "Law" -> "Law"
+                            "Low" -> "Low"
                             else -> "O"
                         }
                         debug("value : $chips")
@@ -262,7 +251,7 @@ class LangProficiencyEditFragment : Fragment() {
                         val chips = when (data) {
                             "High" -> "High"
                             "Medium" -> "Medium"
-                            "Law" -> "Law"
+                            "Low" -> "Low"
                             else -> "O"
                         }
                         debug("value : $chips")
@@ -273,7 +262,7 @@ class LangProficiencyEditFragment : Fragment() {
                         val chips = when (data) {
                             "High" -> "High"
                             "Medium" -> "Medium"
-                            "Law" -> "Law"
+                            "Low" -> "Low"
                             else -> "O"
                         }
                         debug("value : $chips")

@@ -34,12 +34,27 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+    override fun setShortListFilter(filter: String) {
+        this.shortListFilter = filter
+    }
+
+    override fun getShortListFilter(): String {
+      return shortListFilter
+    }
+
+    private var shortListFilter :String =""
+
+
+    override fun goToShortListedFragment(deadline: Int) {
+        bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
+    }
+
     override fun getInviteCodepcOwnerID(): String? {
         return pcOwnerID
     }
 
     override fun getInviteCodeStatus(): String? {
-       return inviteCodeStatus
+        return inviteCodeStatus
     }
 
 /*    override fun goToEmployerViewedMyResume(from: String) {
@@ -143,6 +158,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         tetsLog()
     }
 
+
     private fun getInviteCodeInformation() {
         doAsync {
             val inviteCodeUserInfo = bdjobsDB.inviteCodeUserInfoDao().getInviteCodeInformation(session.userId!!)
@@ -163,7 +179,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                     inviteCodeStatus = inviteCodeUserInfo[0].inviteCodeStatus
 
 
-                    if(!inviteCodeuserType?.equalIgnoreCase("u")!!){
+                    if (!inviteCodeuserType?.equalIgnoreCase("u")!!) {
                         updateInviteCodeOwnerInformation()
                     }
 
@@ -181,34 +197,34 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 catId = getBlueCollarUserId().toString(),
                 deviceID = getDeviceID()
         ).enqueue(object : Callback<InviteCodeHomeModel> {
-                    override fun onFailure(call: Call<InviteCodeHomeModel>, t: Throwable) {
-                        error("onFailure", t)
+            override fun onFailure(call: Call<InviteCodeHomeModel>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<InviteCodeHomeModel>, response: Response<InviteCodeHomeModel>) {
+
+                if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+
+                    val inviteCodeInfo = InviteCodeInfo(
+                            userId = session.userId,
+                            userType = response.body()?.data?.get(0)?.userType,
+                            pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
+                            inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
+                    )
+                    Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
+                            "userType = ${response.body()?.data?.get(0)?.userType},\n" +
+                            "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +
+                            "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")
+
+                    doAsync {
+                        bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
                     }
-
-                    override fun onResponse(call: Call<InviteCodeHomeModel>, response: Response<InviteCodeHomeModel>) {
-
-                        if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
-
-                            val inviteCodeInfo = InviteCodeInfo(
-                                    userId = session.userId,
-                                    userType = response.body()?.data?.get(0)?.userType,
-                                    pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
-                                    inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
-                            )
-                            Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
-                                    "userType = ${response.body()?.data?.get(0)?.userType},\n" +
-                                    "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +
-                                    "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")
-
-                            doAsync {
-                                bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
-                            }
-                            inviteCodeuserType = inviteCodeInfo.userType
-                            pcOwnerID = inviteCodeInfo.pcOwnerID
-                            inviteCodeStatus = inviteCodeInfo.inviteCodeStatus
-                        }
-                    }
-                })
+                    inviteCodeuserType = inviteCodeInfo.userType
+                    pcOwnerID = inviteCodeInfo.pcOwnerID
+                    inviteCodeStatus = inviteCodeInfo.inviteCodeStatus
+                }
+            }
+        })
     }
 
     override fun goToKeywordSuggestion() {
@@ -294,7 +310,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     }
 
     override fun shortListedClicked(Position: Int) {
-        startActivity<JobBaseActivity>("from" to "shortListedJob", "position" to Position)
+        startActivity<JobBaseActivity>("from" to "shortListedJob", "position" to Position,"shortListFilter" to shortListFilter)
 
     }
 
@@ -306,13 +322,12 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 trainingId = session.trainingId,
                 isResumeUpdate = session.IsResumeUpdate
 
-        )
-                .enqueue(object : Callback<StatsModelClass> {
-                    override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
+        ).enqueue(object : Callback<StatsModelClass> {
+            override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
                         toast("${t.message}")
-                    }
+            }
 
-                    override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
+            override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
 
                         try {
                             if (activityDate == "0") {
@@ -327,7 +342,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                         }
                     }
 
-                })
+        })
     }
 
 }

@@ -11,10 +11,7 @@ import androidx.core.content.ContextCompat
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.editResume.adapters.models.C_DataItem
-import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
-import com.bdjobs.app.editResume.adapters.models.ORIdataItem
-import com.bdjobs.app.editResume.adapters.models.P_DataItem
+import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerViewFragment
@@ -24,6 +21,8 @@ import com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo.ORIEdi
 import com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo.ORIViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
+import com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas.PreferredAreasEditFragment
+import com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas.PreferredAreasViewFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -39,10 +38,13 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val contactEditFragment = ContactEditFragment()
     private val oriViewFragment = ORIViewFragment()
     private val oriEditFragment = ORIEditFragment()
+    private val prefViewFragment = PreferredAreasViewFragment()
+    private val prefEditFragment = PreferredAreasEditFragment()
     private lateinit var dataCa: Ca_DataItem
     private lateinit var dataCon: C_DataItem
     private lateinit var dataPer: P_DataItem
     private lateinit var dataOri: ORIdataItem
+    private lateinit var dataAreas: PreferredAreasData
     private lateinit var name: String
     private lateinit var gotToAddEmployment: String
 
@@ -62,6 +64,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
             "contact" -> transitFragment(contactViewFragment, R.id.personalinfo_container, false)
             "career" -> transitFragment(careerViewFragment, R.id.personalinfo_container, false)
             "ori" -> transitFragment(oriViewFragment, R.id.personalinfo_container, false)
+            "prefAreas" -> transitFragment(prefViewFragment, R.id.personalinfo_container, false)
         }
     }
 
@@ -78,7 +81,6 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     override fun passPersonalData(data: P_DataItem) {
         this.dataPer = data
     }
-
 
     override fun getCareerData(): Ca_DataItem {
         return dataCa
@@ -102,6 +104,14 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
 
     override fun passOriData(data: ORIdataItem) {
         this.dataOri = data
+    }
+
+    override fun getPrefAreasData(): PreferredAreasData {
+        return dataAreas
+    }
+
+    override fun passPrefAreasData(data: PreferredAreasData) {
+        this.dataAreas = data
     }
 
     override fun setEditButton(b: Boolean, type: String) {
@@ -141,6 +151,10 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
                 "editContact" -> {
                     //contact edit fragment
                     transitFragment(contactEditFragment, R.id.personalinfo_container, true)
+                }
+                "editPrefAreas" -> {
+                    //contact edit fragment
+                    transitFragment(prefEditFragment, R.id.personalinfo_container, true)
                 }
                 else -> {
                     iv_edit_data.hide()

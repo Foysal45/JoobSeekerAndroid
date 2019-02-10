@@ -147,9 +147,36 @@ class ContactEditFragment : Fragment() {
             clContactEdit.closeKeyboard(activity!!)
 
             var validation = 0
-            validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
-            validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
-            validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+            when (presentInOutBD) {
+                "0" -> {
+                    validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
+                    validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
+                    validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("CValidaiton", "(out 1.1) value : $validation")
+                }
+                "1" -> {
+                    validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
+                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("CValidaiton", "(out 1.2) value : $validation")
+                }
+            }
+
+            when (permanentInOutBD) {
+                "1" -> {
+                    validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                    validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                    Log.d("CValidaiton", "(out 2.2) value : $validation")
+                }
+                "0" -> {
+                    validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
+                    validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
+                    validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
+                    validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                    Log.d("CValidaiton", "(out 2.1) value : $validation")
+                }
+            }
+
             if (contactEmailAddressTIET.getString().trim() == "") {
                 validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
             }
@@ -157,11 +184,19 @@ class ContactEditFragment : Fragment() {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
             }
             if (presentInOutBD == "1") {
+                prContactDivTIET.clear()
+                prContactDistrictTIET.clear()
+                prContactThanaTIET.clear()
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            }
+            } else presentContactCountryTIET.clear()
             if (permanentInOutBD == "1") {
+                pmContactDivTIET1.clear()
+                pmContactDistrictTIET.clear()
+                pmContactThanaTIETP.clear()
                 validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            }
+            } else permanentContactCountryTIETP.clear()
+            Log.d("checkValid", " val : $validation ")
+            Log.d("checkValid", " val : $validation ")
             if (validation >= 3) updateData()
         }
         contactAddMobileButton?.setOnClickListener {
@@ -208,14 +243,14 @@ class ContactEditFragment : Fragment() {
                 " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
                 " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
                 " email address another: ${contactEmailAddressTIET1.getString()}")
-        val call = ApiServiceMyBdjobs.create().updateContactData(session.userId, session.decodId, session.IsResumeUpdate,
-                presentInOutBD, getIdByName(prContactDistrictTIET.getString()), getIdByName(prContactThanaTIET.getString()),
-                getIdByName(prContactPostOfficeTIET1.getString()), prContactAddressTIETPR.getString(),
-                getIdByName(presentContactCountryTIET.getString()), permanentInOutBD, getIdByName(pmContactDistrictTIET.getString()),
-                getIdByName(pmContactThanaTIETP.getString()), getIdByName(pmContactPostOfficeTIET.getString()), pmContactAddressTIETPRM.getString(),
-                getIdByName(permanentContactCountryTIETP.getString()), sameAddress, permanentAddressID, presentAddressID,
-                contactMobileNumber1TIET.getString(), contactMobileNumberTIET.getString(), contactMobileNumber2TIET.getString(),
-                contactEmailAddressTIET.getString(), contactEmailAddressTIET1.getString())
+        val call = ApiServiceMyBdjobs.create().updateContactData(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
+                inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString()), present_thana = getIdByName(prContactThanaTIET.getString()),
+                present_p_office = getIdByName(prContactPostOfficeTIET1.getString()), present_Village = prContactAddressTIETPR.getString(),
+                present_country_list = getIdByName(presentContactCountryTIET.getString()), permInOut = permanentInOutBD, permanent_district = getIdByName(pmContactDistrictTIET.getString()),
+                permanent_thana = getIdByName(pmContactThanaTIETP.getString()), permanent_p_office = getIdByName(pmContactPostOfficeTIET.getString()), permanent_Village = pmContactAddressTIETPRM.getString(),
+                permanent_country_list = getIdByName(permanentContactCountryTIETP.getString()), same_address = sameAddress, permanent_adrsID = permanentAddressID, present_adrsID = presentAddressID,
+                officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), homePhone = contactMobileNumber2TIET.getString(),
+                email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)

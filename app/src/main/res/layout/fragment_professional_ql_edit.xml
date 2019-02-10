@@ -78,7 +78,7 @@
             android:focusableInTouchMode="true"
             android:hint="@string/hint.location"
             android:inputType="text|textMultiLine"
-            android:maxLength="50"
+            android:maxLength="49"
             android:textColor="#212121" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +111,7 @@
                 android:focusableInTouchMode="false"
                 android:hint="@string/hint.start_date"
                 android:inputType="text|textMultiLine"
-                android:maxLength="50"
+                android:maxLength="49"
                 android:textColor="#212121" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -132,7 +132,7 @@
                 android:focusableInTouchMode="false"
                 android:hint="@string/hint.end_date"
                 android:inputType="text|textMultiLine"
-                android:maxLength="50"
+                android:maxLength="49"
                 android:textColor="#212121" />
 
         </com.google.android.material.textfield.TextInputLayout>

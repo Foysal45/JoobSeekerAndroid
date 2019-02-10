@@ -40,9 +40,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/hintColor</item>
         <item name="android:editTextColor">@color/hintColor</item>
-
         <item name="android:background">@drawable/search_view_bg</item>
         <item name="android:actionBarTheme">@style/Base.ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="HintText" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:color">#393939</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="more.button" parent="Widget.MaterialComponents.Button.TextButton.Icon">

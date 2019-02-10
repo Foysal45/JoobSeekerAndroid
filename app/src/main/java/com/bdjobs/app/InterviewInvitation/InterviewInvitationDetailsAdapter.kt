@@ -18,7 +18,6 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
 import org.jetbrains.anko.yesButton
 
 class InterviewInvitationDetailsAdapter(private val context: Context, private val items: List<InvitationDetailModelsData>):  RecyclerView.Adapter<InterviewInvitationViewHolder>() {
