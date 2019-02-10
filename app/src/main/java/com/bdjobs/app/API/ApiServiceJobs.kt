@@ -193,6 +193,9 @@ interface ApiServiceJobs {
             @Field("encoded") encoded: String? = ""
     ): Call<ApplyOnlineModel>
 
+    @GET("HOTJOBXMLAutoTemplateNewOnline.asp")
+    fun getHotJobs(): Call<HotJobs>
+
 
     companion object Factory {
 

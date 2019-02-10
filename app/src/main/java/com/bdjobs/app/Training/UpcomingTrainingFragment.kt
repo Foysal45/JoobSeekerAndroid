@@ -91,15 +91,16 @@ class UpcomingTrainingFragment : Fragment() {
     private fun lastOnClickAction() {
        // lastSelected()
         lastSelected()
-        loadTrainingList(bdjobsUserSession?.trainingId!!)
+        loadTrainingList("")
         Constants.matchedTraining = true
     }
 
     private fun allOnClickAction() {
        // allSelected()
         allSelected()
+        loadTrainingList(bdjobsUserSession?.trainingId!!)
         Constants.matchedTraining = false
-        loadTrainingList("")
+
     }
 
     private fun loadTrainingList(trainid: String) {

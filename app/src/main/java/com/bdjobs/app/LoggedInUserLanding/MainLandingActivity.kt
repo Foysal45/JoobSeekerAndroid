@@ -56,6 +56,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
     private val homeFragment = HomeFragment()
     private val hotJobsFragment = HotJobsFragment()
+    private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
     private val shortListedJobFragment = ShortListedJobFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
@@ -264,7 +265,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_hotjobs -> {
-                transitFragment(hotJobsFragment, R.id.landingPageFragmentHolderFL)
+                transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
                 return@OnNavigationItemSelectedListener true
             }
 
