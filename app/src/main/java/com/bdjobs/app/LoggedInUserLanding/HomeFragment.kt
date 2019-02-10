@@ -3,18 +3,22 @@ package com.bdjobs.app.LoggedInUserLanding
 import android.app.Dialog
 import android.app.Fragment
 import android.content.IntentFilter
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.API.ModelClasses.InterviewInvitation
+import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
@@ -28,22 +32,21 @@ import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_home_layout.*
-import kotlinx.android.synthetic.main.interview_invitation_popup.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
 
@@ -76,6 +79,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getInterviewInvitation()
+        showShortListedJobsExpirationPopUP()
     }
 
 
@@ -416,6 +420,62 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             }
 
         })
+    }
+
+
+    private fun showShortListedJobsExpirationPopUP(){
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 2)
+        val deadlineNext2Days = calendar.time
+
+        doAsync {
+            val shortlistedjobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
+            uiThread {
+                Log.d("ShortListedJobPopup","Job found: ${shortlistedjobs.size}")
+                val dialog = Dialog(activity)
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setCancelable(true)
+                dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
+                dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
+                val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
+                val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
+                val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+               // val deadlineCG = dialog.findViewById<ChipGroup>(R.id.deadlineCG)
+                var job = "Job"
+                if(shortlistedjobs.size>1)
+                    job = "Jobs"
+
+                jobCountTV.text = "${shortlistedjobs.size} $job found"
+
+                //selectChip(deadlineCG,"Next 2 days")
+
+                cancelIV.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                showButton.setOnClickListener {
+                    homeCommunicator.goToShortListedFragment(2)
+                    dialog?.dismiss()
+                }
+                dialog.show()
+            }
+        }
+
+    }
+
+    private fun selectChip(chipGroup: ChipGroup, data: String) {
+        val count = chipGroup?.childCount
+        for (i in 0 until count) {
+            val chip = chipGroup?.getChildAt(i) as Chip
+            val chipText = chip?.text.toString()
+            if (data?.equalIgnoreCase(chipText)) {
+                Log.d("chip_entry", "text:$i")
+                chip?.isChecked = true
+            }
+        }
     }
 
 

@@ -34,6 +34,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
+
+    override fun goToShortListedFragment(deadline: Int){
+        bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
+    }
+
     override fun getInviteCodepcOwnerID(): String? {
         return pcOwnerID
     }
@@ -142,6 +148,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
         tetsLog()
     }
+
+
+
+
 
     private fun getInviteCodeInformation() {
         doAsync {
