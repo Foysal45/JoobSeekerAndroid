@@ -107,7 +107,7 @@ class UpcomingTrainingFragment : Fragment() {
         trainListRV?.hide()
         shimmer_view_container_trainingList?.show()
         shimmer_view_container_trainingList?.startShimmerAnimation()
-
+        numberTV.text = "0"
         ApiServiceMyBdjobs.create().getTrainingList(
                 userID = bdjobsUserSession?.userId,
                 decodeID = bdjobsUserSession?.decodId,

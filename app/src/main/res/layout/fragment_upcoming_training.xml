@@ -115,7 +115,7 @@
             android:paddingTop="8dp"
             android:paddingRight="16dp"
             android:paddingBottom="8dp"
-            android:text="All Time"
+            android:text="All"
             android:textColor="#424242"
             android:textSize="14sp" />
 
@@ -131,7 +131,7 @@
             android:paddingTop="8dp"
             android:paddingRight="16dp"
             android:paddingBottom="8dp"
-            android:text="Matched"
+            android:text="Suggested"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
