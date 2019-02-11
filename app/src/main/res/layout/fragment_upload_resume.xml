@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#F2F2F2"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ManageResume.UploadResumeFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:elevation="8dp"
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayoutToolbar"
             android:layout_width="match_parent"
@@ -40,16 +36,16 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:text="Google.com"
+                android:text="Uploaded Resume"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backIMV"
+                app:layout_constraintStart_toEndOf="@+id/backIV"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/backIMV"
+                android:id="@+id/backIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -59,81 +55,68 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container_JobList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        shimmer:duration="800"
-        shimmer:layout_constraintBottom_toBottomOf="parent"
-        shimmer:layout_constraintEnd_toEndOf="parent"
-        shimmer:layout_constraintStart_toStartOf="parent">
-
-        <!-- Adding 7 rows of placeholders -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/view_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-
-            <include layout="@layout/list_shimmer_layout" />
-        </LinearLayout>
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
+       android:src="@drawable/ic_no_resume" />
 
     <TextView
-        android:id="@+id/favCountTV"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:fontFamily="@font/roboto"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:textColor="#767676"
-        android:textSize="14sp"
-        android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        tools:text="150 Employers now offering Jobs" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/employerjobList_RV"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/textView42"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"
+        android:textColor="#393939"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="No resume is uploaded yet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favCountTV" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
 
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="44dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto"
+        android:textColor="#767676"
+        android:gravity="center"
+        android:text="Please upload resume .pdf, .doc, .docx\nMax file size is 1MB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otherReasonET"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        app:icon="@drawable/ic_cloud_upload"
+        android:text="Upload Resume"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        app:backgroundTint="#13A10E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

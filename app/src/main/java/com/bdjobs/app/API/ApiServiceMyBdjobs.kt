@@ -7,12 +7,12 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiServiceMyBdjobs {
     @FormUrlEncoded
@@ -710,6 +710,54 @@ interface ApiServiceMyBdjobs {
             @Field("catId") catId: String?,
             @Field("deviceID") deviceID: String?
     ): Call<InviteCodeUserVerifyModel>
+
+    @FormUrlEncoded
+    @POST("apps_EmailCv.asp")
+    fun getEmailResumeMsg(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("userEmail") userEmail: String?,
+            @Field("companyEmail") companyEmail: String?,
+            @Field("mailSubject") mailSubject: String?,
+            @Field("application") application: String?,
+            @Field("fullName") fullName: String?,
+            @Field("uploadedCv") uploadedCv: String?,
+            @Field("Jobid") Jobid: String?
+    ): Call<EmailResume>
+
+
+    @FormUrlEncoded
+    @POST("apps_file_upload_info.asp")
+    fun getCvFileAvailable(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?
+
+    ): Call<FileInfo>
+
+    @Multipart
+    @POST("file_upload.aspx")
+     fun UploadCV(
+            @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>?,
+            @Part file: MultipartBody.Part?
+    ): Call<UploadResume>
+
+    @Multipart
+    @POST("file_upload.aspx")
+     fun UploadCV2(
+            @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+            @Part file: MultipartBody.Part): Call<ADDorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("app_training.asp")
+    fun getTrainingList(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("traingId") traingId: String?,
+            @Field("AppsDate") AppsDate: String?
+
+    ): Call<TrainingList>
+
 
 
     companion object Factory {

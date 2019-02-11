@@ -9,6 +9,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.FileInfo
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClass
@@ -75,6 +76,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
     private val homeFragment = HomeFragment()
     private val hotJobsFragment = HotJobsFragment()
+    private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
     private val shortListedJobFragment = ShortListedJobFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
@@ -84,7 +86,12 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private var inviteCodeuserType: String? = null
     private var pcOwnerID: String? = null
     private var inviteCodeStatus: String? = null
+    var cvUpload: String = "" // if this value = 0 or 4 then cv file is uploaded else not uploaded
 
+
+    override fun isGetCvUploaded(): String {
+        return cvUpload
+    }
 
     override fun decrementCounter() {
         shortListedJobFragment.decrementCounter()
@@ -161,9 +168,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
         getStatsData("0")
         getStatsData("1")
+        getIsCvUploaded()
+
         tetsLog()
     }
-
 
     private fun getInviteCodeInformation() {
         doAsync {
@@ -277,7 +285,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_hotjobs -> {
-                transitFragment(hotJobsFragment, R.id.landingPageFragmentHolderFL)
+                transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
                 return@OnNavigationItemSelectedListener true
             }
 
@@ -502,4 +510,28 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
         }
     }
+    private fun getIsCvUploaded() {
+        ApiServiceMyBdjobs.create().getCvFileAvailable(
+                userID = session.userId,
+                decodeID = session.decodId
+
+        ).enqueue(object : Callback<FileInfo> {
+            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
+                error("onFailure", t)
+                toast("${t.toString()}")
+            }
+
+            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
+                //toast("${response.body()?.statuscode}")
+                if (response.isSuccessful){
+                    cvUpload = response.body()?.statuscode!!
+                    Log.d("value", "val " + cvUpload)
+
+                }
+            }
+
+        })
+
+    }
+
 }

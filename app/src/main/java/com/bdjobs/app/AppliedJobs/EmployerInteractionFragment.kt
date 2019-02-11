@@ -30,6 +30,7 @@ import android.app.Dialog
 import android.widget.*
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import org.jetbrains.anko.startActivity
 
@@ -42,6 +43,7 @@ class EmployerInteractionFragment : Fragment() {
     private var populateshowExp = "no"
     private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
     private var experienceListInteraction: ArrayList<AppliedJobModelExprience>? = ArrayList()
+    private var appliedData: ArrayList<AppliedJobModelData>? = ArrayList()
     //val buttons = 5
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +62,10 @@ class EmployerInteractionFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         onClick()
-        // experienceListInteraction = appliedJobsCommunicator.getExperience()
         experienceListInteraction = appliedJobsCommunicator.getExperience()
-        Log.d("ububua", experienceListInteraction?.toString())
+        companyTV.text = appliedJobsCommunicator.getCompany()
+        positionTV.text = appliedJobsCommunicator.getTitle2()
+
 
     }
 
