@@ -110,7 +110,7 @@ class ContactViewFragment : Fragment() {
             tvPresentAddress.text = presentAddress.removeLastComma()
         } else {
             var finalValue = TextUtils.concat(presentAddress, ", ", dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry))
-            finalValue = finalValue.replace(", ,".toRegex(), ",")
+            finalValue = finalValue.replace(", , ".toRegex(), ",")
             tvPresentAddress.text = finalValue.removeLastComma()
         }
         if (info?.data?.get(0)?.permanentInsideOutsideBD == "False") {
@@ -121,7 +121,7 @@ class ContactViewFragment : Fragment() {
             //val finalValue = sb.append("$permanentAddress, ").append(dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)).replace(",".toRegex(), "")
             val finalValue = TextUtils.concat(permanentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry))
             //finalValue = finalValue.replace(",, ".toRegex(), ",")
-            toast("$finalValue")
+            //toast("$finalValue")
             tvPermanentAddress.text = finalValue
         }
         tvMobileNo.text = info?.data?.get(0)?.mobile

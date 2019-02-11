@@ -15,8 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface ApiServiceMyBdjobs {
-
-
     @FormUrlEncoded
     @POST(api_mybdjobs_app_signinprocess)
     fun getLoginUserDetails(@Field("username") username: String?): Call<LoginUserModel>
@@ -86,6 +84,35 @@ interface ApiServiceMyBdjobs {
     ): Call<GetTrainingInfo>
 
     @FormUrlEncoded
+    @POST("apps_step_01_view_jclo.asp")
+    fun getPreferredAreaInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<GetPreferredAreas>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_view_prq.asp")
+    fun getProfessionalInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<ProfessionalModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_04_view_lang.asp")
+    fun getLanguageInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<LanguageModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_step_04_view_ref.asp")
+    fun getReferenceInfoList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<ReferenceModel>
+
+    @FormUrlEncoded
     @POST("apps_step_01_view_per.asp")
     fun getPersonalInfo(
             @Field("userId") userId: String?,
@@ -124,6 +151,17 @@ interface ApiServiceMyBdjobs {
             @Field("expSalary") expSalary: String?,
             @Field("lookingFor") lookingFor: String?,
             @Field("availableFor") availableFor: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_01_update_ori.asp")
+    fun updateORIData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("careerSummary") objective: String?,
+            @Field("specialQual") presentSalary: String?,
+            @Field("keywords") expSalary: String?
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
@@ -224,6 +262,7 @@ interface ApiServiceMyBdjobs {
             @Field("comboBANo") comboBANo: String?,
             @Field("txtBANo") txtBANo: String?,
             @Field("comboArms") comboArms: String?,
+            @Field("comboRank") comboRank: String?,
             @Field("comboType") comboType: String?,
             @Field("txtCourse") txtCourse: String?,
             @Field("txtTrade") txtTrade: String?,
@@ -248,6 +287,56 @@ interface ApiServiceMyBdjobs {
             @Field("topicCovered") topicCovered: String?,
             @Field("location") location: String?,
             @Field("trainingId") trainingId: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_02_update_prq.asp")
+    fun updatePQualificationList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("certification") certification: String?,
+            @Field("institute") institute: String?,
+            @Field("from") from: String?,
+            @Field("to") to: String?,
+            @Field("hId") hId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("location") location: String?,
+            @Field("hp_id") hp_id: String?
+
+    ): Call<ProfessionalModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_04_update_lang.asp")
+    fun updateLanguageList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("language") language: String?,
+            @Field("reading") reading: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("writing") writing: String?,
+            @Field("speaking") speaking: String?,
+            @Field("h_ID") h_ID: String?
+
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_04_update_ref.asp")
+    fun updateReferenceList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("name") name: String?,
+            @Field("organization") organization: String?,
+            @Field("designation") designation: String?,
+            @Field("hId") hId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("address") h_ID: String?,
+            @Field("phone_off") phone_off: String?,
+            @Field("phone_res") phone_res: String?,
+            @Field("mobile") mobile: String?,
+            @Field("email") email: String?,
+            @Field("relation") relation: String?,
+            @Field("hr_id") hr_id: String?
+
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
@@ -543,7 +632,7 @@ interface ApiServiceMyBdjobs {
     fun getCategoryAmount(
             @Field("userID") userID: String?,
             @Field("decodeID") decodeID: String?,
-            @Field("pcOwnerId") pcOwnerId: String?=""
+            @Field("pcOwnerId") pcOwnerId: String? = ""
     ): Call<InviteCodeCategoryAmountModel>
 
 

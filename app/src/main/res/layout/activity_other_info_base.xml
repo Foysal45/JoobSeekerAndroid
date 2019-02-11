@@ -5,10 +5,10 @@
     android:id="@+id/cl_otherInfo_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".editResume.otherInfo.OtherInfoActivity">
+    tools:context=".editResume.otherInfo.OtherInfoBaseActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_specialization"
+        android:id="@+id/tb_otherInfo"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -25,7 +25,7 @@
             android:weightSum="10">
 
             <TextView
-                android:id="@+id/tv_tb_title"
+                android:id="@+id/tv_otherInfo_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -40,7 +40,7 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:id="@+id/iv_delete_data"
+                android:id="@+id/iv_OI_delete_data"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -61,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_specialization">
+        app:layout_constraintTop_toBottomOf="@+id/tb_otherInfo">
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

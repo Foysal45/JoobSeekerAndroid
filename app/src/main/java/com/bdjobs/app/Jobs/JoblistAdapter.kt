@@ -397,11 +397,11 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                                 var deadline: Date? = null
                                 try {
-                                    deadline = SimpleDateFormat("mm/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                                    deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
-                                Log.d("DeadLine", "DeadLine: $deadline")
+                                Log.d("DeadLine", "DeadLineParsed: $deadline \n DeadLine: ${jobList?.get(position)?.deadlineDB}")
                                 val shortlistedJob = ShortListedJobs(
                                         jobid = jobList?.get(position)?.jobid!!,
                                         jobtitle = jobList?.get(position)?.jobTitle!!,

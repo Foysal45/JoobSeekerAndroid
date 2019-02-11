@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -125,9 +126,13 @@ class BCMobileNumberFragment : Fragment() {
         val yesButton = dialog.findViewById<TextView>(R.id.bcYesTV)
         val noButton = dialog.findViewById<TextView>(R.id.bcNoTV)
         val mobileNumberTV = dialog.findViewById<TextView>(R.id.mobileNumberTV)
+        val crossIV = dialog.findViewById<ImageView>(R.id.deleteIV)
         mobileNumberTV.text = "${bcMobileNumberTIET.getString()} এই নাম্বারটিই কি আপনার?"
 
 
+        crossIV.setOnClickListener {
+            dialog.dismiss()
+        }
         noButton.setOnClickListener {
 
             dialog.dismiss()

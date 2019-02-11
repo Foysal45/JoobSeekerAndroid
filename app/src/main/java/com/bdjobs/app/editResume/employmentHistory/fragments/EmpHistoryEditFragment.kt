@@ -126,7 +126,7 @@ class EmpHistoryEditFragment : Fragment() {
         if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
-            idArr.add("")
+            //idArr.add("")
             clearEditText()
         }
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
@@ -151,12 +151,10 @@ class EmpHistoryEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-        exps = ""
+        //exps = ""
         positionTIL.clearFocus()
         companyNameET.requestFocus()
         //ehMailLL.clearFocus()
-        if (idArr.isNotEmpty())
-            idArr.clear()
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
@@ -174,6 +172,8 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
+        if (idArr.isNotEmpty())
+            idArr.clear()
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -213,13 +213,17 @@ class EmpHistoryEditFragment : Fragment() {
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
 
             if (hasFocus) {
-                val orgsAdapter = ArrayAdapter<String>(activity,
-                        android.R.layout.simple_dropdown_item_1line, organizationList)
-                companyBusinessACTV.setAdapter(orgsAdapter)
-                companyBusinessACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-                companyBusinessACTV.setOnItemClickListener { _, _, position, id ->
-                    val selectedItem = companyBusinessACTV.text.toString()
-                    activity?.toast("business selected item : $selectedItem")
+                try {
+                    val orgsAdapter = ArrayAdapter<String>(activity,
+                            android.R.layout.simple_dropdown_item_1line, organizationList)
+                    companyBusinessACTV.setAdapter(orgsAdapter)
+                    companyBusinessACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                    /*companyBusinessACTV.setOnItemClickListener { _, _, position, id ->
+                        val selectedItem = companyBusinessACTV.text.toString()
+                        //activity?.toast("business selected item : $selectedItem")
+                    }*/
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
 
@@ -233,7 +237,7 @@ class EmpHistoryEditFragment : Fragment() {
         experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
                 val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
-                val expsAdapter = ArrayAdapter<String>(activity,
+                val expsAdapter = ArrayAdapter<String>(activity!!,
                         android.R.layout.simple_dropdown_item_1line, workExperineceList)
                 experiencesMACTV.setAdapter(expsAdapter)
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -292,7 +296,7 @@ class EmpHistoryEditFragment : Fragment() {
                     Log.e("updateEx: ", "error: ${e.printStackTrace()}")
                 }
                 debug("chiIDs: $exps, and ids $idArr")
-                if (idArr.size == 0 || exps.equals("")) {
+                if (idArr.size == 0) {
                     activity?.toast("Please select at least one experience")
                     experiencesTIL.isErrorEnabled = true
                     experiencesTIL?.showError("This Field can not be empty")
@@ -392,18 +396,20 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     fun dataDelete() {
+        activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("Experience", hExpID!!, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
                 activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
-                        clearEditText()
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -415,7 +421,9 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun clearEditText() {
         companyNameET.clear()
+        //if (companyBusinessACTV.text.trim().isNotEmpty()) {
         companyBusinessACTV.setText("")
+        //}
         companyLocationET.clear()
         positionET.clear()
         departmentET.clear()
@@ -444,12 +452,12 @@ class EmpHistoryEditFragment : Fragment() {
         when {
             TextUtils.isEmpty(char) -> {
                 til.showError(getString(R.string.field_empty_error_message_common))
-                activity?.requestFocus(et)
+                //activity?.requestFocus(et)
                 return false
             }
             char.length < 2 -> {
                 til.showError(" it is too short")
-                activity?.requestFocus(et)
+                //activity?.requestFocus(et)
                 return false
             }
             else -> til.hideError()

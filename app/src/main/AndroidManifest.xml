@@ -151,7 +151,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".editResume.otherInfo.OtherInfoActivity"
+            android:name=".editResume.otherInfo.OtherInfoBaseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
