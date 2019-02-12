@@ -327,6 +327,17 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_04_update_spe.asp")
+    fun updateSpecialization(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("skills") skills: String?,
+            @Field("skillDescription") skillDescription: String?,
+            @Field("extracurricular") extracurricular: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
     @POST("apps_step_04_update_ref.asp")
     fun updateReferenceList(
             @Field("userId") userId: String?,

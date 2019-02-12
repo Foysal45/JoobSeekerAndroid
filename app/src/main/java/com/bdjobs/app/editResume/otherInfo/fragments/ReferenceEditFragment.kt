@@ -275,10 +275,7 @@ class ReferenceEditFragment : Fragment() {
 
 
     private fun getDataFromChip() {
-
         getDataFromChipGroup(cgRelation)
-
-
     }
 
 

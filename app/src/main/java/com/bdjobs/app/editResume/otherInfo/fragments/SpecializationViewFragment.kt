@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.otherInfo.fragments
 
 import android.app.Fragment
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +64,12 @@ class SpecializationViewFragment : Fragment() {
              addChip(it?.prefCatName!!, cg_functional_pref)
          }*/
 
+        fab_specialization_add.setOnClickListener {
+
+            eduCB.goToEditInfo("addSpecialization")
+
+        }
+
         populateData()
 
     }
@@ -113,22 +120,9 @@ class SpecializationViewFragment : Fragment() {
 
                         arr = respo?.data!![0]?.skills as ArrayList<Skill?>
 
-                        for (item in arr!!) {
 
-                            addChip(item?.skillName.toString(), cg_skill)
+                        setData(arr!!, respo.data[0]?.description!!, respo.data[0]?.extracurricular!!, respo.data[0]!!)
 
-                        }
-
-                        skillDescriptionTV.text = respo.data[0]?.description
-                        curricularTV.text = respo.data[0]?.extracurricular
-
-                        eduCB.setDeleteButton(false)
-                        eduCB.setEditButton()
-
-                        /* if (arr!!.size < 3) {
-                             fab_language_add.show()
-                             //activity.toast("else : ${arr?.size}")
-                         }*/
 
 
                         //activity.toast("${arr?.size}")
@@ -137,7 +131,7 @@ class SpecializationViewFragment : Fragment() {
                          }*/
 
                         shimmerStop()
-                        mainlayout.show()
+
                     }
                 } catch (e: Exception) {
                     shimmerStop()
@@ -152,6 +146,37 @@ class SpecializationViewFragment : Fragment() {
         })
     }
 
+
+    private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String, response: SpecializationDataModel) {
+
+        if (array.size == 0 && TextUtils.isEmpty(skillDes) && TextUtils.isEmpty(curricular)) {
+
+            mainlayout.hide()
+            fab_specialization_add.show()
+            eduCB.setEditButton(false)
+        } else {
+            mainlayout.show()
+            fab_specialization_add.hide()
+            skillDescriptionTV.text = skillDes
+            curricularTV.text = curricular
+
+            for (item in arr!!) {
+
+                addChip(item?.skillName.toString(), cg_skill)
+
+            }
+
+            activity.toast("else : ${arr?.size}")
+
+
+            eduCB.setDeleteButton(false)
+            eduCB.setEditButton(true)
+            eduCB.passSpacializationData(response)
+
+        }
+
+
+    }
 
     private fun shimmerStart() {
         try {

@@ -293,8 +293,6 @@
     <string name="specialization_skill_heading">Your Skills</string>
     <string name="specialization_skill_description_heading">Skill Description</string>
     <string name="specialization_extra_curricular_heading">Extracurricular Activities</string>
-    <string name="email_invalid_message">Email is not valid</string>
-
     <string name="email_invalid_message">Please type a valid Email Address</string>
     <string name="hint_others_language">Language *</string>
     <string name="btn_example">Example</string>
@@ -308,5 +306,6 @@
     <string name="hint.prefAreas_outside_bangladesh">Outside Bangladesh</string>
     <string name="hint.prefAreasBCJobCategory">Preferred Special Skilled Job Categories</string>
     <string name="hint.prefAreasOrgType">Preferred Organization Type</string>
+    <string name="hint.maxSkill">Skills maximum 10 </string>
 
 </resources>

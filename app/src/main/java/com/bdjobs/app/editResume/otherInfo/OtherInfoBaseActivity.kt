@@ -13,7 +13,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.adapters.models.ReferenceDataModel
-import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
+import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.fragments.*
 import com.google.android.material.snackbar.Snackbar
@@ -22,7 +22,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
-
 
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -35,6 +34,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private val specializationViewFragment = SpecializationViewFragment()
     private lateinit var dataReference: ReferenceDataModel
     private lateinit var dataLanguage: LanguageDataModel
+    private lateinit var dataSpecialization: SpecializationDataModel
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddOtherInfo: String
@@ -128,14 +128,22 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
 
-    override fun setEditButton() {
-        iv_OI_delete_data.setImageResource(R.drawable.specialization_edit_icon)
-        iv_OI_delete_data.show()
-        iv_OI_delete_data.setOnClickListener {
+    override fun setEditButton(b: Boolean) {
 
-            goToEditInfo("editSpecialization")
+        if (b) {
+            iv_OI_delete_data.setImageResource(R.drawable.specialization_edit_icon)
+            iv_OI_delete_data.show()
+            iv_OI_delete_data.setOnClickListener {
+                goToEditInfo("editSpecialization")
+                setEditButton(false)
+
+            }
+        } else {
+            iv_OI_delete_data.hide()
 
         }
+
+
     }
 
     override fun goToEditInfo(check: String) {
@@ -180,9 +188,17 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
 
-    override fun passSpacializationData(data: Tr_DataItem) {
+    override fun passSpacializationData(data: SpecializationDataModel) {
+
+        this.dataSpecialization = data
 
     }
+
+    override fun getSpecializationData(): SpecializationDataModel {
+
+        return dataSpecialization
+    }
+
 
     override fun passReferenceData(data: ReferenceDataModel) {
 
@@ -205,11 +221,10 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     override fun goBack() {
 
         onBackPressed()
-        /* if (Constants.isDirectCall) finish()
-         cl_otherInfo_base.closeKeyboard(this@OtherInfoBaseActivity)*/
+        if (Constants.isDirectCall) finish()
+        cl_otherInfo_base.closeKeyboard(this@OtherInfoBaseActivity)
 
     }
-
 
     override fun passLanguageData(data: LanguageDataModel) {
 
