@@ -273,7 +273,6 @@ class EmpHistoryEditFragment : Fragment() {
                 isEmpty = true
             }
             //companyBusinessTIL.isErrorEnabled = true
-
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
             validation = isValidate(companyNameET, companyNameTIL, positionET, true, validation)
