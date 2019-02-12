@@ -45,6 +45,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         getIntentValues()
         setContentView(R.layout.activity_other_info_base)
         gotToFragment(name)
+        //fjkhgfhfh
 
     }
 
