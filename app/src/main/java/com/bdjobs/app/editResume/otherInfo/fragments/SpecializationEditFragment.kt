@@ -15,12 +15,10 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
-import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import kotlinx.android.synthetic.main.fragment_specialization_edit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -52,7 +50,6 @@ class SpecializationEditFragment : Fragment() {
         eduCB = activity as OtherInfo
         doWork()
 
-
     }
 
     override fun onResume() {
@@ -62,14 +59,14 @@ class SpecializationEditFragment : Fragment() {
 
         if (isEdit) {
             eduCB.setDeleteButton(true)
+            eduCB.setEditButton(false)
             preloadedData()
-            /* hID = "1"*/
 
-            /*   d("hid val $isEdit : $hID")*/
         } else {
+            eduCB.setEditButton(false)
             eduCB.setDeleteButton(false)
             clearEditText()
-            /*  d("hid val $isEdit: $hID")*/
+
         }
 
     }
@@ -79,21 +76,24 @@ class SpecializationEditFragment : Fragment() {
 
         etSkillDescription.clearText()
         etCaricular.clearText()
+        refnameATCTV.clearText()
     }
 
 
     private fun preloadedData() {
 
-
         val data = eduCB.getSpecializationData()
-        /*  hReferenceID = data.refId.toString()*/
+        data.skills?.forEach {
 
+            addChip(it?.skillName!!)
+            addAsString(it.id!!)
 
-        addAllChip((data.skills as List<Skill>?)!!)
+        }
+
         etSkillDescription.setText(data.description)
         etCaricular.setText(data.extracurricular)
 
-        /* d("values : ${data.country}")*/
+
     }
 
 
@@ -187,17 +187,6 @@ class SpecializationEditFragment : Fragment() {
         refnameATCTV?.closeKeyboard(activity)
     }
 
-    private fun addAllChip(input: List<Skill>) {
-
-        for (item in input) {
-            val c1 = getChip(specialization_chip_group, item.skillName!!, R.xml.chip_entry)
-            specialization_chip_group.addView(c1)
-            refnameATCTV?.clearText()
-        }
-
-
-    }
-
 
     private fun getChip(entryChipGroup: ChipGroup, text: String, item: Int): Chip {
         val chip = Chip(activity)
@@ -217,7 +206,7 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun removeItem(s: String) {
-        val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
+        val id = dataStorage.getSkillIDBySkillType(s)
         if (idArr.contains(id))
             idArr.remove("$id")
         skills = TextUtils.join(",", idArr)
@@ -226,7 +215,7 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun updateData(skills: String) {
-        /*    activity.showProgressBar(loadingProgressBar)*/
+        activity.showProgressBar(specializationLoadingProgressBar)
         Log.d("allValuesExp", skills)
 
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
@@ -234,30 +223,27 @@ class SpecializationEditFragment : Fragment() {
                 session.IsResumeUpdate, skills, etSkillDescription.getString(), etCaricular.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
+                activity.stopProgressBar(specializationLoadingProgressBar)
                 activity.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                /*   try {*/
-                if (response.isSuccessful) {
-                    /*    activity.stopProgressBar(loadingProgressBar)*/
-                    val resp = response.body()
-                    activity.toast(resp?.message.toString())
-                    if (resp?.statuscode == "4") {
-                        eduCB.goBack()
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(specializationLoadingProgressBar)
+                        val resp = response.body()
+                        activity.toast(resp?.message.toString())
+                        if (resp?.statuscode == "4") {
+                            eduCB.goBack()
+                        }
                     }
-                }
-                /* } catch (e: Exception) {
-                  *//*   activity.stopProgressBar(loadingProgressBar)*//*
+                } catch (e: Exception) {
+                    activity.stopProgressBar(specializationLoadingProgressBar)
                     e.printStackTrace()
-                }*/
+                }
             }
         })
     }
-
-
-
 
 
 }

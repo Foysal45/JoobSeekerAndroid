@@ -60,7 +60,7 @@
     <string name="hint.country_v">Country</string>
     <string name="hint.training_title">Training Title *</string>
     <string name="hint.reference_name">Name *</string>
-    <string name="hint.add_skill">Add your Skills *</string>
+    <string name="hint.add_skill">Add your Skills</string>
     <string name="hint.caricular_activities">Extracurricular Activities</string>
     <string name="hint.language_title">Language *</string>
     <string name="hint.topic">Topic</string>

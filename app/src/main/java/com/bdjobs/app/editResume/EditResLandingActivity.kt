@@ -72,7 +72,7 @@ class EditResLandingActivity : Activity() {
         //btnPerItem4.hide()
 
         btnPerItem5.hide()
-        btnSpecilaization.hide()
+
     }
 
     private fun doWork() {

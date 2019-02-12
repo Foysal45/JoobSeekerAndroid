@@ -6,109 +6,134 @@
     android:layout_height="match_parent"
     tools:context=".editResume.otherInfo.fragments.SpecializationEditFragment">
 
-
-    <LinearLayout
-        android:id="@+id/skillLIL"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/skillTIL"
-            style="@style/EHTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:textColorHint="#757575"
-            app:helperText="@string/hint.maxSkill">
-
-            <AutoCompleteTextView
-                android:id="@+id/refnameATCTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:hint="@string/hint.add_skill"
-                android:inputType="text|textMultiLine"
-                android:maxLength="49"
-                android:textColor="#212121" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="24dp">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/specialization_chip_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/skillDescriptionTIL"
-        style="@style/EHTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skillLIL">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSkillDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint.skill_description"
-            android:inputType="text|textMultiLine"
-            android:maxLength="49"
-            android:textColor="#212121" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/caricularTIL"
-        style="@style/EHTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:textColorHint="#757575"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skillDescriptionTIL"
-        app:layout_constraintVertical_bias="0.01999998">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCaricular"
+        <androidx.constraintlayout.widget.ConstraintLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint.caricular_activities"
-            android:inputType="text|textMultiLine"
-            android:maxLength="49"
-            android:textColor="#212121" />
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:id="@+id/skillLIL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/skillTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:textColorHint="#757575"
+                    app:helperText="@string/hint.maxSkill">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/refnameATCTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:hint="@string/hint.add_skill"
+                        android:inputType="text|textMultiLine"
+                        android:padding="15dp"
+                        android:singleLine="true"
+                        android:textColor="#212121" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="24dp">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/specialization_chip_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/skillDescriptionTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:textColorHint="#757575"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/skillLIL">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSkillDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.skill_description"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="99"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/caricularTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="8dp"
+                android:textColorHint="#757575"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/skillDescriptionTIL"
+                app:layout_constraintVertical_bias="0.01999998">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCaricular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.caricular_activities"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="99"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_specialization_update"
@@ -121,4 +146,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/specializationLoadingProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:indeterminate="true"
+        android:theme="@style/BdjobsLinearProgress"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
