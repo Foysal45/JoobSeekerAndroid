@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.util.Log
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 
 interface HomeCommunicator {
@@ -21,6 +22,7 @@ interface HomeCommunicator {
     fun getInviteCodeUserType():String?
     fun getInviteCodepcOwnerID():String?
     fun getInviteCodeStatus():String?
+    fun isGetCvUploaded() : String
     fun goToShortListedFragment(deadline:Int)
     fun setShortListFilter(filter:String)
     fun getShortListFilter():String

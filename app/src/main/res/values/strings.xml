@@ -275,6 +275,11 @@
     <string name="err_msg_password_limit">Use at least 8 to 12 characters</string>
     <string name="err_msg_password_use">Please use only letters (a-z), numbers (0-9) and punctuations</string>
     <string name="err_msg_password_not_match">These Passwords do not match</string>
+    <string name="type_email">Email can not be empty </string>
+
+    <string name="valid_email">Please type valid Email</string>
+    <string name="email_subj">Subject can not be empty </string>
+
     <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
     <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
     <string name="tool_tip_summary">What is Career Summary</string>
