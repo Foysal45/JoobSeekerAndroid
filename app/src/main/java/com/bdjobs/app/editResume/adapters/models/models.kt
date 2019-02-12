@@ -562,3 +562,34 @@ data class ProfessionalDataModel(
         @SerializedName("to")
         val to: String?
 )
+
+
+data class SpecialzationModel(
+        @SerializedName("common")
+        val common: Any?,
+        @SerializedName("data")
+        val `data`: List<SpecializationDataModel?>?,
+        @SerializedName("message")
+        val message: String?,
+        @SerializedName("statuscode")
+        val statuscode: String?
+)
+
+data class SpecializationDataModel(
+        @SerializedName("description")
+        val description: String?,
+        @SerializedName("extracurricular")
+        val extracurricular: String?,
+        @SerializedName("messageType")
+        val messageType: String?,
+        @SerializedName("skills")
+        val skills: List<Skill?>?
+)
+
+data class Skill(
+        @SerializedName("id")
+        val id: String?,
+        @SerializedName("skill_name")
+        val skillName: String?
+)
+

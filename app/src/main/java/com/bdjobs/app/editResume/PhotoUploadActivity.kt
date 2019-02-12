@@ -217,9 +217,10 @@ class PhotoUploadActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
+                Log.d("PhotoUpload", " response message ${response.body()!!}")
+                Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
+                Log.d("PhotoUpload", " response message ${response.body()!!.message}")
 
-                Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
-                Log.d("PhotoUpload", " response ${response.body()!!.message}")
 
 
                 if (response.body()!!.statuscode.equals("0", true)) {

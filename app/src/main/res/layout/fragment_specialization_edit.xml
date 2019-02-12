@@ -6,31 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".editResume.otherInfo.fragments.SpecializationEditFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/skillTIL"
-        style="@style/EHTextInputLayout"
+
+    <LinearLayout
+        android:id="@+id/skillLIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:textColorHint="#757575"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etRefName"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/skillTIL"
+            style="@style/EHTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint.add_skill"
-            android:inputType="text|textMultiLine"
-            android:maxLength="49"
-            android:textColor="#212121" />
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColorHint="#757575"
+            app:helperText="@string/hint.maxSkill">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:id="@+id/refnameATCTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:hint="@string/hint.add_skill"
+                android:inputType="text|textMultiLine"
+                android:maxLength="49"
+                android:textColor="#212121" />
 
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/specialization_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/skillDescriptionTIL"
@@ -38,12 +63,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="42dp"
         android:layout_marginEnd="24dp"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skillTIL">
+        app:layout_constraintTop_toBottomOf="@+id/skillLIL">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSkillDescription"
@@ -84,4 +108,17 @@
             android:textColor="#212121" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_specialization_update"
+        style="@style/FabStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_done_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

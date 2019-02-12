@@ -128,6 +128,7 @@ class ReferencesViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
+                    fab_reference_add.show()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
                         activity.logException(e)

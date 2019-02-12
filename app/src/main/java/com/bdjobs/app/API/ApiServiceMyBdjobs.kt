@@ -104,6 +104,13 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId: String?
     ): Call<LanguageModel>
 
+    @FormUrlEncoded
+    @POST("apps_step_04_view_spe.asp")
+    fun getSpecializationInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<SpecialzationModel>
+
 
     @FormUrlEncoded
     @POST("apps_step_04_view_ref.asp")
@@ -317,6 +324,17 @@ interface ApiServiceMyBdjobs {
             @Field("speaking") speaking: String?,
             @Field("h_ID") h_ID: String?
 
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_04_update_spe.asp")
+    fun updateSpecialization(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("skills") skills: String?,
+            @Field("skillDescription") skillDescription: String?,
+            @Field("extracurricular") extracurricular: String?
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded

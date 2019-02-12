@@ -41,12 +41,15 @@ interface OtherInfo {
     fun setDeleteButton(b: Boolean)
     fun goToEditInfo(check: String)
     fun passLanguageData(data: LanguageDataModel)
-    fun passSpacializationData(data: Tr_DataItem)
+    fun passSpacializationData(data: SpecializationDataModel)
     fun passReferenceData(data: ReferenceDataModel)
     fun getReferenceData(): ReferenceDataModel
     fun getLanguageData(): LanguageDataModel
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
+    fun setEditButton(b: Boolean)
+    fun getSpecializationData(): SpecializationDataModel
+
 
 }
 
