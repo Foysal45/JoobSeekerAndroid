@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/title_home"
-        android:src="@drawable/ic_education_icon"
+        android:src="@drawable/ic_education_info_bule"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

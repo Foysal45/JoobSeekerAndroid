@@ -49,7 +49,6 @@ class EmpHistoryEditFragment : Fragment() {
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
     private var isEmpty = false
-    private var alreadyLoaded = true
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -158,10 +157,10 @@ class EmpHistoryEditFragment : Fragment() {
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
-            if (alreadyLoaded) {
+            //if (alreadyLoaded) {
                 preloadedData()
-                alreadyLoaded = false
-            }
+            //alreadyLoaded = false
+            //}
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
@@ -211,7 +210,6 @@ class EmpHistoryEditFragment : Fragment() {
         }
         companyBusinessACTV.onFocusChange { _, hasFocus ->
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
-
             if (hasFocus) {
                 try {
                     val orgsAdapter = ArrayAdapter<String>(activity,
@@ -274,6 +272,8 @@ class EmpHistoryEditFragment : Fragment() {
                 experiencesTIL.isErrorEnabled = true
                 isEmpty = true
             }
+            //companyBusinessTIL.isErrorEnabled = true
+
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
             validation = isValidate(companyNameET, companyNameTIL, positionET, true, validation)
@@ -285,6 +285,10 @@ class EmpHistoryEditFragment : Fragment() {
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
             Log.d("validation", "validation : $validation and $isEmpty")
 
+            if (companyBusinessACTV.getString().trim().isEmpty())
+                companyBusinessTIL.isErrorEnabled = true
+            else
+                companyBusinessTIL.hideError()
             if (validation >= 4) {
                 disableError()
                 try {
@@ -371,6 +375,7 @@ class EmpHistoryEditFragment : Fragment() {
         //experiencesMACTV.setText(data.areaofExperience)
         if (data.to != "Continuing") {
             et_end_date.setText(data.to)
+            cb_present.isChecked = false
         } else {
             cb_present.isChecked = true
             et_end_date.isEnabled = false

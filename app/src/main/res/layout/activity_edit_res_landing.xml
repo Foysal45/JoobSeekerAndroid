@@ -144,16 +144,6 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPerItem4"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_ORI"
-                app:icon="@drawable/ic_carrer" />
-
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPerItem5"
                 style="@style/more.button"
                 android:layout_width="match_parent"
@@ -162,6 +152,15 @@
                 android:text="@string/title_pref_areas"
                 app:icon="@drawable/ic_carrer" />
 
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPerItem4"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/title_ORI"
+                app:icon="@drawable/ic_carrer" />
 
             <View
                 android:layout_width="match_parent"
