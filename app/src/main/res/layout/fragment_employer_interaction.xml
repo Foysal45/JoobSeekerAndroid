@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <TextView
-        android:id="@+id/textView42"
+        android:id="@+id/positionTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -106,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loadingProgressBar" />
 
     <TextView
-        android:id="@+id/textView44"
+        android:id="@+id/companyTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+        app:layout_constraintTop_toBottomOf="@+id/positionTV" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/notContractedBTN"
@@ -142,7 +142,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView44"
+        app:layout_constraintTop_toBottomOf="@+id/companyTV"
         app:rippleColor="#ffffff"
         app:strokeColor="#DBDBDB"
         app:strokeWidth="1dp" />

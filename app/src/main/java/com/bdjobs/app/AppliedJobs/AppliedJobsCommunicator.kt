@@ -1,5 +1,6 @@
 package com.bdjobs.app.AppliedJobs
 
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 
 interface AppliedJobsCommunicator {
@@ -14,5 +15,9 @@ interface AppliedJobsCommunicator {
     fun setjobID(jobid : String)
     fun setexperienceList(AppliedJobModelExprience : ArrayList<AppliedJobModelExprience>)
     fun getExperience() : ArrayList<AppliedJobModelExprience>
+    fun setComapany(company : String)
+    fun getCompany(): String
+    fun setTitle(title : String)
+    fun getTitle2(): String
 
 }

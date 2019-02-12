@@ -13,7 +13,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.adapters.models.ReferenceDataModel
-import com.bdjobs.app.editResume.adapters.models.Tr_DataItem
+import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.fragments.*
 import com.google.android.material.snackbar.Snackbar
@@ -34,6 +34,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private val specializationViewFragment = SpecializationViewFragment()
     private lateinit var dataReference: ReferenceDataModel
     private lateinit var dataLanguage: LanguageDataModel
+    private lateinit var dataSpecialization: SpecializationDataModel
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddOtherInfo: String
@@ -44,6 +45,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         getIntentValues()
         setContentView(R.layout.activity_other_info_base)
         gotToFragment(name)
+        //fjkhgfhfh
 
     }
 
@@ -126,6 +128,25 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     }
 
+
+    override fun setEditButton(b: Boolean) {
+
+        if (b) {
+            iv_OI_delete_data.setImageResource(R.drawable.specialization_edit_icon)
+            iv_OI_delete_data.show()
+            iv_OI_delete_data.setOnClickListener {
+                goToEditInfo("editSpecialization")
+                setEditButton(false)
+
+            }
+        } else {
+            iv_OI_delete_data.hide()
+
+        }
+
+
+    }
+
     override fun goToEditInfo(check: String) {
 
         try {
@@ -140,11 +161,11 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
                     transitFragment(languageEditFrgamnet, R.id.other_info_container, true)
                 }
                 "addSpecialization" -> {
-                    /* trainingEditFragment.isEdit = false*/
+                    specializationEditFragment.isEdit = false
                     transitFragment(specializationEditFragment, R.id.other_info_container, true)
                 }
                 "editSpecialization" -> {
-                    /*  acaEditFragment.isEdit = true*/
+                    specializationEditFragment.isEdit = true
                     transitFragment(specializationEditFragment, R.id.other_info_container, true)
                 }
                 "addReference" -> {
@@ -168,9 +189,17 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
 
-    override fun passSpacializationData(data: Tr_DataItem) {
+    override fun passSpacializationData(data: SpecializationDataModel) {
+
+        this.dataSpecialization = data
 
     }
+
+    override fun getSpecializationData(): SpecializationDataModel {
+
+        return dataSpecialization
+    }
+
 
     override fun passReferenceData(data: ReferenceDataModel) {
 
@@ -193,11 +222,10 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     override fun goBack() {
 
         onBackPressed()
-        /* if (Constants.isDirectCall) finish()
-         cl_otherInfo_base.closeKeyboard(this@OtherInfoBaseActivity)*/
+        if (Constants.isDirectCall) finish()
+        cl_otherInfo_base.closeKeyboard(this@OtherInfoBaseActivity)
 
     }
-
 
     override fun passLanguageData(data: LanguageDataModel) {
 

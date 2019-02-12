@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.behaveYourself
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.ProfessionalQFAdapter
 import com.bdjobs.app.editResume.adapters.models.ProfessionalDataModel
 import com.bdjobs.app.editResume.adapters.models.ProfessionalModel
@@ -85,7 +82,7 @@ class ProfessionalQLViewFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<ProfessionalModel>, response: Response<ProfessionalModel>) {
-                /* try {*/
+                try {
                 if (response.isSuccessful) {
                     shimmerStop()
                     rv_professional_view.show()
@@ -93,22 +90,21 @@ class ProfessionalQLViewFragment : Fragment() {
 
 
                     Log.d("dsfklhgjfd;h", "$respo")
-
                     arr = respo?.data as ArrayList<ProfessionalDataModel>
                     //activity.toast("${arr?.size}")
                     if (arr != null) {
                         setupRV(arr!!)
                     }
                 }
-                /*  } catch (e: Exception) {
+                } catch (e: Exception) {
                       shimmerStop()
                       if (activity != null) {
                           //activity.toast("${response.body()?.message}")
                           activity.logException(e)
                           activity.error("++${e.message}")
                       }
-                  }*/
-                /* adapter?.notifyDataSetChanged()*/
+                }
+                adapter?.notifyDataSetChanged()
             }
         })
     }

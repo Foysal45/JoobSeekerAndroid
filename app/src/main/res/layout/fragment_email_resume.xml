@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ManageResume.EmailResumeFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -68,19 +68,16 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_from"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#_-+/*!?.=&amp;$"
             android:focusable="true"
             android:foregroundTintMode="src_over"
             android:hint="From"
             android:inputType="textEmailAddress"
-            android:maxLength="12"
             android:maxLines="1"
             android:paddingBottom="15dp"
             android:singleLine="true"
@@ -101,19 +98,16 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/from_TIL"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/from_TIL">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_to"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#_-+/*!?.=&amp;$"
             android:focusable="true"
             android:foregroundTintMode="src_over"
             android:hint="Send To"
             android:inputType="textEmailAddress"
-            android:maxLength="12"
             android:maxLines="1"
             android:paddingBottom="15dp"
             android:singleLine="true"
@@ -140,12 +134,11 @@
             android:id="@+id/et_Subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#_-+/*!?.=&amp;$"
             android:focusable="true"
             android:foregroundTintMode="src_over"
             android:hint="Subject"
-            android:inputType="text|textImeMultiLine"
-
+            android:inputType="textEmailSubject"
+            android:maxLength="100"
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:textSize="14sp"
@@ -162,30 +155,74 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:counterEnabled="true"
         app:counterMaxLength="160"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Subject_TIL">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#_-+/*!?.=&amp;$"
+            android:layout_height="150dp"
             android:focusable="true"
             android:foregroundTintMode="src_over"
+            android:gravity="top|left"
             android:hint="Message"
             android:inputType="textCapSentences|textMultiLine"
-            android:lines="6"
+            android:lines="10"
+            android:maxLength="160"
+            android:maxLines="15"
+            android:minLines="5"
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:textSize="14sp"
             tools:backgroundTintMode="multiply"
 
             />
+
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Message_TIL">
 
+        <RadioButton
+            android:id="@+id/mybdjobsResume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Bdjobs Resume Format" />
+
+        <RadioButton
+            android:id="@+id/uploadResume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attach Uploaded Resume" />
+
+    </RadioGroup>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cbFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:background="#13A10E"
+        android:src="@drawable/ic_done_black_24dp"
+        app:backgroundTint="#13A10E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

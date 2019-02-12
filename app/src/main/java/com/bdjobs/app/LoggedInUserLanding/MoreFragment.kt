@@ -14,16 +14,19 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
+import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MoreFragment : Fragment() {
 
     private var horizontalAdapter: HorizontalAdapter? = null
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
+    var cvUploadMore: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_more_layout, container, false)!!
@@ -34,10 +37,15 @@ class MoreFragment : Fragment() {
         homeCommunicator = activity as HomeCommunicator
         initializeViews()
         clearAddPopulateData()
+        getIfCVuploaded()
         onclick()
+
 
     }
 
+    fun getIfCVuploaded(){
+        cvUploadMore = homeCommunicator.isGetCvUploaded()
+    }
     private fun shakeHorizontaList() {
         Log.d("horizontaList", "horizontaList: ${horizontaList.size}")
         Handler().postDelayed({
@@ -96,6 +104,9 @@ class MoreFragment : Fragment() {
         interviewinvitation_MBTN?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
         }
+        training_MBTN?.setOnClickListener {
+            startActivity<TrainingListAcitivity>()
+        }
         settings_MBTN?.setOnClickListener {
             startActivity<SettingBaseActivity>()
         }
@@ -103,7 +114,9 @@ class MoreFragment : Fragment() {
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
         }
         emailResume_MBTN.setOnClickListener {
-            startActivity<ManageResumeActivity>()
+            startActivity<ManageResumeActivity>(
+                    "cvUploaded" to cvUploadMore
+            )
         }
     }
 

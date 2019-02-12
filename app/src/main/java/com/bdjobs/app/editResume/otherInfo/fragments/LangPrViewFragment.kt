@@ -121,8 +121,9 @@ class LangPrViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     shimmerStop()
+                    fab_language_add.show()
                     if (activity != null) {
-                        //activity.toast("${response.body()?.message}")
+                        /* activity.toast("${response.body()?.message}")*/
                         activity.logException(e)
                         activity.error("++${e.message}")
                     }

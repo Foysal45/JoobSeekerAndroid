@@ -221,6 +221,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         holder?.interactionBTN?.setOnClickListener {
             communicator?.setjobID(appliedJobsLists!![position].jobId!!)
             communicator?.gotoEmployerInteractionFragment()
+            communicator?.setComapany(appliedJobsLists!![position].companyName!!)
+            communicator?.setTitle(appliedJobsLists!![position].title!!)
         }
 
     }

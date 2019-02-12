@@ -126,6 +126,10 @@ class EditResLandingActivity : Activity() {
         btnEduItem1.disable(true)
         btnEduItem2.disable(true)
         btnEmpItem1.disable(true)
+        btnLanguage.disable(true)
+        btnProfessional.disable(true)
+        btnReferences.disable(true)
+        btnSpecilaization.disable(true)
         btnUploadPhoto.disable(true)
     }
 
@@ -136,6 +140,10 @@ class EditResLandingActivity : Activity() {
         btnEduItem2.disable(false)
         btnEmpItem1.disable(false)
         btnUploadPhoto.disable(false)
+        btnLanguage.disable(false)
+        btnProfessional.disable(false)
+        btnReferences.disable(false)
+        btnSpecilaization.disable(false)
     }
 
     private fun goToFragment(s: String, check: String) {
