@@ -15,7 +15,6 @@ import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.editResume.adapters.TrainingInfoAdapter
 import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.adapters.models.SpecialzationModel
@@ -30,10 +29,7 @@ import retrofit2.Response
 
 class SpecializationViewFragment : Fragment() {
     private lateinit var eduCB: OtherInfo
-    private var adapter: TrainingInfoAdapter? = null
     private var arr: ArrayList<Skill?>? = null
-    private var arrNew: List<SpecializationDataModel?>? = null
-    private var arrSkill: ArrayList<Skill?>? = null
     private lateinit var session: BdjobsUserSession
 
 
@@ -53,29 +49,16 @@ class SpecializationViewFragment : Fragment() {
     }
 
     private fun doWork() {
-        /*  populateData()*/
-        /*   rv_lang_view.behaveYourself(fab_language_add)*/
-
         eduCB.setTitle("Specialization")
-
-        /* val preferredOutsideBDLocs = data.prefData?.get(0)?.outside
-         //for ((i, value) in areaOfexps?.withIndex()!!)
-         preferredJobCategories?.forEach {
-             addChip(it?.prefCatName!!, cg_functional_pref)
-         }*/
-
         fab_specialization_add.setOnClickListener {
 
             eduCB.goToEditInfo("addSpecialization")
 
         }
-
         populateData()
 
     }
 
-
-// end of the calling method
 
     private fun addChip(input: String, cg: ChipGroup) {
         val c1 = getChip(input, R.xml.chip_highlighted)
@@ -104,33 +87,19 @@ class SpecializationViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getSpecializationInfo(session.userId, session.decodId)
         call.enqueue(object : retrofit2.Callback<SpecialzationModel> {
             override fun onFailure(call: Call<SpecialzationModel>, t: Throwable) {
-                /*  shimmerStop()
-                  rv_lang_view.show()*/
+                shimmerStop()
                 activity.toast("Error occurred")
             }
 
             override fun onResponse(call: Call<SpecialzationModel>, response: Response<SpecialzationModel>) {
                 try {
                     if (response.isSuccessful) {
-                        /*   shimmerStop()
-                           rv_lang_view.show()*/
+                        shimmerStop()
+
                         val respo = response.body()
-
-                        /*  Log.d("dsfklhgjfd;h", "$respo")*/
-
                         arr = respo?.data!![0]?.skills as ArrayList<Skill?>
-
-
                         setData(arr!!, respo.data[0]?.description!!, respo.data[0]?.extracurricular!!, respo.data[0]!!)
 
-
-
-                        //activity.toast("${arr?.size}")
-                        /* if (arr != null) {
-                             setupRV(arr!!)
-                         }*/
-
-                        shimmerStop()
 
                     }
                 } catch (e: Exception) {
@@ -141,7 +110,7 @@ class SpecializationViewFragment : Fragment() {
                         activity.error("++${e.message}")
                     }
                 }
-                adapter?.notifyDataSetChanged()
+
             }
         })
     }
@@ -159,15 +128,11 @@ class SpecializationViewFragment : Fragment() {
             fab_specialization_add.hide()
             skillDescriptionTV.text = skillDes
             curricularTV.text = curricular
-
             for (item in arr!!) {
 
                 addChip(item?.skillName.toString(), cg_skill)
 
             }
-
-            activity.toast("else : ${arr?.size}")
-
 
             eduCB.setDeleteButton(false)
             eduCB.setEditButton(true)
@@ -197,7 +162,6 @@ class SpecializationViewFragment : Fragment() {
             logException(e)
         }
     }
-
 
 
 }
