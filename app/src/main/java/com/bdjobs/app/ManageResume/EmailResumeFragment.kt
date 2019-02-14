@@ -164,6 +164,7 @@ class EmailResumeFragment : Fragment() {
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
                 Log.d("isresume", "value = $isResumeUpdate")
                 toast(response.body()?.message!!)
+                communicator.gotoTimesResumeFrag()
             }
 
         })

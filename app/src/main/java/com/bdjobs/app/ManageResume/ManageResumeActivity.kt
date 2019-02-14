@@ -44,6 +44,12 @@ class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
 
     }
 
+
+    private var timesEmailedMyResumeFragment = TimesEmailedMyResumeFragment()
+    override fun gotoTimesResumeFrag() {
+        transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder, false)
+    }
+
     override fun backButtonPressed() {
         onBackPressed()
     }

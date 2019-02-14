@@ -773,6 +773,17 @@ interface ApiServiceMyBdjobs {
 
     ): Call<SendEmailCV>
 
+    @FormUrlEncoded
+    @POST("apps_resume_Email.asp")
+    fun emailedMyResume(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pageNumber") pageNumber: String?,
+            @Field("itemsPerPage") itemsPerPage: String?,
+            @Field("isActivityDate") isActivityDate: String?
+
+    ): Call<TimesEmailed>
+
 
     companion object Factory {
 
