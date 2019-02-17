@@ -67,22 +67,15 @@ class PreferredAreasEditFragment : Fragment() {
         doWork()
     }
 
-    override fun onResume() {
-        super.onResume()
-        idWCArr.clear()
-        idBCArr.clear()
-        idOrgArr.clear()
-        idInBDArr.clear()
-        idOutBDArr.clear()
+    private fun doWork() {
+        onClicks()
         data = prefCallBack.getPrefAreasData()
+        //clearAllArr()
         preloadedData(data)
     }
 
-    private fun doWork() {
-        onClicks()
-    }
-
     private fun preloadedData(data: PreferredAreasData) {
+        clearAllArr()
         val jobCats = data.preferredJobCategories
         val bcjobCats = data.preferredBlueCategories
         val orgTypes = data.preferredOrganizationType
@@ -90,7 +83,6 @@ class PreferredAreasEditFragment : Fragment() {
         val outBD = data.outside
         //val
         //for ((i, value) in areaOfexps?.withIndex()!!)
-
         jobCats?.forEach {
 
             //idWCArr.clear()
@@ -115,13 +107,15 @@ class PreferredAreasEditFragment : Fragment() {
         if (!inBD.isNullOrEmpty()) {
             inBD.forEach {
                 //idInBDArr.clear()
-                addChip(ds.getLocationNameByID(it?.id!!).toString(), "in", acInsideBD)
+                if (it?.id != "-1")
+                    addChip(ds.getLocationNameByID(it?.id!!).toString(), "in", acInsideBD)
+                else {
+                    anywhereinBD = true
+                    changeBtnBackground(anywhereinBD)
+                }
                 //addAsString(it.id, idInBDArr)
                 Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
             }
-        } else {
-            anywhereinBD = true
-            changeBtnBackground(anywhereinBD)
         }
         outBD?.forEach {
             //idOutBDArr.clear()
@@ -129,6 +123,14 @@ class PreferredAreasEditFragment : Fragment() {
             //addAsString(it.id, idOutBDArr)
             Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
         }
+    }
+
+    private fun clearAllArr() {
+        idWCArr.clear()
+        idBCArr.clear()
+        idOrgArr.clear()
+        idInBDArr.clear()
+        idOutBDArr.clear()
     }
 
     private fun onClicks() {
@@ -139,13 +141,16 @@ class PreferredAreasEditFragment : Fragment() {
         }
         changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
+            var valid = 0
             prefWcIds = TextUtils.join(",", idWCArr)
             prefBcIds = TextUtils.join(",", idBCArr)
             prefOrgIds = TextUtils.join(",", idOrgArr)
             prefDistrictIds = TextUtils.join(",", idInBDArr)
             prefCountryIds = TextUtils.join(",", idOutBDArr)
+            if (idWCArr.isNotEmpty()) valid += 1
+            if (idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
-            updateData()
+            if (valid == 2) updateData()
             Log.d("acWCjobCat", "wc: $prefWcIds, $prefBcIds, $prefOrgIds, $prefDistrictIds and $prefCountryIds")
         }
 
@@ -418,7 +423,7 @@ class PreferredAreasEditFragment : Fragment() {
         if (anywhereinBD) prefDistrictIds = "-1"
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
-                withComma(prefWcIds), prefBcIds, withComma(prefDistrictIds), withComma(prefCountryIds), withComma(prefOrgIds))
+                prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
         Log.d("PrefAreas", "${withComma(prefWcIds)} // [$prefCountryIds] $prefBcIds and check: // ${withComma(prefDistrictIds)}")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {

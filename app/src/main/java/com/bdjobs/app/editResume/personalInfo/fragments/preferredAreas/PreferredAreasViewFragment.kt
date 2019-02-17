@@ -43,10 +43,6 @@ class PreferredAreasViewFragment : Fragment() {
         session = BdjobsUserSession(activity)
         prefCallBack = activity as PersonalInfo
         dataStorage = DataStorage(activity)
-    }
-
-    override fun onResume() {
-        super.onResume()
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
         doWork()
     }
@@ -59,7 +55,6 @@ class PreferredAreasViewFragment : Fragment() {
 
 
     private fun populateData() {
-
         val call = ApiServiceMyBdjobs.create().getPreferredAreaInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetPreferredAreas> {
             override fun onFailure(call: Call<GetPreferredAreas>, t: Throwable) {

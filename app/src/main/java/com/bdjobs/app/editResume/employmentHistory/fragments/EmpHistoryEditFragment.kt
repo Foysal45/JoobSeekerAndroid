@@ -43,10 +43,9 @@ class EmpHistoryEditFragment : Fragment() {
     private var hID: String = ""
     private var hExpID: String? = ""
     private var currentlyWorking: String = "OFF"
-    //private var companyBusinessID = ""
+    private var exps = ""
     private var workExperineceID = ""
     private var isFirst = false
-    private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
     private var isEmpty = false
     var isEdit = false
@@ -109,7 +108,7 @@ class EmpHistoryEditFragment : Fragment() {
         if (idArr.contains(id))
             idArr.remove("$id")
         exps = TextUtils.join(",", idArr)
-        d("selected rmv: $exps and $idArr")
+        d("selected rmv:  and $idArr")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -164,7 +163,7 @@ class EmpHistoryEditFragment : Fragment() {
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
-            idArr.add("")
+            //idArr.add("")
             isEmpty = true
             clearEditText()
         }
@@ -216,21 +215,10 @@ class EmpHistoryEditFragment : Fragment() {
                             android.R.layout.simple_dropdown_item_1line, organizationList)
                     companyBusinessACTV.setAdapter(orgsAdapter)
                     companyBusinessACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-                    /*companyBusinessACTV.setOnItemClickListener { _, _, position, id ->
-                        val selectedItem = companyBusinessACTV.text.toString()
-                        //activity?.toast("business selected item : $selectedItem")
-                    }*/
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
-
-            /*activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
-                companyBusinessACTV.setText(organizationList[i])
-                companyBusinessTIL.requestFocus()
-                companyBusinessID = dataStorage.getOrgIDByOrgName(organizationList[i])
-                Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-            }*/
         }
         experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
@@ -254,7 +242,7 @@ class EmpHistoryEditFragment : Fragment() {
                         experiencesTIL.hideError()
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                        d("Array size : ${idArr.size} and $exps and id : $id")
+                        d("Array size : ${idArr.size} and  and id : $id")
                         /*isEmpty = true
                         experiencesTIL.isErrorEnabled = true*/
                         experiencesTIL.hideError()
@@ -290,35 +278,36 @@ class EmpHistoryEditFragment : Fragment() {
                 companyBusinessTIL.hideError()
             if (validation >= 4) {
                 disableError()
-                try {
+                /*try {
                     val chars: Char = exps[0]
                     if (!chars.equals(","))
                         exps = ",$exps"
                     exps = exps.replace(",,".toRegex(), ",")
                 } catch (e: Exception) {
                     Log.e("updateEx: ", "error: ${e.printStackTrace()}")
-                }
-                debug("chiIDs: $exps, and ids $idArr")
+                }*/
+                debug("chiIDs: $, and ids $idArr")
                 if (idArr.size == 0) {
                     activity?.toast("Please select at least one experience")
                     experiencesTIL.isErrorEnabled = true
                     experiencesTIL?.showError("This Field can not be empty")
                 } else {
                     experiencesTIL.hideError()
-                    updateData(exps)
+                    Log.d("allValuesExp", idArr.toString())
+                    //updateData()
                 }
             }
         }
     }
 
-    private fun updateData(exps: String) {
+    private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
-        Log.d("allValuesExp", exps)
+        Log.d("allValuesExp", idArr.toString())
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
                 departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
-                currentlyWorking, "$exps,", hExpID, hID)
+                currentlyWorking, "", hExpID, hID)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -452,7 +441,7 @@ class EmpHistoryEditFragment : Fragment() {
         experiencesTIL.hideError()
     }
 
-    fun validateAutoCompleteField(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {
+    private fun validateAutoCompleteField(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {
         when {
             TextUtils.isEmpty(char) -> {
                 til.showError(getString(R.string.field_empty_error_message_common))
