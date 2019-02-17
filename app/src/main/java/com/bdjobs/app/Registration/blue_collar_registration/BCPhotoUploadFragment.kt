@@ -6,8 +6,10 @@ import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.app.Fragment
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -43,6 +45,7 @@ import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
+import droidninja.filepicker.utils.Orientation
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
 import org.jetbrains.anko.doAsync
@@ -61,9 +64,7 @@ class BCPhotoUploadFragment : Fragment() {
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var returnView: View
-    internal var filePaths = ArrayList<String>()
     private val REQ_CAMERA_IMAGE = 40
-    private val READ_REQUEST_CODE = 42
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private lateinit var bitmap: Bitmap
     private var encodedString: String = ""
@@ -73,10 +74,10 @@ class BCPhotoUploadFragment : Fragment() {
     private var folderId: String = ""
     private var imageName: String = ""
     private var isResumeUpdate: String = ""
-    internal var params = RequestParams()
+    private var params = RequestParams()
     private lateinit var dialog: Dialog
 
-    /*  val registrationBaseActivity = RegistrationBaseActivity()*/
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         returnView = inflater.inflate(R.layout.fragment_bc_photo_upload, container, false)
@@ -132,49 +133,29 @@ class BCPhotoUploadFragment : Fragment() {
                             params.put("isResumeUpdate", isResumeUpdate)
                             params.put("status", "upload")
 
-
-
-
                             makeHTTPCall()
-
                         }
-
-
                     }
-
-
                 })
-
-
             }
-
-
         }
 
         photoUploadImageView.setOnClickListener {
-
-
             showDialog(activity)
-
         }
 
-         supportTextView.setOnClickListener {
-
+        supportTextView.setOnClickListener {
             activity.callHelpLine()
+        }
 
-         }
-
-         bcHelpLineLayout.setOnClickListener {
-
-             activity.callHelpLine()
-         }
+        bcHelpLineLayout.setOnClickListener {
+            activity.callHelpLine()
+        }
 
     }
 
     private fun initialization() {
-
         registrationCommunicator = activity as RegistrationCommunicator
-
 
     }
 
@@ -182,12 +163,10 @@ class BCPhotoUploadFragment : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_CAMERA -> {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
-
                 } else {
-                    /* Toasty.error(this@PhotoUpload, "Permission Denied").show()*/
+
                 }
                 return
             }
@@ -199,19 +178,10 @@ class BCPhotoUploadFragment : Fragment() {
         val client = AsyncHttpClient()
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
-                /*  progressDialog.dismiss()*/
-                var obj: JSONObject? = null
-                /*  try {*/
+
                 val response = String(responseBody)
 
                 Log.d("dgdsgdghj", " response ${response}")
-
-                /*   obj = JSONObject(response)
-
-                   val msg = obj.getString("message")
-
-                  val dataObj = obj.getJSONArray("data")*/
-
 
                 val gson = Gson()
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
@@ -220,28 +190,12 @@ class BCPhotoUploadFragment : Fragment() {
                 val bdjobsUserSession = BdjobsUserSession(activity)
                 bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
 
-
-
-             
-
-                /*  toast(photoUploadModel.message)*/
                 registrationCommunicator.hideProgressBar()
                 registrationCommunicator.bcGoToStepCongratulation()
 
-
-                /* } catch (e: JSONException) {
-                     e.printStackTrace()
-                     Log.e("PhotoAPI", e.message)
-                 } catch (e: UnsupportedEncodingException) {
-                     e.printStackTrace()
-                 }*/
-
-
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray,
-                                   error: Throwable) {
-                /* progressDialog.dismiss()*/
+            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
                 Log.e("photoAPI", error.message)
                 toast(error.message!!)
             }
@@ -249,14 +203,10 @@ class BCPhotoUploadFragment : Fragment() {
     }
 
     fun performFileSearch() {
-
-
-
-        FilePickerBuilder.getInstance().setMaxCount(1)
-                .setSelectedFiles(filePaths)
-                .setActivityTheme(R.style.AppTheme)
-                .enableCameraSupport(false)
-                .pickPhoto(activity)
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), FilePickerConst.REQUEST_CODE_PHOTO)
     }
 
 
@@ -268,12 +218,44 @@ class BCPhotoUploadFragment : Fragment() {
         Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")
 
         if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && resultData != null) {
+            var fileUri: Uri? = null
 
+            val selectedImageUri = resultData.data
+            val tempPath = getPathCloud(selectedImageUri, activity)
+            val url = resultData.data!!.toString()
+            if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+
+                try {
+                    val `is` = activity.contentResolver.openInputStream(selectedImageUri!!)
+                    if (`is` != null) {
+                        deleteCache(activity)
+                        bitmap = BitmapFactory.decodeStream(`is`)
+                        if (bitmap != null) {
+                            val tempUri = getImageUri(activity, bitmap)
+                            // CALL THIS METHOD TO GET THE ACTUAL PATHa
+                            var finalFile: File? = null
+                            try {
+                                finalFile = File(getRealPathFromURI(tempUri))
+                                fileUri = Uri.fromFile(finalFile)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        } else {
+                            Toast.makeText(activity, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            ////////////////////////////////////////////
             Log.d("dfgh", "  1 condition")
-            var uri: Uri? = null
-            uri = Uri.fromFile(File(resultData.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA).get(0)))
-            Log.d("dfgh", "Uri: " + uri!!.toString())
-            Log.d("PhotoUpload", "Uri: " + uri.toString())
+
+
+            Log.d("dfgh", "Uri: " + fileUri!!.toString())
+            Log.d("PhotoUpload", "Uri: " + fileUri.toString())
             val myDirectory = File("/sdcard/BDJOBS")
             if (!myDirectory.exists()) {
                 myDirectory.mkdirs()
@@ -286,7 +268,7 @@ class BCPhotoUploadFragment : Fragment() {
                 val deleted = file.delete()
             }
             val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-            UCrop.of(uri, destinationUri).withAspectRatio(9f, 10f).start(activity)
+            UCrop.of(fileUri, destinationUri).withAspectRatio(9f, 10f).start(activity)
         }
 
         Log.d("dfgh", " resultCode $resultCode RESULT_OK $RESULT_OK " +
@@ -300,14 +282,11 @@ class BCPhotoUploadFragment : Fragment() {
             val tempURI = Uri.fromFile(File("/sdcard/"))
             photoUploadImageView.loadCircularImageFromUrl(tempURI.toString())
             photoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
-            /* photoUploadImageView.imageURI = tempURI
-             photoUploadImageView.imageURI = resultUri*/
 
 
             dialog.dismiss()
 
             val path = resultUri!!.path
-            /*  UploadBTN.setVisibility(View.GONE)*/
             val file = File(path)
             val size = file.length()
             val fileSizeInKB = size / 1024
@@ -316,7 +295,7 @@ class BCPhotoUploadFragment : Fragment() {
             if (fileSizeInMB > 3) {
                 Toast.makeText(activity, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
             } else if (fileSizeInMB <= 3) {
-                //getEncodedStringFromImagePath().execute(path)
+
                 doAsync {
                     try {
                         var options: BitmapFactory.Options? = null
@@ -389,30 +368,15 @@ class BCPhotoUploadFragment : Fragment() {
         val cameraButton = dialog.findViewById<Button>(R.id.camera_button)
         val galleryButton = dialog.findViewById<TextView>(R.id.gallery_button)
 
-
-        /* dialogButton.setOnClickListener( View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 dialog.dismiss();
-             }
-         })*/
-
-        /* dialogButton.setOO*/
-
         deleteImageView.setOnClickListener {
-
             dialog.dismiss()
         }
         cameraButton.setOnClickListener {
-
             RequestPermissionAndOpenCamera()
-
         }
 
         galleryButton.setOnClickListener {
-
             performFileSearch()
-
         }
 
         dialog.show()
@@ -421,28 +385,17 @@ class BCPhotoUploadFragment : Fragment() {
 
 
     private fun RequestPermissionAndOpenCamera() {
-        if (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                            Manifest.permission.CAMERA)) {
-
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
                 ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), MY_PERMISSIONS_REQUEST_CAMERA)
-
             } else {
-                ActivityCompat.requestPermissions(activity,
-                        arrayOf(Manifest.permission.CAMERA),
-                        MY_PERMISSIONS_REQUEST_CAMERA)
+                ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), MY_PERMISSIONS_REQUEST_CAMERA)
             }
 
         } else {
-
             openCamera()
-
         }
-
-
     }
 
 
@@ -453,6 +406,71 @@ class BCPhotoUploadFragment : Fragment() {
         val intentPicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI)
         startActivityForResult(intentPicture, REQ_CAMERA_IMAGE)
+    }
+
+
+    private fun getPathCloud(uri: Uri, activity: Activity): String {
+        var cursor: Cursor? = null
+        try {
+            val projection = arrayOf(MediaStore.MediaColumns.DATA)
+            cursor = activity.contentResolver.query(uri, projection, null, null, null)
+            if (cursor!!.moveToFirst()) {
+                val column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                val path = cursor.getString(column_index)
+                cursor.close()
+                return path
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return ""
+    }
+
+    private fun getImageUri(inContext: Activity, inImage: Bitmap): Uri {
+        var path = ""
+        try {
+            val bytes = ByteArrayOutputStream()
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "bdJobsProfilePic", null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("PhotoInvalid", "getImageUri: " + e.message)
+            Toast.makeText(inContext, "Invalid Image has been selected!", Toast.LENGTH_SHORT).show()
+        }
+
+        return Uri.parse(path)
+    }
+
+    private fun getRealPathFromURI(uri: Uri): String {
+        val cursor: Cursor? = activity.contentResolver.query(uri, null, null, null, null)
+        cursor!!.moveToFirst()
+        val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        return cursor.getString(idx)
+    }
+
+    private fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            if (dir != null && dir.isDirectory) {
+                deleteDir(dir)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+        }
+        return dir!!.delete()
     }
 
 
