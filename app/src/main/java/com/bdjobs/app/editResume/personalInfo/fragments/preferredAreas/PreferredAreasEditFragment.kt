@@ -13,10 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.PreferredAreasData
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
@@ -26,6 +28,9 @@ import kotlinx.android.synthetic.main.fragment_preferred_areas_edit.*
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PreferredAreasEditFragment : Fragment() {
     private lateinit var prefCallBack: PersonalInfo
@@ -57,15 +62,24 @@ class PreferredAreasEditFragment : Fragment() {
         session = BdjobsUserSession(activity)
         prefCallBack = activity as PersonalInfo
         d("onActivityCreated")
-        doWork()
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
         prefCallBack.setEditButton(false, "dd")
+        doWork()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        idWCArr.clear()
+        idBCArr.clear()
+        idOrgArr.clear()
+        idInBDArr.clear()
+        idOutBDArr.clear()
+        data = prefCallBack.getPrefAreasData()
+        preloadedData(data)
     }
 
     private fun doWork() {
-        data = prefCallBack.getPrefAreasData()
         onClicks()
-        preloadedData(data)
     }
 
     private fun preloadedData(data: PreferredAreasData) {
@@ -76,22 +90,25 @@ class PreferredAreasEditFragment : Fragment() {
         val outBD = data.outside
         //val
         //for ((i, value) in areaOfexps?.withIndex()!!)
+
         jobCats?.forEach {
+
             //idWCArr.clear()
             addChip(ds.getCategoryNameByID(it?.id!!), "wc", acWCjobCat)
-            addAsString(it.id, idWCArr)
+            //addAsString(it.id, idWCArr)
             Log.d("prefs", "wc: $prefWcIds and $idWCArr")
+            if (idWCArr.isNullOrEmpty()) tilWCjobCat.hideError() else tilWCjobCat.isErrorEnabled = true
         }
         bcjobCats?.forEach {
-            idBCArr.clear()
+            //idBCArr.clear()
             addChip(ds.getCategoryBanglaNameByID(it?.id!!), "bc", acBCJobCat)
-            addAsString(it.id, idBCArr)
+            //addAsString(it.id, idBCArr)
             Log.d("prefs", "bc: $prefBcIds and $idBCArr")
         }
         orgTypes?.forEach {
             //idOrgArr.clear()
             addChip(ds.getOrgNameByID(it?.id!!), "orgs", acOrgType)
-            addAsString(it.id, idOrgArr)
+            //addAsString(it.id, idOrgArr)
             Log.d("prefs", "org: $prefOrgIds and $idOrgArr")
         }
 
@@ -99,7 +116,7 @@ class PreferredAreasEditFragment : Fragment() {
             inBD.forEach {
                 //idInBDArr.clear()
                 addChip(ds.getLocationNameByID(it?.id!!).toString(), "in", acInsideBD)
-                addAsString(it.id, idInBDArr)
+                //addAsString(it.id, idInBDArr)
                 Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
             }
         } else {
@@ -109,13 +126,17 @@ class PreferredAreasEditFragment : Fragment() {
         outBD?.forEach {
             //idOutBDArr.clear()
             addChip(ds.getLocationNameByID(it?.id!!).toString(), "out", acOutsideBD)
-            addAsString(it.id, idOutBDArr)
+            //addAsString(it.id, idOutBDArr)
             Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
         }
-
     }
 
     private fun onClicks() {
+        if (idWCArr.isNullOrEmpty()) {
+            acWCjobCat.easyOnTextChangedListener { charSequence ->
+                activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
+            }
+        }
         changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
             prefWcIds = TextUtils.join(",", idWCArr)
@@ -123,6 +144,8 @@ class PreferredAreasEditFragment : Fragment() {
             prefOrgIds = TextUtils.join(",", idOrgArr)
             prefDistrictIds = TextUtils.join(",", idInBDArr)
             prefCountryIds = TextUtils.join(",", idOutBDArr)
+            //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
+            updateData()
             Log.d("acWCjobCat", "wc: $prefWcIds, $prefBcIds, $prefOrgIds, $prefDistrictIds and $prefCountryIds")
         }
 
@@ -284,6 +307,7 @@ class PreferredAreasEditFragment : Fragment() {
 
     private fun changeBtnBackground(b: Boolean) {
         if (b) {
+            prefDistrictIds = "-1"
             llAddDistricts.hide()
             btnAnywhereInBD.textColor = Color.parseColor("#FFFFFF")
             btnAnywhereInBD.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#2F64A3"))
@@ -296,16 +320,6 @@ class PreferredAreasEditFragment : Fragment() {
             btnSelectDistrict.textColor = Color.parseColor("#FFFFFF")
             btnSelectDistrict.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#2F64A3"))
         }
-    }
-
-    private fun addAsString(expID: String, idArr: ArrayList<String>) {
-        //var id: String = ids
-        if (!idArr.contains(expID)) {
-            idArr.add(expID.trim())
-            //id = TextUtils.join(",", idArr)
-        }
-        d("selected exps:$id and ids $idArr")
-        //return id
     }
 
     private fun addChip(input: String, tag: String, acTV: AutoCompleteTextView) {
@@ -377,33 +391,63 @@ class PreferredAreasEditFragment : Fragment() {
         var idArr: ArrayList<String> = ArrayList()
         when (tag) {
             "wc" -> {
-                idArr.clear()
                 idArr = idWCArr
                 id = ds.getCategoryIDByName(s)
             }
             "bc" -> {
-                idArr.clear()
                 idArr = idBCArr
                 id = ds.getCategoryIDByBanglaName(s)
             }
             "orgs" -> {
-                idArr.clear()
                 idArr = idOrgArr
                 id = ds.getOrgIDByOrgName(s)
             }
             "in" -> {
-                idArr.clear()
                 idArr = idInBDArr
                 id = ds.getLocationIDByName(s)
             }
             "out" -> {
-                idArr.clear()
                 idArr = idOutBDArr
                 id = ds.getLocationIDByName(s)
             }
         }
         removeId(id, idArr)
     }
+
+    private fun updateData() {
+        if (anywhereinBD) prefDistrictIds = "-1"
+        activity.showProgressBar(loadingProgressBar)
+        val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
+                withComma(prefWcIds), prefBcIds, withComma(prefDistrictIds), withComma(prefCountryIds), withComma(prefOrgIds))
+        Log.d("PrefAreas", "${withComma(prefWcIds)} // [$prefCountryIds] $prefBcIds and check: // ${withComma(prefDistrictIds)}")
+        call.enqueue(object : Callback<AddorUpdateModel> {
+            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                activity.stopProgressBar(loadingProgressBar)
+                activity.toast("Can not connect to the server! Try again")
+            }
+
+            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity.toast(it) }
+                        if (response.body()?.statuscode == "4") {
+                            prefCallBack.goBack()
+                        }
+                    }
+                } catch (e: Exception) {
+                    activity.stopProgressBar(loadingProgressBar)
+                    e.printStackTrace()
+                    logException(e)
+                }
+            }
+        })
+    }
+
+    private fun withComma(ids: String): String? {
+        return ",$ids,"
+    }
+
 
     private fun removeId(id: String?, idArr: ArrayList<String>) {
         if (idArr.contains(id))
