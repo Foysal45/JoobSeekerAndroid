@@ -84,6 +84,7 @@ class SpecializationEditFragment : Fragment() {
 
     private fun preloadedData() {
 
+        //jgkhgfjkh
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
 
