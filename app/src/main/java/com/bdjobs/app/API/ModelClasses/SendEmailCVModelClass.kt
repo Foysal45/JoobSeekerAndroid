@@ -2,18 +2,13 @@ package com.bdjobs.app.API.ModelClasses
 import com.google.gson.annotations.SerializedName
 
 
-data class UploadResume(
+data class SendEmailCV(
     @SerializedName("common")
     val common: String?,
     @SerializedName("data")
-    val `data`: List<UploadResume?>?,
+    val `data`: String?,
     @SerializedName("message")
-    val message: String?="",
+    val message: String?,
     @SerializedName("statuscode")
     val statuscode: String?
-)
-
-data class UploadResumeData(
-    @SerializedName("path")
-    val path: String?
 )

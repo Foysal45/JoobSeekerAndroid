@@ -5,4 +5,5 @@ interface ManageResumeCommunicator {
     fun backButtonPressed()
     fun gotoupload()
     fun gotouploaddone()
+    fun gotoTimesResumeFrag()
 }
