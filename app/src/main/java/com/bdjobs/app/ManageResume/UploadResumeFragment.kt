@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.error
 import com.facebook.FacebookSdk.getApplicationContext
@@ -50,6 +51,10 @@ class UploadResumeFragment : Fragment() {
         submitTV?.setOnClickListener {
             browseFile()
         }
+        backIV.setOnClickListener {
+            communicator.backButtonPressed()
+        }
+
 
     }
 
@@ -71,8 +76,8 @@ class UploadResumeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d("UploadResume","requestCode=$requestCode \nresultCode=$resultCode \ndata=$data")
-        if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data!=null) {
+        Log.d("UploadResume", "requestCode=$requestCode \nresultCode=$resultCode \ndata=$data")
+        if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
             val uri = Uri.fromFile(File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)[0]))
             checkFilleSize(uri)
         }
@@ -153,6 +158,8 @@ class UploadResumeFragment : Fragment() {
                 progressDialog?.dismiss()
                 toast(response?.body()?.message!!)
                 Log.d("UploadResume", "response: ${response.body()}")
+                Constants.cvUploadStatus="0"
+                communicator.gotoDownloadResumeFragment()
             }
         })
     }

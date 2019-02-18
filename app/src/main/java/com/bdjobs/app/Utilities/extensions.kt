@@ -149,7 +149,7 @@ fun Context.openUrlInBrowser(url: String?) {
     intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
     intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
     val customTabsIntent = intentBuilder.build()
-    customTabsIntent.launchUrl(this, Uri.parse(url))
+    customTabsIntent.launchUrl(this, Uri.parse(url.trim()))
 }
 
 

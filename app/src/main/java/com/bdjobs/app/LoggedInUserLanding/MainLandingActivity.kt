@@ -262,7 +262,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         if (requestCode == BdjobsUserRequestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 val typedData = data?.getStringExtra(key_typedData)
-                val from = data?.getStringExtra(key_from)
+                //val from = data?.getStringExtra(key_from)
                 startActivity<JobBaseActivity>(
                         Constants.key_jobtitleET to typedData)
             }
@@ -525,6 +525,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 //toast("${response.body()?.statuscode}")
                 if (response.isSuccessful){
                     cvUpload = response.body()?.statuscode!!
+                    Constants.cvUploadStatus = cvUpload
                     Log.d("value", "val " + cvUpload)
 
                 }

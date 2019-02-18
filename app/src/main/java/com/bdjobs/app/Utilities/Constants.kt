@@ -5,6 +5,7 @@ class Constants {
         var myBdjobsStatsLastMonth = true
         var matchedTraining = true
         var showShortListedPopUp = true
+        var cvUploadStatus = ""
 
         var favSearchFiltersSynced =false
         var jobInvitationSynced =false

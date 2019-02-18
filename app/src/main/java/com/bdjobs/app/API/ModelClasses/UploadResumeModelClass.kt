@@ -6,7 +6,7 @@ data class UploadResume(
     @SerializedName("common")
     val common: String?,
     @SerializedName("data")
-    val `data`: List<UploadResume?>?,
+    val `data`: List<UploadResumeData?>?,
     @SerializedName("message")
     val message: String?="",
     @SerializedName("statuscode")

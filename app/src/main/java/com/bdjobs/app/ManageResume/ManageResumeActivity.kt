@@ -5,50 +5,55 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.transitFragment
 
 
 class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
-    override fun gotouploaddone() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun gotoupload() {
-        transitFragment(uploadResumeFragment, R.id.fragmentHolder, true)
-    }
 
 
 
     lateinit var bdjobsUserSession: BdjobsUserSession
     private val emailResumeFragment = EmailResumeFragment()
-
     private val uploadResumeFragment = UploadResumeFragment()
+    private var timesEmailedMyResumeFragment = TimesEmailedMyResumeFragment()
+    private var downloadResumeFragment = DownloadResumeFragment()
 
-    var cvUpload: String = ""
-
-
-    override fun isGetCvUploaded(): String {
-        return cvUpload
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_resume)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
-        try {
-            cvUpload = intent.getStringExtra("cvUploaded")
-        } catch (e: Exception) {
-            logException(e)
+        val from = intent.getStringExtra("from")
+        if (from.equalIgnoreCase("uploadResume")) {
+            if (Constants.cvUploadStatus.equalIgnoreCase("0") || Constants.cvUploadStatus.equalIgnoreCase("4")) {
+                gotoDownloadResumeFragment()
+            } else {
+                gotoResumeUploadFragment()
+            }
+        }else if(from.equalIgnoreCase("emailResume")){
+            gotoTimesResumeFrag()
         }
 
-        transitFragment(emailResumeFragment, R.id.fragmentHolder)
 
     }
 
+    override fun gotoEmailResumeFragment() {
+        transitFragment(emailResumeFragment, R.id.fragmentHolder,addToBackStack = true)
+    }
 
-    private var timesEmailedMyResumeFragment = TimesEmailedMyResumeFragment()
+
+    override fun gotoDownloadResumeFragment() {
+        transitFragment(downloadResumeFragment, R.id.fragmentHolder)
+    }
+
+    override fun gotoResumeUploadFragment() {
+        transitFragment(uploadResumeFragment, R.id.fragmentHolder, true)
+    }
+
+
     override fun gotoTimesResumeFrag() {
         transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder, false)
     }
