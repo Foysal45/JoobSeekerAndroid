@@ -15,8 +15,7 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_download_resume.*
-import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +44,7 @@ class DownloadResumeFragment : Fragment() {
         }
 
         submitTV.setOnClickListener {
-           activity.openUrlInBrowser(downloadLink)
+            activity.openUrlInBrowser(downloadLink)
         }
 
         submitTV1.setOnClickListener {
@@ -61,7 +60,14 @@ class DownloadResumeFragment : Fragment() {
         }
 
         backIV1.setOnClickListener {
-
+            alert("Are you sure you want to delete your uploaded resume?", "Confirmation") {
+                yesButton {
+                    downloadOrDeleteCV("delete")
+                }
+                noButton { dialog ->
+                    dialog.dismiss()
+                }
+            }.show()
 
         }
     }
@@ -89,6 +95,7 @@ class DownloadResumeFragment : Fragment() {
                     } else {
                         toast(response?.body()?.message!!)
                         communicator.gotoResumeUploadFragment()
+                        Constants.cvUploadStatus=""
                     }
                 }
             }

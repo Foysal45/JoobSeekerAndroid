@@ -85,6 +85,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/LL1"
         android:layout_width="217dp"
         android:layout_height="28dp"

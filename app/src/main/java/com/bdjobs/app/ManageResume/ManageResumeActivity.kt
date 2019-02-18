@@ -1,7 +1,7 @@
 package com.bdjobs.app.ManageResume
 
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -10,11 +10,9 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.transitFragment
 
 
-class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
+class ManageResumeActivity : Activity(), ManageResumeCommunicator {
 
-
-
-    lateinit var bdjobsUserSession: BdjobsUserSession
+    private lateinit var bdjobsUserSession: BdjobsUserSession
     private val emailResumeFragment = EmailResumeFragment()
     private val uploadResumeFragment = UploadResumeFragment()
     private var timesEmailedMyResumeFragment = TimesEmailedMyResumeFragment()
@@ -50,12 +48,12 @@ class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
     }
 
     override fun gotoResumeUploadFragment() {
-        transitFragment(uploadResumeFragment, R.id.fragmentHolder, true)
+        transitFragment(uploadResumeFragment, R.id.fragmentHolder)
     }
 
 
     override fun gotoTimesResumeFrag() {
-        transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder, false)
+        transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)
     }
 
     override fun backButtonPressed() {
