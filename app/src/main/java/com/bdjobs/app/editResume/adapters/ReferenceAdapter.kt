@@ -28,7 +28,6 @@ class ReferenceAdapter(arr: java.util.ArrayList<ReferenceDataModel>, val context
     }
 
     override fun getItemCount(): Int {
-
         return if (itemList == null) 0 else itemList.size
     }
 

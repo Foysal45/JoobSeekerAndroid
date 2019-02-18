@@ -9,7 +9,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -62,6 +61,12 @@ class EditResLandingActivity : Activity() {
             btnPerItem1.setOnClickListener {
                 goToFragment("personal", "P")
             }
+            btnPerItem2.setOnClickListener {
+                goToFragment("contact", "P")
+            }
+            btnEduItem1.setOnClickListener {
+                goToFragment("academic", "E")
+            }
 
         } else {
             doWork()
@@ -69,17 +74,10 @@ class EditResLandingActivity : Activity() {
         icBackEr.setOnClickListener {
             finish()
         }
-        //btnPerItem4.hide()
-
-        btnPerItem5.hide()
-
     }
 
     private fun doWork() {
         enableAll()
-        btnPerItem2.setOnClickListener {
-            goToFragment("contact", "P")
-        }
         btnPerItem3.setOnClickListener {
             goToFragment("career", "P")
         }
@@ -88,9 +86,6 @@ class EditResLandingActivity : Activity() {
         }
         btnPerItem5.setOnClickListener {
             goToFragment("prefAreas", "P")
-        }
-        btnEduItem1.setOnClickListener {
-            goToFragment("academic", "E")
         }
         btnEduItem2.setOnClickListener {
             goToFragment("training", "E")
@@ -123,11 +118,14 @@ class EditResLandingActivity : Activity() {
     }
 
     private fun disableAll() {
-        btnPerItem2.disable(true)
+        //btnPerItem2.disable(true)
         btnPerItem3.disable(true)
-        btnEduItem1.disable(true)
+        btnPerItem4.disable(true)
+        btnPerItem5.disable(true)
+        //btnEduItem1.disable(true)
         btnEduItem2.disable(true)
         btnEmpItem1.disable(true)
+        btnEmpItem2.disable(true)
         btnLanguage.disable(true)
         btnProfessional.disable(true)
         btnReferences.disable(true)
@@ -136,11 +134,14 @@ class EditResLandingActivity : Activity() {
     }
 
     private fun enableAll() {
-        btnPerItem2.disable(false)
+        //btnPerItem2.disable(false)
         btnPerItem3.disable(false)
-        btnEduItem1.disable(false)
+        btnPerItem4.disable(false)
+        btnPerItem5.disable(false)
+        //btnEduItem1.disable(false)
         btnEduItem2.disable(false)
         btnEmpItem1.disable(false)
+        btnEmpItem2.disable(false)
         btnUploadPhoto.disable(false)
         btnLanguage.disable(false)
         btnProfessional.disable(false)

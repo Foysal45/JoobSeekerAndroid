@@ -192,7 +192,7 @@ class ProfessionalQLEditFragment : Fragment() {
             val date2 = sdf1.parse(etPqEndDate.getString())
 
             if (date1.after(date2)) {
-                activity.toast("Start Date cannot be greater than End Date")
+                activity.toast("Start Date cannot be greater than End Date!")
             } else {
                 return true
             }

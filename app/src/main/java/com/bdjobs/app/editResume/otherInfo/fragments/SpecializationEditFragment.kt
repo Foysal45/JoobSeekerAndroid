@@ -48,6 +48,8 @@ class SpecializationEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        etSkillDescription?.addTextChangedListener(TW.CrossIconBehave(etSkillDescription))
+        etCaricular?.addTextChangedListener(TW.CrossIconBehave(etCaricular))
         doWork()
 
     }
@@ -82,6 +84,7 @@ class SpecializationEditFragment : Fragment() {
 
     private fun preloadedData() {
 
+        //jgkhgfjkh
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
 
@@ -97,17 +100,7 @@ class SpecializationEditFragment : Fragment() {
     }
 
 
-    private fun selectChip(chipGroup: ChipGroup, data: String) {
-        val count = chipGroup.childCount
-        for (i in 0 until count) {
-            val chip = chipGroup.getChildAt(i) as Chip
-            val chipText = chip.text.toString()
-            if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip_entry", "text:$i")
-                chip.isChecked = true
-            }
-        }
-    }
+
 
 
     private fun doWork() {
@@ -115,18 +108,19 @@ class SpecializationEditFragment : Fragment() {
         /*   getDataFromChip()*/
 
         skills = ""
+        idArr.clear()
         val skillList: Array<String> = dataStorage.allSkills
         val skillAdapter = ArrayAdapter<String>(activity!!,
                 android.R.layout.simple_dropdown_item_1line, skillList)
         refnameATCTV.setAdapter(skillAdapter)
         refnameATCTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
         refnameATCTV.setOnItemClickListener { _, _, position, id ->
-            d("Array size : pos : $position id : $id")
+            d("specialization test Array size : pos : $position id : $id")
             //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
             d("Selected : ${skillList[position + 1]} and gotStr : ${refnameATCTV.text}")
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.text.toString())!!
 
-            d("workSkillID : ${workSkillID} ")
+            d("specialization test workSkillID : ${workSkillID} ")
 
             if (idArr.size != 0) {
                 if (!idArr.contains(workSkillID))
@@ -138,7 +132,7 @@ class SpecializationEditFragment : Fragment() {
                 skillTIL.hideError()
             } else {
                 addChip(refnameATCTV.getString())
-                d("Array size : ${idArr.size} and $skills and id : $id")
+                d("specialization test Array size : ${idArr.size} and $skills and id : $id")
                 isEmpty = true
                 skillTIL.isErrorEnabled = true
                 skillTIL.hideError()
@@ -149,14 +143,18 @@ class SpecializationEditFragment : Fragment() {
 
             try {
                 val chars: Char = skills[0]
+                d("specialization test chars $chars ")
                 if (!chars.equals(","))
-                    skills = ",$skills,"
+
                 skills = skills.replace(",,".toRegex(), ",")
+
+                d("specialization test skills $skills ")
+
             } catch (e: Exception) {
                 Log.e("updateEx: ", "error: ${e.printStackTrace()}")
             }
 
-            updateData(skills)
+            updateData(skills.removePrefix(","))
 
 
         }
@@ -171,12 +169,15 @@ class SpecializationEditFragment : Fragment() {
             skills = TextUtils.join(",", idArr)
         }
 
-        d("selected exps:$skills and ids $idArr")
+        d("specialization test addAsString $skills and ids $idArr")
     }
 
 
     private fun addChip(input: String) {
-        if (specialization_chip_group.childCount <= 10) {
+
+        d("specialization test addChip child count ${specialization_chip_group.childCount} ")
+
+        if (specialization_chip_group.childCount <= 9) {
             addAsString(workSkillID)
             val c1 = getChip(specialization_chip_group, input, R.xml.chip_entry)
             specialization_chip_group.addView(c1)
@@ -206,17 +207,20 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun removeItem(s: String) {
-        val id = dataStorage.getSkillIDBySkillType(s)
+        val id = dataStorage.getSkillIDBySkillType(s.trim())
+
+        d("specialization test removeItem id $id ")
+
         if (idArr.contains(id))
             idArr.remove("$id")
         skills = TextUtils.join(",", idArr)
-        d("selected rmv: $skills and $idArr")
+        d("specialization test removeItem $skills and $idArr")
     }
 
 
     private fun updateData(skills: String) {
         activity.showProgressBar(specializationLoadingProgressBar)
-        Log.d("allValuesExp", skills)
+        d("specialization test updateData $skills ")
 
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateSpecialization(session.userId, session.decodId,

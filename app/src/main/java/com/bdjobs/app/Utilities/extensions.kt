@@ -149,7 +149,7 @@ fun Context.openUrlInBrowser(url: String?) {
     intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
     intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
     val customTabsIntent = intentBuilder.build()
-    customTabsIntent.launchUrl(this, Uri.parse(url))
+    customTabsIntent.launchUrl(this, Uri.parse(url.trim()))
 }
 
 
@@ -384,6 +384,7 @@ fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextI
                              etNext: TextInputEditText?, isEmpty: Boolean, validation: Int): Int {
     var valid: Int = validation
     if (isEmpty) {
+        etCurrent?.requestFocus()
         tilCurrent?.isErrorEnabled = true
         tilCurrent?.showError("This field can not be empty")
     } else {
