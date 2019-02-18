@@ -1,6 +1,10 @@
 package com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo
 
+import android.app.Activity
+import android.app.Dialog
 import android.app.Fragment
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -8,7 +12,10 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -21,9 +28,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_oriedit.*
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +40,7 @@ class ORIEditFragment : Fragment() {
     private lateinit var data: ORIdataItem
     private var idArr: ArrayList<String> = ArrayList()
     private var exps: String = ""
+    private lateinit var dialog: Dialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,8 +61,7 @@ class ORIEditFragment : Fragment() {
 
     private fun doWork() {
         data = oriEditCB.getOriData()
-        btn_spq.hide()
-        btn_career_sum.hide()
+
         onClicks()
         etOriKeywords.easyOnTextChangedListener { charSequence ->
             if (!idArr.isEmpty()) {
@@ -98,31 +103,106 @@ class ORIEditFragment : Fragment() {
 
     private fun onClicks() {
         tv_info_career.setOnClickListener {
-            activity?.alert(Constants.career_tips_details, Constants.career_tips) {
-                yesButton { it.dismiss() }
-            }?.show()
+            showDialog(activity, "summery")
         }
         tv_info_spec.setOnClickListener {
-            activity?.alert(Constants.spQ_tips_details, Constants.spQ_tips) {
-                yesButton { it.dismiss() }
-            }?.show()
+            showDialog(activity, "specialization")
         }
         tv_info_keyword.setOnClickListener {
-            activity?.alert(Constants.keyword_tips_details, Constants.keyword_tips) {
-                yesButton { it.dismiss() }
-            }?.show()
+            showDialog(activity, "keyword")
+        }
+
+
+        btn_spq.setOnClickListener {
+
+
+            showDialog(activity, "specializationExample")
+
         }
         btn_career_sum.setOnClickListener {
-            activity?.alert(Constants.career_tips_details, Constants.career_tips) {
-                yesButton { it.dismiss() }
-            }?.show()
+
+            showDialog(activity, "summeryExample")
         }
-        btn_spq.setOnClickListener {
-            activity?.alert(Constants.spQ_tips_details, Constants.spQ_tips) {
-                yesButton { it.dismiss() }
-            }?.show()
-        }
+
+
     }
+
+
+    private fun showDialog(activity: Activity, from: String) {
+        dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.ori_example_dialog_layout)
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val okButton = dialog.findViewById<TextView>(R.id.ok_button)
+        val headingText = dialog.findViewById<TextView>(R.id.textView53)
+        val mainText = dialog.findViewById<TextView>(R.id.textView55)
+        val goodExampleText = dialog.findViewById<TextView>(R.id.textView57)
+        val badExampleText = dialog.findViewById<TextView>(R.id.textView59)
+        val constraintLayout = dialog.findViewById<LinearLayout>(R.id.constraintLayout4)
+
+
+        when {
+            from.equalIgnoreCase("summeryExample") -> {
+
+                headingText.show()
+                mainText.hide()
+                constraintLayout.show()
+                headingText.setText(R.string.career_summery_heading)
+                goodExampleText.setText(R.string.career_summery_good_example)
+                badExampleText.setText(R.string.career_summery_bad_example)
+
+            }
+            from.equalIgnoreCase("summery") -> constraintLayout.hide()
+            from.equalIgnoreCase("specialization") -> {
+
+                constraintLayout.hide()
+                headingText.setText(R.string.specialization_heading)
+                mainText.setText(R.string.specialization_text)
+
+
+            }
+            from.equalIgnoreCase("specializationExample") -> {
+
+                headingText.show()
+                mainText.hide()
+                constraintLayout.show()
+                headingText.setText(R.string.specialization_heading)
+                goodExampleText.setText(R.string.specialization_good_example)
+                badExampleText.setText(R.string.specialization_bad_example)
+
+
+            }
+            from.equalIgnoreCase("keyword") -> {
+
+                headingText.show()
+                mainText.show()
+                constraintLayout.hide()
+                headingText.setText(R.string.keyword_heading)
+                mainText.setText(R.string.keyword_text)
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+        okButton.setOnClickListener {
+
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
+
+    }
+
 
     private fun checkIfEmpty() {
         if (idArr.isEmpty()) {

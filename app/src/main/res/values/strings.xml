@@ -61,7 +61,7 @@
     <string name="hint.training_title">Training Title *</string>
     <string name="hint.reference_name">Name *</string>
     <string name="hint.add_skill">Add your Skills</string>
-    <string name="hint.caricular_activities">Extracurricular Activities</string>
+    <string name="hint.caricular_activities">Extra Curricular Activities</string>
     <string name="hint.language_title">Language *</string>
     <string name="hint.topic">Topic</string>
     <string name="hint.topic_covered">Topic Covered</string>
@@ -283,6 +283,7 @@
     <string name="special_chars_comma">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~,.</string>
     <string name="army_employment_history_title">Employment History (Retired Army Person)</string>
     <string name="tool_tip_summary">What is Career Summary</string>
+    <string name="tool_tip_objective">What is Objective?</string>
     <string name="tool_tip_what_is_special_qualification">What is Special Qualification</string>
     <string name="tool_tip_what_is_keywords">What is Keywords</string>
     <string name="subtit_pref_func_job">Preferred Functional Job Categories</string>
@@ -297,7 +298,7 @@
     <string name="hint.heading_speaking">Speaking</string>
     <string name="specialization_skill_heading">Your Skills</string>
     <string name="specialization_skill_description_heading">Skill Description</string>
-    <string name="specialization_extra_curricular_heading">Extracurricular Activities</string>
+    <string name="specialization_extra_curricular_heading">Extra Curricular Activities</string>
     <string name="email_invalid_message">Please type a valid Email Address</string>
     <string name="hint_others_language">Language *</string>
     <string name="btn_example">Example</string>
@@ -312,5 +313,27 @@
     <string name="hint.prefAreasBCJobCategory">Preferred Special Skilled Job Categories</string>
     <string name="hint.prefAreasOrgType">Preferred Organization Type</string>
     <string name="hint.maxSkill">Skills maximum 10 </string>
+    <string name="career_objective_heading">Career Objective</string>
+    <string name="career_summery_heading">Career Summery</string>
+    <string name="career_summery_text">The "Career Summary" is an optional customized section where you can list your key achievements, skills, and relevant experiences to enrich the value of your resume.This section focuses on your relevant experience and lets the employer know that you have taken time to create your resume which shows your qualification as well as activeness.</string>
+    <string name="career_objective_text">A resume objective is a short summary of your career growth. Objective should be carefully written to fit the job you are applying for.</string>
+    <string name="bad_example_heading">Bad Example</string>
+    <string name="bad_example_text">I worked for many reputed companies and earned enough knowledge in the field. I think I am the most eligible candidate for relevent job post.</string>
+    <string name="good_example_heading">Good Example</string>
+    <string name="ok_button_text">OK</string>
+    <string name="keyword_heading">Keyword</string>
+    <string name="objective_heading">Objective</string>
+    <string name="objective_good_example">To build a long-term career in [specific industry] with opportunities for career growth. To enhance my educational and professional skills in a stable and dynamic workplace. To solve problems in a creative and effective manner in a challenging position.</string>
+    <string name="objective_bad_example">My objective is to deliver my best to satisfy my clients. I am dedicated and hard working. I will be very much active to meet the deadlines of your company.</string>
+    <string name="objective_text">Career objective is a short summary of your career growth that complements your experience and skills and gives prospective employers a sense of your work-related ambitions.</string>
 
+    <string name="keyword_text">Keywords are specific words or phrases which job seekers use to search jobs and employers use to find the right candidates. Keywords are used as search criteria like the same way you do research on the Internet. The more keywords you use, the more jobs will match closely to your search.
+Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java, HTML, Photo Shop, BUET, DU, IBA, NSU etc.</string>
+    <string name="career_summery_good_example">At present I am working as a [ Your Designation] at [XYZ company]. I have done an Internship at Independent Television ltd. and after my graduation, I served as a Probationary English Teacher at Lions School and College, Rangpur. Except that, during my student life I was involved in different programs of Event organizing at my College and University.</string>
+    <string name="career_summery_bad_example">I worked for many reputed companies and earned enough knowledge in the field. I think I am the most eligible candidate for relevent job post.</string>
+    <string name="specialization_heading">Special Qualification</string>
+    <string name="specialization_good_example">I have some special qualifications of Web development like Java, C#, Dot net. Besides, I have potential of event organizing and data analysing too. I can work under pressure and I am a quick learner. </string>
+    <string name="specialization_bad_example">I am very energetic and dedicated to office work. I am regular and know the very basic of your required field. I have 5 years of experience in the field and I think I am the best candidate for your Job post.</string>
+    <string name="specialization_text">In Special Qualification part you can add the summary of your most pertinent qualifications. This will help to get a job by grabbing attention of the employer. It is also a place where attributes, such as punctuality and honesty can be added too. Make your statement precise and concise to increase the chance of getting job easily.</string>
+    <string name="good_example_text">To obtain the job of Marketing Manager with XXX Inc. Coming with three years marketing experience at a college, strong proficiency with various social media platforms and experience with visual designing to help in increasing profitability.</string>
 </resources>

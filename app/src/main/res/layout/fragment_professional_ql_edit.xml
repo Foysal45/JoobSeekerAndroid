@@ -7,140 +7,158 @@
     tools:context=".editResume.educationInfo.fragments.professionalQualification.ProfessionalQLEditFragment">
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/certificationTIL"
-        style="@style/EHTextInputLayout"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsFull"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
-        android:textColorHint="#757575"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPqCertification"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint.certification_title"
-            android:imeOptions="actionNext"
-            android:inputType="text|textMultiLine"
-            android:maxLength="300"
-            android:textColor="#212121" />
+            android:layout_height="match_parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/prfInstituteTIL"
-        style="@style/EHTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="#757575"
-        app:layout_constraintTop_toBottomOf="@+id/certificationTIL"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="88dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPqInstitute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint.institute_name_prf"
-            android:inputType="text|textMultiLine"
-            android:maxLength="80"
-            android:textColor="#212121" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/prqLocationTIL"
-        style="@style/EHTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="#757575"
-        app:layout_constraintTop_toBottomOf="@+id/prfInstituteTIL"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="255dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPqLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint.location"
-            android:inputType="text|textMultiLine"
-            android:maxLength="49"
-            android:textColor="#212121" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prqLocationTIL">
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pqStartDateTIL"
-            style="@style/EHTextInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColorHint="#757575">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPqStartDate"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/certificationTIL"
+                style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:hint="@string/hint.start_date"
-                android:inputType="text|textMultiLine"
-                android:maxLength="49"
-                android:textColor="#212121" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:textColorHint="#757575"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPqCertification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.certification_title"
+                    android:imeOptions="actionNext"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="79"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pqEndDateTIL"
-            style="@style/EHTextInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColorHint="#757575">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPqEndDate"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/prfInstituteTIL"
+                style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:hint="@string/hint.end_date"
-                android:inputType="text|textMultiLine"
-                android:maxLength="49"
-                android:textColor="#212121" />
+                android:textColorHint="#757575"
+                app:layout_constraintTop_toBottomOf="@+id/certificationTIL"
+                tools:layout_editor_absoluteX="20dp"
+                tools:layout_editor_absoluteY="88dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPqInstitute"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.institute_name_prf"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="79"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-    </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/prqLocationTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575"
+                app:layout_constraintTop_toBottomOf="@+id/prfInstituteTIL"
+                tools:layout_editor_absoluteX="35dp"
+                tools:layout_editor_absoluteY="255dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPqLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.location"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="49"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/prqLocationTIL">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pqStartDateTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="#757575">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPqStartDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/hint.start_date"
+                        android:inputType="text|textMultiLine"
+                        android:maxLength="49"
+                        android:textColor="#212121" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pqEndDateTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="#757575">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPqEndDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/hint.end_date"
+                        android:inputType="text|textMultiLine"
+                        android:maxLength="49"
+                        android:textColor="#212121" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_Professional_update"
         style="@style/FabStyle"
@@ -164,5 +182,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

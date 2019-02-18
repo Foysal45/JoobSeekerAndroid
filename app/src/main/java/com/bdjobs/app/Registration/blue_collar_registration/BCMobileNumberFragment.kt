@@ -51,12 +51,9 @@ class BCMobileNumberFragment : Fragment() {
 
     private fun onClick() {
 
-
         bcMobileNumberTIET.easyOnTextChangedListener { charSequence ->
             mobileNumberValidityCheck(charSequence.toString())
         }
-
-
 
         bcMobileNumberFAButton.setOnClickListener {
 

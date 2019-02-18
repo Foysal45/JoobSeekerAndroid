@@ -37,7 +37,35 @@
                     android:maxLength="250"
                     android:textColor="#212121" />
 
+                <TextView
+                    android:id="@+id/tv_info_objective"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableEnd="@drawable/ic_tool_tip"
+                    android:drawablePadding="5dp"
+                    android:text="@string/tool_tip_objective"
+                    android:textSize="12sp" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_example_objective"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/btn_example"
+                app:icon="@drawable/ic_eye_example"
+                app:layout_constraintBottom_toTopOf="@+id/tilPresentSal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/crObjTIL" />
+
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/cgLookingFor"

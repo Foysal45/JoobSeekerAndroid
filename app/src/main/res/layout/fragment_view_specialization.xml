@@ -147,6 +147,7 @@
             app:layout_constraintTop_toBottomOf="@+id/skillLayout" />
 
         <TextView
+            android:textColor="#393939"
             android:id="@+id/skillDescriptionTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -188,6 +189,7 @@
 
 
         <TextView
+            android:textColor="#393939"
             android:id="@+id/curricularTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
