@@ -6,8 +6,10 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -41,12 +43,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.activity_photo_upload.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -108,21 +108,12 @@ class PhotoUploadActivity : AppCompatActivity() {
             editResChangePhotoButton.hide()
             ic_edit_photo.hide()
             photoDeleteButton.hide()
-
-
         }
     }
 
     override fun onResume() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
-        /* if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()){
-             Log.d("dgdsgdghjOnRes", "result uri ${resultUri}" )
-
-
-         }*/
-
-
         onClick()
     }
 
@@ -136,32 +127,21 @@ class PhotoUploadActivity : AppCompatActivity() {
         editResChangePhotoButton.setOnClickListener {
             changeClickStatus = true
             showDialog(this@PhotoUploadActivity)
-
         }
         photoDeleteButton.setOnClickListener {
             deletePhoto()
         }
     }
 
-    @SuppressLint("SetTextI18n")
     fun makeHTTPCall() {
 
         val client = AsyncHttpClient()
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
-                /*  progressDialog.dismiss()*/
-                var obj: JSONObject? = null
-                /*  try {*/
+
                 val response = String(responseBody)
 
                 Log.d("dgdsgdghj", " response ${response}")
-
-                /*   obj = JSONObject(response)
-
-                   val msg = obj.getString("message")
-
-                  val dataObj = obj.getJSONArray("data")*/
-
 
                 val gson = Gson()
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
@@ -189,19 +169,10 @@ class PhotoUploadActivity : AppCompatActivity() {
 
                 ic_edit_photo.show()
 
-                /* } catch (e: JSONException) {
-                     e.printStackTrace()
-                     Log.e("PhotoAPI", e.message)
-                 } catch (e: UnsupportedEncodingException) {
-                     e.printStackTrace()
-                 }*/
-
-
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray,
-                                   error: Throwable) {
-                /* progressDialog.dismiss()*/
+            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
+
                 Log.e("photoAPI", error.message)
                 toast(error.message!!)
             }
@@ -217,9 +188,9 @@ class PhotoUploadActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
-
-                Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
-                Log.d("PhotoUpload", " response ${response.body()!!.message}")
+                Log.d("PhotoUpload", " response message ${response.body()!!}")
+                Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
+                Log.d("PhotoUpload", " response message ${response.body()!!.message}")
 
 
                 if (response.body()!!.statuscode.equals("0", true)) {
@@ -269,7 +240,6 @@ class PhotoUploadActivity : AppCompatActivity() {
                                 folderId = response.body()!!.data[0].folderId
                                 imageName = response.body()!!.data[0].imageName
 
-
                                 reqParams.put("Image", encodedString)
                                 reqParams.put("userid", bdjobsUserSession.userId)
                                 reqParams.put("decodeid", bdjobsUserSession.decodId)
@@ -315,25 +285,14 @@ class PhotoUploadActivity : AppCompatActivity() {
         val client = AsyncHttpClient()
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", reqParams, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
-                /*  progressDialog.dismiss()*/
-                var obj: JSONObject? = null
-                /*  try {*/
+
                 val response = String(responseBody)
 
                 Log.d("Deltete", " response ${response}")
 
-                /*   obj = JSONObject(response)
-
-                   val msg = obj.getString("message")
-
-                  val dataObj = obj.getJSONArray("data")*/
-
 
                 val gson = Gson()
                 val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-
-
-                /*  if (photoUploadModel.statuscode.equalIgnoreCase("0")){*/
 
                 progressDialog.dismiss()
                 noPhotoTV.text = "No photo is uploaded yet"
@@ -345,33 +304,16 @@ class PhotoUploadActivity : AppCompatActivity() {
                 photoDeleteButton.hide()
                 editResPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
                 bdjobsUserSession.updateUserPicUrl("")
-                /* }*/
-
-
-                /* val photoUrl = photoUploadModel.data[0].path
-                 Log.d("Deltete", " $photoUrl")
-                 val bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
-                 bdjobsUserSession.updateUserPicUrl(photoUrl)*/
 
 
                 toast(photoUploadModel.message)
 
                 Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
 
-
-                /* } catch (e: JSONException) {
-                     e.printStackTrace()
-                     Log.e("PhotoAPI", e.message)
-                 } catch (e: UnsupportedEncodingException) {
-                     e.printStackTrace()
-                 }*/
-
-
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray,
-                                   error: Throwable) {
-                /* progressDialog.dismiss()*/
+            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
+
                 Log.e("Deltete", error.message)
                 toast(error.message!!)
             }
@@ -423,7 +365,7 @@ class PhotoUploadActivity : AppCompatActivity() {
                     openCamera()
 
                 } else {
-                    /* Toasty.error(this@PhotoUpload, "Permission Denied").show()*/
+
                 }
                 return
             }
@@ -432,13 +374,10 @@ class PhotoUploadActivity : AppCompatActivity() {
 
 
     fun performFileSearch() {
-
-
-        FilePickerBuilder.getInstance().setMaxCount(1)
-                .setSelectedFiles(filePaths)
-                .setActivityTheme(R.style.AppTheme)
-                .enableCameraSupport(false)
-                .pickPhoto(this)
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), FilePickerConst.REQUEST_CODE_PHOTO)
     }
 
 
@@ -459,18 +398,43 @@ class PhotoUploadActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
-        Log.d("dfgh", "  onActivityResult called")
-
-
         Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
-
 
         if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
 
-            var uri: Uri? = null
-            uri = Uri.fromFile(File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)[0]))
-            Log.d("dfgh", "Uri: " + uri!!.toString())
+            var fileUri: Uri? = null
+
+            val selectedImageUri = data.data
+            val tempPath = getPathCloud(selectedImageUri, this@PhotoUploadActivity)
+            val url = data.data!!.toString()
+            if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+
+                try {
+                    val `is` = contentResolver.openInputStream(selectedImageUri!!)
+                    if (`is` != null) {
+                        deleteCache(applicationContext)
+                        bitmap = BitmapFactory.decodeStream(`is`)
+                        if (bitmap != null) {
+                            val tempUri = getImageUri(this@PhotoUploadActivity, bitmap)
+                            // CALL THIS METHOD TO GET THE ACTUAL PATHa
+                            var finalFile: File? = null
+                            try {
+                                finalFile = File(getRealPathFromURI(tempUri))
+                                fileUri = Uri.fromFile(finalFile)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        } else {
+                            Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            Log.d("dfgh", "Uri: " + fileUri!!.toString())
             val myDirectory = File("/sdcard/BDJOBS")
             if (!myDirectory.exists()) {
                 myDirectory.mkdirs()
@@ -481,7 +445,7 @@ class PhotoUploadActivity : AppCompatActivity() {
                 val deleted = file.delete()
             }
             val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-            UCrop.of(uri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
+            UCrop.of(fileUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
         }
 
         Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
@@ -489,16 +453,10 @@ class PhotoUploadActivity : AppCompatActivity() {
 
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
             resultUri = UCrop.getOutput(data)!!
-            val tempURI = Uri.fromFile(File("/sdcard/"))
 
-
-            /*   regPhotoUploadImageView.loadImageFromUrl(tempURI.toString())*/
             editResPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
 
             uploadPhoto()
-
-            /*    regPhotoUploadImageView.imageURI = tempURI*/
-            /*   regPhotoUploadImageView.imageURI = resultUri*/
 
             editResPhotoUploadButton.isEnabled = true
             editResPhotoUploadButton.show()
@@ -506,7 +464,7 @@ class PhotoUploadActivity : AppCompatActivity() {
 
             dialog.dismiss()
             val path = resultUri.path
-            /*  UploadBTN.setVisibility(View.GONE)*/
+
             val file = File(path)
             val size = file.length()
             val fileSizeInKB = size / 1024
@@ -515,7 +473,7 @@ class PhotoUploadActivity : AppCompatActivity() {
             if (fileSizeInMB > 3) {
                 Toast.makeText(this, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
             } else if (fileSizeInMB <= 3) {
-                //getEncodedStringFromImagePath().execute(path)
+
                 doAsync {
                     try {
                         var options: BitmapFactory.Options? = null
@@ -530,7 +488,7 @@ class PhotoUploadActivity : AppCompatActivity() {
                         // Encode Image to String
                         encodedString = Base64.encodeToString(byte_arr, 0)
                     } catch (e: Exception) {
-                        error("SEMVcb" + e.toString())
+                        error("SEMVcb $e")
                     }
                 }
 
@@ -556,15 +514,11 @@ class PhotoUploadActivity : AppCompatActivity() {
             }
             val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
             UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
-
-
         }
-
-
     }
 
 
-    @SuppressLint("SetTextI18n")
+
     private fun showDialog(activity: Activity) {
         dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -576,9 +530,6 @@ class PhotoUploadActivity : AppCompatActivity() {
         val photoUploadTV = dialog.findViewById<TextView>(R.id.photoUploadTV)
         val cameraButton = dialog.findViewById<Button>(R.id.camera_button)
         val galleryButton = dialog.findViewById<TextView>(R.id.gallery_button)
-
-
-
 
 
         deleteImageView.setOnClickListener {
@@ -600,5 +551,72 @@ class PhotoUploadActivity : AppCompatActivity() {
         dialog.show()
 
     }
+
+
+    private fun getPathCloud(uri: Uri, activity: Activity): String {
+        var cursor: Cursor? = null
+        try {
+            val projection = arrayOf(MediaStore.MediaColumns.DATA)
+            cursor = activity.contentResolver.query(uri, projection, null, null, null)
+            if (cursor!!.moveToFirst()) {
+                val column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                val path = cursor.getString(column_index)
+                cursor.close()
+                return path
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return ""
+    }
+
+    private fun getImageUri(inContext: Activity, inImage: Bitmap): Uri {
+        var path = ""
+        try {
+            val bytes = ByteArrayOutputStream()
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "bdJobsProfilePic", null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("PhotoInvalid", "getImageUri: " + e.message)
+            Toast.makeText(inContext, "Invalid Image has been selected!", Toast.LENGTH_SHORT).show()
+
+        }
+
+        return Uri.parse(path)
+    }
+
+    private fun getRealPathFromURI(uri: Uri): String {
+        val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
+        cursor!!.moveToFirst()
+        val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        return cursor.getString(idx)
+    }
+
+    private fun deleteCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            if (dir != null && dir.isDirectory) {
+                deleteDir(dir)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+        }
+        return dir!!.delete()
+    }
+
 
 }

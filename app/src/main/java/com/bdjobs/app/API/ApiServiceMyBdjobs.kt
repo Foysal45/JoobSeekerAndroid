@@ -7,12 +7,16 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import com.google.gson.GsonBuilder
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+
 
 interface ApiServiceMyBdjobs {
     @FormUrlEncoded
@@ -103,6 +107,13 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?
     ): Call<LanguageModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_04_view_spe.asp")
+    fun getSpecializationInfo(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?
+    ): Call<SpecialzationModel>
 
 
     @FormUrlEncoded
@@ -317,6 +328,17 @@ interface ApiServiceMyBdjobs {
             @Field("speaking") speaking: String?,
             @Field("h_ID") h_ID: String?
 
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
+    @POST("apps_step_04_update_spe.asp")
+    fun updateSpecialization(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("skills") skills: String?,
+            @Field("skillDescription") skillDescription: String?,
+            @Field("extracurricular") extracurricular: String?
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
@@ -737,16 +759,11 @@ interface ApiServiceMyBdjobs {
 
     @Multipart
     @POST("file_upload.aspx")
-     fun UploadCV(
-            @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>?,
-            @Part file: MultipartBody.Part?
+    fun uploadCV(
+            @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+            @Part file: MultipartBody.Part
     ): Call<UploadResume>
 
-    @Multipart
-    @POST("file_upload.aspx")
-     fun UploadCV2(
-            @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-            @Part file: MultipartBody.Part): Call<ADDorUpdateModel>
 
     @FormUrlEncoded
     @POST("app_training.asp")
@@ -784,13 +801,25 @@ interface ApiServiceMyBdjobs {
 
     ): Call<TimesEmailed>
 
-
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
+
+            val gson = GsonBuilder()
+                    .setLenient()
+                    .create()
+
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(interceptor)
+                    .build()
+
             val retrofit = Retrofit.Builder()
                     .baseUrl(Constants.baseUrlMyBdjobs)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
             return retrofit.create(ApiServiceMyBdjobs::class.java)
         }

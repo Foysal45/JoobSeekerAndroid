@@ -4,7 +4,9 @@ import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_jobs_db_update
 import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -204,8 +206,17 @@ interface ApiServiceJobs {
                     .setLenient()
                     .create()
 
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(interceptor)
+                    .build()
+
+
             val retrofit = Retrofit.Builder()
                     .baseUrl(Constants.baseUrlJobs)
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
             return retrofit.create(ApiServiceJobs::class.java)

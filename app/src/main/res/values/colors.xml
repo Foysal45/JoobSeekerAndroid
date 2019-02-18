@@ -19,4 +19,6 @@
     <color name="itemsColor">#767676</color>
     <color name="signInColorActivated">#006F94</color>
     <color name="hintColor">#99BBD6</color>
+
+    <color name="colorBlack">#000000</color>
 </resources>

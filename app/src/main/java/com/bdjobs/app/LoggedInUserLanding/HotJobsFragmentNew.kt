@@ -1,19 +1,16 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.HotJobs
 import com.bdjobs.app.API.ModelClasses.HotJobsData
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
@@ -63,7 +60,7 @@ class HotJobsFragmentNew : Fragment() {
                 if (response.isSuccessful) {
                     hotjobList_RV?.adapter = hotjobsAdapterNew
                     hotjobList_RV?.setHasFixedSize(true)
-                   Log.d("initPag", response.body()?.data?.size.toString())
+                    Log.d("initPag", response.body()?.data?.size.toString())
                     hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                     favCountTV.text = response.body()?.data?.size?.toString()
                     hotjobsAdapterNew?.removeAll()
@@ -71,12 +68,11 @@ class HotJobsFragmentNew : Fragment() {
 
                 }
 
-                if (response.body()?.data?.size?.toString() ?.toInt()!! > 1){
-                    val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> HotJobs"
+                if (response.body()?.data?.size?.toString()?.toInt()!! > 1) {
+                    val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Jobs"
                     favCountTV?.text = Html.fromHtml(styledText)
-                }
-                else {
-                    val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> HotJob"
+                } else {
+                    val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Job"
                     favCountTV?.text = Html.fromHtml(styledText)
                 }
 

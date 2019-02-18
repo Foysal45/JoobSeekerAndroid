@@ -22,13 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
@@ -38,13 +36,12 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.google.android.material:material:1.0.0"
-
     //----firebase
-    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation 'com.google.firebase:firebase-perf:16.2.3'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     //google sign in
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
@@ -79,21 +76,25 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.facebook.android:facebook-login:4.38.1'
 
+    //-----background job
     implementation 'com.evernote:android-job:1.2.6'
 
-    //----image upload
+    //----image and file upload
     implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.droidninja:filepicker:2.0.3'
+    implementation 'com.droidninja:filepicker:2.2.0'
 
+
+
+    //web browser
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha11"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha11"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-beta02"
 
     //-----google maps
-    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation "com.google.android.gms:play-services-maps:16.1.0"
 
 }
 apply plugin: 'com.google.gms.google-services'
