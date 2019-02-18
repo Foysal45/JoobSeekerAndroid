@@ -176,6 +176,19 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
+    @POST("apps_step_01_update_jclo.asp")
+    fun updatePrefAreasData(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("preferredCategory") preferredCategory: String?,
+            @Field("selected_blue_Cat") selected_blue_Cat: String?,
+            @Field("preferredLocationInside") preferredLocationInside: String?,
+            @Field("prefereedLocatoinOutside") prefereedLocatoinOutside: String?,
+            @Field("preferredOrganization") preferredOrganization: String?
+    ): Call<AddorUpdateModel>
+
+    @FormUrlEncoded
     @POST("apps_step_01_update_con.asp")
     fun updateContactData(
             @Field("userId") userId: String?,

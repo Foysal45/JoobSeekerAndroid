@@ -33,7 +33,7 @@ class TrainingInfoAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: Co
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.d("aca", "calling")
-        holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_training_summary))
+        holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_training_sum))
         val dModel = itemList?.get(position)!!
         holder.tvTitle?.text = dModel.title
         holder.tvOrgName?.text = dModel.institute
