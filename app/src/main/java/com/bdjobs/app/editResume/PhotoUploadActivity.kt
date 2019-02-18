@@ -374,6 +374,7 @@ class PhotoUploadActivity : AppCompatActivity() {
 
 
     fun performFileSearch() {
+        //
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT

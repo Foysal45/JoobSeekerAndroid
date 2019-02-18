@@ -775,6 +775,31 @@ interface ApiServiceMyBdjobs {
 
     ): Call<TrainingList>
 
+    @FormUrlEncoded
+    @POST("apps_SendEmailCV.aspx")
+    fun sendEmailCV(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("uploadedCv") uploadedCv: String?,
+            @Field("isResumeUpdate") isResumeUpdate: String?,
+            @Field("fullName") fullName: String?,
+            @Field("Jobid") Jobid: String?,
+            @Field("userEmail") userEmail: String?,
+            @Field("mailSubject") mailSubject: String?,
+            @Field("companyEmail") companyEmail: String?
+
+    ): Call<SendEmailCV>
+
+    @FormUrlEncoded
+    @POST("apps_resume_Email.asp")
+    fun emailedMyResume(
+            @Field("userID") userID: String?,
+            @Field("decodeID") decodeID: String?,
+            @Field("pageNumber") pageNumber: String?,
+            @Field("itemsPerPage") itemsPerPage: String?,
+            @Field("isActivityDate") isActivityDate: String?
+
+    ): Call<TimesEmailed>
 
     companion object Factory {
 
