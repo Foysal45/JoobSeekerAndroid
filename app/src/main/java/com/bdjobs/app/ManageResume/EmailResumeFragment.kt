@@ -85,14 +85,14 @@ class EmailResumeFragment : Fragment() {
         if(mybdjobsResume.isChecked){
 
             isResumeUpdate = "0"
-            Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
 
         }
         else if(uploadResume.isChecked){
             isResumeUpdate = "1"
-            Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
+         //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
+       // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
         callSendEmailCV(isResumeUpdate)
     }
 
@@ -155,7 +155,7 @@ class EmailResumeFragment : Fragment() {
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
                 Log.d("isresume", "value = $isResumeUpdate")
                 toast(response.body()?.message!!)
-                communicator.gotoTimesResumeFrag()
+                communicator.backButtonPressed()
             }
 
         })

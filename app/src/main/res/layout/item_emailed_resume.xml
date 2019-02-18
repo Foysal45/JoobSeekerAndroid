@@ -11,61 +11,50 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/mainCL"
-        android:layout_height="wrap_content">
+        android:background="@drawable/ic_home_card"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
 
         <TextView
             android:id="@+id/subjectTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="32dp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#0078D7"
+            android:textColor="#393939"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.3"
-            app:layout_constraintStart_toEndOf="@+id/textView52"
-            app:layout_constraintTop_toTopOf="@+id/textView52"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailTV"
             tools:text="Java Developer" />
 
         <TextView
             android:id="@+id/emailTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-           android:drawablePadding="5dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="#393939"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.28"
-            app:layout_constraintStart_toEndOf="@+id/textView53"
-            app:layout_constraintTop_toTopOf="@+id/textView53"
-            tools:text="sfsdf@Google.com" />
-
-        <TextView
-            android:id="@+id/textView39"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="14dp"
-            android:drawableLeft="@drawable/ic_calender_interview_invitation"
+            android:layout_marginEnd="8dp"
             android:drawablePadding="5dp"
-            android:fontFamily="@font/roboto"
-            android:text="Email On:"
-            android:textColor="#767676"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="#0078D7"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView53" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="sfsdf@Google.com" />
 
         <TextView
             android:id="@+id/appliedDateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="14dp"
             android:fontFamily="@font/roboto_medium"
@@ -73,30 +62,10 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.29"
-            app:layout_constraintStart_toEndOf="@+id/textView39"
-            app:layout_constraintTop_toTopOf="@+id/textView39"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subjectTV"
             tools:text="4 April 2018" />
-
-        <TextView
-            android:id="@+id/textView52"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Subject"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView53"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Sent To"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView52" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

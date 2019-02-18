@@ -2,8 +2,10 @@ package com.bdjobs.app.Utilities
 
 class Constants {
     companion object {
+
         var myBdjobsStatsLastMonth = true
         var matchedTraining = true
+        var timesEmailedResumeLast = true
         var showShortListedPopUp = true
         var cvUploadStatus = ""
 

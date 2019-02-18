@@ -40,7 +40,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:text="Emailed Resume"
+                android:text="Times Emailed Resume"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -66,39 +66,68 @@
 
     <RelativeLayout
         android:id="@+id/bLL"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+
         android:layout_marginTop="14dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
         <TextView
             android:id="@+id/titleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:layout_marginLeft="5dp"
-            android:text="Resumes have been emailed"
             android:layout_toRightOf="@+id/numberTV"
+            android:fontFamily="@font/noto_sans"
+            android:text=" times Resume emailed"
+            android:layout_centerVertical="true"
             android:textColor="#767676"
             android:textSize="12sp" />
-
-
 
         <TextView
             android:id="@+id/numberTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/icon1IMGV"
+            android:layout_centerVertical="true"
             android:fontFamily="@font/noto_sans"
             android:textColor="#2F64A3"
             android:textSize="12sp"
-            tools:text="300" />
+            tools:text="400" />
+
+        <TextView
+            android:id="@+id/allTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/pending_inactive_bg"
+            android:fontFamily="@font/noto_sans"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:text="All Time"
+            android:textColor="#424242"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/matchedTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/allTV"
+            android:background="@drawable/success_active_bg"
+            android:fontFamily="@font/noto_sans"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:text="Last Month"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
 
     </RelativeLayout>
-
 
 
     <com.facebook.shimmer.ShimmerFrameLayout
@@ -150,9 +179,27 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/newEmaiResume"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bLL" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/newEmaiResume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#13A10E"
+        android:fontFamily="@font/roboto"
+        android:text="New Email Resume"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:cornerRadius="5dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
