@@ -60,11 +60,14 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="specialization_edit_icon" />
+                            <entry key="height" value="48" />
+                            <entry key="outputName" value="ic_pdf" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Suriya Sultana\Downloads\icons\writing_icon.svg" />
+                            <entry key="sourceFile" value="C:\Users\RUBAY\Desktop\pdf.svg" />
+                            <entry key="width" value="48" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,5 +1,6 @@
 package com.bdjobs.app.ManageResume
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bdjobs.app.R
@@ -9,19 +10,21 @@ import com.bdjobs.app.Utilities.transitFragment
 
 
 class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
-    override fun gotoupload() {
-        transitFragment(c, R.id.fragmentHolder, true)
+    override fun gotouploaddone() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun gotouploaddone() {
-        transitFragment(b, R.id.fragmentHolder, true)
+    override fun gotoupload() {
+        transitFragment(uploadResumeFragment, R.id.fragmentHolder, true)
     }
+
+
 
     lateinit var bdjobsUserSession: BdjobsUserSession
     private val emailResumeFragment = EmailResumeFragment()
-    private val a = UploadResumeFragment()
-    private val c = UploadResumeAppFragment()
-    private val b = UploadResumeDoneFragment()
+
+    private val uploadResumeFragment = UploadResumeFragment()
+
     var cvUpload: String = ""
 
 
@@ -44,31 +47,17 @@ class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
 
     }
 
+
+    private var timesEmailedMyResumeFragment = TimesEmailedMyResumeFragment()
+    override fun gotoTimesResumeFrag() {
+        transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder, false)
+    }
+
     override fun backButtonPressed() {
         onBackPressed()
     }
 
-    /*private fun callNetwork() {
-        ApiServiceMyBdjobs.create().getCvFileAvailable(
-                userID = bdjobsUserSession.userId,
-                decodeID = bdjobsUserSession.decodId
-
-        ).enqueue(object : Callback<FileInfo> {
-            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
-                error("onFailure", t)
-                toast("${t.toString()}")
-            }
-
-            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
-                toast("${response.body()?.statuscode}")
-                if (response.isSuccessful){
-                    cvUpload = response.body()?.statuscode!!
-                    Log.d("value", "val " + cvUpload)
-                    transitFragment(emailResumeFragment, R.id.fragmentHolder)
-                }
-            }
-
-        })
-
-    }*/
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        uploadResumeFragment.onActivityResult(requestCode, resultCode, data)
+    }
 }

@@ -49,7 +49,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
     private var isEmpty = false
-    private var alreadyLoaded = true
+    private var alreadyLoaded = false
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -78,13 +78,15 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun addChip(input: String) {
+        alreadyLoaded = true
         if (entry_chip_group.childCount <= 2) {
             addAsString(workExperineceID)
             val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
         } else {
-            activity.toast("Maximum 3 experiences can be added.")
+            if (!alreadyLoaded)
+                activity.toast("Maximum 3 experiences can be added.")
         }
         experiencesMACTV?.closeKeyboard(activity)
     }
@@ -158,10 +160,10 @@ class EmpHistoryEditFragment : Fragment() {
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
-            if (alreadyLoaded) {
+            //if (alreadyLoaded) {
                 preloadedData()
-                alreadyLoaded = false
-            }
+            /*alreadyLoaded = false
+        }*/
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
@@ -284,6 +286,11 @@ class EmpHistoryEditFragment : Fragment() {
             //validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
             Log.d("validation", "validation : $validation and $isEmpty")
+
+            if (companyBusinessACTV.getString().trim().isEmpty())
+                companyBusinessTIL.isErrorEnabled = true
+            else
+                companyBusinessTIL.hideError()
 
             if (validation >= 4) {
                 disableError()

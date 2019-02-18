@@ -201,7 +201,7 @@
     <string name="title_reference">References</string>
     <string name="title_academic">Academic Qualification</string>
     <string name="title_training">Training Summary</string>
-    <string name="title_professional_qualification">Professional Qualification</string>
+    <string name="title_professional_qualification">Professional Certification Summary</string>
     <string name="title_language">Language Proficiency</string>
     <string name="title_professional">Professional Qualification</string>
     <string name="hint.looking_for_edit">Looking for (Job Level)</string>
@@ -336,4 +336,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="specialization_bad_example">I am very energetic and dedicated to office work. I am regular and know the very basic of your required field. I have 5 years of experience in the field and I think I am the best candidate for your Job post.</string>
     <string name="specialization_text">In Special Qualification part you can add the summary of your most pertinent qualifications. This will help to get a job by grabbing attention of the employer. It is also a place where attributes, such as punctuality and honesty can be added too. Make your statement precise and concise to increase the chance of getting job easily.</string>
     <string name="good_example_text">To obtain the job of Marketing Manager with XXX Inc. Coming with three years marketing experience at a college, strong proficiency with various social media platforms and experience with visual designing to help in increasing profitability.</string>
+    <string name="job.internship">Internship</string>
+    <string name="job.freelance">Freelance</string>
 </resources>

@@ -384,6 +384,7 @@ fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextI
                              etNext: TextInputEditText?, isEmpty: Boolean, validation: Int): Int {
     var valid: Int = validation
     if (isEmpty) {
+        etCurrent?.requestFocus()
         tilCurrent?.isErrorEnabled = true
         tilCurrent?.showError("This field can not be empty")
     } else {

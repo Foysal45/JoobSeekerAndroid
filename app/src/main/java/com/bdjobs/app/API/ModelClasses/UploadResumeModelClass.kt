@@ -8,7 +8,7 @@ data class UploadResume(
     @SerializedName("data")
     val `data`: List<UploadResume?>?,
     @SerializedName("message")
-    val message: String?,
+    val message: String?="",
     @SerializedName("statuscode")
     val statuscode: String?
 )

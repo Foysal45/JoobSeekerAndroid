@@ -60,7 +60,7 @@ class WebActivity : Activity() {
                 loadUrlWithCookie(url)
             }
             "hotjobs" -> {
-                suggestiveSearchET.text = "Hotjobs"
+                suggestiveSearchET.text = "Hot Job"
                 loadUrlWithCookie(url)
             }
             else -> {

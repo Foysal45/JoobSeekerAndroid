@@ -391,7 +391,7 @@ class LoginUserNameFragment : Fragment() {
 
             } else {
                 // Google Sign In failed, update UI appropriately
-                toast("Please sign in to google first to complete your sign in by goole")
+                toast("Please sign in to google first to complete your sign in by google")
             }
         }
 
