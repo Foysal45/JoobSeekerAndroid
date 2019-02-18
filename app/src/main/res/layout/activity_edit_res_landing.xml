@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/title_ORI"
-                app:icon="@drawable/ic_carrer" />
+                app:icon="@drawable/ic_other_relevant_information" />
 
             <View
                 android:layout_width="match_parent"
@@ -205,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/title_professional_qualification"
-                app:icon="@drawable/ic_training_sum" />
+                app:icon="@drawable/ic_professional_certification" />
 
 
             <View
@@ -243,7 +243,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:singleLine="true"
                 android:text="@string/army_employment_history_title"
-                app:icon="@drawable/ic_employment_history" />
+                app:icon="@drawable/ic_retired_army_person" />
 
 
             <View
@@ -271,7 +271,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/title_specialization"
-                app:icon="@drawable/ic_employment_history" />
+                app:icon="@drawable/ic_specilalization" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLanguage"
@@ -282,7 +282,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:singleLine="true"
                 android:text="@string/title_language"
-                app:icon="@drawable/ic_employment_history" />
+                app:icon="@drawable/ic_language" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnReferences"
@@ -293,7 +293,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:singleLine="true"
                 android:text="@string/title_reference"
-                app:icon="@drawable/ic_employment_history" />
+                app:icon="@drawable/ic_reference" />
 
 
             <View
