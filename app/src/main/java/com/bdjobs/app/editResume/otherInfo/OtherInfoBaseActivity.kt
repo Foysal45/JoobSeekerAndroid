@@ -153,28 +153,33 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
             when (check) {
                 "addLanguage" -> {
                     languageEditFrgamnet.isEdit = false
-                    transitFragment(languageEditFrgamnet, R.id.other_info_container, false)
-                    Constants.isDirectCall = true
+                    transitFragment(languageEditFrgamnet, R.id.other_info_container, true)
+                     
                 }
                 "editLanguage" -> {
                     languageEditFrgamnet.isEdit = true
                     transitFragment(languageEditFrgamnet, R.id.other_info_container, true)
+
                 }
                 "addSpecialization" -> {
                     specializationEditFragment.isEdit = false
                     transitFragment(specializationEditFragment, R.id.other_info_container, true)
+
                 }
                 "editSpecialization" -> {
                     specializationEditFragment.isEdit = true
                     transitFragment(specializationEditFragment, R.id.other_info_container, true)
+
                 }
                 "addReference" -> {
                     refernceEditFragment.isEdit = false
                     transitFragment(refernceEditFragment, R.id.other_info_container, true)
+
                 }
                 "editReference" -> {
                     refernceEditFragment.isEdit = true
                     transitFragment(refernceEditFragment, R.id.other_info_container, true)
+
                 }
                 else -> {
 

@@ -1,11 +1,18 @@
 package com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails
 
+import android.app.Activity
+import android.app.Dialog
 import android.app.Fragment
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -30,6 +37,7 @@ class CareerEditFragment : Fragment() {
     private var jobLevel: String? = ""
     private var jobNature: String? = ""
     lateinit var dataStorage: DataStorage
+    private lateinit var dialog: Dialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -54,6 +62,22 @@ class CareerEditFragment : Fragment() {
 
     private fun doWork() {
         addTextChangedListener(etCrObj, crObjTIL)
+
+
+        tv_info_objective.setOnClickListener {
+
+            showDialog(activity, "objective")
+
+        }
+
+
+        btn_example_objective.setOnClickListener {
+
+            showDialog(activity, "objectiveExample")
+
+        }
+
+
         fab_cai_edit.setOnClickListener {
             clCareerEdit.closeKeyboard(activity)
             var validation = 0
@@ -70,6 +94,64 @@ class CareerEditFragment : Fragment() {
         personalInfo.setEditButton(false, "dd")
         preloadedData()
         crObjTIL.hideError()
+    }
+
+
+    private fun showDialog(activity: Activity, from: String) {
+        dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.ori_example_dialog_layout)
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val okButton = dialog.findViewById<TextView>(R.id.ok_button)
+        val headingText = dialog.findViewById<TextView>(R.id.textView53)
+        val mainText = dialog.findViewById<TextView>(R.id.textView55)
+        val goodExampleText = dialog.findViewById<TextView>(R.id.textView57)
+        val badExampleText = dialog.findViewById<TextView>(R.id.textView59)
+        val constraintLayout = dialog.findViewById<LinearLayout>(R.id.constraintLayout4)
+
+
+        when {
+            from.equalIgnoreCase("objective") -> {
+
+                headingText.show()
+                mainText.show()
+                constraintLayout.hide()
+                headingText.setText(R.string.objective_heading)
+                mainText.setText(R.string.objective_text)
+
+
+            }
+            from.equalIgnoreCase("objectiveExample") -> {
+
+                headingText.show()
+                mainText.hide()
+                constraintLayout.show()
+                headingText.setText(R.string.objective_heading)
+                goodExampleText.setText(R.string.objective_good_example)
+                badExampleText.setText(R.string.objective_bad_example)
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+        okButton.setOnClickListener {
+
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
+
     }
 
     private fun updateData() {

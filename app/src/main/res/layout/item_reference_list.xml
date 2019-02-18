@@ -29,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cl_collapsed"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical">
@@ -48,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="@string/hint.ref_mobile"
+                    android:textStyle="bold"
                     android:textColor="#393939"
                     android:textSize="14sp" />
 
@@ -70,6 +73,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:textStyle="bold"
                     android:id="@+id/Country"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,6 +103,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:textStyle="bold"
                     android:id="@+id/Location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

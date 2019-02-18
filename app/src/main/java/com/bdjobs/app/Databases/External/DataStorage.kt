@@ -940,7 +940,7 @@ class DataStorage(context: Context) {
         var s: String? = null
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " = '" + name + "'"
+            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'"
             Log.d("selectQuery11", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
