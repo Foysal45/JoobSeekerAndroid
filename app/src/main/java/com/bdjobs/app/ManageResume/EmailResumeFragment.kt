@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.EmailResume
 import com.bdjobs.app.API.ModelClasses.SendEmailCV
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.error
 import com.facebook.FacebookSdk.getApplicationContext
@@ -48,22 +49,12 @@ class EmailResumeFragment : Fragment() {
             communicator.backButtonPressed()
         }
 
-        Log.d("ena", "--" + communicator.isGetCvUploaded())
-
-        uploadResume.isEnabled = true
-
-        if (communicator.isGetCvUploaded() == "0" || communicator.isGetCvUploaded() == "4") {
-            uploadResume.isEnabled = true
-        } else {
-            uploadResume.isEnabled = false
-        }
+        uploadResume.isEnabled = Constants.cvUploadStatus == "0" || Constants.cvUploadStatus == "4"
 
         mybdjobsResume.performClick()
 
         cbFAB.setOnClickListener {
             validation()
-            //communicator.gotoupload()
-
         }
 
         et_from.easyOnTextChangedListener { charSequence ->
@@ -94,14 +85,14 @@ class EmailResumeFragment : Fragment() {
         if(mybdjobsResume.isChecked){
 
             isResumeUpdate = "0"
-            Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
 
         }
         else if(uploadResume.isChecked){
             isResumeUpdate = "1"
-            Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
+         //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
+       // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
         callSendEmailCV(isResumeUpdate)
     }
 
@@ -164,7 +155,7 @@ class EmailResumeFragment : Fragment() {
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
                 Log.d("isresume", "value = $isResumeUpdate")
                 toast(response.body()?.message!!)
-                communicator.gotoTimesResumeFrag()
+                communicator.backButtonPressed()
             }
 
         })

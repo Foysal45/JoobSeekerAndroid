@@ -162,17 +162,10 @@
                 android:visibility="visible" />
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/settings_MBTN"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Settings"
-                app:icon="@drawable/ic_settings" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/emailResume_MBTN"
+                android:layout_marginTop="20dp"
                 style="@style/more.button"
                 android:visibility="visible"
                 android:layout_width="match_parent"
@@ -202,7 +195,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Upcoming Training"
-                app:icon="@drawable/ic_interview_invitation" />
+                app:icon="@drawable/ic_dashboard_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/uploadResumeBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload Resume"
+                app:icon="@drawable/ic_cloud_upload_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settings_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                app:icon="@drawable/ic_settings" />
 
             <View
                 android:layout_width="match_parent"

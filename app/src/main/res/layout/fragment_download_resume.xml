@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ManageResume.UploadResumeFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            tools:layout_editor_absoluteX="16dp">
+
+            <TextView
+                android:id="@+id/suggestiveSearchET"
+                android:layout_width="0dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="8dp"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="CV Attachment"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backIV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/backIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/backIV1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_delete_white60opacity"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/suggestiveSearchET"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_doc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+
+    <LinearLayout
+        android:id="@+id/LL1"
+        android:layout_width="217dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+
+        android:background="#FFF6E2"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_calender_interview_invitation" />
+
+        <TextView
+            android:id="@+id/textView42"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Uploaded On:"
+            android:textColor="#393939"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="14th Jan,2019  "
+            android:textColor="#393939"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="44dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Download, Share and Email your\nresume from here"
+        android:textColor="#393939"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LL1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitTV"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:stateListAnimator="@null"
+        app:backgroundTint="#FFFFFF"
+        app:cornerRadius="2dp"
+        app:icon="@drawable/ic_cloud_download"
+        app:iconGravity="textStart"
+        app:iconTint="#666666"
+        app:layout_constraintEnd_toStartOf="@+id/submitTV1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView44"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitTV1"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        app:backgroundTint="#FFFFFF"
+        app:cornerRadius="2dp"
+        app:icon="@drawable/ic_email_black"
+        app:iconGravity="textStart"
+        app:iconTint="#666666"
+        app:layout_constraintEnd_toStartOf="@+id/submitTV3"
+        android:stateListAnimator="@null"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/submitTV"
+        app:layout_constraintTop_toTopOf="@+id/submitTV"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitTV3"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="82dp"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        app:backgroundTint="#FFFFFF"
+        app:cornerRadius="2dp"
+        app:icon="@drawable/ic_share_black"
+        app:iconGravity="textStart"
+        android:stateListAnimator="@null"
+        app:iconTint="#666666"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/submitTV1"
+        app:layout_constraintTop_toTopOf="@+id/submitTV1"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

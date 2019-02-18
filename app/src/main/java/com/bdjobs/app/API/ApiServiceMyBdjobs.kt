@@ -801,6 +801,14 @@ interface ApiServiceMyBdjobs {
 
     ): Call<TimesEmailed>
 
+    @FormUrlEncoded
+    @POST("file_upload.aspx")
+    fun downloadDeleteCV(
+            @Field("userid") userID: String?,
+            @Field("decodeid") decodeID: String?,
+            @Field("status") status: String?
+    ): Call<UploadResume>
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
