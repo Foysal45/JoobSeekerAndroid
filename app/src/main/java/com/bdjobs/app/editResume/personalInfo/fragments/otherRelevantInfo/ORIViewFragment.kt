@@ -91,7 +91,8 @@ class ORIViewFragment : Fragment() {
         val keywords = data?.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
-            addChip(it)
+            if (it.isNotBlank())
+                addChip(it)
         }
         //tvORIS.text = data?.careerSummery
     }
