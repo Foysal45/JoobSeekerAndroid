@@ -115,7 +115,12 @@ class MoreFragment : Fragment() {
         }
         emailResume_MBTN.setOnClickListener {
             startActivity<ManageResumeActivity>(
-                    "cvUploaded" to cvUploadMore
+                    "from" to "emailResume"
+            )
+        }
+        uploadResumeBTN.setOnClickListener {
+            startActivity<ManageResumeActivity>(
+                    "from" to "uploadResume"
             )
         }
     }
@@ -137,12 +142,12 @@ class MoreFragment : Fragment() {
 
         homeCommunicator.getInviteCodeUserType()?.let { txt ->
             when {
-                txt.equalIgnoreCase("o") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট &\nআর্ন"))
-                txt.equalIgnoreCase("u") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "ইনভাইট\nকোড"))
+                txt.equalIgnoreCase("o") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_invite_code, "ইনভাইট &\nআর্ন"))
+                txt.equalIgnoreCase("u") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_invite_code, "ইনভাইট\nকোড"))
                 else -> { }
             }
         }
-
+//
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))

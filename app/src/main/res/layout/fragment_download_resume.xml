@@ -35,7 +35,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:text="Uploaded Resume"
+                android:text="CV Attachment"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -85,6 +85,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/LL1"
         android:layout_width="217dp"
         android:layout_height="28dp"

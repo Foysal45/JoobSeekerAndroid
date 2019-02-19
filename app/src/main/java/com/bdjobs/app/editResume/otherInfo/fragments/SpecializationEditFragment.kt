@@ -84,6 +84,7 @@ class SpecializationEditFragment : Fragment() {
 
     private fun preloadedData() {
 
+        //jgkhgfjkh
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
 
@@ -107,6 +108,7 @@ class SpecializationEditFragment : Fragment() {
         /*   getDataFromChip()*/
 
         skills = ""
+        idArr.clear()
         val skillList: Array<String> = dataStorage.allSkills
         val skillAdapter = ArrayAdapter<String>(activity!!,
                 android.R.layout.simple_dropdown_item_1line, skillList)
@@ -152,7 +154,7 @@ class SpecializationEditFragment : Fragment() {
                 Log.e("updateEx: ", "error: ${e.printStackTrace()}")
             }
 
-            updateData(skills)
+            updateData(skills.removePrefix(","))
 
 
         }
@@ -175,7 +177,7 @@ class SpecializationEditFragment : Fragment() {
 
         d("specialization test addChip child count ${specialization_chip_group.childCount} ")
 
-        if (specialization_chip_group.childCount < 11) {
+        if (specialization_chip_group.childCount <= 9) {
             addAsString(workSkillID)
             val c1 = getChip(specialization_chip_group, input, R.xml.chip_entry)
             specialization_chip_group.addView(c1)
