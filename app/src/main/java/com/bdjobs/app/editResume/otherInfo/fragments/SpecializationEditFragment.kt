@@ -236,8 +236,15 @@ class SpecializationEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(specializationLoadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+
                         if (resp?.statuscode == "4") {
+
+                            if (isEdit) {
+                                activity.toast("The information has been updated successfully")
+                            } else {
+                                activity.toast("The information has been added successfully")
+                            }
+
                             eduCB.goBack()
                         }
                     }

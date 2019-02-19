@@ -315,7 +315,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.achievement"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="text|textMultiLine"
                     android:maxLength="100"
                     android:textColor="#212121" />
 
