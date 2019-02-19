@@ -21,6 +21,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class InterveiwInvitationListFragment : Fragment() {
 
@@ -52,7 +53,6 @@ class InterveiwInvitationListFragment : Fragment() {
             favCountTV?.hide()
             shimmer_view_container_JobList?.show()
             shimmer_view_container_JobList?.startShimmerAnimation()
-
             showDataFromServer()
 
         } else {
@@ -111,14 +111,30 @@ class InterveiwInvitationListFragment : Fragment() {
 
     private fun showDataFromDB() {
         doAsync {
-            val interviewInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
+            var interviewInvitations: List<JobInvitation>? = null
+
+            interviewInvitations = if (interviewInvitationCommunicator.getFrom().equalIgnoreCase("mybdjobs")) {
+                if (interviewInvitationCommunicator.getTime().equalIgnoreCase("0")) {
+                    bdjobsDB.jobInvitationDao().getAllJobInvitation()
+                } else {
+                    val calendar = Calendar.getInstance()
+                    calendar.add(Calendar.DAY_OF_YEAR, -30)
+                    val lastmonth = calendar.time
+                    bdjobsDB.jobInvitationDao().getALLJobInvitationByDate(lastmonth)
+                }
+
+            } else {
+                bdjobsDB.jobInvitationDao().getAllJobInvitation()
+
+            }
+
             uiThread {
                 val interviewInvitationListAdapter = InterviewInvitationListAdapter(activity, interviewInvitations as MutableList<JobInvitation>)
                 followedRV?.setHasFixedSize(true)
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedRV?.adapter = interviewInvitationListAdapter
                 var data = "invitation"
-                if(interviewInvitations.size>1){
+                if (interviewInvitations.size > 1) {
                     data = "invitations"
                 }
                 val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"

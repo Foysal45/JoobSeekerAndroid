@@ -20,15 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- *
- */
 class HotJobsFragmentNew : Fragment() {
     private var hotjobsAdapterNew: HotjobsAdapterNew? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +54,6 @@ class HotJobsFragmentNew : Fragment() {
                     hotjobList_RV?.setHasFixedSize(true)
                     Log.d("initPag", response.body()?.data?.size.toString())
                     hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                    favCountTV.text = response.body()?.data?.size?.toString()
                     hotjobsAdapterNew?.removeAll()
                     hotjobsAdapterNew?.addAll(response.body()?.data as List<HotJobsData>)
 

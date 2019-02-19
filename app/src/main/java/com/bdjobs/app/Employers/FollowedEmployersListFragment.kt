@@ -18,6 +18,7 @@ import com.bdjobs.app.R
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 class FollowedEmployersListFragment : Fragment() {
@@ -52,14 +53,16 @@ class FollowedEmployersListFragment : Fragment() {
         }
 
         doAsync {
-            if (isActivityDate == "0") {
-                followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+            followedEmployerList = if (isActivityDate == "0") {
+                bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
             } else {
-                followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.DAY_OF_YEAR, -30)
+                val lastmonth = calendar.time
+                bdjobsDB.followedEmployerDao().getFollowedEmployerbyDate(lastmonth)
+
             }
 
-            //   val followedEmployerJobCount = followedEmployerList?.size
-            //  getJobCountOfFollowedEmployer()
             Log.d("follow", followedEmployerList.toString())
             uiThread {
                 followedListSize = followedEmployerList?.size!!
