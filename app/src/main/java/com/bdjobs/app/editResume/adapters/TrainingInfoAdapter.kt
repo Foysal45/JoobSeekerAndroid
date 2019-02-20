@@ -35,6 +35,15 @@ class TrainingInfoAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: Co
         Log.d("aca", "calling")
         holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_training_sum))
         val dModel = itemList?.get(position)!!
+        if (position == itemList?.size!! - 1) {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 200
+            holder.itemView.layoutParams = params
+        } else {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 0
+            holder.itemView.layoutParams = params
+        }
         holder.tvTitle?.text = dModel.title
         holder.tvOrgName?.text = dModel.institute
         holder.tvCompletionYear?.text = dModel.year

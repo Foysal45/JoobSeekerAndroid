@@ -37,6 +37,15 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val dModel = itemList?.get(position)!!
+        if (position == itemList?.size!! - 1) {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 200
+            holder.itemView.layoutParams = params
+        } else {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 0
+            holder.itemView.layoutParams = params
+        }
         holder.tvDes?.text = dModel.positionHeld
         holder.tvDate?.text = "From ${dModel.from} to ${dModel.to}"
         holder.tvCom?.text = dModel.companyName

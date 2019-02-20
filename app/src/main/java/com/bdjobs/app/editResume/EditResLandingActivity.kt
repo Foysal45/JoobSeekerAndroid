@@ -47,7 +47,6 @@ class EditResLandingActivity : Activity() {
         tvEmail.text = session.email
 
 
-        // test purpose
         /*ivProfileImage.setOnClickListener {
             //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
             //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
