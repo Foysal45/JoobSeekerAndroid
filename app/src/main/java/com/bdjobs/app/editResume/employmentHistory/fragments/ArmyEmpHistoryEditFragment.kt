@@ -121,6 +121,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun updateData() {
+        clArmyEmpHistory.clearFocus()
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateArmyExpsList(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
                 txtBANo = et_ba_no.getString(), comboBANo = et_ba_type.getString(), comboArms = et_arms.getString(), comboRank = et_ranks.getString(), comboType = et_type.getString(),
