@@ -26,5 +26,6 @@ interface HomeCommunicator {
     fun goToShortListedFragment(deadline:Int)
     fun setShortListFilter(filter:String)
     fun getShortListFilter():String
+    fun gotoTimesEmailedResume(times_last : Boolean)
 
 }

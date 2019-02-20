@@ -60,7 +60,6 @@ class AppliedJobsFragment : Fragment() {
 
     private fun initializeViews() {
         time = appliedJobsCommunicator.getTime()
-
         appliedJobsAdapter = AppliedJobsAdapter(activity)
         appliedJobsRV!!.adapter = appliedJobsAdapter
         appliedJobsRV!!.setHasFixedSize(true)

@@ -21,6 +21,7 @@ import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
@@ -41,6 +42,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
+    override fun gotoTimesEmailedResume(times_last: Boolean) {
+        startActivity<ManageResumeActivity>(
+                "from" to "timesEmailedResume",
+                "time_last" to times_last
+
+        )
+    }
+
     override fun setShortListFilter(filter: String) {
         this.shortListFilter = filter
     }

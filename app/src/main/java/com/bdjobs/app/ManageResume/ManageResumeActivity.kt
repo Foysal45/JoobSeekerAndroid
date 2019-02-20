@@ -24,7 +24,9 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
         setContentView(R.layout.activity_manage_resume)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
-        val from = intent.getStringExtra("from")
+        var from = intent.getStringExtra("from")
+     //   from = intent.getStringExtra("timesEmailedResume")
+
         if (from.equalIgnoreCase("uploadResume")) {
             if (Constants.cvUploadStatus.equalIgnoreCase("0") || Constants.cvUploadStatus.equalIgnoreCase("4")) {
                 gotoDownloadResumeFragment()
@@ -33,6 +35,9 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
             }
         }else if(from.equalIgnoreCase("emailResume")){
             gotoTimesResumeFrag()
+        }
+        else if(from.equalIgnoreCase("timesEmailedResume")){
+            transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)
         }
 
 

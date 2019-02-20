@@ -2,7 +2,6 @@ package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,10 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
-import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.R
-import org.jetbrains.anko.toast
+import com.bdjobs.app.Utilities.Constants
 
 class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewHolder>() {
 
@@ -49,6 +45,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                         "Employers\nFollowed" -> communicator.goToFollowedEmployerList("follow")
                         "Interview\nInvitations" -> communicator.goToInterviewInvitation("homePage")
                         "Employers Viewed\nResume" -> communicator.goToEmployerViewedMyResume("vwdMyResume")
+                        "Times Emailed\nResume" -> communicator.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
                         else -> { // Note the block
                             print("not found")
                         }

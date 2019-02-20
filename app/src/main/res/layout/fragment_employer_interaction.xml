@@ -72,7 +72,9 @@
         android:fontFamily="@font/roboto_medium"
         android:text="Employer Interaction with this job application"
         android:textColor="#000000"
+        android:visibility="gone"
         android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,7 +105,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loadingProgressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <TextView
         android:id="@+id/companyTV"
