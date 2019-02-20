@@ -267,8 +267,6 @@
     <string name="title_ORI">Other Relevant Information</string>
     <string name="title_army_emp_his">Employment History (Retired Army Person)</string>
     <string name="resend_code">কোডটি পুনঃরায় পাঠান</string>
-    <string name="hint.special_qualification">Special Qualification</string>
-    <string name="hint.career_summary">Career Summary</string>
     <string name="hint.keywords">Keywords *</string>
     <string name="err_msg_password_not_empty">Password cannot be empty</string>
     <string name="err_msg_password_confirm_not_empty">Confirm Password cannot be empty</string>
@@ -338,4 +336,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="good_example_text">To obtain the job of Marketing Manager with XXX Inc. Coming with three years marketing experience at a college, strong proficiency with various social media platforms and experience with visual designing to help in increasing profitability.</string>
     <string name="job.internship">Internship</string>
     <string name="job.freelance">Freelance</string>
+    <string name="hint.career_summary">Career Summary</string>
+    <string name="hint.special_qualification">Special Qualification</string>
+    <string name="hint.er_keywords">Keywords</string>
 </resources>

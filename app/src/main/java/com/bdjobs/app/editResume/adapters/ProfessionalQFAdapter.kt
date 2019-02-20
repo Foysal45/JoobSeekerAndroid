@@ -11,10 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.ProfessionalDataModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 
@@ -49,6 +46,16 @@ class ProfessionalQFAdapter(arr: java.util.ArrayList<ProfessionalDataModel>, val
         holder.topicsCoverd!!.text = "Location"
         holder.linearLayout3!!.hide()
         holder.linearLayout4!!.hide()
+
+
+        if (dModel.location == "") {
+            holder.moreActionDetails?.hide()
+            holder.imageViewExpand?.hide()
+        } else {
+            holder.moreActionDetails?.show()
+            holder.imageViewExpand?.show()
+        }
+
 
         holder.ivEdit?.setOnClickListener {
             call.passProfessionalData(dModel)

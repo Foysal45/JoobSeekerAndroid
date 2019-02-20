@@ -368,12 +368,17 @@ class ContactEditFragment : Fragment() {
 
     private fun setupViews() {
         ////Present Address---------------Start
-
         prContactDivTIET.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
             activity?.selector("Select Your Division", divisionList.toList()) { _, i ->
                 prContactDivTIET.setText(divisionList[i])
                 contactDivTIL.requestFocus()
+                /*val selected = prContactDivTIET.getString()
+                if (selected != divisionList[i]) {
+                    prContactDistrictTIET.clear()
+                    prContactPostOfficeTIET1.clear()
+                    prContactThanaTIET.clear()
+                }*/
             }
         }
 

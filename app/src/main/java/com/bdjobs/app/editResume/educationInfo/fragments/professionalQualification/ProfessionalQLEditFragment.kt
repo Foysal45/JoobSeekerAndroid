@@ -194,8 +194,20 @@ class ProfessionalQLEditFragment : Fragment() {
             if (date1.after(date2)) {
                 activity.toast("Start Date cannot be greater than End Date!")
             } else {
-                return true
+
+                if (date1 == date2) {
+
+                    activity.toast("Start Date and End Date cannot be equal!")
+                    return false
+
+                } else {
+
+                    return true
+                }
+
+
             }
+
 
         } catch (e: ParseException) {
             e.printStackTrace()
