@@ -82,10 +82,12 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
+        val poID = info?.data?.get(0)?.presentPostOffice
+        val pmPoID = info?.data?.get(0)?.permanentPostOffice
         var presentAddress = if (info?.data?.get(0)?.presentDistrict.equals("")) "" else info?.data?.get(0)?.presentVillage +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
-                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
-                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict)
+                ", " + if (poID != "-2") dataStorage.getLocationNameByID(poID) else "" +
+                ", " + dataStorage.getLocationNameByID(info.data[0]?.presentDistrict)
         //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
 
         val isSameOfPresent = info?.data?.get(0)?.addressType1
@@ -95,8 +97,8 @@ class ContactViewFragment : Fragment() {
             else ->
                 info?.data?.get(0)?.permanentVillage +
                         ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
-                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
-                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict)
+                        ", " + if (pmPoID != "-2") dataStorage.getLocationNameByID(pmPoID) else "" +
+                        ", " + dataStorage.getLocationNameByID(info.data[0]?.permanentDistrict)
             //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
         }
 
