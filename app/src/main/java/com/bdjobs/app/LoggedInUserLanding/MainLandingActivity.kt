@@ -128,7 +128,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
 
     override fun goToInterviewInvitation(from: String) {
-        startActivity<InterviewInvitationBaseActivity>("from" to from)
+        startActivity<InterviewInvitationBaseActivity>("from" to from,"time" to time)
     }
 
 
