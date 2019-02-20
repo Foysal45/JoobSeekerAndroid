@@ -48,11 +48,14 @@ class SpecializationEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        refnameATCTV.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
         etSkillDescription?.addTextChangedListener(TW.CrossIconBehave(etSkillDescription))
         etCaricular?.addTextChangedListener(TW.CrossIconBehave(etCaricular))
+
         doWork()
 
     }
+
 
     override fun onResume() {
         super.onResume()
