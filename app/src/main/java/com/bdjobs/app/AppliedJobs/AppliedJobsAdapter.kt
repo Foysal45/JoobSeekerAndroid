@@ -16,18 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.BackgroundJob.CancelAppliedJob
+import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import java.lang.Exception
+import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
-import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
-import com.google.android.material.snackbar.Snackbar
-import org.jetbrains.anko.toast
 import kotlin.collections.ArrayList
 
 

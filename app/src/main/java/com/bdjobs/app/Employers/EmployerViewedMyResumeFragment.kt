@@ -127,6 +127,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
         ).enqueue(object : Callback<EmpVwdResume> {
             override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
                 toast("${t.message}")
+                shimmer_view_container_employerViewedMyList?.hide()
+                shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
                 }
 
             override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
@@ -135,7 +137,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                 Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
                 Log.d("callAppliURl", "url: ${response.body()?.data}")
-
+                shimmer_view_container_employerViewedMyList?.hide()
+                shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
 
 
                 try {

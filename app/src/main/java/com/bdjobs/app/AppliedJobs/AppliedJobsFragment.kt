@@ -114,10 +114,13 @@ class AppliedJobsFragment : Fragment() {
         ).enqueue(object : Callback<AppliedJobModel> {
             override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
                 toast("${t.message}")
+                shimmer_view_container_appliedJobList?.hide()
+                shimmer_view_container_appliedJobList?.stopShimmerAnimation()
             }
 
             override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
-
+                shimmer_view_container_appliedJobList?.hide()
+                shimmer_view_container_appliedJobList?.stopShimmerAnimation()
 
                 try {
                     Log.d("callAppliURl", "url: ${call?.request()} and ")
