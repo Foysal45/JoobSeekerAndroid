@@ -16,6 +16,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.getAppVersion
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
@@ -62,6 +63,9 @@ class MoreFragment : Fragment() {
     }
 
     private fun onclick() {
+
+        versionInfoTV.text = "v${activity.getAppVersion()}"
+
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
         }

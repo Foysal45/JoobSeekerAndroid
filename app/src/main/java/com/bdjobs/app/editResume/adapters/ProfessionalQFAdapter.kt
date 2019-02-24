@@ -59,7 +59,7 @@ class ProfessionalQFAdapter(arr: java.util.ArrayList<ProfessionalDataModel>, val
         holder.linearLayout4!!.hide()
 
 
-        if (dModel.location == "") {
+        if (dModel?.location == "") {
             holder.moreActionDetails?.hide()
             holder.imageViewExpand?.hide()
         } else {

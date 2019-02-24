@@ -567,3 +567,13 @@ fun TextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = th
     }
 })
 
+fun Activity.getAppVersion():String{
+    val pinfo = packageManager.getPackageInfo(packageName,0)
+    return pinfo.versionName
+}
+
+fun Activity.getAppVersionCode():Int{
+    val pinfo = packageManager.getPackageInfo(packageName,0)
+    return pinfo.versionCode
+}
+

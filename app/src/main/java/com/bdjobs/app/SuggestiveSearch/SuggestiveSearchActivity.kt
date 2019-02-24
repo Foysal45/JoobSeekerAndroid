@@ -120,7 +120,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         when (from) {
             key_jobtitleET -> {
                 suggestiveSearchET?.hint = getString(R.string.hint_keyword)
-                suggestionItems = dataStorage.allSkills
+                suggestionItems = dataStorage.allKeywordSuggestions
             }
             key_loacationET -> {
                 suggestiveSearchET?.hint = getString(R.string.hint_location)

@@ -2057,6 +2057,33 @@ class DataStorage(context: Context) {
     }
 
 
+    val allKeywordSuggestions: Array<String>
+        get() {
+            val OrgTypes = ArrayList<String>()
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT DISTINCT " + DBHelper.KEYWORD_SUGGESYIONS_COL_KEYWORDS + " FROM " + DBHelper.TABLE_NAME_KEYWORD_SUGGESYIONS + " ORDER BY " + DBHelper.KEYWORD_SUGGESYIONS_COL_KEYWORDS
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
+
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
+
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.KEYWORD_SUGGESYIONS_COL_KEYWORDS)))
+
+                        cursor.moveToNext()
+                    }
+                }
+                dbHelper.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return OrgTypes.toTypedArray()
+        }
 
 
 }
