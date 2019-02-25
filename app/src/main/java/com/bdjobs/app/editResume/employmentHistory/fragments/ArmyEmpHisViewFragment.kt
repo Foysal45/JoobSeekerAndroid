@@ -100,7 +100,7 @@ class ArmyEmpHisViewFragment : Fragment() {
                             noData = true
                             nsArmyEmp.hide()
                             tv_no_data.text = respo?.message.toString()
-                            tv_no_data.show()
+                            //tv_no_data.show()
                             fab_eh_army.show()
                             fab_eh_army.setImageResource(R.drawable.ic_add_white)
                         }
