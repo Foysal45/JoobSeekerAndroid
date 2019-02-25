@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.*
 import retrofit2.Call
@@ -48,35 +49,35 @@ class HotJobsFragmentNew : Fragment() {
             }
 
             override fun onResponse(call: Call<HotJobs>, response: Response<HotJobs>) {
-                Log.d("hehe", response.body().toString())
-                if (response.isSuccessful) {
-                    hotjobList_RV?.adapter = hotjobsAdapterNew
-                    hotjobList_RV?.setHasFixedSize(true)
-                    Log.d("initPag", response.body()?.data?.size.toString())
-                    hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                    hotjobsAdapterNew?.removeAll()
-                    hotjobsAdapterNew?.addAll(response.body()?.data as List<HotJobsData>)
+                try {
+                    Log.d("hehe", response.body().toString())
+                    if (response.isSuccessful) {
+                        hotjobList_RV?.adapter = hotjobsAdapterNew
+                        hotjobList_RV?.setHasFixedSize(true)
+                        Log.d("initPag", response.body()?.data?.size.toString())
+                        hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                        hotjobsAdapterNew?.removeAll()
+                        hotjobsAdapterNew?.addAll(response.body()?.data as List<HotJobsData>)
 
+                    }
+
+                    if (response.body()?.data?.size?.toString()?.toInt()!! > 1) {
+                        val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Jobs"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    } else {
+                        val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Job"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    }
+
+                    hotjobList_RV?.show()
+                    favCountTV?.show()
+                    shimmer_view_container_hotJobList?.hide()
+                    shimmer_view_container_hotJobList?.stopShimmerAnimation()
+                } catch (e: Exception) {
+                    logException(e)
                 }
-
-                if (response.body()?.data?.size?.toString()?.toInt()!! > 1) {
-                    val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Jobs"
-                    favCountTV?.text = Html.fromHtml(styledText)
-                } else {
-                    val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Job"
-                    favCountTV?.text = Html.fromHtml(styledText)
-                }
-
-                hotjobList_RV?.show()
-                favCountTV?.show()
-                shimmer_view_container_hotJobList?.hide()
-                shimmer_view_container_hotJobList?.stopShimmerAnimation()
-
             }
-
         })
-
     }
-
 
 }

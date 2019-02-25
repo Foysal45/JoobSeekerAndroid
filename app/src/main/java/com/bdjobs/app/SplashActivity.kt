@@ -1,10 +1,12 @@
 package com.bdjobs.app
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -38,6 +40,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.security.MessageDigest
+import android.os.Build
+import android.hardware.usb.UsbDevice.getDeviceId
+import android.net.wifi.WifiManager
+import android.telephony.TelephonyManager
+import android.text.TextUtils
+import android.util.DisplayMetrics
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -69,8 +79,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
         if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            val request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE).build()
+        ) {
+            val request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
 
             request.send()
 
@@ -128,14 +138,18 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {
 
-                    if (response?.body()?.messageType == "1") {
-                        if (response.body()?.update == "1") {
-                            downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
+                    try {
+                        if (response?.body()?.messageType == "1") {
+                            if (response.body()?.update == "1") {
+                                downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
+                            } else {
+                                goToNextActivity()
+                            }
                         } else {
                             goToNextActivity()
                         }
-                    } else {
-                        goToNextActivity()
+                    } catch (e: Exception) {
+                        logException(e)
                     }
                 }
 
@@ -152,21 +166,25 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             }
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                if (response?.isSuccessful!!) {
-                    debug("getDbInfo: server contacted and has file")
-                    val writtenToDisk = writeResponseBodyToDisk(response?.body()!!)
-                    debug("getDbInfo: file download was a success? $writtenToDisk")
+                try {
+                    if (response?.isSuccessful!!) {
+                        debug("getDbInfo: server contacted and has file")
+                        val writtenToDisk = writeResponseBodyToDisk(response?.body()!!)
+                        debug("getDbInfo: file download was a success? $writtenToDisk")
 
-                    if (writtenToDisk) {
-                        pref?.edit {
-                            putString(key_db_update, updateDate)
+                        if (writtenToDisk) {
+                            pref?.edit {
+                                putString(key_db_update, updateDate)
+                            }
                         }
-                    }
-                    goToNextActivity()
+                        goToNextActivity()
 
-                } else {
-                    debug("getDbInfo: server contact failed")
-                    goToNextActivity()
+                    } else {
+                        debug("getDbInfo: server contact failed")
+                        goToNextActivity()
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
 
@@ -174,21 +192,25 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     fun goToNextActivity() {
-        Log.d("XZXfg", "goToNextActivity :${bdjobsUserSession?.isLoggedIn!!}")
-        if (!bdjobsUserSession?.isLoggedIn!!) {
-            if (!isFinishing) {
-                startActivity<GuestUserJobSearchActivity>()
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
-            }
-        } else {
-            /* val databaseSync = DatabaseSync(context = this@SplashActivity)
-             databaseSync.insertDataAndGoToHomepage()*/
+        try {
+            Log.d("XZXfg", "goToNextActivity :${bdjobsUserSession?.isLoggedIn!!}")
+            if (!bdjobsUserSession?.isLoggedIn!!) {
+                if (!isFinishing) {
+                    startActivity<GuestUserJobSearchActivity>()
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    finish()
+                }
+            } else {
+                /* val databaseSync = DatabaseSync(context = this@SplashActivity)
+                 databaseSync.insertDataAndGoToHomepage()*/
 
-            val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finishAffinity()
+                val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finishAffinity()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -266,4 +288,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         super.onDestroy()
         unregisterReceiver(internetBroadCastReceiver)
     }
+
+
+
 }

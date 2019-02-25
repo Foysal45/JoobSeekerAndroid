@@ -9,11 +9,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.FileInfo
-import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
-import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
-import com.bdjobs.app.API.ModelClasses.StatsModelClass
-import com.bdjobs.app.API.ModelClasses.StatsModelClassData
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.InviteCodeInfo
@@ -26,16 +22,21 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
-import com.bdjobs.app.Utilities.Constants.Companion.key_from
+import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
+import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main_landing.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -128,7 +129,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
 
     override fun goToInterviewInvitation(from: String) {
-        startActivity<InterviewInvitationBaseActivity>("from" to from,"time" to time)
+        startActivity<InterviewInvitationBaseActivity>("from" to from, "time" to time)
     }
 
 
@@ -160,6 +161,12 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
+        if(!isDeviceInfromationSent) {
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
+                val token = instanceIdResult.token
+                sendDeviceInformation(token, this@MainLandingActivity)
+            }
+        }
 
         if (isBlueCollarUser()) {
             getInviteCodeInformation()
@@ -172,6 +179,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
         tetsLog()
     }
+
+
 
     private fun getInviteCodeInformation() {
         doAsync {
@@ -385,7 +394,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                                         personalInfo.equalIgnoreCase("True") &&
                                         skills.equalIgnoreCase("True")
                                 ) {
-                                    Log.d("getUserStatus","everything is filled up")
+                                    Log.d("getUserStatus", "everything is filled up")
                                 } else {
                                     showCategoryDialog(
                                             response.body()!!.data[0].name,
@@ -510,6 +519,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
         }
     }
+
     private fun getIsCvUploaded() {
         ApiServiceMyBdjobs.create().getCvFileAvailable(
                 userID = session.userId,
@@ -523,7 +533,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
             override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
                 //toast("${response.body()?.statuscode}")
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     cvUpload = response.body()?.statuscode!!
                     Constants.cvUploadStatus = cvUpload
                     Log.d("value", "val " + cvUpload)
