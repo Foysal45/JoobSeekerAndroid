@@ -102,132 +102,140 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     private fun loadFirstPage(activityDate : String) {
 
-        viewedMyResumeRV.hide()
-        favCountTV.hide()
-        shimmer_view_container_employerViewedMyList.show()
-        shimmer_view_container_employerViewedMyList.startShimmerAnimation()
+        try {
+            viewedMyResumeRV.hide()
+            favCountTV.hide()
+            shimmer_view_container_employerViewedMyList.show()
+            shimmer_view_container_employerViewedMyList.startShimmerAnimation()
 
 
 
-        ApiServiceMyBdjobs.create().getEmpVwdMyResume(
-                userId = bdjobsUserSession.userId,
-                decodeId = bdjobsUserSession.decodId,
-                pageNumber = pgNo.toString(),
-                itemsPerPage = "10",
-                isActivityDate = activityDate,
-                AppsDate = "1"
+            ApiServiceMyBdjobs.create().getEmpVwdMyResume(
+                    userId = bdjobsUserSession.userId,
+                    decodeId = bdjobsUserSession.decodId,
+                    pageNumber = pgNo.toString(),
+                    itemsPerPage = "10",
+                    isActivityDate = activityDate,
+                    AppsDate = "1"
 
-            /*    userId = "241028",
-                decodeId = "T8B8Rx",
-                pageNumber = "1",
-                itemsPerPage = "10",
-                isActivityDate = "1",
-                AppsDate = ""*/
+                /*    userId = "241028",
+                    decodeId = "T8B8Rx",
+                    pageNumber = "1",
+                    itemsPerPage = "10",
+                    isActivityDate = "1",
+                    AppsDate = ""*/
 
-        ).enqueue(object : Callback<EmpVwdResume> {
-            override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
-                toast("${t.message}")
-                shimmer_view_container_employerViewedMyList?.hide()
-                shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
-                }
-
-            override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
-                Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
-                        "de-" + bdjobsUserSession.decodId!! )
-
-                Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
-                Log.d("callAppliURl", "url: ${response.body()?.data}")
-                shimmer_view_container_employerViewedMyList?.hide()
-                shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
-
-
-                try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
-                    Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
-                    TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                    var totalRecords = response.body()?.common?.totalNumberOfItems
-                    if (!response?.body()?.data.isNullOrEmpty()) {
-                        Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
-                        viewedMyResumeRV!!.visibility = View.VISIBLE
-                        var value = response.body()?.data
-                        employerViewedMyResumeAdapter?.removeAll()
-                        employerViewedMyResumeAdapter?.addAll(value as List<EmpVwdResumeData>)
-
-                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                            Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                            employerViewedMyResumeAdapter?.addLoadingFooter()
-                        } else {
-                            Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                            isLastPages = true
-                        }
-
-
-                        if (totalRecords?.toInt()!! > 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
-                            favCountTV?.text = Html.fromHtml(styledText)
-                        } else if (totalRecords?.toInt()!! <= 1 || (totalRecords.toInt()!! == null)) {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employer viewed my Resume"
-                            favCountTV?.text = Html.fromHtml(styledText)
-                        }
-
-
+            ).enqueue(object : Callback<EmpVwdResume> {
+                override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
+                    toast("${t.message}")
+                    shimmer_view_container_employerViewedMyList?.hide()
+                    shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
                     }
 
-                    viewedMyResumeRV?.show()
-                    favCountTV?.show()
+                override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
+                    Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
+                            "de-" + bdjobsUserSession.decodId!! )
+
+                    Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
+                    Log.d("callAppliURl", "url: ${response.body()?.data}")
                     shimmer_view_container_employerViewedMyList?.hide()
                     shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
 
-                } catch (exception: Exception) {
-                    Log.d("issue", exception.toString())
 
-                }
-                   }
+                    try {
+                        Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
+                        Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
+                        TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                        var totalRecords = response.body()?.common?.totalNumberOfItems
+                        if (!response?.body()?.data.isNullOrEmpty()) {
+                            Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
+                            viewedMyResumeRV!!.visibility = View.VISIBLE
+                            var value = response.body()?.data
+                            employerViewedMyResumeAdapter?.removeAll()
+                            employerViewedMyResumeAdapter?.addAll(value as List<EmpVwdResumeData>)
 
-        })
+                            if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                                Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                                employerViewedMyResumeAdapter?.addLoadingFooter()
+                            } else {
+                                Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                                isLastPages = true
+                            }
+
+
+                            if (totalRecords?.toInt()!! > 1) {
+                                val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
+                                favCountTV?.text = Html.fromHtml(styledText)
+                            } else if (totalRecords?.toInt()!! <= 1 || (totalRecords.toInt()!! == null)) {
+                                val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employer viewed my Resume"
+                                favCountTV?.text = Html.fromHtml(styledText)
+                            }
+
+
+                        }
+
+                        viewedMyResumeRV?.show()
+                        favCountTV?.show()
+                        shimmer_view_container_employerViewedMyList?.hide()
+                        shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+
+                    } catch (exception: Exception) {
+                        Log.d("issue", exception.toString())
+
+                    }
+                       }
+
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
 
 
     }
 
     private fun loadNextPage(activityDate : String) {
-        ApiServiceMyBdjobs.create().getEmpVwdMyResume(
-                userId = bdjobsUserSession.userId,
-                decodeId = bdjobsUserSession.decodId,
-                pageNumber = pgNo.toString(),
-                itemsPerPage = "10",
-                isActivityDate = activityDate,
-                AppsDate = ""
+        try {
+            ApiServiceMyBdjobs.create().getEmpVwdMyResume(
+                    userId = bdjobsUserSession.userId,
+                    decodeId = bdjobsUserSession.decodId,
+                    pageNumber = pgNo.toString(),
+                    itemsPerPage = "10",
+                    isActivityDate = activityDate,
+                    AppsDate = ""
 
 
-        ).enqueue(object : Callback<EmpVwdResume> {
-            override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
-                toast("${t.message}")
-                  }
+            ).enqueue(object : Callback<EmpVwdResume> {
+                override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
+                    toast("${t.message}")
+                      }
 
-            override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
+                override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
 
-                try {
-                    TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                    employerViewedMyResumeAdapter?.removeLoadingFooter()
-                    isLoadings = false
+                    try {
+                        TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                        employerViewedMyResumeAdapter?.removeLoadingFooter()
+                        isLoadings = false
 
-                    employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
+                        employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
 
 
-                    if (pgNo != TOTAL_PAGES)
-                        employerViewedMyResumeAdapter?.addLoadingFooter()
-                    else {
-                        isLastPages = true
+                        if (pgNo != TOTAL_PAGES)
+                            employerViewedMyResumeAdapter?.addLoadingFooter()
+                        else {
+                            isLastPages = true
+                        }
+
+                    } catch (e: Exception) {
+                        logException(e)
                     }
-
-                } catch (e: Exception) {
-                    logException(e)
-                }
-                    }
+                        }
 
 
 
-        })
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
 
 
     }

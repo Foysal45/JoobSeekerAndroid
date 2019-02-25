@@ -20,6 +20,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_upcoming_training.*
 import org.jetbrains.anko.toast
@@ -104,50 +105,54 @@ class UpcomingTrainingFragment : Fragment() {
     }
 
     private fun loadTrainingList(trainid: String) {
-        trainListRV?.hide()
-        shimmer_view_container_trainingList?.show()
-        shimmer_view_container_trainingList?.startShimmerAnimation()
-        numberTV.text = "0"
-        ApiServiceMyBdjobs.create().getTrainingList(
-                userID = bdjobsUserSession?.userId,
-                decodeID = bdjobsUserSession?.decodId,
-                traingId = trainid,
-                AppsDate = ""
+        try {
+            trainListRV?.hide()
+            shimmer_view_container_trainingList?.show()
+            shimmer_view_container_trainingList?.startShimmerAnimation()
+            numberTV.text = "0"
+            ApiServiceMyBdjobs.create().getTrainingList(
+                    userID = bdjobsUserSession?.userId,
+                    decodeID = bdjobsUserSession?.decodId,
+                    traingId = trainid,
+                    AppsDate = ""
 
-        ).enqueue(object : Callback<TrainingList> {
-            override fun onFailure(call: Call<TrainingList>, t: Throwable) {
+            ).enqueue(object : Callback<TrainingList> {
+                override fun onFailure(call: Call<TrainingList>, t: Throwable) {
 
-            }
-
-            override fun onResponse(call: Call<TrainingList>, response: Response<TrainingList>) {
-
-                Log.d("value", "userid = " + bdjobsUserSession?.userId
-                        + "decodeid = " + bdjobsUserSession?.decodId
-                        + "trainid= " + trainid
-                        + "AppsDate= " + ""
-
-
-                )
-
-                if (response.isSuccessful) {
-
-                    trainListRV?.adapter = upcomingTrainingAdapter
-                    trainListRV?.setHasFixedSize(true)
-                    trainListRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                    Log.d("initPag", response.body()?.data?.size.toString())
-                    trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                    upcomingTrainingAdapter?.removeAll()
-                    upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
-                    numberTV.text = response.body()?.data?.size.toString()
                 }
-                trainListRV?.show()
-                shimmer_view_container_trainingList?.hide()
-                shimmer_view_container_trainingList?.stopShimmerAnimation()
+
+                override fun onResponse(call: Call<TrainingList>, response: Response<TrainingList>) {
+
+                    Log.d("value", "userid = " + bdjobsUserSession?.userId
+                            + "decodeid = " + bdjobsUserSession?.decodId
+                            + "trainid= " + trainid
+                            + "AppsDate= " + ""
 
 
-            }
+                    )
 
-        })
+                    if (response.isSuccessful) {
+
+                        trainListRV?.adapter = upcomingTrainingAdapter
+                        trainListRV?.setHasFixedSize(true)
+                        trainListRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                        Log.d("initPag", response.body()?.data?.size.toString())
+                        trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                        upcomingTrainingAdapter?.removeAll()
+                        upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
+                        numberTV.text = response.body()?.data?.size.toString()
+                    }
+                    trainListRV?.show()
+                    shimmer_view_container_trainingList?.hide()
+                    shimmer_view_container_trainingList?.stopShimmerAnimation()
+
+
+                }
+
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
 
     }
 

@@ -99,86 +99,90 @@ class AppliedJobsFragment : Fragment() {
 
     private fun loadFirstPage(activityDate: String) {
 
-        appliedJobsRV?.hide()
-        favCountTV?.hide()
-        shimmer_view_container_appliedJobList?.show()
-        shimmer_view_container_appliedJobList?.startShimmerAnimation()
+        try {
+            appliedJobsRV?.hide()
+            favCountTV?.hide()
+            shimmer_view_container_appliedJobList?.show()
+            shimmer_view_container_appliedJobList?.startShimmerAnimation()
 
 
-        ApiServiceMyBdjobs.create().getAppliedJobs(
-                userId = bdjobsUsersession.userId,
-                decodeId = bdjobsUsersession.decodId,
-                isActivityDate = activityDate,
-                pageNumber = pgNo.toString(),
-                itemsPerPage = "20"
-        ).enqueue(object : Callback<AppliedJobModel> {
-            override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-                toast("${t.message}")
-                shimmer_view_container_appliedJobList?.hide()
-                shimmer_view_container_appliedJobList?.stopShimmerAnimation()
-            }
-
-            override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
-                shimmer_view_container_appliedJobList?.hide()
-                shimmer_view_container_appliedJobList?.stopShimmerAnimation()
-
-                try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and ")
-                    TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                    //   TOTAL_PAGES = 5
-                    var totalRecords = response.body()?.common?.totalNumberOfApplication
-                    jobsAppliedSize = totalRecords?.toInt()!!
-                    Log.d("callAppliURl", response.body()?.activity?.toString())
-
-
-
-
-                    if (!response?.body()?.data.isNullOrEmpty()) {
-                        appliedJobsRV!!.visibility = View.VISIBLE
-                        var value = response.body()?.data
-                        appliedJobsAdapter?.removeAll()
-                        appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
-                        appliedData?.addAll(response.body()?.data as ArrayList<AppliedJobModelData>)
-                        appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
-
-                        experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
-                        Log.d("callAppliURlex", experienceList?.size?.toString())
-                        appliedJobsCommunicator.setexperienceList(experienceList!!)
-
-
-                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                            Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                            appliedJobsAdapter?.addLoadingFooter()
-                        } else {
-                            Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                            isLastPages = true
-                        }
-
-                    }
-
-                    /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
-                     favCountTV.text = Html.fromHtml(styledText)*/
-
-                    if (totalRecords?.toInt()!! > 1) {
-                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null) {
-                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    }
-
-
-
-                    appliedJobsRV?.show()
-                    favCountTV?.show()
+            ApiServiceMyBdjobs.create().getAppliedJobs(
+                    userId = bdjobsUsersession.userId,
+                    decodeId = bdjobsUsersession.decodId,
+                    isActivityDate = activityDate,
+                    pageNumber = pgNo.toString(),
+                    itemsPerPage = "20"
+            ).enqueue(object : Callback<AppliedJobModel> {
+                override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
+                    toast("${t.message}")
                     shimmer_view_container_appliedJobList?.hide()
                     shimmer_view_container_appliedJobList?.stopShimmerAnimation()
-                } catch (e: Exception) {
-                    logException(e)
                 }
-            }
 
-        })
+                override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
+                    shimmer_view_container_appliedJobList?.hide()
+                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+
+                    try {
+                        Log.d("callAppliURl", "url: ${call?.request()} and ")
+                        TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                        //   TOTAL_PAGES = 5
+                        var totalRecords = response.body()?.common?.totalNumberOfApplication
+                        jobsAppliedSize = totalRecords?.toInt()!!
+                        Log.d("callAppliURl", response.body()?.activity?.toString())
+
+
+
+
+                        if (!response?.body()?.data.isNullOrEmpty()) {
+                            appliedJobsRV!!.visibility = View.VISIBLE
+                            var value = response.body()?.data
+                            appliedJobsAdapter?.removeAll()
+                            appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
+                            appliedData?.addAll(response.body()?.data as ArrayList<AppliedJobModelData>)
+                            appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
+
+                            experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
+                            Log.d("callAppliURlex", experienceList?.size?.toString())
+                            appliedJobsCommunicator.setexperienceList(experienceList!!)
+
+
+                            if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                                Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                                appliedJobsAdapter?.addLoadingFooter()
+                            } else {
+                                Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                                isLastPages = true
+                            }
+
+                        }
+
+                        /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
+                         favCountTV.text = Html.fromHtml(styledText)*/
+
+                        if (totalRecords?.toInt()!! > 1) {
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null) {
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        }
+
+
+
+                        appliedJobsRV?.show()
+                        favCountTV?.show()
+                        shimmer_view_container_appliedJobList?.hide()
+                        shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     fun addExp(r: AppliedJobModelExprience) {
@@ -194,44 +198,48 @@ class AppliedJobsFragment : Fragment() {
     }
 
     private fun loadNextPage(activityDate: String) {
-        ApiServiceMyBdjobs.create().getAppliedJobs(
-                userId = bdjobsUsersession.userId,
-                decodeId = bdjobsUsersession.decodId,
-                isActivityDate = activityDate,
-                pageNumber = pgNo.toString(),
-                itemsPerPage = "20"
-        ).enqueue(object : Callback<AppliedJobModel> {
-            override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-                toast("${t.message}")
-            }
-
-            override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
-
-                try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
-                    Log.d("callAppliURl", response.body()?.data.toString())
-                    TOTAL_PAGES = TOTAL_PAGES?.plus(1)
-
-                    //response.body()?.common?.totalpages?.toInt()
-                    appliedJobsAdapter?.removeLoadingFooter()
-                    isLoadings = false
-
-                    appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
-
-
-                    if (pgNo != TOTAL_PAGES)
-                        appliedJobsAdapter?.addLoadingFooter()
-                    else {
-                        isLastPages = true
-                    }
-                } catch (e: Exception) {
-                    logException(e)
+        try {
+            ApiServiceMyBdjobs.create().getAppliedJobs(
+                    userId = bdjobsUsersession.userId,
+                    decodeId = bdjobsUsersession.decodId,
+                    isActivityDate = activityDate,
+                    pageNumber = pgNo.toString(),
+                    itemsPerPage = "20"
+            ).enqueue(object : Callback<AppliedJobModel> {
+                override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
+                    toast("${t.message}")
                 }
 
+                override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
-            }
+                    try {
+                        Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
+                        Log.d("callAppliURl", response.body()?.data.toString())
+                        TOTAL_PAGES = TOTAL_PAGES?.plus(1)
 
-        })
+                        //response.body()?.common?.totalpages?.toInt()
+                        appliedJobsAdapter?.removeLoadingFooter()
+                        isLoadings = false
+
+                        appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
+
+
+                        if (pgNo != TOTAL_PAGES)
+                            appliedJobsAdapter?.addLoadingFooter()
+                        else {
+                            isLastPages = true
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+
+
+                }
+
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     fun scrollToUndoPosition(position: Int) {
