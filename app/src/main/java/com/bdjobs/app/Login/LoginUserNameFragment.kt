@@ -278,10 +278,10 @@ class LoginUserNameFragment : Fragment() {
                 val heightDiff = rootView.rootView.height - (r.bottom - r.top)
 
                 if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
-                    footerIMGV.hide()
+                    footerIMGV?.hide()
                 } else {
                     //ok now we know the keyboard is down...
-                    footerIMGV.show()
+                    footerIMGV?.show()
 
                 }
             } catch (e: Exception) {

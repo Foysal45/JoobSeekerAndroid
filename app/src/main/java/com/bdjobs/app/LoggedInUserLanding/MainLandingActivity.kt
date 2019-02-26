@@ -29,6 +29,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
+import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -519,7 +520,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 startActivity<PersonalInfoActivity>("name" to "null", "personal_info_edit" to "addDirect")
             }
             "experience" -> {
-                startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
+                //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
+                startActivity<OtherInfoBaseActivity>("name" to "null", "specialization_info_add" to "addDirect")
             }
             "education" -> {
                 startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")

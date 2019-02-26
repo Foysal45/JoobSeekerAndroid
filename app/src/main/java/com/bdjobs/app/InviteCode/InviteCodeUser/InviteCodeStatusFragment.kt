@@ -17,6 +17,7 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
+import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -295,7 +296,8 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
                 activity?.startActivity<PersonalInfoActivity>("name" to "null", "personal_info_edit" to "addDirect")
             }
             "experience" -> {
-                   activity?.startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
+                   //activity?.startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
+                activity?.startActivity<OtherInfoBaseActivity>("name" to "null", "specialization_info_add" to "addDirect")
             }
             "education" -> {
                    activity?.startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")
