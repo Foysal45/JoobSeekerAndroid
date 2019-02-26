@@ -1,20 +1,18 @@
 package com.bdjobs.app.Employers
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.EmpVwdResume
 import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
 import com.bdjobs.app.Jobs.PaginationScrollListener
-
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
@@ -25,7 +23,6 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 
 class EmployerViewedMyResumeFragment : Fragment() {

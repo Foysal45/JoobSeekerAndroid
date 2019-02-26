@@ -1,6 +1,5 @@
 package com.bdjobs.app.AppliedJobs
 
-import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 
 interface AppliedJobsCommunicator {

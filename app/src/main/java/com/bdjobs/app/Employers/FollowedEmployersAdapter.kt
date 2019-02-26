@@ -2,24 +2,23 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.content.Context
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.google.android.material.button.MaterialButton
-import android.text.Html
-import android.util.Log
-import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
-import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
-import com.bdjobs.app.Databases.Internal.BdjobsDB
 import org.jetbrains.anko.toast
-import java.lang.Exception
 
 /*=============================================================================
  |
