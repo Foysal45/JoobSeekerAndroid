@@ -48,7 +48,7 @@ class SpecializationEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
-        refnameATCTV.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
+        refnameATCTV?.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
         etSkillDescription?.addTextChangedListener(TW.CrossIconBehave(etSkillDescription))
         etCaricular?.addTextChangedListener(TW.CrossIconBehave(etCaricular))
 
@@ -79,9 +79,9 @@ class SpecializationEditFragment : Fragment() {
 
     private fun clearEditText() {
 
-        etSkillDescription.clearText()
-        etCaricular.clearText()
-        refnameATCTV.clearText()
+        etSkillDescription?.clearText()
+        etCaricular?.clearText()
+        refnameATCTV?.clearText()
     }
 
 
@@ -96,8 +96,8 @@ class SpecializationEditFragment : Fragment() {
 
         }
 
-        etSkillDescription.setText(data.description)
-        etCaricular.setText(data.extracurricular)
+        etSkillDescription?.setText(data.description)
+        etCaricular?.setText(data.extracurricular)
 
 
     }
@@ -129,7 +129,7 @@ class SpecializationEditFragment : Fragment() {
                 if (!idArr.contains(workSkillID))
                     addChip(refnameATCTV.getString())
                 else {
-                    refnameATCTV.closeKeyboard(activity)
+                    refnameATCTV?.closeKeyboard(activity)
                     activity.toast("Experience already added")
                 }
                 skillTIL.hideError()
@@ -137,8 +137,8 @@ class SpecializationEditFragment : Fragment() {
                 addChip(refnameATCTV.getString())
                 d("specialization test Array size : ${idArr.size} and $skills and id : $id")
                 isEmpty = true
-                skillTIL.isErrorEnabled = true
-                skillTIL.hideError()
+                skillTIL?.isErrorEnabled = true
+                skillTIL?.hideError()
             }
         }
 

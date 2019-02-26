@@ -34,7 +34,7 @@ class WCSocialInfoFragment : Fragment() {
 
     private fun onClick(){
 
-        enterInfoButton.setOnClickListener {
+        enterInfoButton?.setOnClickListener {
 
             registrationCommunicator.wcGoToStepName()
            /* registrationCommunicator.setProgreesBar()*/
@@ -42,34 +42,34 @@ class WCSocialInfoFragment : Fragment() {
 
         }
 
-        wcSupportTextView.setOnClickListener {
+        wcSupportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        wcHelplineLayout.setOnClickListener {
+        wcHelplineLayout?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
 
-        google_button.setOnClickListener {
+        google_button?.setOnClickListener {
 
             /*   registrationCommunicator.clearData()*/
             registrationCommunicator.regWithGoogle()
 
         }
 
-        facebook_button.setOnClickListener {
+        facebook_button?.setOnClickListener {
 
             /*  registrationCommunicator.clearData()*/
             registrationCommunicator.regWithFacebook()
 
         }
 
-        linkedIn_button.setOnClickListener {
+        linkedIn_button?.setOnClickListener {
 
             /*  registrationCommunicator.clearData()*/
             registrationCommunicator.regWithLinkedIn()

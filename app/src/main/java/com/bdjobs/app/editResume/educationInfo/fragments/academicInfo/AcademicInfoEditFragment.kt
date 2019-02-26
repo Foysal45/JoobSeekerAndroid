@@ -374,13 +374,13 @@ class AcademicInfoEditFragment : Fragment() {
         addTextChangedListenerMark(marksTIET, marksTIL)
         addTextChangedListenerMark(cgpaTIET, cGpaTIL)
         addTextChangedListenerMark(etScaleTIET, scaleTIL)
-        majorSubACTV.easyOnTextChangedListener { charSequence ->
+        majorSubACTV?.easyOnTextChangedListener { charSequence ->
 
             validateACTV(charSequence.toString(), majorSubACTV, mejorTIL)
 
         }
 
-        instituteNameACTV.easyOnTextChangedListener { charSequence ->
+        instituteNameACTV?.easyOnTextChangedListener { charSequence ->
 
             validateACTV(charSequence.toString(), instituteNameACTV, instituteTIL)
 
@@ -400,12 +400,12 @@ class AcademicInfoEditFragment : Fragment() {
         etPassignYear?.addTextChangedListener(TW.CrossIconBehave(etPassignYear))
 
 
-        majorSubACTV.addTextChangedListener(TW.CrossIconBehaveACTV(majorSubACTV))
-        instituteNameACTV.addTextChangedListener(TW.CrossIconBehaveACTV(instituteNameACTV))
+        majorSubACTV?.addTextChangedListener(TW.CrossIconBehaveACTV(majorSubACTV))
+        instituteNameACTV?.addTextChangedListener(TW.CrossIconBehaveACTV(instituteNameACTV))
 
 
-        etAchievement.addTextChangedListener(TW.CrossIconBehave(etAchievement))
-        etDuration.addTextChangedListener(TW.CrossIconBehave(etDuration))
+        etAchievement?.addTextChangedListener(TW.CrossIconBehave(etAchievement))
+        etDuration?.addTextChangedListener(TW.CrossIconBehave(etDuration))
 
 
 
@@ -478,32 +478,32 @@ class AcademicInfoEditFragment : Fragment() {
                 }
 
                 if (eduLevel.equalIgnoreCase("6")) {
-                    examTitleTIL.hide()
-                    etExamTitle.hide()
-                    etExamOtherTitle.clear()
-                    examOtherTIL.isErrorEnabled = false
-                    examOtherTIL.show()
-                    etExamOtherTitle.show()
+                    examTitleTIL?.hide()
+                    etExamTitle?.hide()
+                    etExamOtherTitle?.clear()
+                    examOtherTIL?.isErrorEnabled = false
+                    examOtherTIL?.show()
+                    etExamOtherTitle?.show()
                 } else {
-                    examTitleTIL.show()
-                    etExamTitle.show()
-                    examOtherTIL.hide()
-                    etExamOtherTitle.hide()
+                    examTitleTIL?.show()
+                    etExamTitle?.show()
+                    examOtherTIL?.hide()
+                    etExamOtherTitle?.hide()
                 }
 
 
                 if (eduLevel.equalIgnoreCase("-3") || eduLevel.equalIgnoreCase("-2")) {
 
-                    mejorTIL.hide()
-                    majorSubACTV.hide()
+                    mejorTIL?.hide()
+                    majorSubACTV?.hide()
                 } else {
 
 
-                    majorSubACTV.clearText()
-                    mejorTIL.isErrorEnabled = false
-                    majorSubACTV.clearFocus()
-                    mejorTIL.show()
-                    majorSubACTV.show()
+                    majorSubACTV?.clearText()
+                    mejorTIL?.isErrorEnabled = false
+                    majorSubACTV?.clearFocus()
+                    mejorTIL?.show()
+                    majorSubACTV?.show()
 
 
                 }
@@ -522,20 +522,20 @@ class AcademicInfoEditFragment : Fragment() {
                 Log.d("eduLevel", "ExamTitle ${examList[i]}")
                 if (examList[i].equalIgnoreCase("Other")) {
 
-                    examOtherTIL.show()
-                    etExamOtherTitle.show()
+                    examOtherTIL?.show()
+                    etExamOtherTitle?.show()
                     examOtherTIL.isErrorEnabled = false
 
                     if (!isEdit) {
-                        etExamOtherTitle.clear()
-                        examOtherTIL.isErrorEnabled = false
+                        etExamOtherTitle?.clear()
+                        examOtherTIL?.isErrorEnabled = false
 
                     }
 
                     /* bcEduDegreeOtherTIET.visibility = View.VISIBLE*/
                 } else {
-                    examOtherTIL.hide()
-                    etExamOtherTitle.hide()
+                    examOtherTIL?.hide()
+                    etExamOtherTitle?.hide()
 
                 }
 
@@ -586,8 +586,8 @@ class AcademicInfoEditFragment : Fragment() {
                 yearList.add(item.toString())
             }
             activity.selector("Select Year of Passing", yearList.toList()) { _, i ->
-                etPassignYear.setText(yearList[i])
-                acaPassingYearTIL.requestFocus()
+                etPassignYear?.setText(yearList[i])
+                acaPassingYearTIL?.requestFocus()
             }
         }
 
@@ -597,12 +597,12 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun validateLevelofEducation(): Boolean {
         if (etLevelEdu.getString().trim().isEmpty()) {
-            levelEduTIL.isErrorEnabled = true
-            levelEduTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            levelEduTIL?.isErrorEnabled = true
+            levelEduTIL?.error = resources.getString(R.string.field_empty_error_message_common)
             requestFocus(etLevelEdu)
             return false
         } else {
-            levelEduTIL.isErrorEnabled = false
+            levelEduTIL?.isErrorEnabled = false
             return true
         }
 
@@ -616,12 +616,12 @@ class AcademicInfoEditFragment : Fragment() {
         if (examTitleTIL.isVisible) {
 
             if (etExamTitle.getString().trim().isEmpty()) {
-                examTitleTIL.isErrorEnabled = true
-                examTitleTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                examTitleTIL?.isErrorEnabled = true
+                examTitleTIL?.error = resources.getString(R.string.field_empty_error_message_common)
                 requestFocus(etExamTitle)
                 return false
             } else {
-                examTitleTIL.isErrorEnabled = true
+                examTitleTIL?.isErrorEnabled = true
                 return true
             }
 
@@ -635,12 +635,12 @@ class AcademicInfoEditFragment : Fragment() {
     private fun validateExamDegreeTitleOther(): Boolean {
         if (etExamOtherTitle.isVisible) {
             if (etExamOtherTitle.getString().trim().isEmpty()) {
-                examOtherTIL.isErrorEnabled = true
-                examOtherTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                examOtherTIL?.isErrorEnabled = true
+                examOtherTIL?.error = resources.getString(R.string.field_empty_error_message_common)
                 requestFocus(etExamOtherTitle)
                 return false
             } else {
-                examOtherTIL.isErrorEnabled = false
+                examOtherTIL?.isErrorEnabled = false
                 return true
             }
 
@@ -654,12 +654,12 @@ class AcademicInfoEditFragment : Fragment() {
 
         if (majorSubACTV.isVisible) {
             if (majorSubACTV.getString().trim().isEmpty()) {
-                mejorTIL.isErrorEnabled = true
-                mejorTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                mejorTIL?.isErrorEnabled = true
+                mejorTIL?.error = resources.getString(R.string.field_empty_error_message_common)
                 requestFocus(majorSubACTV)
                 return false
             } else {
-                mejorTIL.isErrorEnabled = false
+                mejorTIL?.isErrorEnabled = false
                 return true
             }
 
@@ -671,12 +671,12 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun validateInstituteName(): Boolean {
         if (instituteNameACTV.getString().trim().isEmpty()) {
-            instituteTIL.isErrorEnabled = true
-            instituteTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            instituteTIL?.isErrorEnabled = true
+            instituteTIL?.error = resources.getString(R.string.field_empty_error_message_common)
             requestFocus(instituteNameACTV)
             return false
         } else {
-            instituteTIL.isErrorEnabled = false
+            instituteTIL?.isErrorEnabled = false
             return true
         }
 
@@ -684,12 +684,12 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun validateResult(): Boolean {
         if (etResults.getString().trim().isEmpty()) {
-            resultTIL.isErrorEnabled = true
-            resultTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            resultTIL?.isErrorEnabled = true
+            resultTIL?.error = resources.getString(R.string.field_empty_error_message_common)
             requestFocus(etResults)
             return false
         } else {
-            resultTIL.isErrorEnabled = false
+            resultTIL?.isErrorEnabled = false
             return true
         }
 
@@ -697,12 +697,12 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun validatePassingYear(): Boolean {
         if (etPassignYear.getString().trim().isEmpty()) {
-            acaPassingYearTIL.isErrorEnabled = true
-            acaPassingYearTIL.error = resources.getString(R.string.field_empty_error_message_common)
+            acaPassingYearTIL?.isErrorEnabled = true
+            acaPassingYearTIL?.error = resources.getString(R.string.field_empty_error_message_common)
             requestFocus(etPassignYear)
             return false
         } else {
-            acaPassingYearTIL.isErrorEnabled = false
+            acaPassingYearTIL?.isErrorEnabled = false
             return true
         }
 
@@ -711,8 +711,8 @@ class AcademicInfoEditFragment : Fragment() {
     private fun validateMarks(): Boolean {
         if (marksTIL.isVisible) {
             if (marksTIET.getString().trim().isEmpty()) {
-                marksTIL.isErrorEnabled = true
-                marksTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                marksTIL?.isErrorEnabled = true
+                marksTIL?.error = resources.getString(R.string.field_empty_error_message_common)
                 requestFocus(marksTIET)
                 return false
             } else {
@@ -721,10 +721,10 @@ class AcademicInfoEditFragment : Fragment() {
 
                 if (marks > 100 || marks < 1) {
 
-                    marksTIL.showError("Please enter a valid marks")
+                    marksTIL?.showError("Please enter a valid marks")
 
                 } else {
-                    marksTIL.isErrorEnabled = false
+                    marksTIL?.isErrorEnabled = false
                     return true
                 }
 
@@ -755,22 +755,22 @@ class AcademicInfoEditFragment : Fragment() {
             }
 
             when {
-                etScaleTIET.getString().trim().isEmpty() -> {
-                    scaleTIL.isErrorEnabled = true
-                    scaleTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                etScaleTIET?.getString()!!.trim().isEmpty() -> {
+                    scaleTIL?.isErrorEnabled = true
+                    scaleTIL?.error = resources.getString(R.string.field_empty_error_message_common)
                     requestFocus(etScaleTIET)
                     return false
                 }
                 scale > 10.00 || scale < 1.00 -> {
-                    scaleTIL.isErrorEnabled = true
-                    scaleTIL.error = "Please enter a valid scale"
+                    scaleTIL?.isErrorEnabled = true
+                    scaleTIL?.error = "Please enter a valid scale"
                     requestFocus(etScaleTIET)
                     return false
                 }
                 cgpa > scale -> {
 
                     if (!cgpaTIET.getString().trim().isEmpty()) {
-                        toast("CGPA can not be greater than Scale")
+                        activity.toast("CGPA can not be greater than Scale")
                         return false
                     }
 
@@ -814,13 +814,13 @@ class AcademicInfoEditFragment : Fragment() {
                     cGpaTIL.isErrorEnabled = true
                     cGpaTIL.error = "Please enter valid CGPA"
                     requestFocus(cgpaTIET)
-                    return true
+                    return false
                 }
                 cgpa > scale -> {
 
                     if (!etScaleTIET.getString().trim().isEmpty()) {
 
-                        toast("CGPA can not be greater than Scale")
+                        activity.toast("CGPA can not be greater than Scale")
                         return false
                     }
 
@@ -921,28 +921,28 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun clearEditText() {
-        etLevelEdu.clear()
-        etExamTitle.clear()
-        majorSubACTV.setText("")
-        instituteNameACTV.setText("")
-        etResults.clear()
-        cgpaTIET.clear()
-        etScaleTIET.clear()
-        etPassignYear.clear()
-        etDuration.clear()
-        etAchievement.clear()
-        cbResHide.isChecked = false
-        cbForInstitute.isChecked = false
+        etLevelEdu?.clear()
+        etExamTitle?.clear()
+        majorSubACTV?.setText("")
+        instituteNameACTV?.setText("")
+        etResults?.clear()
+        cgpaTIET?.clear()
+        etScaleTIET?.clear()
+        etPassignYear?.clear()
+        etDuration?.clear()
+        etAchievement?.clear()
+        cbResHide?.isChecked = false
+        cbForInstitute?.isChecked = false
 
 
-        levelEduTIL.isErrorEnabled = false
-        examTitleTIL.isErrorEnabled = false
-        mejorTIL.isErrorEnabled = false
-        instituteTIL.isErrorEnabled = false
-        resultTIL.isErrorEnabled = false
-        acaPassingYearTIL.isErrorEnabled = false
-        majorSubACTV.clearFocus()
-        instituteNameACTV.clearFocus()
+        levelEduTIL?.isErrorEnabled = false
+        examTitleTIL?.isErrorEnabled = false
+        mejorTIL?.isErrorEnabled = false
+        instituteTIL?.isErrorEnabled = false
+        resultTIL?.isErrorEnabled = false
+        acaPassingYearTIL?.isErrorEnabled = false
+        majorSubACTV?.clearFocus()
+        instituteNameACTV?.clearFocus()
 
     }
 
@@ -953,57 +953,57 @@ class AcademicInfoEditFragment : Fragment() {
 
         when (value) {
             100 -> {
-                cbResHide.show()
+                cbResHide?.show()
                 if (cbResHide.isChecked) {
-                    llResultFields.hide()
-                    marksLayout.hide()
-                    gradeLayout.hide()
+                    llResultFields?.hide()
+                    marksLayout?.hide()
+                    gradeLayout?.hide()
                 } else {
-                    llResultFields.show()
-                    gradeLayout.hide()
-                    marksLayout.show()
-                    marksTIET.clear()
-                    marksTIL.isErrorEnabled = false
+                    llResultFields?.show()
+                    gradeLayout?.hide()
+                    marksLayout?.show()
+                    marksTIET?.clear()
+                    marksTIL?.isErrorEnabled = false
                 }
 
             }
             11 -> {
 
-                cbResHide.show()
+                cbResHide?.show()
                 if (cbResHide.isChecked) {
 
-                    llResultFields.hide()
-                    gradeLayout.hide()
-                    marksLayout.hide()
+                    llResultFields?.hide()
+                    gradeLayout?.hide()
+                    marksLayout?.hide()
 
                 } else {
 
 
-                    llResultFields.show()
-                    gradeLayout.show()
-                    marksLayout.hide()
-                    cgpaTIET.clear()
-                    etScaleTIET.clear()
-                    cGpaTIL.isErrorEnabled = false
-                    scaleTIL.isErrorEnabled = false
-                    etScaleTIET.clearFocus()
+                    llResultFields?.show()
+                    gradeLayout?.show()
+                    marksLayout?.hide()
+                    cgpaTIET?.clear()
+                    etScaleTIET?.clear()
+                    cGpaTIL?.isErrorEnabled = false
+                    scaleTIL?.isErrorEnabled = false
+                    etScaleTIET?.clearFocus()
 
 
                 }
             }
             0 -> {
-                cbResHide.hide()
-                llResultFields.hide()
-                marksLayout.hide()
-                gradeLayout.hide()
+                cbResHide?.hide()
+                llResultFields?.hide()
+                marksLayout?.hide()
+                gradeLayout?.hide()
 
             }
 
             else -> {
-                llResultFields.hide()
-                marksLayout.hide()
-                gradeLayout.hide()
-                cbResHide.hide()
+                llResultFields?.hide()
+                marksLayout?.hide()
+                gradeLayout?.hide()
+                cbResHide?.hide()
 
 
             }

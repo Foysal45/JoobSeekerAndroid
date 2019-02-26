@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Concentration/Mejor Group"
+                android:text="Concentration/Mejor GroupConcentration/Mejor GroupConcentration/Mejor GroupConcentration/Mejor GroupConcentration/Mejor Group"
                 android:textColor="#393939"
                 android:textSize="16sp" />
 

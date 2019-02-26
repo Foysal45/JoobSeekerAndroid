@@ -43,7 +43,6 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorPrimary)
             holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorWhite))
         }else {
-
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorWhite)
             holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorPrimary))
 

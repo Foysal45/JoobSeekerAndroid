@@ -264,6 +264,8 @@ class BCEducationFragment : Fragment() {
 
         }
 
+
+
         return !TextUtils.isEmpty(bcEduLevelTIET.getString()) and
                 !TextUtils.isEmpty(bcEduDegreeTIET.getString()) and
                 !TextUtils.isEmpty(bcInstituteNameTIET.getString()) and

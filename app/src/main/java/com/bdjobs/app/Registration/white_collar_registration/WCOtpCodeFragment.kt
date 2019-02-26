@@ -17,10 +17,9 @@ import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
 class WCOtpCodeFragment : Fragment() {
 
 
-
-    private lateinit var registrationCommunicator : RegistrationCommunicator
+    private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var counter: CountDownTimer
-    private lateinit var returnView:View
+    private lateinit var returnView: View
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setTime()
@@ -36,27 +35,26 @@ class WCOtpCodeFragment : Fragment() {
     }
 
 
-    private fun initialization(){
+    private fun initialization() {
 
         registrationCommunicator = activity as RegistrationCommunicator
         wcInfoMobileNumberTV.text = "A code has been sent to ${registrationCommunicator.wcGetMobileNumber()} by SMS, please enter the code."
 
     }
 
-    private fun onClick(){
-
+    private fun onClick() {
 
 
         wcOTPFAButton.setOnClickListener {
 
-            if (TextUtils.isEmpty(wcOTPCodeTIET.getString())) {
+            if (TextUtils.isEmpty(wcOTPCodeTIET?.getString())) {
 
                 wcOTPCodeTIL.showError("Please type the code")
 
 
             } else {
 
-                registrationCommunicator.wcSetOtp(wcOTPCodeTIET.text.toString())
+                registrationCommunicator.wcSetOtp(wcOTPCodeTIET?.text.toString())
                 registrationCommunicator.wcOtpVerify()
 
             }
@@ -91,8 +89,8 @@ class WCOtpCodeFragment : Fragment() {
 
 
     private fun setTime() {
-          wcTimerTV.show()
-           wcResendOtpTV.hide()
+        wcTimerTV.show()
+        wcResendOtpTV.hide()
         counter = object : CountDownTimer(Constants.counterTimeLimit.toLong(), Constants.timer_countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 val second = millisUntilFinished / 1000 % 60
@@ -100,12 +98,12 @@ class WCOtpCodeFragment : Fragment() {
                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
                 val time = String.format("%02d:%02d", minute, second)
 
-               try {
-                   wcTimerTV?.text = time
-               } catch (e:Exception){
+                try {
+                    wcTimerTV?.text = time
+                } catch (e: Exception) {
 
 
-               }
+                }
             }
 
             override fun onFinish() {
@@ -117,5 +115,36 @@ class WCOtpCodeFragment : Fragment() {
             }
         }.start()
     }
+
+
+    /* private fun setTime() {
+         bcTimerTV?.show()
+         bcResendOtpTV?.hide()
+         counter = object : CountDownTimer(Constants.counterTimeLimit.toLong(), Constants.timer_countDownInterval.toLong()) {
+             override fun onTick(millisUntilFinished: Long) {
+                 val second = millisUntilFinished / 1000 % 60
+                 val minute = millisUntilFinished / (1000 * 60) % 60
+                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
+                 val time = String.format("%02d:%02d", minute, second)
+                 try {
+
+                     bcTimerTV?.text = time
+                 }catch (e:Exception){
+
+                 }
+             }
+
+             override fun onFinish() {
+
+                 bcTimerTV?.hide()
+                 bcResendOtpTV?.show()
+                 bcTimerIconIV?.hide()
+
+             }
+         }.start()
+     }*/
+
+
+
 
 }

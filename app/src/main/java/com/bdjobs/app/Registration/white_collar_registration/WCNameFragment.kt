@@ -47,12 +47,12 @@ class WCNameFragment : Fragment() {
 
             if (usernameTIET.length() == 0 || usernameTIET.length() < 1) {
 
-                userNameTIL.showError("Name can not be empty")
+                userNameTIL?.showError("Name can not be empty")
 
                 } else {
 
                     registrationCommunicator.wcGoToStepGender()
-                    registrationCommunicator.nameSelected(usernameTIET.text.toString())
+                registrationCommunicator.nameSelected(usernameTIET?.text.toString())
                 }
 
 
@@ -73,7 +73,7 @@ class WCNameFragment : Fragment() {
 
 
 
-        usernameTIET.easyOnTextChangedListener { charSequence ->
+        usernameTIET?.easyOnTextChangedListener { charSequence ->
             nameValidityCheck(charSequence.toString())
         }
 
@@ -84,12 +84,12 @@ class WCNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(mobileNumber) -> {
-                userNameTIL.showError("Name can not be empty")
+                userNameTIL?.showError("Name can not be empty")
                 requestFocus(usernameTIET)
                 return false
             }
 
-            else -> userNameTIL.hideError()
+            else -> userNameTIL?.hideError()
         }
         return true
     }
@@ -104,11 +104,8 @@ class WCNameFragment : Fragment() {
 
         if (!TextUtils.isEmpty(registrationCommunicator.getName())){
 
-            usernameTIET.setText(registrationCommunicator.getName())
+            usernameTIET?.setText(registrationCommunicator.getName())
         }
-
-
-
 
     }
 
