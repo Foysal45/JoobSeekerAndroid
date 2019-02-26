@@ -56,18 +56,18 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
                 resultId.equalIgnoreCase("10") ||
                 resultId.equalIgnoreCase("12")) {
             holder.tvAcaResult!!.show()
-            holder.tvAcaResult!!.text = dModel.result
+            holder.tvAcaResult?.text = dModel.result
         } else {
             when {
-                dModel.marks.equals("0") && dModel.scale.equals("0") -> holder.tvAcaResult!!.hide()
+                dModel.marks.equals("0") && dModel.scale.equals("0") -> holder.tvAcaResult?.hide()
                 !dModel.marks.equals("0") && !dModel.scale.equals("0") -> {
-                    holder.tvAcaResult!!.show()
-                    holder.tvAcaResult!!.text = "CGPA ${dModel.marks} 0ut of ${dModel.scale}"
+                    holder.tvAcaResult?.show()
+                    holder.tvAcaResult?.text = "CGPA ${dModel.marks} 0ut of ${dModel.scale}"
 
                 }
                 !dModel.marks.equals("0") && dModel.scale.equals("0") -> {
-                    holder.tvAcaResult!!.show()
-                    holder.tvAcaResult!!.text = "Marks ${dModel.marks}%"
+                    holder.tvAcaResult?.show()
+                    holder.tvAcaResult?.text = "Marks ${dModel.marks}%"
 
                 }
 

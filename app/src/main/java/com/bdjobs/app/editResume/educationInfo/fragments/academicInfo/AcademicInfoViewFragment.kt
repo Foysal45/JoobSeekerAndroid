@@ -68,7 +68,7 @@ class AcademicInfoViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        rv_aca_view.hide()
+        rv_aca_view?.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetAcademicInfo> {
@@ -105,7 +105,7 @@ class AcademicInfoViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_JobList.show()
+            shimmer_view_container_JobList?.show()
             shimmer_view_container_JobList.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -115,7 +115,7 @@ class AcademicInfoViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_JobList.hide()
+            shimmer_view_container_JobList?.hide()
             shimmer_view_container_JobList.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()

@@ -47,7 +47,6 @@ class ReferenceEditFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
         eduCB.setTitle(getString(R.string.title_reference))
@@ -285,14 +284,14 @@ class ReferenceEditFragment : Fragment() {
         val data = eduCB.getReferenceData()
         hReferenceID = data.refId.toString()
         selectChip(cgRelation, data.relation!!)
-        etRefName.setText(data.name)
-        etRefOrganization.setText(data.organization)
-        etRefDesignation.setText(data.designation)
-        etRFAddress.setText(data.address)
-        etPhoneRes.setText(data.phoneRes)
-        etRefPhoneOffice.setText(data.phoneOffice)
-        etRefMobile.setText(data.mobile)
-        etRfEmail.setText(data.email)
+        etRefName?.setText(data.name)
+        etRefOrganization?.setText(data.organization)
+        etRefDesignation?.setText(data.designation)
+        etRFAddress?.setText(data.address)
+        etPhoneRes?.setText(data.phoneRes)
+        etRefPhoneOffice?.setText(data.phoneOffice)
+        etRefMobile?.setText(data.mobile)
+        etRfEmail?.setText(data.email)
         disableError()
         /* d("values : ${data.country}")*/
     }

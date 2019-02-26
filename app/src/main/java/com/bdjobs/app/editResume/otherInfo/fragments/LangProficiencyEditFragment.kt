@@ -197,7 +197,7 @@ class LangProficiencyEditFragment : Fragment() {
 
         val data = eduCB.getLanguageData()
         hID = data.lnId.toString()
-        languageTIET.setText(data.language)
+        languageTIET?.setText(data.language)
 
         selectChip(cgReading, data.reading.toString())
         selectChip(cgWriting, data.writing.toString())

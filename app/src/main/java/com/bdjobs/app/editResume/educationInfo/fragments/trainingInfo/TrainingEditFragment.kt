@@ -92,13 +92,13 @@ class TrainingEditFragment : Fragment() {
     private fun preloadedData() {
         val data = eduCB.getTrainingData()
         hTrainingID = data.trId.toString()
-        etTrTitle.setText(data.title)
-        etTrTopic.setText(data.topic)
-        etTrCountry.setText(data.country)
-        etTrTrainingYear.setText(data.year)
-        etTrInstitute.setText(data.institute)
-        etTrLoc.setText(data.location)
-        etTrDuration.setText(data.duration)
+        etTrTitle?.setText(data.title)
+        etTrTopic?.setText(data.topic)
+        etTrCountry?.setText(data.country)
+        etTrTrainingYear?.setText(data.year)
+        etTrInstitute?.setText(data.institute)
+        etTrLoc?.setText(data.location)
+        etTrDuration?.setText(data.duration)
         disableError()
         d("values : ${data.country}")
     }
@@ -121,8 +121,8 @@ class TrainingEditFragment : Fragment() {
             }
             activity.selector("Select Training Year", yearList.toList()) { _, i ->
 
-                etTrTrainingYear.setText(yearList[i])
-                trTrainingYearTIL.requestFocus()
+                etTrTrainingYear?.setText(yearList[i])
+                trTrainingYearTIL?.requestFocus()
 
             }
 
@@ -140,12 +140,6 @@ class TrainingEditFragment : Fragment() {
         }
     }
 
-    /*private fun updateDateInView(year: Int) {
-        val myFormat = "MM/dd/yyyy" // mention the format you need
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
-        yearSelected = true
-        etTrTrainingYear.setText(year.toString())
-    }*/
 
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
@@ -180,22 +174,22 @@ class TrainingEditFragment : Fragment() {
     }
 
     private fun clearEditText() {
-        etTrTitle.clear()
-        etTrTopic.clear()
-        etTrCountry.clear()
-        etTrTrainingYear.clear()
-        etTrInstitute.clear()
-        etTrLoc.clear()
-        etTrDuration.clear()
+        etTrTitle?.clear()
+        etTrTopic?.clear()
+        etTrCountry?.clear()
+        etTrTrainingYear?.clear()
+        etTrInstitute?.clear()
+        etTrLoc?.clear()
+        etTrDuration?.clear()
         disableError()
     }
 
     private fun disableError() {
-        trainingTitleTIL.hideError()
-        trInstituteTIL.hideError()
-        trCountryTIL.hideError()
-        trTrainingYearTIL.hideError()
-        trDurTIL.hideError()
+        trainingTitleTIL?.hideError()
+        trInstituteTIL?.hideError()
+        trCountryTIL?.hideError()
+        trTrainingYearTIL?.hideError()
+        trDurTIL?.hideError()
     }
 
     fun dataDelete() {

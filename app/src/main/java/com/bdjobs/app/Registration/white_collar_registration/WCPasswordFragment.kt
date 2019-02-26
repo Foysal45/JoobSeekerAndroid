@@ -55,11 +55,11 @@ class WCPasswordFragment : Fragment() {
 
         passwordFAButton.setOnClickListener {
 
-            if (passwordValidityCheck(passwordTIET.text.toString())){
+            if (passwordValidityCheck(passwordTIET?.text.toString())) {
 
 
-                if (confirmPassValidityCheck(confirmPassTIET.text.toString())){
-                    registrationCommunicator.wcSetPassAndConfirmPassword(passwordTIET.text.toString(),confirmPassTIET.text.toString())
+                if (confirmPassValidityCheck(confirmPassTIET?.text.toString())) {
+                    registrationCommunicator.wcSetPassAndConfirmPassword(passwordTIET?.text.toString(), confirmPassTIET?.text.toString())
 
                     /*  registrationCommunicator.wcGoToStepCongratulation()*/
 
@@ -298,21 +298,21 @@ class WCPasswordFragment : Fragment() {
 
     private fun confirmPassValidityCheck(password: String): Boolean {
 
-        Log.d("sdjkgndsg"," pass $password confirmPass ${passwordTIET.text}")
-        Log.d("sdjkgndsg","comparision ${password.equals(passwordTIET.text.toString(),true)}")
+        Log.d("sdjkgndsg", " pass $password confirmPass ${passwordTIET?.text}")
+        Log.d("sdjkgndsg", "comparision ${password.equals(passwordTIET?.text.toString(), true)}")
 
         when {
             TextUtils.isEmpty(password) -> {
-                confirmPassTIL.showError(getString(R.string.field_empty_error_message_common))
+                confirmPassTIL?.showError(getString(R.string.field_empty_error_message_common))
                 requestFocus(confirmPassTIET)
                 return false
             }
-            password.equals(passwordTIET.text.toString(),true) == false -> {
+            password.equals(passwordTIET?.text.toString(), true) == false -> {
                 confirmPassTIL.showError("password not matched")
                 requestFocus(confirmPassTIET)
                 return false
             }
-            else -> confirmPassTIL.hideError()
+            else -> confirmPassTIL?.hideError()
         }
         return true
     }

@@ -40,14 +40,11 @@ class BCOtpCodeFragment : Fragment() {
 
     private fun onClick(){
 
-
-
-
         bcOTPFAButton.setOnClickListener {
 
-            if (bcOTPCodeTIET.text.toString().isNullOrEmpty()) {
+            if (bcOTPCodeTIET?.text.toString().isNullOrEmpty()) {
 
-                bcOTPCodeTIL.showError("কোডটি লিখুন")
+                bcOTPCodeTIL?.showError("কোডটি লিখুন")
 
 
             } else {
@@ -114,16 +111,16 @@ class BCOtpCodeFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(code) -> {
-                bcOTPCodeTIL.showError("কোডটি লিখুন")
+                bcOTPCodeTIL?.showError("কোডটি লিখুন")
                 requestFocus(bcOTPCodeTIET)
                 return false
             }
             code.length < 6 -> {
-                bcOTPCodeTIL.showError("সঠিক কোডটি টাইপ করুন")
+                bcOTPCodeTIL?.showError("সঠিক কোডটি টাইপ করুন")
                 requestFocus(bcOTPCodeTIET)
                 return false
             }
-            else -> bcOTPCodeTIL.hideError()
+            else -> bcOTPCodeTIL?.hideError()
         }
         return true
     }

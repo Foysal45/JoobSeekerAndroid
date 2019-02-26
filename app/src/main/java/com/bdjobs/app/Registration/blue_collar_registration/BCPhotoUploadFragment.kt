@@ -37,26 +37,23 @@ import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.callHelpLine
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
+import com.bdjobs.app.Utilities.logException
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
-import droidninja.filepicker.utils.Orientation
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
 
 
 class BCPhotoUploadFragment : Fragment() {
@@ -109,32 +106,38 @@ class BCPhotoUploadFragment : Fragment() {
                     }
 
                     override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
+                        try {
 
-                        Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
-                        Log.d("PhotoUpload", " response ${response.body()!!.message}")
+                            Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
+                            Log.d("PhotoUpload", " response ${response.body()!!.message}")
+
+                            if (response.body()!!.statuscode.equals("0", true)) {
+
+                                userId = response.body()!!.data[0].userId
+                                decodeId = response.body()!!.data[0].decodId
+                                folderName = response.body()!!.data[0].folderName
+                                folderId = response.body()!!.data[0].folderId
+                                imageName = response.body()!!.data[0].imageName
+                                isResumeUpdate = response.body()!!.data[0].isResumeUpdate
 
 
-                        if (response.body()!!.statuscode.equals("0", true)) {
+                                params.put("Image", encodedString)
+                                params.put("userid", registrationCommunicator.getUserId())
+                                params.put("decodeid", registrationCommunicator.getDecodeId())
+                                params.put("folderName", folderName)
+                                params.put("folderId", folderId)
+                                params.put("imageName", imageName)
+                                params.put("isResumeUpdate", isResumeUpdate)
+                                params.put("status", "upload")
 
-                            userId = response.body()!!.data[0].userId
-                            decodeId = response.body()!!.data[0].decodId
-                            folderName = response.body()!!.data[0].folderName
-                            folderId = response.body()!!.data[0].folderId
-                            imageName = response.body()!!.data[0].imageName
-                            isResumeUpdate = response.body()!!.data[0].isResumeUpdate
+                                makeHTTPCall()
+                            }
+                        } catch (Exc: Exception) {
 
-
-                            params.put("Image", encodedString)
-                            params.put("userid", registrationCommunicator.getUserId())
-                            params.put("decodeid", registrationCommunicator.getDecodeId())
-                            params.put("folderName", folderName)
-                            params.put("folderId", folderId)
-                            params.put("imageName", imageName)
-                            params.put("isResumeUpdate", isResumeUpdate)
-                            params.put("status", "upload")
-
-                            makeHTTPCall()
+                            logException(Exc)
                         }
+
+
                     }
                 })
             }
@@ -179,25 +182,33 @@ class BCPhotoUploadFragment : Fragment() {
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
 
-                val response = String(responseBody)
 
-                Log.d("dgdsgdghj", " response ${response}")
+                try {
+                    val response = String(responseBody)
+                    Log.d("dgdsgdghj", " response ${response}")
 
-                val gson = Gson()
-                val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-                val photoUrl = photoUploadModel.data[0].path
-                Log.d("dgdsgdghj", " $photoUrl")
-                val bdjobsUserSession = BdjobsUserSession(activity)
-                bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
+                    val gson = Gson()
+                    val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
+                    val photoUrl = photoUploadModel.data[0].path
+                    Log.d("dgdsgdghj", " $photoUrl")
+                    val bdjobsUserSession = BdjobsUserSession(activity)
+                    bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
 
-                registrationCommunicator.hideProgressBar()
-                registrationCommunicator.bcGoToStepCongratulation()
+                    registrationCommunicator.hideProgressBar()
+                    registrationCommunicator.bcGoToStepCongratulation()
+
+                } catch (exp: Exception) {
+
+                    logException(exp)
+
+                }
+
 
             }
 
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
                 Log.e("photoAPI", error.message)
-                toast(error.message!!)
+                activity.toast(error.message!!)
             }
         })
     }
