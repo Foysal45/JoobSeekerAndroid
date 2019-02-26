@@ -309,6 +309,7 @@ class ContactEditFragment : Fragment() {
         d("thana : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
         val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
+        d("division : $prDiv")
         prContactDivTIET?.setText(prDiv)
         d("division : ${dataStorage.getDivisionNameByDistrictName(data.presentDistrict.toString())}")
         presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
@@ -350,6 +351,7 @@ class ContactEditFragment : Fragment() {
         } else if (data.presentInsideOutsideBD == "True") {
             selectChip(cgPresent, "Outside Bangladesh")
             presentInOutBD = "1"
+            presentContactCountryTIET.clear()
             presentInsideBangladeshLayout1.hide()
             presentOutsideBangladeshLayout.show()
         }
@@ -361,6 +363,7 @@ class ContactEditFragment : Fragment() {
         } else if (data.permanentInsideOutsideBD == "True") {
             selectChip(cgPermanent, "Outside Bangladesh")
             permanentInOutBD = "1"
+            permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.hide()
             presentOutsideBangladeshLayoutP.show()
         }
@@ -530,20 +533,12 @@ class ContactEditFragment : Fragment() {
         }
 
         permanentContactCountryTIETP.setOnClickListener {
-
-
             val countryList: Array<String> = dataStorage.allCountries
-
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
-
                 permanentContactCountryTIETP.setText(countryList[i])
                 presentContactCountryTILP.requestFocus()
             }
         }
-    }
-
-    private fun checkPrevious(before: String, new: String): Boolean {
-        return before != new
     }
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
@@ -561,6 +556,7 @@ class ContactEditFragment : Fragment() {
                                 "0"
                             }
                             "Outside Bangladesh" -> {
+                                presentContactCountryTIET.clear()
                                 presentInsideBangladeshLayout1.hide()
                                 presentOutsideBangladeshLayout.show()
                                 "1"
@@ -580,6 +576,7 @@ class ContactEditFragment : Fragment() {
                                 "0"
                             }
                             "Outside Bangladesh" -> {
+                                permanentContactCountryTIETP.clear()
                                 presentInsideBangladeshLayout.hide()
                                 presentOutsideBangladeshLayoutP.show()
                                 "1"
