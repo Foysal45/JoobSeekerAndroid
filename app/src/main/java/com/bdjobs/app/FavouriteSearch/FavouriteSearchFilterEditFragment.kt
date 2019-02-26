@@ -56,7 +56,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private var filterName = ""
     private var createdOn: Date? = null
     private var gender = ""
-
+    val genderList:MutableList<String> =ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_favourite_search_filter_edit, container, false)!!
@@ -214,28 +214,47 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(ageRangeCG)
         getDataFromChipGroup(armyCG)
 
+
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                gender += "M,"
+                if("M" !in genderList){
+                    genderList.add("M")
+                }
             } else {
-                gender = gender.replace("M,", "")
+                if("M" in genderList) {
+                    genderList.remove("M")
+                }
             }
+            gender = genderList.joinToString(transform = { it })
         }
 
         femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                gender += "F,"
+                if("F" !in genderList){
+                    genderList.add("F")
+                }
             } else {
-                gender = gender.replace("F,", "")
+                if("F" in genderList) {
+                    genderList.remove("F")
+                }
             }
+            gender = genderList.joinToString(transform = { it })
+
         }
 
         otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                gender += "O,"
+                if("O" !in genderList){
+                    genderList.add("O")
+                }
             } else {
-                gender = gender.replace("O,", "")
+
+                if("O" in genderList) {
+                    genderList.remove("O")
+                }
             }
+            gender = genderList.joinToString(transform = { it })
+
         }
     }
 
@@ -394,19 +413,17 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     }
 
     private fun setGenderData(gndr: String?) {
-        gender = ""
+        val tempGender = gndr
+        Log.d("GenderCheck", "tempGender: $tempGender")
         maleChip?.isChecked = false
         femaleChip?.isChecked = false
         otherChip?.isChecked = false
-
-        val genderList = gndr?.split(",")
+        val genderList = tempGender?.split(",")
         genderList?.forEach { it ->
-            Log.d("genderList", "gender: $it")
-
-            selectChip(genderCG, dataStorage.getGenderByID(it))
+            Log.d("GenderCheck", "genderGet: $it")
+            Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
+            selectChip(genderCG, dataStorage.getGenderByID(it.trim()))
         }
-
-
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {

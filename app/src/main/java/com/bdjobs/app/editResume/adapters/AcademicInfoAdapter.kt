@@ -33,9 +33,17 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
         Log.d("aca", "calling")
         holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_education_icon))
 
-
         val dModel = itemList?.get(position)!!
 
+        if (position == itemList?.size!! - 1) {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 200
+            holder.itemView.layoutParams = params
+        } else {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 0
+            holder.itemView.layoutParams = params
+        }
         val resultId = dModel.resultId!!
 
         if (resultId.equalIgnoreCase("0")) {

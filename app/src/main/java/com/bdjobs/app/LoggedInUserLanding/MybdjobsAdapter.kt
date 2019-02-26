@@ -43,7 +43,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                     when (mybdjobsItems!![position].itemName) {
                         "Jobs\nApplied" -> communicator.goToAppliedJobs()
                         "Employers\nFollowed" -> communicator.goToFollowedEmployerList("follow")
-                        "Interview\nInvitations" -> communicator.goToInterviewInvitation("homePage")
+                        "Interview\nInvitations" -> communicator.goToInterviewInvitation("mybdjobs")
                         "Employers Viewed\nResume" -> communicator.goToEmployerViewedMyResume("vwdMyResume")
                         "Times Emailed\nResume" -> communicator.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
                         else -> { // Note the block

@@ -4,11 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import java.util.*
 
 @Dao
 interface JobInvitationDao {
     @Query("SELECT * FROM JobInvitation")
     fun getAllJobInvitation(): List<JobInvitation>
+
+    @Query("SELECT * FROM JobInvitation WHERE inviteDate>=:dt")
+    fun getALLJobInvitationByDate(dt:Date): List<JobInvitation>
+
 
     @Query("DELETE FROM JobInvitation")
     fun deleteAllJobInvitation()

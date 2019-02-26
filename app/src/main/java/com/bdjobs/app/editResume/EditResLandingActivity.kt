@@ -47,7 +47,6 @@ class EditResLandingActivity : Activity() {
         tvEmail.text = session.email
 
 
-        // test purpose
         /*ivProfileImage.setOnClickListener {
             //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
             //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
@@ -78,6 +77,12 @@ class EditResLandingActivity : Activity() {
 
     private fun doWork() {
         enableAll()
+        btnPerItem1.setOnClickListener {
+            goToFragment("personal", "P")
+        }
+        btnPerItem2.setOnClickListener {
+            goToFragment("contact", "P")
+        }
         btnPerItem3.setOnClickListener {
             goToFragment("career", "P")
         }
@@ -86,6 +91,9 @@ class EditResLandingActivity : Activity() {
         }
         btnPerItem5.setOnClickListener {
             goToFragment("prefAreas", "P")
+        }
+        btnEduItem1.setOnClickListener {
+            goToFragment("academic", "E")
         }
         btnEduItem2.setOnClickListener {
             goToFragment("training", "E")
@@ -98,9 +106,6 @@ class EditResLandingActivity : Activity() {
         }
         btnUploadPhoto.setOnClickListener {
             startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
-        }
-        btnPerItem1.setOnClickListener {
-            goToFragment("personal", "P")
         }
         btnSpecilaization.setOnClickListener {
             goToFragment("specialization", "Other")

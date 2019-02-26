@@ -368,10 +368,13 @@ class ContactEditFragment : Fragment() {
 
     private fun setupViews() {
         ////Present Address---------------Start
-
+        //var temp = ""
         prContactDivTIET.setOnClickListener {
             val divisionList: Array<String> = dataStorage.allDivision
             activity?.selector("Select Your Division", divisionList.toList()) { _, i ->
+                /*temp = divisionList[i]
+                if (checkPrevious(temp, divisionList[i])) {
+                }*/
                 prContactDivTIET.setText(divisionList[i])
                 contactDivTIL.requestFocus()
             }
@@ -537,6 +540,10 @@ class ContactEditFragment : Fragment() {
                 presentContactCountryTILP.requestFocus()
             }
         }
+    }
+
+    private fun checkPrevious(before: String, new: String): Boolean {
+        return before != new
     }
 
     private fun getDataFromChipGroup(cg: ChipGroup) {

@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_download_resume.*
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -73,21 +70,19 @@ class DownloadResumeFragment : Fragment() {
     }
 
     private fun downloadOrDeleteCV(action: String) {
-        val dialog = indeterminateProgressDialog("Please wait")
-        dialog.setCancelable(false)
-        dialog.show()
+        activity.showProgressBar(loadingProgressBar)
         ApiServiceMyBdjobs.create().downloadDeleteCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
                 status = action
         ).enqueue(object : Callback<UploadResume> {
             override fun onFailure(call: Call<UploadResume>, t: Throwable) {
-                dialog.dismiss()
+                activity.stopProgressBar(loadingProgressBar)
                 error("onFailure", t)
             }
 
             override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
-                dialog.dismiss()
+                activity.stopProgressBar(loadingProgressBar)
                 if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
                     if (action.equalIgnoreCase("download")) {
                         downloadLink = response.body()?.data?.get(0)?.path

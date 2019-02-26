@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -74,7 +73,7 @@ class ORIEditFragment : Fragment() {
         val keywords = data.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
-            addChip(it)
+            if (it.isNotBlank()) addChip(it)
         }
         fab_ori_update.setOnClickListener {
             clORIedit.closeKeyboard(activity)
@@ -90,7 +89,16 @@ class ORIEditFragment : Fragment() {
         etOriCareerSummary.setText(data.careerSummery)
         etOriSpecialQualification.setText(data.specialQualifications)
 
-        etOriKeywords.setOnEditorActionListener { v, actionId, event ->
+        etOriKeywords.easyOnTextChangedListener {
+            val str = etOriKeywords.getString()
+
+            if (it.isNotBlank() and str.endsWith(",")) {
+                clORIedit.closeKeyboard(activity)
+                addChip(str.removeLastComma())
+            }
+        }
+
+        /*etOriKeywords.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     addChip(etOriKeywords.getString())
@@ -98,7 +106,7 @@ class ORIEditFragment : Fragment() {
                 }
                 else -> false
             }
-        }
+        }*/
     }
 
     private fun onClicks() {

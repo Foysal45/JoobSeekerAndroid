@@ -114,8 +114,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showFavouriteSearchFilters()
         if (jobInvitationSynced)
             showJobInvitation()
-        if (certificationSynced)
-            showCertificationInfo()
+       /* if (certificationSynced)
+            showCertificationInfo()*/
         if (followedEmployerSynced)
             showFollowedEmployers()
 
@@ -142,7 +142,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun certificationSyncComplete() {
         Log.d("broadCastCheck", "certificationSyncComplete")
-        showCertificationInfo()
+        //showCertificationInfo()
     }
 
     override fun followedEmployerSyncComplete() {
@@ -203,6 +203,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private fun showFavouriteSearchFilters() {
         doAsync {
             favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
+            val allfavsearch = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
                 showBlankLayout()
                 favSearchView?.hide()
@@ -211,7 +212,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     favRV?.adapter = favouriteSearchFilterAdapter
                     blankCL?.hide()
                     mainLL?.show()
-                    myfavSearchTV?.text = "My favourite search filters (${favouriteSearchFilters?.size})"
+                    myfavSearchTV?.text = "My favourite search filters (${allfavsearch?.size})"
                     favSearchView?.show()
                 }
             }
@@ -475,18 +476,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             }
         }
 
-    }
-
-    private fun selectChip(chipGroup: ChipGroup, data: String) {
-        val count = chipGroup?.childCount
-        for (i in 0 until count) {
-            val chip = chipGroup?.getChildAt(i) as Chip
-            val chipText = chip?.text.toString()
-            if (data?.equalIgnoreCase(chipText)) {
-                Log.d("chip_entry", "text:$i")
-                chip?.isChecked = true
-            }
-        }
     }
 
 

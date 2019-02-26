@@ -2,17 +2,24 @@ package com.bdjobs.app.Utilities
 
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.net.wifi.WifiManager
+import android.os.Build
 import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -39,8 +46,11 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
+import java.io.File
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 
 fun Activity.callHelpLine() {
@@ -180,10 +190,12 @@ fun View.closeKeyboard(activity: Context) {
 }
 
 fun Activity.getFCMtoken() {
+
     FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
-        val token = instanceIdResult.token
+        val token = instanceIdResult.token.toString()
         info("newToken $token")
     }
+
 }
 
 fun Activity.subscribeToFCMTopic(topicName: String) {
@@ -566,4 +578,101 @@ fun TextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = th
         listener(p0)
     }
 })
+
+fun Activity.getAppVersion():String{
+    val pinfo = packageManager.getPackageInfo(packageName,0)
+    return pinfo.versionName
+}
+
+fun Activity.getAppVersionCode():Int{
+    val pinfo = packageManager.getPackageInfo(packageName,0)
+    return pinfo.versionCode
+}
+
+fun Context.getDeviceInformation():HashMap<String,String>{
+
+    var percentAvail: Long = 0
+    var totalRAM: Long = 0
+    val mi = ActivityManager.MemoryInfo()
+    val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    activityManager.getMemoryInfo(mi)
+    val availableMegs = mi.availMem / 1048576L
+
+
+    val freeBytesInternal = File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace()
+    val totalBytesInternal = File(getFilesDir().getAbsoluteFile().toString()).getTotalSpace()
+    val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    val carrierName = manager.networkOperatorName
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        totalRAM = mi.totalMem / 1048576L
+        percentAvail = mi.availMem / mi.totalMem
+    }
+
+    var ssid: String? = null
+    try {
+        val connManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        if (networkInfo.isConnected) {
+            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            val connectionInfo = wifiManager.connectionInfo
+            if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.ssid)) {
+                ssid = connectionInfo.ssid
+
+            }
+        }
+    } catch (e: Exception) {
+    }
+    var pInfo: PackageInfo? = null
+    var versionCode = "0"
+    try {
+        pInfo = packageManager.getPackageInfo(packageName, 0)
+        versionCode = pInfo!!.versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+
+    val c = Calendar.getInstance()
+    val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val currentDateAndTime =  df.format(c.time)
+
+    var screenInches: Double=0.0
+    try {
+        val dm = DisplayMetrics()
+        (this as Activity).windowManager.defaultDisplay.getMetrics(dm)
+        val width = dm.widthPixels
+        val height = dm.heightPixels
+        val wi = width.toDouble() / dm.xdpi.toDouble()
+        val hi = height.toDouble() / dm.ydpi.toDouble()
+        val x = Math.pow(wi, 2.0)
+        val y = Math.pow(hi, 2.0)
+        screenInches = Math.sqrt(x + y)
+    } catch (e: Exception) {
+
+    }
+
+    val deviceInfo = HashMap<String, String>()
+    deviceInfo[Constants.KEY_MANUFACTURER] = Build.MANUFACTURER.toUpperCase()
+    deviceInfo[Constants.KEY_OS_VERSION] = System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")"
+    deviceInfo[Constants.KEY_OS_API_LEVEL] = Build.VERSION.SDK_INT.toString()
+    deviceInfo[Constants.KEY_DEVICE] = Build.DEVICE
+    deviceInfo[Constants.KEY_MODEL_PRODUCT] = Build.MODEL + " (" + Build.PRODUCT + ")"
+    deviceInfo[Constants.KEY_TOTAL_INTERNAL_STORAGE] = (totalBytesInternal / 1e+6).toString()
+    deviceInfo[Constants.KEY_FREE_INTERNAL_STORAGE] = (freeBytesInternal / 1e+6).toString()
+    deviceInfo[Constants.KEY_MOBILE_NETWORK] = carrierName
+    deviceInfo[Constants.KEY_DATE_AND_TIME] = currentDateAndTime
+    deviceInfo[Constants.KEY_APP_VERSION] = versionCode
+    deviceInfo[Constants.KEY_SCREEN_SIZE] = screenInches.toString()
+
+    if (ssid != null) {
+        deviceInfo[Constants.KEY_CONNECTED_WIFI] = ssid
+    }
+    if (totalRAM != 0L) {
+        deviceInfo[Constants.KEY_DEVICE_RAM_SIZE] = totalRAM.toString()
+    }
+
+    deviceInfo[Constants.KEY_DEVICE_FREE_RAM_SIZE] = availableMegs.toString()
+
+    return deviceInfo
+}
 

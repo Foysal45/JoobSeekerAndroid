@@ -43,9 +43,6 @@ class AcademicInfoEditFragment : Fragment() {
     private lateinit var ds: DataStorage
     private lateinit var data: AcaDataItem
     private var marks: Double = 0.0
-    private var cgp: Double = 0.0
-    private var scale: Double = 0.0
-    private var resultValiadtionCode = 0
     private var yearList = ArrayList<String>()
     var validation = 0
     private var examdegree = ""
@@ -97,12 +94,35 @@ class AcademicInfoEditFragment : Fragment() {
         data = eduCB.getData()
         val resID = data.resultId!!
         hacaID = data.acId.toString()
+
+        if (data.levelofEducation!!.equalIgnoreCase("PSC/5 pass") || data.levelofEducation!!.equalIgnoreCase("JSC/JDC/8 pass")) {
+
+            majorSubACTV.hide()
+            mejorTIL.hide()
+        } else {
+
+            majorSubACTV.show()
+            mejorTIL.show()
+
+        }
+
         etLevelEdu.setText(data.levelofEducation)
         etExamTitle.setText(data.examDegreeTitle)
+
+
+        etExamOtherTitle.hide()
+        examOtherTIL.hide()
+
+
+
         majorSubACTV.setText(data.concentrationMajorGroup)
         instituteNameACTV.setText(data.instituteName)
         etResults.setText(ds.getResultNameByResultID(resID))
-        setView(resID.toInt())
+        try {
+            setView(resID.toInt())
+        } catch (e: Exception) {
+
+        }
         cgpaTIET.setText(data.marks)
         etScaleTIET.setText(data.scale)
         if (data.scale!!.equalIgnoreCase("0")) {
@@ -121,6 +141,8 @@ class AcademicInfoEditFragment : Fragment() {
         instituteTIL.isErrorEnabled = false
         resultTIL.isErrorEnabled = false
         acaPassingYearTIL.isErrorEnabled = false
+
+        majorSubACTV.clearFocus()
         if (etLevelEdu.getString().equalIgnoreCase("Bachelor/Honors") || etLevelEdu.getString().equalIgnoreCase("Masters")) {
             instSuggession = true
             Log.d("instSuggession", "in suggession condition")
@@ -243,57 +265,95 @@ class AcademicInfoEditFragment : Fragment() {
         fab_aca_edit.setOnClickListener {
             fragAcaInfoEdit.closeKeyboard(activity)
             addValidityCheck()
+            d("Validation check 1  ${validateLevelofEducation()}")
             if (validateLevelofEducation()) {
-                if (validateExamDegreeTile() || validateExamDegreeTitleOther()) if (validateMajor() || !validateMajor()) {
-                    if (validateInstituteName()) {
-                        if (validateResult()) {
-                            if (cbResHide.isVisible) {
-                                if (!cbResHide.isChecked) {
-                                    if (validateMarks()) {
+                d("Validation check 2  ")
+                d("Validation check  ${validateExamDegreeTile()}  ${etExamOtherTitle.isVisible}  ${validateExamDegreeTitleOther()} ")
+
+                if ((validateExamDegreeTile() && !etExamOtherTitle.isVisible) || (etExamOtherTitle.isVisible && validateExamDegreeTitleOther())) {
+                    d("Validation check 3 ")
+                    if ((majorSubACTV.isVisible && validateMajor()) || !majorSubACTV.isVisible) {
+
+                        d("Validation check 4 ")
+
+                        if (validateInstituteName()) {
+
+                            d("Validation check 5 ")
+
+                            if (validateResult()) {
+
+                                d("Validation check 6 ")
+                                if (cbResHide.isVisible) {
+
+                                    d("Validation check 7 ")
+
+                                    if (!cbResHide.isChecked) {
+
+
+                                        d("Validation check 8 ")
+
+                                        if (validateMarks()) {
+
+                                            d("Validation check 9 ")
+
+                                            if (validatePassingYear()) {
+
+                                                d("Validation check 10 ")
+                                                Log.d("dshjfdg", " in first condition")
+                                                updateData()
+
+                                            }
+                                        }
+
+                                        if (validateCgpa() && validateScale()) {
+
+                                            d("Validation check 11 ")
+
+                                            if (validatePassingYear()) {
+
+
+                                                d("Validation check 12 ")
+
+                                                Log.d("dshjfdg", " in second condition")
+                                                updateData()
+
+                                            }
+
+                                        }
+
+                                    } else {
+
+                                        d("Validation check 13 ")
                                         if (validatePassingYear()) {
 
-                                            Log.d("dshjfdg", " in first condition")
+                                            Log.d("dshjfdg", " in third condition")
                                             updateData()
 
                                         }
-                                    }
-
-                                    if (validateCgpa() && validateScale()) {
-                                        if (validatePassingYear()) {
-
-                                            Log.d("dshjfdg", " in second condition")
-                                            updateData()
-
-                                        }
-
                                     }
 
                                 } else {
 
+                                    d("Validation check 14 ")
+
                                     if (validatePassingYear()) {
 
-                                        Log.d("dshjfdg", " in third condition")
+                                        Log.d("dshjfdg", " in fourth condition")
                                         updateData()
 
                                     }
                                 }
 
-                            } else {
 
-                                if (validatePassingYear()) {
-
-                                    Log.d("dshjfdg", " in fourth condition")
-                                    updateData()
-
-                                }
                             }
-
 
                         }
 
                     }
 
+
                 }
+
 
             }
 
@@ -325,6 +385,30 @@ class AcademicInfoEditFragment : Fragment() {
             validateACTV(charSequence.toString(), instituteNameACTV, instituteTIL)
 
         }
+
+
+        //cross icon add
+
+
+        etLevelEdu?.addTextChangedListener(TW.CrossIconBehave(etLevelEdu))
+        etExamTitle?.addTextChangedListener(TW.CrossIconBehave(etExamTitle))
+        etExamOtherTitle?.addTextChangedListener(TW.CrossIconBehave(etExamOtherTitle))
+        etResults?.addTextChangedListener(TW.CrossIconBehave(etResults))
+        marksTIET?.addTextChangedListener(TW.CrossIconBehave(marksTIET))
+        cgpaTIET?.addTextChangedListener(TW.CrossIconBehave(cgpaTIET))
+        etScaleTIET?.addTextChangedListener(TW.CrossIconBehave(etScaleTIET))
+        etPassignYear?.addTextChangedListener(TW.CrossIconBehave(etPassignYear))
+
+
+        majorSubACTV.addTextChangedListener(TW.CrossIconBehaveACTV(majorSubACTV))
+        instituteNameACTV.addTextChangedListener(TW.CrossIconBehaveACTV(instituteNameACTV))
+
+
+        etAchievement.addTextChangedListener(TW.CrossIconBehave(etAchievement))
+        etDuration.addTextChangedListener(TW.CrossIconBehave(etDuration))
+
+
+
 
     }
 
@@ -411,6 +495,7 @@ class AcademicInfoEditFragment : Fragment() {
                 if (eduLevel.equalIgnoreCase("-3") || eduLevel.equalIgnoreCase("-2")) {
 
                     mejorTIL.hide()
+                    majorSubACTV.hide()
                 } else {
 
 
@@ -418,6 +503,7 @@ class AcademicInfoEditFragment : Fragment() {
                     mejorTIL.isErrorEnabled = false
                     majorSubACTV.clearFocus()
                     mejorTIL.show()
+                    majorSubACTV.show()
 
 
                 }
@@ -464,6 +550,17 @@ class AcademicInfoEditFragment : Fragment() {
                 resultTIL.requestFocus()
                 val examId = ds.getResultIDByResultName(result[i])
 
+
+                if (examId.equalIgnoreCase("11") ||
+                        examId.equalIgnoreCase("13") ||
+                        examId.equalIgnoreCase("14") ||
+                        examId.equalIgnoreCase("15")) {
+
+                    cbResHide.isChecked = false
+
+                }
+
+
                 setView(examId.toInt())
                 Log.d("eduLevel", "examId $examId")
 
@@ -506,8 +603,10 @@ class AcademicInfoEditFragment : Fragment() {
             return false
         } else {
             levelEduTIL.isErrorEnabled = false
+            return true
         }
-        return true
+
+
     }
 
 
