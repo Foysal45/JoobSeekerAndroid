@@ -200,14 +200,25 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
             override fun onResponse(call: Call<TimesEmailed>, response: Response<TimesEmailed>) {
                 Log.d("isActivityDate", "vava = $isActivityDate")
+                shimmer_view_container_emailedResumeList?.hide()
+                shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
                 try {
                     TOTAL_PAGES = response?.body()?.common?.totalNumberOfPage?.toInt()
                     var totalEmailRecords = response?.body()?.common?.totalNumberOfEmail
+
+
+                    if (totalEmailRecords?.isNullOrEmpty()!!){
+                        totalEmailRecords = "0"
+
+                      /*  val styledText = " Time Emailed Resume "
+                        titleTV?.text = styledText*/
+
+                    }
                     if (!response?.body()?.data.isNullOrEmpty()) {
                         emailedResumeRV!!.visibility = View.VISIBLE
                         timesEmailedMyResumeAdapter?.removeAll()
                         timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
-
+                        numberTV.text = totalEmailRecords
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
                             timesEmailedMyResumeAdapter?.addLoadingFooter()
@@ -217,8 +228,17 @@ class TimesEmailedMyResumeFragment : Fragment() {
                         }
 
                     }
-                    val styledText = "<b><font color='#13A10E'>$totalEmailRecords</font></b> "
-                    numberTV?.text = Html.fromHtml(styledText)
+
+
+                    if (totalEmailRecords?.toInt()!! > 1){
+                        val styledText = " Times Emailed Resume"
+                        titleTV?.text = styledText
+                    }
+                    else {
+                        val styledText = " Time Emailed Resume "
+                        titleTV?.text = styledText
+                    }
+
 
                     emailedResumeRV?.show()
                     numberTV?.show()

@@ -9,15 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.EmailResume
 import com.bdjobs.app.API.ModelClasses.SendEmailCV
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.error
-import com.facebook.FacebookSdk.getApplicationContext
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_email_resume.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -44,7 +40,7 @@ class EmailResumeFragment : Fragment() {
         super.onResume()
         bdjobsUserSession = BdjobsUserSession(activity)
         communicator = activity as ManageResumeCommunicator
-
+        et_from.setText(bdjobsUserSession.email)
         backIV.setOnClickListener {
             communicator.backButtonPressed()
         }
@@ -135,10 +131,11 @@ class EmailResumeFragment : Fragment() {
     }
 
     private fun callSendEmailCV(isResumeUpdate: String) {
+        activity.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
-                uploadedCv = "1",
+                uploadedCv = "0",
                 isResumeUpdate = isResumeUpdate,
                 fullName = bdjobsUserSession.fullName,
                 Jobid = "0",
@@ -153,9 +150,18 @@ class EmailResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
-                Log.d("isresume", "value = $isResumeUpdate")
-                toast(response.body()?.message!!)
-                communicator.backButtonPressed()
+           try {
+               if (response.isSuccessful) {
+                   activity.stopProgressBar(EmailResumeLoadingProgressBar)
+                   Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
+                   toast(response.body()?.message!!)
+                   communicator.backButtonPressed()
+               }
+           }
+           catch (e : Exception){
+               activity.stopProgressBar(EmailResumeLoadingProgressBar)
+               e.printStackTrace()
+           }
             }
 
         })

@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModel
 import com.bdjobs.app.R
@@ -82,14 +82,19 @@ class EmployerJobListFragment : Fragment() {
                     employersJobListsAdapter = EmployerJobListAdapter(activity!!)
                     employerjobList_RV?.adapter = employersJobListsAdapter
                     employerjobList_RV?.setHasFixedSize(true)
-                    employerjobList_RV?.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+                    employerjobList_RV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                     Log.d("initPag", "called")
                     employerjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                     employersJobListsAdapter?.addAll(jobLists!!)
 
                     /*val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs"
                     favCountTV?.text = Html.fromHtml(styledText)
+
 */
+                    if (totalRecords?.toString()?.isNullOrEmpty()!!){
+                        totalRecords = 0
+                    }
+
                     if (totalRecords?.toInt()!! > 1){
                         val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs"
                         favCountTV?.text = Html.fromHtml(styledText)

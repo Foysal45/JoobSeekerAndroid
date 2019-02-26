@@ -1,8 +1,7 @@
 package com.bdjobs.app.Training
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.bdjobs.app.ManageResume.TimesEmailedMyResumeFragment
+import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.transitFragment
 

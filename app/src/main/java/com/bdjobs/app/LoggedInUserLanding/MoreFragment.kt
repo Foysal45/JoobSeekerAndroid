@@ -1,14 +1,12 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.app.Fragment
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.app.Fragment
-import android.os.Handler
-import android.util.Log
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
@@ -20,7 +18,6 @@ import com.bdjobs.app.Utilities.getAppVersion
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class MoreFragment : Fragment() {
 
