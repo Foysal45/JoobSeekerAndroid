@@ -40,7 +40,7 @@
         android:contentDescription="@string/title_home"
         android:src="@drawable/ic_ba_type"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.63"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toEndOf="@+id/textView36"
         app:layout_constraintTop_toTopOf="parent" />
 

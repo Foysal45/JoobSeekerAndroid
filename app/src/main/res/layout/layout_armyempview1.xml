@@ -38,7 +38,7 @@
         android:contentDescription="@string/title_home"
         android:src="@drawable/ic_keywords"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toEndOf="@+id/textView36"
         app:layout_constraintTop_toTopOf="parent" />
 

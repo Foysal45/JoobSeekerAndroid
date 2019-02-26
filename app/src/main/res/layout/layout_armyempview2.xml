@@ -42,7 +42,7 @@
         android:contentDescription="@string/title_home"
         android:src="@drawable/ic_army_trade"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintHorizontal_bias="0.42"
         app:layout_constraintStart_toEndOf="@+id/textView36"
         app:layout_constraintTop_toTopOf="parent" />
 
