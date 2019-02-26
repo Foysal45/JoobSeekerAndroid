@@ -36,6 +36,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.google.android.material:material:1.0.0"
+    
     //----firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
@@ -69,9 +70,6 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.0.0'
     testImplementation 'androidx.room:room-testing:2.0.0'
 
-    //------linkedIn SDK
-    implementation project(':linkedin-sdk')
-
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.facebook.android:facebook-login:4.38.1'
@@ -83,8 +81,6 @@ dependencies {
     implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.droidninja:filepicker:2.2.0'
-
-
 
     //web browser
     implementation 'androidx.browser:browser:1.0.0'
