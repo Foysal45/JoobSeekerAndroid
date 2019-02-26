@@ -109,6 +109,7 @@ class EmployerListFragment : Fragment() {
                     Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
                     TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
                     var totalRecords = response?.body()?.common?.totalrecordsfound
+                    Log.d("resresdata", " =${response?.body()?.data}")
 
                     if (!response?.body()?.data.isNullOrEmpty()) {
                         employerList_RV!!.visibility = View.VISIBLE
@@ -125,7 +126,12 @@ class EmployerListFragment : Fragment() {
 
                     }
 
-                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employers now offering Jobs"
+                    else {
+                      //  toast("came")
+                        totalRecords = "0"
+                    }
+
+                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employer(s) now offering Job(s)"
                     favCountTV.text = Html.fromHtml(styledText)
 
                     employerList_RV?.show()

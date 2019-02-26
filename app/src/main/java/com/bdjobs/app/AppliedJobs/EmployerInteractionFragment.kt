@@ -1,38 +1,33 @@
 package com.bdjobs.app.AppliedJobs
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
+import android.app.Dialog
 import android.app.Fragment
+import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.API.ModelClasses.EmployerInteraction
-
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.showProgressBar
 import com.bdjobs.app.Utilities.stopProgressBar
+import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import kotlinx.android.synthetic.main.fragment_employer_interaction.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-import androidx.appcompat.widget.AppCompatRadioButton
-import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
-
-import android.app.Dialog
-
-import android.widget.*
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
-import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
-import org.jetbrains.anko.startActivity
 
 
 class EmployerInteractionFragment : Fragment() {

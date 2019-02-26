@@ -1,31 +1,22 @@
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.app.Fragment
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Color.*
+import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.editResume.EditResLandingActivity
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.RoundedCornerTreatment
-import com.google.android.material.shape.ShapePathModel
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class MyBdjobsFragment : Fragment() {
 
@@ -72,6 +63,7 @@ class MyBdjobsFragment : Fragment() {
         lastmonth_MBTN?.setOnClickListener {
             communicator.setTime("1")
             Constants.myBdjobsStatsLastMonth = true
+            Constants.timesEmailedResumeLast = true
             lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background_black)
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
             all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
@@ -90,6 +82,7 @@ class MyBdjobsFragment : Fragment() {
 //testing
             communicator.setTime("0")
             Constants.myBdjobsStatsLastMonth = false
+            Constants.timesEmailedResumeLast = false
             lastmonth_MBTN?.setBackgroundResource(R.drawable.left_rounded_background)
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background_black)
             lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))

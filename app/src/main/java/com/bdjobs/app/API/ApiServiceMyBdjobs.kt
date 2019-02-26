@@ -823,6 +823,27 @@ interface ApiServiceMyBdjobs {
             @Field("status") status: String?
     ): Call<UploadResume>
 
+
+    @FormUrlEncoded
+    @POST("apps_users_info_log.asp")
+    fun sendDeviceInformation(
+            @Field("OS_API_Level") OS_API_Level: String?,
+            @Field("Internal_storage") Internal_storage: String?,
+            @Field("Free_storage") Free_storage: String?,
+            @Field("Mobile_Network") Mobile_Network: String?,
+            @Field("RAM_Size") RAM_Size: String?,
+            @Field("RAM_Free") RAM_Free: String?,
+            @Field("ScreenSize") ScreenSize: String?,
+            @Field("dateTime") dateTime: String?,
+            @Field("FCMToken") FCMToken: String?,
+            @Field("Manufecturer") Manufecturer: String?,
+            @Field("AppVersion") AppVersion: String?,
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("deviceID") deviceID: String?
+    ): Call<UploadResume>
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {

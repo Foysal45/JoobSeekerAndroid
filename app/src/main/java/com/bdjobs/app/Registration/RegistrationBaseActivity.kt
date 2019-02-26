@@ -27,14 +27,6 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
-import com.linkedin.platform.APIHelper
-import com.linkedin.platform.LISessionManager
-import com.linkedin.platform.errors.LIApiError
-import com.linkedin.platform.errors.LIAuthError
-import com.linkedin.platform.listeners.ApiListener
-import com.linkedin.platform.listeners.ApiResponse
-import com.linkedin.platform.listeners.AuthListener
-import com.linkedin.platform.utils.Scope
 import kotlinx.android.synthetic.main.activity_registration_base.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
@@ -1108,7 +1100,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
         bcPhotoUploadFragment.onActivityResult(requestCode, resultCode, data)
         callbackManager?.onActivityResult(requestCode, resultCode, data)
-        LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data)
+       // LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data)
         if (requestCode == Constants.RC_SIGN_IN) {
 
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -1181,7 +1173,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun regWithLinkedIn() {
 
-        LISessionManager.getInstance(this@RegistrationBaseActivity).init(this@RegistrationBaseActivity, buildScope(), object : AuthListener {
+        /*LISessionManager.getInstance(this@RegistrationBaseActivity).init(this@RegistrationBaseActivity, buildScope(), object : AuthListener {
 
             override fun onAuthSuccess() {
 
@@ -1203,22 +1195,22 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                                 sMid = response.getString("id")
                             }
 
-                            /* if (response.has("id")) {
+                            *//* if (response.has("id")) {
                                  sMid = response.getString("id")
-                             }*/
+                             }*//*
 
-                            /* socialMediaMapping(sMid, lemail, Constants.SOCIAL_MEDIA_LINKEDIN)*/
+                            *//* socialMediaMapping(sMid, lemail, Constants.SOCIAL_MEDIA_LINKEDIN)*//*
                             Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
 
 
-                            /* val  fname = account!!.givenName
-                             val lname = account.familyName*/
+                            *//* val  fname = account!!.givenName
+                             val lname = account.familyName*//*
                             socialMediaId = sMid
                             isSMediaLogin = "True"
                             socialMediaType = "L"
-                            /*  name = fname + " " + lname*/
+                            *//*  name = fname + " " + lname*//*
 
-                            /*  this.name = name*/
+                            *//*  this.name = name*//*
 
                             wcEmail = lemail
                             userNameType = ""
@@ -1229,7 +1221,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                                 isSMediaLogin = "True"
                                 socialMediaType = "L"
-                                /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
+                                *//* whiteCollarSocialLoginFragment.stopProgressDialog()*//*
                                 wcGoToStepName()
 
                             } else {
@@ -1237,7 +1229,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
                             }
-                            /* firebaseAuthWithGoogle(account)*/
+                            *//* firebaseAuthWithGoogle(account)*//*
 
 
                         } catch (e: Exception) {
@@ -1268,7 +1260,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             }
         }, true)
 
-
+*/
     }
 
     override fun regWithFacebook() {
@@ -1408,9 +1400,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
-    private fun buildScope(): Scope {
+   /* private fun buildScope(): Scope {
         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
-    }
+    }*/
 
 
     private fun initializeGoogleRegistration() {

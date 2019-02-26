@@ -157,6 +157,12 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 applyonlinePostions.add(position)
                             }
 
+                            if(jobList?.get(position)?.lantype!!.equalIgnoreCase("2")){
+                                jobsVH.followTV.hide()
+                            }else{
+                                jobsVH.followTV.show()
+                            }
+
                             jobsVH.tvPosName.text = jobDetailResponseAll.jobTitle
                             jobsVH.tvComName.text = jobDetailResponseAll.compnayName
                             jobsVH.tvSalary.text = jobDetailResponseAll.jobSalaryRange

@@ -1,7 +1,18 @@
 package com.bdjobs.app.Utilities
 
+import android.content.Context
+import android.util.Log
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.UploadResume
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 class Constants {
     companion object {
+
+        var isDeviceInfromationSent = false
 
         var myBdjobsStatsLastMonth = true
         var matchedTraining = true
@@ -9,10 +20,10 @@ class Constants {
         var showShortListedPopUp = true
         var cvUploadStatus = ""
 
-        var favSearchFiltersSynced =false
-        var jobInvitationSynced =false
-        var certificationSynced =false
-        var followedEmployerSynced =false
+        var favSearchFiltersSynced = false
+        var jobInvitationSynced = false
+        var certificationSynced = false
+        var followedEmployerSynced = false
         var isDirectCall = false
 
         const val HOTJOBS_WEB_LINK = "http://bdjobs.com/upcoming/files/hotjob/apphotjobs.asp"
@@ -22,11 +33,11 @@ class Constants {
         const val SOCIAL_MEDIA_FACEBOOK = "F"
         const val SOCIAL_MEDIA_LINKEDIN = "L"
         const val FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING = "id,name,email,gender,picture.type(large),first_name,last_name"
-        const val FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY ="fields"
+        const val FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY = "fields"
 
         const val LINKEDIN_REQUEST_URL = "https://api.linkedin.com/v1/people/~:(email-address,id,first-name,last-name,formatted-name,phone-numbers,public-profile-url,picture-url,picture-urls::(original))"
 
-        const val ENCODED_JOBS ="02041526JSBJ2"
+        const val ENCODED_JOBS = "02041526JSBJ2"
         const val career_tips = "What is career summary?"
         const val spQ_tips = "What is Special Qualification?"
         const val keyword_tips = "What is Keywords?"
@@ -58,7 +69,7 @@ class Constants {
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
 
-        const val key_go_to_home= "goToHome"
+        const val key_go_to_home = "goToHome"
         const val BdjobsUserRequestCode = 1
         const val REQ_CODE_SPEECH_INPUT = 100
         const val session_key_isCvPosted = "isCvPosted"
@@ -76,18 +87,99 @@ class Constants {
         const val session_key_IsResumeUpdate = "IsResumeUpdate"
         const val session_key_trainingId = "trainingId"
         const val session_key_userPicUrl = "userPicUrl"
-        const val session_key_loggedIn= "loggedIn"
-        const val api_mybdjobs_app_signinprocess ="app_signinprocess.asp"
-        const val api_mybdjobs_app_agent_log ="apps_agent_log.asp"
-        const val api_mybdjobs_app_social_agent_log ="app_social_agent_log.asp"
-        const val api_jobs_db_update ="dbupdate.asp"
-        const val api_mybdjobs_app_favouritejob_count ="app_favouritejob_count.asp"
+        const val session_key_loggedIn = "loggedIn"
+        const val api_mybdjobs_app_signinprocess = "app_signinprocess.asp"
+        const val api_mybdjobs_app_agent_log = "apps_agent_log.asp"
+        const val api_mybdjobs_app_social_agent_log = "app_social_agent_log.asp"
+        const val api_jobs_db_update = "dbupdate.asp"
+        const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
 
 
-        const val key_recent_search_keyword ="keyword"
-        const val internal_database_name ="BdjobsInternal.db"
+        const val key_recent_search_keyword = "keyword"
+        const val internal_database_name = "BdjobsInternal.db"
         const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="
         const val BROADCAST_DATABASE_UPDATE_JOB = "com.bdjobs.dataBaseUpdateJob.jobComplete"
+
+
+        const val KEY_MANUFACTURER = "Manufacturer"
+        const val KEY_OS_VERSION = "OS_version"
+        const val KEY_OS_API_LEVEL = "OS_Api_Level"
+        const val KEY_DEVICE = "Device"
+        const val KEY_MODEL_PRODUCT = "Model"
+        const val KEY_TOTAL_INTERNAL_STORAGE = "Internal_Storage"
+        const val KEY_FREE_INTERNAL_STORAGE = "Free_Internal_Storage"
+        const val KEY_MOBILE_NETWORK = "Mobile_Network"
+        const val KEY_CONNECTED_WIFI = "Connected Wifi"
+        const val KEY_DEVICE_RAM_SIZE = "Ram_Size"
+        const val KEY_DEVICE_FREE_RAM_SIZE = "Ram_Free_Size"
+        const val KEY_DATE_AND_TIME = "dateAndTime"
+        const val KEY_APP_VERSION = "appVersion"
+        const val KEY_SCREEN_SIZE = "screensize"
+
+        fun sendDeviceInformation(token: String? = "", context: Context) {
+            val session = BdjobsUserSession(context)
+
+            val deviceInfo = context.getDeviceInformation()
+            val OS_API_Level = deviceInfo[Constants.KEY_OS_API_LEVEL]
+            val Internal_storage = deviceInfo[Constants.KEY_TOTAL_INTERNAL_STORAGE]
+            val Free_storage = deviceInfo[Constants.KEY_FREE_INTERNAL_STORAGE]
+            val Mobile_Network = deviceInfo[Constants.KEY_MOBILE_NETWORK]
+            val RAM_Size = deviceInfo[Constants.KEY_DEVICE_RAM_SIZE]
+            val RAM_Free = deviceInfo[Constants.KEY_DEVICE_FREE_RAM_SIZE]
+            val dateAndTime = deviceInfo[Constants.KEY_DATE_AND_TIME]
+            val ScreenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
+            val Manufacturer = deviceInfo[Constants.KEY_MANUFACTURER]
+            val AppVersion = deviceInfo[Constants.KEY_APP_VERSION]
+            val userID = session.userId
+            val decodeID = session.decodId
+            val deviceID = context.getDeviceID()
+
+            Log.d("DeviceInformation", "OS_API_Level=$OS_API_Level\n" +
+                    "Internal_storage=$Internal_storage\n" +
+                    "Free_storage=$Free_storage\n" +
+                    "Mobile_Network=$Mobile_Network\n" +
+                    "RAM_Size=$RAM_Size\n" +
+                    "RAM_Free=$RAM_Free\n" +
+                    "dateAndTime=$dateAndTime\n" +
+                    "ScreenSize=$ScreenSize\n" +
+                    "Manufacturer=$Manufacturer\n" +
+                    "AppVersion=$AppVersion\n" +
+                    "deviceID=$deviceID\n" +
+                    "FCMToken=$token")
+
+            ApiServiceMyBdjobs.create().sendDeviceInformation(
+                    OS_API_Level = OS_API_Level,
+                    Internal_storage = Internal_storage,
+                    Free_storage = Free_storage,
+                    Mobile_Network = Mobile_Network,
+                    RAM_Size = RAM_Size,
+                    RAM_Free = RAM_Free,
+                    ScreenSize = ScreenSize,
+                    dateTime = dateAndTime,
+                    FCMToken = token,
+                    Manufecturer = Manufacturer,
+                    AppVersion = AppVersion,
+                    userId = userID,
+                    decodeId = decodeID,
+                    deviceID = deviceID
+            ).enqueue(
+                    object : Callback<UploadResume> {
+                        override fun onFailure(call: Call<UploadResume>, t: Throwable) {
+                            error("onFailure", t)
+                        }
+
+                        override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
+                            Log.d("DeviceInformation", "send data: ${response.body()}")
+                            try {
+                                if (response?.body()?.statuscode == api_request_result_code_ok)
+                                    Constants.isDeviceInfromationSent = true
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+                        }
+                    }
+            )
+        }
 
     }
 }

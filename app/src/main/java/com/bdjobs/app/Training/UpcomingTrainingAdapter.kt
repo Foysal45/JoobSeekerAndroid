@@ -1,20 +1,16 @@
 package com.bdjobs.app.Training
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TrainingListData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Web.WebActivity
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import java.lang.Exception
 
 class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapter<TrainingListViewHolder>() {
 

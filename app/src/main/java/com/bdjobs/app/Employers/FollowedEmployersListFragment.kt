@@ -1,19 +1,16 @@
 package com.bdjobs.app.Employers
 
-import android.annotation.SuppressLint
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
-
 import com.bdjobs.app.R
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.doAsync
