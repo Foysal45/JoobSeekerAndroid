@@ -48,10 +48,10 @@ class SpecializationEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        eduCB.setTitle(getString(R.string.title_specialization))
         refnameATCTV?.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
         etSkillDescription?.addTextChangedListener(TW.CrossIconBehave(etSkillDescription))
         etCaricular?.addTextChangedListener(TW.CrossIconBehave(etCaricular))
-
         doWork()
 
     }
@@ -59,9 +59,7 @@ class SpecializationEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         d(isEdit.toString())
-
         if (isEdit) {
             eduCB.setDeleteButton(true)
             eduCB.setEditButton(false)
@@ -78,7 +76,6 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun clearEditText() {
-
         etSkillDescription?.clearText()
         etCaricular?.clearText()
         refnameATCTV?.clearText()
@@ -86,25 +83,15 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun preloadedData() {
-
         //jgkhgfjkh
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
-
             addChip(it?.skillName!!)
             addAsString(it.id!!)
-
         }
-
         etSkillDescription?.setText(data.description)
         etCaricular?.setText(data.extracurricular)
-
-
     }
-
-
-
-
 
     private fun doWork() {
 

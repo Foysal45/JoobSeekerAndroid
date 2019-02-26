@@ -85,8 +85,7 @@ class EmpHistoryEditFragment : Fragment() {
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
         } else {
-            if (!alreadyLoaded)
-                activity.toast("Maximum 3 experiences can be added.")
+            activity.toast("Maximum 3 experiences can be added.")
         }
         experiencesMACTV?.closeKeyboard(activity)
     }
@@ -136,10 +135,11 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun initViews() {
         companyNameET?.addTextChangedListener(TW.CrossIconBehave(companyNameET))
-        //companyBusinessACTV?.addTextChangedListener(TW.CrossIconBehave(companyBusinessACTV))
+        companyBusinessACTV?.addTextChangedListener(TW.CrossIconBehaveACTV(companyBusinessACTV))
         companyLocationET?.addTextChangedListener(TW.CrossIconBehave(companyLocationET))
         positionET?.addTextChangedListener(TW.CrossIconBehave(positionET))
         departmentET?.addTextChangedListener(TW.CrossIconBehave(departmentET))
+        experiencesMACTV?.addTextChangedListener(TW.CrossIconBehaveACTV(experiencesMACTV))
         responsibilitiesET?.addTextChangedListener(TW.CrossIconBehave(responsibilitiesET))
     }
 
@@ -161,7 +161,7 @@ class EmpHistoryEditFragment : Fragment() {
             empHisCB.setDeleteButton(true)
             hID = "4"
             //if (alreadyLoaded) {
-                preloadedData()
+            preloadedData()
             /*alreadyLoaded = false
         }*/
         } else if (!isEdit) {
