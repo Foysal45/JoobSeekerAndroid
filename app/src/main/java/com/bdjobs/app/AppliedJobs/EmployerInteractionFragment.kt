@@ -84,6 +84,8 @@ class EmployerInteractionFragment : Fragment() {
             companyTV.id = View.generateViewId()
             designationradioBTN.text = experienceListInteraction?.get(i)?.designation?.trim()
             companyTV.text = experienceListInteraction?.get(i)?.companyName?.trim()
+            designation_TV_below.text ="Please select the employer that hired you for" +
+                    " "+ experienceListInteraction?.get(i)?.designation?.trim()
 
             val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -99,7 +101,7 @@ class EmployerInteractionFragment : Fragment() {
 
             designationradioBTN.setOnClickListener {
                 expID = experienceListInteraction?.get(i)?.experienceID!!
-               // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
+                // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
             }
         }
 
