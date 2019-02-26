@@ -40,16 +40,16 @@ class BCNameFragment : Fragment() {
 
     private fun onClick(){
 
-        nameTIET.easyOnTextChangedListener { charSequence ->
+        nameTIET?.easyOnTextChangedListener { charSequence ->
             nameValidityCheck(charSequence.toString())
         }
 
-        bcNameFAButton.setOnClickListener {
+        bcNameFAButton?.setOnClickListener {
 
 
             if (nameTIET.length() == 0 || nameTIET.length() < 1) {
 
-                nameTIL.showError("নাম খালি রাখা যাবে না")
+                nameTIL?.showError("নাম খালি রাখা যাবে না")
             } else {
 
                 registrationCommunicator.bcGoToStepGender()
@@ -96,12 +96,12 @@ class BCNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(name) -> {
-                nameTIL.showError("নাম খালি রাখা যাবে না")
+                nameTIL?.showError("নাম খালি রাখা যাবে না")
                 requestFocus(nameTIET)
                 return false
             }
 
-            else -> nameTIL.hideError()
+            else -> nameTIL?.hideError()
         }
         return true
     }
@@ -115,7 +115,7 @@ class BCNameFragment : Fragment() {
 
     fun setName(){
 
-        nameTIET.setText(registrationCommunicator.getName())
+        nameTIET?.setText(registrationCommunicator.getName())
     }
 
 

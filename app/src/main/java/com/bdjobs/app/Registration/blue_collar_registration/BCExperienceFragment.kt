@@ -51,7 +51,7 @@ class BCExperienceFragment : Fragment() {
 
         bcExperinceFAButton.setOnClickListener {
 
-            if (bcExperienceTIET.text!!.isNotEmpty()) {
+            if (bcExperienceTIET?.text!!.isNotEmpty()) {
                var subCategoriesID = ""
                for (i in selectedSubcategories.indices) {
                    if (i == selectedSubcategories.size - 1) {
@@ -66,14 +66,14 @@ class BCExperienceFragment : Fragment() {
 
             } else {
 
-                bcExperienceTIL.showError("কর্ম দক্ষতা গুলো নির্বাচন করুন")
+                bcExperienceTIL?.showError("কর্ম দক্ষতা গুলো নির্বাচন করুন")
             }
 
 
 
         }
 
-        bcExperienceTIET.setOnClickListener {
+        bcExperienceTIET?.setOnClickListener {
 
 
             val builder = AlertDialog.Builder(activity)
@@ -108,8 +108,8 @@ class BCExperienceFragment : Fragment() {
                             cat = cat + selectedSubcategories[i] + ", "
                         }
                         cat = cat.replace(", $".toRegex(), "")
-                        bcExperienceTIET.setText(cat)
-                        bcExperienceTIL.isErrorEnabled = false
+                        bcExperienceTIET?.setText(cat)
+                        bcExperienceTIL?.isErrorEnabled = false
                         dialog.dismiss()
                     }
             val dialog = builder.create()

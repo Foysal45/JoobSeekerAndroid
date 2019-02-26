@@ -119,15 +119,14 @@ class SpecializationViewFragment : Fragment() {
     private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String, response: SpecializationDataModel) {
 
         if (array.size == 0 && TextUtils.isEmpty(skillDes) && TextUtils.isEmpty(curricular)) {
-
             mainlayout.hide()
             fab_specialization_add.show()
             eduCB.setEditButton(false)
         } else {
             mainlayout.show()
             fab_specialization_add.hide()
-            skillDescriptionTV.text = skillDes
-            curricularTV.text = curricular
+            skillDescriptionTV?.text = skillDes
+            curricularTV?.text = curricular
             for (item in arr!!) {
 
                 addChip(item?.skillName.toString(), cg_skill)

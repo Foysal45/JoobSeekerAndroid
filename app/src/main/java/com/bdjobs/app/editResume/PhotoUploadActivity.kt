@@ -1,7 +1,6 @@
 package com.bdjobs.app.editResume
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -139,35 +138,41 @@ class PhotoUploadActivity : AppCompatActivity() {
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
 
-                val response = String(responseBody)
+                try {
+                    val response = String(responseBody)
 
-                Log.d("dgdsgdghj", " response ${response}")
+                    Log.d("dgdsgdghj", " response ${response}")
 
-                val gson = Gson()
-                val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-                val photoUrl = photoUploadModel.data[0].path
-                Log.d("dgdsgdghj", photoUrl)
+                    val gson = Gson()
+                    val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
+                    val photoUrl = photoUploadModel.data[0].path
+                    Log.d("dgdsgdghj", photoUrl)
 
-                bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
+                    bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
 
-                Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
-                noPhotoTV.text = "You can change or delete your photo"
-                photoInfoTV.hide()
-                editResPhotoUploadButton.hide()
-                editResChangePhotoButton.show()
-                photoDeleteButton.show()
-                progressDialog.dismiss()
+                    Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
+                    noPhotoTV.text = "You can change or delete your photo"
+                    photoInfoTV.hide()
+                    editResPhotoUploadButton.hide()
+                    editResChangePhotoButton.show()
+                    photoDeleteButton.show()
+                    progressDialog.dismiss()
 
-                if (ic_edit_photo.isVisible) {
+                    if (ic_edit_photo.isVisible) {
 
-                    toast("Photo has been updated successfully")
+                        toast("Photo has been updated successfully")
 
-                } else {
+                    } else {
 
-                    toast(photoUploadModel.message)
+                        toast(photoUploadModel.message)
+                    }
+
+                    ic_edit_photo.show()
+                } catch (e: Exception) {
+
+                    logException(e)
+
                 }
-
-                ic_edit_photo.show()
 
             }
 
@@ -180,7 +185,7 @@ class PhotoUploadActivity : AppCompatActivity() {
     }
 
     private fun uploadPhoto() {
-        progressDialog.setTitle("Uploading Photo..")
+        progressDialog.setMessage("Uploading Photo..")
         progressDialog.show()
         ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
             override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
@@ -188,29 +193,33 @@ class PhotoUploadActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
-                Log.d("PhotoUpload", " response message ${response.body()!!}")
-                Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
-                Log.d("PhotoUpload", " response message ${response.body()!!.message}")
+                try {
+                    Log.d("PhotoUpload", " response message ${response.body()!!}")
+                    Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
+                    Log.d("PhotoUpload", " response message ${response.body()!!.message}")
 
 
-                if (response.body()!!.statuscode.equals("0", true)) {
+                    if (response.body()!!.statuscode.equals("0", true)) {
 
-                    userId = response.body()!!.data[0].userId
-                    decodeId = response.body()!!.data[0].decodId
-                    folderName = response.body()!!.data[0].folderName
-                    folderId = response.body()!!.data[0].folderId
-                    imageName = response.body()!!.data[0].imageName
-                    isResumeUpdate = response.body()!!.data[0].isResumeUpdate
-                    params.put("Image", encodedString)
-                    params.put("userid", bdjobsUserSession.userId)
-                    params.put("decodeid", bdjobsUserSession.decodId)
-                    params.put("folderName", folderName)
-                    params.put("folderId", folderId)
-                    params.put("imageName", imageName)
-                    params.put("isResumeUpdate", isResumeUpdate)
-                    params.put("status", "upload")
-                    makeHTTPCall()
+                        userId = response.body()!!.data[0].userId
+                        decodeId = response.body()!!.data[0].decodId
+                        folderName = response.body()!!.data[0].folderName
+                        folderId = response.body()!!.data[0].folderId
+                        imageName = response.body()!!.data[0].imageName
+                        isResumeUpdate = response.body()!!.data[0].isResumeUpdate
+                        params.put("Image", encodedString)
+                        params.put("userid", bdjobsUserSession.userId)
+                        params.put("decodeid", bdjobsUserSession.decodId)
+                        params.put("folderName", folderName)
+                        params.put("folderId", folderId)
+                        params.put("imageName", imageName)
+                        params.put("isResumeUpdate", isResumeUpdate)
+                        params.put("status", "upload")
+                        makeHTTPCall()
 
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         })
@@ -224,36 +233,40 @@ class PhotoUploadActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this@PhotoUploadActivity)
 
         builder.setPositiveButton("Confirm") { dialog, which ->
-            progressDialog.setTitle("Deleting.....")
+            progressDialog.setMessage("Deleting Photo.....")
             progressDialog.show()
             ApiServiceMyBdjobs.create()
                     .getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId)
                     .enqueue(object : Callback<PhotoInfoModel> {
                         override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
 
-                            Log.d("dgdsgdghj", "getPhotoInfo response ${response.body()!!} ")
+                            try {
+                                Log.d("dgdsgdghj", "getPhotoInfo response ${response.body()!!} ")
 
-                            if (response.body()!!.statuscode.equals("0", true)) {
+                                if (response.body()!!.statuscode.equals("0", true)) {
 
 
-                                folderName = response.body()!!.data[0].folderName
-                                folderId = response.body()!!.data[0].folderId
-                                imageName = response.body()!!.data[0].imageName
+                                    folderName = response.body()!!.data[0].folderName
+                                    folderId = response.body()!!.data[0].folderId
+                                    imageName = response.body()!!.data[0].imageName
 
-                                reqParams.put("Image", encodedString)
-                                reqParams.put("userid", bdjobsUserSession.userId)
-                                reqParams.put("decodeid", bdjobsUserSession.decodId)
-                                reqParams.put("folderName", folderName)
-                                reqParams.put("folderId", folderId)
-                                reqParams.put("imageName", imageName)
-                                reqParams.put("isResumeUpdate", isResumeUpdate)
-                                reqParams.put("status", "delete")
+                                    reqParams.put("Image", encodedString)
+                                    reqParams.put("userid", bdjobsUserSession.userId)
+                                    reqParams.put("decodeid", bdjobsUserSession.decodId)
+                                    reqParams.put("folderName", folderName)
+                                    reqParams.put("folderId", folderId)
+                                    reqParams.put("imageName", imageName)
+                                    reqParams.put("isResumeUpdate", isResumeUpdate)
+                                    reqParams.put("status", "delete")
 
-                                makeHTTPCallForDelete()
+                                    makeHTTPCallForDelete()
 
-                            } else {
-                                progressDialog.dismiss()
-                                toast("Failed ")
+                                } else {
+                                    progressDialog.dismiss()
+                                    toast("Failed ")
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
                             }
                         }
 
@@ -286,29 +299,33 @@ class PhotoUploadActivity : AppCompatActivity() {
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", reqParams, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
 
-                val response = String(responseBody)
+                try {
+                    val response = String(responseBody)
 
-                Log.d("Deltete", " response ${response}")
-
-
-                val gson = Gson()
-                val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-
-                progressDialog.dismiss()
-                noPhotoTV.text = "No photo is uploaded yet"
-                photoInfoTV.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
-                photoInfoTV.show()
-                editResPhotoUploadButton.show()
-                editResChangePhotoButton.hide()
-                ic_edit_photo.hide()
-                photoDeleteButton.hide()
-                editResPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
-                bdjobsUserSession.updateUserPicUrl("")
+                    Log.d("Deltete", " response ${response}")
 
 
-                toast(photoUploadModel.message)
+                    val gson = Gson()
+                    val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
 
-                Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
+                    progressDialog.dismiss()
+                    noPhotoTV.text = "No photo is uploaded yet"
+                    photoInfoTV.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
+                    photoInfoTV.show()
+                    editResPhotoUploadButton.show()
+                    editResChangePhotoButton.hide()
+                    ic_edit_photo.hide()
+                    photoDeleteButton.hide()
+                    editResPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
+                    bdjobsUserSession.updateUserPicUrl("")
+
+
+                    toast(photoUploadModel.message)
+
+                    Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
+                } catch (e: Exception) {
+                    logException(e)
+                }
 
             }
 

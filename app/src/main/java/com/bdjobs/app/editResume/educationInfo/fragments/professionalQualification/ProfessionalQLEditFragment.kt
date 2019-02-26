@@ -73,9 +73,9 @@ class ProfessionalQLEditFragment : Fragment() {
 
 
 
-        etPqCertification.addTextChangedListener(TW.CrossIconBehave(etPqCertification))
-        etPqInstitute.addTextChangedListener(TW.CrossIconBehave(etPqInstitute))
-        etPqLocation.addTextChangedListener(TW.CrossIconBehave(etPqLocation))
+        etPqCertification?.addTextChangedListener(TW.CrossIconBehave(etPqCertification))
+        etPqInstitute?.addTextChangedListener(TW.CrossIconBehave(etPqInstitute))
+        etPqLocation?.addTextChangedListener(TW.CrossIconBehave(etPqLocation))
 
 
     }
@@ -245,38 +245,38 @@ class ProfessionalQLEditFragment : Fragment() {
         val data = eduCB.getProfessionalData()
 
         hPqualificationID = data.prId.toString()
-        etPqCertification.setText(data.certification)
-        etPqInstitute.setText(data.institute)
-        etPqLocation.setText(data.location)
-        etPqStartDate.setText(data.from)
-        etPqEndDate.setText(data.to)
+        etPqCertification?.setText(data.certification)
+        etPqInstitute?.setText(data.institute)
+        etPqLocation?.setText(data.location)
+        etPqStartDate?.setText(data.from)
+        etPqEndDate?.setText(data.to)
 
 
     }
 
     private fun clearEditText() {
-        etPqCertification.clear()
-        etPqInstitute.clear()
-        etPqLocation.clear()
-        etPqStartDate.clear()
-        etPqEndDate.clear()
+        etPqCertification?.clear()
+        etPqInstitute?.clear()
+        etPqLocation?.clear()
+        etPqStartDate?.clear()
+        etPqEndDate?.clear()
 
-        etPqCertification.clearFocus()
-        etPqInstitute.clearFocus()
-        etPqLocation.clearFocus()
-        etPqStartDate.clearFocus()
-        etPqEndDate.clearFocus()
+        etPqCertification?.clearFocus()
+        etPqInstitute?.clearFocus()
+        etPqLocation?.clearFocus()
+        etPqStartDate?.clearFocus()
+        etPqEndDate?.clearFocus()
 
         disableError()
     }
 
 
     private fun disableError() {
-        certificationTIL.hideError()
-        prfInstituteTIL.hideError()
-        prqLocationTIL.hideError()
-        pqEndDateTIL.hideError()
-        pqStartDateTIL.hideError()
+        certificationTIL?.hideError()
+        prfInstituteTIL?.hideError()
+        prqLocationTIL?.hideError()
+        pqEndDateTIL?.hideError()
+        pqStartDateTIL?.hideError()
     }
 
 

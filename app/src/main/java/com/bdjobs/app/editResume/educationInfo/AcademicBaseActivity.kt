@@ -105,7 +105,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
             when (check) {
                 "addDirect" -> {
                     acaEditFragment.isEdit = false
-                    transitFragment(acaEditFragment, R.id.edu_info_container, false)
+                    transitFragment(acaEditFragment, R.id.edu_info_container, true)
                     Constants.isDirectCall = true
                 }
                 "add" -> {

@@ -73,7 +73,7 @@ class TrainingViewFragment : Fragment() {
         call.enqueue(object : Callback<GetTrainingInfo> {
             override fun onFailure(call: Call<GetTrainingInfo>, t: Throwable) {
                 shimmerStop()
-                rv_tr_view.show()
+                rv_tr_view?.show()
                 activity.toast("Error occurred")
             }
 
@@ -81,7 +81,7 @@ class TrainingViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        rv_tr_view.show()
+                        rv_tr_view?.show()
                         val respo = response.body()
                         arr = respo?.data as ArrayList<Tr_DataItem>
                         //activity.toast("${arr?.size}")
@@ -104,8 +104,8 @@ class TrainingViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_JobList.show()
-            shimmer_view_container_JobList.startShimmerAnimation()
+            shimmer_view_container_JobList?.show()
+            shimmer_view_container_JobList?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -114,8 +114,8 @@ class TrainingViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_JobList.hide()
-            shimmer_view_container_JobList.stopShimmerAnimation()
+            shimmer_view_container_JobList?.hide()
+            shimmer_view_container_JobList?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
