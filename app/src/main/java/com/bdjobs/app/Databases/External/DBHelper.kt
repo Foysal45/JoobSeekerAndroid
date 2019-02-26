@@ -289,6 +289,9 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
         val JOB_DEADLINE_COL_JOB_DEADLINE_NAME = "DEADLINE_NAME"
         val JOB_DEADLINE_COL_ID = "DEADLINE_ID"
 
+        //---------------------------------KEYWORD_SUGGESYIONS-----------------------------------------------------//
+        val TABLE_NAME_KEYWORD_SUGGESYIONS = "keyword_suggestions"
+        val KEYWORD_SUGGESYIONS_COL_KEYWORDS = "keyword"
 
     }
 }

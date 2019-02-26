@@ -48,11 +48,14 @@ class SpecializationEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        refnameATCTV.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
         etSkillDescription?.addTextChangedListener(TW.CrossIconBehave(etSkillDescription))
         etCaricular?.addTextChangedListener(TW.CrossIconBehave(etCaricular))
+
         doWork()
 
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -236,8 +239,15 @@ class SpecializationEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(specializationLoadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+
                         if (resp?.statuscode == "4") {
+
+                            if (isEdit) {
+                                activity.toast("The information has been updated successfully")
+                            } else {
+                                activity.toast("The information has been added successfully")
+                            }
+
                             eduCB.goBack()
                         }
                     }

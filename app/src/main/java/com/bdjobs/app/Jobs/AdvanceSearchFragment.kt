@@ -13,14 +13,14 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_advance_search_layout.*
-import java.util.*
-import java.util.Arrays.asList
 
 
 class AdvanceSearchFragment : Fragment() {
     lateinit var jobCommunicator: JobCommunicator
     lateinit var dataStorage: DataStorage
     var gender: String = ""
+
+    val genderList:MutableList<String> =ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_advance_search_layout, container, false)!!
@@ -126,30 +126,46 @@ class AdvanceSearchFragment : Fragment() {
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if (isChecked) {
-                gender += "M,"
+                if("M" !in genderList){
+                    genderList.add("M")
+                }
             } else {
-                gender = gender.replace("M,", "")
+                if("M" in genderList) {
+                    genderList.remove("M")
+                }
             }
+            gender = genderList.joinToString(transform = { it })
             jobCommunicator.setGender(gender.removeLastComma())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
         femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                gender += "F,"
+                if("F" !in genderList){
+                    genderList.add("F")
+                }
             } else {
-                gender = gender.replace("F,", "")
+                if("F" in genderList) {
+                    genderList.remove("F")
+                }
             }
+            gender = genderList.joinToString(transform = { it })
             jobCommunicator.setGender(gender.removeLastComma())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
         otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                gender += "O,"
+                if("O" !in genderList){
+                    genderList.add("O")
+                }
             } else {
-                gender = gender.replace("O,", "")
+
+                if("O" in genderList) {
+                    genderList.remove("O")
+                }
             }
+            gender = genderList.joinToString(transform = { it })
             jobCommunicator.setGender(gender.removeLastComma())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
@@ -270,15 +286,16 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun setGenderData() {
-        gender = ""
+        val tempGender = jobCommunicator.getGender()
+        Log.d("GenderCheck", "tempGender: $tempGender")
         maleChip?.isChecked = false
         femaleChip?.isChecked = false
         otherChip?.isChecked = false
-        val genderList = jobCommunicator.getGender()?.split(",")
+        val genderList = tempGender.split(",")
         genderList?.forEach { it ->
-            Log.d("genderList", "gender: $it")
-
-            selectChip(genderCG, dataStorage.getGenderByID(it))
+            Log.d("GenderCheck", "genderGet: $it")
+            Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
+            selectChip(genderCG, dataStorage.getGenderByID(it.trim()))
         }
     }
 
