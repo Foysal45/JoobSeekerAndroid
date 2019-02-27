@@ -214,6 +214,11 @@ class BCAddressFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+
+        bcVillageTIL.isErrorEnabled = false
+        /*  bcVillageTIET.isFocusable = false*/
+
+
         setDialog("বিভাগ নির্বাচন করুন ", bcDivisionTIET, dataStorage.banglaAllDivision)
 
         if (!TextUtils.isEmpty(bcDivisionTIET.getString())) {
