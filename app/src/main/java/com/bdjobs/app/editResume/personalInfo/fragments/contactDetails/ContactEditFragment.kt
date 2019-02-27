@@ -306,7 +306,7 @@ class ContactEditFragment : Fragment() {
         prContactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
         d("thana : ${data.presentThana}")
         prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
-        d("thana : ${data.presentPostOffice}")
+        d("postOffice : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
         val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
         d("division : $prDiv")

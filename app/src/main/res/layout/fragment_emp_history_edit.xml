@@ -65,6 +65,7 @@
                         android:focusableInTouchMode="true"
                         android:hint="@string/hint.company_business"
                         android:imeOptions="actionDone"
+                        android:maxLength="150"
                         android:inputType="text"
                         android:padding="15dp"
                         android:textColor="#212121" />
@@ -164,6 +165,7 @@
                         android:layout_height="wrap_content"
                         android:focusableInTouchMode="true"
                         android:hint="@string/hint.responsibilities"
+                        android:maxLength="250"
                         android:inputType="text|textMultiLine"
                         android:textColor="#212121" />
 
