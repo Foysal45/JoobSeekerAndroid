@@ -51,7 +51,7 @@ class EditResLandingActivity : Activity() {
             //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
             //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
             //startActivity<PersonalInfoActivity>("name" to "null", "personal_info_edit" to "addDirect")
-           //startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")
+           startActivity<OtherInfoBaseActivity>("name" to "null", "other_info_add" to "addDirect")
             //startActivity<PhotoUploadActivity>()
         }*/
 

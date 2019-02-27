@@ -106,9 +106,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
 
     override fun setTitle(tit: String?) {
-
         setupToolbar(tit)
-
     }
 
     override fun setDeleteButton(b: Boolean) {
@@ -151,6 +149,11 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
         try {
             when (check) {
+                "addDirect" -> {
+                    specializationEditFragment.isEdit = false
+                    transitFragment(specializationEditFragment, R.id.other_info_container, false)
+                    Constants.isDirectCall = true
+                }
                 "addLanguage" -> {
                     languageEditFrgamnet.isEdit = false
                     transitFragment(languageEditFrgamnet, R.id.other_info_container, true)
@@ -225,7 +228,6 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
     override fun goBack() {
-
         onBackPressed()
         if (Constants.isDirectCall) finish()
         cl_otherInfo_base.closeKeyboard(this@OtherInfoBaseActivity)
