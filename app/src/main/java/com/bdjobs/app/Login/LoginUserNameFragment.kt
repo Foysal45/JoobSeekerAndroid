@@ -458,11 +458,11 @@ class LoginUserNameFragment : Fragment() {
                 requestFocus(usernameTIET)
                 return false
             }*/
-            userName.trim { it <= ' ' }.length < 5 /*|| userName.trim { it <= ' ' }.length > 15*/ -> {
+            /*userName.trim { it <= ' ' }.length < 5 *//*|| userName.trim { it <= ' ' }.length > 15*//* -> {
                 useNameTIL.showError("Username is too short!")
                 requestFocus(usernameTIET)
                 return false
-            }
+            }*/
             else -> useNameTIL.hideError()
         }
         return true

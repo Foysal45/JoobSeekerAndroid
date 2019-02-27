@@ -521,7 +521,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
             "experience" -> {
                 //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
-                startActivity<OtherInfoBaseActivity>("name" to "null", "specialization_info_add" to "addDirect")
+                startActivity<OtherInfoBaseActivity>("name" to "null", "other_info_add" to "addDirect")
             }
             "education" -> {
                 startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")

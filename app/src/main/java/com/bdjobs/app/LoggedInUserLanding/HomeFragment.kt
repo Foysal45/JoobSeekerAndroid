@@ -90,6 +90,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToKeywordSuggestion()
         }
         followedEmployerView?.setOnClickListener {
+            homeCommunicator.setTime("0")
             homeCommunicator.goToFollowedEmployerList("follow")
         }
         showAllFavIMGV?.setOnClickListener {

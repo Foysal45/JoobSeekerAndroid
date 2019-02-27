@@ -297,7 +297,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
             }
             "experience" -> {
                    //activity?.startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
-                activity?.startActivity<OtherInfoBaseActivity>("name" to "null", "specialization_info_add" to "addDirect")
+                activity?.startActivity<OtherInfoBaseActivity>("name" to "null", "other_info_add" to "addDirect")
             }
             "education" -> {
                    activity?.startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")
