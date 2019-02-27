@@ -38,7 +38,7 @@ class PersonalDetailsEditFragment : Fragment() {
     private var marital = ""
     private var dob = ""
     private var date: Date? = null
-    private var nationality = "Bangladeshi"
+    private var nationality = ""
     private var isNotBangladeshi = false
 
     private val birthDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -98,7 +98,7 @@ class PersonalDetailsEditFragment : Fragment() {
                 nationalityTIL.show()
                 true
             } else {
-                etPerNationality.setText(nationality)
+                etPerNationality.clear()
                 nidTIL.show()
                 nationalityTIL.hide()
                 false
@@ -197,6 +197,7 @@ class PersonalDetailsEditFragment : Fragment() {
             nationalityTIL.hide()
         } else {
             cbPerIsBd.isChecked = false
+            etPerNationality.clear()
             nidTIL.hide()
             nationalityTIL.show()
         }
