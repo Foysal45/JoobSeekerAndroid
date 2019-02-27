@@ -151,6 +151,7 @@
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
                    android:maxLength="49"
+                   android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
                    android:inputType="text"
                    android:singleLine="true"
                    android:typeface="normal"

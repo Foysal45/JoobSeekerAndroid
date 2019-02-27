@@ -27,6 +27,7 @@ class BCOtpCodeFragment : Fragment() {
 
         returnView = inflater.inflate(R.layout.fragment_bc_otp_code, container, false)
         return returnView
+
     }
 
 
@@ -36,6 +37,7 @@ class BCOtpCodeFragment : Fragment() {
         onClick()
         initialization()
         setTime()
+
     }
 
     private fun onClick(){
