@@ -797,6 +797,7 @@ interface ApiServiceMyBdjobs {
             @Field("isResumeUpdate") isResumeUpdate: String?,
             @Field("fullName") fullName: String?,
             @Field("Jobid") Jobid: String?,
+            @Field("application") application: String?,
             @Field("userEmail") userEmail: String?,
             @Field("mailSubject") mailSubject: String?,
             @Field("companyEmail") companyEmail: String?

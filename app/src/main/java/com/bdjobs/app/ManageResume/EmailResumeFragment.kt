@@ -88,6 +88,7 @@ class EmailResumeFragment : Fragment() {
             isResumeUpdate = "1"
          //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
+        //
        // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
         callSendEmailCV(isResumeUpdate)
     }
@@ -136,6 +137,7 @@ class EmailResumeFragment : Fragment() {
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
                 uploadedCv = "0",
+                application = et_Message.text?.toString(),
                 isResumeUpdate = isResumeUpdate,
                 fullName = bdjobsUserSession.fullName,
                 Jobid = "0",
