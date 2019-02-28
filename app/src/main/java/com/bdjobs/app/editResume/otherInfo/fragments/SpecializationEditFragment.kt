@@ -48,10 +48,10 @@ class SpecializationEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
-        refnameATCTV.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
+        eduCB.setTitle(getString(R.string.title_specialization))
+        refnameATCTV?.addTextChangedListener(TW.CrossIconBehaveACTV(refnameATCTV))
         etSkillDescription?.addTextChangedListener(TW.CrossIconBehave(etSkillDescription))
         etCaricular?.addTextChangedListener(TW.CrossIconBehave(etCaricular))
-
         doWork()
 
     }
@@ -59,9 +59,7 @@ class SpecializationEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         d(isEdit.toString())
-
         if (isEdit) {
             eduCB.setDeleteButton(true)
             eduCB.setEditButton(false)
@@ -78,33 +76,22 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun clearEditText() {
-
-        etSkillDescription.clearText()
-        etCaricular.clearText()
-        refnameATCTV.clearText()
+        etSkillDescription?.clearText()
+        etCaricular?.clearText()
+        refnameATCTV?.clearText()
     }
 
 
     private fun preloadedData() {
-
         //jgkhgfjkh
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
-
             addChip(it?.skillName!!)
             addAsString(it.id!!)
-
         }
-
-        etSkillDescription.setText(data.description)
-        etCaricular.setText(data.extracurricular)
-
-
+        etSkillDescription?.setText(data.description)
+        etCaricular?.setText(data.extracurricular)
     }
-
-
-
-
 
     private fun doWork() {
 
@@ -129,7 +116,7 @@ class SpecializationEditFragment : Fragment() {
                 if (!idArr.contains(workSkillID))
                     addChip(refnameATCTV.getString())
                 else {
-                    refnameATCTV.closeKeyboard(activity)
+                    refnameATCTV?.closeKeyboard(activity)
                     activity.toast("Experience already added")
                 }
                 skillTIL.hideError()
@@ -137,8 +124,8 @@ class SpecializationEditFragment : Fragment() {
                 addChip(refnameATCTV.getString())
                 d("specialization test Array size : ${idArr.size} and $skills and id : $id")
                 isEmpty = true
-                skillTIL.isErrorEnabled = true
-                skillTIL.hideError()
+                skillTIL?.isErrorEnabled = true
+                skillTIL?.hideError()
             }
         }
 

@@ -264,6 +264,8 @@ class BCEducationFragment : Fragment() {
 
         }
 
+
+
         return !TextUtils.isEmpty(bcEduLevelTIET.getString()) and
                 !TextUtils.isEmpty(bcEduDegreeTIET.getString()) and
                 !TextUtils.isEmpty(bcInstituteNameTIET.getString()) and
@@ -343,6 +345,8 @@ class BCEducationFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        bcInstituteNameTIL.isErrorEnabled = false
+        /*  bcInstituteNameTIET.isFocusable = false*/
 
         val eduLevels = dataStorage.allEduLevels
         setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))

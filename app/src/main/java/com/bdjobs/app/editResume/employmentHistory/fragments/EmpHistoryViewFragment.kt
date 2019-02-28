@@ -92,7 +92,7 @@ class EmpHistoryViewFragment : Fragment() {
                         } else {
                             rv_eh_view.hide()
                             tv_no_data.text = respo?.message.toString()
-                            tv_no_data.show()
+                            //tv_no_data.show()
                         }
                     }
                 } catch (e: Exception) {

@@ -60,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
                     android:hint="@string/hint_others_language"
                     android:inputType="text|textMultiLine"
                     android:maxLength="49"

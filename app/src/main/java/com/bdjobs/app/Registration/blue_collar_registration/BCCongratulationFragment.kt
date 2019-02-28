@@ -63,14 +63,13 @@ class BCCongratulationFragment : Fragment() {
             val inviteCodeUserInfo = bdjobsDB.inviteCodeUserInfoDao().getInviteCodeInformation(bdjobsUserSession.userId!!)
             uiThread {
                 if (inviteCodeUserInfo.isNullOrEmpty()) {
-                    promoCodeBTN.hide()
+                    promoCodeBTN?.hide()
                 }else{
-                    promoCodeBTN.show()
-                    userType = inviteCodeUserInfo.get(0)?.userType!!
-                    pcOwnerID = inviteCodeUserInfo.get(0)?.pcOwnerID!!
-                    inviteCodeStatus = inviteCodeUserInfo.get(0)?.inviteCodeStatus!!
-                    Log.d("invitereg",
-                            "userType = $userType, pcOwnerID= $pcOwnerID, inviteCodeStatus= $inviteCodeStatus")
+                    promoCodeBTN?.show()
+                    userType = inviteCodeUserInfo.get(0).userType!!
+                    pcOwnerID = inviteCodeUserInfo.get(0).pcOwnerID!!
+                    inviteCodeStatus = inviteCodeUserInfo.get(0).inviteCodeStatus!!
+                    Log.d("invitereg", "userType = $userType, pcOwnerID= $pcOwnerID, inviteCodeStatus= $inviteCodeStatus")
 
                 }
             }

@@ -12,7 +12,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 626 //58
-        versionName "600.0.4.8.3"  //2.0
+        versionName "600.0.4.8.3(Internal Test)"  //2.0
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,10 +36,11 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.google.android.material:material:1.0.0"
+    
     //----firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation "com.google.firebase:firebase-messaging:17.4.0"
     implementation 'com.google.firebase:firebase-perf:16.2.3'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
@@ -69,9 +70,6 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.0.0'
     testImplementation 'androidx.room:room-testing:2.0.0'
 
-    //------linkedIn SDK
-    implementation project(':linkedin-sdk')
-
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.facebook.android:facebook-login:4.38.1'
@@ -84,14 +82,12 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.droidninja:filepicker:2.2.0'
 
-
-
     //web browser
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-beta02"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-rc01"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-rc01"
 
     //-----google maps
     implementation "com.google.android.gms:play-services-maps:16.1.0"

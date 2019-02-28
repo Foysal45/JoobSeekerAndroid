@@ -65,7 +65,7 @@ class BCMobileNumberFragment : Fragment() {
 
             } else {
 
-                if (TextUtils.isEmpty(bcMobileNumberTIET.getString())) {
+                if (TextUtils.isEmpty(bcMobileNumberTIET?.getString())) {
 
                     bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
                 }
@@ -124,24 +124,24 @@ class BCMobileNumberFragment : Fragment() {
         val noButton = dialog.findViewById<TextView>(R.id.bcNoTV)
         val mobileNumberTV = dialog.findViewById<TextView>(R.id.mobileNumberTV)
         val crossIV = dialog.findViewById<ImageView>(R.id.deleteIV)
-        mobileNumberTV.text = "${bcMobileNumberTIET.getString()} এই নাম্বারটিই কি আপনার?"
+        mobileNumberTV?.text = "${bcMobileNumberTIET.getString()} এই নাম্বারটিই কি আপনার?"
 
 
-        crossIV.setOnClickListener {
+        crossIV?.setOnClickListener {
             dialog.dismiss()
         }
-        noButton.setOnClickListener {
+        noButton?.setOnClickListener {
 
             dialog.dismiss()
 
         }
 
-        yesButton.setOnClickListener {
+        yesButton?.setOnClickListener {
 
             registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET.getString())
             registrationCommunicator.wcUserNameTypeSelected("mobile")
             registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET.getString())
-            Log.d("CountryCode", "${bcCountryCodeTIET.text}")
+            Log.d("CountryCode", "${bcCountryCodeTIET?.text}")
 
             val countryNameAndCountryCode = bcCountryCodeTIET.getString()
             val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
@@ -168,16 +168,16 @@ class BCMobileNumberFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(mobileNumber) -> {
-                bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
+                bcMobileNumberTIL?.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
             !validateMobileNumber() -> {
-                bcMobileNumberTIL.showError("মোবাইল নাম্বারটি প্রযোজ্য নয়")
+                bcMobileNumberTIL?.showError("মোবাইল নাম্বারটি সঠিক নয়")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
-            else -> bcMobileNumberTIL.hideError()
+            else -> bcMobileNumberTIL?.hideError()
         }
         return true
     }
@@ -191,11 +191,11 @@ class BCMobileNumberFragment : Fragment() {
 
 
     private fun validateMobileNumber(): Boolean {
-        if (!TextUtils.isEmpty(bcCountryCodeTIET.text.toString()) && !TextUtils.isEmpty(bcMobileNumberTIET.text.toString())) {
-            if (android.util.Patterns.PHONE.matcher(bcMobileNumberTIET.text.toString()).matches()) {
-                if (bcCountryCodeTIET.text.toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET.text.toString().length == 11) {
+        if (!TextUtils.isEmpty(bcCountryCodeTIET?.text.toString()) && !TextUtils.isEmpty(bcMobileNumberTIET?.text.toString())) {
+            if (android.util.Patterns.PHONE.matcher(bcMobileNumberTIET?.text.toString()).matches()) {
+                if (bcCountryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET?.text.toString().length == 11) {
                     return true
-                } else if (!bcCountryCodeTIET.text.toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET.text.toString().length + getCountryCode().length >= 6 && bcMobileNumberTIET.text.toString().length + getCountryCode().length <= 15) {
+                } else if (!bcCountryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && bcMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && bcMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
                     return true
                 }
             }
@@ -205,7 +205,7 @@ class BCMobileNumberFragment : Fragment() {
 
 
     private fun getCountryCode(): String {
-        val inputData = bcCountryCodeTIET.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        val inputData = bcCountryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
         return inputData[inputData.size - 1].trim({ it <= ' ' })
     }
 }

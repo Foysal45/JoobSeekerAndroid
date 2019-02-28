@@ -18,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Training.TrainingListAcitivity"></activity>
+
+        <activity android:name=".Training.TrainingListAcitivity">
+
+        </activity>
 
         <uses-library
             android:name="org.apache.http.legacy"

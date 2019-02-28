@@ -82,12 +82,10 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
-        val poID = info?.data?.get(0)?.presentPostOffice
-        val pmPoID = info?.data?.get(0)?.permanentPostOffice
         var presentAddress = if (info?.data?.get(0)?.presentDistrict.equals("")) "" else info?.data?.get(0)?.presentVillage +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
-                ", " + if (poID != "-2") dataStorage.getLocationNameByID(poID) else "" +
-                ", " + dataStorage.getLocationNameByID(info.data[0]?.presentDistrict)
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
+                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict)
         //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
 
         val isSameOfPresent = info?.data?.get(0)?.addressType1
@@ -97,8 +95,8 @@ class ContactViewFragment : Fragment() {
             else ->
                 info?.data?.get(0)?.permanentVillage +
                         ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
-                        ", " + if (pmPoID != "-2") dataStorage.getLocationNameByID(pmPoID) else "" +
-                        ", " + dataStorage.getLocationNameByID(info.data[0]?.permanentDistrict)
+                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
+                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict)
             //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
         }
 
@@ -109,6 +107,7 @@ class ContactViewFragment : Fragment() {
 
         if (info?.data?.get(0)?.presentInsideOutsideBD == "False") {
             presentAddress = presentAddress.replace(", ,".toRegex(), ",")
+            presentAddress = presentAddress.replace("Other,".toRegex(), "")
             tvPresentAddress.text = presentAddress.removeLastComma()
         } else {
             var finalValue = TextUtils.concat(presentAddress, ", ", dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry))
@@ -117,7 +116,8 @@ class ContactViewFragment : Fragment() {
         }
         if (info?.data?.get(0)?.permanentInsideOutsideBD == "False") {
             permanentAddress = permanentAddress.replace(", ,".toRegex(), ",")
-            tvPermanentAddress.text = permanentAddress
+            permanentAddress = permanentAddress.replace("Other,".toRegex(), "")
+            tvPermanentAddress.text = permanentAddress.removeLastComma()
         } else {
             val sb = StringBuilder()
             //val finalValue = sb.append("$permanentAddress, ").append(dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)).replace(",".toRegex(), "")

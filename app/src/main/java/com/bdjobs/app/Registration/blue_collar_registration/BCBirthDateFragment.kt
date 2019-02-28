@@ -49,16 +49,16 @@ class BCBirthDateFragment : Fragment() {
 
         Log.d("birthd", "onResumeCalled")
         if (!TextUtils.isEmpty(birthdate)) {
-            bcBirthDateTIET.setText(birthdate)
-            bcAgeTIET.text!!.clear()
+            bcBirthDateTIET?.setText(birthdate)
+            bcAgeTIET?.text!!.clear()
             ageLimit = true
 
         } else if (!TextUtils.isEmpty(registrationCommunicator.bcGetAge())) {
             Log.d("birthd", "age: " + registrationCommunicator.bcGetAge())
             age = Integer.parseInt(registrationCommunicator.bcGetAge())
             if (age >= 12) {
-                bcAgeTIET.setText(age.toString())
-                bcBirthDateTIET.text!!.clear()
+                bcAgeTIET?.setText(age.toString())
+                bcBirthDateTIET?.text!!.clear()
                 ageLimit = true
 
             }
@@ -71,9 +71,9 @@ class BCBirthDateFragment : Fragment() {
         bcBirthDateFAButton.setOnClickListener {
 
 
-            if (!TextUtils.isEmpty(bcBirthDateTIET.text.toString())) {
+            if (!TextUtils.isEmpty(bcBirthDateTIET?.text.toString())) {
 
-                birthdate = bcBirthDateTIET.text.toString()
+                birthdate = bcBirthDateTIET?.text.toString()
                 Log.d("Test", " birthDtae ${birthdate}")
 
                 val sdf = SimpleDateFormat("MM/dd/yyyy")
@@ -91,7 +91,7 @@ class BCBirthDateFragment : Fragment() {
 
                 birthdate = ""
                 try {
-                    age = Integer.parseInt(bcAgeTIET.text.toString())
+                    age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
 
 
@@ -111,17 +111,17 @@ class BCBirthDateFragment : Fragment() {
             }
 
 
-            if (TextUtils.isEmpty(bcBirthDateTIET.text.toString()) && TextUtils.isEmpty(bcAgeTIET.text.toString())) {
+            if (TextUtils.isEmpty(bcBirthDateTIET?.text.toString()) && TextUtils.isEmpty(bcAgeTIET?.text.toString())) {
 
-                bcAgeTIL.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
-                bcBirthDateTIL.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
+                bcAgeTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
+                bcBirthDateTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
 
             }
 
         }
 
 
-        bcBirthDateTIET.setOnClickListener {
+        bcBirthDateTIET?.setOnClickListener {
 
             // calender class's instance and get current date , month and year from calender
 
@@ -157,14 +157,14 @@ class BCBirthDateFragment : Fragment() {
                         age = ageTemp
                         if (age in 12..85) {
                             ageLimit = true
-                            bcBirthDateTIL.hideError()
-                            bcAgeTIL.hideError()
-                            bcAgeTIET.isFocusableInTouchMode = true
+                            bcBirthDateTIL?.hideError()
+                            bcAgeTIL?.hideError()
+                            bcAgeTIET?.isFocusableInTouchMode = true
 
                         } else {
                             ageLimit = false
-                            bcBirthDateTIL.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")
-                            bcAgeTIET.isFocusableInTouchMode = true
+                            bcBirthDateTIL?.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")
+                            bcAgeTIET?.isFocusableInTouchMode = true
 
                         }
 
@@ -192,13 +192,13 @@ class BCBirthDateFragment : Fragment() {
 
 
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
@@ -216,14 +216,14 @@ class BCBirthDateFragment : Fragment() {
 
     private fun addTextChangedListener() {
 
-        bcBirthDateTIET.easyOnTextChangedListener { charSequence ->
+        bcBirthDateTIET?.easyOnTextChangedListener { charSequence ->
 
             birthdateValidation(charSequence.toString(), bcBirthDateTIET, bcBirthDateTIL, "জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
 
         }
 
 
-        bcAgeTIET.easyOnTextChangedListener { charSequence ->
+        bcAgeTIET?.easyOnTextChangedListener { charSequence ->
 
             ageValidation(charSequence.toString(), bcAgeTIET, bcAgeTIL, "জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
 
@@ -241,7 +241,7 @@ class BCBirthDateFragment : Fragment() {
             else -> {
 
                 try {
-                    age = Integer.parseInt(bcAgeTIET.text.toString())
+                    age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
 
 
@@ -261,8 +261,8 @@ class BCBirthDateFragment : Fragment() {
 
                 if (ageLimit) {
                     til.hideError()
-                    bcBirthDateTIET.clear()
-                    bcBirthDateTIL.hideError()
+                    bcBirthDateTIET?.clear()
+                    bcBirthDateTIL?.hideError()
                 } else {
                     til.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")
                 }
@@ -284,7 +284,7 @@ class BCBirthDateFragment : Fragment() {
 
                 if (ageLimit) {
                     til.hideError()
-                    bcAgeTIL.hideError()
+                    bcAgeTIL?.hideError()
                 } else {
 
                     til.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")

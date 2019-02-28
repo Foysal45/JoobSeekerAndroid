@@ -71,7 +71,7 @@ class ProfessionalQLViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        rv_professional_view.hide()
+        rv_professional_view?.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getProfessionalInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<ProfessionalModel> {
@@ -85,7 +85,7 @@ class ProfessionalQLViewFragment : Fragment() {
                 try {
                 if (response.isSuccessful) {
                     shimmerStop()
-                    rv_professional_view.show()
+                    rv_professional_view?.show()
                     val respo = response.body()
 
 
@@ -111,8 +111,8 @@ class ProfessionalQLViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_Prf_List.show()
-            shimmer_view_container_Prf_List.startShimmerAnimation()
+            shimmer_view_container_Prf_List?.show()
+            shimmer_view_container_Prf_List?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -121,8 +121,8 @@ class ProfessionalQLViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_Prf_List.hide()
-            shimmer_view_container_Prf_List.stopShimmerAnimation()
+            shimmer_view_container_Prf_List?.hide()
+            shimmer_view_container_Prf_List?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

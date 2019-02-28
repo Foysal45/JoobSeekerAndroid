@@ -15,18 +15,15 @@ import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY
 import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING
 import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_EMAIL
 import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_ID
-import com.bdjobs.app.Utilities.Constants.Companion.LINKEDIN_REQUEST_URL
 import com.bdjobs.app.Utilities.Constants.Companion.RC_SIGN_IN
 import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_FACEBOOK
 import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_GOOGLE
-import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_LINKEDIN
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.key_false
 import com.bdjobs.app.Utilities.Constants.Companion.key_true
@@ -36,14 +33,6 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
-import com.linkedin.platform.APIHelper
-import com.linkedin.platform.LISessionManager
-import com.linkedin.platform.errors.LIApiError
-import com.linkedin.platform.errors.LIAuthError
-import com.linkedin.platform.listeners.ApiListener
-import com.linkedin.platform.listeners.ApiResponse
-import com.linkedin.platform.listeners.AuthListener
-import com.linkedin.platform.utils.Scope
 import kotlinx.android.synthetic.main.fragment_login_username.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -270,7 +259,7 @@ class LoginUserNameFragment : Fragment() {
         }
 
         linkedInSignInIMGV?.setOnClickListener {
-            signInWithLinkedIn()
+            //signInWithLinkedIn()
         }
 
 
@@ -289,10 +278,10 @@ class LoginUserNameFragment : Fragment() {
                 val heightDiff = rootView.rootView.height - (r.bottom - r.top)
 
                 if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
-                    footerIMGV.hide()
+                    footerIMGV?.hide()
                 } else {
                     //ok now we know the keyboard is down...
-                    footerIMGV.show()
+                    footerIMGV?.show()
 
                 }
             } catch (e: Exception) {
@@ -301,7 +290,7 @@ class LoginUserNameFragment : Fragment() {
         }
     }
 
-    private fun buildScope(): Scope {
+   /* private fun buildScope(): Scope {
         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
     }
 
@@ -362,7 +351,7 @@ class LoginUserNameFragment : Fragment() {
         }, true)
 
 
-    }
+    }*/
 
     private fun signInWithFacebook() {
         LoginManager.getInstance().logInWithReadPermissions(this@LoginUserNameFragment, Arrays.asList("public_profile", "email"))
@@ -375,7 +364,7 @@ class LoginUserNameFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager?.onActivityResult(requestCode, resultCode, data)
-        LISessionManager.getInstance(activity.applicationContext).onActivityResult(activity, requestCode, resultCode, data);
+        //LISessionManager.getInstance(activity.applicationContext).onActivityResult(activity, requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
 
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -469,11 +458,11 @@ class LoginUserNameFragment : Fragment() {
                 requestFocus(usernameTIET)
                 return false
             }*/
-            userName.trim { it <= ' ' }.length < 5 /*|| userName.trim { it <= ' ' }.length > 15*/ -> {
+            /*userName.trim { it <= ' ' }.length < 5 *//*|| userName.trim { it <= ' ' }.length > 15*//* -> {
                 useNameTIL.showError("Username is too short!")
                 requestFocus(usernameTIET)
                 return false
-            }
+            }*/
             else -> useNameTIL.hideError()
         }
         return true

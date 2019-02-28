@@ -75,13 +75,13 @@ class BCAddressFragment : Fragment() {
 
 
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
@@ -98,11 +98,11 @@ class BCAddressFragment : Fragment() {
 
     private fun addTextChangedListener() {
 
-        bcDivisionTIET.easyOnTextChangedListener { charSequence ->
+        bcDivisionTIET?.easyOnTextChangedListener { charSequence ->
             addressValidation(charSequence.toString(), bcDivisionTIET, bcDivisionTIL, "")
         }
 
-        bcDistrictTIET.easyOnTextChangedListener { charSequence ->
+        bcDistrictTIET?.easyOnTextChangedListener { charSequence ->
 
             addressValidation(charSequence.toString(), bcDistrictTIET, bcDistrictTIL, "")
             d("etTrInst : ->$charSequence|")
@@ -110,7 +110,7 @@ class BCAddressFragment : Fragment() {
         }
 
 
-        bcThanaTIET.easyOnTextChangedListener { charSequence ->
+        bcThanaTIET?.easyOnTextChangedListener { charSequence ->
 
             addressValidation(charSequence.toString(), bcThanaTIET, bcThanaTIL, "")
 
@@ -125,7 +125,7 @@ class BCAddressFragment : Fragment() {
          }*/
 
 
-        bcVillageTIET.easyOnTextChangedListener { charSequence ->
+        bcVillageTIET?.easyOnTextChangedListener { charSequence ->
 
 
             addressValidation(charSequence.toString(), bcVillageTIET, bcVillageTIL, "এলাকার ঠিকানা লিখুন")
@@ -136,7 +136,7 @@ class BCAddressFragment : Fragment() {
     }
 
     private fun validateCondition(): Boolean {
-        return !TextUtils.isEmpty(bcVillageTIET.text.toString()) and !TextUtils.isEmpty(bcDistrictTIET.text.toString()) and !TextUtils.isEmpty(bcDistrictTIET.text.toString()) and !TextUtils.isEmpty(bcThanaTIET.text.toString())
+        return !TextUtils.isEmpty(bcVillageTIET?.text.toString()) and !TextUtils.isEmpty(bcDistrictTIET?.text.toString()) and !TextUtils.isEmpty(bcDistrictTIET?.text.toString()) and !TextUtils.isEmpty(bcThanaTIET?.text.toString())
     }
 
 
@@ -162,62 +162,48 @@ class BCAddressFragment : Fragment() {
     private fun checkValidity() {
 
 
-        if (TextUtils.isEmpty(bcDivisionTIET.getString())) {
+        if (TextUtils.isEmpty(bcDivisionTIET?.getString())) {
 
-            bcDivisionTIL.showError("বিভাগ নির্বাচন করুন ")
+            bcDivisionTIL?.showError("বিভাগ নির্বাচন করুন ")
 
         } else {
-            bcDivisionTIL.isErrorEnabled = false
+            bcDivisionTIL?.isErrorEnabled = false
 
 
         }
 
-        if (TextUtils.isEmpty(bcDistrictTIET.getString())) {
+        if (TextUtils.isEmpty(bcDistrictTIET?.getString())) {
 
-            bcDistrictTIL.showError("জেলা নির্বাচন করুন")
+            bcDistrictTIL?.showError("জেলা নির্বাচন করুন")
 
         } else {
 
 
-            bcDistrictTIL.isErrorEnabled = false
+            bcDistrictTIL?.isErrorEnabled = false
 
 
         }
 
-        if (TextUtils.isEmpty(bcThanaTIET.getString())) {
+        if (TextUtils.isEmpty(bcThanaTIET?.getString())) {
 
-            bcThanaTIL.showError("থানা/উপজেলা নির্বাচন করুন")
+            bcThanaTIL?.showError("থানা/উপজেলা নির্বাচন করুন")
 
         } else {
 
-            bcThanaTIL.isErrorEnabled = false
+            bcThanaTIL?.isErrorEnabled = false
 
 
         }
 
+        if (TextUtils.isEmpty(bcVillageTIET?.getString())) {
 
-        /* if (TextUtils.isEmpty(bcPostOfficeTIET.getString())) {
-
-             bcPostOfficeTIL.showError("পোস্ট অফিস নির্বাচন করুন")
-
-         } else {
-
-
-             bcPostOfficeTIL.isErrorEnabled = false
-
-
-         }*/
-
-        if (TextUtils.isEmpty(bcVillageTIET.getString())) {
-
-            bcVillageTIL.showError("এলাকার ঠিকানা লিখুন ")
-            bcVillageTIET.requestFocus()
-            bcVillageTIL.requestFocus()
+            bcVillageTIL?.showError("এলাকার ঠিকানা লিখুন ")
+            bcVillageTIET?.requestFocus()
+            bcVillageTIL?.requestFocus()
 
         } else {
 
-
-            bcVillageTIL.isErrorEnabled = false
+            bcVillageTIL?.isErrorEnabled = false
 
         }
 
@@ -227,6 +213,10 @@ class BCAddressFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+
+        bcVillageTIL.isErrorEnabled = false
+        /*  bcVillageTIET.isFocusable = false*/
 
 
         setDialog("বিভাগ নির্বাচন করুন ", bcDivisionTIET, dataStorage.banglaAllDivision)
@@ -260,12 +250,12 @@ class BCAddressFragment : Fragment() {
                         editText.setText(data[which])
 
                         if (editText.id == R.id.bcDivisionTIET) {
-                            bcDistrictTIET.clear()
-                            bcThanaTIET.clear()
-                            bcPostOfficeTIET.clear()
-                            bcDistrictTIET.setOnClickListener(null)
-                            bcThanaTIET.setOnClickListener(null)
-                            bcPostOfficeTIET.setOnClickListener(null)
+                            bcDistrictTIET?.clear()
+                            bcThanaTIET?.clear()
+                            bcPostOfficeTIET?.clear()
+                            bcDistrictTIET?.setOnClickListener(null)
+                            bcThanaTIET?.setOnClickListener(null)
+                            bcPostOfficeTIET?.setOnClickListener(null)
 
 
                             bcVillageTIL.isErrorEnabled = false
@@ -275,17 +265,17 @@ class BCAddressFragment : Fragment() {
                             setDialog("জেলা নির্বাচন করুন", bcDistrictTIET, dataStorage.getDependentLocationByParentNameInBangla(queryValue))
                         }
                         if (editText.id == R.id.bcDistrictTIET) {
-                            bcThanaTIET.clear()
-                            bcPostOfficeTIET.clear()
-                            bcThanaTIET.setOnClickListener(null)
-                            bcPostOfficeTIET.setOnClickListener(null)
+                            bcThanaTIET?.clear()
+                            bcPostOfficeTIET?.clear()
+                            bcThanaTIET?.setOnClickListener(null)
+                            bcPostOfficeTIET?.setOnClickListener(null)
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
                             setDialog("উপজেলা / থানা নির্বাচন করুন", bcThanaTIET, dataStorage.getDependentLocationByParentNameInBangla(queryValue))
                         }
                         if (editText.id == R.id.bcThanaTIET) {
-                            bcPostOfficeTIET.clear()
-                            bcPostOfficeTIET.setOnClickListener(null)
+                            bcPostOfficeTIET?.clear()
+                            bcPostOfficeTIET?.setOnClickListener(null)
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
                             setDialog("পোষ্ট অফিস নির্বাচন করুন", bcPostOfficeTIET, dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue))

@@ -144,11 +144,11 @@ class LoginPasswordFragment : Fragment() {
                  requestFocus(passwordTIET)
                  return false
              }*/
-            password.trim { it <= ' ' }.length < 5 || password.trim().length > 12 -> {
+           /* password.trim { it <= ' ' }.length < 5 || password.trim().length > 12 -> {
                 passwordTIL?.showError("Password should be 8 to 12 character long!")
                 requestFocus(passwordTIET)
                 return false
-            }
+            }*/
             else -> passwordTIL?.hideError()
         }
         return true

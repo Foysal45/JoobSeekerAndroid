@@ -56,7 +56,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private var filterName = ""
     private var createdOn: Date? = null
     private var gender = ""
-    val genderList:MutableList<String> =ArrayList<String>()
+    val genderList: MutableList<String> = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_favourite_search_filter_edit, container, false)!!
@@ -129,12 +129,30 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         }
 
         updateBTN.setOnClickListener {
-            if(validateFilterName(filterNameET.getString(),filterNameTIL)) {
-                updateFavSearch()
+            if (validateFilterName(filterNameET.getString(), filterNameTIL)) {
+                doAsync {
+                    val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByName(filterNameET.getString().trim())
+                    var fid = ""
+                    try {
+                        fid = favSearch?.filterid!!
+                    } catch (e: java.lang.Exception) {
+                        logException(e)
+                    }
+                    uiThread {
+                        if (fid != "") {
+                            filterNameTIL.showError("This filter name is already exists.")
+                            activity.requestFocus(filterNameET)
+                        } else {
+                            updateFavSearch()
+                        }
+                    }
+                }
             }
         }
+
+
         filterNameET.easyOnTextChangedListener {
-            validateFilterName(filterNameET.getString(),filterNameTIL)
+            validateFilterName(filterNameET.getString(), filterNameTIL)
         }
 
         keywordET?.easyOnTextChangedListener { text ->
@@ -217,11 +235,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if("M" !in genderList){
+                if ("M" !in genderList) {
                     genderList.add("M")
                 }
             } else {
-                if("M" in genderList) {
+                if ("M" in genderList) {
                     genderList.remove("M")
                 }
             }
@@ -230,11 +248,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
         femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if("F" !in genderList){
+                if ("F" !in genderList) {
                     genderList.add("F")
                 }
             } else {
-                if("F" in genderList) {
+                if ("F" in genderList) {
                     genderList.remove("F")
                 }
             }
@@ -244,12 +262,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
         otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if("O" !in genderList){
+                if ("O" !in genderList) {
                     genderList.add("O")
                 }
             } else {
 
-                if("O" in genderList) {
+                if ("O" in genderList) {
                     genderList.remove("O")
                 }
             }
