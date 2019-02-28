@@ -36,6 +36,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.callHelpLine
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.Utilities.logException
 import com.google.gson.Gson
@@ -168,6 +169,8 @@ class BCPhotoUploadFragment : Fragment() {
             MY_PERMISSIONS_REQUEST_CAMERA -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
+                    d("openCamera called")
+
                 } else {
 
                 }
