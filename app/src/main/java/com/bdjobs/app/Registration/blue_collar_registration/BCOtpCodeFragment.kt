@@ -34,6 +34,7 @@ class BCOtpCodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //fkjgnf
         onClick()
         initialization()
         setTime()

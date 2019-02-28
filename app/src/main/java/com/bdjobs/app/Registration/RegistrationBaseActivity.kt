@@ -1525,4 +1525,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         val request = GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
     }
 
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+
+        bcPhotoUploadFragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+    }
+
 }
