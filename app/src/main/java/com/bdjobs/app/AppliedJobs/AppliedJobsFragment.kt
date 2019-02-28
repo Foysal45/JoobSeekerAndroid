@@ -118,16 +118,28 @@ class AppliedJobsFragment : Fragment() {
                 }
 
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
-                    shimmer_view_container_appliedJobList?.hide()
-                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+                    /* shimmer_view_container_appliedJobList?.hide()
+                     shimmer_view_container_appliedJobList?.stopShimmerAnimation()*/
+                    var totalRecords = response.body()?.common?.totalNumberOfApplication
+                    Log.d("totalrecords", "totalrecords  = $totalRecords")
 
+                    if (totalRecords != null) {
+                        //   toast("came")
+                    } else {
+
+                        //    toast("came1")
+                        totalRecords = "0"
+                        favCountTV?.show()
+                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    }
                     try {
                         Log.d("callAppliURl", "url: ${call?.request()} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         //   TOTAL_PAGES = 5
-                        var totalRecords = response.body()?.common?.totalNumberOfApplication
+
                         jobsAppliedSize = totalRecords?.toInt()!!
-                        Log.d("callAppliURl", response.body()?.activity?.toString())
+
 
 
 
@@ -153,28 +165,31 @@ class AppliedJobsFragment : Fragment() {
                                 isLastPages = true
                             }
 
+                        } else {
+                            //toast("came here")
+                            totalRecords = "0"
                         }
 
+                        Log.d("tot", "total = $totalRecords")
                         /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                          favCountTV.text = Html.fromHtml(styledText)*/
 
                         if (totalRecords?.toInt()!! > 1) {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
-                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null) {
+                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         }
 
 
-
-                        appliedJobsRV?.show()
-                        favCountTV?.show()
-                        shimmer_view_container_appliedJobList?.hide()
-                        shimmer_view_container_appliedJobList?.stopShimmerAnimation()
                     } catch (e: Exception) {
                         logException(e)
                     }
+                    appliedJobsRV?.show()
+                    favCountTV?.show()
+                    shimmer_view_container_appliedJobList?.hide()
+                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
                 }
 
             })

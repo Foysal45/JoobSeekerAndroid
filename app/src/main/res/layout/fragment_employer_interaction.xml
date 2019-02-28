@@ -234,7 +234,7 @@
 
 
             <TextView
-                android:id="@+id/textView47"
+                android:id="@+id/designation_TV_below"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -256,7 +256,7 @@
                 android:text="We found two experience from Your Resume"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView47" />
+                app:layout_constraintTop_toBottomOf="@+id/designation_TV_below" />
 
             <RadioGroup
                 android:id="@+id/radio_group"

@@ -60,7 +60,8 @@ class EmployerInteractionFragment : Fragment() {
         experienceListInteraction = appliedJobsCommunicator.getExperience()
         companyTV.text = appliedJobsCommunicator.getCompany()
         positionTV.text = appliedJobsCommunicator.getTitle2()
-
+        designation_TV_below.text ="Please select the employer that hired you for" +
+                " "+ appliedJobsCommunicator.getTitle2().trim()
 
     }
 
@@ -85,6 +86,7 @@ class EmployerInteractionFragment : Fragment() {
             designationradioBTN.text = experienceListInteraction?.get(i)?.designation?.trim()
             companyTV.text = experienceListInteraction?.get(i)?.companyName?.trim()
 
+
             val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             designationradioBTN.setTextSize(16F)
@@ -99,7 +101,7 @@ class EmployerInteractionFragment : Fragment() {
 
             designationradioBTN.setOnClickListener {
                 expID = experienceListInteraction?.get(i)?.experienceID!!
-               // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
+                // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
             }
         }
 

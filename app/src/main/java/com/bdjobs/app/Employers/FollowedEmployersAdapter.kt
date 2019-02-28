@@ -67,7 +67,11 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         }
 
         var jobCount = followedEmployerList!![position].JobCount
+        if (jobCount == null){
+            jobCount = "0"
+        }
         var jobCountint = jobCount?.toInt()
+        Log.d("crash", "crash $jobCount")
 
         if (jobCountint!! > 0) {
             holder?.followemployersCard?.setOnClickListener {
