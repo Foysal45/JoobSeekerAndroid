@@ -20,7 +20,7 @@ data class AppliedJobModel(
 
 data class AppliedJobModelCommon(
         @SerializedName("totalNumberOfApplication")
-        val totalNumberOfApplication: String?,
+        val totalNumberOfApplication: String? = "",
         @SerializedName("totalNumberOfPage")
         val totalNumberOfPage: String?
 )
