@@ -155,7 +155,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
     }
 
     private fun undoRemove(v: View, deletedItem: FavouriteSearch?, deletedIndex: Int, deleteJobID: Int) {
-        val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
+        val msg = Html.fromHtml("<font color=\"#ffffff\">The information has been deleted successfully</font>")
         val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
                     FavSearchDeleteJob.cancelJob(deleteJobID)
