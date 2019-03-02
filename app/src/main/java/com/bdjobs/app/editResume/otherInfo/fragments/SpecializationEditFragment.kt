@@ -36,6 +36,7 @@ class SpecializationEditFragment : Fragment() {
     private var skills: String = ""
     private var isEmpty = false
     private var idArr: ArrayList<String> = ArrayList()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -63,7 +64,6 @@ class SpecializationEditFragment : Fragment() {
         if (isEdit) {
             eduCB.setDeleteButton(true)
             eduCB.setEditButton(false)
-            preloadedData()
 
         } else {
             eduCB.setEditButton(false)
@@ -84,6 +84,8 @@ class SpecializationEditFragment : Fragment() {
 
     private fun preloadedData() {
         //jgkhgfjkh
+
+
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
             addChip(it?.skillName!!)
@@ -96,9 +98,15 @@ class SpecializationEditFragment : Fragment() {
     private fun doWork() {
 
         /*   getDataFromChip()*/
+        if (isEdit) {
+            preloadedData()
 
-        skills = ""
-        idArr.clear()
+        } else {
+            skills = ""
+            /*idArr.clear()*/
+        }
+
+
         val skillList: Array<String> = dataStorage.allSkills
         val skillAdapter = ArrayAdapter<String>(activity!!,
                 android.R.layout.simple_dropdown_item_1line, skillList)
@@ -111,7 +119,7 @@ class SpecializationEditFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.text.toString())!!
 
             d("specialization test workSkillID : ${workSkillID} ")
-
+            d("specialization test idArr : ${idArr} ")
             if (idArr.size != 0) {
                 if (!idArr.contains(workSkillID))
                     addChip(refnameATCTV.getString())
@@ -131,7 +139,10 @@ class SpecializationEditFragment : Fragment() {
 
         fab_specialization_update.setOnClickListener {
 
-            try {
+            /*try {
+
+                d("specialization before replacement $skills ")
+
                 val chars: Char = skills[0]
                 d("specialization test chars $chars ")
                 if (!chars.equals(","))
@@ -143,8 +154,10 @@ class SpecializationEditFragment : Fragment() {
             } catch (e: Exception) {
                 Log.e("updateEx: ", "error: ${e.printStackTrace()}")
             }
-
-            updateData(skills.removePrefix(","))
+*/
+            //updateData(skills.removePrefix(","))
+            Log.d("specialization", " val: ${TextUtils.join(",", idArr)}")
+            updateData(TextUtils.join(",", idArr).removePrefix(","))
 
 
         }
@@ -156,10 +169,8 @@ class SpecializationEditFragment : Fragment() {
     private fun addAsString(expID: String) {
         if (!idArr.contains(expID)) {
             idArr.add(expID.trim())
-            skills = TextUtils.join(",", idArr)
+            d("specialization test $idArr  ")
         }
-
-        d("specialization test addAsString $skills and ids $idArr")
     }
 
 
@@ -203,8 +214,7 @@ class SpecializationEditFragment : Fragment() {
 
         if (idArr.contains(id))
             idArr.remove("$id")
-        skills = TextUtils.join(",", idArr)
-        d("specialization test removeItem $skills and $idArr")
+        d("specialization test removeItem  idArr $idArr")
     }
 
 
@@ -214,7 +224,7 @@ class SpecializationEditFragment : Fragment() {
 
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateSpecialization(session.userId, session.decodId,
-                session.IsResumeUpdate, skills, etSkillDescription.getString(), etCaricular.getString())
+                session.IsResumeUpdate, skills.removeSuffix(","), etSkillDescription.getString(), etCaricular.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(specializationLoadingProgressBar)
