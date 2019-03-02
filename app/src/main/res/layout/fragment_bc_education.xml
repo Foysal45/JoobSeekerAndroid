@@ -150,7 +150,7 @@
                    android:hint="পরীক্ষা/ডিগ্রীর নাম"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
-                   android:maxLength="49"
+                   android:maxLength="50"
                    android:inputType="text"
                    android:singleLine="true"
                    android:typeface="normal"

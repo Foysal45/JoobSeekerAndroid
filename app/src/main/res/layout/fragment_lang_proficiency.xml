@@ -63,7 +63,7 @@
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
                     android:hint="@string/hint_others_language"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="49"
+                    android:maxLength="50"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />
 

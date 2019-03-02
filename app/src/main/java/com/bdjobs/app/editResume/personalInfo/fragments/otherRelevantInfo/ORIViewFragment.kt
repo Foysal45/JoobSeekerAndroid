@@ -38,12 +38,12 @@ class ORIViewFragment : Fragment() {
         session = BdjobsUserSession(activity)
         oriCallBack = activity as PersonalInfo
         dataStorage = DataStorage(activity)
+        doWork()
     }
 
     override fun onResume() {
         super.onResume()
         oriCallBack.setTitle(getString(R.string.title_ORI))
-        doWork()
     }
 
     private fun doWork() {

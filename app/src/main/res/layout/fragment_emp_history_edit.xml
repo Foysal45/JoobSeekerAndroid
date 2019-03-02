@@ -141,7 +141,7 @@
                         android:focusableInTouchMode="true"
                         android:hint="@string/hint.department"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="49"
+                        android:maxLength="50"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>

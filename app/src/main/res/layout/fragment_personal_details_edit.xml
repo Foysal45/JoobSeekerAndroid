@@ -45,7 +45,7 @@
                         android:hint="@string/hint.first_name"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="49"
+                        android:maxLength="50"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +65,7 @@
                         android:hint="@string/hint.last_name"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="49"
+                        android:maxLength="50"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
                     android:hint="@string/hint.father_name"
-                    android:maxLength="49"
+                    android:maxLength="50"
                     android:inputType="text|textMultiLine"
                     android:textColor="#212121" />
 
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
                     android:hint="@string/hint.mother_name"
-                    android:maxLength="49"
+                    android:maxLength="50"
                     android:inputType="text|textMultiLine"
                     android:textColor="#212121" />
 
@@ -131,7 +131,7 @@
                         android:focusableInTouchMode="false"
                         android:hint="@string/hint.date_of_birth"
                         android:inputType="date"
-                        android:maxLength="49"
+                        android:maxLength="50"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -151,7 +151,7 @@
                         android:hint="@string/hint.religion"
                         android:digits="@string/special_chars"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="49"
+                        android:maxLength="50"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -338,7 +338,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.nationality"
                     android:inputType="text"
-                    android:maxLength="49"
+                    android:maxLength="50"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
