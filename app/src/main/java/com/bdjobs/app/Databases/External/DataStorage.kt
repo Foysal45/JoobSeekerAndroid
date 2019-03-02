@@ -960,9 +960,12 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getLocationIDByName(name: String): String? {
+    fun getLocationIDByName(nae: String): String? {
 
         var s: String? = null
+        var name: String = nae
+        name = name.replace("'", "''")
+        Log.d("coxx", "value: $name")
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_ID + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " = '" + name + "'"
@@ -981,6 +984,7 @@ class DataStorage(context: Context) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
 
         return s
     }

@@ -312,7 +312,7 @@
     <string name="hint.prefAreasOrgType">Preferred Organization Type</string>
     <string name="hint.maxSkill">Skills maximum 10 </string>
     <string name="career_objective_heading">Career Objective</string>
-    <string name="career_summery_heading">Career Summery</string>
+    <string name="career_summery_heading">Career Summary</string>
     <string name="career_summery_text">The "Career Summary" is an optional customized section where you can list your key achievements, skills, and relevant experiences to enrich the value of your resume.This section focuses on your relevant experience and lets the employer know that you have taken time to create your resume which shows your qualification as well as activeness.</string>
     <string name="career_objective_text">A resume objective is a short summary of your career growth. Objective should be carefully written to fit the job you are applying for.</string>
     <string name="bad_example_heading">Bad Example</string>

@@ -77,6 +77,11 @@ class ORIEditFragment : Fragment() {
         }
         fab_ori_update.setOnClickListener {
             clORIedit.closeKeyboard(activity)
+
+            if (etOriKeywords.getString() != "") {
+                addChip(etOriKeywords.getString().removeLastComma())
+            }
+
             val isEmpty = ori_entry_chip_group.childCount < 1
             if (!isEmpty) {
                 textInputLayout4.hideError()
@@ -92,7 +97,7 @@ class ORIEditFragment : Fragment() {
         etOriKeywords.easyOnTextChangedListener {
             val str = etOriKeywords.getString()
 
-            if (it.isNotBlank() and str.endsWith(",")) {
+            if (it.isNotBlank() and (str.endsWith(",") || str.endsWith(" "))) {
                 clORIedit.closeKeyboard(activity)
                 addChip(str.removeLastComma())
             }
@@ -122,13 +127,9 @@ class ORIEditFragment : Fragment() {
 
 
         btn_spq.setOnClickListener {
-
-
             showDialog(activity, "specializationExample")
-
         }
         btn_career_sum.setOnClickListener {
-
             showDialog(activity, "summeryExample")
         }
 
@@ -164,49 +165,31 @@ class ORIEditFragment : Fragment() {
             }
             from.equalIgnoreCase("summery") -> constraintLayout.hide()
             from.equalIgnoreCase("specialization") -> {
-
                 constraintLayout.hide()
                 headingText.setText(R.string.specialization_heading)
                 mainText.setText(R.string.specialization_text)
-
-
             }
             from.equalIgnoreCase("specializationExample") -> {
-
                 headingText.show()
                 mainText.hide()
                 constraintLayout.show()
                 headingText.setText(R.string.specialization_heading)
                 goodExampleText.setText(R.string.specialization_good_example)
                 badExampleText.setText(R.string.specialization_bad_example)
-
-
             }
             from.equalIgnoreCase("keyword") -> {
-
                 headingText.show()
                 mainText.show()
                 constraintLayout.hide()
                 headingText.setText(R.string.keyword_heading)
                 mainText.setText(R.string.keyword_text)
-
             }
 
 
         }
-
-
-
-
-
-
-
         okButton.setOnClickListener {
-
             dialog.dismiss()
-
         }
-
         dialog.show()
 
     }

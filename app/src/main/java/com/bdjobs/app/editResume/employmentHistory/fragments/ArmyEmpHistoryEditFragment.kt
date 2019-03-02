@@ -71,26 +71,28 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         now = Calendar.getInstance()
         empHisCB.setTitle(getString(R.string.army_employment_history_title))
         doWork()
-        if (isEdit) {
-            hID = "13"
-            empHisCB.setDeleteButton(true)
-            preloadedData()
-        } else {
-            empHisCB.setDeleteButton(false)
-            hID = "-13"
-            clearEditText()
-        }
     }
 
     override fun onResume() {
         super.onResume()
         d(isEdit.toString())
+        if (isEdit) {
+            hID = "13"
+            empHisCB.setDeleteButton(true)
+        } else {
+            empHisCB.setDeleteButton(false)
+            hID = "-13"
+            clearEditText()
+        }
         et_ba_no?.addTextChangedListener(TW.CrossIconBehave(et_ba_no))
         et_trade?.addTextChangedListener(TW.CrossIconBehave(et_trade))
         et_course?.addTextChangedListener(TW.CrossIconBehave(et_course))
     }
 
     private fun doWork() {
+        if (isEdit) {
+            preloadedData()
+        }
         addTextChangedListener(et_ba_type, til_ba)
         addTextChangedListener(et_ba_no, til_ba_no)
         addTextChangedListener(et_ranks, til_ranks)

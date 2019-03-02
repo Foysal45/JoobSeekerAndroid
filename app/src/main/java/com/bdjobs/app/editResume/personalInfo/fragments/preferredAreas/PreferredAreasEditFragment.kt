@@ -151,7 +151,7 @@ class PreferredAreasEditFragment : Fragment() {
             if (idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
             if (valid == 2) updateData()
-            Log.d("acWCjobCat", "wc: $prefWcIds, $prefBcIds, $prefOrgIds, $prefDistrictIds and $prefCountryIds")
+            Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
         }
 
         btnAnywhereInBD.setOnClickListener {
@@ -385,8 +385,9 @@ class PreferredAreasEditFragment : Fragment() {
         chip.text = text
         chip.setOnCloseIconClickListener {
             entryChipGroup.removeView(chip)
-            val check = chip.text.toString().replace("'", "`")
+            val check = chip.text.toString()/*.replace("'", "''")*/
             removeItem(check, tag)
+            Log.d("coxx22", "value: $check")
         }
         return chip
     }

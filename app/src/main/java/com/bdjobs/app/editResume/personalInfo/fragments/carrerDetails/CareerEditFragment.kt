@@ -132,22 +132,11 @@ class CareerEditFragment : Fragment() {
                 goodExampleText.setText(R.string.objective_good_example)
                 badExampleText.setText(R.string.objective_bad_example)
 
-
             }
-
-
         }
 
-
-
-
-
-
-
         okButton.setOnClickListener {
-
             dialog.dismiss()
-
         }
 
         dialog.show()
