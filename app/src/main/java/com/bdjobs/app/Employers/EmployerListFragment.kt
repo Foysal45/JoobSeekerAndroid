@@ -139,6 +139,7 @@ class EmployerListFragment : Fragment() {
                     shimmer_view_container_JobList?.hide()
                     shimmer_view_container_JobList?.stopShimmerAnimation()
                 } catch (e: Exception) {
+                    logException(e)
                 }
 
             }

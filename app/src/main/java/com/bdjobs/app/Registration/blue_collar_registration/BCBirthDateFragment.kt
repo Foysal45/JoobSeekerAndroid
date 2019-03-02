@@ -136,7 +136,11 @@ class BCBirthDateFragment : Fragment() {
                         val date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
                         bcAgeTIET.text!!.clear()
 
+
+
                         Log.d("Test", " date default ${date} ")
+
+
 
                         bcBirthDateTIET.setText(date)
                         var ageTemp = 0
@@ -185,6 +189,8 @@ class BCBirthDateFragment : Fragment() {
 
             datePickerDialog.datePicker.maxDate = calendarMax.timeInMillis
             datePickerDialog.datePicker.minDate = calendarMin.timeInMillis
+
+
             datePickerDialog.show()
         }
 

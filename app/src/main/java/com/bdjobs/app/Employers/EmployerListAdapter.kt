@@ -100,9 +100,9 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
             uiThread {
                 if (isitFollowed) {
-                    holder?.followUnfollow?.text = "UNFOLLOW"
+                    holder?.followUnfollow?.text = "Unfollow"
                 } else {
-                    holder?.followUnfollow?.text = "FOLLOW"
+                    holder?.followUnfollow?.text = "Follow "
                 }
             }
         }

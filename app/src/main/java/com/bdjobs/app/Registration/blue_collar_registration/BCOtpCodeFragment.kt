@@ -27,15 +27,18 @@ class BCOtpCodeFragment : Fragment() {
 
         returnView = inflater.inflate(R.layout.fragment_bc_otp_code, container, false)
         return returnView
+
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //fkjgnf
         onClick()
         initialization()
         setTime()
+
     }
 
     private fun onClick(){

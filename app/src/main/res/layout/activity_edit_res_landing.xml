@@ -33,15 +33,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:elevation="10dp"
             android:id="@+id/ivProfileImage"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:background="?android:selectableItemBackgroundBorderless"
+            android:background="@drawable/ic_user_thumb_small"
             android:contentDescription="@string/app_name"
-            android:src="@mipmap/ic_launcher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

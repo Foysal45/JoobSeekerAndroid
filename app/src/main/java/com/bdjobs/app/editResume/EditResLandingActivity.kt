@@ -34,11 +34,11 @@ class EditResLandingActivity : Activity() {
         session = BdjobsUserSession(this@EditResLandingActivity)
         if (!session.userPicUrl.isNullOrEmpty()) {
             ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
-        } else if (session.userPicUrl.equals(demoPic)) {
+        }/* else if (session.userPicUrl.equals(demoPic)) {
             ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
         } else {
             ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
-        }
+        }*/
         isResumeUpdate = session.isCvPosted.toString()
         d("editResLanding photo:" + session.userPicUrl)
         d("editResLanding name:" + session.fullName)

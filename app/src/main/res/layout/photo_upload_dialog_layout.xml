@@ -5,29 +5,6 @@
     android:layout_width="320dp"
     android:layout_height="226dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/camera_button"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="8dp"
-        app:cornerRadius="8dp"
-        app:strokeColor="#D9D9D9"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="25dp"
-        android:text="ক্যামেরা দিয়ে ছবি তুলুন            "
-        android:textColor="#393939"
-        app:strokeWidth="1dp"
-        android:textSize="14sp"
-        app:backgroundTint="#FFFFFF"
-        app:icon="@drawable/ic_camera_alt_black_24dp"
-        app:iconGravity="textStart"
-        app:iconTint="#393939"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoUploadTV" />
-
 
     <TextView
         android:id="@+id/photoUploadTV"
@@ -46,29 +23,57 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/gallery_button"
-        style="@style/Widget.MaterialComponents.Button"
+        android:id="@+id/camera_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="0dp"
+        android:gravity="left|center_vertical"
+        android:singleLine="true"
         android:layout_height="55dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:text="ক্যামেরা দিয়ে ছবি তুলুন"
+        android:textColor="#393939"
+        android:textSize="14sp"
+        app:cornerRadius="8dp"
+        app:backgroundTint="#FFFFFF"
+        app:iconPadding="10dp"
+        app:icon="@drawable/ic_camera_alt_black_24dp"
+        app:iconTint="#393939"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoUploadTV"
         app:strokeColor="#D9D9D9"
-        android:layout_width="match_parent"
-        app:strokeWidth="1dp"
+        app:strokeWidth="1dp" />
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/gallery_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="0dp"
+        android:gravity="left|center_vertical"
+        android:text="গ্যালারী থেকে ছবি সিলেক্ট করুন"
+        android:layout_height="55dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="30dp"
         android:singleLine="true"
+        app:iconPadding="10dp"
         android:textColor="#393939"
         android:textSize="14sp"
         app:backgroundTint="#FFFFFF"
         app:cornerRadius="8dp"
         app:icon="@drawable/ic_gallary__ic"
-        app:iconGravity="textStart"
-        android:text="গ্যালারী থেকে ছবি সিলেক্ট করুন"
         app:iconTint="#393939"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camera_button" />
+        app:layout_constraintTop_toBottomOf="@+id/camera_button"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp" />
 
     <ImageView
         android:padding="5dp"

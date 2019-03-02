@@ -11,10 +11,7 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.adapters.models.SpecialzationModel
@@ -79,7 +76,6 @@ class SpecializationViewFragment : Fragment() {
         return chip
     }
 
-
     private fun populateData() {
 
         mainlayout.hide()
@@ -135,6 +131,9 @@ class SpecializationViewFragment : Fragment() {
 
             eduCB.setDeleteButton(false)
             eduCB.setEditButton(true)
+
+            d("specialization in view fragment $response.")
+
             eduCB.passSpacializationData(response)
 
         }

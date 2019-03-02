@@ -173,7 +173,7 @@ class BCMobileNumberFragment : Fragment() {
                 return false
             }
             !validateMobileNumber() -> {
-                bcMobileNumberTIL?.showError("মোবাইল নাম্বারটি প্রযোজ্য নয়")
+                bcMobileNumberTIL?.showError("মোবাইল নাম্বারটি সঠিক নয়")
                 requestFocus(bcMobileNumberTIET)
                 return false
             }
