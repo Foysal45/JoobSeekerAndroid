@@ -6,7 +6,7 @@ import android.content.Context
 import android.database.SQLException
 import android.util.Log
 import java.io.IOException
-import java.util.*
+import kotlin.collections.ArrayList
 
 class DataStorage(context: Context) {
 
@@ -1157,6 +1157,146 @@ class DataStorage(context: Context) {
         return OrgTypes!!.toTypedArray()
 
     }
+/////new
+    fun getDependentBanglaLocationByParentId(locationID: String): ArrayList<LocationModel>? {
+        var dataList: ArrayList<LocationModel>? = arrayListOf()
+        try {
+
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+
+                for (i in 0 until cursor.count) {
+
+                    val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA))
+                    val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
+
+                    val locationData =  LocationModel(locationName = locationName, locationId = locationId)
+
+
+                    dataList?.add(i,locationData)
+                    cursor.moveToNext()
+                }
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return dataList
+
+    }
+
+
+
+    fun getDependentEnglishLocationByParentId(locationID: String): ArrayList<LocationModel>? {
+        var dataList: ArrayList<LocationModel>? = arrayListOf()
+        try {
+
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+
+                for (i in 0 until cursor.count) {
+
+                    val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
+                    val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
+
+                    val locationData =  LocationModel(locationName = locationName, locationId = locationId)
+
+
+                    dataList?.add(i,locationData)
+                    cursor.moveToNext()
+                }
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return dataList
+
+    }
+
+
+    fun getAllEnglishDistrictList(): ArrayList<LocationModel>? {
+        val OrgTypes = ArrayList<LocationModel>()
+        dbHelper.openDataBase()
+        val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+        Log.d("selectQuery", selectQuery)
+        val cursor = dbHelper.getCursor(selectQuery)
+
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+
+            for (i in 0 until cursor.count) {
+                val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
+                val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
+
+                val locationData =  LocationModel(locationName = locationName, locationId = locationId)
+
+                OrgTypes.add(i,locationData)
+
+                cursor.moveToNext()
+            }
+        }
+        dbHelper.close()
+
+        return OrgTypes
+    }
+
+
+
+    fun getAllBngDistrictList(): ArrayList<LocationModel>? {
+        val OrgTypes = ArrayList<LocationModel>()
+        dbHelper.openDataBase()
+        val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+        Log.d("selectQuery", selectQuery)
+        val cursor = dbHelper.getCursor(selectQuery)
+
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+
+            for (i in 0 until cursor.count) {
+                val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA))
+                val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
+
+                val locationData =  LocationModel(locationName = locationName, locationId = locationId)
+
+                OrgTypes.add(i,locationData)
+
+                cursor.moveToNext()
+            }
+        }
+        dbHelper.close()
+
+        return OrgTypes
+    }
+
+
+
+    //////////end
+
+
+
+
+
+
+
+
+
 
     fun getDependentPostOfficeByParentNameInBangla(locationName: String): Array<String> {
         val locationID = getBanglaLocationIDByName(locationName)
