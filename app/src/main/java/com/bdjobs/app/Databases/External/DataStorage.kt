@@ -993,14 +993,14 @@ class DataStorage(context: Context) {
         var s: String? = null
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " = '" + locationName + "'"
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = '" + locationName + "'"
             Log.d("selectQueryDiv", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
-                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_TYPE))
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
                 cursor.moveToNext()
             }
             dbHelper.close()
