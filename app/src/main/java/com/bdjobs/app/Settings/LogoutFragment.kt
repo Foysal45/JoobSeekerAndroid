@@ -3,6 +3,7 @@ package com.bdjobs.app.Settings
 
 import android.os.Bundle
 import android.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,7 @@ import com.bdjobs.app.API.ModelClasses.CookieModel
 
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
@@ -51,8 +49,17 @@ class LogoutFragment : Fragment() {
         backIV.setOnClickListener {
             communicator.backButtonPressed()
         }
-        changepass.setOnClickListener {
-            communicator.gotoChangePasswordFragment()
+        Log.d("isblue","isis = ${activity.isBlueCollarUser()}" )
+        if (!activity.isBlueCollarUser()) {
+           // changepass.show()
+            changepass?.visibility = View.VISIBLE
+            changepass.setOnClickListener {
+                communicator.gotoChangePasswordFragment()
+            }
+        }
+        else {
+           // changepass.hide()
+            changepass?.visibility = View.GONE
         }
     }
 

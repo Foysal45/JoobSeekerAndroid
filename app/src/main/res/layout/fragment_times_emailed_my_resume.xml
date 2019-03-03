@@ -202,6 +202,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:letterSpacing="0"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.18"
