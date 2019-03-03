@@ -17,7 +17,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.InterviewInvitation
+import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
@@ -27,13 +27,10 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
-import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
@@ -78,7 +75,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         emailTV.text = bdjobsUserSession.email
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
-        getInterviewInvitation()
+        getLastUpdateFromServer()
         if(Constants.showShortListedPopUp) {
             showShortListedJobsExpirationPopUP()
         }
@@ -399,16 +396,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
     }
 
-    private fun getInterviewInvitation() {
-        ApiServiceMyBdjobs.create().getInterviewInvitation(
+    private fun getLastUpdateFromServer() {
+        ApiServiceMyBdjobs.create().getLastUpdate(
                 userId = bdjobsUserSession.userId,
                 decodeId = bdjobsUserSession.decodId
-        ).enqueue(object : Callback<InterviewInvitation> {
-            override fun onFailure(call: Call<InterviewInvitation>, t: Throwable) {
+        ).enqueue(object : Callback<LastUpdateModel> {
+            override fun onFailure(call: Call<LastUpdateModel>, t: Throwable) {
                 error("onFailure", t)
             }
 
-            override fun onResponse(call: Call<InterviewInvitation>, response: Response<InterviewInvitation>) {
+            override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
                 try {
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
                     Log.d("google", "google = $inviteInterviview")
@@ -416,6 +413,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     if (inviteInterviview?.toInt()!! > 0) {
                         showPop()
                     }
+
+                    try {
+                        bdjobsUserSession.updateTrainingId(response.body()?.data?.get(0)?.trainingId!!)
+                        bdjobsUserSession.updateEmail(response.body()?.data?.get(0)?.email!!)
+                        bdjobsUserSession.updateFullName(response.body()?.data?.get(0)?.name!!)
+                        bdjobsUserSession.updateUserName(response.body()?.data?.get(0)?.userName!!)
+                        bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
+                        bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+
                 } catch (e: Exception) {
                     logException(e)
                 }

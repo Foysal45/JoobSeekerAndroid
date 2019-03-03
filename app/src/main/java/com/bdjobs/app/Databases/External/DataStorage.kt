@@ -1013,6 +1013,27 @@ class DataStorage(context: Context) {
         return s
     }
 
+    fun getAllDistrictList(): Array<String> {
+        val OrgTypes = ArrayList<String>()
+        dbHelper.openDataBase()
+        val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+        Log.d("selectQuery", selectQuery)
+        val cursor = dbHelper.getCursor(selectQuery)
+
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+
+            for (i in 0 until cursor.count) {
+                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+
+                cursor.moveToNext()
+            }
+        }
+        dbHelper.close()
+
+        return OrgTypes.toTypedArray()
+    }
+
     fun getLocationNameByID(name: String?): String? {
 
         var s: String? = null

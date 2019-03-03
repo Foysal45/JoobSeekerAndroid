@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
@@ -18,6 +18,7 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_edit_res_landing.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import java.util.*
 
 class EditResLandingActivity : Activity() {
 
@@ -75,8 +76,28 @@ class EditResLandingActivity : Activity() {
         }
     }
 
+    fun rndm(): String {
+        val chars = "abcdefghijklmnopqrstuvwxyz12345678910".toCharArray()
+        val sb = StringBuilder()
+        val random = Random()
+        for (i in 0..4) {
+            val c = chars[random.nextInt(chars.size)]
+            sb.append(c)
+        }
+        val output = sb.toString()
+        println(output)
+        return output
+    }
+
     private fun doWork() {
         enableAll()
+        nextButtonFAB.setOnClickListener {
+            val str1 = rndm()
+            val str2 = rndm()
+            val id = str1 + session.userId + session.decodId + str2
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id" ,"from" to "cvview")
+        }
+
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
         }

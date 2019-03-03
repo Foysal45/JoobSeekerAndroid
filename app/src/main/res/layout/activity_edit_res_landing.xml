@@ -4,10 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="#F2F2F2"
     android:fitsSystemWindows="true"
-    android:animateLayoutChanges="true"
     tools:ignore="HardcodedText">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextButtonFAB"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:src="@drawable/ic_remove_red_eye_white_24dp"
+        android:windowSoftInputMode="adjustResize"
+        app:backgroundTint="#13A10E"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -33,7 +55,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:elevation="10dp"
             android:id="@+id/ivProfileImage"
             android:layout_width="65dp"
             android:layout_height="65dp"
@@ -42,6 +63,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/ic_user_thumb_small"
             android:contentDescription="@string/app_name"
+            android:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,6 +104,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvname"
             app:layout_constraintVertical_bias="0.029999971" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -239,7 +262,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+
                 android:fontFamily="@font/roboto_medium"
                 android:singleLine="true"
                 android:text="@string/army_employment_history_title"
@@ -278,7 +301,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+
                 android:fontFamily="@font/roboto_medium"
                 android:singleLine="true"
                 android:text="@string/title_language"
@@ -289,7 +312,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+
                 android:fontFamily="@font/roboto_medium"
                 android:singleLine="true"
                 android:text="@string/title_reference"
@@ -317,7 +340,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/hint.upload_photo"
                 app:icon="@drawable/ic_photo_upload_er" />

@@ -528,12 +528,12 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("apps_LastUpdate.asp")
-    fun getInterviewInvitation(
+    fun getLastUpdate(
             @Field("userId") userId: String?,
             @Field("decodeId") decodeId: String?,
             @Field("packageName") packageName: String? = "",
             @Field("packageNameVersion") packageNameVersion: String? = ""
-    ): Call<InterviewInvitation>
+    ): Call<LastUpdateModel>
 
 
     @FormUrlEncoded
