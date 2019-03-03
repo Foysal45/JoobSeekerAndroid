@@ -132,7 +132,7 @@ class SpecializationViewFragment : Fragment() {
             eduCB.setDeleteButton(false)
             eduCB.setEditButton(true)
 
-            d("specialization in view fragment $response.")
+            d("specialization in view fragment ${response.skills!!.size}")
 
             eduCB.passSpacializationData(response)
 
