@@ -80,10 +80,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showShortListedJobsExpirationPopUP()
         }
 
-        val testLocation=DataStorage(activity).getAllBngDistrictList()
-        testLocation?.forEach {dt->
-            Log.d("testLocation","name: ${dt.locationName}\nid: ${dt.locationId}")
-        }
+
     }
 
 

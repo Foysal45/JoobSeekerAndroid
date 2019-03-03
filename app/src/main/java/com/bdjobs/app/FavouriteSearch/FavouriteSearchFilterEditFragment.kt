@@ -139,7 +139,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         logException(e)
                     }
                     uiThread {
-                        if (fid != "") {
+                        if (fid != "" && fid != filterID) {
                             filterNameTIL.showError("This filter name is already exists.")
                             activity.requestFocus(filterNameET)
                         } else {

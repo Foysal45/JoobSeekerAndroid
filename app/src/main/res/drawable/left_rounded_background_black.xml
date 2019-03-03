@@ -4,13 +4,13 @@
         android:width="1dp"
         />
     <padding
-        android:bottom="10dp"
+        android:bottom="6dp"
         android:left="10dp"
         android:right="10dp"
-        android:top="10dp" />
+        android:top="6dp" />
     <corners
-        android:bottomLeftRadius="40dp"
+        android:bottomLeftRadius="8dp"
         android:bottomRightRadius="0dp"
-        android:topLeftRadius="40dp"
+        android:topLeftRadius="8dp"
         android:topRightRadius="0dp" />
 </shape>
