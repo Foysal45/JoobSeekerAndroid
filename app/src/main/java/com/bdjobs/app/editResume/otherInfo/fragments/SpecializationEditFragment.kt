@@ -64,6 +64,7 @@ class SpecializationEditFragment : Fragment() {
         if (isEdit) {
             eduCB.setDeleteButton(true)
             eduCB.setEditButton(false)
+            refnameATCTV?.clearText()
 
         } else {
             eduCB.setEditButton(false)
@@ -85,11 +86,12 @@ class SpecializationEditFragment : Fragment() {
     private fun preloadedData() {
         //jgkhgfjkh
 
+        refnameATCTV.clearText()
 
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
-            addChip(it?.skillName!!)
-            addAsString(it.id!!)
+            addChip(it?.skillName!!, it.id!!)
+
         }
         etSkillDescription?.setText(data.description)
         etCaricular?.setText(data.extracurricular)
@@ -122,14 +124,14 @@ class SpecializationEditFragment : Fragment() {
             d("specialization test idArr : ${idArr} ")
             if (idArr.size != 0) {
                 if (!idArr.contains(workSkillID))
-                    addChip(refnameATCTV.getString())
+                    addChip(refnameATCTV.getString(), workSkillID)
                 else {
                     refnameATCTV?.closeKeyboard(activity)
                     activity.toast("Experience already added")
                 }
                 skillTIL.hideError()
             } else {
-                addChip(refnameATCTV.getString())
+                addChip(refnameATCTV.getString().trim(), workSkillID)
                 d("specialization test Array size : ${idArr.size} and $skills and id : $id")
                 isEmpty = true
                 skillTIL?.isErrorEnabled = true
@@ -139,22 +141,7 @@ class SpecializationEditFragment : Fragment() {
 
         fab_specialization_update.setOnClickListener {
 
-            /*try {
 
-                d("specialization before replacement $skills ")
-
-                val chars: Char = skills[0]
-                d("specialization test chars $chars ")
-                if (!chars.equals(","))
-
-                skills = skills.replace(",,".toRegex(), ",")
-
-                d("specialization test skills $skills ")
-
-            } catch (e: Exception) {
-                Log.e("updateEx: ", "error: ${e.printStackTrace()}")
-            }
-*/
             //updateData(skills.removePrefix(","))
             Log.d("specialization", " val: ${TextUtils.join(",", idArr)}")
             updateData(TextUtils.join(",", idArr).removePrefix(","))
@@ -174,17 +161,18 @@ class SpecializationEditFragment : Fragment() {
     }
 
 
-    private fun addChip(input: String) {
+    private fun addChip(input: String, skillId: String) {
 
         d("specialization test addChip child count ${specialization_chip_group.childCount} ")
 
         if (specialization_chip_group.childCount <= 9) {
-            addAsString(workSkillID)
+            addAsString(skillId)
             val c1 = getChip(specialization_chip_group, input, R.xml.chip_entry)
             specialization_chip_group.addView(c1)
             refnameATCTV?.clearText()
         } else {
             activity.toast("Maximum 10 skills can be added.")
+
         }
         refnameATCTV?.closeKeyboard(activity)
     }
@@ -206,14 +194,13 @@ class SpecializationEditFragment : Fragment() {
         return chip
     }
 
-
     private fun removeItem(s: String) {
         val id = dataStorage.getSkillIDBySkillType(s.trim())
 
         d("specialization test removeItem id $id ")
 
         if (idArr.contains(id))
-            idArr.remove("$id")
+            idArr.remove(id)
         d("specialization test removeItem  idArr $idArr")
     }
 
@@ -224,7 +211,7 @@ class SpecializationEditFragment : Fragment() {
 
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateSpecialization(session.userId, session.decodId,
-                session.IsResumeUpdate, skills.removeSuffix(","), etSkillDescription.getString(), etCaricular.getString())
+                session.IsResumeUpdate, skills, etSkillDescription.getString(), etCaricular.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(specializationLoadingProgressBar)
