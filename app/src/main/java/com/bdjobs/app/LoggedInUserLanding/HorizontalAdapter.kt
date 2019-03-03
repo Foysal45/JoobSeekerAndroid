@@ -44,6 +44,8 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
                     homeCommunicator.goToAppliedJobs()
                 }
                 "Followed\nEmployers"->{
+                   // homeCommunicator.goToFollowedEmployerList("follow")
+                    homeCommunicator.setTime("0")
                     homeCommunicator.goToFollowedEmployerList("follow")
                 }
                 "Employer\nList"->{

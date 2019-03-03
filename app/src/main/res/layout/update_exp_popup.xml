@@ -63,7 +63,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/roboto"
-        android:text="Do you want add new work experience in your resume now?"
+        android:text="Do you want to add new work experience in your resume now?"
         android:textColor="#767676"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
