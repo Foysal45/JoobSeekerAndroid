@@ -45,7 +45,7 @@ interface RegistrationCommunicator {
     fun bcGenderSelected(gender: String)
     fun bcBirthDateAndAgeSelected(birthDate: String, age: String)
     fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String)
-    fun bcAddressSelected(division: String, district: String, thana: String, postOffice: String, address: String, locationID: String)
+    fun bcAddressSelected(district: String, thana: String, postOffice: String, address: String, locationID: String)
     fun bcGetAge():String
     fun bcResendOtp()
     fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String)

@@ -960,19 +960,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-    override fun bcAddressSelected(division: String, district: String, thana: String, postOffice: String, address: String, locationID: String) {
+    override fun bcAddressSelected(district: String, thana: String, postOffice: String, address: String, locationID: String) {
 
-
-        this.division = division
         this.district = district
         this.thana = thana
         this.postOffice = postOffice
         this.address = address
         this.locationID = locationID
 
-        Log.d("catagorySelected", "division ${this.division}" +
-                "  district ${this.district} thana ${this.thana}" +
-                " postOffice ${this.postOffice} address ${this.address} locationID ${this.locationID}   ")
 
     }
 

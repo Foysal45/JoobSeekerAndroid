@@ -32,36 +32,36 @@
                app:layout_constraintTop_toTopOf="parent" />
 
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/bcDivisionTIL"
-               android:focusable="false"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="24dp"
-               android:layout_marginStart="24dp"
-               android:layout_marginEnd="24dp"
-               app:boxCornerRadiusBottomEnd="8dp"
-               app:boxCornerRadiusBottomStart="8dp"
-               app:boxCornerRadiusTopEnd="8dp"
-               app:boxCornerRadiusTopStart="8dp"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintHorizontal_bias="0.0"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/textView18">
+           <!--   <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/bcDivisionTIL"
+                  android:focusable="false"
+                  style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="24dp"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginEnd="24dp"
+                  app:boxCornerRadiusBottomEnd="8dp"
+                  app:boxCornerRadiusBottomStart="8dp"
+                  app:boxCornerRadiusTopEnd="8dp"
+                  app:boxCornerRadiusTopStart="8dp"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintHorizontal_bias="0.0"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/textView18">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:id="@+id/bcDivisionTIET"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:editable="false"
-                   android:focusableInTouchMode="false"
-                   android:hint="বিভাগ"
-                   android:inputType="text"
-                   android:singleLine="true"
-                   android:typeface="normal"
-                   app:fontFamily="@font/roboto" />
-           </com.google.android.material.textfield.TextInputLayout>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:id="@+id/bcDivisionTIET"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:editable="false"
+                      android:focusableInTouchMode="false"
+                      android:hint="বিভাগ"
+                      android:inputType="text"
+                      android:singleLine="true"
+                      android:typeface="normal"
+                      app:fontFamily="@font/roboto" />
+              </com.google.android.material.textfield.TextInputLayout>-->
 
 
            <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +80,7 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/bcDivisionTIL">
+               app:layout_constraintTop_toBottomOf="@+id/textView18">
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcDistrictTIET"
