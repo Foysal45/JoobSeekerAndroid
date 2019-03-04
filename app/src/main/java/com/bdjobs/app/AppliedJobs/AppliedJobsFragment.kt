@@ -112,7 +112,7 @@ class AppliedJobsFragment : Fragment() {
                     itemsPerPage = "20"
             ).enqueue(object : Callback<AppliedJobModel> {
                 override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-                    toast("${t.message}")
+//                    toast("${t.message}")
                     shimmer_view_container_appliedJobList?.hide()
                     shimmer_view_container_appliedJobList?.stopShimmerAnimation()
                 }
@@ -247,6 +247,108 @@ class AppliedJobsFragment : Fragment() {
                     }
 
 
+                }
+
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    fun expAPIcall(activityDate: String){
+        try {
+            appliedJobsRV?.hide()
+            favCountTV?.hide()
+            shimmer_view_container_appliedJobList?.show()
+            shimmer_view_container_appliedJobList?.startShimmerAnimation()
+
+
+            ApiServiceMyBdjobs.create().getAppliedJobs(
+                    userId = bdjobsUsersession.userId,
+                    decodeId = bdjobsUsersession.decodId,
+                    isActivityDate = activityDate,
+                    pageNumber = pgNo.toString(),
+                    itemsPerPage = "20"
+            ).enqueue(object : Callback<AppliedJobModel> {
+                override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
+                    toast("${t.message}")
+                    shimmer_view_container_appliedJobList?.hide()
+                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+                }
+
+                override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
+                    /* shimmer_view_container_appliedJobList?.hide()
+                     shimmer_view_container_appliedJobList?.stopShimmerAnimation()*/
+                    var totalRecords = response.body()?.common?.totalNumberOfApplication
+                    Log.d("totalrecords", "totalrecords  = $totalRecords")
+
+                    if (totalRecords != null) {
+                        //   toast("came")
+                    } else {
+
+                        //    toast("came1")
+                        totalRecords = "0"
+                        favCountTV?.show()
+                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    }
+                    try {
+                        Log.d("callAppliURl", "url: ${call?.request()} and ")
+                        TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                        //   TOTAL_PAGES = 5
+
+                        jobsAppliedSize = totalRecords?.toInt()!!
+
+
+
+
+
+                        if (!response?.body()?.data.isNullOrEmpty()) {
+                            appliedJobsRV!!.visibility = View.VISIBLE
+                            var value = response.body()?.data
+                            appliedJobsAdapter?.removeAll()
+                            appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)
+                            appliedData?.addAll(response.body()?.data as ArrayList<AppliedJobModelData>)
+                            appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
+
+                            experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
+                            Log.d("callAppliURlex", experienceList?.size?.toString())
+                            appliedJobsCommunicator.setexperienceList(experienceList!!)
+
+
+                            if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                                Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                                appliedJobsAdapter?.addLoadingFooter()
+                            } else {
+                                Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                                isLastPages = true
+                            }
+
+                        } else {
+                            //toast("came here")
+                            totalRecords = "0"
+                        }
+
+                        Log.d("tot", "total = $totalRecords")
+                        /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
+                         favCountTV.text = Html.fromHtml(styledText)*/
+
+                        if (totalRecords?.toInt()!! > 1) {
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        }
+
+
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    appliedJobsRV?.show()
+                    favCountTV?.show()
+                    shimmer_view_container_appliedJobList?.hide()
+                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
                 }
 
             })

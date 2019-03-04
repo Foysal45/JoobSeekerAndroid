@@ -3,7 +3,10 @@ package com.bdjobs.app.AppliedJobs
 import android.app.Dialog
 import android.app.Fragment
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +16,13 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
-import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
-import com.bdjobs.app.API.ModelClasses.EmployerInteraction
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.showProgressBar
-import com.bdjobs.app.Utilities.stopProgressBar
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
+import kotlinx.android.synthetic.main.activity_suggestive_search.view.*
 import kotlinx.android.synthetic.main.fragment_employer_interaction.*
+import org.jetbrains.anko.act
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -33,20 +33,77 @@ import retrofit2.Response
 class EmployerInteractionFragment : Fragment() {
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
+
     private var status: String = ""
     private var expID: String = "0"
-    private var populateshowExp = "no"
+    //  private var populateshowExp = "no"
     private lateinit var appliedJobsCommunicator: AppliedJobsCommunicator
     private var experienceListInteraction: ArrayList<AppliedJobModelExprience>? = ArrayList()
     private var appliedData: ArrayList<AppliedJobModelData>? = ArrayList()
+    private var hire = "0"
+    private var contracted = "0"
+    private var Ncontracted = "0"
     //val buttons = 5
+    fun expAPIcall(activityDate: String) {
+        //   populateshowExp = "no"
+        experienceListInteraction?.clear()
+        loadingProgressBar.visibility = View.VISIBLE
+        try {
+            ApiServiceMyBdjobs.create().getAppliedJobs(
+                    userId = bdjobsUserSession.userId,
+                    decodeId = bdjobsUserSession.decodId,
+                    isActivityDate = activityDate,
+                    pageNumber = "1",
+                    itemsPerPage = "20"
+            ).enqueue(object : Callback<AppliedJobModel> {
+                override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
+                    toast("${t.message}")
+                }
+
+                override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
+                    var totalRecords = response.body()?.common?.totalNumberOfApplication
+                    Log.d("totalrecords", "totalrecords  = $totalRecords")
+                    Log.d("expEXP", "expexperienceListInteraction=${experienceListInteraction}")
+                    try {
+                        Log.d("callAppliURl", "url: ${call?.request()} and ")
+                        if (!response?.body()?.data.isNullOrEmpty()) {
+
+                            experienceListInteraction?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
+                            Log.d("expEXP", "---${response.body()?.exprience}")
+
+                            for (item in experienceListInteraction!!) {
+                                Log.d("expEXP", " v = $item")
+                            }
+                            addRadioButton()
+                            onClick()
+
+                        } else {
+                            //toast("came here")
+                            //  totalRecords = "0"
+                        }
+
+                        Log.d("tot", "total = $totalRecords")
+
+
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    loadingProgressBar.visibility = View.GONE
+                }
+
+            })
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(com.bdjobs.app.R.layout.fragment_employer_interaction, container, false)
 
 
@@ -56,26 +113,44 @@ class EmployerInteractionFragment : Fragment() {
         super.onResume()
         bdjobsUserSession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
-        onClick()
-        experienceListInteraction = appliedJobsCommunicator.getExperience()
+        //   onClick()
+        // experienceListInteraction = appliedJobsCommunicator.getExperience()
         companyTV.text = appliedJobsCommunicator.getCompany()
         positionTV.text = appliedJobsCommunicator.getTitle2()
-        designation_TV_below.text ="Please select the employer that hired you for" +
-                " "+ appliedJobsCommunicator.getTitle2().trim()
+        designation_TV_below.text = "Please select the employer that hired you for" +
+                " " + appliedJobsCommunicator.getTitle2().trim()
+        expAPIcall("0")
+        EmpInteractionFab?.setEnabled(false);
+        //  EmpInteractionFab?.setBackgroundColor(Color.parseColor("#757575"))
+        Log.d("expEXP", "hire = $hire")
+        if (hire?.equals("1")!! || contracted?.equals("1")|| Ncontracted?.equals("1")) {
+            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+            EmpInteractionFab?.setEnabled(true);
+        }
+        else {
+            EmpInteractionFab?.setEnabled(false);
+            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#88D086")))
 
-    }
+        }
+         }
 
     override fun onDestroy() {
         super.onDestroy()
+
+        hire = "0"
+        contracted = "0"
+        Ncontracted = "0"
         //toast("$populateshowExp")
-        populateshowExp = "no"
-        experienceListInteraction?.clear()
+        /* populateshowExp = "no"
+         experienceListInteraction?.clear()*/
     }
 
     private fun addRadioButton() {
         // val rgp = findViewById(com.bdjobs.app.R.id.radio_group) as RadioGroup
-        populateshowExp = "yes"
+        //   populateshowExp = "yes"
         var buttonsize = experienceListInteraction?.size
+        Log.d("expEXP", "button size = $buttonsize")
+        radio_group.removeAllViews()
         //foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
         buttonsize = buttonsize?.minus(1)
         for (i in 0..buttonsize!!) {
@@ -135,6 +210,7 @@ class EmployerInteractionFragment : Fragment() {
                 activity?.startActivity<EmploymentHistoryActivity>(
                         "name" to "null",
                         "emp_his_add" to "addDirect")
+                updateExpDialog.dismiss()
             }
             cancelBTN?.setOnClickListener {
                 updateExpDialog.dismiss()
@@ -251,8 +327,11 @@ class EmployerInteractionFragment : Fragment() {
             //     registrationCommunicator.bcGenderSelected("M")
             status = "1"
             hiredLayoutHide()
-
-
+            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+            EmpInteractionFab?.setEnabled(true);
+            Ncontracted = "1"
+            contracted = "0"
+            hire = "0"
         }
 
 
@@ -272,7 +351,11 @@ class EmployerInteractionFragment : Fragment() {
             //  registrationCommunicator.bcGenderSelected("F")
             status = "2"
             hiredLayoutHide()
-
+            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+            EmpInteractionFab?.setEnabled(true);
+            Ncontracted = "0"
+            contracted = "1"
+            hire = "0"
         }
 
 
@@ -290,11 +373,17 @@ class EmployerInteractionFragment : Fragment() {
             notContractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
             notContractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
             status = "3"
+            Ncontracted = "0"
+            contracted = "0"
+            hire = "1"
 
             hiredLayoutShow()
-            if (populateshowExp == "no") {
-                addRadioButton()
-            }
+//            if (populateshowExp == "no") {
+//                //addRadioButton()
+//            }
+            EmpInteractionFab?.setEnabled(true);
+            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+
 
             // registrationCommunicator.bcGenderSelected("O")
         }
