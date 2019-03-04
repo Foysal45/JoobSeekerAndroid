@@ -2,18 +2,18 @@ package com.bdjobs.app.API.ModelClasses
 import com.google.gson.annotations.SerializedName
 
 
-data class InterviewInvitation(
-    @SerializedName("common")
+data class LastUpdateModel(
+        @SerializedName("common")
     val common: Any?,
-    @SerializedName("data")
-    val `data`: List<InterviewInvitationData?>?,
-    @SerializedName("message")
+        @SerializedName("data")
+    val `data`: List<LastUpdateModelData?>?,
+        @SerializedName("message")
     val message: String?,
-    @SerializedName("statuscode")
+        @SerializedName("statuscode")
     val statuscode: String?
 )
 
-data class InterviewInvitationData(
+data class LastUpdateModelData(
     @SerializedName("SocialMediaId")
     val socialMediaId: String?,
     @SerializedName("SocialMediaType")

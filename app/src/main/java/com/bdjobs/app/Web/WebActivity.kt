@@ -63,6 +63,10 @@ class WebActivity : Activity() {
                 suggestiveSearchET.text = "Hot Jobs"
                 loadUrlWithCookie(url)
             }
+            "cvview" -> {
+                suggestiveSearchET.text = "View Resume"
+                loadUrlWithoutCookie(url)
+            }
             else -> {
                 loadUrlWithoutCookie(url)
             }

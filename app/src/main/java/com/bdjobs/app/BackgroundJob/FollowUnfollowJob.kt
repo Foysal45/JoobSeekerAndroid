@@ -73,10 +73,11 @@ class FollowUnfollowJob(private val appContext: Context) : Job() {
             ).enqueue(object : Callback<FollowUnfollowModelClass> {
                 override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
                     error("onFailure", t)
+                    Log.d("error", " error = ${ t.message}")
                 }
 
                 override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
-
+                    Log.d("error", " error = ${ response?.code()}")
                     try {
                         Log.d("werywirye", "Success API")
                         var statuscode = response.body()?.statuscode

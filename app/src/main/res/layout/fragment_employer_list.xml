@@ -43,6 +43,8 @@
                 android:gravity="center_vertical"
                 android:hint="Search Employers"
                 android:paddingLeft="5dp"
+                android:maxLength="120"
+               android:singleLine="true"
                 android:textColorHint="#f4f4f4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/searchBTN"

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.External.LocationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*
@@ -29,6 +30,12 @@ class BCAddressFragment : Fragment() {
     private lateinit var postOffice: String
     private lateinit var address: String
     private lateinit var returnView: View
+    var districtList: ArrayList<LocationModel>? = null
+    var thanaList: ArrayList<LocationModel>? = null
+    var postOfficeList: ArrayList<LocationModel>? = null
+    var locationID = ""
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,19 +60,18 @@ class BCAddressFragment : Fragment() {
 
             thana = bcThanaTIET.getString()
             district = bcDistrictTIET.getString()
-            division = bcDivisionTIET.getString()
+            /*   division = bcDivisionTIET.getString()*/
             address = bcVillageTIET.getString().trim()
             postOffice = bcPostOfficeTIET.getString()
-            var locationID = ""
 
-            if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
+            /*if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
                 locationID = dataStorage.getBanglaLocationIDByName(thana)!!
             } else {
                 locationID = dataStorage.getBanglaLocationIDByName(postOffice)!!
-            }
+            }*/
 
             if (validateCondition()) {
-                registrationCommunicator.bcAddressSelected(division, district, thana, postOffice, address, locationID)
+                registrationCommunicator.bcAddressSelected(district, thana, postOffice, address, locationID)
                 registrationCommunicator.bcGoToStepExperience()
             }
 
@@ -98,9 +104,7 @@ class BCAddressFragment : Fragment() {
 
     private fun addTextChangedListener() {
 
-        bcDivisionTIET?.easyOnTextChangedListener { charSequence ->
-            addressValidation(charSequence.toString(), bcDivisionTIET, bcDivisionTIL, "")
-        }
+
 
         bcDistrictTIET?.easyOnTextChangedListener { charSequence ->
 
@@ -162,15 +166,7 @@ class BCAddressFragment : Fragment() {
     private fun checkValidity() {
 
 
-        if (TextUtils.isEmpty(bcDivisionTIET?.getString())) {
 
-            bcDivisionTIL?.showError("বিভাগ নির্বাচন করুন ")
-
-        } else {
-            bcDivisionTIL?.isErrorEnabled = false
-
-
-        }
 
         if (TextUtils.isEmpty(bcDistrictTIET?.getString())) {
 
@@ -219,13 +215,25 @@ class BCAddressFragment : Fragment() {
         /*  bcVillageTIET.isFocusable = false*/
 
 
-        setDialog("বিভাগ নির্বাচন করুন ", bcDivisionTIET, dataStorage.banglaAllDivision)
+        /* setDialog("বিভাগ নির্বাচন করুন ", bcDivisionTIET, dataStorage.banglaAllDivision)*/
 
-        if (!TextUtils.isEmpty(bcDivisionTIET.getString())) {
-            var queryValue = bcDivisionTIET.getString()
-            queryValue = queryValue.replace("'", "''")
-            setDialog("জেলা নির্বাচন করুন", bcDistrictTIET, dataStorage.getDependentLocationByParentNameInBangla(queryValue))
+        districtList = dataStorage.getAllBngDistrictList()
+
+        val districtNameList = arrayListOf<String>()
+
+        districtList?.forEach { dt ->
+
+            districtNameList.add(dt.locationName)
+
         }
+
+        setDialog("জেলা নির্বাচন করুন", bcDistrictTIET, districtNameList.toTypedArray())
+
+        /* if (!TextUtils.isEmpty(bcDivisionTIET.getString())) {
+             var queryValue = bcDivisionTIET.getString()
+             queryValue = queryValue.replace("'", "''")
+
+         }*/
         if (!TextUtils.isEmpty(bcDistrictTIET.getString())) {
             var queryValue = bcDistrictTIET.getString()
             queryValue = queryValue.replace("'", "''")
@@ -249,21 +257,9 @@ class BCAddressFragment : Fragment() {
                     ) { dialog, which ->
                         editText.setText(data[which])
 
-                        if (editText.id == R.id.bcDivisionTIET) {
-                            bcDistrictTIET?.clear()
-                            bcThanaTIET?.clear()
-                            bcPostOfficeTIET?.clear()
-                            bcDistrictTIET?.setOnClickListener(null)
-                            bcThanaTIET?.setOnClickListener(null)
-                            bcPostOfficeTIET?.setOnClickListener(null)
+                        var thanaId = ""
+                        var postOfficeId = ""
 
-
-                            bcVillageTIL.isErrorEnabled = false
-
-                            var queryValue = editText.text.toString()
-                            queryValue = queryValue.replace("'", "''")
-                            setDialog("জেলা নির্বাচন করুন", bcDistrictTIET, dataStorage.getDependentLocationByParentNameInBangla(queryValue))
-                        }
                         if (editText.id == R.id.bcDistrictTIET) {
                             bcThanaTIET?.clear()
                             bcPostOfficeTIET?.clear()
@@ -271,15 +267,57 @@ class BCAddressFragment : Fragment() {
                             bcPostOfficeTIET?.setOnClickListener(null)
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
-                            setDialog("উপজেলা / থানা নির্বাচন করুন", bcThanaTIET, dataStorage.getDependentLocationByParentNameInBangla(queryValue))
+
+
+                            thanaList = dataStorage.getDependentBanglaLocationByParentId(districtList?.get(which)?.locationId!!)
+
+                            val thanaNameList = arrayListOf<String>()
+
+                            thanaList?.forEach { dt ->
+
+                                thanaNameList.add(dt.locationName)
+
+                            }
+                            setDialog("উপজেলা / থানা নির্বাচন করুন", bcThanaTIET, thanaNameList.toTypedArray())
                         }
                         if (editText.id == R.id.bcThanaTIET) {
                             bcPostOfficeTIET?.clear()
                             bcPostOfficeTIET?.setOnClickListener(null)
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
-                            setDialog("পোষ্ট অফিস নির্বাচন করুন", bcPostOfficeTIET, dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue))
+
+                            thanaId = thanaList?.get(which)?.locationId!!
+
+                            postOfficeList = dataStorage.getDependentBanglaLocationByParentId(thanaList?.get(which)?.locationId!!)
+
+                            val pstOfficeNameList = arrayListOf<String>()
+
+                            postOfficeList?.forEach { dt ->
+
+                                pstOfficeNameList.add(dt.locationName)
+
+                            }
+
+                            setDialog("পোষ্ট অফিস নির্বাচন করুন", bcPostOfficeTIET, pstOfficeNameList.toTypedArray())
+
+
                         }
+
+                        if (editText.id == R.id.bcPostOfficeTIET) {
+
+                            postOfficeId = postOfficeList?.get(which)?.locationId!!
+                            postOffice = bcPostOfficeTIET.getString()
+
+
+                            if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
+                                locationID = thanaId
+                            } else {
+                                locationID = postOfficeId
+                            }
+                        }
+
+
+
                     }
             val dialog = builder.create()
             dialog.show()
