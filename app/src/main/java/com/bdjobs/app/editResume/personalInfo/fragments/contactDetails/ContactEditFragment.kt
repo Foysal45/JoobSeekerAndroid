@@ -214,7 +214,6 @@ class ContactEditFragment : Fragment() {
                 contactAddEmailButton.show()
             }
         }
-
         setupViews()
     }
 
@@ -266,6 +265,7 @@ class ContactEditFragment : Fragment() {
                         if (response.body()?.statuscode == "4") {
                             session.updateEmail(contactEmailAddressTIET.getString())
                             contactInfo.goBack()
+                            onDetach()
                         }
                     }
                 } catch (e: Exception) {
@@ -310,6 +310,7 @@ class ContactEditFragment : Fragment() {
         prContactAddressTIETPR?.setText(data.presentVillage)
         val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
         d("division : $prDiv")
+
         prContactDivTIET?.setText(prDiv)
         d("division : ${dataStorage.getDivisionNameByDistrictName(data.presentDistrict.toString())}")
         if (data.presentCountry != "118") presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
