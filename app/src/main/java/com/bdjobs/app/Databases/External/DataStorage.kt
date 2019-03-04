@@ -6,7 +6,6 @@ import android.content.Context
 import android.database.SQLException
 import android.util.Log
 import java.io.IOException
-import kotlin.collections.ArrayList
 
 class DataStorage(context: Context) {
 
@@ -1230,7 +1229,6 @@ class DataStorage(context: Context) {
 
     }
 
-
     fun getAllEnglishDistrictList(): ArrayList<LocationModel>? {
         val OrgTypes = ArrayList<LocationModel>()
         dbHelper.openDataBase()
@@ -1256,8 +1254,6 @@ class DataStorage(context: Context) {
 
         return OrgTypes
     }
-
-
 
     fun getAllBngDistrictList(): ArrayList<LocationModel>? {
         val OrgTypes = ArrayList<LocationModel>()
