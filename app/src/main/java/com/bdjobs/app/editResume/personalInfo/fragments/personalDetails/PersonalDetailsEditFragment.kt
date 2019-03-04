@@ -224,6 +224,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            session.updateFullName(etPerFirstName.getString().plus(" ${etPerLastName.getString()}"))
                             session.updateIsCvPosted("True")
                             session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()
