@@ -78,14 +78,13 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun addChip(input: String) {
-        alreadyLoaded = true
-        if (entry_chip_group.childCount <= 2) {
+        if (entry_chip_group.childCount < 3) {
             addAsString(workExperineceID)
             val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
-        } else {
-            if (!alreadyLoaded) activity.toast("Maximum 3 experiences can be added.")
+        } else if (entry_chip_group.childCount > 3) {
+            activity.toast("Maximum 3 experiences can be added.")
         }
         experiencesMACTV?.closeKeyboard(activity)
     }
@@ -152,8 +151,11 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (idArr.isNotEmpty())
+        if (idArr.isNotEmpty()) {
             idArr.clear()
+            entry_chip_group.removeAllViews()
+            /*for (item in 0..idArr.size) {}*/
+        }
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
@@ -221,21 +223,11 @@ class EmpHistoryEditFragment : Fragment() {
                             android.R.layout.simple_dropdown_item_1line, organizationList)
                     companyBusinessACTV.setAdapter(orgsAdapter)
                     companyBusinessACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-                    /*companyBusinessACTV.setOnItemClickListener { _, _, position, id ->
-                        val selectedItem = companyBusinessACTV.text.toString()
-                        //activity?.toast("business selected item : $selectedItem")
-                    }*/
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
 
-            /*activity.selector("Area of Company Business", organizationList.toList()) { _, i ->
-                companyBusinessACTV.setText(organizationList[i])
-                companyBusinessTIL.requestFocus()
-                companyBusinessID = dataStorage.getOrgIDByOrgName(organizationList[i])
-                Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-            }*/
         }
         experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
@@ -284,7 +276,7 @@ class EmpHistoryEditFragment : Fragment() {
             validation = isValidate(positionET, positionTIL, estartDateET, true, validation)
             validation = isValidate(estartDateET, estartDateTIL, et_end_date, true, validation)
             validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, isEmpty, validation)
-            //validation = isValidate(et_end_date, endDateTIL, et_end_date, false, validation)
+            if (!cb_present.isChecked) validation = isValidate(et_end_date, endDateTIL, et_end_date, true, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
             Log.d("validation", "validation : $validation and $isEmpty")
 
@@ -335,9 +327,12 @@ class EmpHistoryEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            activity.toast(resp.message.toString())
                             empHisCB.goBack()
+                        } else if (resp?.message == "Please select End Date") {
+                            endDateTIL.isErrorEnabled = true
+                            endDateTIL?.showError("This Field can not be empty")
                         }
                     }
                 } catch (e: Exception) {
@@ -363,12 +358,12 @@ class EmpHistoryEditFragment : Fragment() {
         //for ((i, value) in areaOfexps?.withIndex()!!)
         areaOfexps?.forEach {
             addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
-            addAsString(it.id)
+            //addAsString(it.id)
         }
 
         hExpID = data.expId
         companyNameET.setText(data.companyName)
-
+        experiencesMACTV.setText("")
         companyBusinessACTV.setText(data.companyBusiness)
         companyLocationET.setText(data.companyLocation)
         positionET.setText(data.positionHeld)
@@ -378,7 +373,9 @@ class EmpHistoryEditFragment : Fragment() {
 
         //experiencesMACTV.setText(data.areaofExperience)
         if (data.to != "Continuing") {
+            cb_present.isChecked = false
             et_end_date.setText(data.to)
+            //toast("not continuing")
         } else {
             cb_present.isChecked = true
             et_end_date.isEnabled = false

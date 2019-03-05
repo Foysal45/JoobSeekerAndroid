@@ -266,16 +266,18 @@ class ContactEditFragment : Fragment() {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
                 activity.toast(R.string.message_common_error)
+                Log.d("contact_details", "msg: ${t.message}")
+
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
-                        response.body()?.message?.let { activity.toast(it) }
 
                         if (response.body()?.statuscode == "4") {
                             session.updateEmail(contactEmailAddressTIET.getString())
+                            response.body()?.message?.let { activity.toast(it) }
                             contactInfo.goBack()
                             onDetach()
                         }

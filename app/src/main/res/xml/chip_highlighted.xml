@@ -5,6 +5,7 @@
     android:checkable="false"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    app:singleLine="true"
     app:chipCornerRadius="16dp"
     app:chipStrokeColor="#D9D9D9"
     app:chipStrokeWidth="1dp"
