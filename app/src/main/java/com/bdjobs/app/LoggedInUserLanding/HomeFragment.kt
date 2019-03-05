@@ -417,6 +417,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     }
 
                     try {
+                        //bdjobsUserSession.updateIsCvPosted(response.body()?.data?.get(0)?.!!)
                         bdjobsUserSession.updateTrainingId(response.body()?.data?.get(0)?.trainingId!!)
                         bdjobsUserSession.updateEmail(response.body()?.data?.get(0)?.email!!)
                         bdjobsUserSession.updateFullName(response.body()?.data?.get(0)?.name!!)
