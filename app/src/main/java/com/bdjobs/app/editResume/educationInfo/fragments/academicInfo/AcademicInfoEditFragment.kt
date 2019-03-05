@@ -498,7 +498,6 @@ class AcademicInfoEditFragment : Fragment() {
                     majorSubACTV?.hide()
                 } else {
 
-
                     majorSubACTV?.clearText()
                     mejorTIL?.isErrorEnabled = false
                     majorSubACTV?.clearFocus()
