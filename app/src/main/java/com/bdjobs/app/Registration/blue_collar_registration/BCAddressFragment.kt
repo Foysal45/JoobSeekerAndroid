@@ -34,7 +34,8 @@ class BCAddressFragment : Fragment() {
     var thanaList: ArrayList<LocationModel>? = null
     var postOfficeList: ArrayList<LocationModel>? = null
     var locationID = ""
-
+    var thanaId = ""
+    var postOfficeId = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +70,14 @@ class BCAddressFragment : Fragment() {
             } else {
                 locationID = dataStorage.getBanglaLocationIDByName(postOffice)!!
             }*/
+
+            locationID = if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
+                thanaId
+            } else {
+                postOfficeId
+            }
+
+
 
             if (validateCondition()) {
                 registrationCommunicator.bcAddressSelected(district, thana, postOffice, address, locationID)
@@ -257,8 +266,7 @@ class BCAddressFragment : Fragment() {
                     ) { dialog, which ->
                         editText.setText(data[which])
 
-                        var thanaId = ""
-                        var postOfficeId = ""
+
 
                         if (editText.id == R.id.bcDistrictTIET) {
                             bcThanaTIET?.clear()
@@ -292,6 +300,13 @@ class BCAddressFragment : Fragment() {
 
                             val pstOfficeNameList = arrayListOf<String>()
 
+                            if (pstOfficeNameList.isNullOrEmpty()) {
+
+                                val otherLocation = LocationModel("অন্যান্য", "-2")
+
+                                postOfficeList?.add(otherLocation)
+                            }
+
                             postOfficeList?.forEach { dt ->
 
                                 pstOfficeNameList.add(dt.locationName)
@@ -309,11 +324,6 @@ class BCAddressFragment : Fragment() {
                             postOffice = bcPostOfficeTIET.getString()
 
 
-                            if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
-                                locationID = thanaId
-                            } else {
-                                locationID = postOfficeId
-                            }
                         }
 
 

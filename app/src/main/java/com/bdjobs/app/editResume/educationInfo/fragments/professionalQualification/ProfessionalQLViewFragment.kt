@@ -62,12 +62,12 @@ class ProfessionalQLViewFragment : Fragment() {
 
 
     private fun setupRV(items: ArrayList<ProfessionalDataModel>) {
-        rv_professional_view.setHasFixedSize(true)
+        rv_professional_view?.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(activity.applicationContext)
-        rv_professional_view.layoutManager = mLayoutManager
+        rv_professional_view?.layoutManager = mLayoutManager
         adapter = ProfessionalQFAdapter(items, activity)
-        rv_professional_view.itemAnimator = DefaultItemAnimator()
-        rv_professional_view.adapter = adapter
+        rv_professional_view?.itemAnimator = DefaultItemAnimator()
+        rv_professional_view?.adapter = adapter
     }
 
     private fun populateData() {
