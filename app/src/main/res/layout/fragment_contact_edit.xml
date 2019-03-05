@@ -123,9 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-
-                        >
+                        android:layout_marginEnd="24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/prContactDistrictTIET"
@@ -243,10 +241,12 @@
                         android:id="@+id/prContactAddressTIETPR"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:hint="@string/hint.contactAddress"
                         android:inputType="text|textMultiLine"
                         android:maxLength="250"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        tools:targetApi="o" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

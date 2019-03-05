@@ -3,4 +3,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Widget.MaterialComponents.Chip.Entry"
     android:checkable="false"
+    app:singleLine="true"
     app:iconStartPadding="5dp" />

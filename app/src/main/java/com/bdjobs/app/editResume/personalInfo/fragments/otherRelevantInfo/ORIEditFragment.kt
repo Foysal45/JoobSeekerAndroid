@@ -26,6 +26,7 @@ import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.fragment_ori_view.*
 import kotlinx.android.synthetic.main.fragment_oriedit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -53,9 +54,17 @@ class ORIEditFragment : Fragment() {
         session = BdjobsUserSession(activity)
         oriEditCB = activity as PersonalInfo
         d("onActivityCreated")
-        doWork()
         oriEditCB.setTitle(getString(R.string.title_ORI))
         oriEditCB.setEditButton(false, "dd")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (idArr.isNotEmpty()) {
+            entry_chip_group.removeAllViews()
+            idArr.clear()
+        }
+        doWork()
     }
 
     private fun doWork() {
@@ -102,16 +111,6 @@ class ORIEditFragment : Fragment() {
                 addChip(str.removeLastComma())
             }
         }
-
-        /*etOriKeywords.setOnEditorActionListener { v, actionId, event ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    addChip(etOriKeywords.getString())
-                    true
-                }
-                else -> false
-            }
-        }*/
     }
 
     private fun onClicks() {
@@ -199,13 +198,13 @@ class ORIEditFragment : Fragment() {
         if (idArr.isEmpty()) {
             textInputLayout4.isErrorEnabled = true
             textInputLayout4.error = "Please add keywords"
-            activity?.toast("Please type at least one keyword")
+            //activity?.toast("Please type at least one keyword")
         }
     }
 
 
     private fun addChip(input: String) {
-        if (ori_entry_chip_group.childCount <= 15) {
+        if (ori_entry_chip_group.childCount < 15) {
             addAsString(input)
             val c1 = getChip(ori_entry_chip_group, input, R.xml.chip_entry)
             ori_entry_chip_group.addView(c1)
