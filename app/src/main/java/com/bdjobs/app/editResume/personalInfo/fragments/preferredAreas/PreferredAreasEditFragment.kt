@@ -64,11 +64,24 @@ class PreferredAreasEditFragment : Fragment() {
         d("onActivityCreated")
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
         prefCallBack.setEditButton(false, "dd")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (idWCArr.isNotEmpty() || idBCArr.isNotEmpty() || idOrgArr.isNotEmpty() || idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty())
+            clearAllArr()
+
         doWork()
     }
 
     private fun doWork() {
         onClicks()
+
+        acWCjobCat?.addTextChangedListener(TW.CrossIconBehaveACTV(acWCjobCat))
+        acBCJobCat?.addTextChangedListener(TW.CrossIconBehaveACTV(acBCJobCat))
+        acOutsideBD?.addTextChangedListener(TW.CrossIconBehaveACTV(acOutsideBD))
+        acOrgType?.addTextChangedListener(TW.CrossIconBehaveACTV(acOrgType))
+        acInsideBD?.addTextChangedListener(TW.CrossIconBehaveACTV(acInsideBD))
         data = prefCallBack.getPrefAreasData()
         //clearAllArr()
         preloadedData(data)
@@ -131,6 +144,15 @@ class PreferredAreasEditFragment : Fragment() {
         idOrgArr.clear()
         idInBDArr.clear()
         idOutBDArr.clear()
+        wc_entry_chip_group?.removeAllViews()
+        bc_entry_chip_group?.removeAllViews()
+        org_entry_chip_group?.removeAllViews()
+        pref_locs_entry_chip_group?.removeAllViews()
+        pref_countries_entry_chip_group?.removeAllViews()
+        /*} catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }*/
     }
 
     private fun onClicks() {
@@ -361,7 +383,7 @@ class PreferredAreasEditFragment : Fragment() {
             }
         }
 
-        if (cg.childCount <= maxItems - 1) {
+        if (cg.childCount < maxItems) {
             //val exps = ""
             //addAsString(idsss, idArr)
 

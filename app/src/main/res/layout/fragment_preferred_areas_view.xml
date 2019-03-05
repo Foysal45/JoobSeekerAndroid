@@ -215,14 +215,11 @@
                 <TextView
                     android:id="@+id/textView46"
                     style="@style/TextAppearance.AppCompat"
-                    android:layout_width="339dp"
+                    android:layout_width="347dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:fontFamily="@font/roboto"
                     android:text="@string/subtit_pref_locs"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView25"
                     app:layout_constraintTop_toTopOf="@+id/imageView25" />
 
