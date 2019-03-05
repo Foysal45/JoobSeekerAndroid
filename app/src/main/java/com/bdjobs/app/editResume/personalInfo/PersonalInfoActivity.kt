@@ -115,13 +115,18 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun setEditButton(b: Boolean, type: String) {
-        if (b) {
-            iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
-            iv_edit_data.setOnClickListener {
-                goToEditInfo(type)
+        try {
+            if (b) {
+                iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
+                iv_edit_data.setOnClickListener {
+                    goToEditInfo(type)
+                }
+            } else {
+                iv_edit_data.setImageDrawable(null)
             }
-        } else {
-            iv_edit_data.setImageDrawable(null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
         }
     }
 /*

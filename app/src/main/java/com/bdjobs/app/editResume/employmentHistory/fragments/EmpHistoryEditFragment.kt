@@ -152,8 +152,13 @@ class EmpHistoryEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (idArr.isNotEmpty()) {
-            idArr.clear()
-            entry_chip_group.removeAllViews()
+            try {
+                entry_chip_group?.removeAllViews()
+                idArr.clear()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logException(e)
+            }
             /*for (item in 0..idArr.size) {}*/
         }
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
@@ -164,10 +169,7 @@ class EmpHistoryEditFragment : Fragment() {
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
-            //if (alreadyLoaded) {
             preloadedData()
-            /*alreadyLoaded = false
-        }*/
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"

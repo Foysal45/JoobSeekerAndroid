@@ -26,7 +26,6 @@ import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.fragment_ori_view.*
 import kotlinx.android.synthetic.main.fragment_oriedit.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -41,6 +40,7 @@ class ORIEditFragment : Fragment() {
     private var idArr: ArrayList<String> = ArrayList()
     private var exps: String = ""
     private lateinit var dialog: Dialog
+    private lateinit var cgORI: ChipGroup
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -56,18 +56,12 @@ class ORIEditFragment : Fragment() {
         d("onActivityCreated")
         oriEditCB.setTitle(getString(R.string.title_ORI))
         oriEditCB.setEditButton(false, "dd")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (idArr.isNotEmpty()) {
-            entry_chip_group.removeAllViews()
-            idArr.clear()
-        }
         doWork()
     }
 
     private fun doWork() {
+
+        //entry_chip_group.removeAllViews()
         data = oriEditCB.getOriData()
 
         onClicks()
@@ -209,7 +203,9 @@ class ORIEditFragment : Fragment() {
             val c1 = getChip(ori_entry_chip_group, input, R.xml.chip_entry)
             ori_entry_chip_group.addView(c1)
             etOriKeywords?.clearText()
-        } else activity.toast("Maximum 15 experiences can be added.")
+        } else {
+            activity.toast("Maximum 15 experiences can be added.")
+        }
         etOriKeywords?.closeKeyboard(activity)
     }
 
