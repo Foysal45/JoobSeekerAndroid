@@ -209,37 +209,37 @@ data class AcaDataItem(
 data class P_DataItem(
 
         @field:SerializedName("firstName")
-        val firstName: String? = null,
+        val firstName: String? = "",
 
         @field:SerializedName("lastName")
-        val lastName: String? = null,
+        val lastName: String? = "",
 
         @field:SerializedName("fatherName")
-        val fatherName: String? = null,
+        val fatherName: String? = "",
 
         @field:SerializedName("dateofBirth")
-        val dateofBirth: String? = null,
+        val dateofBirth: String? = "",
 
         @field:SerializedName("messageType")
-        val messageType: String? = null,
+        val messageType: String? = "",
 
         @field:SerializedName("gender")
-        val gender: String? = null,
+        val gender: String? = "",
 
         @field:SerializedName("motherName")
-        val motherName: String? = null,
+        val motherName: String? = "",
 
         @field:SerializedName("nationalIdNo")
-        val nationalIdNo: String? = null,
+        val nationalIdNo: String? = "",
 
         @field:SerializedName("maritalStatus")
-        val maritalStatus: String? = null,
+        val maritalStatus: String? = "",
 
         @field:SerializedName("nationality")
-        val nationality: String? = null,
+        val nationality: String? = "",
 
         @field:SerializedName("religion")
-        val religion: String? = null
+        val religion: String? = ""
 )
 
 data class GetPersInfo(

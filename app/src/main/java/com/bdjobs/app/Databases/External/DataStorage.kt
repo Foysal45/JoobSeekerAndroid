@@ -6,7 +6,6 @@ import android.content.Context
 import android.database.SQLException
 import android.util.Log
 import java.io.IOException
-import kotlin.collections.ArrayList
 
 class DataStorage(context: Context) {
 
@@ -993,14 +992,14 @@ class DataStorage(context: Context) {
         var s: String? = null
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " = '" + locationName + "'"
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = '" + locationName + "'"
             Log.d("selectQueryDiv", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
-                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_TYPE))
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
                 cursor.moveToNext()
             }
             dbHelper.close()
@@ -1230,7 +1229,6 @@ class DataStorage(context: Context) {
 
     }
 
-
     fun getAllEnglishDistrictList(): ArrayList<LocationModel>? {
         val OrgTypes = ArrayList<LocationModel>()
         dbHelper.openDataBase()
@@ -1256,8 +1254,6 @@ class DataStorage(context: Context) {
 
         return OrgTypes
     }
-
-
 
     fun getAllBngDistrictList(): ArrayList<LocationModel>? {
         val OrgTypes = ArrayList<LocationModel>()

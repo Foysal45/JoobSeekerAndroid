@@ -68,7 +68,7 @@
         <Button
             android:id="@+id/lastmonth_MBTN"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/left_rounded_background"
             android:lineSpacingExtra="0sp"
             android:layout_gravity="center"
@@ -80,7 +80,7 @@
         <Button
             android:id="@+id/all_MBTN"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/right_rounded_background"
             android:lineSpacingExtra="0sp"
             android:text="All Time"
@@ -116,7 +116,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:elevation="16dp"
-        android:src="@drawable/ic_build"
+        android:src="@drawable/ic_manage_resume"
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="normal"

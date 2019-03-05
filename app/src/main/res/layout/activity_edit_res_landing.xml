@@ -20,7 +20,7 @@
         android:layout_marginBottom="24dp"
         android:clickable="true"
         android:elevation="16dp"
-        android:src="@drawable/ic_remove_red_eye_white_24dp"
+        android:src="@drawable/ic_view_resume_1"
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="normal"
@@ -173,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/title_pref_areas"
-                app:icon="@drawable/ic_carrer" />
+                app:icon="@drawable/ic_preferred_area_icon" />
 
 
             <com.google.android.material.button.MaterialButton

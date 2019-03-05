@@ -85,7 +85,7 @@ class EmpHistoryEditFragment : Fragment() {
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
         } else {
-            activity.toast("Maximum 3 experiences can be added.")
+            if (!alreadyLoaded) activity.toast("Maximum 3 experiences can be added.")
         }
         experiencesMACTV?.closeKeyboard(activity)
     }
@@ -152,6 +152,8 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        if (idArr.isNotEmpty())
+            idArr.clear()
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
@@ -174,8 +176,6 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        if (idArr.isNotEmpty())
-            idArr.clear()
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -185,6 +185,7 @@ class EmpHistoryEditFragment : Fragment() {
                 currentlyWorking = "OFF"
                 updateDateInView(1)
                 endDateTIL?.isEnabled = true
+                et_end_date.clear()
                 //et_end_date?.error = "Can't be empty"
                 //endDateTIL.hideError()
             }
@@ -430,13 +431,13 @@ class EmpHistoryEditFragment : Fragment() {
         companyNameET.clear()
         //if (companyBusinessACTV.text.trim().isNotEmpty()) {
         companyBusinessACTV.setText("")
+        et_end_date.setText("")
         //}
         companyLocationET.clear()
         positionET.clear()
         departmentET.clear()
         responsibilitiesET.clear()
         estartDateET.clear()
-        et_end_date.clear()
         cb_present.isChecked = false
         experiencesMACTV.setText("")
         //experiencesMACTV.clear()

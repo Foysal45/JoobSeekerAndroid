@@ -98,7 +98,8 @@ class PersonalDetailsEditFragment : Fragment() {
                 nationalityTIL.show()
                 true
             } else {
-                etPerNationality.clear()
+                //etPerNationality.clear()
+                etPerNationality.setText(getString(R.string.hint_bangladesh))
                 nidTIL.show()
                 nationalityTIL.hide()
                 false
@@ -197,7 +198,7 @@ class PersonalDetailsEditFragment : Fragment() {
             nationalityTIL.hide()
         } else {
             cbPerIsBd.isChecked = false
-            etPerNationality.clear()
+            //etPerNationality.clear()
             nidTIL.hide()
             nationalityTIL.show()
         }
@@ -223,6 +224,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            session.updateFullName(etPerFirstName.getString().plus(" ${etPerLastName.getString()}"))
                             session.updateIsCvPosted("True")
                             session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
                             personalInfo.goBack()

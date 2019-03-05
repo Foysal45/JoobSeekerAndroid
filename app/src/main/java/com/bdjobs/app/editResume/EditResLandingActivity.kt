@@ -61,12 +61,12 @@ class EditResLandingActivity : Activity() {
             btnPerItem1.setOnClickListener {
                 goToFragment("personal", "P")
             }
-            btnPerItem2.setOnClickListener {
+            /*btnPerItem2.setOnClickListener {
                 goToFragment("contact", "P")
             }
             btnEduItem1.setOnClickListener {
                 goToFragment("academic", "E")
-            }
+            }*/
 
         } else {
             doWork()
@@ -76,7 +76,7 @@ class EditResLandingActivity : Activity() {
         }
     }
 
-    fun rndm(): String {
+    private fun random(): String {
         val chars = "abcdefghijklmnopqrstuvwxyz12345678910".toCharArray()
         val sb = StringBuilder()
         val random = Random()
@@ -92,12 +92,11 @@ class EditResLandingActivity : Activity() {
     private fun doWork() {
         enableAll()
         nextButtonFAB.setOnClickListener {
-            val str1 = rndm()
-            val str2 = rndm()
+            val str1 = random()
+            val str2 = random()
             val id = str1 + session.userId + session.decodId + str2
             startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id" ,"from" to "cvview")
         }
-
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
         }
@@ -144,11 +143,11 @@ class EditResLandingActivity : Activity() {
     }
 
     private fun disableAll() {
-        //btnPerItem2.disable(true)
+        btnPerItem2.disable(true)
         btnPerItem3.disable(true)
         btnPerItem4.disable(true)
         btnPerItem5.disable(true)
-        //btnEduItem1.disable(true)
+        btnEduItem1.disable(true)
         btnEduItem2.disable(true)
         btnEmpItem1.disable(true)
         btnEmpItem2.disable(true)
@@ -160,11 +159,11 @@ class EditResLandingActivity : Activity() {
     }
 
     private fun enableAll() {
-        //btnPerItem2.disable(false)
+        btnPerItem2.disable(false)
         btnPerItem3.disable(false)
         btnPerItem4.disable(false)
         btnPerItem5.disable(false)
-        //btnEduItem1.disable(false)
+        btnEduItem1.disable(false)
         btnEduItem2.disable(false)
         btnEmpItem1.disable(false)
         btnEmpItem2.disable(false)

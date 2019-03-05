@@ -62,7 +62,7 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
                 dModel.marks.equals("0") && dModel.scale.equals("0") -> holder.tvAcaResult?.hide()
                 !dModel.marks.equals("0") && !dModel.scale.equals("0") -> {
                     holder.tvAcaResult?.show()
-                    holder.tvAcaResult?.text = "CGPA ${dModel.marks} 0ut of ${dModel.scale}"
+                    holder.tvAcaResult?.text = "CGPA ${dModel.marks} Out of ${dModel.scale}"
 
                 }
                 !dModel.marks.equals("0") && dModel.scale.equals("0") -> {
