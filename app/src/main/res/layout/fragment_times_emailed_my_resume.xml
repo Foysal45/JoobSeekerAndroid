@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/numberTV"
             android:fontFamily="@font/noto_sans"
-            android:text=" Time Emailed Resume"
+            android:text=" time Emailed Resume"
             android:layout_centerVertical="true"
             android:textColor="#767676"
             android:textSize="12sp" />
