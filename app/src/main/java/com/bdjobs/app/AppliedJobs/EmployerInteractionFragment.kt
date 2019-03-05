@@ -113,6 +113,7 @@ class EmployerInteractionFragment : Fragment() {
         super.onResume()
         bdjobsUserSession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
+        //----------------------------------
         //   onClick()
         // experienceListInteraction = appliedJobsCommunicator.getExperience()
         companyTV.text = appliedJobsCommunicator.getCompany()
