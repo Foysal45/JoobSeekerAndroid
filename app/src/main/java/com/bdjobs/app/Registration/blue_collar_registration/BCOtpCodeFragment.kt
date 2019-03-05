@@ -43,6 +43,7 @@ class BCOtpCodeFragment : Fragment() {
 
     private fun onClick(){
 
+        //gkhjgh
         bcOTPFAButton.setOnClickListener {
 
             if (bcOTPCodeTIET?.text.toString().isNullOrEmpty()) {
