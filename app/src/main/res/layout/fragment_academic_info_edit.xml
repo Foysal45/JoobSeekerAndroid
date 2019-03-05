@@ -32,6 +32,7 @@
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
                     android:hint="@string/hint.level_of_education"
+                    android:longClickable="false"
                     android:inputType="text"
                     android:maxLength="100"
                     android:textColor="#212121" />
@@ -52,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
                     android:hint="@string/hint.exam_degree_title"
+                    android:longClickable="false"
                     android:inputType="text"
                     android:textColor="#212121" />
 
@@ -144,6 +146,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etResults"
+                    android:longClickable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
@@ -273,6 +276,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
+                    android:longClickable="false"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.passingyear"
                     android:imeOptions="actionDone"
