@@ -542,15 +542,14 @@ class ContactEditFragment : Fragment() {
                             postOfficeList = dataStorage.getDependentEnglishLocationByParentId(thanaList?.get(which)?.locationId!!)
 
                             val pstOfficeNameList = arrayListOf<String>()
-
-                            postOfficeList?.forEach { dt ->
-
-                                pstOfficeNameList.add(dt.locationName)
-
+                            if (pstOfficeNameList.isNullOrEmpty()) {
+                                val otherLocation = LocationModel("Other", "-2")
+                                postOfficeList?.add(otherLocation)
                             }
-
-                            setDialog("Please Select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
-
+                            postOfficeList?.forEach { dt ->
+                                pstOfficeNameList.add(dt.locationName)
+                            }
+                            setDialog("Please Select your police station", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
 
                         }
                         if (editText.id == R.id.prContactPostOfficeTIET1) {
@@ -588,7 +587,7 @@ class ContactEditFragment : Fragment() {
                             postOfficeList?.forEach { dt ->
                                 pstOfficeNameList.add(dt.locationName)
                             }
-                            setDialog("Please Select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
+                            setDialog("Please Select your police station", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
                         }
                         if (editText.id == R.id.pmContactPostOfficeTIET) {
 
