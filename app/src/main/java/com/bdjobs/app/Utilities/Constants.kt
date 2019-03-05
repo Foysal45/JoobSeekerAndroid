@@ -13,7 +13,7 @@ class Constants {
     companion object {
 
         var isDeviceInfromationSent = false
-
+        var changePassword_Eligibility = "0"
         var myBdjobsStatsLastMonth = true
         var matchedTraining = true
         var timesEmailedResumeLast = true

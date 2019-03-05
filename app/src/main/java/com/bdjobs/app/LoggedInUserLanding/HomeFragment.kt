@@ -417,13 +417,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     }
 
                     try {
-                        //bdjobsUserSession.updateIsCvPosted(response.body()?.data?.get(0)?.!!)
+                        Constants.changePassword_Eligibility = response.body()?.data?.get(0)?.changePassword_Eligibility!!
+                        bdjobsUserSession.updateIsResumeUpdate(response.body()?.data?.get(0)?.isResumeUpdate!!)
+                        bdjobsUserSession.updateIsCvPosted(response.body()?.data?.get(0)?.isCVPosted!!)
                         bdjobsUserSession.updateTrainingId(response.body()?.data?.get(0)?.trainingId!!)
                         bdjobsUserSession.updateEmail(response.body()?.data?.get(0)?.email!!)
                         bdjobsUserSession.updateFullName(response.body()?.data?.get(0)?.name!!)
                         bdjobsUserSession.updateUserName(response.body()?.data?.get(0)?.userName!!)
                         bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
                         bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
+                        Log.d("changePassword","changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)
                     }
