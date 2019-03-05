@@ -123,16 +123,15 @@ class EmployerInteractionFragment : Fragment() {
         EmpInteractionFab?.setEnabled(false);
         //  EmpInteractionFab?.setBackgroundColor(Color.parseColor("#757575"))
         Log.d("expEXP", "hire = $hire")
-        if (hire?.equals("1")!! || contracted?.equals("1")|| Ncontracted?.equals("1")) {
+        if (hire?.equals("1")!! || contracted?.equals("1") || Ncontracted?.equals("1")) {
             EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
             EmpInteractionFab?.setEnabled(true);
-        }
-        else {
+        } else {
             EmpInteractionFab?.setEnabled(false);
             EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#88D086")))
 
         }
-         }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
