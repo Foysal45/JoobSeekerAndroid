@@ -64,13 +64,6 @@ class PreferredAreasEditFragment : Fragment() {
         d("onActivityCreated")
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
         prefCallBack.setEditButton(false, "dd")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (idWCArr.isNotEmpty() || idBCArr.isNotEmpty() || idOrgArr.isNotEmpty() || idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty())
-            clearAllArr()
-
         doWork()
     }
 
@@ -447,7 +440,7 @@ class PreferredAreasEditFragment : Fragment() {
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
                 prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
-        Log.d("PrefAreas", "${withComma(prefWcIds)} // [$prefCountryIds] $prefBcIds and check: // ${withComma(prefDistrictIds)}")
+        Log.d("PrefAreas", "$prefWcIds // [$prefCountryIds] $prefBcIds and check: // $prefDistrictIds")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)

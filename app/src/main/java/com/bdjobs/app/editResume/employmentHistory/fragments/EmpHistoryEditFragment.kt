@@ -77,14 +77,15 @@ class EmpHistoryEditFragment : Fragment() {
         return v
     }
 
+
     private fun addChip(input: String) {
-        if (entry_chip_group.childCount < 3) {
+        var child = 0
+        if (entry_chip_group.childCount <= 2) {
             addAsString(workExperineceID)
             val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
-        } else if (entry_chip_group.childCount > 3) {
-            activity.toast("Maximum 3 experiences can be added.")
+        } else {
         }
         experiencesMACTV?.closeKeyboard(activity)
     }
@@ -128,6 +129,15 @@ class EmpHistoryEditFragment : Fragment() {
             hID = "-4"
             //idArr.add("")
             clearEditText()
+        } else {
+            val data = empHisCB.getData()
+            val areaOfexps = data.areaofExperience
+            //for ((i, value) in areaOfexps?.withIndex()!!)
+            //if (!alreadyLoaded)
+            areaOfexps?.forEach {
+                addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
+                //addAsString(it.id)
+            }
         }
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
     }
@@ -151,16 +161,15 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (idArr.isNotEmpty()) {
+        /*if (idArr.isNotEmpty()) {
             try {
-                entry_chip_group?.removeAllViews()
+                //entry_chip_group?.removeAllViews()
                 idArr.clear()
             } catch (e: Exception) {
                 e.printStackTrace()
                 logException(e)
             }
-            /*for (item in 0..idArr.size) {}*/
-        }
+        }*/
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
@@ -177,9 +186,11 @@ class EmpHistoryEditFragment : Fragment() {
             isEmpty = true
             clearEditText()
         }
+
     }
 
     private fun doWork() {
+
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -201,7 +212,7 @@ class EmpHistoryEditFragment : Fragment() {
         }
         addTextChangedListener(positionET, positionTIL)
         addTextChangedListener(estartDateET, estartDateTIL)
-        experiencesMACTV.easyOnTextChangedListener { charSequence ->
+        if (idArr.isEmpty()) experiencesMACTV.easyOnTextChangedListener { charSequence ->
             activity?.ACTVValidation(charSequence.toString(), experiencesMACTV, experiencesTIL)
         }
 
@@ -251,6 +262,8 @@ class EmpHistoryEditFragment : Fragment() {
                             activity.toast("Experience already added")
                         }
                         experiencesTIL.hideError()
+                    } else if (idArr.size > 3) {
+                        activity.toast("Maximum 3 experiences can be added.") // ekhane change kora hoise
                     } else {
                         addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")
@@ -356,12 +369,6 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun preloadedData() {
         val data = empHisCB.getData()
-        val areaOfexps = data.areaofExperience
-        //for ((i, value) in areaOfexps?.withIndex()!!)
-        areaOfexps?.forEach {
-            addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
-            //addAsString(it.id)
-        }
 
         hExpID = data.expId
         companyNameET.setText(data.companyName)
