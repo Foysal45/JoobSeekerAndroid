@@ -70,7 +70,20 @@ class ContactEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         d("onResume")
+        updateViewsData()
         preloadedData()
+    }
+
+    private fun updateViewsData() {
+
+        districtList = dataStorage.getAllEnglishDistrictList()
+        d("districtList ${districtList?.size} list ${districtList.toString()}")
+        val districtNameList = arrayListOf<String>()
+        districtList?.forEach { dt ->
+            districtNameList.add(dt.locationName)
+        }
+        setDialog("Please Select your district", prContactDistrictTIET, districtNameList.toTypedArray())
+        setDialog("Please Select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
     }
 
     private fun initViews() {
@@ -230,22 +243,32 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun updateData() {
+
         activity.showProgressBar(loadingProgressBar)
+        /*if (presentInOutBD == "" && prContactAddressTIETPR.getString().isNotBlank()) {
+            activity?.stopProgressBar(loadingProgressBar)
+            activity?.toast("Please select Inside or Outside Bangladesh")
+        }
+        if (pmContactAddressTIETPRM.getString().isNotBlank() && permanentInOutBD == "") {
+            activity?.toast("Please select Inside or Outside Bangladesh")
+            activity?.stopProgressBar(loadingProgressBar)
+        }*/
+
         val presentAddressID = contactInfo.getContactData().presentAddressID
         val permanentAddressID = contactInfo.getContactData().permanentAddressID
-        Log.d("dgjdgh", "PassingValue present in bd : ${presentInOutBD} " + "\n" +
-                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString())}" + "\n" +
-                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString())} " + "\n" +
-                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString())}" + "\n" +
+        Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
+                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
+                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} " + "\n" +
+                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")}" + "\n" +
                 " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
-                " country present : ${getIdByName(presentContactCountryTIET.getString())}" + "\n" +
-                " presentInOutBD : ${presentInOutBD}" + "\n" +
-                " permanentInOutBD : ${permanentInOutBD}" + "\n" +
-                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString())}" + "\n" +
-                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString())}" + "\n" +
-                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString())}" + "\n" +
+                " country present : ${presentContactCountryTIET.getString()}" + "\n" +
+                " presentInOutBD : $presentInOutBD" + "\n" +
+                " permanentInOutBD : $permanentInOutBD" + "\n" +
+                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
+                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString(), thanaList, "t")}" + "\n" +
+                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString(), postOfficeList, "p")}" + "\n" +
                 " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
-                " parmamnt country parmanent : ${getIdByName(permanentContactCountryTIETP.getString())}" + "\n" +
+                " parmamnt country parmanent : ${permanentContactCountryTIETP.getString()}" + "\n" +
                 " same address : $sameAddress" + "\n" +
                 " permanentAddressID : $permanentAddressID " + "\n" +
                 " presentAddressID :  $presentAddressID" + "\n" +
@@ -255,11 +278,11 @@ class ContactEditFragment : Fragment() {
                 " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
                 " email address another: ${contactEmailAddressTIET1.getString()}")
         val call = ApiServiceMyBdjobs.create().updateContactData(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
-                inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString()), present_thana = getIdByName(prContactThanaTIET.getString()),
-                present_p_office = getIdByName(prContactPostOfficeTIET1.getString()), present_Village = prContactAddressTIETPR.getString(),
-                present_country_list = getIdByName(presentContactCountryTIET.getString()), permInOut = permanentInOutBD, permanent_district = getIdByName(pmContactDistrictTIET.getString()),
-                permanent_thana = getIdByName(pmContactThanaTIETP.getString()), permanent_p_office = getIdByName(pmContactPostOfficeTIET.getString()), permanent_Village = pmContactAddressTIETPRM.getString(),
-                permanent_country_list = getIdByName(permanentContactCountryTIETP.getString()), same_address = sameAddress, permanent_adrsID = permanentAddressID, present_adrsID = presentAddressID,
+                inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString(), districtList, "d"), present_thana = getIdByName(prContactThanaTIET.getString(), thanaList, "t"),
+                present_p_office = getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p"), present_Village = prContactAddressTIETPR.getString(),
+                present_country_list = getIdByCountryName(presentContactCountryTIET.getString()), permInOut = permanentInOutBD, permanent_district = getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm"),
+                permanent_thana = getIdByName(pmContactThanaTIETP.getString(), thanaList, "tpm"), permanent_p_office = getIdByName(pmContactPostOfficeTIET.getString(), postOfficeList, "ppm"), permanent_Village = pmContactAddressTIETPRM.getString(),
+                permanent_country_list = getIdByCountryName(permanentContactCountryTIETP.getString()), same_address = sameAddress, permanent_adrsID = permanentAddressID, present_adrsID = presentAddressID,
                 officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), homePhone = contactMobileNumber2TIET.getString(),
                 email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
@@ -274,16 +297,17 @@ class ContactEditFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity.toast(it) }
 
                         if (response.body()?.statuscode == "4") {
                             session.updateEmail(contactEmailAddressTIET.getString())
-                            response.body()?.message?.let { activity.toast(it) }
                             contactInfo.goBack()
-                            onDetach()
+                            onDestroy()
                         }
+                    } else {
+                        activity.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                     logException(e)
                 }
@@ -291,7 +315,29 @@ class ContactEditFragment : Fragment() {
         })
     }
 
-    private fun getIdByName(s: String): String {
+    private fun getIdByName(s: String, list: ArrayList<LocationModel>?, tag: String): String {
+        var id = ""
+        if (!list.isNullOrEmpty()) {
+            list.forEach { dt ->
+                if (dt.locationName == s) {
+                    id = dt.locationId
+                }
+            }
+        } else {
+            when (tag) {
+                "t" -> id = contactInfo.getThana().toString()
+                "p" -> id = contactInfo.getPostOffice().toString()
+                "tpm" -> id = contactInfo.getPmThana().toString()
+                "ppm" -> id = contactInfo.getPmPostOffice().toString()
+                else -> {
+                }
+            }
+        }
+        Log.d("locationID", "value: $id")
+        return id
+    }
+
+    private fun getIdByCountryName(s: String): String {
         Log.d("locationID", "value: ${dataStorage.getLocationIDByName(s).toString().trim()}")
         return dataStorage.getLocationIDByName(s).toString().trim()
     }
@@ -320,7 +366,7 @@ class ContactEditFragment : Fragment() {
         d("dis : ${data.presentDistrict}")
         prContactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
         d("thana : ${data.presentThana}")
-        prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
+        if (data.presentPostOffice != "0") prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice)) else prContactPostOfficeTIET1?.setText(getString(R.string.hint_post_office_other))
         d("postOffice : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
         val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
@@ -332,7 +378,7 @@ class ContactEditFragment : Fragment() {
         // Permenant
         pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
         pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
-        pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
+        if (data.permanentPostOffice != "0") pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice)) else pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
         val pmDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.permanentDistrict).toString())
         pmContactDivTIET1?.setText(pmDiv)
@@ -386,14 +432,6 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun setupViews() {
-        districtList = dataStorage.getAllEnglishDistrictList()
-        d("districtList ${districtList?.size} list ${districtList.toString()}")
-        val districtNameList = arrayListOf<String>()
-        districtList?.forEach { dt ->
-            districtNameList.add(dt.locationName)
-        }
-        setDialog("Please Select your district", prContactDistrictTIET, districtNameList.toTypedArray())
-        setDialog("Please Select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
         ////Present Address---------------Start
         presentContactCountryTIET.setOnClickListener {
 
@@ -435,6 +473,7 @@ class ContactEditFragment : Fragment() {
             }
         }
     }
+
     private fun getDataFromChipGroup(cg: ChipGroup) {
         cg.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
@@ -496,6 +535,7 @@ class ContactEditFragment : Fragment() {
             }
         }
     }
+
     private fun selectChip(chipGroup: ChipGroup, data: String) {
         val count = chipGroup.childCount
         for (i in 0 until count) {

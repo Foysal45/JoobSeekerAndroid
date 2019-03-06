@@ -82,6 +82,12 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun setupView(info: GetContactInfo?) {
+
+        contactCB.setThana(info?.data?.get(0)?.presentThana)
+        contactCB.setPostOffice(info?.data?.get(0)?.presentPostOffice)
+        contactCB.setPmThana(info?.data?.get(0)?.permanentThana)
+        contactCB.setPmPostOffice(info?.data?.get(0)?.permanentPostOffice)
+
         var presentAddress = if (info?.data?.get(0)?.presentDistrict.equals("")) "" else info?.data?.get(0)?.presentVillage +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
                 ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +

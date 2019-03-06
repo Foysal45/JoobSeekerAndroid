@@ -85,6 +85,7 @@ class EmpHistoryEditFragment : Fragment() {
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
         } else {
+            activity.toast("Maximum 3 experiences can be added.")
         }
         experiencesMACTV?.closeKeyboard(activity)
     }
@@ -188,8 +189,42 @@ class EmpHistoryEditFragment : Fragment() {
 
     }
 
-    private fun doWork() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("onDestroyView", "onDestroyView called")
+    }
 
+    private fun doWork() {
+        experiencesMACTV.onFocusChange { _, hasFocus ->
+            if (hasFocus) {
+                val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
+                val expsAdapter = ArrayAdapter<String>(activity!!,
+                        android.R.layout.simple_dropdown_item_1line, workExperineceList)
+                experiencesMACTV.setAdapter(expsAdapter)
+                experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                experiencesMACTV.setOnItemClickListener { _, _, position, id ->
+                    d("Array size : pos : $position id : $id")
+                    //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+                    workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
+                    if (idArr.size != 0) {
+                        if (!idArr.contains(workExperineceID))
+                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                        else {
+                            experiencesMACTV.closeKeyboard(activity)
+                            activity.toast("Experience already added")
+                        }
+                        experiencesTIL.hideError()
+                    } else {
+                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                        d("Array size : ${idArr.size} and $exps and id : $id")
+                        /*isEmpty = true
+                        experiencesTIL.isErrorEnabled = true*/
+                        experiencesTIL.hideError()
+                    }
+                }
+            }
+        }
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -240,38 +275,6 @@ class EmpHistoryEditFragment : Fragment() {
                 }
             }
 
-        }
-        experiencesMACTV.onFocusChange { _, hasFocus ->
-            if (hasFocus) {
-                val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
-                val expsAdapter = ArrayAdapter<String>(activity!!,
-                        android.R.layout.simple_dropdown_item_1line, workExperineceList)
-                experiencesMACTV.setAdapter(expsAdapter)
-                experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-                experiencesMACTV.setOnItemClickListener { _, _, position, id ->
-                    d("Array size : pos : $position id : $id")
-                    //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
-                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
-                    workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
-                    if (idArr.size != 0) {
-                        if (!idArr.contains(workExperineceID))
-                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                        else {
-                            experiencesMACTV.closeKeyboard(activity)
-                            activity.toast("Experience already added")
-                        }
-                        experiencesTIL.hideError()
-                    } else if (idArr.size > 3) {
-                        activity.toast("Maximum 3 experiences can be added.") // ekhane change kora hoise
-                    } else {
-                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
-                        d("Array size : ${idArr.size} and $exps and id : $id")
-                        /*isEmpty = true
-                        experiencesTIL.isErrorEnabled = true*/
-                        experiencesTIL.hideError()
-                    }
-                }
-            }
         }
         fab_eh?.setOnClickListener {
             clEmploymentHistory.closeKeyboard(activity)
@@ -341,16 +344,18 @@ class EmpHistoryEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
+                        activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
-                            activity.toast(resp.message.toString())
                             empHisCB.goBack()
+                            onDestroy()
                         } else if (resp?.message == "Please select End Date") {
                             endDateTIL.isErrorEnabled = true
                             endDateTIL?.showError("This Field can not be empty")
                         }
+                    } else {
+                        activity.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                 }
             }
