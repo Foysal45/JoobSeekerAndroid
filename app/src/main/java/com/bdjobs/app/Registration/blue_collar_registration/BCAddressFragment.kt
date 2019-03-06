@@ -24,7 +24,6 @@ class BCAddressFragment : Fragment() {
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var dataStorage: DataStorage
-    private lateinit var division: String
     private lateinit var district: String
     private lateinit var thana: String
     private lateinit var postOffice: String
@@ -174,18 +173,13 @@ class BCAddressFragment : Fragment() {
 
     private fun checkValidity() {
 
-
-
-
         if (TextUtils.isEmpty(bcDistrictTIET?.getString())) {
 
             bcDistrictTIL?.showError("জেলা নির্বাচন করুন")
 
         } else {
 
-
             bcDistrictTIL?.isErrorEnabled = false
-
 
         }
 
@@ -220,7 +214,7 @@ class BCAddressFragment : Fragment() {
         super.onResume()
 
 
-        bcVillageTIL.isErrorEnabled = false
+        bcVillageTIL?.isErrorEnabled = false
         /*  bcVillageTIET.isFocusable = false*/
 
 
@@ -243,13 +237,13 @@ class BCAddressFragment : Fragment() {
              queryValue = queryValue.replace("'", "''")
 
          }*/
-        if (!TextUtils.isEmpty(bcDistrictTIET.getString())) {
+        if (!TextUtils.isEmpty(bcDistrictTIET?.getString())) {
             var queryValue = bcDistrictTIET.getString()
             queryValue = queryValue.replace("'", "''")
             setDialog("উপজেলা / থানা নির্বাচন করুন", bcThanaTIET, dataStorage.getDependentLocationByParentNameInBangla(queryValue))
         }
-        if (!TextUtils.isEmpty(bcThanaTIET.text.toString())) {
-            var queryValue = bcThanaTIET.text.toString()
+        if (!TextUtils.isEmpty(bcThanaTIET?.text.toString())) {
+            var queryValue = bcThanaTIET?.text.toString()
             queryValue = queryValue.replace("'", "''")
             setDialog("পোষ্ট অফিস নির্বাচন করুন", bcPostOfficeTIET, dataStorage.getDependentPostOfficeByParentNameInBangla(queryValue))
         }
@@ -276,9 +270,7 @@ class BCAddressFragment : Fragment() {
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
 
-
                             thanaList = dataStorage.getDependentBanglaLocationByParentId(districtList?.get(which)?.locationId!!)
-
                             val thanaNameList = arrayListOf<String>()
 
                             thanaList?.forEach { dt ->

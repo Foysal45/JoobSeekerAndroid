@@ -84,7 +84,7 @@ class ProfessionalQLEditFragment : Fragment() {
     private fun doWork() {
 
 
-        fab_Professional_update.setOnClickListener {
+        fab_Professional_update?.setOnClickListener {
             var validation = 0
             validation = isValidate(etPqCertification, certificationTIL, etPqInstitute, true, validation)
             validation = isValidate(etPqInstitute, prfInstituteTIL, etPqInstitute, true, validation)
@@ -105,7 +105,7 @@ class ProfessionalQLEditFragment : Fragment() {
 
 
 
-        etPqStartDate.setOnClickListener {
+        etPqStartDate?.setOnClickListener {
 
             val mYear = calendar!!.get(Calendar.YEAR)
             val mMonth = calendar!!.get(Calendar.MONTH)
@@ -124,7 +124,7 @@ class ProfessionalQLEditFragment : Fragment() {
 
 
         }
-        etPqEndDate.setOnClickListener {
+        etPqEndDate?.setOnClickListener {
             val mYear = calendar!!.get(Calendar.YEAR)
             val mMonth = calendar!!.get(Calendar.MONTH)
             val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
@@ -165,8 +165,9 @@ class ProfessionalQLEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<ProfessionalModel>, response: Response<ProfessionalModel>) {
-                activity.stopProgressBar(professionalLoadingProgressBar)
+
                 try {
+                    activity.stopProgressBar(professionalLoadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(professionalLoadingProgressBar)
                         val resp = response.body()

@@ -49,7 +49,7 @@ class AcademicInfoViewFragment : Fragment() {
     }
 
     private fun doWork() {
-        rv_aca_view.behaveYourself(fab_aca_add)
+        rv_aca_view?.behaveYourself(fab_aca_add)
         populateData()
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_academic))
@@ -106,7 +106,7 @@ class AcademicInfoViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_JobList?.show()
-            shimmer_view_container_JobList.startShimmerAnimation()
+            shimmer_view_container_JobList?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -116,7 +116,7 @@ class AcademicInfoViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_JobList?.hide()
-            shimmer_view_container_JobList.stopShimmerAnimation()
+            shimmer_view_container_JobList?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

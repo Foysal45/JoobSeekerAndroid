@@ -23,22 +23,19 @@ import org.jetbrains.anko.toast
 class WCCategoryFragment : Fragment() {
 
 
-    private lateinit var returnview : View
-    private lateinit var registrationCommunicator : RegistrationCommunicator
+    private lateinit var returnview: View
+    private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var dataStorage: DataStorage
     private lateinit var categories: ArrayList<String>
     private lateinit var categoryAdapter: WCCategoryAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
     internal var selectedPosition = -1
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
         intialization()
-
         onClick()
-
-
 
 
     }
@@ -47,28 +44,26 @@ class WCCategoryFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         returnview = inflater.inflate(R.layout.fragment_wc_category, container, false)
-
         return returnview
     }
 
 
+    private fun onClick() {
 
-    private fun onClick(){
 
-
-        wcSupportTextView.setOnClickListener {
+        wcSupportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        wcHelplineLayout.setOnClickListener {
+        wcHelplineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
 
 
-        floatingActionButton.setOnClickListener {
+        floatingActionButton?.setOnClickListener {
 
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
 
@@ -80,17 +75,16 @@ class WCCategoryFragment : Fragment() {
         }
 
 
-
     }
 
-    private fun intialization(){
+    private fun intialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
         categories = dataStorage.allWhiteCollarCategories
 
-        Log.d("elkgjtsdlg","Size ${categories.size}")
+        Log.d("elkgjtsdlg", "Size ${categories.size}")
 
-        categoryAdapter = WCCategoryAdapter(activity,categories)
+        categoryAdapter = WCCategoryAdapter(activity, categories)
 
 
         layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
@@ -99,13 +93,12 @@ class WCCategoryFragment : Fragment() {
         wcCategoryList.adapter = categoryAdapter
 
 
-
     }
 
 
     fun wcGoToNextStep() {
 
-        floatingActionButton.setOnClickListener {
+        floatingActionButton?.setOnClickListener {
 
             registrationCommunicator.wcGoToStepSocialInfo()
 
@@ -125,7 +118,7 @@ class WCCategoryFragment : Fragment() {
         wcCategoryList.adapter = wccategoryadater
         wccategoryadater.setCategoryPositionSelected(selectedPosition)
         if (selectedPosition != -1) {
-            floatingActionButton.setOnClickListener {
+            floatingActionButton?.setOnClickListener {
 
                 registrationCommunicator.wcGoToStepSocialInfo()
 

@@ -51,11 +51,11 @@ class BCMobileNumberFragment : Fragment() {
 
     private fun onClick() {
 
-        bcMobileNumberTIET.easyOnTextChangedListener { charSequence ->
+        bcMobileNumberTIET?.easyOnTextChangedListener { charSequence ->
             mobileNumberValidityCheck(charSequence.toString())
         }
 
-        bcMobileNumberFAButton.setOnClickListener {
+        bcMobileNumberFAButton?.setOnClickListener {
 
             if (validateMobileNumber()) {
 
@@ -67,7 +67,7 @@ class BCMobileNumberFragment : Fragment() {
 
                 if (TextUtils.isEmpty(bcMobileNumberTIET?.getString())) {
 
-                    bcMobileNumberTIL.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
+                    bcMobileNumberTIL?.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
                 }
 
 
@@ -77,13 +77,13 @@ class BCMobileNumberFragment : Fragment() {
         }
 
 
-        bcCountryCodeTIET.setOnClickListener {
+        bcCountryCodeTIET?.setOnClickListener {
 
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
 
             selector("দেশ নির্বাচন করুন", countryList.toList()) { dialogInterface, i ->
 
-                bcCountryCodeTIET.setText(countryList[i])
+                bcCountryCodeTIET?.setText(countryList[i])
                 val countryCode: String
                 val countryNameAndCountryCode = countryList[i]
                 val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
@@ -97,13 +97,13 @@ class BCMobileNumberFragment : Fragment() {
 
         }
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }

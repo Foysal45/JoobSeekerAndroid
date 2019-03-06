@@ -1,12 +1,11 @@
 package com.bdjobs.app.Registration.white_collar_registration
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import kotlinx.android.synthetic.main.fragment_wc_congratulation.*
@@ -39,7 +38,7 @@ class WCCongratulationFragment : Fragment() {
     private fun onClick(){
 
 
-        wcJobSearchButton.setOnClickListener {
+        wcJobSearchButton?.setOnClickListener {
 
 
             registrationCommunicator.goToHomePage()

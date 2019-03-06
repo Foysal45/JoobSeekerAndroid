@@ -86,7 +86,7 @@ class SpecializationEditFragment : Fragment() {
     private fun preloadedData() {
         //jgkhgfjkh
 
-        refnameATCTV.clearText()
+        refnameATCTV?.clearText()
 
         val data = eduCB.getSpecializationData()
         data.skills?.forEach {
@@ -112,9 +112,9 @@ class SpecializationEditFragment : Fragment() {
         val skillList: Array<String> = dataStorage.allSkills
         val skillAdapter = ArrayAdapter<String>(activity!!,
                 android.R.layout.simple_dropdown_item_1line, skillList)
-        refnameATCTV.setAdapter(skillAdapter)
-        refnameATCTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-        refnameATCTV.setOnItemClickListener { _, _, position, id ->
+        refnameATCTV?.setAdapter(skillAdapter)
+        refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+        refnameATCTV?.setOnItemClickListener { _, _, position, id ->
             d("specialization test Array size : pos : $position id : $id")
             //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
             d("Selected : ${skillList[position + 1]} and gotStr : ${refnameATCTV.text}")
@@ -139,7 +139,7 @@ class SpecializationEditFragment : Fragment() {
             }
         }
 
-        fab_specialization_update.setOnClickListener {
+        fab_specialization_update?.setOnClickListener {
 
 
             //updateData(skills.removePrefix(","))

@@ -46,8 +46,8 @@ class LangPrViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_langList.show()
-            shimmer_view_container_langList.startShimmerAnimation()
+            shimmer_view_container_langList?.show()
+            shimmer_view_container_langList?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -56,8 +56,8 @@ class LangPrViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_langList.hide()
-            shimmer_view_container_langList.stopShimmerAnimation()
+            shimmer_view_container_langList?.hide()
+            shimmer_view_container_langList?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -70,7 +70,7 @@ class LangPrViewFragment : Fragment() {
         eduCB.setDeleteButton(false)
         eduCB.setTitle(resources.getString(R.string.title_language))
 
-        fab_language_add.setOnClickListener {
+        fab_language_add?.setOnClickListener {
             eduCB.goToEditInfo("addLanguage")
         }
 
@@ -86,13 +86,13 @@ class LangPrViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        rv_lang_view.hide()
+        rv_lang_view?.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getLanguageInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<LanguageModel> {
             override fun onFailure(call: Call<LanguageModel>, t: Throwable) {
                 shimmerStop()
-                rv_lang_view.show()
+                rv_lang_view?.show()
                 activity.toast("Error occurred")
             }
 
@@ -100,7 +100,7 @@ class LangPrViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        rv_lang_view.show()
+                        rv_lang_view?.show()
                         val respo = response.body()
 
                         Log.d("dsfklhgjfd;h", "$respo")
@@ -108,7 +108,7 @@ class LangPrViewFragment : Fragment() {
                         arr = respo?.data as ArrayList<LanguageDataModel>
 
                         if (arr!!.size < 3) {
-                            fab_language_add.show()
+                            fab_language_add?.show()
                             rv_lang_view.behaveYourself(fab_language_add)
                             //activity.toast("else : ${arr?.size}")
                         }
@@ -126,7 +126,7 @@ class LangPrViewFragment : Fragment() {
                         /* activity.toast("${response.body()?.message}")*/
                         activity.logException(e)
                         activity.error("++${e.message}")
-                        fab_language_add.show()
+                        fab_language_add?.show()
                     }
                 }
                 adapter?.notifyDataSetChanged()

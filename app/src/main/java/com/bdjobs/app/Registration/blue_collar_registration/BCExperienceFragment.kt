@@ -49,7 +49,7 @@ class BCExperienceFragment : Fragment() {
 
     private fun onClick(){
 
-        bcExperinceFAButton.setOnClickListener {
+        bcExperinceFAButton?.setOnClickListener {
 
             if (bcExperienceTIET?.text!!.isNotEmpty()) {
                var subCategoriesID = ""
@@ -130,13 +130,13 @@ class BCExperienceFragment : Fragment() {
 
         }
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
            activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
@@ -147,7 +147,7 @@ class BCExperienceFragment : Fragment() {
     private fun initialization(){
 
         registrationCommunicator = activity as RegistrationCommunicator
-        categoryTV.text = category
+        categoryTV?.text = category
 
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)

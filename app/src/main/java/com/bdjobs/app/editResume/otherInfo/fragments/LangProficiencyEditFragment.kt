@@ -62,12 +62,12 @@ class LangProficiencyEditFragment : Fragment() {
 
 
     private fun initialization() {
-        languageTIET.addTextChangedListener(TW.CrossIconBehave(languageTIET))
-        languageTIET.easyOnTextChangedListener { charSequence ->
+        languageTIET?.addTextChangedListener(TW.CrossIconBehave(languageTIET))
+        languageTIET?.easyOnTextChangedListener { charSequence ->
             eduCB.validateField(charSequence.toString(), languageTIET, languageTIL)
         }
 
-        languageTIL.hideError()
+        languageTIL?.hideError()
 
     }
 
@@ -99,15 +99,15 @@ class LangProficiencyEditFragment : Fragment() {
     }
 
     private fun clearEditText() {
-        languageTIET.clear()
-        languageTIET.clearFocus()
-        languageTIL.hideError()
+        languageTIET?.clear()
+        languageTIET?.clearFocus()
+        languageTIL?.hideError()
 
     }
 
 
     private fun disableError() {
-        languageTIL.hideError()
+        languageTIL?.hideError()
 
     }
 
@@ -116,7 +116,7 @@ class LangProficiencyEditFragment : Fragment() {
         addTextChangedListener(languageTIET, languageTIL)
         getDataFromChip()
 
-        fab_language_update.setOnClickListener {
+        fab_language_update?.setOnClickListener {
             if (languageValidity()) {
                 if (languageLevelValidity()) {
                     updateData()
@@ -138,8 +138,9 @@ class LangProficiencyEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                activity.stopProgressBar(languageLoadingProgressBar)
+
                 try {
+                    activity.stopProgressBar(languageLoadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(languageLoadingProgressBar)
                         val resp = response.body()
@@ -303,7 +304,6 @@ class LangProficiencyEditFragment : Fragment() {
 
         } else {
 
-            languageTIL
             languageTIET?.requestFocus()
             return true
         }

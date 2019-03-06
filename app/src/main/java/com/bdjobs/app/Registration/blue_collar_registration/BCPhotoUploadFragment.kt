@@ -92,7 +92,7 @@ class BCPhotoUploadFragment : Fragment() {
 
     private fun onClick() {
 
-        completeButton.setOnClickListener {
+        completeButton?.setOnClickListener {
 
             if (encodedString.isBlank()) {
 
@@ -144,15 +144,15 @@ class BCPhotoUploadFragment : Fragment() {
             }
         }
 
-        photoUploadImageView.setOnClickListener {
+        photoUploadImageView?.setOnClickListener {
             showDialog(activity)
         }
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
             activity.callHelpLine()
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
             activity.callHelpLine()
         }
 
@@ -382,14 +382,14 @@ class BCPhotoUploadFragment : Fragment() {
         val cameraButton = dialog.findViewById<Button>(R.id.camera_button)
         val galleryButton = dialog.findViewById<TextView>(R.id.gallery_button)
 
-        deleteImageView.setOnClickListener {
+        deleteImageView?.setOnClickListener {
             dialog.dismiss()
         }
-        cameraButton.setOnClickListener {
+        cameraButton?.setOnClickListener {
             RequestPermissionAndOpenCamera()
         }
 
-        galleryButton.setOnClickListener {
+        galleryButton?.setOnClickListener {
             performFileSearch()
         }
 

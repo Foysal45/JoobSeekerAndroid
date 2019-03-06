@@ -65,11 +65,11 @@ class BCEducationFragment : Fragment() {
 
         bcEducationFAButton.setOnClickListener {
 
-            val eduLevel = bcEduLevelTIET.text.toString()
-            eduDegree = bcEduDegreeTIET.text.toString()
+            val eduLevel = bcEduLevelTIET?.text.toString()
+            eduDegree = bcEduDegreeTIET?.text.toString()
 
-            instituteName = bcInstituteNameTIET.text.toString()
-            passingYear = bcPassingYearTIET.text.toString()
+            instituteName = bcInstituteNameTIET?.text.toString()
+            passingYear = bcPassingYearTIET?.text.toString()
             educationType = dataStorage.getEducationTypeByEducationDegreeName(eduDegree)
             levelOfEducation = dataStorage.getEduIDByEduLevel(eduLevel)
             Log.d("MobileNumberVer2", " EducationType in database $educationType")
@@ -280,40 +280,40 @@ class BCEducationFragment : Fragment() {
 
         if (TextUtils.isEmpty(bcEduLevelTIET.getString())) {
 
-            bcEduLevelTIL.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
+            bcEduLevelTIL?.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
 
         } else {
-            bcEduLevelTIL.isErrorEnabled = false
+            bcEduLevelTIL?.isErrorEnabled = false
 
 
         }
 
         if (TextUtils.isEmpty(bcEduDegreeTIET.getString())) {
 
-            bcEduDegreeTIL.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
+            bcEduDegreeTIL?.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
 
         } else {
 
-            bcEduDegreeTIL.isErrorEnabled = false
+            bcEduDegreeTIL?.isErrorEnabled = false
 
 
         }
 
         if (TextUtils.isEmpty(bcInstituteNameTIET.getString())) {
 
-            bcInstituteNameTIL.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
+            bcInstituteNameTIL?.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
             requestFocus(bcInstituteNameTIET)
 
         } else {
-            bcInstituteNameTIL.isErrorEnabled = false
+            bcInstituteNameTIL?.isErrorEnabled = false
 
         }
 
         if (TextUtils.isEmpty(bcPassingYearTIET.getString())) {
-            bcPassingYearTIL.showError("পাশ করার বছর লিখুন")
+            bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
 
         } else {
-            bcPassingYearTIL.isErrorEnabled = false
+            bcPassingYearTIL?.isErrorEnabled = false
 
 
         }
@@ -326,12 +326,12 @@ class BCEducationFragment : Fragment() {
 
             if (TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())) {
 
-                bcEduDegreeOtherTIL.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
+                bcEduDegreeOtherTIL?.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
                 requestFocus(bcEduDegreeOtherTIET)
 
             } else {
 
-                bcEduDegreeOtherTIL.isErrorEnabled = false
+                bcEduDegreeOtherTIL?.isErrorEnabled = false
 
 
             }
@@ -345,7 +345,7 @@ class BCEducationFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        bcInstituteNameTIL.isErrorEnabled = false
+        bcInstituteNameTIL?.isErrorEnabled = false
         /*  bcInstituteNameTIET.isFocusable = false*/
 
         val eduLevels = dataStorage.allEduLevels
@@ -363,12 +363,21 @@ class BCEducationFragment : Fragment() {
 
         try {
 
+
+            if (bcEduDegreeTIET?.text.toString().equalIgnoreCase("Other")) {
+
+                bcEduDegreeOtherTIET?.show()
+
+            }
+
+
             if (educationType == "5") {
 
                 Log.d("ExceptionTest", " In If Condition ")
 
-                bcEduDegreeOtherTIET.show()
+                bcEduDegreeOtherTIET?.show()
             }
+
 
         } catch (e: Exception) {
 
@@ -391,27 +400,27 @@ class BCEducationFragment : Fragment() {
 
                         if (data[which].equals("Other", ignoreCase = true)) {
 
-                            bcEduDegreeOtherTIET.show()
-                            bcEduDegreeOtherTIL.show()
-                            bcEduDegreeOtherTIET.clear()
-                            bcEduDegreeTIL.isErrorEnabled = false
-                            bcEduDegreeOtherTIL.isErrorEnabled = false
+                            bcEduDegreeOtherTIET?.show()
+                            bcEduDegreeOtherTIL?.show()
+                            bcEduDegreeOtherTIET?.clear()
+                            bcEduDegreeTIL?.isErrorEnabled = false
+                            bcEduDegreeOtherTIL?.isErrorEnabled = false
                             /* registrationCommunicator.setEducationType("5")*/
 
                         } else {
-                            bcEduDegreeOtherTIET.hide()
-                            bcEduDegreeOtherTIL.hide()
+                            bcEduDegreeOtherTIET?.hide()
+                            bcEduDegreeOtherTIL?.hide()
                         }
 
                         if (editText.id == R.id.bcEduLevelTIET) {
 
-                            bcInstituteNameTIL.isErrorEnabled = false
-                            bcPassingYearTIL.isErrorEnabled = false
+                            bcInstituteNameTIL?.isErrorEnabled = false
+                            bcPassingYearTIL?.isErrorEnabled = false
 
 
-                            bcEduDegreeTIET.clear()
-                            bcPassingYearTIET.clear()
-                            bcEduDegreeTIET.setOnClickListener(null)
+                            bcEduDegreeTIET?.clear()
+                            bcPassingYearTIET?.clear()
+                            bcEduDegreeTIET?.setOnClickListener(null)
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
                             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
