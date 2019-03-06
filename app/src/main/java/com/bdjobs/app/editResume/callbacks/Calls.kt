@@ -75,6 +75,10 @@ interface PersonalInfo {
     fun getPostOffice(): String?
     fun setPmThana(thana: String?)
     fun getPmThana(): String?
+    /*fun setDistrict(po: String?)
+    fun getDistrict(): String?
+    fun setPmDistrict(thana: String?)
+    fun getPmDistrict(): String?*/
     fun setPmPostOffice(po: String?)
     fun getPmPostOffice(): String?
     fun goBack()

@@ -468,7 +468,6 @@ class PreferredAreasEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                     logException(e)
                 }

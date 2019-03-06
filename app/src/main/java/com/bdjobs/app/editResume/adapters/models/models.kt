@@ -124,7 +124,7 @@ data class AddorUpdateModel(
         val isResumeUpdate: String? = "",
 
         @field:SerializedName("data")
-        val data: List<Any>? = listOf(),
+        val data: Any? = null,
 
         @field:SerializedName("common")
         val common: Any? = null,

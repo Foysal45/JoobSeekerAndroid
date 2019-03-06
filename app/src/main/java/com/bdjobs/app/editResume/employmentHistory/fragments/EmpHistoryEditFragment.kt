@@ -129,15 +129,6 @@ class EmpHistoryEditFragment : Fragment() {
             hID = "-4"
             //idArr.add("")
             clearEditText()
-        } else {
-            val data = empHisCB.getData()
-            val areaOfexps = data.areaofExperience
-            //for ((i, value) in areaOfexps?.withIndex()!!)
-            //if (!alreadyLoaded)
-            areaOfexps?.forEach {
-                addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
-                addAsString(it.id)
-            }
         }
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
     }
@@ -161,15 +152,15 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        /*if (idArr.isNotEmpty()) {
+        if (idArr.isNotEmpty()) {
             try {
-                //entry_chip_group?.removeAllViews()
+                entry_chip_group?.removeAllViews()
                 idArr.clear()
             } catch (e: Exception) {
                 e.printStackTrace()
                 logException(e)
             }
-        }*/
+        }
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
@@ -373,6 +364,14 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun preloadedData() {
         val data = empHisCB.getData()
+
+        val areaOfexps = data.areaofExperience
+        //for ((i, value) in areaOfexps?.withIndex()!!)
+        //if (!alreadyLoaded)
+        areaOfexps?.forEach {
+            addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
+            addAsString(it.id)
+        }
 
         hExpID = data.expId
         companyNameET.setText(data.companyName)
