@@ -47,7 +47,6 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.io.File
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -418,9 +417,9 @@ fun Any.logException(e: java.lang.Exception) {
     Log.e(this::class.java.simpleName, e.toString())
 }
 
-fun ImageView.loadImageFromUrl(url: String) {
+fun ImageView.loadImageFromUrl(url: String?) {
     try {
-        Picasso.get().load(url).into(this)
+        Picasso.get().load(url?.trim()).into(this)
     } catch (e: Exception) {
         logException(e)
     }
@@ -599,8 +598,8 @@ fun Context.getDeviceInformation():HashMap<String,String>{
     val availableMegs = mi.availMem / 1048576L
 
 
-    val freeBytesInternal = File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace()
-    val totalBytesInternal = File(getFilesDir().getAbsoluteFile().toString()).getTotalSpace()
+    val freeBytesInternal = File(filesDir.absoluteFile.toString()).freeSpace
+    val totalBytesInternal = File(filesDir.absoluteFile.toString()).totalSpace
     val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     val carrierName = manager.networkOperatorName
 
