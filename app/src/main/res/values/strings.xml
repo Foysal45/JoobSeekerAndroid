@@ -340,4 +340,5 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="hint.special_qualification">Special Qualification</string>
     <string name="hint.er_keywords">Keywords</string>
     <string name="hint_bangladesh">Bangladeshi</string>
+    <string name="hint.post_office_other">Other</string>
 </resources>

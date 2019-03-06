@@ -29,6 +29,37 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_personal_info.*
 
 class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, PersonalInfo {
+    override fun setPmThana(thana: String?) {
+        pmThana = thana!!
+    }
+
+    override fun getPmThana(): String? {
+        return pmThana
+    }
+
+    override fun setPmPostOffice(po: String?) {
+        pmPost = po!!
+    }
+
+    override fun getPmPostOffice(): String? {
+        return pmPost
+    }
+
+    override fun setThana(thana: String?) {
+        prThana = thana!!
+    }
+
+    override fun getThana(): String? {
+        return prThana
+    }
+
+    override fun setPostOffice(po: String?) {
+        prPost = po!!
+    }
+
+    override fun getPostOffice(): String? {
+        return prPost
+    }
 
     private val personalEditFragment = PersonalDetailsEditFragment()
     private val personalViewFragment = PersonalDetailsViewFragment()
@@ -47,6 +78,10 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private lateinit var dataAreas: PreferredAreasData
     private lateinit var name: String
     private lateinit var gotToAddEmployment: String
+    private var prThana: String? = ""
+    private var prPost: String? = ""
+    private var pmThana: String? = ""
+    private var pmPost: String? = ""
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null

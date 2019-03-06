@@ -78,6 +78,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         d(isEdit.toString())
         if (isEdit) {
             hID = "13"
+            preloadedData()
             empHisCB.setDeleteButton(true)
         } else {
             empHisCB.setDeleteButton(false)
@@ -90,9 +91,6 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        if (isEdit) {
-            preloadedData()
-        }
         addTextChangedListener(et_ba_type, til_ba)
         addTextChangedListener(et_ba_no, til_ba_no)
         addTextChangedListener(et_ranks, til_ranks)
@@ -147,7 +145,10 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
                             empHisCB.goBack()
+                            onDestroy()
                         }
+                    } else {
+                        activity.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
                     activity.stopProgressBar(loadingProgressBar)

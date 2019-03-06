@@ -137,11 +137,11 @@ class PreferredAreasEditFragment : Fragment() {
         idOrgArr.clear()
         idInBDArr.clear()
         idOutBDArr.clear()
-        wc_entry_chip_group?.removeAllViews()
+        /*wc_entry_chip_group?.removeAllViews()
         bc_entry_chip_group?.removeAllViews()
         org_entry_chip_group?.removeAllViews()
         pref_locs_entry_chip_group?.removeAllViews()
-        pref_countries_entry_chip_group?.removeAllViews()
+        pref_countries_entry_chip_group?.removeAllViews()*/
         /*} catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -165,7 +165,7 @@ class PreferredAreasEditFragment : Fragment() {
             if (idWCArr.isNotEmpty()) valid += 1
             if (idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
-            if (valid == 2) updateData()
+            if (valid >= 2) updateData()
             Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
         }
 
@@ -462,7 +462,10 @@ class PreferredAreasEditFragment : Fragment() {
                         response.body()?.message?.let { activity.toast(it) }
                         if (response.body()?.statuscode == "4") {
                             prefCallBack.goBack()
+                            onDestroy()
                         }
+                    } else {
+                        activity.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
                     activity.stopProgressBar(loadingProgressBar)

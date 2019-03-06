@@ -69,8 +69,14 @@ interface PersonalInfo {
     fun getPrefAreasData(): PreferredAreasData
     fun passPrefAreasData(data: PreferredAreasData)
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
-    //fun setDeleteButton(b: Boolean)
-    //fun goToEditInfo(check: String)
+    fun setThana(thana: String?)
+    fun getThana(): String?
+    fun setPostOffice(po: String?)
+    fun getPostOffice(): String?
+    fun setPmThana(thana: String?)
+    fun getPmThana(): String?
+    fun setPmPostOffice(po: String?)
+    fun getPmPostOffice(): String?
     fun goBack()
 }
 
