@@ -74,26 +74,6 @@ class EmpHistoryEditFragment: Fragment() {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
         d("onCreateView")
-        if (idArr.isNotEmpty()) {
-            try {
-                entry_chip_group?.removeAllViews()
-                idArr.clear()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                logException(e)
-            }
-        }
-        if (isEdit) {
-            empHisCB.setDeleteButton(true)
-            hID = "4"
-            preloadedData()
-        } else if (!isEdit) {
-            empHisCB.setDeleteButton(false)
-            hID = "-4"
-            idArr.add("")
-            isEmpty = true
-            clearEditText()
-        }
         return v
     }
 
@@ -172,11 +152,31 @@ class EmpHistoryEditFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+        if (idArr.isNotEmpty()) {
+            try {
+                entry_chip_group?.removeAllViews()
+                idArr.clear()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logException(e)
+            }
+        }
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
         companyNameET.requestFocus()
         //ehMailLL.clearFocus()
+        if (isEdit) {
+            empHisCB.setDeleteButton(true)
+            hID = "4"
+            preloadedData()
+        } else if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            idArr.add("")
+            isEmpty = true
+            clearEditText()
+        }
 
     }
 
