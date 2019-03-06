@@ -12,11 +12,11 @@ data class HotJobs(
 )
 
 data class HotJobsData(
-    @SerializedName("companyName")
+        @SerializedName("companyName")
     val companyName: String?,
-    @SerializedName("jobTitles")
-    val jobTitles: List<HotJobsJobTitle?>?,
-    @SerializedName("logoSource")
+        @SerializedName("jobTitles")
+        val jobTitles: List<HotJobsJobTitle?>? = listOf(),
+        @SerializedName("logoSource")
     val logoSource: String?
 )
 

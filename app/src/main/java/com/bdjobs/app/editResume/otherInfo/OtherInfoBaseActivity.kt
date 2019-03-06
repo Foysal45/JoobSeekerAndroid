@@ -111,8 +111,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     override fun setDeleteButton(b: Boolean) {
         if (b) {
-            iv_OI_delete_data.show()
-            iv_OI_delete_data.setOnClickListener {
+            iv_OI_delete_data?.show()
+            iv_OI_delete_data?.setOnClickListener {
                 if (languageEditFrgamnet.isEdit) {
                     languageEditFrgamnet.dataDelete()
                 }
@@ -121,7 +121,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
                 }
             }
         } else {
-            iv_OI_delete_data.hide()
+            iv_OI_delete_data?.hide()
         }
 
     }
@@ -130,15 +130,15 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     override fun setEditButton(b: Boolean) {
 
         if (b) {
-            iv_OI_delete_data.setImageResource(R.drawable.specialization_edit_icon)
-            iv_OI_delete_data.show()
-            iv_OI_delete_data.setOnClickListener {
+            iv_OI_delete_data?.setImageResource(R.drawable.specialization_edit_icon)
+            iv_OI_delete_data?.show()
+            iv_OI_delete_data?.setOnClickListener {
                 goToEditInfo("editSpecialization")
                 setEditButton(false)
 
             }
         } else {
-            iv_OI_delete_data.hide()
+            iv_OI_delete_data?.hide()
 
         }
 

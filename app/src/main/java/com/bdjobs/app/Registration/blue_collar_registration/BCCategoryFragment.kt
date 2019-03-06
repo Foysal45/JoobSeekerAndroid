@@ -45,20 +45,20 @@ class BCCategoryFragment : Fragment() {
     private fun onClick(){
 
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
 
 
 
-        bcCategoryFAButton.setOnClickListener {
+        bcCategoryFAButton?.setOnClickListener {
 
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
 
@@ -88,7 +88,7 @@ class BCCategoryFragment : Fragment() {
 
      fun bcGoToNextStep(){
 
-       bcCategoryFAButton.setOnClickListener {
+         bcCategoryFAButton?.setOnClickListener {
 
            registrationCommunicator.bcGoToStepName()
 
@@ -108,7 +108,7 @@ class BCCategoryFragment : Fragment() {
 
 
 
-        bcCategoryFAButton.setOnClickListener {
+        bcCategoryFAButton?.setOnClickListener {
 
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
 
@@ -119,7 +119,7 @@ class BCCategoryFragment : Fragment() {
         }
 
         if (selectedPosition != -1) {
-            bcCategoryFAButton.setOnClickListener {
+            bcCategoryFAButton?.setOnClickListener {
 
                 registrationCommunicator.bcGoToStepName()
 

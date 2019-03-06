@@ -52,7 +52,7 @@ class ReferencesViewFragment : Fragment() {
         eduCB.setDeleteButton(false)
         eduCB.setTitle("References")
 
-        fab_reference_add.setOnClickListener {
+        fab_reference_add?.setOnClickListener {
 
             eduCB.goToEditInfo("addReference")
 
@@ -62,8 +62,8 @@ class ReferencesViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_reference.show()
-            shimmer_view_container_reference.startShimmerAnimation()
+            shimmer_view_container_reference?.show()
+            shimmer_view_container_reference?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -72,8 +72,8 @@ class ReferencesViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_reference.hide()
-            shimmer_view_container_reference.stopShimmerAnimation()
+            shimmer_view_container_reference?.hide()
+            shimmer_view_container_reference?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -91,7 +91,7 @@ class ReferencesViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        rv_reference_view.hide()
+        rv_reference_view?.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getReferenceInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<ReferenceModel> {

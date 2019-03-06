@@ -179,7 +179,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Employer View Resume"
+                android:text="Employer Viewed Resume"
                 app:icon="@drawable/ic_view_resume" />
 
             <com.google.android.material.button.MaterialButton

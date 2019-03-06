@@ -115,7 +115,7 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
         addTextChangedListener(etTrDuration, trainingTitleTIL)
 
-        etTrTrainingYear.setOnClickListener {
+        etTrTrainingYear?.setOnClickListener {
             for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
@@ -127,7 +127,7 @@ class TrainingEditFragment : Fragment() {
             }
 
         }
-        fab_tr_update.setOnClickListener {
+        fab_tr_update?.setOnClickListener {
             clTrainingEdit.closeKeyboard(activity)
             var validation = 0
             validation = isValidate(etTrTitle, trainingTitleTIL, etTrInstitute, true, validation)
@@ -154,8 +154,9 @@ class TrainingEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                activity.stopProgressBar(loadingProgressBar)
+
                 try {
+                    activity.stopProgressBar(loadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()

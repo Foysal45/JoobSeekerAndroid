@@ -58,24 +58,24 @@ class BCNameFragment : Fragment() {
 
         }
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
            activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
 
-        bcGoogleButton.setOnClickListener {
+        bcGoogleButton?.setOnClickListener {
 
             /*   registrationCommunicator.clearData()*/
             registrationCommunicator.regWithGoogle()
 
         }
-        bc_facebookButton.setOnClickListener {
+        bc_facebookButton?.setOnClickListener {
 
             /* registrationCommunicator.clearData()*/
             registrationCommunicator.regWithFacebook()

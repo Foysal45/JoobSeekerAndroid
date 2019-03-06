@@ -49,10 +49,10 @@ class TrainingViewFragment : Fragment() {
 
     private fun doWork() {
         populateData()
-        rv_tr_view.behaveYourself(fab_tr_add)
+        rv_tr_view?.behaveYourself(fab_tr_add)
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_training))
-        fab_tr_add.setOnClickListener {
+        fab_tr_add?.setOnClickListener {
             eduCB.goToEditInfo("addTr")
         }
     }

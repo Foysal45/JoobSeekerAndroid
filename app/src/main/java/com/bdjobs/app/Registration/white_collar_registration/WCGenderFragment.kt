@@ -37,7 +37,7 @@ class WCGenderFragment : Fragment() {
 
     private fun onClick(){
 
-        MaleButton.setOnClickListener {
+        MaleButton?.setOnClickListener {
             MaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.setTextColor(resources.getColor(R.color.colorWhite))
@@ -56,7 +56,7 @@ class WCGenderFragment : Fragment() {
         }
 
 
-        FemaleButton.setOnClickListener {
+        FemaleButton?.setOnClickListener {
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.setTextColor(resources.getColor(R.color.colorWhite))
@@ -74,7 +74,7 @@ class WCGenderFragment : Fragment() {
         }
 
 
-        otherButton.setOnClickListener {
+        otherButton?.setOnClickListener {
             otherButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             otherButton.setTextColor(resources.getColor(R.color.colorWhite))
@@ -93,19 +93,19 @@ class WCGenderFragment : Fragment() {
         }
 
 
-        wcSupportTextView.setOnClickListener {
+        wcSupportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        wcHelplineLayout.setOnClickListener {
+        wcHelplineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
 
 
-        genderFAButton.setOnClickListener {
+        genderFAButton?.setOnClickListener {
 
             if (TextUtils.isEmpty(registrationCommunicator.getGender())) {
 
@@ -124,7 +124,7 @@ class WCGenderFragment : Fragment() {
 
     fun goToNextStep(){
 
-        genderFAButton.setOnClickListener {
+        genderFAButton?.setOnClickListener {
 
             registrationCommunicator.wcGoToStepPhoneEmail()
         }
