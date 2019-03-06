@@ -180,9 +180,13 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     override fun onResponse(call: Call<InviteCodeBalanceModel>, response: Response<InviteCodeBalanceModel>) {
-                        subHeading1TV.text = response.body()?.data?.get(0)?.totalEarned?.toBanglaDigit() + " /-"
-                        subHeading2TV.text = response.body()?.data?.get(0)?.totalWithDraw?.toBanglaDigit() + " /-"
-                        subHeading3TV.text = response.body()?.data?.get(0)?.totalPayable?.toBanglaDigit() + " /-"
+                        try {
+                            subHeading1TV?.text = response.body()?.data?.get(0)?.totalEarned?.toBanglaDigit() + " /-"
+                            subHeading2TV?.text = response.body()?.data?.get(0)?.totalWithDraw?.toBanglaDigit() + " /-"
+                            subHeading3TV?.text = response.body()?.data?.get(0)?.totalPayable?.toBanglaDigit() + " /-"
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
                     }
                 }
         )

@@ -1,12 +1,10 @@
 package com.bdjobs.app
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -21,14 +19,16 @@ import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
-import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.Utilities.debug
+import com.bdjobs.app.Utilities.getFCMtoken
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.subscribeToFCMTopic
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -40,14 +40,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.security.MessageDigest
-import android.os.Build
-import android.hardware.usb.UsbDevice.getDeviceId
-import android.net.wifi.WifiManager
-import android.telephony.TelephonyManager
-import android.text.TextUtils
-import android.util.DisplayMetrics
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -161,7 +153,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
         ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                debug("getDbInfo: " + t?.message!!)
                 goToNextActivity()
             }
 

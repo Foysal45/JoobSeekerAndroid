@@ -207,13 +207,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             uiThread {
                 showBlankLayout()
                 favSearchView?.hide()
-                if (!favouriteSearchFilters.isNullOrEmpty()) {
-                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
-                    favRV?.adapter = favouriteSearchFilterAdapter
-                    blankCL?.hide()
-                    mainLL?.show()
-                    myfavSearchTV?.text = "My favourite search filters (${allfavsearch?.size})"
-                    favSearchView?.show()
+                try {
+                    if (!favouriteSearchFilters.isNullOrEmpty()) {
+                        val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
+                        favRV?.adapter = favouriteSearchFilterAdapter
+                        blankCL?.hide()
+                        mainLL?.show()
+                        myfavSearchTV?.text = "My favourite search filters (${allfavsearch?.size})"
+                        favSearchView?.show()
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         }
