@@ -195,7 +195,7 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acWCjobCat.closeKeyboard(activity)
-                            activity.toast("Experience already added")
+                            activity.toast("Category already added")
                         }
                         tilWCjobCat.hideError()
                     } else {
@@ -225,7 +225,7 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acBCJobCat.closeKeyboard(activity)
-                            activity.toast("অভিজ্ঞতা ইতিমধ্যে যোগ করা হয়েছে")
+                            activity.toast("ক্যাটাগরি ইতিমধ্যে যোগ করা হয়েছে")
                         }
                         tilBCJobCat.hideError()
                     } else {
@@ -266,7 +266,15 @@ class PreferredAreasEditFragment : Fragment() {
         }
         acInsideBD.onFocusChange { _, hasFocus ->
             if (hasFocus) {
-                val acList: Array<String> = ds.allDomesticLocations
+
+                val districtList = ds.getAllEnglishDistrictList()
+                d("districtList ${districtList?.size} list ${districtList.toString()}")
+                val districtNameList = arrayListOf<String>()
+                districtList?.forEach { dt ->
+                    districtNameList.add(dt.locationName)
+                }
+
+                val acList: Array<String> = districtNameList.toTypedArray()
                 val expsAdapter = ArrayAdapter<String>(activity,
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acInsideBD.setAdapter(expsAdapter)
@@ -281,7 +289,7 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acInsideBD.closeKeyboard(activity)
-                            activity.toast("Organization type already added")
+                            activity.toast("District already added")
                         }
                         tilInsideBD.hideError()
                     } else {
@@ -356,7 +364,7 @@ class PreferredAreasEditFragment : Fragment() {
                 bc_entry_chip_group
             }
             "orgs" -> {
-                maxItems = 10
+                maxItems = 12
                 idOrgArr.add(ds.getOrgIDByOrgName(input))
                 org_entry_chip_group
             }
