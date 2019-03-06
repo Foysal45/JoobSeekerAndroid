@@ -39,7 +39,6 @@ class ContactEditFragment : Fragment() {
     private var presentInOutBD: String? = ""
     private var permanentInOutBD: String? = ""
     private var sameAddress: String = ""
-    private var count: Int = 0
 
     private lateinit var district: String
     private lateinit var thana: String
@@ -111,7 +110,6 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        count = 0
         addTextChangedListener(prContactDivTIET, contactDivTIL)
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
@@ -219,22 +217,24 @@ class ContactEditFragment : Fragment() {
                 prContactDistrictTIET.clear()
                 prContactThanaTIET.clear()*/
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            } /*else presentContactCountryTIET.clear()*/
+            }  else {
+                toast("Please select Inside or Outside Bangladesh")
+            }
             if (permanentInOutBD == "1") {
                 /*pmContactDivTIET1.clear()
                 pmContactDistrictTIET.clear()
                 pmContactThanaTIETP.clear()*/
                 validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            } /*else permanentContactCountryTIETP.clear()*/
+            } else if (permanentInOutBD == "" && pmContactAddressTIETPRM.getString().isBlank()) {
+                toast("Please select Inside or Outside Bangladesh")
+            }
             Log.d("checkValid", " val : $validation ")
             Log.d("checkValid", " val : $validation ")
             if (validation >= 2) updateData()
         }
+
         contactAddMobileButton?.setOnClickListener {
-            count++
-            if (count == 1) contactMobileNumber1TIL?.show() else contactMobileNumber2TIL?.show()
-            if (contactMobileNumber2TIL.isVisible)
-                contactAddMobileButton?.hide() else contactAddMobileButton?.show()
+            checkAddMobileButtonState()
         }
 
         contactAddEmailButton?.setOnClickListener {
@@ -246,6 +246,32 @@ class ContactEditFragment : Fragment() {
             }
         }
         setupViews()
+    }
+
+    private fun checkAddMobileButtonState() {
+        val mobile1 = contactMobileNumber1TIL.isVisible
+        val mobile2 = contactMobileNumber2TIL.isVisible
+
+        //if (count == 1) contactMobileNumber1TIL?.show() else contactMobileNumber2TIL?.show()
+        if (mobile1 && mobile2) {
+            Log.d("mobile1","called")
+            contactAddMobileButton?.hide()
+        }
+        else if (mobile1 && !mobile2) {
+            contactMobileNumber2TIL?.show()
+            contactAddMobileButton?.hide()
+            Log.d("mobile2","called")
+        }
+        else if (!mobile1 && mobile2) {
+            Log.d("mobile3","called")
+            contactMobileNumber1TIL?.show()
+            contactAddMobileButton?.hide()
+        }
+        else {
+            Log.d("mobile4","called")
+            contactMobileNumber1TIL?.show()
+            contactAddMobileButton?.show()
+        }
     }
 
     private fun updateData() {
@@ -396,23 +422,29 @@ class ContactEditFragment : Fragment() {
             contactInfo.setPmPostOffice(data.permanentPostOffice)
         } else pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
-        val pmDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.permanentDistrict).toString())
-        pmContactDivTIET1?.setText(pmDiv)
-        d("divisionPm : id : ${data.permanentDistrict} & ${dataStorage.getLocationNameByID(data.permanentDistrict)}")
+        //val pmDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.permanentDistrict).toString())
+        //pmContactDivTIET1?.setText(pmDiv)
+        //d("divisionPm : id : ${data.permanentDistrict} & ${dataStorage.getLocationNameByID(data.permanentDistrict)}")
         if (data.permanentCountry != "118") permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.permanentCountry))
 
         contactMobileNumberTIET?.setText(data.mobile)
         contactEmailAddressTIET?.setText(data.email)
 
         if (!homePhone?.isEmpty()!!) {
-            contactMobileNumber2TIL?.show()
-            contactAddEmailButton.hide()
             contactMobileNumber2TIET?.setText(data.homePhone)
+            contactMobileNumber2TIL?.show()
         } else contactMobileNumber2TIL?.hide()
         if (!officePhone?.isEmpty()!!) {
             contactMobileNumber1TIL?.show()
             contactMobileNumber1TIET?.setText(data.officePhone)
-        } else contactMobileNumber1TIL?.hide()
+        } else
+            contactMobileNumber1TIL?.hide()
+
+        if (homePhone.isEmpty() || officePhone.isEmpty()) {
+            contactAddMobileButton.show()
+        } else
+            contactAddMobileButton.hide()
+
         if (!data.alternativeEmail?.isEmpty()!!) {
             contactEmailAddressTIL1?.show()
             contactAddEmailButton.invisible()

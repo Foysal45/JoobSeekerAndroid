@@ -70,7 +70,6 @@ class PreferredAreasEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         data = prefCallBack.getPrefAreasData()
-        clearAllArr()
         preloadedData(data)
     }
 
@@ -141,11 +140,16 @@ class PreferredAreasEditFragment : Fragment() {
         idOrgArr.clear()
         idInBDArr.clear()
         idOutBDArr.clear()
-        /*wc_entry_chip_group?.removeAllViews()
+
+        tilWCjobCat.hideError()
+        tilBCJobCat.hideError()
+        tilInsideBD.hideError()
+
+        wc_entry_chip_group?.removeAllViews()
         bc_entry_chip_group?.removeAllViews()
         org_entry_chip_group?.removeAllViews()
         pref_locs_entry_chip_group?.removeAllViews()
-        pref_countries_entry_chip_group?.removeAllViews()*/
+        pref_countries_entry_chip_group?.removeAllViews()
         /*} catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -174,8 +178,8 @@ class PreferredAreasEditFragment : Fragment() {
                 valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
             }
 */
-            valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
-            valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
+            //valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
+            //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
             when {
                 idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
                     tilInsideBD.isErrorEnabled = true
@@ -184,37 +188,54 @@ class PreferredAreasEditFragment : Fragment() {
                     tilOutsideBD.error = "This field can not be empty"*/
                 }
                 idWCArr.isEmpty() && idBCArr.isEmpty() -> {
-                    tilWCjobCat.hideError()
+                    //tilWCjobCat.hideError()
                     tilWCjobCat.isErrorEnabled = true
                     tilWCjobCat.error = "This field can not be empty"
-                    tilBCJobCat.hideError()
+                    //tilBCJobCat.hideError()
                     tilBCJobCat.isErrorEnabled = true
                     tilBCJobCat.error = "This field can not be empty"
+                }
+                idWCArr.isEmpty() || idBCArr.isNotEmpty() -> {
+                    valid += 1
+                    tilWCjobCat.hideError()
+                    tilBCJobCat.hideError()
+                }
+                idWCArr.isNotEmpty() || idBCArr.isEmpty() -> {
+                    valid += 1
+                    tilWCjobCat.hideError()
+                    tilBCJobCat.hideError()
                 }
                 idBCArr.isNotEmpty() && idWCArr.isNotEmpty() -> {
                     valid += 1
                     tilBCJobCat.hideError()
                     tilWCjobCat.hideError()
                 }
-                /*idWCArr.isEmpty() -> {
-                    tilWCjobCat.isErrorEnabled = true
-                    tilWCjobCat.error = "This field can not be empty"
-                }*/
-                anywhereinBD -> {
+                anywhereinBD || idInBDArr.isNotEmpty() -> {
                     /*tilInsideBD.isErrorEnabled = true
                     tilInsideBD.error = "This field can not be empty"*/
                     valid += 1
                     tilInsideBD.hideError()
                 }
                 else -> {
-                    valid += 1
                     tilWCjobCat.hideError()
+                    tilBCJobCat.hideError()
                     tilInsideBD.hideError()
                 }
             }
-            if (idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty() || anywhereinBD) valid += 1
+
+            /*if (idInBDArr.isNullOrEmpty()) {
+                toast("Getting inBd null")
+            }*/
+
+            if (!idInBDArr.isNullOrEmpty() || !idOutBDArr.isNullOrEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
-            if (valid >= 2) updateData()
+            if (valid >= 2) {
+                Log.d("ppppppp","$idWCArr, // $idInBDArr // ")
+                updateData()
+            } else {
+                Log.d("ppppppp2","$idWCArr, // $idInBDArr // ")
+            }
+
             Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
         }
 
@@ -400,47 +421,50 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun addChip(input: String, tag: String, acTV: AutoCompleteTextView) {
-        val maxItems: Int
+        var maxItems = 0
+        var item = ""
+        var maxItemsArr = ArrayList<String>()
         val cg: ChipGroup = when (tag) {
             "wc" -> {
                 maxItems = 3
-                idWCArr.add(ds.getCategoryIDByName(input)!!)
+                maxItemsArr = idWCArr
+                idWCArr.add(ds.getCategoryIDByName(input).toString())
                 wc_entry_chip_group
             }
             "bc" -> {
                 maxItems = 3
-                idBCArr.add(ds.getCategoryIDByBanglaName(input)!!)
+                maxItemsArr = idBCArr
+                idBCArr.add(ds.getCategoryIDByName(input).toString())
                 bc_entry_chip_group
             }
             "orgs" -> {
                 maxItems = 12
-                idOrgArr.add(ds.getOrgIDByOrgName(input))
+                maxItemsArr = idOrgArr
+                idOrgArr.add(ds.getCategoryIDByName(input).toString())
                 org_entry_chip_group
             }
             "in" -> {
                 maxItems = 15
-                idInBDArr.add(ds.getLocationIDByName(input)!!)
+                maxItemsArr = idInBDArr
+                idInBDArr.add(ds.getCategoryIDByName(input).toString())
                 pref_locs_entry_chip_group
             }
             "out" -> {
                 maxItems = 10
-                idOutBDArr.add(ds.getLocationIDByName(input)!!)
+                maxItemsArr = idOutBDArr
+                idOutBDArr.add(ds.getCategoryIDByName(input).toString())
                 pref_countries_entry_chip_group
-            }
-            else -> {
-                maxItems = 12
-                wc_entry_chip_group
-            }
+            } else -> org_entry_chip_group
         }
 
-        if (cg.childCount < maxItems) {
-            //val exps = ""
-            //addAsString(idsss, idArr)
-
-            val c1 = getChip(cg, input, R.xml.chip_entry, tag)
-            cg.addView(c1)
-        } else {
-            activity.toast("Maximum $maxItems items can be added.")
+        when {
+            cg.childCount < maxItems -> {
+                val c1 = getChip(cg, input, R.xml.chip_entry, tag)
+                //maxItemsArr.add(ds.getCategoryIDByName(input).toString())
+                cg.addView(c1)
+            }
+            cg.childCount == maxItems -> activity.toast("Maximum $maxItems items can be added.")
+            else -> Log.d("chip_child","count: ${cg.childCount}")
         }
         acTV.clearText()
         clPrefAreasEdit?.closeKeyboard(activity)

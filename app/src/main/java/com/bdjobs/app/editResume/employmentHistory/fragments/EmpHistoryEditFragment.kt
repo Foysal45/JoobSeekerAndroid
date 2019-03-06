@@ -35,7 +35,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class EmpHistoryEditFragment : Fragment() {
+class EmpHistoryEditFragment: Fragment() {
 
     private lateinit var empHisCB: EmpHisCB
     private lateinit var now: Calendar
@@ -44,7 +44,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var hExpID: String? = ""
     private var currentlyWorking: String = "OFF"
     //private var companyBusinessID = ""
-    private var workExperineceID = ""
+    private var workExperienceID = ""
     private var isFirst = false
     private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
@@ -74,13 +74,33 @@ class EmpHistoryEditFragment : Fragment() {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
         d("onCreateView")
+        if (idArr.isNotEmpty()) {
+            try {
+                entry_chip_group?.removeAllViews()
+                idArr.clear()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logException(e)
+            }
+        }
+        if (isEdit) {
+            empHisCB.setDeleteButton(true)
+            hID = "4"
+            preloadedData()
+        } else if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            idArr.add("")
+            isEmpty = true
+            clearEditText()
+        }
         return v
     }
 
 
     private fun addChip(input: String) {
         if (entry_chip_group.childCount <= 2) {
-            addAsString(workExperineceID)
+            addAsString(workExperienceID)
             val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
             entry_chip_group.addView(c1)
             experiencesMACTV?.clearText()
@@ -152,31 +172,11 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (idArr.isNotEmpty()) {
-            try {
-                entry_chip_group?.removeAllViews()
-                idArr.clear()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                logException(e)
-            }
-        }
         //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
         companyNameET.requestFocus()
         //ehMailLL.clearFocus()
-        if (isEdit) {
-            empHisCB.setDeleteButton(true)
-            hID = "4"
-            preloadedData()
-        } else if (!isEdit) {
-            empHisCB.setDeleteButton(false)
-            hID = "-4"
-            idArr.add("")
-            isEmpty = true
-            clearEditText()
-        }
 
     }
 
@@ -197,17 +197,17 @@ class EmpHistoryEditFragment : Fragment() {
                     d("Array size : pos : $position id : $id")
                     //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
-                    workExperineceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
+                    workExperienceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
                     if (idArr.size != 0) {
-                        if (!idArr.contains(workExperineceID))
-                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                        if (!idArr.contains(workExperienceID))
+                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!)
                         else {
                             experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
                         }
                         experiencesTIL.hideError()
                     } else {
-                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperineceID)!!)
+                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!)
                         d("Array size : ${idArr.size} and $exps and id : $id")
                         /*isEmpty = true
                         experiencesTIL.isErrorEnabled = true*/
