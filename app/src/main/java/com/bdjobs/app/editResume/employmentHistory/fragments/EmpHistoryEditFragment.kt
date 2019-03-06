@@ -79,7 +79,6 @@ class EmpHistoryEditFragment : Fragment() {
 
 
     private fun addChip(input: String) {
-        var child = 0
         if (entry_chip_group.childCount <= 2) {
             addAsString(workExperineceID)
             val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
@@ -136,7 +135,7 @@ class EmpHistoryEditFragment : Fragment() {
             //if (!alreadyLoaded)
             areaOfexps?.forEach {
                 addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
-                //addAsString(it.id)
+                addAsString(it.id)
             }
         }
         d("onActivityCreated : ${savedInstanceState?.isEmpty}")
