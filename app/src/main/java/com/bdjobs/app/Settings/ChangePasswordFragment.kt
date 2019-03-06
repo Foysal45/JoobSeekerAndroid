@@ -141,13 +141,15 @@ class ChangePasswordFragment : Fragment() {
             oldpassword_TIL.setError(getString(R.string.err_msg_password_not_empty))
             requestFocus(et_old_pass)
             return false
-        } else if (checkStringHasSymbol(pass)) {
-            oldpassword_TIL.setErrorEnabled(true)
-            //  oldpassword_TIL.setError("Password can not contain $symbol")
-            oldpassword_TIL.setError(getString(R.string.err_msg_password_use))
-            requestFocus(et_old_pass)
-            return false
-        } else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
+        }
+ //       else if (checkStringHasSymbol(pass)) {
+//            oldpassword_TIL.setErrorEnabled(true)
+//            //  oldpassword_TIL.setError("Password can not contain $symbol")
+//            oldpassword_TIL.setError(getString(R.string.err_msg_password_use))
+//            requestFocus(et_old_pass)
+//            return false
+  //      }
+    else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
             oldpassword_TIL.setErrorEnabled(true)
             oldpassword_TIL.setError(getString(R.string.err_msg_password_limit))
             requestFocus(et_old_pass)
@@ -166,13 +168,15 @@ class ChangePasswordFragment : Fragment() {
             newpassword_TIL.setError(getString(R.string.err_msg_password_not_empty))
             requestFocus(et_new_pass)
             return false
-        } else if (checkStringHasSymbol(pass)) {
-            newpassword_TIL.setErrorEnabled(true)
+        }
+ //       else if (checkStringHasSymbol(pass)) {
+         /*   newpassword_TIL.setErrorEnabled(true)
             // newpassword_TIL.setError("Password can not contain $symbol")
             newpassword_TIL.setError(getString(R.string.err_msg_password_use))
             requestFocus(et_new_pass)
-            return false
-        } else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
+            return false*/
+//    }
+        else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
             newpassword_TIL.setErrorEnabled(true)
             newpassword_TIL.setError(getString(R.string.err_msg_password_limit))
             requestFocus(et_new_pass)
@@ -198,12 +202,16 @@ class ChangePasswordFragment : Fragment() {
             requestFocus(et_confirm_pass)
             return false
 
-        } else if (checkStringHasSymbol(pass)) {
+        }
+
+
+/*        else if (checkStringHasSymbol(pass)) {
             confirmpassword_TIL.setErrorEnabled(true)
             confirmpassword_TIL.setError(getString(R.string.err_msg_password_use))
             requestFocus(et_confirm_pass)
             return false
-        } else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
+        } */
+        else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
             confirmpassword_TIL.setErrorEnabled(true)
             confirmpassword_TIL.setError("Password should be 8 to 12 character long!")
             requestFocus(et_confirm_pass)

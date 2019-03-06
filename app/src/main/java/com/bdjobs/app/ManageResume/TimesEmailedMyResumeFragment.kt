@@ -231,11 +231,11 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
 
                     if (totalEmailRecords?.toInt()!! > 1){
-                        val styledText = " Times Emailed Resume"
+                        val styledText = " times Emailed Resume"
                         titleTV?.text = styledText
                     }
                     else {
-                        val styledText = " Time Emailed Resume "
+                        val styledText = " time Emailed Resume "
                         titleTV?.text = styledText
                     }
 

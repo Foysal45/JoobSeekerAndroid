@@ -37,5 +37,12 @@ data class LastUpdateModelData(
     @SerializedName("userName")
     val userName: String?,
     @SerializedName("userPicUrl")
-    val userPicUrl: String?
+    val userPicUrl: String?,
+
+    @SerializedName("isResumeUpdate")
+    val isResumeUpdate: String?,
+    @SerializedName("changePassword_Eligibility")
+    val changePassword_Eligibility: String?,
+    @SerializedName("isCVPosted")
+    val isCVPosted: String?
 )

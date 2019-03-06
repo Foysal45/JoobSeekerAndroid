@@ -106,43 +106,43 @@ class AcademicInfoEditFragment : Fragment() {
 
         }
 
-        etLevelEdu.setText(data.levelofEducation)
-        etExamTitle.setText(data.examDegreeTitle)
+        etLevelEdu?.setText(data.levelofEducation)
+        etExamTitle?.setText(data.examDegreeTitle)
 
 
-        etExamOtherTitle.hide()
-        examOtherTIL.hide()
+        etExamOtherTitle?.hide()
+        examOtherTIL?.hide()
 
 
 
-        majorSubACTV.setText(data.concentrationMajorGroup)
-        instituteNameACTV.setText(data.instituteName)
-        etResults.setText(ds.getResultNameByResultID(resID))
+        majorSubACTV?.setText(data.concentrationMajorGroup)
+        instituteNameACTV?.setText(data.instituteName)
+        etResults?.setText(ds.getResultNameByResultID(resID))
         try {
             setView(resID.toInt())
         } catch (e: Exception) {
 
         }
-        cgpaTIET.setText(data.marks)
-        etScaleTIET.setText(data.scale)
+        cgpaTIET?.setText(data.marks)
+        etScaleTIET?.setText(data.scale)
         if (data.scale!!.equalIgnoreCase("0")) {
 
             marksTIET.setText(data.marks)
         }
 
-        etPassignYear.setText(data.yearofPAssing)
-        etDuration.setText(data.duration)
-        etAchievement.setText(data.acievement)
+        etPassignYear?.setText(data.yearofPAssing)
+        etDuration?.setText(data.duration)
+        etAchievement?.setText(data.acievement)
         cbResHide.isChecked = data.showMarks.equals("1")
         cbForInstitute.isChecked = data.instituteType.equals("1")
-        levelEduTIL.isErrorEnabled = false
-        examTitleTIL.isErrorEnabled = false
-        mejorTIL.isErrorEnabled = false
-        instituteTIL.isErrorEnabled = false
-        resultTIL.isErrorEnabled = false
-        acaPassingYearTIL.isErrorEnabled = false
+        levelEduTIL?.isErrorEnabled = false
+        examTitleTIL?.isErrorEnabled = false
+        mejorTIL?.isErrorEnabled = false
+        instituteTIL?.isErrorEnabled = false
+        resultTIL?.isErrorEnabled = false
+        acaPassingYearTIL?.isErrorEnabled = false
 
-        majorSubACTV.clearFocus()
+        majorSubACTV?.clearFocus()
         if (etLevelEdu.getString().equalIgnoreCase("Bachelor/Honors") || etLevelEdu.getString().equalIgnoreCase("Masters")) {
             instSuggession = true
             Log.d("instSuggession", "in suggession condition")
@@ -563,7 +563,7 @@ class AcademicInfoEditFragment : Fragment() {
                 setView(examId.toInt())
                 Log.d("eduLevel", "examId $examId")
 
-                etResults.setText(ds.getResultNameByResultID(examId))
+                etResults?.setText(ds.getResultNameByResultID(examId))
                 Log.d("eduLevel", "eduLevel ${ds.getResultNameByResultID(examId)}")
 
 
@@ -804,14 +804,14 @@ class AcademicInfoEditFragment : Fragment() {
 
             when {
                 cgpaTIET.getString().trim().isEmpty() -> {
-                    cGpaTIL.isErrorEnabled = true
-                    cGpaTIL.error = resources.getString(R.string.field_empty_error_message_common)
+                    cGpaTIL?.isErrorEnabled = true
+                    cGpaTIL?.error = resources.getString(R.string.field_empty_error_message_common)
                     requestFocus(cgpaTIET)
                     return false
                 }
                 cgpa > 10.00 || cgpa < 1.00 -> {
-                    cGpaTIL.isErrorEnabled = true
-                    cGpaTIL.error = "Please enter valid CGPA"
+                    cGpaTIL?.isErrorEnabled = true
+                    cGpaTIL?.error = "Please enter valid CGPA"
                     requestFocus(cgpaTIET)
                     return false
                 }

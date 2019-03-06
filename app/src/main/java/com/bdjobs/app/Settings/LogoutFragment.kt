@@ -13,6 +13,7 @@ import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.changePassword_Eligibility
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
@@ -50,14 +51,16 @@ class LogoutFragment : Fragment() {
             communicator.backButtonPressed()
         }
         Log.d("isblue","isis = ${activity.isBlueCollarUser()}" )
-        if (!activity.isBlueCollarUser()) {
+        Log.d("isblue","isis = ${changePassword_Eligibility}" )
+
+        if (changePassword_Eligibility == "1") {
            // changepass.show()
             changepass?.visibility = View.VISIBLE
             changepass.setOnClickListener {
                 communicator.gotoChangePasswordFragment()
             }
         }
-        else {
+        else   if (changePassword_Eligibility == "0"){
            // changepass.hide()
             changepass?.visibility = View.GONE
         }

@@ -81,14 +81,14 @@ class EmployerInteractionFragment : Fragment() {
                             //toast("came here")
                             //  totalRecords = "0"
                         }
-
+                        loadingProgressBar.visibility = View.GONE
                         Log.d("tot", "total = $totalRecords")
 
 
                     } catch (e: Exception) {
                         logException(e)
                     }
-                    loadingProgressBar.visibility = View.GONE
+
                 }
 
             })
@@ -109,8 +109,30 @@ class EmployerInteractionFragment : Fragment() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.d("calling", " onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("calling", " onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("calling", " onDestroyView")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("calling", " onDetach")
+    }
+
     override fun onResume() {
         super.onResume()
+        Log.d("calling", " onResume")
+        Log.d("calling", " hire = $hire, contracted = $contracted, notcontracted = $Ncontracted")
         bdjobsUserSession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         //----------------------------------
@@ -136,7 +158,7 @@ class EmployerInteractionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
+        Log.d("calling", " onDestroy")
         hire = "0"
         contracted = "0"
         Ncontracted = "0"
@@ -150,29 +172,29 @@ class EmployerInteractionFragment : Fragment() {
         //   populateshowExp = "yes"
         var buttonsize = experienceListInteraction?.size
         Log.d("expEXP", "button size = $buttonsize")
-        radio_group.removeAllViews()
+        radio_group?.removeAllViews()
         //foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
         buttonsize = buttonsize?.minus(1)
         for (i in 0..buttonsize!!) {
             val designationradioBTN = RadioButton(activity)
             val companyTV = TextView(activity)
-            designationradioBTN.id = View.generateViewId()
-            companyTV.id = View.generateViewId()
-            designationradioBTN.text = experienceListInteraction?.get(i)?.designation?.trim()
-            companyTV.text = experienceListInteraction?.get(i)?.companyName?.trim()
+            designationradioBTN?.id = View.generateViewId()
+            companyTV?.id = View.generateViewId()
+            designationradioBTN?.text = experienceListInteraction?.get(i)?.designation?.trim()
+            companyTV?.text = experienceListInteraction?.get(i)?.companyName?.trim()
 
 
             val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            designationradioBTN.setTextSize(16F)
-            companyTV.setTextSize(14F)
-            designationradioBTN.layoutParams = params
-            companyTV.layoutParams = paramsTV
-            params.setMargins(0, 10, 0, 0);
-            paramsTV.setMargins(80, 0, 0, 25);
+            designationradioBTN?.setTextSize(16F)
+            companyTV?.setTextSize(14F)
+            designationradioBTN?.layoutParams = params
+            companyTV?.layoutParams = paramsTV
+            params?.setMargins(0, 10, 0, 0);
+            paramsTV?.setMargins(80, 0, 0, 25);
 
-            radio_group.addView(designationradioBTN)
-            radio_group.addView(companyTV)
+            radio_group?.addView(designationradioBTN)
+            radio_group?.addView(companyTV)
 
             designationradioBTN.setOnClickListener {
                 expID = experienceListInteraction?.get(i)?.experienceID!!
@@ -183,23 +205,23 @@ class EmployerInteractionFragment : Fragment() {
 
         val addExp = RadioButton(activity)
         val expTV = TextView(activity)
-        addExp.id = View.generateViewId()
-        addExp.text = "Add Experience"
-        expTV.id = View.generateViewId()
-        expTV.text = "New work experience"
+        addExp?.id = View.generateViewId()
+        addExp?.text = "Add Experience"
+        expTV?.id = View.generateViewId()
+        expTV?.text = "New work experience"
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        expTV.setTextSize(14F)
-        addExp.setTextSize(16F)
-        addExp.layoutParams = params
-        expTV.layoutParams = paramsTV
-        params.setMargins(0, 10, 0, 0);
-        paramsTV.setMargins(80, 0, 0, 25);
-        radio_group.addView(addExp)
-        radio_group.addView(expTV)
+        expTV?.setTextSize(14F)
+        addExp?.setTextSize(16F)
+        addExp?.layoutParams = params
+        expTV?.layoutParams = paramsTV
+        params?.setMargins(0, 10, 0, 0);
+        paramsTV?.setMargins(80, 0, 0, 25);
+        radio_group?.addView(addExp)
+        radio_group?.addView(expTV)
 
 
-        addExp.setOnClickListener {
+        addExp?.setOnClickListener {
             val updateExpDialog = Dialog(activity)
             updateExpDialog?.setContentView(com.bdjobs.app.R.layout.update_exp_popup)
             updateExpDialog?.setCancelable(true)
@@ -210,90 +232,13 @@ class EmployerInteractionFragment : Fragment() {
                 activity?.startActivity<EmploymentHistoryActivity>(
                         "name" to "null",
                         "emp_his_add" to "addDirect")
-                updateExpDialog.dismiss()
+                updateExpDialog?.dismiss()
             }
             cancelBTN?.setOnClickListener {
                 updateExpDialog.dismiss()
             }
         }
     }
-
-    /*private fun addRadioButton() {
-        populateshowExp = "yes"
-        var buttons = experienceListInteraction?.size
-
-        foundTV.text = "We found " + buttons?.toString() + " experience from Your Resume"
-
-        buttons = buttons?.minus(1)
-        toast("$buttons")
-        // val rb = arrayOfNulls<AppCompatRadioButton>(buttons!!)
-
-        // val rgp = findViewById(R.id.radio_group) as RadioGroup
-        radio_group.orientation = LinearLayout.VERTICAL
-
-        val rbn = RadioButton(activity)
-        val companyTV = TextView(activity)
-        for (i in 0..buttons!!) {
-
-            rbn.id = View.generateViewId()
-            companyTV.id = View.generateViewId()
-
-
-
-            //rbn.text = experienceListInteraction?.get(i)?.designation + "\n" + experienceListInteraction?.get(i)?.companyName
-            rbn.text = experienceListInteraction?.get(i)?.designation
-            companyTV.text = experienceListInteraction?.get(i)?.companyName
-            companyTV.setTextSize(14F)
-            rbn.setTextSize(16F)
-
-
-
-            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-
-            rbn.layoutParams = params
-            companyTV.layoutParams = paramsTV
-
-            params.setMargins(0, 10, 0, 0);
-            paramsTV.setMargins(90, 0, 0, 25);
-
-           // radio_group.removeAllViews()
-
-            radio_group.addView(rbn)
-            radio_group.addView(companyTV)
-        }
-
-
-        val addExp = RadioButton(activity)
-        val expTV = TextView(activity)
-        addExp.id = View.generateViewId()
-        addExp.text = "Add Experience"
-        expTV.id = View.generateViewId()
-        expTV.text = "New work experience"
-        val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        expTV.setTextSize(14F)
-        addExp.setTextSize(16F)
-        addExp.layoutParams = params
-        expTV.layoutParams = paramsTV
-        params.setMargins(0, 10, 0, 0);
-        paramsTV.setMargins(90, 0, 0, 25);
-        radio_group.addView(addExp)
-        radio_group.addView(expTV)
-
-
-        addExp.setOnClickListener {
-            val updateExpDialog = Dialog(activity)
-            updateExpDialog?.setContentView(com.bdjobs.app.R.layout.update_exp_popup)
-            updateExpDialog?.setCancelable(true)
-            updateExpDialog?.show()
-            val cancelBTN = updateExpDialog?.findViewById(com.bdjobs.app.R.id.cancelBTN) as Button
-            cancelBTN?.setOnClickListener {
-                updateExpDialog.dismiss()
-            }
-        }
-
-    }*/
 
     private fun hiredLayoutShow() {
         scrollView.visibility = View.VISIBLE
