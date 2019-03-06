@@ -150,6 +150,8 @@ class ContactEditFragment : Fragment() {
             sameAddress = if (isChecked) "on" else "off"
             if (isChecked) {
                 cgPermanent.clearCheck()
+                llPermenantPortion.hide()
+                cgPermanent.hide()
                 pmContactDivTIET1.enableOrdisableEdit(false)
                 pmContactDistrictTIET.enableOrdisableEdit(false)
                 pmContactThanaTIETP.enableOrdisableEdit(false)
@@ -162,6 +164,8 @@ class ContactEditFragment : Fragment() {
                 pmContactAddressTIETPRM.clear()
                 permanentContactCountryTIETP.clear()
             } else {
+                llPermenantPortion.show()
+                cgPermanent.show()
                 pmContactDivTIET1.enableOrdisableEdit(true)
                 pmContactDistrictTIET.enableOrdisableEdit(true)
                 pmContactThanaTIETP.enableOrdisableEdit(true)

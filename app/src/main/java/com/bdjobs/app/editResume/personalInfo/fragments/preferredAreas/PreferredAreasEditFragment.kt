@@ -67,6 +67,13 @@ class PreferredAreasEditFragment : Fragment() {
         doWork()
     }
 
+    override fun onResume() {
+        super.onResume()
+        data = prefCallBack.getPrefAreasData()
+        clearAllArr()
+        preloadedData(data)
+    }
+
     private fun doWork() {
         onClicks()
 
@@ -75,9 +82,6 @@ class PreferredAreasEditFragment : Fragment() {
         acOutsideBD?.addTextChangedListener(TW.CrossIconBehaveACTV(acOutsideBD))
         acOrgType?.addTextChangedListener(TW.CrossIconBehaveACTV(acOrgType))
         acInsideBD?.addTextChangedListener(TW.CrossIconBehaveACTV(acInsideBD))
-        data = prefCallBack.getPrefAreasData()
-        //clearAllArr()
-        preloadedData(data)
     }
 
     private fun preloadedData(data: PreferredAreasData) {
@@ -149,11 +153,11 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun onClicks() {
-        if (idWCArr.isNullOrEmpty()) {
-            acWCjobCat.easyOnTextChangedListener { charSequence ->
-                activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
-            }
-        }
+        //if (idWCArr.isNullOrEmpty()) {
+        /*acWCjobCat.easyOnTextChangedListener { charSequence ->
+            activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
+        }*/
+        //}
         changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
             var valid = 0
@@ -162,7 +166,52 @@ class PreferredAreasEditFragment : Fragment() {
             prefOrgIds = TextUtils.join(",", idOrgArr)
             prefDistrictIds = TextUtils.join(",", idInBDArr)
             prefCountryIds = TextUtils.join(",", idOutBDArr)
-            if (idWCArr.isNotEmpty()) valid += 1
+
+            //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
+            //valid = isValidateAutoCompleteTV(acOutsideBD, tilOutsideBD, null, true, valid)
+
+            /*if (idWCArr.isEmpty()) {
+                valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
+            }
+*/
+            valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
+            valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
+            when {
+                idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
+                    tilInsideBD.isErrorEnabled = true
+                    tilInsideBD.error = "This field can not be empty"
+                    /*tilOutsideBD.isErrorEnabled = true
+                    tilOutsideBD.error = "This field can not be empty"*/
+                }
+                idWCArr.isEmpty() && idBCArr.isEmpty() -> {
+                    tilWCjobCat.hideError()
+                    tilWCjobCat.isErrorEnabled = true
+                    tilWCjobCat.error = "This field can not be empty"
+                    tilBCJobCat.hideError()
+                    tilBCJobCat.isErrorEnabled = true
+                    tilBCJobCat.error = "This field can not be empty"
+                }
+                idBCArr.isNotEmpty() && idWCArr.isNotEmpty() -> {
+                    valid += 1
+                    tilBCJobCat.hideError()
+                    tilWCjobCat.hideError()
+                }
+                /*idWCArr.isEmpty() -> {
+                    tilWCjobCat.isErrorEnabled = true
+                    tilWCjobCat.error = "This field can not be empty"
+                }*/
+                anywhereinBD -> {
+                    /*tilInsideBD.isErrorEnabled = true
+                    tilInsideBD.error = "This field can not be empty"*/
+                    valid += 1
+                    tilInsideBD.hideError()
+                }
+                else -> {
+                    valid += 1
+                    tilWCjobCat.hideError()
+                    tilInsideBD.hideError()
+                }
+            }
             if (idInBDArr.isNotEmpty() || idOutBDArr.isNotEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
             if (valid >= 2) updateData()
@@ -420,35 +469,39 @@ class PreferredAreasEditFragment : Fragment() {
         var idArr: ArrayList<String> = ArrayList()
         when (tag) {
             "wc" -> {
-                idArr = idWCArr
+                //idArr = idWCArr
                 id = ds.getCategoryIDByName(s)
+                removeId(id, idWCArr)
             }
             "bc" -> {
-                idArr = idBCArr
+                //idArr = idBCArr
                 id = ds.getCategoryIDByBanglaName(s)
+                removeId(id, idBCArr)
             }
             "orgs" -> {
-                idArr = idOrgArr
+                //idArr = idOrgArr
                 id = ds.getOrgIDByOrgName(s)
+                removeId(id, idOrgArr)
             }
             "in" -> {
-                idArr = idInBDArr
+                //idArr = idInBDArr
                 id = ds.getLocationIDByName(s)
+                removeId(id, idInBDArr)
             }
             "out" -> {
-                idArr = idOutBDArr
+                //idArr = idOutBDArr
                 id = ds.getLocationIDByName(s)
+                removeId(id, idOutBDArr)
             }
         }
-        removeId(id, idArr)
     }
 
     private fun updateData() {
         if (anywhereinBD) prefDistrictIds = "-1"
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
-                prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
-        Log.d("PrefAreas", "$prefWcIds // [$prefCountryIds] $prefBcIds and check: // $prefDistrictIds")
+                TextUtils.join(",", idWCArr), TextUtils.join(",", idBCArr), TextUtils.join(",", idInBDArr), TextUtils.join(",", idOutBDArr), TextUtils.join(",", idOrgArr))
+        Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -466,6 +519,7 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                     } else {
                         activity.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity.toast(it) }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
