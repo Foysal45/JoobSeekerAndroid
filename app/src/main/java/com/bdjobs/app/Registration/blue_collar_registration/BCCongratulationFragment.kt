@@ -43,10 +43,10 @@ class BCCongratulationFragment : Fragment() {
 
     private fun onClick(){
 
-        bcJobSearchButton.setOnClickListener {
+        bcJobSearchButton?.setOnClickListener {
             registrationCommunicator.goToHomePage()
         }
-        promoCodeBTN.setOnClickListener {
+        promoCodeBTN?.setOnClickListener {
             startActivity<InviteCodeBaseActivity>(
                     "userType" to userType,
                     "pcOwnerID" to pcOwnerID,

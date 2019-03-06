@@ -34,7 +34,7 @@ class BCOtpCodeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //fkjgnf
+
         onClick()
         initialization()
         setTime()
@@ -43,8 +43,8 @@ class BCOtpCodeFragment : Fragment() {
 
     private fun onClick(){
 
-        //gkhjgh
-        bcOTPFAButton.setOnClickListener {
+
+        bcOTPFAButton?.setOnClickListener {
 
             if (bcOTPCodeTIET?.text.toString().isNullOrEmpty()) {
 
@@ -66,7 +66,7 @@ class BCOtpCodeFragment : Fragment() {
 
         }
 
-        bctimeLayout.setOnClickListener {
+        bctimeLayout?.setOnClickListener {
 
             setTime()
 
@@ -74,7 +74,7 @@ class BCOtpCodeFragment : Fragment() {
 
 
 
-        bcResendOtpTV.setOnClickListener {
+        bcResendOtpTV?.setOnClickListener {
 
 
             registrationCommunicator.bcResendOtp()
@@ -85,13 +85,13 @@ class BCOtpCodeFragment : Fragment() {
 
         }
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
@@ -103,8 +103,8 @@ class BCOtpCodeFragment : Fragment() {
 
         registrationCommunicator = activity as RegistrationCommunicator
 
-        bcInfoMobileNumberTV.text = "${registrationCommunicator.wcGetMobileNumber()} নাম্বারে এস এম এস এর মাধ্যমে একটি কোড পাঠানো হয়েছে, অনুগ্রহ করে কোডটি লিখুন।"
-        bcOTPCodeTIET.easyOnTextChangedListener { charSequence ->
+        bcInfoMobileNumberTV?.text = "${registrationCommunicator.wcGetMobileNumber()} নাম্বারে এস এম এস এর মাধ্যমে একটি কোড পাঠানো হয়েছে, অনুগ্রহ করে কোডটি লিখুন।"
+        bcOTPCodeTIET?.easyOnTextChangedListener { charSequence ->
             otpValidityCheck(charSequence.toString())
         }
 

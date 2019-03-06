@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_wc_name.*
 
 class WCNameFragment : Fragment() {
 
-   private lateinit var registrationCommunicator: RegistrationCommunicator
+    private lateinit var registrationCommunicator: RegistrationCommunicator
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
@@ -40,33 +40,32 @@ class WCNameFragment : Fragment() {
     }
 
 
+    private fun onClick() {
 
-    private fun onClick(){
-
-        nameFAButton.setOnClickListener {
+        nameFAButton?.setOnClickListener {
 
             if (usernameTIET.length() == 0 || usernameTIET.length() < 1) {
 
                 userNameTIL?.showError("Name can not be empty")
 
-                } else {
+            } else {
 
-                    registrationCommunicator.wcGoToStepGender()
+                registrationCommunicator.wcGoToStepGender()
                 registrationCommunicator.nameSelected(usernameTIET?.text.toString())
-                }
-
-
             }
 
 
+        }
 
-        wcSupportTextView.setOnClickListener {
+
+
+        wcSupportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        wcHelplineLayout.setOnClickListener {
+        wcHelplineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
@@ -100,9 +99,9 @@ class WCNameFragment : Fragment() {
         }
     }
 
-    private fun setName(){
+    private fun setName() {
 
-        if (!TextUtils.isEmpty(registrationCommunicator.getName())){
+        if (!TextUtils.isEmpty(registrationCommunicator.getName())) {
 
             usernameTIET?.setText(registrationCommunicator.getName())
         }

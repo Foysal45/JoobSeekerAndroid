@@ -67,8 +67,8 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
 
     override fun setDeleteButton(b: Boolean) {
         if (b) {
-            iv_delete_data.show()
-            iv_delete_data.setOnClickListener {
+            iv_delete_data?.show()
+            iv_delete_data?.setOnClickListener {
                 if (acaEditFragment.isEdit) {
                     acaEditFragment.dataDelete()
                 }
@@ -80,7 +80,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
                 }
             }
         } else {
-            iv_delete_data.hide()
+            iv_delete_data?.hide()
         }
     }
 

@@ -47,7 +47,7 @@ class SpecializationViewFragment : Fragment() {
 
     private fun doWork() {
         eduCB.setTitle("Specialization")
-        fab_specialization_add.setOnClickListener {
+        fab_specialization_add?.setOnClickListener {
 
             eduCB.goToEditInfo("addSpecialization")
 
@@ -78,7 +78,7 @@ class SpecializationViewFragment : Fragment() {
 
     private fun populateData() {
 
-        mainlayout.hide()
+        mainlayout?.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getSpecializationInfo(session.userId, session.decodId)
         call.enqueue(object : retrofit2.Callback<SpecialzationModel> {
@@ -115,12 +115,12 @@ class SpecializationViewFragment : Fragment() {
     private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String, response: SpecializationDataModel) {
 
         if (array.size == 0 && TextUtils.isEmpty(skillDes) && TextUtils.isEmpty(curricular)) {
-            mainlayout.hide()
-            fab_specialization_add.show()
+            mainlayout?.hide()
+            fab_specialization_add?.show()
             eduCB.setEditButton(false)
         } else {
             mainlayout.show()
-            fab_specialization_add.hide()
+            fab_specialization_add?.hide()
             skillDescriptionTV?.text = skillDes
             curricularTV?.text = curricular
             for (item in arr!!) {
@@ -143,8 +143,8 @@ class SpecializationViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_specialization.show()
-            shimmer_view_container_specialization.startShimmerAnimation()
+            shimmer_view_container_specialization?.show()
+            shimmer_view_container_specialization?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -153,8 +153,8 @@ class SpecializationViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_specialization.hide()
-            shimmer_view_container_specialization.stopShimmerAnimation()
+            shimmer_view_container_specialization?.hide()
+            shimmer_view_container_specialization?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

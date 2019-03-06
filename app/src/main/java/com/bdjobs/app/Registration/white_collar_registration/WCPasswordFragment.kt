@@ -41,11 +41,11 @@ class WCPasswordFragment : Fragment() {
         initialization()
         setUserId()
 
-        passwordTIET.easyOnTextChangedListener { charSequence ->
+        passwordTIET?.easyOnTextChangedListener { charSequence ->
            passwordValidityCheck(charSequence.toString())
         }
 
-        confirmPassTIET.easyOnTextChangedListener { charSequence ->
+        confirmPassTIET?.easyOnTextChangedListener { charSequence ->
             confirmPassValidityCheck(charSequence.toString())
         }
 
@@ -53,7 +53,7 @@ class WCPasswordFragment : Fragment() {
 
     private fun onClick(){
 
-        passwordFAButton.setOnClickListener {
+        passwordFAButton?.setOnClickListener {
 
             if (passwordValidityCheck(passwordTIET?.text.toString())) {
 
@@ -75,7 +75,7 @@ class WCPasswordFragment : Fragment() {
         }
 
 
-        phone_button.setOnClickListener {
+        phone_button?.setOnClickListener {
 
 
             phone_button.iconTint = resources.getColorStateList(R.color.colorWhite)
@@ -98,7 +98,7 @@ class WCPasswordFragment : Fragment() {
         }
 
 
-        email_button.setOnClickListener {
+        email_button?.setOnClickListener {
 
             email_button.iconTint = resources.getColorStateList(R.color.colorWhite)
             email_button.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
@@ -118,13 +118,13 @@ class WCPasswordFragment : Fragment() {
            /* registrationCommunicator.wcUserNameSelected(registrationCommunicator.wcGetEmail())*/
         }
 
-        wcSupportTextView.setOnClickListener {
+        wcSupportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        wcHelplineLayout.setOnClickListener {
+        wcHelplineLayout?.setOnClickListener {
 
             activity.callHelpLine()
 
@@ -133,8 +133,6 @@ class WCPasswordFragment : Fragment() {
     }
 
     private fun initialization(){
-
-
 
         registrationCommunicator = activity as RegistrationCommunicator
 
@@ -281,16 +279,16 @@ class WCPasswordFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(password) -> {
-                passwordTIL.showError(getString(R.string.field_empty_error_message_common))
+                passwordTIL?.showError(getString(R.string.field_empty_error_message_common))
                 requestFocus(passwordTIET)
                 return false
             }
            password.length < 8 -> {
-               passwordTIL.showError("password too short")
+               passwordTIL?.showError("password too short")
                 requestFocus(passwordTIET)
                 return false
             }
-            else -> passwordTIL.hideError()
+            else -> passwordTIL?.hideError()
         }
         return true
     }
@@ -308,7 +306,7 @@ class WCPasswordFragment : Fragment() {
                 return false
             }
             password.equals(passwordTIET?.text.toString(), true) == false -> {
-                confirmPassTIL.showError("password not matched")
+                confirmPassTIL?.showError("password not matched")
                 requestFocus(confirmPassTIET)
                 return false
             }

@@ -45,11 +45,11 @@ class WCOtpCodeFragment : Fragment() {
     private fun onClick() {
 
 
-        wcOTPFAButton.setOnClickListener {
+        wcOTPFAButton?.setOnClickListener {
 
             if (TextUtils.isEmpty(wcOTPCodeTIET?.getString())) {
 
-                wcOTPCodeTIL.showError("Please type the code")
+                wcOTPCodeTIL?.showError("Please type the code")
 
 
             } else {
@@ -64,7 +64,7 @@ class WCOtpCodeFragment : Fragment() {
 
 
 
-        wcResendOtpTV.setOnClickListener {
+        wcResendOtpTV?.setOnClickListener {
             registrationCommunicator.bcResendOtp()
             setTime()
             wcTimerTV?.show()
@@ -73,13 +73,13 @@ class WCOtpCodeFragment : Fragment() {
 
         }
 
-        wcSupportTextView.setOnClickListener {
+        wcSupportTextView?.setOnClickListener {
 
             activity.callHelpLine()
 
         }
 
-        wcHelplineLayout.setOnClickListener {
+        wcHelplineLayout?.setOnClickListener {
 
             activity.callHelpLine()
 
@@ -89,8 +89,8 @@ class WCOtpCodeFragment : Fragment() {
 
 
     private fun setTime() {
-        wcTimerTV.show()
-        wcResendOtpTV.hide()
+        wcTimerTV?.show()
+        wcResendOtpTV?.hide()
         counter = object : CountDownTimer(Constants.counterTimeLimit.toLong(), Constants.timer_countDownInterval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 val second = millisUntilFinished / 1000 % 60
@@ -115,36 +115,6 @@ class WCOtpCodeFragment : Fragment() {
             }
         }.start()
     }
-
-
-    /* private fun setTime() {
-         bcTimerTV?.show()
-         bcResendOtpTV?.hide()
-         counter = object : CountDownTimer(Constants.counterTimeLimit.toLong(), Constants.timer_countDownInterval.toLong()) {
-             override fun onTick(millisUntilFinished: Long) {
-                 val second = millisUntilFinished / 1000 % 60
-                 val minute = millisUntilFinished / (1000 * 60) % 60
-                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
-                 val time = String.format("%02d:%02d", minute, second)
-                 try {
-
-                     bcTimerTV?.text = time
-                 }catch (e:Exception){
-
-                 }
-             }
-
-             override fun onFinish() {
-
-                 bcTimerTV?.hide()
-                 bcResendOtpTV?.show()
-                 bcTimerIconIV?.hide()
-
-             }
-         }.start()
-     }*/
-
-
 
 
 }

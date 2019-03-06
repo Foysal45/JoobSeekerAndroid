@@ -46,10 +46,10 @@ class ProfessionalQLViewFragment : Fragment() {
 
     private fun doWork() {
         populateData()
-        rv_professional_view.behaveYourself(fab_professional_add)
+        rv_professional_view?.behaveYourself(fab_professional_add)
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_professional_qualification))
-        fab_professional_add.setOnClickListener {
+        fab_professional_add?.setOnClickListener {
             eduCB.goToEditInfo("addProfessional")
         }
     }

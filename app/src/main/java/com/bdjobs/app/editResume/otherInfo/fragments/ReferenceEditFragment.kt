@@ -95,12 +95,12 @@ class ReferenceEditFragment : Fragment() {
 
         when {
             !isValidEmail(email) -> {
-                rfEmailTIL.showError(getString(R.string.email_invalid_message))
+                rfEmailTIL?.showError(getString(R.string.email_invalid_message))
                 requestFocus(etRfEmail)
                 return false
             }
             else -> {
-                rfEmailTIL.hideError()
+                rfEmailTIL?.hideError()
                 return true
             }
         }
@@ -141,14 +141,14 @@ class ReferenceEditFragment : Fragment() {
     }
 
     private fun clearEditText() {
-        etRefName.clear()
-        etRefOrganization.clear()
-        etRefDesignation.clear()
-        etRFAddress.clear()
-        etPhoneRes.clear()
-        etRefPhoneOffice.clear()
-        etRefMobile.clear()
-        etRfEmail.clear()
+        etRefName?.clear()
+        etRefOrganization?.clear()
+        etRefDesignation?.clear()
+        etRFAddress?.clear()
+        etPhoneRes?.clear()
+        etRefPhoneOffice?.clear()
+        etRefMobile?.clear()
+        etRfEmail?.clear()
         disableError()
         relation = ""
 
@@ -156,15 +156,15 @@ class ReferenceEditFragment : Fragment() {
 
 
     private fun disableError() {
-        referenceNameTIL.hideError()
-        refOrganizationTIL.hideError()
-        refDesignationTIL.hideError()
-        reAddressTIL.hideError()
-        rfPhoneResTIL.hideError()
-        trPhoneOfficeTIL.hideError()
-        refMobileTIL.hideError()
-        rfEmailTIL.hideError()
-        etRfEmail.clearFocus()
+        referenceNameTIL?.hideError()
+        refOrganizationTIL?.hideError()
+        refDesignationTIL?.hideError()
+        reAddressTIL?.hideError()
+        rfPhoneResTIL?.hideError()
+        trPhoneOfficeTIL?.hideError()
+        refMobileTIL?.hideError()
+        rfEmailTIL?.hideError()
+        etRfEmail?.clearFocus()
 
     }
 
@@ -172,7 +172,7 @@ class ReferenceEditFragment : Fragment() {
     private fun doWork() {
 
         getDataFromChip()
-        fab_reference_update.setOnClickListener {
+        fab_reference_update?.setOnClickListener {
 
             var validation = 0
             validation = isValidate(etRefName, referenceNameTIL, etRefOrganization, true, validation)
@@ -225,8 +225,9 @@ class ReferenceEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                activity.stopProgressBar(referenceLoadingProgressBar)
+
                 try {
+                    activity.stopProgressBar(referenceLoadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(referenceLoadingProgressBar)
                         val resp = response.body()

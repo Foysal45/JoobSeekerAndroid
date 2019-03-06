@@ -96,19 +96,19 @@ class BCGenderFragment : Fragment() {
 
         }
 
-        supportTextView.setOnClickListener {
+        supportTextView?.setOnClickListener {
 
            activity.callHelpLine()
 
         }
 
-        bcHelpLineLayout.setOnClickListener {
+        bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
 
 
-        bcGenderFAButton.setOnClickListener {
+        bcGenderFAButton?.setOnClickListener {
 
             if (TextUtils.isEmpty(registrationCommunicator.getGender())) {
 
@@ -127,7 +127,7 @@ class BCGenderFragment : Fragment() {
 
     fun goToNextStep(){
 
-        bcGenderFAButton.setOnClickListener {
+        bcGenderFAButton?.setOnClickListener {
 
             registrationCommunicator.bcGoToStepMobileNumber()
         }

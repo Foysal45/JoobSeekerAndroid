@@ -133,8 +133,8 @@ class AcademicInfoEditFragment : Fragment() {
         etPassignYear?.setText(data.yearofPAssing)
         etDuration?.setText(data.duration)
         etAchievement?.setText(data.acievement)
-        cbResHide.isChecked = data.showMarks.equals("1")
-        cbForInstitute.isChecked = data.instituteType.equals("1")
+        cbResHide?.isChecked = data.showMarks.equals("1")
+        cbForInstitute?.isChecked = data.instituteType.equals("1")
         levelEduTIL?.isErrorEnabled = false
         examTitleTIL?.isErrorEnabled = false
         mejorTIL?.isErrorEnabled = false
@@ -211,29 +211,29 @@ class AcademicInfoEditFragment : Fragment() {
     private fun doWork() {
         addTextChangedListener()
         setDialog()
-        cbResHide.setOnCheckedChangeListener { buttonView, isChecked ->
+        cbResHide?.setOnCheckedChangeListener { buttonView, isChecked ->
 
             Log.d("isChecked", "$isChecked")
 
             if (!TextUtils.isEmpty(etResults.getString())) {
                 if (isChecked) {
 
-                    llResultFields.hide()
-                    marksLayout.hide()
-                    gradeLayout.hide()
+                    llResultFields?.hide()
+                    marksLayout?.hide()
+                    gradeLayout?.hide()
 
 
                 } else {
 
                     if (etResults.getString().equalIgnoreCase("Grade")) {
-                        llResultFields.show()
-                        gradeLayout.show()
-                        marksLayout.hide()
-                        cgpaTIET.clear()
-                        etScaleTIET.clear()
+                        llResultFields?.show()
+                        gradeLayout?.show()
+                        marksLayout?.hide()
+                        cgpaTIET?.clear()
+                        etScaleTIET?.clear()
                         etScaleTIET.clearFocus()
-                        cGpaTIL.isErrorEnabled = false
-                        scaleTIL.isErrorEnabled = false
+                        cGpaTIL?.isErrorEnabled = false
+                        scaleTIL?.isErrorEnabled = false
 
 
                     } /*else {
@@ -246,13 +246,13 @@ class AcademicInfoEditFragment : Fragment() {
                             || etResults.getString().equalIgnoreCase("Third Division/Class")) {
 
 
-                        llResultFields.show()
-                        gradeLayout.visibility = View.GONE
+                        llResultFields?.show()
+                        gradeLayout?.visibility = View.GONE
 
-                        marksTIET.clear()
-                        marksLayout.show()
+                        marksTIET?.clear()
+                        marksLayout?.show()
 
-                        marksTIL.isErrorEnabled = false
+                        marksTIL?.isErrorEnabled = false
 
                     }
 
@@ -262,7 +262,7 @@ class AcademicInfoEditFragment : Fragment() {
             }
 
         }
-        fab_aca_edit.setOnClickListener {
+        fab_aca_edit?.setOnClickListener {
             fragAcaInfoEdit.closeKeyboard(activity)
             addValidityCheck()
             d("Validation check 1  ${validateLevelofEducation()}")
@@ -449,19 +449,19 @@ class AcademicInfoEditFragment : Fragment() {
                 android.R.layout.simple_dropdown_item_1line, majorSubjects)
 
 
-        majorSubACTV.setAdapter(mejorSubjectAdapter)
-        majorSubACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-        instituteNameACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+        majorSubACTV?.setAdapter(mejorSubjectAdapter)
+        majorSubACTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+        instituteNameACTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
 
         if (instSuggession) {
-            instituteNameACTV.setAdapter(universityAdapter)
+            instituteNameACTV?.setAdapter(universityAdapter)
 
         } else {
-            instituteNameACTV.setAdapter(null)
+            instituteNameACTV?.setAdapter(null)
 
         }
 
-        etLevelEdu.setOnClickListener {
+        etLevelEdu?.setOnClickListener {
             val eduLevelList: Array<String> = ds.allEduLevels
             activity.selector("Select level of education", eduLevelList.toList()) { _, i ->
                 etLevelEdu.setText(eduLevelList[i])
@@ -510,7 +510,7 @@ class AcademicInfoEditFragment : Fragment() {
                 Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
         }
-        etExamTitle.setOnClickListener {
+        etExamTitle?.setOnClickListener {
             var queryValue = etLevelEdu.getString()
             queryValue = queryValue.replace("'", "''")
             val edulevelID = ds.getEduIDByEduLevel(queryValue)
@@ -541,7 +541,7 @@ class AcademicInfoEditFragment : Fragment() {
 
             }
         }
-        etResults.setOnClickListener {
+        etResults?.setOnClickListener {
             //val examList: Array<String> = ds.getEducationDegreesByEduLevelID(edulevelID)
             val result: Array<String> = ds.allResults
             activity.selector(getString(R.string.alert_exam_result), result.toList()) { _, i ->
@@ -555,7 +555,7 @@ class AcademicInfoEditFragment : Fragment() {
                         examId.equalIgnoreCase("14") ||
                         examId.equalIgnoreCase("15")) {
 
-                    cbResHide.isChecked = false
+                    cbResHide?.isChecked = false
 
                 }
 
@@ -573,12 +573,12 @@ class AcademicInfoEditFragment : Fragment() {
 
             Log.d("eduLevel", "hide $hideRes")
         }*/
-        cbForInstitute.setOnCheckedChangeListener { _, isChecked ->
+        cbForInstitute?.setOnCheckedChangeListener { _, isChecked ->
             foreignInstitute = if (isChecked) "1" else "0"
         }
 
 
-        etPassignYear.setOnClickListener {
+        etPassignYear?.setOnClickListener {
 
 
             for (item in 1964..2024) {
@@ -875,8 +875,9 @@ class AcademicInfoEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                activity.stopProgressBar(loadingProgressBar)
+
                 try {
+                    activity.stopProgressBar(loadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
