@@ -87,6 +87,8 @@ class EmpHistoryViewFragment : Fragment() {
                             arr = respo.data as ArrayList<DataItem>
                             rv_eh_view.show()
                             //adapter?.addAll(arr!!)
+                            empHisCB.saveExpsArray(arr)
+
                             setupRV(arr!!)
                             adapter?.notifyDataSetChanged()
                         } else {

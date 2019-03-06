@@ -46,10 +46,8 @@ class EmpHistoryEditFragment: Fragment() {
     //private var companyBusinessID = ""
     private var workExperienceID = ""
     private var isFirst = false
-    private var exps: String = ""
     private var idArr: ArrayList<String> = ArrayList()
-    private var isEmpty = false
-    private var alreadyLoaded = false
+    //private var isEmpty = false
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -73,20 +71,96 @@ class EmpHistoryEditFragment: Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_emp_history_edit, container, false)
-        d("onCreateView")
+        Log.i("checking", "onCreateView")
         return v
     }
 
-
-    private fun addChip(input: String) {
-        if (entry_chip_group.childCount <= 2) {
-            addAsString(workExperienceID)
-            val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
-            entry_chip_group.addView(c1)
-            experiencesMACTV?.clearText()
-        } else {
-            activity.toast("Maximum 3 experiences can be added.")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.i("checking", "onActivityCreated")
+        session = BdjobsUserSession(activity)
+        empHisCB = activity as EmpHisCB
+        now = Calendar.getInstance()
+        dataStorage = DataStorage(activity)
+        empHisCB.setTitle(getString(R.string.title_emp_history))
+        initViews()
+        isFirst = true
+        if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            //idArr.add("")
+            clearEditText()
         }
+        d("onActivityCreated : ${savedInstanceState?.isEmpty}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("checking", "onResume")
+        Log.i("onResume", "onPause called... $idArr")
+        /*if (idArr.isNotEmpty()) {
+            try {
+                entry_chip_group?.removeAllViews()
+                idArr.removeAll(idArr)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logException(e)
+            }
+        }*/
+        //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
+        //exps = ""
+        positionTIL.clearFocus()
+        companyNameET.requestFocus()
+        //ehMailLL.clearFocus()
+        if (isEdit) {
+            empHisCB.setDeleteButton(true)
+            hID = "4"
+            preloadedData()
+        } else if (!isEdit) {
+            empHisCB.setDeleteButton(false)
+            hID = "-4"
+            //isEmpty = true
+            //clearEditText()
+        }
+        doWork()
+
+    }
+
+    private fun addChip(input: String, id: String) {
+        Log.i("getInput", "\n// |$input| and |$id|")
+
+        if (input.trim().isBlank() or input.trim().isEmpty()) {
+            val data = empHisCB.getExpsArray()
+            data.forEach { dt ->
+                dt.areaofExperience?.forEach {
+                    if (it?.id?.let { it1 -> dataStorage.workDisciplineByWorkDisciplineID(it1) } == "") {
+                        addAsString(id)
+                        val c1 = getChip(entry_chip_group, it.expsName.toString(), R.xml.chip_entry)
+                        entry_chip_group.addView(c1)
+                        empHisCB.checkingExtraID(false)
+                    }
+                }
+                Log.i("getAreaOfExpsData", "\n ${dt.areaofExperience},// |$input| and |$id|")
+            }
+        } else {
+            when {
+                entry_chip_group.childCount < 3 -> {
+                    addAsString(id)
+                    val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
+                    entry_chip_group.addView(c1)
+                    empHisCB.checkingExtraID(false)
+                }
+                entry_chip_group.childCount == 3 -> {
+                    //idArr.remove(workExperienceID)
+                    //removeItem(workExperienceID)
+                    activity.toast("Maximum 3 experiences can be added.")
+                }
+                else -> empHisCB.checkingExtraID(false)
+            }
+        }
+
+
+        experiencesMACTV.clearText()
         experiencesMACTV?.closeKeyboard(activity)
     }
 
@@ -110,27 +184,7 @@ class EmpHistoryEditFragment: Fragment() {
         val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
         if (idArr.contains(id))
             idArr.remove("$id")
-        exps = TextUtils.join(",", idArr)
-        d("selected rmv: $exps and $idArr")
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        empHisCB = activity as EmpHisCB
-        now = Calendar.getInstance()
-        dataStorage = DataStorage(activity)
-        empHisCB.setTitle(getString(R.string.title_emp_history))
-        initViews()
-        isFirst = true
-        doWork()
-        if (!isEdit) {
-            empHisCB.setDeleteButton(false)
-            hID = "-4"
-            //idArr.add("")
-            clearEditText()
-        }
-        d("onActivityCreated : ${savedInstanceState?.isEmpty}")
+        d("selected rmv: exps and $idArr")
     }
 
     private fun initViews() {
@@ -150,35 +204,6 @@ class EmpHistoryEditFragment: Fragment() {
         super.onSaveInstanceState(outState)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (idArr.isNotEmpty()) {
-            try {
-                entry_chip_group?.removeAllViews()
-                idArr.clear()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                logException(e)
-            }
-        }
-        //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
-        //exps = ""
-        positionTIL.clearFocus()
-        companyNameET.requestFocus()
-        //ehMailLL.clearFocus()
-        if (isEdit) {
-            empHisCB.setDeleteButton(true)
-            hID = "4"
-            preloadedData()
-        } else if (!isEdit) {
-            empHisCB.setDeleteButton(false)
-            hID = "-4"
-            idArr.add("")
-            isEmpty = true
-            clearEditText()
-        }
-
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -194,21 +219,23 @@ class EmpHistoryEditFragment: Fragment() {
                 experiencesMACTV.setAdapter(expsAdapter)
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
+                    empHisCB.checkingExtraID(false)
                     d("Array size : pos : $position id : $id")
                     //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     workExperienceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
+
                     if (idArr.size != 0) {
-                        if (!idArr.contains(workExperienceID))
-                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!)
-                        else {
+                        if (idArr.contains(workExperienceID)) {
                             experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
+                        } else {
+                            addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
                         }
                         experiencesTIL.hideError()
                     } else {
-                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!)
-                        d("Array size : ${idArr.size} and $exps and id : $id")
+                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
+                        d("Array_size : ${idArr.size} and exps and id : $id")
                         /*isEmpty = true
                         experiencesTIL.isErrorEnabled = true*/
                         experiencesTIL.hideError()
@@ -270,12 +297,13 @@ class EmpHistoryEditFragment: Fragment() {
         fab_eh?.setOnClickListener {
             clEmploymentHistory.closeKeyboard(activity)
             var validation = 0
-            if (entry_chip_group.childCount >= 1) {
-                experiencesTIL.hideError()
-                isEmpty = false
-            } else {
+            if (idArr.isEmpty()) {
                 experiencesTIL.isErrorEnabled = true
-                isEmpty = true
+                //experiencesTIL.error = ""
+                //isEmpty = false
+            } else {
+                experiencesTIL.hideError()
+                //isEmpty = true
             }
             //exps = TextUtils.join(",", idArr)
             //exps = exps.replace(",,".toRegex(), ",")
@@ -283,10 +311,10 @@ class EmpHistoryEditFragment: Fragment() {
             validation = isValidateAutoCompleteTV(companyBusinessACTV, companyBusinessTIL, positionET, true, validation)
             validation = isValidate(positionET, positionTIL, estartDateET, true, validation)
             validation = isValidate(estartDateET, estartDateTIL, et_end_date, true, validation)
-            validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, isEmpty, validation)
+            validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, idArr.isEmpty(), validation)
             if (!cb_present.isChecked) validation = isValidate(et_end_date, endDateTIL, et_end_date, true, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
-            Log.d("validation", "validation : $validation and $isEmpty")
+            Log.d("validation", "validation : $validation and isEmpty")
 
             if (companyBusinessACTV.getString().trim().isEmpty())
                 companyBusinessTIL.isErrorEnabled = true
@@ -295,35 +323,46 @@ class EmpHistoryEditFragment: Fragment() {
 
             if (validation >= 4) {
                 disableError()
-                try {
+                /*try {
                     val chars: Char = exps[0]
                     if (!chars.equals(","))
                         exps = ",$exps"
                     exps = exps.replace(",,".toRegex(), ",")
                 } catch (e: Exception) {
                     Log.e("updateEx: ", "error: ${e.printStackTrace()}")
-                }
-                debug("chiIDs: $exps, and ids $idArr")
+                }*/
+                debug("chiIDs: exps, and ids $idArr")
                 if (idArr.size == 0) {
                     activity?.toast("Please select at least one experience")
                     experiencesTIL.isErrorEnabled = true
                     experiencesTIL?.showError("This Field can not be empty")
                 } else {
                     experiencesTIL.hideError()
-                    updateData(exps)
+                    updateData()
                 }
             }
         }
     }
 
-    private fun updateData(exps: String) {
+    private fun updateData() {
+
         activity.showProgressBar(loadingProgressBar)
-        Log.d("allValuesExp", exps)
+        val exps = TextUtils.join(",", idArr)
+        /*if (!empHisCB.getchecking()) {
+    TextUtils.join(",", empHisCB.getExpIDs())
+    Log.i("checking","${empHisCB.getchecking()} and // ${empHisCB.getExpIDs()}")
+}
+else {
+    TextUtils.join(",", idArr)
+    Log.i("checking1","${empHisCB.getchecking()} and // ${empHisCB.getExpIDs()}")
+}*/
+
+        Log.d("*+*+allValuesExp", exps.toString())
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                 companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
                 departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
-                currentlyWorking, "$exps,", hExpID, hID)
+                currentlyWorking, ",$exps,", hExpID, hID)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 activity.stopProgressBar(loadingProgressBar)
@@ -356,21 +395,20 @@ class EmpHistoryEditFragment: Fragment() {
     private fun addAsString(expID: String) {
         if (!idArr.contains(expID)) {
             idArr.add(expID.trim())
-            exps = TextUtils.join(",", idArr)
         }
-
-        d("selected exps:$exps and ids $idArr")
+        d("selected exps:exps and ids $idArr")
     }
 
     private fun preloadedData() {
+        with(idArr) {
+            clear()
+        }
         val data = empHisCB.getData()
-
         val areaOfexps = data.areaofExperience
         //for ((i, value) in areaOfexps?.withIndex()!!)
         //if (!alreadyLoaded)
         areaOfexps?.forEach {
-            addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString())
-            addAsString(it.id)
+            addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString(), it.id)
         }
 
         hExpID = data.expId
@@ -389,8 +427,10 @@ class EmpHistoryEditFragment: Fragment() {
             et_end_date.setText(data.to)
             //toast("not continuing")
         } else {
+            et_end_date.clear()
             cb_present.isChecked = true
             et_end_date.isEnabled = false
+            endDateTIL.hideError()
         }
         disableError()
 

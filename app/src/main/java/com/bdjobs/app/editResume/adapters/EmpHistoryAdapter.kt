@@ -37,6 +37,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val dModel = itemList?.get(position)!!
+        //call.saveExpsArray(dModel.areaofExperience as ArrayList<AreaofExperienceItem>)
         if (position == itemList?.size!! - 1) {
             val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
             params.bottomMargin = 200
@@ -58,15 +59,24 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
 
         holder.tvComBus?.text = dModel.companyBusiness
         val areaOfExp = dModel.areaofExperience
+        val idArr = ArrayList<String>()
         var exps = ""
         if (areaOfExp?.size != 0) {
-            for ((i, value) in areaOfExp?.withIndex()!!)
+            for ((i, value) in areaOfExp?.withIndex()!!) {
+
+                Log.i("gotValue", "val: ${value?.id} and ${value?.expsName} and $position")
+                //value?.let { call.passAreaOfExpsData(it) }
+                idArr.add(value?.id.toString())
+                Log.i("IdArrayView", "$idArr")
                 exps += if (i == areaOfExp.size - 1) {
                     "${value?.expsName}"
                 } else {
                     "${value?.expsName},"
                 }
+            }
         }
+        call.setExpIDs(idArr)
+
         holder.tvAreaOfExp?.text = exps
 
         holder.tvRespos?.text = dModel.responsibility
