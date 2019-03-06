@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_personal_info.*
 
 class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, PersonalInfo {
+
     override fun setPmThana(thana: String?) {
         pmThana = thana!!
     }
@@ -80,6 +81,8 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private lateinit var gotToAddEmployment: String
     private var prThana: String? = ""
     private var prPost: String? = ""
+    private var pmDis: String? = ""
+    private var prDis: String? = ""
     private var pmThana: String? = ""
     private var pmPost: String? = ""
 
