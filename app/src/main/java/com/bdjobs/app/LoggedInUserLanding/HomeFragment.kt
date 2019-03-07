@@ -17,12 +17,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
+import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -38,6 +39,7 @@ import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,7 +64,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_home_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_home_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -86,7 +88,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun onClickListeners() {
         searchIMGV?.setOnClickListener {
-            homeCommunicator.goToKeywordSuggestion()
+            //homeCommunicator.goToKeywordSuggestion()
+            startActivity<JobBaseActivity>("keyword" to "")
         }
         followedEmployerView?.setOnClickListener {
             homeCommunicator.setTime("0")
@@ -163,7 +166,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 showBlankLayout()
                 followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
-                    followEmplowercounterTV?.text = followedEmployerJobCount?.toString()
+                    followEmplowercounterTV?.text = followedEmployerJobCount.toString()
                     Log.d("followEmplowercounterTV", "followEmplowercounterTV: $followedEmployerJobCount")
                     var followedCompanyNames = ""
                     followedEmployerList?.forEach { item ->
@@ -188,7 +191,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 if (!jobInvitations.isNullOrEmpty()) {
                     var companyNames = ""
                     jobInvitations?.forEach { item ->
-                        companyNames += item?.companyName + ","
+                        companyNames += item.companyName + ","
                     }
                     jobInvitedCompanyNameTV?.text = companyNames.removeLastComma()
                     jobInvitationcounterTV?.text = jobInvitations?.size.toString()
@@ -212,7 +215,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     favRV?.adapter = favouriteSearchFilterAdapter
                     blankCL?.hide()
                     mainLL?.show()
-                    myfavSearchTV?.text = "My favourite search filters (${allfavsearch?.size})"
+                    myfavSearchTV?.text = "My favourite search filters (${allfavsearch.size})"
                     favSearchView?.show()
                 }
             }
@@ -229,7 +232,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 if (!b2CCertificationList.isNullOrEmpty()) {
                     var jobRoles = ""
                     b2CCertificationList?.forEach { item ->
-                        jobRoles += item?.jobRole + ","
+                        jobRoles += item.jobRole + ","
                     }
                     jobRolesTV?.text = jobRoles
                     certificationCounterTV?.text = b2CCertificationList?.size.toString().removeLastComma()
@@ -297,9 +300,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                         override fun onResponse(call: Call<LastSearchCountModel>, response: Response<LastSearchCountModel>) {
                             try {
-                                Log.d("jobCount", "jobCount ${response?.body()?.data!![0]?.totaljobs}")
+                                Log.d("jobCount", "jobCount ${response.body()?.data!![0]?.totaljobs}")
                                 lastPrgrs?.hide()
-                                lastSearchcounterTV?.text = response?.body()?.data!![0]?.totaljobs
+                                lastSearchcounterTV?.text = response.body()?.data!![0]?.totaljobs
 
                                 if (response.body()?.data?.get(0)?.totaljobs?.length!! > 3) {
                                     lastSearchcounterTV?.textSize = 14.0F
@@ -314,13 +317,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
                     searchFilterTV?.text = getFilterString(searchData!!)
-                    if (!searchData?.keyword?.isBlank()!!) {
-                        keywordTV?.text = searchData?.keyword
+                    if (!searchData.keyword?.isBlank()!!) {
+                        keywordTV?.text = searchData.keyword
                     } else {
                         keywordTV?.text = "-"
                     }
-                    srchDateTV?.text = searchData?.searchTime?.toSimpleDateString()
-                    srchTimeTV?.text = searchData?.searchTime?.toSimpleTimeString()
+                    srchDateTV?.text = searchData.searchTime?.toSimpleDateString()
+                    srchTimeTV?.text = searchData.searchTime?.toSimpleTimeString()
                     lastSearchView?.show()
                     blankCL?.hide()
                     mainLL?.show()
@@ -380,20 +383,20 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showPop() {
         val interviewInvitationDialog = Dialog(activity)
-        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
-        interviewInvitationDialog?.setCancelable(true)
-        interviewInvitationDialog?.show()
+        interviewInvitationDialog.setContentView(R.layout.interview_invitation_popup)
+        interviewInvitationDialog.setCancelable(true)
+        interviewInvitationDialog.show()
         val InterviewTVCount = interviewInvitationDialog.findViewById<TextView>(R.id.interview_invitation_count_tv)
         val cancelBTN = interviewInvitationDialog.findViewById(R.id.cancel) as ImageView
         val interviewList_MBTN = interviewInvitationDialog.findViewById(R.id.viewList_MBTN) as MaterialButton
 
         InterviewTVCount.text = inviteInterviview
 
-        cancelBTN?.setOnClickListener {
-            interviewInvitationDialog?.dismiss()
+        cancelBTN.setOnClickListener {
+            interviewInvitationDialog.dismiss()
         }
-        interviewList_MBTN?.setOnClickListener {
-            interviewInvitationDialog?.dismiss()
+        interviewList_MBTN.setOnClickListener {
+            interviewInvitationDialog.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
         }
     }
@@ -485,7 +488,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     showButton.setOnClickListener {
                         homeCommunicator.setShortListFilter("Next 2 days")
                         homeCommunicator.goToShortListedFragment(2)
-                        dialog?.dismiss()
+                        dialog.dismiss()
                     }
                     dialog.show()
                 }

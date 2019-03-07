@@ -174,7 +174,7 @@ class PreferredAreasEditFragment : Fragment() {
             activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
         }*/
         //}
-        //changeBtnBackground(anywhereinBD)
+        changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
             var valid = 0
             prefWcIds = TextUtils.join(",", idWCArr)
@@ -190,7 +190,7 @@ class PreferredAreasEditFragment : Fragment() {
                 valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
             }
 */
-            valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
+            //valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
             //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
             when {
                 idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
@@ -454,7 +454,7 @@ class PreferredAreasEditFragment : Fragment() {
             }
             "bc" -> {
                 maxItems = 3
-                maxArr = idWCArr
+                maxArr = idBCArr
                 //idBCArr.add(ds.getCategoryIDByName(input).toString())
                 bc_entry_chip_group
             }
@@ -484,19 +484,20 @@ class PreferredAreasEditFragment : Fragment() {
                 acTV.isEnabled = true
                 val c1 = getChip(cg, input, R.xml.chip_entry, tag)
                 //maxItemsArr.add(ds.getCategoryIDByName(input).toString())
+                if (cg.childCount == maxItems - 1)
+                    acTV.isEnabled = false
                 cg.addView(c1)
             }
-            cg.childCount == maxItems -> {
+            /*cg.childCount == maxItems -> {
                 activity.toast("Maximum $maxItems items can be added.")
                 acTV.isEnabled = false
-            }
-            maxArr.size == maxItems -> {
-                Log.d("chip_child", "count: ${maxArr.size}")
-                acTV.isEnabled = false
-            }
+            }*/
             else -> {
-                acTV.isEnabled = true
-                Log.d("chip_child", "count: ${cg.childCount}")
+                /*acTV.isEnabled = true
+                Log.d("chip_child", "count: ${cg.childCount}")*/
+
+                activity.toast("Maximum $maxItems items can be added.")
+                acTV.isEnabled = false
             }
         }
         acTV.clearText()
