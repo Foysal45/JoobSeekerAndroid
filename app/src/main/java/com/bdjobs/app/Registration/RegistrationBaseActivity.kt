@@ -1135,68 +1135,81 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
-        bcPhotoUploadFragment.onActivityResult(requestCode, resultCode, data)
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
-       // LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data)
-        if (requestCode == Constants.RC_SIGN_IN) {
-
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-
-            Log.d("GoffleSignIn", " isSuccess ${result.isSuccess}")
-            Log.d("GoffleSignIn", " signInAccount ${result.signInAccount}")
-            if (result.isSuccess) {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = result.signInAccount
-                val sid = account?.id
-                val semial = account?.email
-                var name = account?.displayName
 
 
-                Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
-                signOutFromGoogle()
-                /* socialMediaMapping(sid, semial, Constants.SOCIAL_MEDIA_GOOGLE)*/
+        try {
+            if (resultCode != RESULT_CANCELED) {
+
+                bcPhotoUploadFragment.onActivityResult(requestCode, resultCode, data)
+                callbackManager?.onActivityResult(requestCode, resultCode, data)
+
+                // LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data)
+                if (requestCode == Constants.RC_SIGN_IN) {
+
+                    val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+
+                    Log.d("GoffleSignIn", " isSuccess ${result.isSuccess}")
+                    Log.d("GoffleSignIn", " signInAccount ${result.signInAccount}")
+                    if (result.isSuccess) {
+                        // Google Sign In was successful, authenticate with Firebase
+                        val account = result.signInAccount
+                        val sid = account?.id
+                        val semial = account?.email
+                        var name = account?.displayName
 
 
-                // Google Sign In was successful, authenticate with Firebase
-
-                //Toast.makeText(RegistrationFina.this, "Success", Toast.LENGTH_SHORT).show();
-                val fname = account!!.givenName
-                val lname = account.familyName
-                socialMediaId = account.id!!
-                isSMediaLogin = "True"
-                socialMediaType = "G"
-                name = fname + " " + lname
-
-                this.name = name
-
-                Log.d("Gmail", "${this.name}  ${this.wcEmail} ")
-
-                wcEmail = account.email!!
-                userNameType = ""
-                gender = ""
-
-                if (categoryType.equals("0", ignoreCase = true)) {
+                        Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
+                        signOutFromGoogle()
+                        /* socialMediaMapping(sid, semial, Constants.SOCIAL_MEDIA_GOOGLE)*/
 
 
-                    isSMediaLogin = "True"
-                    socialMediaType = "G"
-                    /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
+                        // Google Sign In was successful, authenticate with Firebase
 
-                    wcGoToStepName()
+                        //Toast.makeText(RegistrationFina.this, "Success", Toast.LENGTH_SHORT).show();
+                        val fname = account!!.givenName
+                        val lname = account.familyName
+                        socialMediaId = account.id!!
+                        isSMediaLogin = "True"
+                        socialMediaType = "G"
+                        name = fname + " " + lname
 
-                } else {
-                    bcNameFragment.setName()
+                        this.name = name
+
+                        Log.d("Gmail", "${this.name}  ${this.wcEmail} ")
+
+                        wcEmail = account.email!!
+                        userNameType = ""
+                        gender = ""
+
+                        if (categoryType.equals("0", ignoreCase = true)) {
 
 
+                            isSMediaLogin = "True"
+                            socialMediaType = "G"
+                            /* whiteCollarSocialLoginFragment.stopProgressDialog()*/
+
+                            wcGoToStepName()
+
+                        } else {
+                            bcNameFragment.setName()
+
+
+                        }
+                        /* firebaseAuthWithGoogle(account)*/
+
+
+                    } else {
+                        // Google Sign In failed, update UI appropriately
+                        toast("Please sign in to google first to complete your sign in by goole")
+                    }
                 }
-                /* firebaseAuthWithGoogle(account)*/
 
-
-            } else {
-                // Google Sign In failed, update UI appropriately
-                toast("Please sign in to google first to complete your sign in by goole")
             }
+        } catch (e: Exception) {
+            logException(e)
         }
+
+
     }
 
 

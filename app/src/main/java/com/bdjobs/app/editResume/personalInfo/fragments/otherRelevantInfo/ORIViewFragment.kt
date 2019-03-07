@@ -58,7 +58,7 @@ class ORIViewFragment : Fragment() {
         call.enqueue(object : Callback<GetORIResponse> {
             override fun onFailure(call: Call<GetORIResponse>, t: Throwable) {
                 shimmerStop()
-                clORIMainLayout.hide()
+                clORIMainLayout?.hide()
                 activity.toast(R.string.message_common_error)
             }
 

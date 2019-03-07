@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.hideError
-import com.bdjobs.app.Utilities.showError
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_password.*
 
@@ -305,9 +302,16 @@ class WCPasswordFragment : Fragment() {
                 requestFocus(confirmPassTIET)
                 return false
             }
-            password.equals(passwordTIET?.text.toString(), true) == false -> {
+            !password.equals(passwordTIET?.text.toString(), true) -> {
                 confirmPassTIL?.showError("password not matched")
-                requestFocus(confirmPassTIET)
+                try {
+
+                    requestFocus(confirmPassTIET)
+
+                } catch (e: Exception) {
+
+                    logException(e)
+                }
                 return false
             }
             else -> confirmPassTIL?.hideError()
