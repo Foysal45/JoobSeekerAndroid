@@ -329,6 +329,8 @@ class ContactEditFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
+
+                        //if (response.body()?.statuscode != "2")
                         response.body()?.message?.let { activity.toast(it) }
 
                         if (response.body()?.statuscode == "4") {
@@ -346,7 +348,6 @@ class ContactEditFragment : Fragment() {
             }
         })
     }
-
     private fun getIdByName(s: String, list: ArrayList<LocationModel>?, tag: String): String {
         var id = ""
         if (!list.isNullOrEmpty()) {
@@ -578,10 +579,12 @@ class ContactEditFragment : Fragment() {
                 when (chipGroup.id) {
                     R.id.cgPresent -> {
                         presentInOutBD = ""
+                        activity?.toast("Please select Inside Bangladesh or Outside Bangladesh!")
                         d("valueD : $presentInOutBD and $permanentInOutBD")
                     }
                     R.id.cgPermanent -> {
                         permanentInOutBD = ""
+                        //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh!")
                         d("valuepD : $presentInOutBD and $permanentInOutBD")
                     }
                 }
