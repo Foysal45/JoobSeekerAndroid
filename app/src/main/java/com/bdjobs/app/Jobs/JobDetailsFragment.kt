@@ -20,9 +20,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,7 +61,7 @@ class JobDetailsFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_jobdetail_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_jobdetail_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -77,7 +75,7 @@ class JobDetailsFragment : Fragment() {
         getData()
 
         snapHelper = PagerSnapHelper()
-        jobDetailRecyclerView.setOnFlingListener(null);
+        jobDetailRecyclerView.onFlingListener = null
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
 
@@ -164,7 +162,7 @@ class JobDetailsFragment : Fragment() {
 
 
     private fun getCurrentItem(): Int {
-        return (jobDetailRecyclerView.getLayoutManager() as LinearLayoutManager)
+        return (jobDetailRecyclerView.layoutManager as LinearLayoutManager)
                 .findFirstVisibleItemPosition()
     }
 
@@ -177,16 +175,24 @@ class JobDetailsFragment : Fragment() {
 
     private fun getData() {
 
-        jobListGet = communicator.getJobList()!!
+        try {
+            jobListGet = communicator.getJobList()!!
+        } catch (e: Exception) {
+            logException(e)
+        }
 
 
-        Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
+        try {
+            Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
 
-        Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
+            Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
 
-        Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
 
-        Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+        } catch (e: Exception) {
+            logException(e)
+        }
 
 
 
@@ -243,7 +249,7 @@ class JobDetailsFragment : Fragment() {
                 rpp = rpp,
                 slno = slno,
                 version = version)
-        call?.enqueue(object : Callback<JobListModel> {
+        call.enqueue(object : Callback<JobListModel> {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
@@ -295,15 +301,19 @@ class JobDetailsFragment : Fragment() {
 
     private fun loadFirstPage() {
 
-        jobDetailAdapter?.addAll(jobListGet as List<JobListModelData>)
-        if (currentPage == TOTAL_PAGES!!) {
+        try {
+            jobDetailAdapter?.addAll(jobListGet as List<JobListModelData>)
+            if (currentPage == TOTAL_PAGES!!) {
 
-            isLastPages = true
-        }
+                isLastPages = true
+            }
 
-        counterTV?.let { tv ->
-            tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
-            jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
+            counterTV?.let { tv ->
+                tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
+                jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
 
     }

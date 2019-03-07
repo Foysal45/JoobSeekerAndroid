@@ -91,7 +91,7 @@ class UploadResumeFragment : Fragment() {
         val size = fileinfo.fileSize
         val fileSizeInKB = size / 1024
 
-        if (fileinfo.extension!!.equalIgnoreCase("pdf") || fileinfo!!.extension!!.equalIgnoreCase("doc") || fileinfo!!.extension!!.equalIgnoreCase("docx")) {
+        if (fileinfo.extension!!.equalIgnoreCase("pdf") || fileinfo.extension!!.equalIgnoreCase("doc") || fileinfo.extension!!.equalIgnoreCase("docx")) {
 
             Log.d("UploadResume", "UploadResume size: ${fileSizeInKB} type: ${fileinfo.extension}")
 
@@ -115,9 +115,9 @@ class UploadResumeFragment : Fragment() {
                 val userid = createPartFromString(bdjobsUserSession.userId!!)
                 val decodeid = createPartFromString(bdjobsUserSession.decodId!!)
                 val status = createPartFromString("upload")
-                val fileExtension = createPartFromString(fileinfo?.extensionwithDot!!)
-                val fileType = createPartFromString(fileinfo?.type!!)
-                val fileName = createPartFromString(fileinfo?.fileName!!)
+                val fileExtension = createPartFromString(fileinfo.extensionwithDot!!)
+                val fileType = createPartFromString(fileinfo.type!!)
+                val fileName = createPartFromString(fileinfo.fileName!!)
 
                 val map: HashMap<String, RequestBody> = HashMap()
 
@@ -143,15 +143,15 @@ class UploadResumeFragment : Fragment() {
         progressDialog.setMessage("Please Wait..")
         progressDialog.setTitle("Saving")
         progressDialog.setCancelable(false)
-        progressDialog?.show()
+        progressDialog.show()
 
         ApiServiceMyBdjobs.create().uploadCV(
                 partMap = map,
-                file = multipartBodyPart!!
+                file = multipartBodyPart
         ).enqueue(object : Callback<UploadResume> {
             override fun onFailure(call: Call<UploadResume>, t: Throwable) {
                 try {
-                    progressDialog?.dismiss()
+                    progressDialog.dismiss()
                     error("onFailure", t)
                     Log.e("UploadResume", t.toString())
                 } catch (e: Exception) {
@@ -160,12 +160,11 @@ class UploadResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
-
                 try {
-                    progressDialog?.dismiss()
-                    toast(response?.body()?.message!!)
+                    progressDialog.dismiss()
+                    toast(response.body()?.message!!)
                     Log.d("UploadResume", "response: ${response.body()}")
-                    Constants.cvUploadStatus="0"
+                    Constants.cvUploadStatus = "0"
                     communicator.gotoDownloadResumeFragment()
                 } catch (e: Exception) {
                     logException(e)

@@ -199,6 +199,29 @@ class DataStorage(context: Context) {
             return OrgTypes.toTypedArray()
         }
 
+
+    val allLocationsExceptPostOffice: Array<String>
+        get() {
+            val OrgTypes = ArrayList<String>()
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " != 'PostOffice' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+
+                    cursor.moveToNext()
+                }
+            }
+            dbHelper.close()
+
+            return OrgTypes.toTypedArray()
+        }
+
     val allCountries: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()

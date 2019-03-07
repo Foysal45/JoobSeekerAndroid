@@ -36,7 +36,7 @@ class AdvanceSearchFragment : Fragment() {
 
     private fun onClicks() {
         searchBTN.setOnClickListener {
-            jobCommunicator?.backButtonPressesd()
+            jobCommunicator.backButtonPressesd()
         }
 
         keywordET?.easyOnTextChangedListener { text ->
@@ -174,11 +174,11 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun getDataFromChipGroup(chipGroup: ChipGroup) {
-        chipGroup?.setOnCheckedChangeListener { chipGroup, i ->
+        chipGroup.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip_entry", "text: ${chip.text}")
-                val data = chip?.text.toString()
+                val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
                         jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data)!!)
@@ -250,19 +250,27 @@ class AdvanceSearchFragment : Fragment() {
 
         Log.d("catTest", "category : ${jobCommunicator.getCategory()}")
 
-        if (jobCommunicator.getCategory().isNotBlank()) {
-            if (jobCommunicator.getCategory().toInt() < 30) {
-                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
-                specialCatET?.text?.clear()
-            } else {
-                generalCatET?.text?.clear()
+        if (!jobCommunicator.getCategory().isNullOrBlank()) {
+            try {
+                if (jobCommunicator.getCategory().toInt() < 30) {
+                    generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
+                    specialCatET?.text?.clear()
+                } else {
+                    generalCatET?.text?.clear()
+                }
+            } catch (e: Exception) {
+                logException(e)
             }
 
-            if (jobCommunicator.getCategory().toInt() > 60) {
-                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
-                generalCatET.text?.clear()
-            } else {
-                specialCatET?.text?.clear()
+            try {
+                if (jobCommunicator.getCategory().toInt() > 60) {
+                    specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
+                    generalCatET.text?.clear()
+                } else {
+                    specialCatET?.text?.clear()
+                }
+            } catch (e: Exception) {
+                logException(e)
             }
         }
 
@@ -292,7 +300,7 @@ class AdvanceSearchFragment : Fragment() {
         femaleChip?.isChecked = false
         otherChip?.isChecked = false
         val genderList = tempGender.split(",")
-        genderList?.forEach { it ->
+        genderList.forEach { it ->
             Log.d("GenderCheck", "genderGet: $it")
             Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
             selectChip(genderCG, dataStorage.getGenderByID(it.trim()))
@@ -300,23 +308,23 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
-        val count = chipGroup?.childCount
+        val count = chipGroup.childCount
         for (i in 0 until count) {
-            val chip = chipGroup?.getChildAt(i) as Chip
-            val chipText = chip?.text.toString()
-            if (data?.equalIgnoreCase(chipText)) {
+            val chip = chipGroup.getChildAt(i) as Chip
+            val chipText = chip.text.toString()
+            if (data.equalIgnoreCase(chipText)) {
                 Log.d("chip_entry", "text:$i")
-                chip?.isChecked = true
+                chip.isChecked = true
             }
         }
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText?.text.isBlank()) {
-            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (editText.text.isBlank()) {
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
-            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText?.clearTextOnDrawableRightClick()
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+            editText.clearTextOnDrawableRightClick()
         }
     }
 
