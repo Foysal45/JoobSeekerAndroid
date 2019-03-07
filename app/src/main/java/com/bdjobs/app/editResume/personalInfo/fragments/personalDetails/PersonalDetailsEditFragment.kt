@@ -95,6 +95,7 @@ class PersonalDetailsEditFragment : Fragment() {
         cbPerIsBd.setOnCheckedChangeListener { _, isChecked ->
             isNotBangladeshi = if (!isChecked) {
                 nidTIL.hide()
+                etPerNationality.clear()
                 nationalityTIL.show()
                 true
             } else {
