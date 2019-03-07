@@ -98,7 +98,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
     private fun setHistoryAdapter(from: String) {
         doAsync {
-            val suggestions = bdjobsInternalDB.suggestionDAO().getSuggestionByFlag(from)!!
+            val suggestions = bdjobsInternalDB.suggestionDAO().getSuggestionByFlag(from)
             for (history in suggestions) {
                 historyList.add(history.suggestion)
             }
@@ -109,7 +109,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                 }
                 historyAdapter = HistoryAdapter(historyList, this@SuggestiveSearchActivity)
                 historyRV?.adapter = historyAdapter
-                historyRV?.recycledViewPool?.clear();
+                historyRV?.recycledViewPool?.clear()
                 historyAdapter.notifyDataSetChanged()
             }
         }
@@ -124,7 +124,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             }
             key_loacationET -> {
                 suggestiveSearchET?.hint = getString(R.string.hint_location)
-                suggestionItems = dataStorage.allDomesticLocations
+                suggestionItems = dataStorage.allLocationsExceptPostOffice
             }
             key_categoryET -> {
                 suggestiveSearchET?.hint = getString(R.string.hint_Category)
@@ -145,7 +145,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
         }
 
-        for (item in suggestionItems!!) {
+        for (item in suggestionItems) {
             suggestionList.add(item)
         }
         adapter = SuggestionAdapter(suggestionList, this)
@@ -163,7 +163,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
         suggestiveSearchET?.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 
-            if (event.getAction() === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (event.action === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 takeDecision()
                 return@OnKeyListener true
             }
@@ -182,9 +182,9 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         doAsync {
             bdjobsInternalDB.suggestionDAO().deleteAllKeywordSuggestion(from)
             uiThread {
-                historyList?.clear()
-                historyRV?.recycledViewPool?.clear();
-                historyAdapter?.notifyDataSetChanged()
+                historyList.clear()
+                historyRV?.recycledViewPool?.clear()
+                historyAdapter.notifyDataSetChanged()
                 lineView?.hide()
                 clearAllBTN?.hide()
             }

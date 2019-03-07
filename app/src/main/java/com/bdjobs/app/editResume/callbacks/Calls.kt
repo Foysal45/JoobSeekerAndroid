@@ -17,6 +17,16 @@ interface EmpHisCB {
     fun getData(): DataItem
     fun getArmyData(): ArmydataItem
     fun goBack()
+
+    fun setExpIDs(idArr: ArrayList<String>)
+    fun getExpIDs(): ArrayList<String>
+
+    fun checkingExtraID(b: Boolean)
+    fun getchecking(): Boolean
+
+    fun saveExpsArray(exps: ArrayList<DataItem>?)
+    fun getExpsArray(): ArrayList<DataItem>
+
 }
 
 interface EduInfo {

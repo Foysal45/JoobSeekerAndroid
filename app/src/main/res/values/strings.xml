@@ -303,7 +303,7 @@
     <string name="hint.prefAreasJobCategory">Preferred Functional Job Categories *</string>
     <string name="hint.prefAreas_preferred_job_location">Preferred Job Location *</string>
     <string name="hint.prefAreas_inside_bangladesh">Inside Bangladesh</string>
-    <string name="hint.prefAreas_add_district">Add District</string>
+    <string name="hint.prefAreas_add_district">Add District *</string>
     <string name="hint.prefAreas_select_districts">Select Districts</string>
     <string name="hint.prefAreas_anywhere_in_bangladesh">Anywhere in Bangladesh</string>
     <string name="hint.prefAreas_add_country">Add Country</string>
