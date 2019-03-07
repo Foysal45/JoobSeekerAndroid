@@ -174,13 +174,13 @@ class PreferredAreasEditFragment : Fragment() {
             activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
         }*/
         //}
-        changeBtnBackground(anywhereinBD)
+        //changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
             var valid = 0
             prefWcIds = TextUtils.join(",", idWCArr)
             prefBcIds = TextUtils.join(",", idBCArr)
             prefOrgIds = TextUtils.join(",", idOrgArr)
-            prefDistrictIds = TextUtils.join(",", idInBDArr)
+            prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
             prefCountryIds = TextUtils.join(",", idOutBDArr)
 
             //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
@@ -190,7 +190,7 @@ class PreferredAreasEditFragment : Fragment() {
                 valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
             }
 */
-            //valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
+            valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
             //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
             when {
                 idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
@@ -555,10 +555,15 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        if (anywhereinBD) prefDistrictIds = "-1"
+        if (anywhereinBD) prefDistrictIds = "-1" else {
+            prefDistrictIds = ""
+            if (idInBDArr.contains("-1"))
+                idInBDArr.remove("-1")
+            prefDistrictIds = TextUtils.join(",", idInBDArr)
+        }
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
-                TextUtils.join(",", idWCArr), TextUtils.join(",", idBCArr), TextUtils.join(",", idInBDArr), TextUtils.join(",", idOutBDArr), TextUtils.join(",", idOrgArr))
+                prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
         Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
