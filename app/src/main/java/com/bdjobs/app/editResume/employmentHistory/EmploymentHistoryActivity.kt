@@ -24,14 +24,40 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
+    override fun saveExpsArray(exps: ArrayList<DataItem>?) {
+        expsList = exps as ArrayList<DataItem>
+    }
 
-    private val editFragment = EmpHistoryEditFragment()
+    override fun getExpsArray(): ArrayList<DataItem> {
+        return expsList
+    }
+
+    override fun checkingExtraID(b: Boolean) {
+        checkingExtraID = b
+    }
+
+    override fun getchecking(): Boolean {
+        return checkingExtraID
+    }
+
+    override fun setExpIDs(idArr: ArrayList<String>) {
+        expIDs = idArr
+    }
+
+    override fun getExpIDs(): ArrayList<String> {
+        return expIDs
+    }
+
+    private var editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryEditFragment()
     private val armyViewFragment = ArmyEmpHisViewFragment()
     private var datait: DataItem? = null
     private var dataExps: AreaofExperienceItem? = null
     private var dataitArmy: ArmydataItem? = null
+    private var expIDs = ArrayList<String>()
+    private var expsList = ArrayList<DataItem>()
+    private var checkingExtraID = false
     lateinit var name: String
     lateinit var gotToAddEmployment: String
 
@@ -88,6 +114,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
                 }
                 "add" -> {
                     editFragment.isEdit = false
+                    editFragment = EmpHistoryEditFragment()
                     transitFragment(editFragment, R.id.emp_his_container, true)
                 }
                 "edit" -> {
@@ -135,8 +162,12 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     }
 
     override fun goBack() {
+        //expIDs.clear()
         onBackPressed()
-        if (Constants.isDirectCall) finish()
+        if (Constants.isDirectCall) {
+            Constants.isDirectCall = false
+            finish()
+        }
         empHisBaseCL.closeKeyboard(this@EmploymentHistoryActivity)
     }
 
