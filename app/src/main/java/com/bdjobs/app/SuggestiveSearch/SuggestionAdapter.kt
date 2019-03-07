@@ -1,7 +1,6 @@
 package com.bdjobs.app.SuggestiveSearch
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 
@@ -28,8 +28,8 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder?.itemTV?.text = filteredItems!![position]
-            holder?.itemTV?.setOnClickListener {
+            holder.itemTV.text = filteredItems!![position]
+            holder.itemTV.setOnClickListener {
                 communicator?.suggestionSelected(holder.itemTV.text.toString())
             }
         } catch (e: Exception) {
@@ -48,7 +48,7 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemTV = itemView?.findViewById<TextView>(R.id.itemNameTV)!!
+        val itemTV = itemView.findViewById<TextView>(R.id.itemNameTV)!!
     }
 
 
@@ -79,8 +79,8 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
                 Log.d("aaa", "Size: ${filterResults.count}")
                 //getRecycledViewPool().clear();
 
-                notifyDataSetChanged()
                 communicator?.clearRecycledViewPool()
+                notifyDataSetChanged()
             }
         }
     }

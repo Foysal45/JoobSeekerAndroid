@@ -6,11 +6,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.text.Html
+import android.text.Spannable
+import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -117,9 +116,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
-                jobsVH?.shimmer_view_container?.show()
-                jobsVH?.applyButton?.visibility = View.GONE
-                jobsVH?.shimmer_view_container?.startShimmerAnimation()
+                jobsVH.shimmer_view_container.show()
+                jobsVH.applyButton.visibility = View.GONE
+                jobsVH.shimmer_view_container.startShimmerAnimation()
 
                 ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId, "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
@@ -129,8 +128,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     override fun onResponse(call: Call<JobDetailJsonModel>, response: Response<JobDetailJsonModel>) {
 
                         try {
-                            Log.d("ApiServiceJobs", "onResponse: ${response?.body()?.data?.get(0)?.jobTitle}")
-                            Log.d("ApiServiceJobs", "onResponse: " + response?.body())
+                            Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
+                            Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
                             jobsVH.shimmer_view_container.stopShimmerAnimation()
 
@@ -153,7 +152,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
-                            if(applyOnline?.equalIgnoreCase("True")){
+                            if (applyOnline.equalIgnoreCase("True")) {
                                 applyonlinePostions.add(position)
                             }
 
@@ -186,23 +185,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 logException(e)
                             }
 
-                            jobsVH?.followTV?.setOnClickListener {
+                            jobsVH.followTV.setOnClickListener {
                                 if (!bdjobsUserSession.isLoggedIn!!) {
                                     jobCommunicator?.goToLoginPage()
                                 } else {
                                     doAsync {
-                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
+                                        val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll.companyID!!, jobDetailResponseAll.companyNameENG!!)
                                         uiThread {
                                             if (isItFollowed) {
-                                                jobsVH?.followTV?.setTextColor(Color.parseColor("#13A10E"))
-                                                jobsVH?.followTV?.text = "Follow"
-                                                jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                                                callUnFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
+                                                jobsVH.followTV.setTextColor(Color.parseColor("#13A10E"))
+                                                jobsVH.followTV.text = "Follow"
+                                                jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                                                callUnFollowApi(jobDetailResponseAll.companyID, jobDetailResponseAll.companyNameENG)
                                             } else {
-                                                jobsVH?.followTV?.text = "Unfollow"
-                                                jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
-                                                jobsVH?.followTV?.setTextColor(Color.parseColor("#767676"))
-                                                callFollowApi(jobDetailResponseAll?.companyID!!, jobDetailResponseAll?.companyNameENG!!)
+                                                jobsVH.followTV.text = "Unfollow"
+                                                jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
+                                                jobsVH.followTV.setTextColor(Color.parseColor("#767676"))
+                                                callFollowApi(jobDetailResponseAll.companyID, jobDetailResponseAll.companyNameENG)
                                             }
                                         }
                                     }
@@ -221,168 +220,168 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                         }
                                     }
                             } else {
-                                jobsVH?.applyButton?.visibility = View.GONE
+                                jobsVH.applyButton.visibility = View.GONE
                             }
 
 
                             doAsync {
                                 val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
-                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll?.companyID!!,jobDetailResponseAll?.companyNameENG!!)
+                                val isItFollowed = bdjobsDB.followedEmployerDao().isItFollowed(jobDetailResponseAll.companyID!!, jobDetailResponseAll.companyNameENG!!)
 
                                 uiThread {
                                     if (appliedJobs.isEmpty()) {
                                         jobsVH.appliedBadge.hide()
                                     } else {
-                                        jobsVH?.appliedBadge?.show()
-                                        jobsVH?.applyButton?.visibility = View.GONE
+                                        jobsVH.appliedBadge.show()
+                                        jobsVH.applyButton.visibility = View.GONE
                                     }
 
                                     if (isItFollowed) {
-                                        jobsVH?.followTV?.text = "Unfollow"
-                                        jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
-                                        jobsVH?.followTV?.setTextColor(Color.parseColor("#767676"))
+                                        jobsVH.followTV.text = "Unfollow"
+                                        jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E6E5EB"))
+                                        jobsVH.followTV.setTextColor(Color.parseColor("#767676"))
                                     } else {
-                                        jobsVH?.followTV?.setTextColor(Color.parseColor("#13A10E"))
-                                        jobsVH?.followTV?.text = "Follow"
-                                        jobsVH?.followTV?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                                        jobsVH.followTV.setTextColor(Color.parseColor("#13A10E"))
+                                        jobsVH.followTV.text = "Follow"
+                                        jobsVH.followTV.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
                                     }
                                 }
                             }
                             //Job Information Checking Start
 
                             if (jobDetailResponseAll.jObIMage.isNullOrBlank()) {
-                                jobsVH?.govtJobsIMGV?.hide()
-                                jobsVH?.horizontalView?.show()
-                                jobsVH?.horizontalViewTwo?.show()
-                                jobsVH?.horizontalView?.show()
+                                jobsVH.govtJobsIMGV.hide()
+                                jobsVH.horizontalView.show()
+                                jobsVH.horizontalViewTwo.show()
+                                jobsVH.horizontalView.show()
 
                                 if (jobKeyPointsData.isBlank()) {
 
-                                    jobsVH?.tvKeyPoints?.visibility = View.GONE
-                                    jobsVH?.keyPonits?.visibility = View.GONE
+                                    jobsVH.tvKeyPoints.visibility = View.GONE
+                                    jobsVH.keyPonits.visibility = View.GONE
 
                                 } else {
-                                    jobsVH?.tvKeyPoints?.visibility = View.VISIBLE
-                                    jobsVH?.keyPonits?.visibility = View.VISIBLE
-                                    jobsVH?.tvKeyPoints?.text = response.body()?.data?.get(0)?.jobKeyPoints
+                                    jobsVH.tvKeyPoints.visibility = View.VISIBLE
+                                    jobsVH.keyPonits.visibility = View.VISIBLE
+                                    jobsVH.tvKeyPoints.text = response.body()?.data?.get(0)?.jobKeyPoints
                                 }
 
-                                if (jobContextData?.isBlank()) {
+                                if (jobContextData.isBlank()) {
 
-                                    jobsVH?.tvJobContext?.visibility = View.GONE
-                                    jobsVH?.tvJobContextValue?.visibility = View.GONE
+                                    jobsVH.tvJobContext.visibility = View.GONE
+                                    jobsVH.tvJobContextValue.visibility = View.GONE
 
                                 } else {
 
-                                    jobsVH?.tvJobContext?.visibility = View.VISIBLE
-                                    jobsVH?.tvJobContextValue?.visibility = View.VISIBLE
-                                    jobsVH?.tvJobContextValue?.text = jobContextData
+                                    jobsVH.tvJobContext.visibility = View.VISIBLE
+                                    jobsVH.tvJobContextValue.visibility = View.VISIBLE
+                                    jobsVH.tvJobContextValue.text = jobContextData
                                 }
 
-                                if (jobDescriptionData?.isBlank()) {
+                                if (jobDescriptionData.isBlank()) {
 
-                                    jobsVH?.tvJobResponsibility?.visibility = View.GONE
-                                    jobsVH?.tvJobResponsibilityValue?.visibility = View.GONE
+                                    jobsVH.tvJobResponsibility.visibility = View.GONE
+                                    jobsVH.tvJobResponsibilityValue.visibility = View.GONE
 
                                 } else {
-                                    jobsVH?.tvJobResponsibilityValue?.text = jobDescriptionData
-                                    jobsVH?.tvJobResponsibility?.visibility = View.VISIBLE
-                                    jobsVH?.tvJobResponsibilityValue?.visibility = View.VISIBLE
+                                    jobsVH.tvJobResponsibilityValue.text = jobDescriptionData
+                                    jobsVH.tvJobResponsibility.visibility = View.VISIBLE
+                                    jobsVH.tvJobResponsibilityValue.visibility = View.VISIBLE
 
                                 }
 
-                                if (jobNatureData?.isBlank()) {
+                                if (jobNatureData.isBlank()) {
 
-                                    jobsVH?.tvJobNature?.visibility = View.GONE
-                                    jobsVH?.tvJobNatureValue?.visibility = View.GONE
+                                    jobsVH.tvJobNature.visibility = View.GONE
+                                    jobsVH.tvJobNatureValue.visibility = View.GONE
 
                                 } else {
-                                    jobsVH?.tvJobNatureValue?.text = jobNatureData
-                                    jobsVH?.tvJobNature?.visibility = View.VISIBLE
-                                    jobsVH?.tvJobNatureValue?.visibility = View.VISIBLE
+                                    jobsVH.tvJobNatureValue.text = jobNatureData
+                                    jobsVH.tvJobNature.visibility = View.VISIBLE
+                                    jobsVH.tvJobNatureValue.visibility = View.VISIBLE
 
                                 }
 
 
                                 if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()) {
 
-                                    jobsVH?.tvEducationalRequirmentsValue?.visibility = View.GONE
-                                    jobsVH?.tvEducationalRequirments?.visibility = View.GONE
-                                    jobsVH?.tvExperienceReq?.visibility = View.GONE
-                                    jobsVH?.tvExperienceReqValue?.visibility = View.GONE
-                                    jobsVH?.tvJobReqValue?.visibility = View.GONE
-                                    jobsVH?.tvJobReq?.visibility = View.GONE
-                                    jobsVH?.tvRequirementsHead?.visibility = View.GONE
+                                    jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
+                                    jobsVH.tvEducationalRequirments.visibility = View.GONE
+                                    jobsVH.tvExperienceReq.visibility = View.GONE
+                                    jobsVH.tvExperienceReqValue.visibility = View.GONE
+                                    jobsVH.tvJobReqValue.visibility = View.GONE
+                                    jobsVH.tvJobReq.visibility = View.GONE
+                                    jobsVH.tvRequirementsHead.visibility = View.GONE
 
                                 } else {
 
                                     if (educationData.isBlank()) {
 
-                                        jobsVH?.tvEducationalRequirmentsValue?.visibility = View.GONE
-                                        jobsVH?.tvEducationalRequirments?.visibility = View.GONE
+                                        jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
+                                        jobsVH.tvEducationalRequirments.visibility = View.GONE
 
                                     } else {
-                                        jobsVH?.tvEducationalRequirmentsValue?.text = educationData
-                                        jobsVH?.tvEducationalRequirmentsValue?.visibility = View.VISIBLE
-                                        jobsVH?.tvEducationalRequirments?.visibility = View.VISIBLE
+                                        jobsVH.tvEducationalRequirmentsValue.text = educationData
+                                        jobsVH.tvEducationalRequirmentsValue.visibility = View.VISIBLE
+                                        jobsVH.tvEducationalRequirments.visibility = View.VISIBLE
 
                                     }
 
                                     if (experienceData.isBlank()) {
 
-                                        jobsVH?.tvExperienceReq?.visibility = View.GONE
-                                        jobsVH?.tvExperienceReqValue?.visibility = View.GONE
+                                        jobsVH.tvExperienceReq.visibility = View.GONE
+                                        jobsVH.tvExperienceReqValue.visibility = View.GONE
 
                                     } else {
-                                        jobsVH?.tvExperienceReqValue?.text = experienceData
-                                        jobsVH?.tvExperienceReq?.visibility = View.VISIBLE
-                                        jobsVH?.tvExperienceReqValue?.visibility = View.VISIBLE
+                                        jobsVH.tvExperienceReqValue.text = experienceData
+                                        jobsVH.tvExperienceReq.visibility = View.VISIBLE
+                                        jobsVH.tvExperienceReqValue.visibility = View.VISIBLE
                                     }
 
                                     if (requirmentsData.isBlank()) {
-                                        jobsVH?.tvJobReqValue?.visibility = View.GONE
-                                        jobsVH?.tvJobReq?.visibility = View.GONE
+                                        jobsVH.tvJobReqValue.visibility = View.GONE
+                                        jobsVH.tvJobReq.visibility = View.GONE
                                     } else {
-                                        jobsVH?.tvJobReqValue?.text = requirmentsData
-                                        jobsVH?.tvJobReqValue?.visibility = View.VISIBLE
-                                        jobsVH?.tvJobReq?.visibility = View.VISIBLE
+                                        jobsVH.tvJobReqValue.text = requirmentsData
+                                        jobsVH.tvJobReqValue.visibility = View.VISIBLE
+                                        jobsVH.tvJobReq.visibility = View.VISIBLE
                                     }
 
                                 }
 
                                 if (salaryData.isBlank() && otherBenifitsData.isBlank()) {
 
-                                    jobsVH?.tvSalaryRange?.visibility = View.GONE
-                                    jobsVH?.tvSalaryRangeData?.visibility = View.GONE
-                                    jobsVH?.tvOtherBenifits?.visibility = View.GONE
-                                    jobsVH?.tvOtherBenifitsData?.visibility = View.GONE
-                                    jobsVH?.tvSalaryAndCompensation?.visibility = View.GONE
+                                    jobsVH.tvSalaryRange.visibility = View.GONE
+                                    jobsVH.tvSalaryRangeData.visibility = View.GONE
+                                    jobsVH.tvOtherBenifits.visibility = View.GONE
+                                    jobsVH.tvOtherBenifitsData.visibility = View.GONE
+                                    jobsVH.tvSalaryAndCompensation.visibility = View.GONE
 
 
                                 } else {
 
                                     if (salaryData.isBlank()) {
 
-                                        jobsVH?.tvSalaryRange?.visibility = View.GONE
-                                        jobsVH?.tvSalaryRangeData?.visibility = View.GONE
+                                        jobsVH.tvSalaryRange.visibility = View.GONE
+                                        jobsVH.tvSalaryRangeData.visibility = View.GONE
 
                                     } else {
 
-                                        jobsVH?.tvSalaryRange?.visibility = View.VISIBLE
-                                        jobsVH?.tvSalaryRangeData?.visibility = View.VISIBLE
-                                        jobsVH?.tvSalaryRangeData?.text = salaryData
+                                        jobsVH.tvSalaryRange.visibility = View.VISIBLE
+                                        jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
+                                        jobsVH.tvSalaryRangeData.text = salaryData
                                     }
 
                                     if (otherBenifitsData.isBlank()) {
 
-                                        jobsVH?.tvOtherBenifits?.visibility = View.GONE
-                                        jobsVH?.tvOtherBenifitsData?.visibility = View.GONE
+                                        jobsVH.tvOtherBenifits.visibility = View.GONE
+                                        jobsVH.tvOtherBenifitsData.visibility = View.GONE
 
                                     } else {
 
-                                        jobsVH?.tvOtherBenifitsData?.text = otherBenifitsData
-                                        jobsVH?.tvOtherBenifits?.visibility = View.VISIBLE
-                                        jobsVH?.tvOtherBenifitsData?.visibility = View.VISIBLE
+                                        jobsVH.tvOtherBenifitsData.text = otherBenifitsData
+                                        jobsVH.tvOtherBenifits.visibility = View.VISIBLE
+                                        jobsVH.tvOtherBenifitsData.visibility = View.VISIBLE
 
                                     }
 
@@ -390,27 +389,28 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 if (readApplyData.isBlank()) {
 
-                                    jobsVH?.tvReadBefApply?.visibility = View.GONE
-                                    jobsVH?.tvReadBefApplyData?.visibility = View.GONE
+                                    jobsVH.tvReadBefApply.visibility = View.GONE
+                                    jobsVH.tvReadBefApplyData.visibility = View.GONE
 
                                 } else {
 
-                                    jobsVH?.tvReadBefApplyData?.text = Html.fromHtml(readApplyData)
-                                    jobsVH?.tvReadBefApply?.visibility = View.VISIBLE
-                                    jobsVH?.tvReadBefApplyData?.visibility = View.VISIBLE
+                                    jobsVH.tvReadBefApplyData.text = Html.fromHtml(readApplyData)
+                                    jobsVH.tvReadBefApply.visibility = View.VISIBLE
+                                    jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
+                                    jobsVH.tvReadBefApplyData.movementMethod = MovementCheck()
 
                                 }
 
                                 if (companyLogoUrl.isBlank()) {
-                                    jobsVH?.companyLogo?.visibility = View.GONE
+                                    jobsVH.companyLogo.visibility = View.GONE
                                 } else {
-                                    jobsVH?.companyLogo?.visibility = View.VISIBLE
+                                    jobsVH.companyLogo.visibility = View.VISIBLE
                                     Picasso.get()?.load(companyLogoUrl)?.into(jobsVH.companyLogo)
                                 }
 
-                                jobsVH?.tvJobSource?.text = jobSourceData
-                                jobsVH?.tvCompanyAddress?.text = companyAddress
-                                jobsVH?.tvCompanyName?.text = companyName
+                                jobsVH.tvJobSource.text = jobSourceData
+                                jobsVH.tvCompanyAddress.text = companyAddress
+                                jobsVH.tvCompanyName.text = companyName
 
                                 var job = "job"
                                 try {
@@ -421,14 +421,14 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     logException(e)
                                 }
 
-                                jobsVH?.viewAllJobsTV.text = "View $companyOtherJobs more $job of this company"
+                                jobsVH.viewAllJobsTV.text = "View $companyOtherJobs more $job of this company"
 
 
                             } else {
 
-                                jobsVH?.tvJobSource?.text = jobSourceData
-                                jobsVH?.tvCompanyAddress?.text = companyAddress
-                                jobsVH?.tvCompanyName?.text = companyName
+                                jobsVH.tvJobSource.text = jobSourceData
+                                jobsVH.tvCompanyAddress.text = companyAddress
+                                jobsVH.tvCompanyName.text = companyName
 
                                 var job = "job"
                                 try {
@@ -439,42 +439,42 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     logException(e)
                                 }
 
-                                jobsVH?.viewAllJobsTV?.text = "View $companyOtherJobs more $job of this company"
+                                jobsVH.viewAllJobsTV.text = "View $companyOtherJobs more $job of this company"
 
-                                jobsVH?.govtJobsIMGV?.loadImageFromUrl(jobDetailResponseAll.jObIMage)
-                                jobsVH?.govtJobsIMGV?.setOnClickListener {
+                                jobsVH.govtJobsIMGV.loadImageFromUrl(jobDetailResponseAll.jObIMage)
+                                jobsVH.govtJobsIMGV.setOnClickListener {
                                     context.openUrlInBrowser(jobDetailResponseAll.jObIMage)
                                 }
-                                jobsVH?.horizontalView?.hide()
-                                jobsVH?.horizontalViewTwo.hide()
-                                jobsVH?.horizontalView.hide()
-                                jobsVH?.govtJobsIMGV?.show()
-                                jobsVH?.jobInfo?.hide()
-                                jobsVH?.appliedBadge.hide()
-                                jobsVH?.keyPonits?.hide()
-                                jobsVH?.tvKeyPoints?.hide()
-                                jobsVH?.tvJobContext?.hide()
-                                jobsVH?.tvJobContextValue?.hide()
-                                jobsVH?.tvJobResponsibility?.hide()
-                                jobsVH?.tvJobResponsibilityValue?.hide()
-                                jobsVH?.tvJobNature?.hide()
-                                jobsVH?.tvJobNatureValue?.hide()
-                                jobsVH?.tvRequirementsHead?.hide()
-                                jobsVH?.tvJobReqValue?.hide()
-                                jobsVH?.tvJobReq?.hide()
-                                jobsVH?.tvEducationalRequirments?.hide()
-                                jobsVH?.tvEducationalRequirmentsValue?.hide()
-                                jobsVH?.tvExperienceReq?.hide()
-                                jobsVH?.tvExperienceReqValue?.hide()
-                                jobsVH?.tvEducationalRequirmentsValue?.hide()
-                                jobsVH?.tvSalaryAndCompensation?.hide()
-                                jobsVH?.tvSalary?.hide()
-                                jobsVH?.tvSalaryRange?.hide()
-                                jobsVH?.tvSalaryRangeData?.hide()
-                                jobsVH?.tvOtherBenifits?.hide()
-                                jobsVH?.tvOtherBenifitsData?.hide()
-                                jobsVH?.tvReadBefApply?.hide()
-                                jobsVH?.tvReadBefApplyData?.hide()
+                                jobsVH.horizontalView.hide()
+                                jobsVH.horizontalViewTwo.hide()
+                                jobsVH.horizontalView.hide()
+                                jobsVH.govtJobsIMGV.show()
+                                jobsVH.jobInfo.hide()
+                                jobsVH.appliedBadge.hide()
+                                jobsVH.keyPonits.hide()
+                                jobsVH.tvKeyPoints.hide()
+                                jobsVH.tvJobContext.hide()
+                                jobsVH.tvJobContextValue.hide()
+                                jobsVH.tvJobResponsibility.hide()
+                                jobsVH.tvJobResponsibilityValue.hide()
+                                jobsVH.tvJobNature.hide()
+                                jobsVH.tvJobNatureValue.hide()
+                                jobsVH.tvRequirementsHead.hide()
+                                jobsVH.tvJobReqValue.hide()
+                                jobsVH.tvJobReq.hide()
+                                jobsVH.tvEducationalRequirments.hide()
+                                jobsVH.tvEducationalRequirmentsValue.hide()
+                                jobsVH.tvExperienceReq.hide()
+                                jobsVH.tvExperienceReqValue.hide()
+                                jobsVH.tvEducationalRequirmentsValue.hide()
+                                jobsVH.tvSalaryAndCompensation.hide()
+                                jobsVH.tvSalary.hide()
+                                jobsVH.tvSalaryRange.hide()
+                                jobsVH.tvSalaryRangeData.hide()
+                                jobsVH.tvOtherBenifits.hide()
+                                jobsVH.tvOtherBenifitsData.hide()
+                                jobsVH.tvReadBefApply.hide()
+                                jobsVH.tvReadBefApplyData.hide()
 
                             }
                         } catch (e: Exception) {
@@ -490,15 +490,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 val loadingVH = holder as LoadingVH
 
                 if (retryPageLoad) {
-                    loadingVH?.mErrorLayout?.visibility = View.VISIBLE
+                    loadingVH.mErrorLayout?.visibility = View.VISIBLE
 
-                    loadingVH?.mErrorTxt?.text = if (errorMsg != null)
+                    loadingVH.mErrorTxt?.text = if (errorMsg != null)
                         errorMsg
                     else
                         context.getString(R.string.hint_keyword)
 
                 } else {
-                    loadingVH?.mErrorLayout?.visibility = View.GONE
+                    loadingVH.mErrorLayout?.visibility = View.GONE
 
                 }
             }
@@ -508,22 +508,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String) {
         dialog = Dialog(activity)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.online_apply_dialog_layout)
-        val cancelButton = dialog?.findViewById<Button>(R.id.onlineApplyCancelBTN)
-        val okButton = dialog?.findViewById<Button>(R.id.onlineApplyOkBTN)
-        val salaryTIET = dialog?.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
-        val salaryTIL = dialog?.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.online_apply_dialog_layout)
+        val cancelButton = dialog.findViewById<Button>(R.id.onlineApplyCancelBTN)
+        val okButton = dialog.findViewById<Button>(R.id.onlineApplyOkBTN)
+        val salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
+        val salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
 
 
         salaryTIET.easyOnTextChangedListener { text ->
             validateFilterName(text.toString(), salaryTIL)
-            okButton?.isEnabled = text?.isNotEmpty()
+            okButton?.isEnabled = text.isNotEmpty()
         }
 
         cancelButton.setOnClickListener {
-            dialog?.dismiss()
+            dialog.dismiss()
         }
 
         okButton.setOnClickListener {
@@ -531,17 +531,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
             }
         }
-        dialog?.show()
+        dialog.show()
     }
 
 
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
-        if (typedData?.isNullOrBlank()) {
-            textInputLayout?.showError(context.getString(R.string.field_empty_error_message_common))
+        if (typedData.isNullOrBlank()) {
+            textInputLayout.showError(context.getString(R.string.field_empty_error_message_common))
             return false
         }
-        textInputLayout?.hideError()
+        textInputLayout.hideError()
         return true
     }
 
@@ -552,22 +552,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
         val loadingDialog = context.indeterminateProgressDialog("Applying")
-        loadingDialog?.setCancelable(false)
-        loadingDialog?.show()
+        loadingDialog.setCancelable(false)
+        loadingDialog.show()
         ApiServiceJobs.create().applyJob(bdjobsUserSession.userId, bdjobsUserSession.decodId, jobList?.get(position)?.jobid!!, salary, gender, jobphotograph, Constants.ENCODED_JOBS).enqueue(object : Callback<ApplyOnlineModel> {
             override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
 
-                Log.d("dlkgj", "respone ${t!!.message}")
-                loadingDialog?.dismiss()
-                dialog?.dismiss()
+                Log.d("dlkgj", "respone ${t.message}")
+                loadingDialog.dismiss()
+                dialog.dismiss()
 
             }
 
             override fun onResponse(call: Call<ApplyOnlineModel>, response: Response<ApplyOnlineModel>) {
                 try {
-                    dialog?.dismiss()
-                    loadingDialog?.dismiss()
-                    context?.longToast(response.body()!!.data[0].message)
+                    dialog.dismiss()
+                    loadingDialog.dismiss()
+                    context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
 
                         doAsync {
@@ -721,10 +721,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        internal var mProgressBar: ProgressBar? = itemView?.findViewById(R.id.loadmore_progress) as ProgressBar?
-        private var mRetryBtn: ImageButton? = itemView?.findViewById(R.id.loadmore_retry) as ImageButton?
-        internal var mErrorTxt: TextView? = itemView?.findViewById(R.id.loadmore_errortxt) as TextView?
-        internal var mErrorLayout: LinearLayout? = itemView?.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
+        internal var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
+        private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
+        internal var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
+        internal var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
 
 
         override fun onClick(view: View) {
@@ -752,10 +752,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
         val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-        sharingIntent?.type = "text/plain"
-        sharingIntent?.putExtra(android.content.Intent.EXTRA_SUBJECT, "${jobList!!.get(position).jobTitle}")
-        sharingIntent?.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
-        context?.startActivity(Intent.createChooser(sharingIntent, "Share"))
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "${jobList!!.get(position).jobTitle}")
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
+        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
 
     }
 
@@ -906,6 +906,19 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             }
 
         })
+    }
+
+    private inner class MovementCheck : LinkMovementMethod() {
+
+        override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
+            try {
+                return super.onTouchEvent(widget, buffer, event)
+            } catch (ex: Exception) {
+                return true
+            }
+
+        }
+
     }
 
 
