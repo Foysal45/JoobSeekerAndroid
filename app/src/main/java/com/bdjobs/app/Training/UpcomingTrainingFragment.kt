@@ -46,7 +46,7 @@ class UpcomingTrainingFragment : Fragment() {
         val scale = resources.displayMetrics.density
         topBottomPadding = (8 * scale + 0.5f).toInt()
         leftRightPadding = (16 * scale + 0.5f).toInt()
-        Log.d("scale", "s = "+scale)
+        Log.d("scale", "s = " + scale)
 
         if (Constants.matchedTraining) {
 
@@ -86,14 +86,14 @@ class UpcomingTrainingFragment : Fragment() {
     }
 
     private fun lastOnClickAction() {
-       // lastSelected()
+        // lastSelected()
         lastSelected()
         loadTrainingList("")
         Constants.matchedTraining = true
     }
 
     private fun allOnClickAction() {
-       // allSelected()
+        // allSelected()
         allSelected()
         loadTrainingList(bdjobsUserSession?.trainingId!!)
         Constants.matchedTraining = false
@@ -119,28 +119,30 @@ class UpcomingTrainingFragment : Fragment() {
 
                 override fun onResponse(call: Call<TrainingList>, response: Response<TrainingList>) {
 
-                    Log.d("value", "userid = " + bdjobsUserSession?.userId
-                            + "decodeid = " + bdjobsUserSession?.decodId
-                            + "trainid= " + trainid
-                            + "AppsDate= " + ""
+                    try {
+                        Log.d("value", "userid = " + bdjobsUserSession?.userId
+                                + "decodeid = " + bdjobsUserSession?.decodId
+                                + "trainid= " + trainid
+                                + "AppsDate= " + ""
+                        )
 
+                        if (response.isSuccessful) {
 
-                    )
-
-                    if (response.isSuccessful) {
-
-                        trainListRV?.adapter = upcomingTrainingAdapter
-                        trainListRV?.setHasFixedSize(true)
-                        trainListRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                        Log.d("initPag", response.body()?.data?.size.toString())
-                        trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                        upcomingTrainingAdapter?.removeAll()
-                        upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
-                        numberTV.text = response.body()?.data?.size.toString()
+                            trainListRV?.adapter = upcomingTrainingAdapter
+                            trainListRV?.setHasFixedSize(true)
+                            trainListRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                            Log.d("initPag", response.body()?.data?.size.toString())
+                            trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                            upcomingTrainingAdapter?.removeAll()
+                            upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
+                            numberTV?.text = response.body()?.data?.size.toString()
+                        }
+                        trainListRV?.show()
+                        shimmer_view_container_trainingList?.hide()
+                        shimmer_view_container_trainingList?.stopShimmerAnimation()
+                    } catch (e: Exception) {
+                        logException(e)
                     }
-                    trainListRV?.show()
-                    shimmer_view_container_trainingList?.hide()
-                    shimmer_view_container_trainingList?.stopShimmerAnimation()
 
 
                 }
@@ -177,7 +179,7 @@ class UpcomingTrainingFragment : Fragment() {
 //        state = 0
 //        verifyStatus = "1"
 
-      }
+    }
 
     private fun allSelected() {
         allTV.setTextColor(Color.parseColor("#FFFFFF"))
@@ -188,5 +190,5 @@ class UpcomingTrainingFragment : Fragment() {
         allTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
 //        state = 1
 //        verifyStatus = "0"
-         }
+    }
 }
