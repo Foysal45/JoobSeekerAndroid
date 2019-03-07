@@ -25,7 +25,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -177,9 +176,8 @@ class PhotoUploadActivity : Activity() {
             }
 
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-
                 Log.e("photoAPI", error.message)
-                toast(error.message!!)
+
             }
         })
     }
@@ -189,7 +187,7 @@ class PhotoUploadActivity : Activity() {
         progressDialog.show()
         ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
             override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-                Log.d("PhotoUpload", " onFailure ${t.message}")
+                error("onFailure", t)
             }
 
             override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
@@ -452,7 +450,6 @@ class PhotoUploadActivity : Activity() {
                 }
             }
 
-            Log.d("dfgh", "Uri: " + fileUri!!.toString())
             val myDirectory = File("/sdcard/BDJOBS")
             if (!myDirectory.exists()) {
                 myDirectory.mkdirs()
@@ -463,7 +460,11 @@ class PhotoUploadActivity : Activity() {
                 val deleted = file.delete()
             }
             val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-            UCrop.of(fileUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
+            try {
+                UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
 
         Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
@@ -534,7 +535,6 @@ class PhotoUploadActivity : Activity() {
             UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
         }
     }
-
 
 
     private fun showDialog(activity: Activity) {

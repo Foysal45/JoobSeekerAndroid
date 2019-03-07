@@ -6,12 +6,11 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -23,7 +22,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
     var favListSize = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_favourite_search_filter_list, container, false)!!
+        return inflater.inflate(R.layout.fragment_favourite_search_filter_list, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -40,15 +39,19 @@ class FavouriteSearchFilterListFragment : Fragment() {
         doAsync {
             val favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
-                favListSize = favouriteSearchFilters.size
-                var data = "filter"
-                if(favListSize>1){
-                    data = "filters"
+                try {
+                    favListSize = favouriteSearchFilters.size
+                    var data = "filter"
+                    if (favListSize > 1) {
+                        data = "filters"
+                    }
+                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search $data"
+                    favCountTV?.text = Html.fromHtml(styledText)
+                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters as MutableList<FavouriteSearch>, context = activity)
+                    favRV?.adapter = favouriteSearchFilterAdapter
+                } catch (e: Exception) {
+                    logException(e)
                 }
-                val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search $data"
-                favCountTV?.text = Html.fromHtml(styledText)
-                val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters as MutableList<FavouriteSearch>, context = activity)
-                favRV?.adapter = favouriteSearchFilterAdapter
             }
         }
 

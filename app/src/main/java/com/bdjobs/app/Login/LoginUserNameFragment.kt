@@ -55,7 +55,7 @@ class LoginUserNameFragment : Fragment() {
     private var callbackManager: CallbackManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater?.inflate(R.layout.fragment_login_username, container, false)!!
+        rootView = inflater.inflate(R.layout.fragment_login_username, container, false)!!
         return rootView
     }
 
@@ -141,7 +141,7 @@ class LoginUserNameFragment : Fragment() {
             override fun onResponse(call: Call<SocialLoginAccountListModel>, response: Response<SocialLoginAccountListModel>) {
 
                 try {
-                    if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+                    if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
 
                         var mappedAccountNumber: Int? = null
                         var hasMappedAccount = false
@@ -229,7 +229,7 @@ class LoginUserNameFragment : Fragment() {
 
     private fun onClicks() {
         backBtnIMGV?.setOnClickListener {
-            loginCommunicator?.backButtonClicked()
+            loginCommunicator.backButtonClicked()
         }
 
         textView2.setOnClickListener {
@@ -400,7 +400,7 @@ class LoginUserNameFragment : Fragment() {
 
     private fun signOutFromFacebook() {
         if (AccessToken.getCurrentAccessToken() == null) {
-            return; // already logged out
+            return // already logged out
         }
         val request = GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
     }
@@ -427,10 +427,10 @@ class LoginUserNameFragment : Fragment() {
                     activity.stopProgressBar(loadingProgressBar)
                     if (response?.body()?.statuscode == api_request_result_code_ok) {
                         useNameTIL.hideError()
-                        if (response?.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
-                            loginCommunicator.goToOtpFragment(userName, response?.body()?.data?.get(0)?.userId, response?.body()?.data?.get(0)?.userFullName, response?.body()?.data?.get(0)?.imageurl)
-                        } else if (response?.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
-                            loginCommunicator.goToPasswordFragment(userName, response?.body()?.data?.get(0)?.userId, response?.body()?.data?.get(0)?.userFullName, response?.body()?.data?.get(0)?.imageurl)
+                        if (response.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
+                            loginCommunicator.goToOtpFragment(userName, response.body()?.data?.get(0)?.userId, response.body()?.data?.get(0)?.userFullName, response.body()?.data?.get(0)?.imageurl)
+                        } else if (response.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
+                            loginCommunicator.goToPasswordFragment(userName, response.body()?.data?.get(0)?.userId, response.body()?.data?.get(0)?.userFullName, response.body()?.data?.get(0)?.imageurl)
                         }
 
                     } else {
@@ -449,7 +449,7 @@ class LoginUserNameFragment : Fragment() {
 
         when {
             TextUtils.isEmpty(userName) -> {
-                useNameTIL.showError("Please enter Username, Email or Mobile No")
+                useNameTIL?.showError("Please enter Username, Email or Mobile No")
                 requestFocus(usernameTIET)
                 return false
             }
@@ -463,7 +463,7 @@ class LoginUserNameFragment : Fragment() {
                 requestFocus(usernameTIET)
                 return false
             }*/
-            else -> useNameTIL.hideError()
+            else -> useNameTIL?.hideError()
         }
         return true
     }

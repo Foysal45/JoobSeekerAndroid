@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.editResume.EditResLandingActivity
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
 import org.jetbrains.anko.startActivity
@@ -32,7 +33,7 @@ class MyBdjobsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        return inflater?.inflate(R.layout.fragment_mybdjobs_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_mybdjobs_layout, container, false)!!
 
     }
 
@@ -54,9 +55,9 @@ class MyBdjobsFragment : Fragment() {
         mybdjobsAdapter = MybdjobsAdapter(activity)
         myBdjobsgridView_RV!!.adapter = mybdjobsAdapter
         myBdjobsgridView_RV!!.setHasFixedSize(true)
-        myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
+        myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
         Log.d("initPag", "called")
-        myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator() as RecyclerView.ItemAnimator?
+        myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
     }
 
     private fun onClick() {
@@ -119,20 +120,28 @@ class MyBdjobsFragment : Fragment() {
 
 
     private fun populateDataLastMonthStats() {
-        for ((index, value) in lastMonthStatsData!!.withIndex()) {
-            if (index < (lastMonthStatsData?.size!! - 1)) {
-                bdjobsList.add(MybdjobsData(value?.count!!, value?.title!!, background_resources[index], icon_resources[index]))
+        try {
+            for ((index, value) in lastMonthStatsData!!.withIndex()) {
+                if (index < (lastMonthStatsData?.size!! - 1)) {
+                    bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+                }
             }
+            mybdjobsAdapter?.addAll(bdjobsList)
+        } catch (e: Exception) {
+            logException(e)
         }
-        mybdjobsAdapter?.addAll(bdjobsList)
     }
 
     private fun populateDataAllMonthStats() {
-        for ((index, value) in allStatsData!!.withIndex()) {
-            if (index < (allStatsData?.size!! - 1)) {
-                bdjobsList.add(MybdjobsData(value?.count!!, value?.title!!, background_resources[index], icon_resources[index]))
+        try {
+            for ((index, value) in allStatsData!!.withIndex()) {
+                if (index < (allStatsData?.size!! - 1)) {
+                    bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+                }
             }
+            mybdjobsAdapter?.addAll(bdjobsList)
+        } catch (e: Exception) {
+            logException(e)
         }
-        mybdjobsAdapter?.addAll(bdjobsList)
     }
 }
