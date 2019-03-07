@@ -136,6 +136,7 @@ class UpcomingTrainingFragment : Fragment() {
                             upcomingTrainingAdapter?.removeAll()
                             upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
                             numberTV?.text = response.body()?.data?.size.toString()
+                            //
                         }
                         trainListRV?.show()
                         shimmer_view_container_trainingList?.hide()

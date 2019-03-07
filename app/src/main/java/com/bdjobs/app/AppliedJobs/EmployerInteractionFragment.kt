@@ -364,6 +364,7 @@ class EmployerInteractionFragment : Fragment() {
                         if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")
                             toast("${response.body()?.message}")
                         appliedJobsCommunicator?.backButtonPressed()
+                        //---
                     }
                     catch (e: Exception) {
                         logException(e)
