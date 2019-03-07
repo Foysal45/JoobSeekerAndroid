@@ -334,7 +334,7 @@ class EmployerInteractionFragment : Fragment() {
         }
 
         EmpInteractionFab.setOnClickListener {
-            activity.showProgressBar(loadingProgressBar)
+            activity?.showProgressBar(loadingProgressBar)
             ApiServiceMyBdjobs.create().getEmpInteraction(
                     userId = bdjobsUserSession.userId,
                     decodeId = bdjobsUserSession.decodId,
@@ -345,7 +345,7 @@ class EmployerInteractionFragment : Fragment() {
             ).enqueue(object : Callback<EmployerInteraction> {
 
                 override fun onFailure(call: Call<EmployerInteraction>, t: Throwable) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    activity?.stopProgressBar(loadingProgressBar)
                     error("onFailure", t)
                     Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
@@ -360,11 +360,13 @@ class EmployerInteractionFragment : Fragment() {
                             + "experienceid = " + expID
                     )
                     try {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")
                             toast("${response.body()?.message}")
                         appliedJobsCommunicator?.backButtonPressed()
-                    } catch (e: Exception) {
+                        //---
+                    }
+                    catch (e: Exception) {
                         logException(e)
                     }
 
