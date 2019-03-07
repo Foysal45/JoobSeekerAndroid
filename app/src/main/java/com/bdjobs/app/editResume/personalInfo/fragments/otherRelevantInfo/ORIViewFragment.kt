@@ -57,27 +57,27 @@ class ORIViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getORIInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetORIResponse> {
             override fun onFailure(call: Call<GetORIResponse>, t: Throwable) {
-                shimmerStop()
-                clORIMainLayout?.hide()
-                activity.toast(R.string.message_common_error)
+                try {
+                    shimmerStop()
+                    clORIMainLayout?.hide()
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                }
             }
 
             override fun onResponse(call: Call<GetORIResponse>, response: Response<GetORIResponse>) {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        clORIMainLayout.show()
+                        clORIMainLayout?.show()
                         val respo = response.body()
                         oriCallBack.setEditButton(true, "editORI")
                         oriCallBack.passOriData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
-                    if (activity != null) {
-                        //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
-                    }
+                    activity?.logException(e)
+                    activity?.error("++${e.message}")
                 }
             }
         })
@@ -129,8 +129,8 @@ class ORIViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_JobList.hide()
-            shimmer_view_container_JobList.stopShimmerAnimation()
+            shimmer_view_container_JobList?.hide()
+            shimmer_view_container_JobList?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

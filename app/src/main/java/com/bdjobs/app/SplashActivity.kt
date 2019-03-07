@@ -110,10 +110,10 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             mSnackBar = Snackbar
                     .make(noInternet, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.turn_on_wifi)) {
-                        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS));
+                        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
                     }
                     .setActionTextColor(resources.getColor(R.color.colorWhite))
-            mSnackBar?.show()
+            mSnackBar.show()
 
         } else {
             mSnackBar?.dismiss()
@@ -159,12 +159,12 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 try {
                     if (response?.isSuccessful!!) {
-                        debug("getDbInfo: server contacted and has file")
-                        val writtenToDisk = writeResponseBodyToDisk(response?.body()!!)
-                        debug("getDbInfo: file download was a success? $writtenToDisk")
+                        //debug("getDbInfo: server contacted and has file")
+                        val writtenToDisk = writeResponseBodyToDisk(response.body()!!)
+                        // debug("getDbInfo: file download was a success? $writtenToDisk")
 
                         if (writtenToDisk) {
-                            pref?.edit {
+                            pref.edit {
                                 putString(key_db_update, updateDate)
                             }
                         }
@@ -184,8 +184,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     fun goToNextActivity() {
         try {
-            Log.d("XZXfg", "goToNextActivity :${bdjobsUserSession?.isLoggedIn!!}")
-            if (!bdjobsUserSession?.isLoggedIn!!) {
+            Log.d("XZXfg", "goToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
+            if (!bdjobsUserSession.isLoggedIn!!) {
                 if (!isFinishing) {
                     startActivity<GuestUserJobSearchActivity>()
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -233,14 +233,14 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                         break
                     }
 
-                    outputStream!!.write(fileReader, 0, read)
+                    outputStream.write(fileReader, 0, read)
 
                     fileSizeDownloaded += read.toLong()
 
                     debug("dbFile download: $fileSizeDownloaded of $fileSize")
                 }
 
-                outputStream!!.flush()
+                outputStream.flush()
 
                 return true
             } catch (e: IOException) {
@@ -248,11 +248,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 return false
             } finally {
                 if (inputStream != null) {
-                    inputStream!!.close()
+                    inputStream.close()
                 }
 
                 if (outputStream != null) {
-                    outputStream!!.close()
+                    outputStream.close()
                 }
             }
         } catch (e: IOException) {
