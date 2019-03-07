@@ -96,20 +96,23 @@ class PreferredAreasEditFragment : Fragment() {
 
             //idWCArr.clear()
             addChip(ds.getCategoryNameByID(it?.id!!), "wc", acWCjobCat)
-            //addAsString(it.id, idWCArr)
+            addAsString(it.id, idWCArr)
+            acWCjobCat.isEnabled = idWCArr.size != 3
             Log.d("prefs", "wc: $prefWcIds and $idWCArr")
             if (idWCArr.isNullOrEmpty()) tilWCjobCat.hideError() else tilWCjobCat.isErrorEnabled = true
         }
         bcjobCats?.forEach {
             //idBCArr.clear()
             addChip(ds.getCategoryBanglaNameByID(it?.id!!), "bc", acBCJobCat)
-            //addAsString(it.id, idBCArr)
+            addAsString(it.id, idBCArr)
+            acBCJobCat.isEnabled = idBCArr.size != 3
             Log.d("prefs", "bc: $prefBcIds and $idBCArr")
         }
         orgTypes?.forEach {
             //idOrgArr.clear()
             addChip(ds.getOrgNameByID(it?.id!!), "orgs", acOrgType)
-            //addAsString(it.id, idOrgArr)
+            addAsString(it.id, idOrgArr)
+            acOrgType.isEnabled = idOrgArr.size != 12
             Log.d("prefs", "org: $prefOrgIds and $idOrgArr")
         }
 
@@ -122,15 +125,24 @@ class PreferredAreasEditFragment : Fragment() {
                     anywhereinBD = true
                     changeBtnBackground(anywhereinBD)
                 }
-                //addAsString(it.id, idInBDArr)
+                addAsString(it.id, idInBDArr)
+                acInsideBD.isEnabled = idInBDArr.size != 15
                 Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
             }
         }
         outBD?.forEach {
             //idOutBDArr.clear()
             addChip(ds.getLocationNameByID(it?.id!!).toString(), "out", acOutsideBD)
-            //addAsString(it.id, idOutBDArr)
+            addAsString(it.id, idOutBDArr)
+            acOutsideBD.isEnabled = idOutBDArr.size != 3
             Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
+        }
+    }
+
+    private fun addAsString(expID: String, idArr: ArrayList<String>) {
+        if (!idArr.contains(expID)) {
+            idArr.add(expID.trim())
+            Log.d("prefAreas", "test : $idArr")
         }
     }
 
@@ -168,7 +180,7 @@ class PreferredAreasEditFragment : Fragment() {
             prefWcIds = TextUtils.join(",", idWCArr)
             prefBcIds = TextUtils.join(",", idBCArr)
             prefOrgIds = TextUtils.join(",", idOrgArr)
-            prefDistrictIds = TextUtils.join(",", idInBDArr)
+            prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
             prefCountryIds = TextUtils.join(",", idOutBDArr)
 
             //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
@@ -261,6 +273,7 @@ class PreferredAreasEditFragment : Fragment() {
                     if (idWCArr.size != 0) {
                         if (!idWCArr.contains(inputId)) {
                             addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
+                            addAsString(inputId, idWCArr)
                             Log.d("acWCjobCat", "arr2: $idWCArr")
                         }
                         else {
@@ -270,6 +283,7 @@ class PreferredAreasEditFragment : Fragment() {
                         tilWCjobCat.hideError()
                     } else {
                         addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
+                        addAsString(inputId, idWCArr)
                         d("Array size : ${idWCArr.size} and $prefWcIds and id : $id")
                         /*isEmpty = true
                         experiencesTIL.isErrorEnabled = true*/
@@ -291,6 +305,7 @@ class PreferredAreasEditFragment : Fragment() {
                     if (idBCArr.size != 0) {
                         if (!idBCArr.contains(inputId)) {
                             addChip(ds.getCategoryBanglaNameByID(inputId), "bc", acBCJobCat)
+                            addAsString(inputId, idBCArr)
                             Log.d("acWCjobCat", "arr2: $idBCArr")
                         }
                         else {
@@ -300,6 +315,7 @@ class PreferredAreasEditFragment : Fragment() {
                         tilBCJobCat.hideError()
                     } else {
                         addChip(ds.getCategoryBanglaNameByID(inputId), "bc", acBCJobCat)
+                        addAsString(inputId, idBCArr)
                         d("Array size : ${idBCArr.size} and $prefBcIds and id : $id")
                         tilBCJobCat.hideError()
                     }
@@ -319,6 +335,7 @@ class PreferredAreasEditFragment : Fragment() {
                     if (idOrgArr.size != 0) {
                         if (!idOrgArr.contains(inputId)) {
                             addChip(ds.getOrgNameByID(inputId), "orgs", acOrgType)
+                            addAsString(inputId, idOrgArr)
                             Log.d("acWCjobCat", "arr2: $idOrgArr")
                         }
                         else {
@@ -328,6 +345,7 @@ class PreferredAreasEditFragment : Fragment() {
                         tilOrgType.hideError()
                     } else {
                         addChip(ds.getOrgNameByID(inputId), "orgs", acOrgType)
+                        addAsString(inputId, idOrgArr)
                         d("Array size : ${idOrgArr.size} and $prefOrgIds and id : $id")
                         tilOrgType.hideError()
                     }
@@ -355,6 +373,7 @@ class PreferredAreasEditFragment : Fragment() {
                     if (idInBDArr.size != 0) {
                         if (!idInBDArr.contains(inputId)) {
                             addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
+                            addAsString(inputId.toString(), idInBDArr)
                             Log.d("acWCjobCat", "arr2: $idInBDArr")
                         }
                         else {
@@ -364,6 +383,7 @@ class PreferredAreasEditFragment : Fragment() {
                         tilInsideBD.hideError()
                     } else {
                         addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
+                        addAsString(inputId.toString(), idInBDArr)
                         d("Array size : ${idInBDArr.size} and $prefDistrictIds and id : $id")
                         tilInsideBD.hideError()
                     }
@@ -385,6 +405,7 @@ class PreferredAreasEditFragment : Fragment() {
                     if (idOutBDArr.size != 0) {
                         if (!idOutBDArr.contains(inputId)) {
                             addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
+                            addAsString(inputId.toString(), idOutBDArr)
                             Log.d("acWCjobCat", "arr2: $idOutBDArr")
                         }
                         else {
@@ -394,6 +415,7 @@ class PreferredAreasEditFragment : Fragment() {
                         tilOutsideBD.hideError()
                     } else {
                         addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
+                        addAsString(inputId.toString(), idOutBDArr)
                         d("Array size : ${idOutBDArr.size} and $prefCountryIds and id : $id")
                         tilOutsideBD.hideError()
                     }
@@ -422,53 +444,66 @@ class PreferredAreasEditFragment : Fragment() {
 
     private fun addChip(input: String, tag: String, acTV: AutoCompleteTextView) {
         var maxItems = 0
-        var item = ""
-        var maxItemsArr = ArrayList<String>()
+        var maxArr = ArrayList<String>()
         val cg: ChipGroup = when (tag) {
             "wc" -> {
                 maxItems = 3
-                maxItemsArr = idWCArr
-                idWCArr.add(ds.getCategoryIDByName(input).toString())
+                maxArr = idWCArr
+                //dWCArr.add(ds.getCategoryIDByName(input).toString())
                 wc_entry_chip_group
             }
             "bc" -> {
                 maxItems = 3
-                maxItemsArr = idBCArr
-                idBCArr.add(ds.getCategoryIDByName(input).toString())
+                maxArr = idBCArr
+                //idBCArr.add(ds.getCategoryIDByName(input).toString())
                 bc_entry_chip_group
             }
             "orgs" -> {
                 maxItems = 12
-                maxItemsArr = idOrgArr
-                idOrgArr.add(ds.getCategoryIDByName(input).toString())
+                maxArr = idWCArr
+                //idOrgArr.add(ds.getCategoryIDByName(input).toString())
                 org_entry_chip_group
             }
             "in" -> {
                 maxItems = 15
-                maxItemsArr = idInBDArr
-                idInBDArr.add(ds.getCategoryIDByName(input).toString())
+                maxArr = idWCArr
+                //idInBDArr.add(ds.getCategoryIDByName(input).toString())
+                Log.d("insideBD", "$idInBDArr")
                 pref_locs_entry_chip_group
             }
             "out" -> {
                 maxItems = 10
-                maxItemsArr = idOutBDArr
-                idOutBDArr.add(ds.getCategoryIDByName(input).toString())
+                maxArr = idWCArr
+                //idOutBDArr.add(ds.getCategoryIDByName(input).toString())
                 pref_countries_entry_chip_group
             } else -> org_entry_chip_group
         }
 
         when {
             cg.childCount < maxItems -> {
+                acTV.isEnabled = true
                 val c1 = getChip(cg, input, R.xml.chip_entry, tag)
                 //maxItemsArr.add(ds.getCategoryIDByName(input).toString())
+                if (cg.childCount == maxItems - 1)
+                    acTV.isEnabled = false
                 cg.addView(c1)
             }
-            cg.childCount == maxItems -> activity.toast("Maximum $maxItems items can be added.")
-            else -> Log.d("chip_child","count: ${cg.childCount}")
+            /*cg.childCount == maxItems -> {
+                activity.toast("Maximum $maxItems items can be added.")
+                acTV.isEnabled = false
+            }*/
+            else -> {
+                /*acTV.isEnabled = true
+                Log.d("chip_child", "count: ${cg.childCount}")*/
+
+                activity.toast("Maximum $maxItems items can be added.")
+                acTV.isEnabled = false
+            }
         }
         acTV.clearText()
         clPrefAreasEdit?.closeKeyboard(activity)
     }
+
 
     private fun getChip(entryChipGroup: ChipGroup, text: String, item: Int, tag: String): Chip {
         val chip = Chip(activity)
@@ -495,36 +530,41 @@ class PreferredAreasEditFragment : Fragment() {
             "wc" -> {
                 //idArr = idWCArr
                 id = ds.getCategoryIDByName(s)
-                removeId(id, idWCArr)
+                removeId(id, idWCArr, 3, acWCjobCat)
             }
             "bc" -> {
                 //idArr = idBCArr
                 id = ds.getCategoryIDByBanglaName(s)
-                removeId(id, idBCArr)
+                removeId(id, idBCArr, 3, acBCJobCat)
             }
             "orgs" -> {
                 //idArr = idOrgArr
                 id = ds.getOrgIDByOrgName(s)
-                removeId(id, idOrgArr)
+                removeId(id, idOrgArr, 12, acOrgType)
             }
             "in" -> {
                 //idArr = idInBDArr
                 id = ds.getLocationIDByName(s)
-                removeId(id, idInBDArr)
+                removeId(id, idInBDArr, 15, acInsideBD)
             }
             "out" -> {
                 //idArr = idOutBDArr
                 id = ds.getLocationIDByName(s)
-                removeId(id, idOutBDArr)
+                removeId(id, idOutBDArr, 10, acOutsideBD)
             }
         }
     }
 
     private fun updateData() {
-        if (anywhereinBD) prefDistrictIds = "-1"
+        if (anywhereinBD) prefDistrictIds = "-1" else {
+            prefDistrictIds = ""
+            if (idInBDArr.contains("-1"))
+                idInBDArr.remove("-1")
+            prefDistrictIds = TextUtils.join(",", idInBDArr)
+        }
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
-                TextUtils.join(",", idWCArr), TextUtils.join(",", idBCArr), TextUtils.join(",", idInBDArr), TextUtils.join(",", idOutBDArr), TextUtils.join(",", idOrgArr))
+                prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
         Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -558,9 +598,13 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
 
-    private fun removeId(id: String?, idArr: ArrayList<String>) {
-        if (idArr.contains(id))
+    private fun removeId(id: String?, idArr: ArrayList<String>, range: Int, acTv: AutoCompleteTextView) {
+        if (idArr.contains(id)) {
             idArr.remove(id!!)
+        }
+        if (idArr.size < range)
+            acTv.isEnabled = true
+
         //prefWcIds = TextUtils.join(",", idWCArr)
         d("selected rmv: $idArr")
     }

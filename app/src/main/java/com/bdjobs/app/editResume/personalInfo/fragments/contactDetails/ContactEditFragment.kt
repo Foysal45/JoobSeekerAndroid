@@ -217,17 +217,17 @@ class ContactEditFragment : Fragment() {
                 prContactDistrictTIET.clear()
                 prContactThanaTIET.clear()*/
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            }  else {
+            } /* else {
                 toast("Please select Inside or Outside Bangladesh")
-            }
+            }*/
             if (permanentInOutBD == "1") {
                 /*pmContactDivTIET1.clear()
                 pmContactDistrictTIET.clear()
                 pmContactThanaTIETP.clear()*/
                 validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            } else if (permanentInOutBD == "" && pmContactAddressTIETPRM.getString().isBlank()) {
+            } /*else if (permanentInOutBD == "" && pmContactAddressTIETPRM.getString().isBlank()) {
                 toast("Please select Inside or Outside Bangladesh")
-            }
+            }*/
             Log.d("checkValid", " val : $validation ")
             Log.d("checkValid", " val : $validation ")
             if (validation >= 2) updateData()
@@ -329,6 +329,8 @@ class ContactEditFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         activity.stopProgressBar(loadingProgressBar)
+
+                        //if (response.body()?.statuscode != "2")
                         response.body()?.message?.let { activity.toast(it) }
 
                         if (response.body()?.statuscode == "4") {
@@ -346,7 +348,6 @@ class ContactEditFragment : Fragment() {
             }
         })
     }
-
     private fun getIdByName(s: String, list: ArrayList<LocationModel>?, tag: String): String {
         var id = ""
         if (!list.isNullOrEmpty()) {
@@ -433,12 +434,17 @@ class ContactEditFragment : Fragment() {
         if (!homePhone?.isEmpty()!!) {
             contactMobileNumber2TIET?.setText(data.homePhone)
             contactMobileNumber2TIL?.show()
-        } else contactMobileNumber2TIL?.hide()
+        } else {
+            contactMobileNumber2TIET?.clear()
+            contactMobileNumber2TIL?.hide()
+        }
         if (!officePhone?.isEmpty()!!) {
             contactMobileNumber1TIL?.show()
             contactMobileNumber1TIET?.setText(data.officePhone)
-        } else
+        } else {
+            contactMobileNumber1TIET?.clear()
             contactMobileNumber1TIL?.hide()
+        }
 
         if (homePhone.isEmpty() || officePhone.isEmpty()) {
             contactAddMobileButton.show()
@@ -573,10 +579,12 @@ class ContactEditFragment : Fragment() {
                 when (chipGroup.id) {
                     R.id.cgPresent -> {
                         presentInOutBD = ""
+                        activity?.toast("Please select Inside Bangladesh or Outside Bangladesh!")
                         d("valueD : $presentInOutBD and $permanentInOutBD")
                     }
                     R.id.cgPermanent -> {
                         permanentInOutBD = ""
+                        //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh!")
                         d("valuepD : $presentInOutBD and $permanentInOutBD")
                     }
                 }

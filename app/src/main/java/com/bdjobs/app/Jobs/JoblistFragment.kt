@@ -368,10 +368,9 @@ class JoblistFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
-                toast("On Failure")
+            override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
                 Log.d("TAG", "not successful!! onFail")
-
+                error("onFailure", t)
             }
         })
     }
@@ -605,7 +604,6 @@ class JoblistFragment : Fragment() {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
                 loadingDialog.dismiss()
                 error("onFailure", t)
-                toast("${t.message}")
             }
 
             override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
