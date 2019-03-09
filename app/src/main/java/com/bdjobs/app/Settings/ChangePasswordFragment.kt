@@ -117,7 +117,7 @@ class ChangePasswordFragment : Fragment() {
 
 
                 )
-                toast(response.body()?.message!!)
+                activity?.toast(response.body()?.message!!)
                 if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
                     Log.d("msg", response.body()?.message)
                     // toast(response.body()?.message!!)
@@ -250,7 +250,7 @@ class ChangePasswordFragment : Fragment() {
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
             // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-            activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         }
     }

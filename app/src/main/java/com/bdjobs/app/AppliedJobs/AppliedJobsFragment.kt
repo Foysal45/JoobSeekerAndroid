@@ -112,7 +112,7 @@ class AppliedJobsFragment : Fragment() {
                     itemsPerPage = "20"
             ).enqueue(object : Callback<AppliedJobModel> {
                 override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-//                    toast("${t.message}")
+                    activity?.toast("${t.message}")
                     shimmer_view_container_appliedJobList?.hide()
                     shimmer_view_container_appliedJobList?.stopShimmerAnimation()
                 }
@@ -220,7 +220,7 @@ class AppliedJobsFragment : Fragment() {
                     itemsPerPage = "20"
             ).enqueue(object : Callback<AppliedJobModel> {
                 override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-                    toast("${t.message}")
+                    activity?.toast("${t.message}")
                 }
 
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
@@ -271,7 +271,7 @@ class AppliedJobsFragment : Fragment() {
                     itemsPerPage = "20"
             ).enqueue(object : Callback<AppliedJobModel> {
                 override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-                    toast("${t.message}")
+                    activity?.toast("${t.message}")
                     shimmer_view_container_appliedJobList?.hide()
                     shimmer_view_container_appliedJobList?.stopShimmerAnimation()
                 }

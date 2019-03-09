@@ -76,46 +76,50 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
     private fun bindViews(holder: EmployerListViewHolder, position: Int) {
 
-        holder?.employerCompany?.text = employerList!![position].companyname
-        holder?.offeringJobs?.text = employerList!![position].totaljobs
+        try {
+            holder?.employerCompany?.text = employerList?.get(position)?.companyname
+            holder?.offeringJobs?.text = employerList?.get(position)?.totaljobs
 
-        var jobCount = employerList!![position].totaljobs
-        var jobCountint = jobCount?.toInt()
+            var jobCount = employerList?.get(position)?.totaljobs
+            var jobCountint = jobCount?.toInt()
 
-        if (jobCountint!! > 0) {
-            holder.employersListCard.setOnClickListener {
-                val company_name_1 = employerList!![position].companyname!!
-                val company_ID_1 = employerList!![position].companyid!!
-                employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
-                Log.d("companyid", company_ID_1)
-                Log.d("companyid", company_name_1)
+            if (jobCountint!! > 0) {
+                holder.employersListCard.setOnClickListener {
+                    val company_name_1 = employerList?.get(position)?.companyname!!
+                    val company_ID_1 = employerList?.get(position)?.companyid!!
+                    employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
+                    Log.d("companyid", company_ID_1)
+                    Log.d("companyid", company_name_1)
 
-            }
-        }
-
-        doAsync {
-            val company_ID = employerList!![position].companyid!!
-            val companyName=employerList!![position].companyname!!
-            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,companyName)
-
-            uiThread {
-                if (isitFollowed) {
-                    holder?.followUnfollow?.text = "Unfollow"
-                } else {
-                    holder?.followUnfollow?.text = "Follow "
                 }
             }
-        }
-        holder?.followUnfollow?.setOnClickListener {
-            followUnfollowEmployer(position)
+
+            doAsync {
+                val company_ID = employerList?.get(position)?.companyid!!
+                val companyName=employerList?.get(position)?.companyname!!
+                val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,companyName)
+
+                uiThread {
+                    if (isitFollowed) {
+                        holder?.followUnfollow?.text = "Unfollow"
+                    } else {
+                        holder?.followUnfollow?.text = "Follow "
+                    }
+                }
+            }
+            holder?.followUnfollow?.setOnClickListener {
+                followUnfollowEmployer(position)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
     fun followUnfollowEmployer(position: Int) {
         doAsync {
-            val company_ID = employerList!![position].companyid!!
-            val company_NAME = employerList!![position].companyname!!
-            val jobcount = employerList!![position].totaljobs!!
+            val company_ID = employerList?.get(position)?.companyid!!
+            val company_NAME = employerList?.get(position)?.companyname!!
+            val jobcount = employerList?.get(position)?.totaljobs!!
 
             val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,company_NAME)
 

@@ -38,8 +38,8 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
 
     }
     override fun onBindViewHolder(holder: EmployerJobListViewHolder, position: Int) {
-        holder?.employerCompany?.text = employerJobList!![position].jobtitle
-        holder?.deadline?.text = employerJobList!![position].deadline
+        holder?.employerCompany?.text = employerJobList?.get(position)?.jobtitle
+        holder?.deadline?.text = employerJobList?.get(position)?.deadline
         holder?.itemView?.setOnClickListener {
             val jobids = ArrayList<String>()
             val lns = ArrayList<String>()

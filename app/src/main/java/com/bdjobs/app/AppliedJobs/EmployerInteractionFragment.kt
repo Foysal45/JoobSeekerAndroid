@@ -57,7 +57,7 @@ class EmployerInteractionFragment : Fragment() {
                     itemsPerPage = "20"
             ).enqueue(object : Callback<AppliedJobModel> {
                 override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
-                    toast("${t.message}")
+                    activity?.toast("${t.message}")
                 }
 
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
@@ -347,22 +347,22 @@ class EmployerInteractionFragment : Fragment() {
                 override fun onFailure(call: Call<EmployerInteraction>, t: Throwable) {
                     activity?.stopProgressBar(loadingProgressBar)
                     error("onFailure", t)
-                    Log.d("key", "userid = " + bdjobsUserSession.userId
+                  /*  Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
-                            + "experienceid = " + expID)
+                            + "experienceid = " + expID)*/
                 }
 
                 override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
-                    Log.d("key", "userid = " + bdjobsUserSession.userId
+                 /*   Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
                             + "experienceid = " + expID
-                    )
+                    )*/
                     try {
                         activity?.stopProgressBar(loadingProgressBar)
                         if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")
-                            toast("${response.body()?.message}")
+                            activity?.toast("${response.body()?.message}")
                         appliedJobsCommunicator?.backButtonPressed()
                         //---
                     }
