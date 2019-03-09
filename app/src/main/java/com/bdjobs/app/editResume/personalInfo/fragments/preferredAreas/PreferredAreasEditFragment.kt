@@ -169,11 +169,6 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun onClicks() {
-        //if (idWCArr.isNullOrEmpty()) {
-        /*acWCjobCat.easyOnTextChangedListener { charSequence ->
-            activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
-        }*/
-        //}
         changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
             var valid = 0
@@ -183,15 +178,6 @@ class PreferredAreasEditFragment : Fragment() {
             prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
             prefCountryIds = TextUtils.join(",", idOutBDArr)
 
-            //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
-            //valid = isValidateAutoCompleteTV(acOutsideBD, tilOutsideBD, null, true, valid)
-
-            /*if (idWCArr.isEmpty()) {
-                valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
-            }
-*/
-            //valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
-            //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
             when {
                 idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
                     tilInsideBD.isErrorEnabled = true
@@ -234,10 +220,6 @@ class PreferredAreasEditFragment : Fragment() {
                     tilInsideBD.hideError()
                 }
             }
-
-            /*if (idInBDArr.isNullOrEmpty()) {
-                toast("Getting inBd null")
-            }*/
 
             if (!idInBDArr.isNullOrEmpty() || !idOutBDArr.isNullOrEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
@@ -285,8 +267,6 @@ class PreferredAreasEditFragment : Fragment() {
                         addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
                         addAsString(inputId, idWCArr)
                         d("Array size : ${idWCArr.size} and $prefWcIds and id : $id")
-                        /*isEmpty = true
-                        experiencesTIL.isErrorEnabled = true*/
                         tilWCjobCat.hideError()
                     }
                 }

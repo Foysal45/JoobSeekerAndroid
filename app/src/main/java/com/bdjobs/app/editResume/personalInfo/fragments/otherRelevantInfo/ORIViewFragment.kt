@@ -44,22 +44,20 @@ class ORIViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         oriCallBack.setTitle(getString(R.string.title_ORI))
+        oriCallBack.setEditButton(true, "editORI")
     }
 
     private fun doWork() {
-        clORIMainLayout.hide()
         shimmerStart()
         populateData()
     }
 
     private fun populateData() {
-
         val call = ApiServiceMyBdjobs.create().getORIInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetORIResponse> {
             override fun onFailure(call: Call<GetORIResponse>, t: Throwable) {
                 shimmerStop()
-                clORIMainLayout.hide()
-                activity.toast(R.string.message_common_error)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetORIResponse>, response: Response<GetORIResponse>) {
@@ -68,15 +66,14 @@ class ORIViewFragment : Fragment() {
                         shimmerStop()
                         clORIMainLayout.show()
                         val respo = response.body()
-                        oriCallBack.setEditButton(true, "editORI")
                         oriCallBack.passOriData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
                     if (activity != null) {
-                        //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        //activity?.toast("${response.body()?.message}")
+                        activity?.logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
             }

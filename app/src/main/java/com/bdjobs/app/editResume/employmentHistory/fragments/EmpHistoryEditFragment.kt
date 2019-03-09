@@ -153,7 +153,7 @@ class EmpHistoryEditFragment: Fragment() {
                 entry_chip_group.childCount == 3 -> {
                     //idArr.remove(workExperienceID)
                     //removeItem(workExperienceID)
-                    activity.toast("Maximum 3 experiences can be added.")
+                    activity?.toast("Maximum 3 experiences can be added.")
                 }
                 else -> empHisCB.checkingExtraID(false)
             }
@@ -346,7 +346,7 @@ class EmpHistoryEditFragment: Fragment() {
 
     private fun updateData() {
 
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val exps = TextUtils.join(",", idArr)
         /*if (!empHisCB.getchecking()) {
     TextUtils.join(",", empHisCB.getExpIDs())
@@ -365,16 +365,16 @@ else {
                 currentlyWorking, ",$exps,", hExpID, hID)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
                             empHisCB.goBack()
                             onDestroy()
@@ -383,7 +383,7 @@ else {
                             endDateTIL?.showError("This Field can not be empty")
                         }
                     } else {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -453,20 +453,20 @@ else {
     }
 
     fun dataDelete() {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("Experience", hExpID!!, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {

@@ -122,7 +122,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
 
     private fun updateData() {
         clArmyEmpHistory.clearFocus()
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateArmyExpsList(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
                 txtBANo = et_ba_no.getString(), comboBANo = et_ba_type.getString(), comboArms = et_arms.getString(), comboRank = et_ranks.getString(), comboType = et_type.getString(),
                 txtCourse = et_course.getString(), txtTrade = et_trade.getString(), cboCommissionDate = et_commission.getString(), cboRetirementDate = et_retire.getString(), arm_id = armyID, hId = hID)
@@ -133,25 +133,24 @@ class ArmyEmpHistoryEditFragment : Fragment() {
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
                             empHisCB.goBack()
                             onDestroy()
                         }
                     } else {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                 }
             }
@@ -209,24 +208,24 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     }
 
     fun dataDelete() {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("ArmyPersonalInfo", "555", session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    //activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                 }
             }
@@ -244,7 +243,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
             val res = activity?.resources
             if (res != null) {
                 val list = res.getStringArray(arrayResource).toList()
-                activity.selector(heading, list) { _, i ->
+                activity?.selector(heading, list) { _, i ->
                     //activity?.toast("position : $i")
                     getPosition(tag, i)
                     editText.setText(list[i])

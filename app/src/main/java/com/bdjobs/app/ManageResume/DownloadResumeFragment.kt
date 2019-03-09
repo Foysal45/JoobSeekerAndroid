@@ -12,7 +12,10 @@ import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_download_resume.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +44,7 @@ class DownloadResumeFragment : Fragment() {
         }
 
         submitTV.setOnClickListener {
-            activity.openUrlInBrowser(downloadLink)
+            activity?.openUrlInBrowser(downloadLink)
         }
 
         submitTV1.setOnClickListener {
@@ -50,9 +53,9 @@ class DownloadResumeFragment : Fragment() {
         submitTV3.setOnClickListener {
 
             val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent?.type = "text/plain"
-            sharingIntent?.putExtra(android.content.Intent.EXTRA_SUBJECT, "Resume of ${bdjobsUserSession.userName}")
-            sharingIntent?.putExtra(android.content.Intent.EXTRA_TEXT, downloadLink)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Resume of ${bdjobsUserSession.userName}")
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, downloadLink)
             startActivity(Intent.createChooser(sharingIntent, "Share"))
         }
 
@@ -70,25 +73,25 @@ class DownloadResumeFragment : Fragment() {
     }
 
     private fun downloadOrDeleteCV(action: String) {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         ApiServiceMyBdjobs.create().downloadDeleteCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
                 status = action
         ).enqueue(object : Callback<UploadResume> {
             override fun onFailure(call: Call<UploadResume>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
+                activity?.stopProgressBar(loadingProgressBar)
                 error("onFailure", t)
             }
 
             override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
-                activity.stopProgressBar(loadingProgressBar)
-                if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
+                activity?.stopProgressBar(loadingProgressBar)
+                if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                     if (action.equalIgnoreCase("download")) {
                         downloadLink = response.body()?.data?.get(0)?.path
                         Log.d("downloadResume", "Downloadlink: $downloadLink")
                     } else {
-                        toast(response?.body()?.message!!)
+                        toast(response.body()?.message!!)
                         communicator.gotoResumeUploadFragment()
                         Constants.cvUploadStatus=""
                     }

@@ -144,26 +144,26 @@ class CareerEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateCareerData(session.userId, session.decodId, session.IsResumeUpdate,
                 etCrObj.getString(), etCrPresentSalary.getString(), etCrExpSalary.getString(), jobLevel, jobNature)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(getString(R.string.message_common_error))
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(getString(R.string.message_common_error))
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
-                        response.body()?.message?.let { activity.toast(it) }
+                        activity?.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity?.toast(it) }
                         if (response.body()?.statuscode == "4") {
                             personalInfo.goBack()
                         }
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    //activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                     logException(e)
                 }
