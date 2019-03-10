@@ -63,7 +63,7 @@ class FollowedEmployersListFragment : Fragment() {
             Log.d("follow", followedEmployerList.toString())
             uiThread {
                 followedListSize = followedEmployerList?.size!!
-                followedEmployersAdapter = FollowedEmployersAdapter(activity!!)
+                followedEmployersAdapter = FollowedEmployersAdapter(activity)
                 followedRV!!.adapter = followedEmployersAdapter
                 followedRV!!.setHasFixedSize(true)
                 followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

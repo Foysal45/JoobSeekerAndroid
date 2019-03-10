@@ -744,10 +744,14 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         Log.d("ShareJob", "position $position")
 
         var shareBody = ""
-        if (jobList!!.get(position).lantype.equals("2")) {
-            shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}&ln=${jobList!!.get(position).lantype}"
-        } else {
-            shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}"
+        try {
+            if (jobList!!.get(position).lantype.equals("2")) {
+                shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}&ln=${jobList!!.get(position).lantype}"
+            } else {
+                shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}"
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
 
 
@@ -777,7 +781,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             }
 
                             override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
-                                context.toast(response.body()?.message!!)
+                                try {
+                                    context.toast(response.body()?.message!!)
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
                             }
                         })
 

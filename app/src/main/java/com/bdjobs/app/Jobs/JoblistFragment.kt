@@ -539,32 +539,32 @@ class JoblistFragment : Fragment() {
                         if (!session.isLoggedIn!!) {
                             communicator.goToLoginPage()
                         } else {
-                            if(filterID==""){
+                            if (filterID == "") {
                                 doAsync {
                                     val favsearchList = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
                                     val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByName(filterNameET.getString().trim())
 
                                     var fid = ""
-                                    try{
+                                    try {
                                         fid = favSearch.filterid!!
-                                    }catch (e:java.lang.Exception){
+                                    } catch (e: java.lang.Exception) {
                                         logException(e)
                                     }
 
                                     uiThread {
-                                        Log.d("favsearchList","size: ${favsearchList.size} fid: $fid")
+                                        Log.d("favsearchList", "size: ${favsearchList.size} fid: $fid")
                                         if (favsearchList.size > 9) {
                                             toast("You cannot add more than 10 Favourite Search")
-                                        } else if (fid!="") {
+                                        } else if (fid != "") {
                                             toast("This filter name is already exists.")
                                         } else {
-                                            saveSearchIntoAPIAndDB(tempFilterID= tempFilterID,filterName = filterNameET.getString(),saveSearchDialog = saveSearchDialog)
+                                            saveSearchIntoAPIAndDB(tempFilterID = tempFilterID, filterName = filterNameET.getString(), saveSearchDialog = saveSearchDialog)
                                         }
                                     }
                                 }
 
-                            }else{
-                                saveSearchIntoAPIAndDB(tempFilterID= tempFilterID,filterName = filterNameET.getString(),saveSearchDialog = saveSearchDialog)
+                            } else {
+                                saveSearchIntoAPIAndDB(tempFilterID = tempFilterID, filterName = filterNameET.getString(), saveSearchDialog = saveSearchDialog)
                             }
                         }
                     }
@@ -573,7 +573,7 @@ class JoblistFragment : Fragment() {
         }
     }
 
-    private fun saveSearchIntoAPIAndDB(tempFilterID:String,filterName:String,saveSearchDialog:Dialog) {
+    private fun saveSearchIntoAPIAndDB(tempFilterID: String, filterName: String, saveSearchDialog: Dialog) {
         val loadingDialog = indeterminateProgressDialog("Saving")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
@@ -608,53 +608,56 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
 
+                try {
+                    if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                        doAsync {
 
-                if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
-                    doAsync {
+                            try {
+                                val favouriteSearch = FavouriteSearch(
+                                        filterid = response.body()?.data?.get(0)?.sfilterid,
+                                        filtername = filterName.trim(),
+                                        industrialCat = industry,
+                                        functionalCat = category,
+                                        location = location,
+                                        organization = organization,
+                                        jobnature = jobNature,
+                                        joblevel = jobLevel,
+                                        postedon = postedWithin,
+                                        deadline = deadline,
+                                        keyword = keyword,
+                                        newspaper = newsPaper,
+                                        gender = gender,
+                                        experience = experience,
+                                        age = age,
+                                        jobtype = jobType,
+                                        retiredarmy = army,
+                                        createdon = Date(),
+                                        updatedon = null,
+                                        totaljobs = "",
+                                        genderb = ""
+                                )
 
-                        try {
-                            val favouriteSearch = FavouriteSearch(
-                                    filterid = response.body()?.data?.get(0)?.sfilterid,
-                                    filtername = filterName.trim(),
-                                    industrialCat = industry,
-                                    functionalCat = category,
-                                    location = location,
-                                    organization = organization,
-                                    jobnature = jobNature,
-                                    joblevel = jobLevel,
-                                    postedon = postedWithin,
-                                    deadline = deadline,
-                                    keyword = keyword,
-                                    newspaper = newsPaper,
-                                    gender = gender,
-                                    experience = experience,
-                                    age = age,
-                                    jobtype = jobType,
-                                    retiredarmy = army,
-                                    createdon = Date(),
-                                    updatedon = null,
-                                    totaljobs = "",
-                                    genderb = ""
-                            )
+                                bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
 
-                            bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
-
-                            communicator.setFilterID(response.body()?.data?.get(0)?.sfilterid!!)
-                            communicator.setFilterName(filterName)
-                            uiThread {
-                                loadingDialog.dismiss()
-                                toast("${response.body()?.data?.get(0)?.message}")
-                                saveSearchDialog.dismiss()
-                                saveSearchDicission()
+                                communicator.setFilterID(response.body()?.data?.get(0)?.sfilterid!!)
+                                communicator.setFilterName(filterName)
+                                uiThread {
+                                    loadingDialog.dismiss()
+                                    toast("${response.body()?.data?.get(0)?.message}")
+                                    saveSearchDialog.dismiss()
+                                    saveSearchDicission()
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
                             }
-                        } catch (e: Exception) {
-                            logException(e)
                         }
-                    }
 
-                }else{
-                    loadingDialog.dismiss()
-                    saveSearchDialog.dismiss()
+                    } else {
+                        loadingDialog.dismiss()
+                        saveSearchDialog.dismiss()
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         })

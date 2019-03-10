@@ -15,6 +15,7 @@ import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -100,10 +101,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private fun loadFirstPage(activityDate : String) {
 
         try {
-            viewedMyResumeRV.hide()
-            favCountTV.hide()
-            shimmer_view_container_employerViewedMyList.show()
-            shimmer_view_container_employerViewedMyList.startShimmerAnimation()
+            viewedMyResumeRV?.hide()
+            favCountTV?.hide()
+            shimmer_view_container_employerViewedMyList?.show()
+            shimmer_view_container_employerViewedMyList?.startShimmerAnimation()
 
 
 
@@ -124,10 +125,14 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
             ).enqueue(object : Callback<EmpVwdResume> {
                 override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
-                    toast("${t.message}")
-                    shimmer_view_container_employerViewedMyList?.hide()
-                    shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                    try {
+                        activity?.toast("${t.message}")
+                        shimmer_view_container_employerViewedMyList?.hide()
+                        shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                    } catch (e: Exception) {
+                        logException(e)
                     }
+                }
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
                     Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
@@ -203,8 +208,13 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
             ).enqueue(object : Callback<EmpVwdResume> {
                 override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
-                    toast("${t.message}")
-                      }
+                    try {
+                        activity?.toast("${t.message}")
+                        error("onFailure", t)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
 

@@ -610,19 +610,23 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun onBackPressed() {
-        val bdjobsUserSession = BdjobsUserSession(applicationContext)
-        if (bdjobsUserSession.isLoggedIn!!) {
-            val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
-            if (joblistFragment != null && joblistFragment.isVisible) {
-                val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finishAffinity()
+        try {
+            val bdjobsUserSession = BdjobsUserSession(applicationContext)
+            if (bdjobsUserSession.isLoggedIn!!) {
+                val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
+                if (joblistFragment != null && joblistFragment.isVisible) {
+                    val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finishAffinity()
+                } else {
+                    super.onBackPressed()
+                }
             } else {
                 super.onBackPressed()
             }
-        } else {
-            super.onBackPressed()
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 

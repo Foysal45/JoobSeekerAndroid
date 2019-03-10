@@ -50,7 +50,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_insert_drive_file_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_chevron_right_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -60,12 +60,13 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_preferred_area_icon" />
+                            <entry key="color" value="393939" />
+                            <entry key="height" value="18" />
+                            <entry key="outputName" value="ic_chevron" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\RUBAY\Downloads\preferred area icon.svg" />
+                            <entry key="sourceFile" value="C:\Users\Firoz Hasan\Documents\My Received Files\IT36-Md. Badiour Rahman Ext.165\Group 4653.svg" />
+                            <entry key="width" value="18" />
                           </map>
                         </option>
                       </PersistentState>

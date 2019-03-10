@@ -17,14 +17,14 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
     private var trainingList: ArrayList<TrainingListData>? = ArrayList()
 
     override fun onBindViewHolder(holder: TrainingListViewHolder, position: Int) {
-        holder?.trainingName.text = trainingList!![position].topic
-        holder?.trainingVenue.text = trainingList!![position].venue
-        holder?.trainingDate.text = trainingList!![position].date
+        holder?.trainingName.text = trainingList?.get(position)?.topic
+        holder?.trainingVenue.text = trainingList?.get(position)?.venue
+        holder?.trainingDate.text = trainingList?.get(position)?.date
        // holder.adapterPosition(position)
         holder.itemView.setOnClickListener {
             try {
 
-                val url = "http://bdjobstraining.com/trainingdetails.asp?" + trainingList!![position].detailurl
+                val url = "http://bdjobstraining.com/trainingdetails.asp?" + trainingList?.get(position)?.detailurl
                 println("my page $url")
 
                 context.startActivity<WebActivity>(

@@ -129,11 +129,11 @@ class LoginUserNameFragment : Fragment() {
 
         Log.d("socialMediaMapping", "sMid:$sMid \n semail:$semail  \n sType: $sType")
 
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
 
         ApiServiceMyBdjobs.create().getSocialAccountList(SocialMediaId = sMid, email = semail, MediaName = sType).enqueue(object : Callback<SocialLoginAccountListModel> {
             override fun onFailure(call: Call<SocialLoginAccountListModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
+                activity?.stopProgressBar(loadingProgressBar)
                 error("onFailure", t)
 
             }
@@ -172,25 +172,29 @@ class LoginUserNameFragment : Fragment() {
 
                                 override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
                                     error("onFailure", t)
-                                    activity.stopProgressBar(loadingProgressBar)
+                                    activity?.stopProgressBar(loadingProgressBar)
                                 }
 
                                 override fun onResponse(call: Call<LoginSessionModel>, response: Response<LoginSessionModel>) {
-                                    if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
-                                        response.body()?.data?.get(0)?.let { sessionData ->
-                                            val bdjobsUserSession = BdjobsUserSession(activity)
-                                            bdjobsUserSession.createSession(sessionData)
-                                            loginCommunicator.goToHomePage()
-                                        }
+                                    try {
+                                        if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+                                            response.body()?.data?.get(0)?.let { sessionData ->
+                                                val bdjobsUserSession = BdjobsUserSession(activity)
+                                                bdjobsUserSession.createSession(sessionData)
+                                                loginCommunicator.goToHomePage()
+                                            }
 
-                                    } else {
-                                        activity.stopProgressBar(loadingProgressBar)
-                                        toast(response.body()?.message!!)
+                                        } else {
+                                            activity?.stopProgressBar(loadingProgressBar)
+                                            toast(response.body()?.message!!)
+                                        }
+                                    } catch (e: Exception) {
+                                        logException(e)
                                     }
                                 }
                             })
                         } else if (!hasMappedAccount) {
-                            activity.stopProgressBar(loadingProgressBar)
+                            activity?.stopProgressBar(loadingProgressBar)
                             response.body()?.common?.total?.let { total ->
                                 Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
                                 try {
@@ -203,7 +207,7 @@ class LoginUserNameFragment : Fragment() {
                             }
                         }
                     } else {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         toast(response.body()?.message!!)
                     }
                 } catch (e: Exception) {
@@ -414,17 +418,17 @@ class LoginUserNameFragment : Fragment() {
     }
 
     private fun checkUserHasAccount(userName: String) {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         ApiServiceMyBdjobs.create().getLoginUserDetails(userName).enqueue(object : Callback<LoginUserModel> {
 
             override fun onFailure(call: Call<LoginUserModel>?, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
+                activity?.stopProgressBar(loadingProgressBar)
                 error("onFailure", t)
             }
 
             override fun onResponse(call: Call<LoginUserModel>?, response: Response<LoginUserModel>?) {
                 try {
-                    activity.stopProgressBar(loadingProgressBar)
+                    activity?.stopProgressBar(loadingProgressBar)
                     if (response?.body()?.statuscode == api_request_result_code_ok) {
                         useNameTIL.hideError()
                         if (response.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
@@ -481,8 +485,12 @@ class LoginUserNameFragment : Fragment() {
     }
 
     private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
-            activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        try {
+            if (view.requestFocus()) {
+                activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
