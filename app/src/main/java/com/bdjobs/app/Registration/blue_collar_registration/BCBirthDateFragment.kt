@@ -79,7 +79,13 @@ class BCBirthDateFragment : Fragment() {
                 val sdf = SimpleDateFormat("MM/dd/yyyy")
                 try {
                     val birthDate = sdf.parse(birthdate)
+
+                    Log.d("Test", " birthDate after parse $birthDate ")
+
                     age = calculateAge(birthDate)
+
+                    Log.d("Test", " age in calculationn ${calculateAge(birthDate)} age ${age}")
+
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }

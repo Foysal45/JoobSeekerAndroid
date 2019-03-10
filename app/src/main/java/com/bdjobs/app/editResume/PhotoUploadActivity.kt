@@ -71,7 +71,7 @@ class PhotoUploadActivity : Activity() {
     private var isResumeUpdate: String = ""
     internal var params = RequestParams()
     internal var reqParams = RequestParams()
-    private lateinit var dialog: Dialog
+    private var dialog: Dialog? = null
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var progressDialog: ProgressDialog
     private lateinit var resultUri: Uri
@@ -176,7 +176,12 @@ class PhotoUploadActivity : Activity() {
             }
 
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-                Log.e("photoAPI", error.message)
+                try {
+                    Log.e("photoAPI", error.message)
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
 
             }
         })
@@ -416,153 +421,163 @@ class PhotoUploadActivity : Activity() {
 
         Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
 
-        if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+        try {
+            if (resultCode != RESULT_CANCELED && requestCode != null && data != null) {
 
-            var fileUri: Uri? = null
+                if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
 
-            val selectedImageUri = data.data
-            val tempPath = getPathCloud(selectedImageUri, this@PhotoUploadActivity)
-            val url = data.data!!.toString()
-            if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+                    var fileUri: Uri? = null
 
-                try {
-                    val `is` = contentResolver.openInputStream(selectedImageUri!!)
-                    if (`is` != null) {
-                        deleteCache(applicationContext)
-                        bitmap = BitmapFactory.decodeStream(`is`)
-                        if (bitmap != null) {
-                            val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
-                            // CALL THIS METHOD TO GET THE ACTUAL PATHa
-                            var finalFile: File? = null
-                            try {
-                                finalFile = File(getRealPathFromURI(tempUri))
-                                fileUri = Uri.fromFile(finalFile)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                    val selectedImageUri = data.data
+                    val tempPath = getPathCloud(selectedImageUri, this@PhotoUploadActivity)
+                    val url = data.data!!.toString()
+                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+
+                        try {
+                            val `is` = contentResolver.openInputStream(selectedImageUri!!)
+                            if (`is` != null) {
+                                deleteCache(applicationContext)
+                                bitmap = BitmapFactory.decodeStream(`is`)
+                                if (bitmap != null) {
+                                    val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
+                                    // CALL THIS METHOD TO GET THE ACTUAL PATHa
+                                    var finalFile: File? = null
+                                    try {
+                                        finalFile = File(getRealPathFromURI(tempUri))
+                                        fileUri = Uri.fromFile(finalFile)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                } else {
+                                    Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
+                                }
+
                             }
-                        } else {
-                            Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
+                    val myDirectory = File("/sdcard/BDJOBS")
+                    if (!myDirectory.exists()) {
+                        myDirectory.mkdirs()
+                    }
+
+                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
+                    if (file.exists()) {
+                        val deleted = file.delete()
+                    }
+                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
+                    try {
+                        UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+
+                Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
+                        "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)
+
+                if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
+                    resultUri = UCrop.getOutput(data)!!
+
+                    editResPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
+
+                    uploadPhoto()
+
+                    editResPhotoUploadButton.isEnabled = true
+                    editResPhotoUploadButton.show()
+                    editResChangePhotoButton.hide()
+
+                    dialog?.dismiss()
+                    val path = resultUri.path
+
+                    val file = File(path)
+                    val size = file.length()
+                    val fileSizeInKB = size / 1024
+                    // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                    val fileSizeInMB = fileSizeInKB / 1024
+                    if (fileSizeInMB > 3) {
+                        Toast.makeText(this, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
+                    } else if (fileSizeInMB <= 3) {
+
+                        doAsync {
+                            try {
+                                var options: BitmapFactory.Options? = null
+                                options = BitmapFactory.Options()
+                                options.inSampleSize = 3
+
+                                bitmap = BitmapFactory.decodeFile(path, options)
+                                val stream = ByteArrayOutputStream()
+                                // Must compress the Image to reduce image size to make upload easy
+                                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                                val byte_arr = stream.toByteArray()
+                                // Encode Image to String
+                                encodedString = Base64.encodeToString(byte_arr, 0)
+                            } catch (e: Exception) {
+                                error("SEMVcb $e")
+                            }
                         }
 
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+
+
+                } else if (resultCode == UCrop.RESULT_ERROR) {
+                    val cropError = UCrop.getError(data)
                 }
-            }
 
-            val myDirectory = File("/sdcard/BDJOBS")
-            if (!myDirectory.exists()) {
-                myDirectory.mkdirs()
-            }
+                if (requestCode == REQ_CAMERA_IMAGE && resultCode == Activity.RESULT_OK) {
 
-            val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-            if (file.exists()) {
-                val deleted = file.delete()
-            }
-            val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-            try {
-                UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
-
-        Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
-                "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)
-
-        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
-            resultUri = UCrop.getOutput(data)!!
-
-            editResPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
-
-            uploadPhoto()
-
-            editResPhotoUploadButton.isEnabled = true
-            editResPhotoUploadButton.show()
-            editResChangePhotoButton.hide()
-
-            dialog.dismiss()
-            val path = resultUri.path
-
-            val file = File(path)
-            val size = file.length()
-            val fileSizeInKB = size / 1024
-            // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
-            val fileSizeInMB = fileSizeInKB / 1024
-            if (fileSizeInMB > 3) {
-                Toast.makeText(this, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
-            } else if (fileSizeInMB <= 3) {
-
-                doAsync {
-                    try {
-                        var options: BitmapFactory.Options? = null
-                        options = BitmapFactory.Options()
-                        options.inSampleSize = 3
-
-                        bitmap = BitmapFactory.decodeFile(path, options)
-                        val stream = ByteArrayOutputStream()
-                        // Must compress the Image to reduce image size to make upload easy
-                        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                        val byte_arr = stream.toByteArray()
-                        // Encode Image to String
-                        encodedString = Base64.encodeToString(byte_arr, 0)
-                    } catch (e: Exception) {
-                        error("SEMVcb $e")
+                    val path = getLastImagePath()
+                    val SourceUri = Uri.fromFile(File(path))
+                    val myDirectory = File("/sdcard/BDJOBS")
+                    if (!myDirectory.exists()) {
+                        myDirectory.mkdirs()
                     }
+
+                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
+                    if (file.exists()) {
+                        val deleted = file.delete()
+                    }
+                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
+                    UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
                 }
 
             }
-
-
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            val cropError = UCrop.getError(data!!)
+        } catch (e: Exception) {
+            logException(e)
         }
 
-        if (requestCode == REQ_CAMERA_IMAGE && resultCode == Activity.RESULT_OK) {
 
-            val path = getLastImagePath()
-            val SourceUri = Uri.fromFile(File(path))
-            val myDirectory = File("/sdcard/BDJOBS")
-            if (!myDirectory.exists()) {
-                myDirectory.mkdirs()
-            }
-
-            val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-            if (file.exists()) {
-                val deleted = file.delete()
-            }
-            val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-            UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
-        }
     }
 
 
     private fun showDialog(activity: Activity) {
         dialog = Dialog(activity)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.edit_res_photo_diaolg_layout)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(true)
+        dialog?.setContentView(R.layout.edit_res_photo_diaolg_layout)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val deleteImageView = dialog.findViewById<ImageView>(R.id.deleteIV)
-        val photoUploadTV = dialog.findViewById<TextView>(R.id.photoUploadTV)
-        val cameraButton = dialog.findViewById<Button>(R.id.camera_button)
-        val galleryButton = dialog.findViewById<TextView>(R.id.gallery_button)
+        val deleteImageView = dialog?.findViewById<ImageView>(R.id.deleteIV)
+        val photoUploadTV = dialog?.findViewById<TextView>(R.id.photoUploadTV)
+        val cameraButton = dialog?.findViewById<Button>(R.id.camera_button)
+        val galleryButton = dialog?.findViewById<TextView>(R.id.gallery_button)
 
 
-        deleteImageView.setOnClickListener {
+        deleteImageView?.setOnClickListener {
 
-            dialog.dismiss()
+            dialog?.dismiss()
         }
-        cameraButton.setOnClickListener {
+        cameraButton?.setOnClickListener {
             RequestPermissionAndOpenCamera()
         }
 
-        galleryButton.setOnClickListener {
+        galleryButton?.setOnClickListener {
             performFileSearch()
         }
 
-        dialog.show()
+        dialog?.show()
 
     }
 

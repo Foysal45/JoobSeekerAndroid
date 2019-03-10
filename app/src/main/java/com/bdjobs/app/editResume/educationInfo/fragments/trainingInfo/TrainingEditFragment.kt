@@ -166,8 +166,9 @@ class TrainingEditFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    assert(activity != null)
-                    activity.stopProgressBar(loadingProgressBar)
+                    /* assert(activity != null)
+                     activity?.stopProgressBar(loadingProgressBar)*/
+                    logException(e)
                     e.printStackTrace()
                 }
             }
@@ -211,8 +212,9 @@ class TrainingEditFragment : Fragment() {
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
-                    activity.toast(response.body()?.message.toString())
+                    /* activity?.stopProgressBar(loadingProgressBar)
+                     activity?.toast(response.body()?.message.toString())*/
+                    logException(e)
                     e.printStackTrace()
                 }
             }

@@ -42,7 +42,6 @@ import java.util.*
 class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
-
     //white Collar
     private val registrationLandingFragment = RegistrationLandingFragment()
     private val wccategoryFragment = WCCategoryFragment()
@@ -53,7 +52,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val wcPasswordFragment = WCPasswordFragment()
     private val wcCongratulationFragment = WCCongratulationFragment()
     private val wcMobileVerificationFragment = WCOtpCodeFragment()
-    private lateinit var categoryId: String
+    private var categoryId: String = ""
     private var category: String = ""
     private lateinit var dataStorage: DataStorage
     private var name: String = ""
@@ -157,14 +156,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun checkInviteCodeEligibility() {
         val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
         ApiServiceMyBdjobs.create().inviteCodeUserVerify(
-                userID= bdjobsUserSession.userId,
+                userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
                 mobileNumber = bdjobsUserSession.userName,
                 catId = getBlueCollarUserId().toString(),
                 deviceID = getDeviceID()
-        ).enqueue(object:Callback<InviteCodeUserVerifyModel>{
+        ).enqueue(object : Callback<InviteCodeUserVerifyModel> {
             override fun onFailure(call: Call<InviteCodeUserVerifyModel>, t: Throwable) {
-                error("onFailure",t)
+                error("onFailure", t)
             }
 
             override fun onResponse(call: Call<InviteCodeUserVerifyModel>, response: Response<InviteCodeUserVerifyModel>) {
@@ -405,7 +404,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             }
 
             override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
-
 
 
                 if (categoryType.equals("1", true)) {
@@ -696,7 +694,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             }
 
 
-
         })
 
 
@@ -724,7 +721,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                     logException(e)
                 }
-
 
 
             }
@@ -1017,9 +1013,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         }
 
 
-
-
-
     }
 
     private fun setProgreesBar() {
@@ -1132,13 +1125,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun getINLROData(): String {
         return educationType
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
-
-
         try {
-            if (resultCode != RESULT_CANCELED) {
+            if (resultCode != RESULT_CANCELED && requestCode != null && data != null) {
+
 
                 bcPhotoUploadFragment.onActivityResult(requestCode, resultCode, data)
                 callbackManager?.onActivityResult(requestCode, resultCode, data)
@@ -1204,7 +1197,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                     }
                 }
 
+
             }
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -1450,9 +1445,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
-   /* private fun buildScope(): Scope {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
-    }*/
+    /* private fun buildScope(): Scope {
+         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
+     }*/
 
 
     private fun initializeGoogleRegistration() {
