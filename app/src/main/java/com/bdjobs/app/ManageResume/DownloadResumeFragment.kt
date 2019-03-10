@@ -44,7 +44,7 @@ class DownloadResumeFragment : Fragment() {
         }
 
         submitTV.setOnClickListener {
-            activity?.openUrlInBrowser(downloadLink)
+            activity.openUrlInBrowser(downloadLink)
         }
 
         submitTV1.setOnClickListener {
@@ -80,21 +80,29 @@ class DownloadResumeFragment : Fragment() {
                 status = action
         ).enqueue(object : Callback<UploadResume> {
             override fun onFailure(call: Call<UploadResume>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                error("onFailure", t)
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    error("onFailure", t)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
-                activity?.stopProgressBar(loadingProgressBar)
-                if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
-                    if (action.equalIgnoreCase("download")) {
-                        downloadLink = response.body()?.data?.get(0)?.path
-                        Log.d("downloadResume", "Downloadlink: $downloadLink")
-                    } else {
-                        toast(response.body()?.message!!)
-                        communicator.gotoResumeUploadFragment()
-                        Constants.cvUploadStatus=""
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+                        if (action.equalIgnoreCase("download")) {
+                            downloadLink = response.body()?.data?.get(0)?.path
+                            Log.d("downloadResume", "Downloadlink: $downloadLink")
+                        } else {
+                            toast(response.body()?.message!!)
+                            communicator.gotoResumeUploadFragment()
+                            Constants.cvUploadStatus = ""
+                        }
                     }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         })

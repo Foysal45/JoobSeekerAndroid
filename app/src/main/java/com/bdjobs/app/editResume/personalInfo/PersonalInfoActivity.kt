@@ -107,6 +107,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     private fun getIntentValues() {
+        //gkflhjgh
         name = intent.getStringExtra("name")
         gotToAddEmployment = intent.getStringExtra("personal_info_edit")
         goToEditInfo(gotToAddEmployment)

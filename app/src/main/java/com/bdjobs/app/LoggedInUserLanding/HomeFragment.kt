@@ -186,18 +186,21 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         doAsync {
             jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
             uiThread {
-                showBlankLayout()
-                jobInvitationView?.hide()
-                if (!jobInvitations.isNullOrEmpty()) {
-                    var companyNames = ""
-                    jobInvitations?.forEach { item ->
-                        companyNames += item.companyName + ","
+                try {
+                    showBlankLayout()
+                    jobInvitationView?.hide()
+                    if (!jobInvitations.isNullOrEmpty()) {
+                        var companyNames = ""
+                        jobInvitations?.forEach { item ->
+                            companyNames += item.companyName + ","
+                        }
+                        jobInvitedCompanyNameTV?.text = companyNames.removeLastComma()
+                        jobInvitationcounterTV?.text = jobInvitations?.size.toString()
+                        blankCL?.hide()
+                        mainLL?.show()
+                        jobInvitationView?.show()
                     }
-                    jobInvitedCompanyNameTV?.text = companyNames.removeLastComma()
-                    jobInvitationcounterTV?.text = jobInvitations?.size.toString()
-                    blankCL?.hide()
-                    mainLL?.show()
-                    jobInvitationView?.show()
+                } catch (e: Exception) {
                 }
             }
         }
@@ -211,12 +214,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 showBlankLayout()
                 favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
-                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
-                    favRV?.adapter = favouriteSearchFilterAdapter
-                    blankCL?.hide()
-                    mainLL?.show()
-                    myfavSearchTV?.text = "My favourite search filters (${allfavsearch.size})"
-                    favSearchView?.show()
+                    try {
+                        val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
+                        favRV?.adapter = favouriteSearchFilterAdapter
+                        blankCL?.hide()
+                        mainLL?.show()
+                        myfavSearchTV?.text = "My favourite search filters (${allfavsearch.size})"
+                        favSearchView?.show()
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
                 }
             }
         }
@@ -227,18 +234,21 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         doAsync {
             b2CCertificationList = bdjobsDB.b2CCertificationDao().getAllB2CCertification()
             uiThread {
-                showBlankLayout()
-                assesmentView?.hide()
-                if (!b2CCertificationList.isNullOrEmpty()) {
-                    var jobRoles = ""
-                    b2CCertificationList?.forEach { item ->
-                        jobRoles += item.jobRole + ","
+                try {
+                    showBlankLayout()
+                    assesmentView?.hide()
+                    if (!b2CCertificationList.isNullOrEmpty()) {
+                        var jobRoles = ""
+                        b2CCertificationList?.forEach { item ->
+                            jobRoles += item.jobRole + ","
+                        }
+                        jobRolesTV?.text = jobRoles
+                        certificationCounterTV?.text = b2CCertificationList?.size.toString().removeLastComma()
+                        blankCL?.hide()
+                        mainLL?.show()
+                        assesmentView?.show()
                     }
-                    jobRolesTV?.text = jobRoles
-                    certificationCounterTV?.text = b2CCertificationList?.size.toString().removeLastComma()
-                    blankCL?.hide()
-                    mainLL?.show()
-                    assesmentView?.show()
+                } catch (e: Exception) {
                 }
             }
         }
@@ -437,8 +447,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 } catch (e: Exception) {
                     logException(e)
                 }
-
-
             }
 
         })
@@ -456,41 +464,45 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             uiThread {
                 Log.d("ShortListedJobPopup", "Job found: ${shortlistedjobs.size}")
 
-                if (shortlistedjobs.isNotEmpty()) {
-                    val dialog = Dialog(activity)
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                    dialog.setCancelable(true)
-                    dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
-                    dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                try {
+                    if (shortlistedjobs.isNotEmpty()) {
+                        val dialog = Dialog(activity)
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog.setCancelable(true)
+                        dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
+                        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                    val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
-                    val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
-                    val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
-                    val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
-                    // val deadlineCG = dialog.findViewById<ChipGroup>(R.id.deadlineCG)
-                    checkBox.setOnCheckedChangeListener { _, isChecked ->
-                        Constants.showShortListedPopUp = !isChecked
+                        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
+                        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
+                        val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
+                        val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+                        // val deadlineCG = dialog.findViewById<ChipGroup>(R.id.deadlineCG)
+                        checkBox.setOnCheckedChangeListener { _, isChecked ->
+                            Constants.showShortListedPopUp = !isChecked
+                        }
+
+
+                        var job = "Job"
+                        if (shortlistedjobs.size > 1)
+                            job = "Jobs"
+
+                        jobCountTV?.text = "${shortlistedjobs.size} $job found"
+
+                        //selectChip(deadlineCG,"Next 2 days")
+
+                        cancelIV?.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        showButton.setOnClickListener {
+                            homeCommunicator.setShortListFilter("Next 2 days")
+                            homeCommunicator.goToShortListedFragment(2)
+                            dialog.dismiss()
+                        }
+                        dialog.show()
                     }
-
-
-                    var job = "Job"
-                    if (shortlistedjobs.size > 1)
-                        job = "Jobs"
-
-                    jobCountTV.text = "${shortlistedjobs.size} $job found"
-
-                    //selectChip(deadlineCG,"Next 2 days")
-
-                    cancelIV.setOnClickListener {
-                        dialog.dismiss()
-                    }
-
-                    showButton.setOnClickListener {
-                        homeCommunicator.setShortListFilter("Next 2 days")
-                        homeCommunicator.goToShortListedFragment(2)
-                        dialog.dismiss()
-                    }
-                    dialog.show()
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         }

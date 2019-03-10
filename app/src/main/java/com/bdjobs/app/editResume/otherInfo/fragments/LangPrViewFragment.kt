@@ -93,7 +93,11 @@ class LangPrViewFragment : Fragment() {
             override fun onFailure(call: Call<LanguageModel>, t: Throwable) {
                 shimmerStop()
                 rv_lang_view?.show()
-                activity.toast("Error occurred")
+                try {
+                    activity?.toast("Error occurred")
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<LanguageModel>, response: Response<LanguageModel>) {

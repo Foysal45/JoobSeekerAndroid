@@ -64,17 +64,15 @@ class ORIViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        clORIMainLayout.show()
+                        clORIMainLayout?.show()
                         val respo = response.body()
                         oriCallBack.passOriData(respo?.data?.get(0)!!)
                         setupView(respo)
                     }
                 } catch (e: Exception) {
-                    if (activity != null) {
-                        //activity?.toast("${response.body()?.message}")
-                        activity?.logException(e)
-                        activity?.error("++${e.message}")
-                    }
+                    e.printStackTrace()
+                    activity?.logException(e)
+
                 }
             }
         })
@@ -116,8 +114,8 @@ class ORIViewFragment : Fragment() {
 
     private fun shimmerStart() {
         try {
-            shimmer_view_container_JobList.show()
-            shimmer_view_container_JobList.startShimmerAnimation()
+            shimmer_view_container_JobList?.show()
+            shimmer_view_container_JobList?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -126,8 +124,8 @@ class ORIViewFragment : Fragment() {
 
     private fun shimmerStop() {
         try {
-            shimmer_view_container_JobList.hide()
-            shimmer_view_container_JobList.stopShimmerAnimation()
+            shimmer_view_container_JobList?.hide()
+            shimmer_view_container_JobList?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
