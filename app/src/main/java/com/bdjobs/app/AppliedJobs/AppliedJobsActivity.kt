@@ -11,12 +11,19 @@ import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+    override fun setFrom(value: String) {
+        from = value
+    }
+
+    override fun getFrom(): String {
+        return from
+    }
 
     private var title: String = ""
     private var jobid: String = ""
     private var company: String = ""
     private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
-
+    private var from = ""
 
     override fun setTitle(title: String) {
         this.title = title

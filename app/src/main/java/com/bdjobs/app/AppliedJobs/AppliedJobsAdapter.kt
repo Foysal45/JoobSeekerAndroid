@@ -12,11 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.BackgroundJob.CancelAppliedJob
 import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.getString
@@ -24,6 +26,7 @@ import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
@@ -127,10 +130,10 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
                     val todaysDate = Date()
 
-             /*       Log.d("date", "$deadline - $todaysDate")
-                    Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
-                            "jobid = " + appliedJobsLists!![position].jobId
-                            + "deadline=$deadline + \"todays=$todaysDate ")*/
+                    /*       Log.d("date", "$deadline - $todaysDate")
+                           Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
+                                   "jobid = " + appliedJobsLists!![position].jobId
+                                   + "deadline=$deadline + \"todays=$todaysDate ")*/
 
                     val compare = deadline.compareTo(todaysDate)
                     Log.d("date", "compare = $compare")
@@ -172,58 +175,94 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 
             holder?.edit_SalaryIcon?.setOnClickListener {
-                Log.d("huhu", "huhu")
+                try {
+                    Log.d("huhu", "huhu")
 
-                val saveSearchDialog = Dialog(context)
-                saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
-                saveSearchDialog?.setCancelable(true)
-                saveSearchDialog?.show()
-                val updateBTN = saveSearchDialog?.findViewById(R.id.updateBTN) as Button
-                val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
-                val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
-                val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
-                val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
-                val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
-                val expected_salary_ET = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
-                position_tv.text = appliedJobsLists?.get(position)?.title
-                employer_tv.text = appliedJobsLists?.get(position)?.companyName
-                accountResult_tv.text = session.userName
-                var expectedSalary = appliedJobsLists?.get(position)?.expectedSalary
-                expected_salary_ET.setText(expectedSalary.toString())
+                    val saveSearchDialog = Dialog(context)
+                    saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
+                    saveSearchDialog?.setCancelable(true)
+                    saveSearchDialog?.show()
+                    val updateBTN = saveSearchDialog?.findViewById(R.id.updateBTN) as Button
+                    val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
+                    val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                    val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
+                    val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
+                    val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
+                    val expected_salary_ET = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                    position_tv.text = appliedJobsLists?.get(position)?.title
+                    employer_tv.text = appliedJobsLists?.get(position)?.companyName
+                    accountResult_tv.text = session.userName
+                    var expectedSalary = appliedJobsLists?.get(position)?.expectedSalary
+                    expected_salary_ET.setText(expectedSalary.toString())
 
 
-                cancelBTN?.setOnClickListener {
-                    saveSearchDialog?.dismiss()
-                }
-                updateBTN.setOnClickListener {
-                    //update
-                    var salary = expected_salary_tv.getString()
-                    Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
-                    ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
-                    // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
-                    saveSearchDialog?.dismiss()
-                    appliedJobsLists?.get(position)?.expectedSalary = salary
-                    notifyItemChanged(position)
+                    cancelBTN?.setOnClickListener {
+                        try {
+                            saveSearchDialog?.dismiss()
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                    updateBTN.setOnClickListener {
+                        try {//update
+                            var salary = expected_salary_tv.getString()
+                            Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
+                            ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
+                            // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
+                            saveSearchDialog?.dismiss()
+                            appliedJobsLists?.get(position)?.expectedSalary = salary
+                            notifyItemChanged(position)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
 
             }
             holder?.cancelBTN?.setOnClickListener {
-                removeItem(holder.adapterPosition, it)
+                try {
+                    removeItem(holder.adapterPosition, it)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
             holder?.interviewBTN?.setOnClickListener {
-                communicator.gotoInterviewInvitationDetails(
-                        from = "appliedjobs",
-                        jobID = appliedJobsLists?.get(position)?.jobId!!,
-                        jobTitle = appliedJobsLists?.get(position)?.title!!,
-                        companyName = appliedJobsLists?.get(position)?.companyName!!
-                )
+                try {
+                    communicator.gotoInterviewInvitationDetails(
+                            from = "appliedjobs",
+                            jobID = appliedJobsLists?.get(position)?.jobId!!,
+                            jobTitle = appliedJobsLists?.get(position)?.title!!,
+                            companyName = appliedJobsLists?.get(position)?.companyName!!
+                    )
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
             holder?.interactionBTN?.setOnClickListener {
-                communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
-                communicator?.gotoEmployerInteractionFragment()
-                communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
-                communicator?.setTitle(appliedJobsLists?.get(position)?.title!!)
+                try {
+                    communicator.setFrom("employerInteraction")
+                    communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
+                    communicator?.gotoEmployerInteractionFragment()
+                    communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
+                    communicator?.setTitle(appliedJobsLists?.get(position)?.title!!)
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+            holder?.itemView?.setOnClickListener {
+                try {
+                    val jobids = ArrayList<String>()
+                    val lns = ArrayList<String>()
+                    jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
+                    lns.add("0")
+                    communicator.setFrom("")
+                    activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
         } catch (e: Exception) {
             logException(e)
@@ -232,46 +271,58 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     }
 
     fun removeItem(position: Int, view: View) {
-        if (appliedJobsLists?.size != 0) {
-            val deletedItem = appliedJobsLists?.get(position)
-            val jobid = appliedJobsLists?.get(position)?.jobId
-            val companyName = appliedJobsLists?.get(position)?.companyName
-            Log.d("werywirye", "jobid = $jobid companyname = $companyName")
-            appliedJobsLists?.removeAt(position)
-            notifyItemRemoved(position)
-            try {
-                val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
-                undoRemove(view, deletedItem, position, deleteJobID)
-                communicator.decrementCounter()
-            } catch (e: Exception) {
+        try {
+            if (appliedJobsLists?.size != 0) {
+                val deletedItem = appliedJobsLists?.get(position)
+                val jobid = appliedJobsLists?.get(position)?.jobId
+                val companyName = appliedJobsLists?.get(position)?.companyName
+                Log.d("werywirye", "jobid = $jobid companyname = $companyName")
+                appliedJobsLists?.removeAt(position)
+                notifyItemRemoved(position)
+                try {
+                    val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
+                    undoRemove(view, deletedItem, position, deleteJobID)
+                    communicator.decrementCounter()
+                } catch (e: Exception) {
 
+                }
+
+            } else {
+                context.toast("No items left here!")
             }
-
-        } else {
-            context.toast("No items left here!")
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
     private fun undoRemove(v: View, deletedItem: AppliedJobModelData?, deletedIndex: Int, deleteJobID: Int) {
         // here we show snackbar and undo option
 
-        val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
-        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
-                .setAction("UNDO") {
-                    CancelAppliedJob.cancelJob(deleteJobID)
-                    restoreMe(deletedItem!!, deletedIndex)
-                    communicator?.scrollToUndoPosition(deletedIndex)
-                    Log.d("comid", "comid")
-                }
+        try {
+            val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
+            val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO") {
+                        CancelAppliedJob.cancelJob(deleteJobID)
+                        restoreMe(deletedItem!!, deletedIndex)
+                        communicator?.scrollToUndoPosition(deletedIndex)
+                        Log.d("comid", "comid")
+                    }
 
-        snack?.show()
-        Log.d("swipe", "dir to LEFT")
+            snack?.show()
+            Log.d("swipe", "dir to LEFT")
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     private fun restoreMe(item: AppliedJobModelData, pos: Int) {
-        appliedJobsLists?.add(pos, item)
-        notifyItemInserted(pos)
-        //undoButtonPressed = true
+        try {
+            appliedJobsLists?.add(pos, item)
+            notifyItemInserted(pos)
+            //undoButtonPressed = true
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
 
