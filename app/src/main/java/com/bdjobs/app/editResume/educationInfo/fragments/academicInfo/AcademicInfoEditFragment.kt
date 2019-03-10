@@ -870,8 +870,8 @@ class AcademicInfoEditFragment : Fragment() {
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -879,16 +879,17 @@ class AcademicInfoEditFragment : Fragment() {
                 try {
                     activity.stopProgressBar(loadingProgressBar)
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
                             eduCB.goBack()
                         }
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    //activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
+                    logException(e)
                 }
             }
         })
@@ -905,16 +906,17 @@ class AcademicInfoEditFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         clearEditText()
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
-                    activity.toast(response.body()?.message.toString())
+                    //activity.stopProgressBar(loadingProgressBar)
+                    //activity.toast(response.body()?.message.toString())
                     e.printStackTrace()
+                    logException(e)
                 }
             }
         })
