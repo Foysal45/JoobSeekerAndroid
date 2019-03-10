@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 62 //626
-        versionName "2.0.0.01"  //2.0
+        versionCode 626 //58
+        versionName "600.0.4.8.3"  //2.0
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,6 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -36,13 +37,13 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.google.android.material:material:1.0.0"
-    
+
     //----firebase
-    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:17.4.0"
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
     implementation 'com.google.firebase:firebase-perf:16.2.3'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
 
     //google sign in
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
@@ -70,27 +71,29 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.0.0'
     testImplementation 'androidx.room:room-testing:2.0.0'
 
+    //------linkedIn SDK
+//    implementation project(':linkedin-sdk')
+
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.facebook.android:facebook-login:4.38.1'
 
-    //-----background job
     implementation 'com.evernote:android-job:1.2.6'
 
-    //----image and file upload
+    //----image upload
     implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.droidninja:filepicker:2.2.0'
 
-    //web browser
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-rc01"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-rc01"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha11"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha11"
 
     //-----google maps
-    implementation "com.google.android.gms:play-services-maps:16.1.0"
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.6.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

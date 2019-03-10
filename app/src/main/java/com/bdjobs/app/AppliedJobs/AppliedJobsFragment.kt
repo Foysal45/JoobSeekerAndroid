@@ -18,6 +18,7 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -43,6 +44,7 @@ class AppliedJobsFragment : Fragment() {
     private var time: String = ""
     var jobsAppliedSize = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +55,17 @@ class AppliedJobsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_applied_jobs, container, false)
 
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        bdjobsUsersession = BdjobsUserSession(activity)
+        appliedJobsCommunicator = activity as AppliedJobsCommunicator
+        time = appliedJobsCommunicator.getTime()
+        initializeViews()
+        backIMV?.setOnClickListener {
+            appliedJobsCommunicator.backButtonPressed()
+        }
     }
 
 
@@ -83,20 +96,24 @@ class AppliedJobsFragment : Fragment() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
-        bdjobsUsersession = BdjobsUserSession(activity)
-        appliedJobsCommunicator = activity as AppliedJobsCommunicator
-        time = appliedJobsCommunicator.getTime()
-        initializeViews()
-        backIMV?.setOnClickListener {
-            appliedJobsCommunicator.backButtonPressed()
+
+        if(appliedJobsCommunicator.getFrom().equalIgnoreCase("employerInteraction")){
+            bdjobsUsersession = BdjobsUserSession(activity)
+
+            time = appliedJobsCommunicator.getTime()
+            initializeViews()
+            backIMV?.setOnClickListener {
+                appliedJobsCommunicator.backButtonPressed()
+            }
         }
 
     }
 
     private fun loadFirstPage(activityDate: String) {
-
+//
         try {
             appliedJobsRV?.hide()
             favCountTV?.hide()
