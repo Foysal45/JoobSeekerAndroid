@@ -67,58 +67,15 @@ class InterviewInvitationDetailsFragment : Fragment() {
             lns.add("0")
             startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
         }
-        noBTN.setOnClickListener { showCancelPopUp() }
-        ratingBTN.setOnClickListener { showRatingPopUp() }
-        rescheduleRequestTV.setOnClickListener { showReschedulePopUp() }
-        yesBTN.setOnClickListener {
-
-
+        noBTN?.setOnClickListener { showCancelPopUp() }
+        ratingBTN?.setOnClickListener { showRatingPopUp() }
+        rescheduleRequestTV?.setOnClickListener { showReschedulePopUp() }
+        yesBTN?.setOnClickListener {
             sendInterviewConfirmation(
                     applyID = applyID,
                     userActivity = "3",
                     invitationID = invitationID
             )
-
-
-            /*val progressDialog = ProgressDialog(activity)
-            progressDialog.setMessage("Please wait")
-            progressDialog.setCancelable(false)
-            progressDialog.show()
-
-            ApiServiceMyBdjobs.create().sendInterviewConfirmation(
-                    userID = bdjobsUserSession.userId!!,
-                    decodeID = bdjobsUserSession.decodId!!,
-                    applyId = applyID,
-                    activity = "3",
-                    invitationId = invitationID
-            ).enqueue(object : Callback<InvitationDetailModels> {
-                override fun onFailure(call: Call<InvitationDetailModels>, t: Throwable) {
-                    error("onFailure", t)
-                    try {
-                        progressDialog.dismiss()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-
-                override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
-                    try {
-                        progressDialog.dismiss()
-                        if (response.isSuccessful) {
-                            if (response.body()!!.statuscode?.equalIgnoreCase("4")!!) {
-                                Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
-                                getDetailsFromServer()
-                            } else {
-                                Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                }
-
-            })*/
         }
     }
 
@@ -255,48 +212,6 @@ class InterviewInvitationDetailsFragment : Fragment() {
                             invitationID = invitationID,
                             rescheduleComment = reason
                     )
-
-                    /*val progressDialog = ProgressDialog(activity)
-                    progressDialog.setMessage("Please wait")
-                    progressDialog.setCancelable(false)
-                    progressDialog.show()
-
-                    ApiServiceMyBdjobs.create().sendInterviewConfirmation(
-                            userID = bdjobsUserSession.userId!!,
-                            decodeID = bdjobsUserSession.decodId!!,
-                            applyId = applyID,
-                            activity = "4",
-                            invitationId = invitationID,
-                            rescheduleComment = reason
-                    ).enqueue(object : Callback<InvitationDetailModels> {
-                        override fun onFailure(call: Call<InvitationDetailModels>, t: Throwable) {
-                            error("onFailure", t)
-                            try {
-                                progressDialog.dismiss()
-                            } catch (e: Exception) {
-
-                                e.printStackTrace()
-                            }
-                        }
-
-                        override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
-                            try {
-                                progressDialog.dismiss()
-                                if (response.isSuccessful) {
-                                    if (response.body()!!.statuscode?.equalIgnoreCase("4")!!) {
-                                        Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
-                                        getDetailsFromServer()
-                                    } else {
-                                        Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-
-                        }
-
-                    })*/
                 }
             }
         }
@@ -437,48 +352,6 @@ class InterviewInvitationDetailsFragment : Fragment() {
                         otherReason = otherReason,
                         invitationID = invitationID
                 )
-
-                /*val progressDialog = ProgressDialog(activity)
-                progressDialog.setMessage("Please wait")
-                progressDialog.setCancelable(false)
-                progressDialog.show()
-
-                ApiServiceMyBdjobs.create().sendInterviewConfirmation(
-                        userID = bdjobsUserSession.userId!!,
-                        decodeID = bdjobsUserSession.decodId!!,
-                        applyId = applyID,
-                        activity = "2",
-                        cancleReason = selectedReason,
-                        otherComment = otherReason,
-                        invitationId = invitationID
-                ).enqueue(object : Callback<InvitationDetailModels> {
-                    override fun onFailure(call: Call<InvitationDetailModels>, t: Throwable) {
-                        error("onFailure", t)
-                        try {
-                            progressDialog.dismiss()
-                        } catch (e: Exception) {
-
-                            e.printStackTrace()
-                        }
-                    }
-
-                    override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
-                        try {
-                            progressDialog.dismiss()
-                            if (response.isSuccessful) {
-                                if (response.body()!!.statuscode?.equalIgnoreCase("4")!!) {
-                                    Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
-                                    getDetailsFromServer()
-                                } else {
-                                    Toast.makeText(activity, response.body()!!.message, Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-
-                })*/
             }
         }
 

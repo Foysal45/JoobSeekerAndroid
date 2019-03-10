@@ -3,6 +3,7 @@ package com.bdjobs.app.Jobs
 import android.app.Dialog
 import android.app.Fragment
 import android.os.Bundle
+import android.os.Handler
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,7 +44,7 @@ class JoblistFragment : Fragment() {
     private lateinit var session: BdjobsUserSession
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var joblistAdapter: JoblistAdapter? = null
-
+    private var jobListGet: MutableList<JobListModelData>? = null
     private var currentPage = 1
     private var TOTAL_PAGES: Int? = null
     private var isLoadings = false
@@ -230,8 +231,11 @@ class JoblistFragment : Fragment() {
         jobListRecyclerView?.adapter = joblistAdapter
 
         onClick()
-        getData()
-
+        if (communicator.getBackFrom().equalIgnoreCase("")) {
+            getData()
+        } else {
+            getDataNew()
+        }
 
         jobListRecyclerView!!.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
 
@@ -278,6 +282,91 @@ class JoblistFragment : Fragment() {
         })
 
     }
+
+    private fun getDataNew() {
+
+
+        try {
+            jobListGet = communicator.getJobList()!!
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+
+        try {
+            Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
+
+            Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
+
+            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+
+            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+
+        val totalRecordsFound = communicator.getTotalJobCount()
+
+        if (totalRecordsFound?.toInt()!! > 1) {
+            val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
+            jobCounterTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Job"
+            jobCounterTV?.text = Html.fromHtml(styledText)
+        }
+        currentPage = communicator.getCurrentPageNumber()
+        TOTAL_PAGES = communicator.getTotalPage()
+        isLastPages = communicator.getLastPasge()
+
+        keyword = communicator.getKeyword()
+        location = communicator.getLocation()
+        category = communicator.getCategory()
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getIndustry()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
+
+        saveSearchDicission()
+
+        suggestiveSearchET?.text = keyword
+
+        suggestiveSearchET?.setOnClickListener { et ->
+            communicator.setBackFrom("")
+            communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
+        }
+
+        loadFirstPageNew()
+        Handler().postDelayed({ jobListRecyclerView?.scrollToPosition(communicator.getCurrentJobPosition()) }, 200)
+        Log.d("jobListRecyclerView", "getCurrentJobPosition = ${communicator.getCurrentJobPosition()}")
+
+
+    }
+
+
+    private fun loadFirstPageNew() {
+
+        try {
+            joblistAdapter?.clear()
+            joblistAdapter?.addAllTest(jobListGet as List<JobListModelData>)
+            if (currentPage == TOTAL_PAGES!!) {
+                isLastPages = true
+            }
+
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+    }
+
 
     private fun loadFisrtPageTest(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
 

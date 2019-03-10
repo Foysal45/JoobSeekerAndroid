@@ -25,6 +25,22 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun setCurrentJobPosition(from: Int) {
+        this.currentJbPosition = from
+    }
+
+    override fun getCurrentJobPosition(): Int {
+        return this.currentJbPosition
+    }
+
+    override fun getBackFrom(): String {
+        return this.backFrom
+    }
+
+    override fun setBackFrom(from: String) {
+        this.backFrom = from
+    }
+
     override fun showShortListedIcon() {
         jobDetailsFragment.showShortListedIcon()
     }
@@ -33,6 +49,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         jobDetailsFragment.showUnShortListedIcon()
     }
 
+    var currentJbPosition: Int = 0
 
     private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
@@ -71,6 +88,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     lateinit var dataStorage: DataStorage
     lateinit var bdjobsDB: BdjobsDB
+
+    private var backFrom = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

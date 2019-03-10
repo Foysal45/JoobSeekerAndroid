@@ -30,7 +30,7 @@ class AdvanceSearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         jobCommunicator = activity as JobCommunicator
         dataStorage = DataStorage(activity)
-
+        jobCommunicator.setBackFrom("")
         onClicks()
     }
 
