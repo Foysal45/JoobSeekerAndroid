@@ -6,6 +6,7 @@ import android.app.Fragment
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
@@ -39,6 +40,8 @@ class ORIEditFragment : Fragment() {
     private lateinit var data: ORIdataItem
     private var idArr: ArrayList<String> = ArrayList()
     private var exps: String = ""
+    private var keywordsCount: Int = 0
+    private var maxInput: Int = 250
     private lateinit var dialog: Dialog
     private lateinit var cgORI: ChipGroup
 
@@ -60,12 +63,25 @@ class ORIEditFragment : Fragment() {
     }
 
     private fun doWork() {
-
-        //entry_chip_group.removeAllViews()
         data = oriEditCB.getOriData()
 
         onClicks()
         etOriKeywords.easyOnTextChangedListener { charSequence ->
+            if (maxInput - keywordsCount != 0) {
+                etOriKeywords.isEnabled = true
+                if (keywordsCount + charSequence.length < maxInput) {
+                    val maxLength = maxInput - keywordsCount
+                    etOriKeywords.isEnabled = true
+                    etOriKeywords?.closeKeyboard(activity)
+                    etOriKeywords?.filters = arrayOf(InputFilter.LengthFilter(maxLength))
+                } else {
+                    etOriKeywords.isEnabled = false
+                    activity?.toast("Reached max limit of keywords.\nPlease remove one first")
+                }
+            } else {
+                etOriKeywords.isEnabled = false
+            }
+
             if (!idArr.isEmpty()) {
                 textInputLayout4.hideError()
             } else
@@ -74,6 +90,7 @@ class ORIEditFragment : Fragment() {
         etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
         Log.d("ORIData", "data: ${data.keywords}")
         val keywords = data.keywords?.removeLastComma()
+        maxInput -= data.keywords?.countCommas()!!
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
             if (it.isNotBlank()) addChip(it)
@@ -100,9 +117,18 @@ class ORIEditFragment : Fragment() {
         etOriKeywords.easyOnTextChangedListener {
             val str = etOriKeywords.getString()
 
-            if (it.isNotBlank() and (str.endsWith(",") || str.endsWith(" "))) {
+            if (it.isNotBlank() and (str.endsWith(","))) {
                 clORIedit.closeKeyboard(activity)
-                addChip(str.removeLastComma())
+                if (str.trim() != ",") {
+                    etOriKeywords.isEnabled = true
+                    etOriKeywords.clear()
+                    etOriKeywords.clearFocus()
+                    addChip(str.removeLastComma())
+                } else {
+                    etOriKeywords.clear()
+                    etOriKeywords.clearFocus()
+                    activity?.toast("Reached the max limit of keywords")
+                }
             }
         }
     }
@@ -177,8 +203,6 @@ class ORIEditFragment : Fragment() {
                 headingText.setText(R.string.keyword_heading)
                 mainText.setText(R.string.keyword_text)
             }
-
-
         }
         okButton.setOnClickListener {
             dialog.dismiss()
@@ -198,13 +222,15 @@ class ORIEditFragment : Fragment() {
 
 
     private fun addChip(input: String) {
-        if (ori_entry_chip_group.childCount < 15) {
+        if (keywordsCount < maxInput) {
+            keywordsCount += input.length
+            Log.d("ORIcount", "totalCount: $keywordsCount|<-")
             addAsString(input)
             val c1 = getChip(ori_entry_chip_group, input, R.xml.chip_entry)
             ori_entry_chip_group.addView(c1)
             etOriKeywords?.clearText()
         } else {
-            activity.toast("Maximum 15 experiences can be added.")
+            activity?.toast("Keywords maximum 250 characters")
         }
         etOriKeywords?.closeKeyboard(activity)
     }
@@ -264,12 +290,16 @@ class ORIEditFragment : Fragment() {
     }
 
     private fun removeItem(s: String) {
-        if (idArr.contains(s))
+        if (idArr.contains(s)) {
             idArr.remove(s)
+            keywordsCount -= s.length
+        }
+        etOriKeywords.isEnabled = keywordsCount <= 249
+
         exps = TextUtils.join(",", idArr)
         checkIfEmpty()
 
-        d("selected rmv: $exps and $idArr")
+        d("ORIcount: count = $keywordsCount ")
 
     }
 
