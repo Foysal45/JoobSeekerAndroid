@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.logException
 
 class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewHolder>() {
 
@@ -33,14 +34,15 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
 
     override fun onBindViewHolder(holder: MyBdjobsViewHolder, position: Int) {
 
-        holder?.itemName?.text = mybdjobsItems!![position].itemName
-        holder?.itemValue?.text = mybdjobsItems!![position].itemID
-        holder?.backgroundRRL?.setBackgroundResource(mybdjobsItems!![position].backgroundID)
-        holder?.item_icon?.setBackgroundResource(mybdjobsItems!![position].resourceID)
-        //holder.itemName[position]
+        try {
+            holder?.itemName?.text = mybdjobsItems?.get(position)?.itemName
+            holder?.itemValue?.text = mybdjobsItems?.get(position)?.itemID
+            mybdjobsItems?.get(position)?.backgroundID?.let { holder?.backgroundRRL?.setBackgroundResource(it) }
+            mybdjobsItems?.get(position)?.resourceID?.let { holder?.item_icon?.setBackgroundResource(it) }
+            //holder.itemName[position]
             holder?.item_Card.setOnClickListener {
-                if(mybdjobsItems!![position].itemID.toInt() > 0) {
-                    when (mybdjobsItems!![position].itemName) {
+                if(mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
+                    when (mybdjobsItems?.get(position)?.itemName) {
                         "Jobs\nApplied" -> communicator.goToAppliedJobs()
                         "Employers\nFollowed" -> communicator.goToFollowedEmployerList("follow")
                         "Interview\nInvitations" -> communicator.goToInterviewInvitation("mybdjobs")
@@ -54,7 +56,9 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                 }
 
             }
-
+        } catch (e: Exception) {
+            logException(e)
+        }
 
 
     }

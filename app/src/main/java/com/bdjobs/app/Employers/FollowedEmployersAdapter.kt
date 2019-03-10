@@ -16,6 +16,7 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.toast
@@ -54,58 +55,73 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder?.employerCompany.text = followedEmployerList!![position].CompanyName
-        holder?.offeringJobs.text = followedEmployerList!![position].JobCount
-        company_name = followedEmployerList!![position].CompanyName!!
-        company_ID = followedEmployerList!![position].CompanyID!!
-        holder.followUunfollow.setOnClickListener {
-            /*
-            here we start removing the unfollow item
-             */
-            undoButtonPressed = false
-            removeItem(holder.adapterPosition, it)
-        }
+        try {
+            holder?.employerCompany.text = followedEmployerList?.get(position)?.CompanyName
+            holder?.offeringJobs.text = followedEmployerList?.get(position)?.JobCount
+            company_name = followedEmployerList?.get(position)?.CompanyName!!
+            company_ID = followedEmployerList?.get(position)?.CompanyID!!
+            holder.followUunfollow.setOnClickListener {
+                /*
+                here we start removing the unfollow item
+                 */
 
-        var jobCount = followedEmployerList!![position].JobCount
-        if (jobCount == null){
-            jobCount = "0"
-        }
-        var jobCountint = jobCount?.toInt()
-        Log.d("crash", "crash $jobCount")
-
-        if (jobCountint!! > 0) {
-            holder?.followemployersCard?.setOnClickListener {
-                var company_name_1 = followedEmployerList!![position].CompanyName!!
-                var company_ID_1 = followedEmployerList!![position].CompanyID!!
-                employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
-                Log.d("companyid", company_ID_1)
-                Log.d("companyid", company_name_1)
-
+                try {
+                    undoButtonPressed = false
+                    removeItem(holder.adapterPosition, it)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
+
+            var jobCount = followedEmployerList?.get(position)?.JobCount
+            if (jobCount == null) {
+                jobCount = "0"
+            }
+            var jobCountint = jobCount?.toInt()
+            //      Log.d("crash", "crash $jobCount")
+
+            jobCountint?.let {
+                if (jobCountint > 0) {
+                    holder?.followemployersCard?.setOnClickListener {
+                        var company_name_1 = followedEmployerList?.get(position)?.CompanyName!!
+                        var company_ID_1 = followedEmployerList?.get(position)?.CompanyID!!
+                        employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+                        Log.d("companyid", company_ID_1)
+                        Log.d("companyid", company_name_1)
+                    }
+                }
+            }
+
+        } catch (e: Exception) {
+            logException(e)
         }
 
 
     }
 
     fun removeItem(position: Int, view: View) {
-        if (followedEmployerList?.size != 0) {
-            val deletedItem = followedEmployerList?.get(position)
-            val companyid = followedEmployerList?.get(position)?.CompanyID
-            val companyName = followedEmployerList?.get(position)?.CompanyName
-            Log.d("werywirye","companyid = $companyid companyname = $companyName")
-            followedEmployerList?.removeAt(position)
-            notifyItemRemoved(position)
-            try {
-                val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
-                undoRemove(view, deletedItem, position, deleteJobID)
-                employersCommunicator.decrementCounter()
-            }
-            catch (e : Exception){
 
-            }
+        try {
+            if (followedEmployerList?.size != 0) {
+                val deletedItem = followedEmployerList?.get(position)
+                val companyid = followedEmployerList?.get(position)?.CompanyID
+                val companyName = followedEmployerList?.get(position)?.CompanyName
+                Log.d("werywirye", "companyid = $companyid companyname = $companyName")
+                followedEmployerList?.removeAt(position)
+                notifyItemRemoved(position)
+                try {
+                    val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
+                    undoRemove(view, deletedItem, position, deleteJobID)
+                    employersCommunicator.decrementCounter()
+                } catch (e: Exception) {
 
-        } else {
-            context.toast("No items left here!")
+                }
+
+            } else {
+                context.toast("No items left here!")
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 

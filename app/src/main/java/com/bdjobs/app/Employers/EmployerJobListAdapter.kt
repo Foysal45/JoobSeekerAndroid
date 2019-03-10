@@ -38,8 +38,8 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
 
     }
     override fun onBindViewHolder(holder: EmployerJobListViewHolder, position: Int) {
-        holder?.employerCompany?.text = employerJobList!![position].jobtitle
-        holder?.deadline?.text = employerJobList!![position].deadline
+        holder?.employerCompany?.text = employerJobList?.get(position)?.jobtitle
+        holder?.deadline?.text = employerJobList?.get(position)?.deadline
         holder?.itemView?.setOnClickListener {
             val jobids = ArrayList<String>()
             val lns = ArrayList<String>()
@@ -69,12 +69,6 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
 }
 
 class EmployerJobListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    // Holds the TextView that will add each animal to
-    /* val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView
-     val offeringJobs = view.findViewById(R.id.offering_jobs_number_TV) as TextView
-     val followUunfollow = view.findViewById(R.id.follow_unfollow_BTN) as MaterialButton
-     val followemployersCard = view.findViewById(R.id.follwEmp_cardview) as CardView*/
-
     val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView
     val deadline = view.findViewById(R.id.deadline_TV) as TextView
 

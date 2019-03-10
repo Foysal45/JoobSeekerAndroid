@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
 
 class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -85,17 +86,21 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
     }
 
     private fun bindViews(holder: EmployerViewedMyResumeVH, position: Int) {
-        holder?.companyName?.text = vwdResumeList!![position].companyName
-        holder?.appliedOn?.text = vwdResumeList!![position].viewedOn
-        Log.d("hellohello", "hello= " + vwdResumeList!![position].summaryView)
+        try {
+            holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
+            holder?.appliedOn?.text = vwdResumeList?.get(position)?.viewedOn
+            //  Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
-        if (vwdResumeList!![position].summaryView == "yes") {
-            holder?.summaryView.visibility = View.VISIBLE
-            holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
-        }
-        else if(vwdResumeList!![position].detailView == "yes"){
-            holder?.summaryView.visibility = View.VISIBLE
-            holder?.summaryView.setImageResource(R.drawable.ic_done_double)
+            if (vwdResumeList?.get(position)?.summaryView == "yes") {
+                holder?.summaryView.visibility = View.VISIBLE
+                holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
+            }
+            else if(vwdResumeList?.get(position)?.detailView == "yes"){
+                holder?.summaryView.visibility = View.VISIBLE
+                holder?.summaryView.setImageResource(R.drawable.ic_done_double)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
 
 

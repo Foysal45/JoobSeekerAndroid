@@ -124,9 +124,9 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
     private fun bindViews(holder: TimesEmailedMyResumeViewHolder, position: Int) {
 
-        holder?.subjectTV?.text = timesEmailedList!![position].subject
-        holder?.emailTV?.text = timesEmailedList!![position].emailTo
-        holder?.appliedDateTV?.text = timesEmailedList!![position].emailedOn
+        holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject
+        holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo
+        holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn
 
     }
 }
