@@ -20,7 +20,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -281,19 +280,14 @@ class JobDetailsFragment : Fragment() {
 
                     } else {
                         Log.d("TAG", "not successful: ")
-
-
                     }
                 } catch (e: Exception) {
                     logException(e)
                 }
-
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
-                toast("On Failure")
                 Log.d("TAG", "not successful!! onFail")
-
             }
         })
     }

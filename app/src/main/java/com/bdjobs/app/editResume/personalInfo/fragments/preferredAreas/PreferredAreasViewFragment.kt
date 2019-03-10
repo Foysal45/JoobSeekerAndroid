@@ -48,7 +48,6 @@ class PreferredAreasViewFragment : Fragment() {
     }
 
     private fun doWork() {
-        clPrefAreaView.hide()
         shimmerStart()
         populateData()
     }
@@ -59,8 +58,7 @@ class PreferredAreasViewFragment : Fragment() {
         call.enqueue(object : Callback<GetPreferredAreas> {
             override fun onFailure(call: Call<GetPreferredAreas>, t: Throwable) {
                 shimmerStop()
-                clPrefAreaView.hide()
-                activity.toast(R.string.message_common_error)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetPreferredAreas>, response: Response<GetPreferredAreas>) {
@@ -76,8 +74,8 @@ class PreferredAreasViewFragment : Fragment() {
                 } catch (e: Exception) {
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        activity?.logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
             }

@@ -31,7 +31,7 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
             if (kontrol != null) {
                 kontrol.close()
             }
-            return if (kontrol != null) true else false
+            return kontrol != null
         }
 
     @Throws(IOException::class)
@@ -116,7 +116,7 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
     companion object {
 
         val DB_PATH = "/data/data/com.bdjobs.app/databases/"
-        val DB_NAME = "bdjobs.sqlite"
+        val DB_NAME = "bdjobs_new.sqlite"
         val DATABASE_VERSION = 1
 
         //-----------------------------------JobRoleInfo------------------------------------------------//

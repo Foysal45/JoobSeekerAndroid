@@ -63,7 +63,7 @@ class ProfessionalQLViewFragment : Fragment() {
 
     private fun setupRV(items: ArrayList<ProfessionalDataModel>) {
         rv_professional_view?.setHasFixedSize(true)
-        val mLayoutManager = LinearLayoutManager(activity.applicationContext)
+        val mLayoutManager = LinearLayoutManager(activity?.applicationContext)
         rv_professional_view?.layoutManager = mLayoutManager
         adapter = ProfessionalQFAdapter(items, activity)
         rv_professional_view?.itemAnimator = DefaultItemAnimator()
@@ -78,7 +78,7 @@ class ProfessionalQLViewFragment : Fragment() {
             override fun onFailure(call: Call<ProfessionalModel>, t: Throwable) {
                 shimmerStop()
                 rv_professional_view.show()
-                activity.toast("Error occurred")
+                activity?.toast("Error occurred")
             }
 
             override fun onResponse(call: Call<ProfessionalModel>, response: Response<ProfessionalModel>) {
@@ -100,8 +100,8 @@ class ProfessionalQLViewFragment : Fragment() {
                       shimmerStop()
                       if (activity != null) {
                           //activity.toast("${response.body()?.message}")
-                          activity.logException(e)
-                          activity.error("++${e.message}")
+                          activity?.logException(e)
+                          activity?.error("++${e.message}")
                       }
                 }
                 adapter?.notifyDataSetChanged()

@@ -64,25 +64,33 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder?.favTitle1TV?.text = items[position].filtername
-        holder?.dateTV?.text = items[position].createdon?.toSimpleDateString()
-        holder?.timeTV?.text = items[position].createdon?.toSimpleTimeString()
-        holder?.filter1TV?.text = getFilterString(items[position])
+        holder.favTitle1TV.text = items[position].filtername
+        holder.dateTV.text = items[position].createdon?.toSimpleDateString()
+        holder.timeTV.text = items[position].createdon?.toSimpleTimeString()
+        holder.filter1TV.text = getFilterString(items[position])
 
-        holder?.parentView?.setOnClickListener {
+        holder.parentView.setOnClickListener {
             favCommunicator?.let { comm ->
-                comm.goToJobSearch(items[position].filterid!!)
+                try {
+                    comm.goToJobSearch(items[position].filterid!!)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
             homeCommunicator?.let { comm ->
-                comm.goToJobSearch(items[position].filterid!!)
+                try {
+                    comm.goToJobSearch(items[position].filterid!!)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
         }
 
         if (favCommunicator != null) {
-            holder?.deleteTV?.show()
-            holder?.editTV?.show()
+            holder.deleteTV.show()
+            holder.editTV.show()
 
-            holder?.deleteTV?.setOnClickListener {
+            holder.deleteTV.setOnClickListener {
                 activity.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
                     yesButton {
                         deleteFavSearch(position)
@@ -93,16 +101,20 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 }.show()
             }
 
-            holder?.editTV?.setOnClickListener {
-                favCommunicator?.goToEditMode(items[position].filterid!!)
+            holder.editTV.setOnClickListener {
+                try {
+                    favCommunicator?.goToEditMode(items[position].filterid!!)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
         } else {
-            holder?.deleteTV?.hide()
-            holder?.editTV?.hide()
+            holder.deleteTV.hide()
+            holder.editTV.hide()
         }
 
 
-        holder?.progressBar?.show()
+        holder.progressBar.show()
         ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = items[position].filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
             override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
                 error("onFailure", t)
@@ -129,7 +141,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
     }
 
     override fun getItemCount(): Int {
-        return items?.size!!
+        return items.size
     }
 
 
@@ -137,9 +149,9 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         Log.d("czcx", "position: $position")
 
         try {
-            if (items?.size != 0) {
-                val deletedItem = items?.get(position)
-                items?.removeAt(position)
+            if (items.size != 0) {
+                val deletedItem = items.get(position)
+                items.removeAt(position)
                 notifyItemRemoved(position)
                 Log.d("ububua","ububua = "+deletedItem.filterid)
 
@@ -164,12 +176,12 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     Log.d("comid", "comid")
                 }
 
-        snack?.show()
+        snack.show()
         Log.d("swipe", "dir to LEFT")
     }
 
     private fun restoreMe(item: FavouriteSearch, pos: Int) {
-        items?.add(pos, item)
+        items.add(pos, item)
         notifyItemInserted(pos)
     }
 
@@ -227,13 +239,13 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val deleteTV = view?.findViewById(R.id.deleteTV) as TextView
-    val editTV = view?.findViewById(R.id.editTV) as TextView
-    val favTitle1TV = view?.findViewById(R.id.favTitle1TV) as TextView
-    val dateTV = view?.findViewById(R.id.createdOnDateTV) as TextView
-    val timeTV = view?.findViewById(R.id.time1TV) as TextView
-    val filter1TV = view?.findViewById(R.id.filter1TV) as TextView
-    val favcounter1BTN = view?.findViewById(R.id.favcounter1BTN) as Button
-    val progressBar = view?.findViewById(R.id.progressBar2) as ProgressBar
-    val parentView = view?.findViewById(R.id.itemView) as ConstraintLayout
+    val deleteTV = view.findViewById(R.id.deleteTV) as TextView
+    val editTV = view.findViewById(R.id.editTV) as TextView
+    val favTitle1TV = view.findViewById(R.id.favTitle1TV) as TextView
+    val dateTV = view.findViewById(R.id.createdOnDateTV) as TextView
+    val timeTV = view.findViewById(R.id.time1TV) as TextView
+    val filter1TV = view.findViewById(R.id.filter1TV) as TextView
+    val favcounter1BTN = view.findViewById(R.id.favcounter1BTN) as Button
+    val progressBar = view.findViewById(R.id.progressBar2) as ProgressBar
+    val parentView = view.findViewById(R.id.itemView) as ConstraintLayout
 }

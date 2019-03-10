@@ -55,9 +55,11 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         initialization()
         onClicks()
         getIntentData()
-        setHistoryAdapter(from)
+        //setHistoryAdapter(from)
         setFilterAdapter(from)
         setTextWatcher()
+
+        historyViewCL.hide()
     }
 
     private fun initialization() {
@@ -74,20 +76,20 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                 suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
                     filterRV.show()
-                    historyViewCL.show()
+                    //historyViewCL.show()
                 } else {
                     filterRV.hide()
-                    historyViewCL.show()
+                    //historyViewCL.show()
                 }
             } else {
                 suggestiveSearchET?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_white, 0)
                 suggestiveSearchET?.clearTextOnDrawableRightClick()
                 if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
                     filterRV.show()
-                    historyViewCL.show()
+                    //historyViewCL.show()
                 } else {
                     filterRV.show()
-                    historyViewCL.hide()
+                    //historyViewCL.hide()
                 }
             }
             adapter?.filter?.filter(e)

@@ -4,7 +4,6 @@ import android.app.Fragment
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import kotlinx.android.synthetic.main.fragment_login_password.*
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +31,7 @@ class LoginPasswordFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater?.inflate(R.layout.fragment_login_password, container, false)!!
+        rootView = inflater.inflate(R.layout.fragment_login_password, container, false)!!
         return rootView
     }
 
@@ -62,7 +60,7 @@ class LoginPasswordFragment : Fragment() {
         }
 
         backBtnIMGV?.setOnClickListener {
-            loginCommunicator?.backButtonClicked()
+            loginCommunicator.backButtonClicked()
         }
 
         passwordTIET.easyOnTextChangedListener { charSequence ->
@@ -97,10 +95,10 @@ class LoginPasswordFragment : Fragment() {
         if (!validatePassword(password)) {
             return
         } else {
-            activity.showProgressBar(progressBar)
+            activity?.showProgressBar(progressBar)
             ApiServiceMyBdjobs.create().doLogin(username = loginCommunicator.getUserName(), password = password, userId = loginCommunicator.getUserId(), fullName = loginCommunicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
                 override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
-                    activity.stopProgressBar(progressBar)
+                    activity?.stopProgressBar(progressBar)
                     error("onFailure", t)
                 }
 
@@ -109,14 +107,14 @@ class LoginPasswordFragment : Fragment() {
                     try {
                         if (response.isSuccessful) {
 
-                            if (response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
+                            if (response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)) {
                                 passwordTIL.hideError()
                                 val bdjobsUserSession = BdjobsUserSession(activity)
-                                bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                                bdjobsUserSession.createSession(response.body()?.data?.get(0)!!)
                                 loginCommunicator.goToHomePage()
 
                             } else {
-                                activity.stopProgressBar(progressBar)
+                                activity?.stopProgressBar(progressBar)
                                 passwordTIL.showError("Wrong password. Try again or click Forgot password to reset it")
                             }
 
@@ -170,8 +168,12 @@ class LoginPasswordFragment : Fragment() {
     }
 
     private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
-            activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        try {
+            if (view.requestFocus()) {
+                activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 }

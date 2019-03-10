@@ -84,7 +84,7 @@ class SpecializationViewFragment : Fragment() {
         call.enqueue(object : retrofit2.Callback<SpecialzationModel> {
             override fun onFailure(call: Call<SpecialzationModel>, t: Throwable) {
                 shimmerStop()
-                activity.toast("Error occurred")
+                activity?.toast("Error occurred")
             }
 
             override fun onResponse(call: Call<SpecialzationModel>, response: Response<SpecialzationModel>) {
@@ -102,8 +102,8 @@ class SpecializationViewFragment : Fragment() {
                     shimmerStop()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        activity?.logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
 

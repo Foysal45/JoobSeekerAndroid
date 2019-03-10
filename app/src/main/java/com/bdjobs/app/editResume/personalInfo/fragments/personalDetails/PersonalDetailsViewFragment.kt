@@ -38,11 +38,12 @@ class PersonalDetailsViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         personalInfoCB = activity as PersonalInfo
+        personalInfoCB.setTitle(getString(R.string.title_personal))
+        personalInfoCB.setEditButton(true, "editPersonal")
     }
 
     override fun onResume() {
         super.onResume()
-        personalInfoCB.setTitle(getString(R.string.title_personal))
         doWork()
 
         d("editResPersView photo:" + session.userPicUrl)
@@ -51,7 +52,6 @@ class PersonalDetailsViewFragment : Fragment() {
     }
 
     private fun doWork() {
-        nsView.hide()
         shimmerStart()
         populateData()
     }
@@ -62,8 +62,7 @@ class PersonalDetailsViewFragment : Fragment() {
             override fun onFailure(call: Call<GetPersInfo>, t: Throwable) {
                 try {
                     shimmerStop()
-                    nsView.show()
-                    activity.toast(R.string.message_common_error)
+                    activity?.toast(R.string.message_common_error)
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -74,7 +73,6 @@ class PersonalDetailsViewFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmerStop()
                         nsView.show()
-                        personalInfoCB.setEditButton(true, "editPersonal")
                         val respo = response.body()
                         personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo)
