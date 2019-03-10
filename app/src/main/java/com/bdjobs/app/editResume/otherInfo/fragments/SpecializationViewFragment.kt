@@ -83,8 +83,12 @@ class SpecializationViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getSpecializationInfo(session.userId, session.decodId)
         call.enqueue(object : retrofit2.Callback<SpecialzationModel> {
             override fun onFailure(call: Call<SpecialzationModel>, t: Throwable) {
-                shimmerStop()
-                activity?.toast("Error occurred")
+                try {
+                    shimmerStop()
+                    activity?.toast("Error occurred")
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<SpecialzationModel>, response: Response<SpecialzationModel>) {

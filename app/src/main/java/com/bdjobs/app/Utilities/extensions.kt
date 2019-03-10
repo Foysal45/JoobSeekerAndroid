@@ -333,8 +333,8 @@ fun Activity.enableUserInteraction() {
     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 }
 
-fun EditText.getString(): String {
-    return text.trim().toString()
+fun EditText?.getString(): String {
+    return this!!.text.trim().toString()
 }
 
 fun Activity.ACTVValidation(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {

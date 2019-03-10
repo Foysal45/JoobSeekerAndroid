@@ -20,7 +20,6 @@ import org.jetbrains.anko.toast
 
 class BCCategoryFragment : Fragment() {
 
-
     private lateinit var returnview : View
     private lateinit var registrationCommunicator : RegistrationCommunicator
     private lateinit var dataStorage: DataStorage
@@ -47,13 +46,13 @@ class BCCategoryFragment : Fragment() {
 
         supportTextView?.setOnClickListener {
 
-            activity.callHelpLine()
+            activity?.callHelpLine()
 
         }
 
         bcHelpLineLayout?.setOnClickListener {
 
-            activity.callHelpLine()
+            activity?.callHelpLine()
         }
 
 
@@ -62,7 +61,7 @@ class BCCategoryFragment : Fragment() {
 
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
 
-                activity.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
+                activity?.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
 
             }
 
@@ -112,7 +111,7 @@ class BCCategoryFragment : Fragment() {
 
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
 
-                activity.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
+                activity?.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
 
             }
 

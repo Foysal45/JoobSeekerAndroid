@@ -121,7 +121,7 @@ class AcademicInfoEditFragment : Fragment() {
         try {
             setView(resID.toInt())
         } catch (e: Exception) {
-
+            logException(e)
         }
         cgpaTIET?.setText(data.marks)
         etScaleTIET?.setText(data.scale)
@@ -716,7 +716,11 @@ class AcademicInfoEditFragment : Fragment() {
                 return false
             } else {
 
-                marks = marksTIET.getString().toDouble()
+                try {
+                    marks = marksTIET.getString().toDouble()
+                } catch (e: NumberFormatException) {
+                    logException(e)
+                }
 
                 if (marks > 100 || marks < 1) {
 
@@ -742,7 +746,7 @@ class AcademicInfoEditFragment : Fragment() {
                 try {
                     cgpa = java.lang.Float.parseFloat(cgpaTIET.getString())
                 } catch (ex: NumberFormatException) { // handle your exception
-
+                    logException(ex)
                 }
 
             }
@@ -750,7 +754,7 @@ class AcademicInfoEditFragment : Fragment() {
             try {
                 scale = java.lang.Float.parseFloat(etScaleTIET.getString())
             } catch (ex: NumberFormatException) { // handle your exception
-
+                logException(ex)
             }
 
             when {
@@ -791,13 +795,13 @@ class AcademicInfoEditFragment : Fragment() {
             try {
                 cgpa = java.lang.Float.parseFloat(cgpaTIET.getString())
             } catch (ex: NumberFormatException) { // handle your exception
-
+                logException(ex)
             }
             if (!etScaleTIET.getString().trim().isEmpty()) {
                 try {
                     scale = java.lang.Float.parseFloat(etScaleTIET.getString())
                 } catch (ex: NumberFormatException) { // handle your exception
-
+                    logException(ex)
                 }
 
             }
@@ -870,8 +874,13 @@ class AcademicInfoEditFragment : Fragment() {
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                activity?.toast(R.string.message_common_error)
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -900,7 +909,11 @@ class AcademicInfoEditFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().deleteData("Education", hacaID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.toast(R.string.message_common_error)
+                try {
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {

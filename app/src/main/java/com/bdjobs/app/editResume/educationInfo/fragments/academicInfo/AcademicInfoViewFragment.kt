@@ -73,9 +73,13 @@ class AcademicInfoViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetAcademicInfo> {
             override fun onFailure(call: Call<GetAcademicInfo>, t: Throwable) {
-                shimmerStop()
-                rv_aca_view.show()
-                activity.toast("Error occurred")
+                try {
+                    shimmerStop()
+                    rv_aca_view?.show()
+                    activity?.toast("Error occurred")
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<GetAcademicInfo>, response: Response<GetAcademicInfo>) {
