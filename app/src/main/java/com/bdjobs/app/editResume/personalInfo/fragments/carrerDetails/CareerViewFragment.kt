@@ -57,7 +57,7 @@ class CareerViewFragment : Fragment() {
             override fun onFailure(call: Call<GetCarrerInfo>, t: Throwable) {
                 shimmerStop()
                 //clContent.show()
-                activity.toast(R.string.message_common_error)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetCarrerInfo>, response: Response<GetCarrerInfo>) {
@@ -73,9 +73,8 @@ class CareerViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     if (activity != null) {
-                        activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        activity?.logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
             }

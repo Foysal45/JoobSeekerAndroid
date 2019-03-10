@@ -96,23 +96,23 @@ class PreferredAreasEditFragment : Fragment() {
 
             //idWCArr.clear()
             addChip(ds.getCategoryNameByID(it?.id!!), "wc", acWCjobCat)
+            acWCjobCat.isEnabled = idWCArr.size >= 3
             addAsString(it.id, idWCArr)
-            acWCjobCat.isEnabled = idWCArr.size != 3
             Log.d("prefs", "wc: $prefWcIds and $idWCArr")
             if (idWCArr.isNullOrEmpty()) tilWCjobCat.hideError() else tilWCjobCat.isErrorEnabled = true
         }
         bcjobCats?.forEach {
             //idBCArr.clear()
             addChip(ds.getCategoryBanglaNameByID(it?.id!!), "bc", acBCJobCat)
+            acBCJobCat.isEnabled = idBCArr.size <= 3
             addAsString(it.id, idBCArr)
-            acBCJobCat.isEnabled = idBCArr.size != 3
             Log.d("prefs", "bc: $prefBcIds and $idBCArr")
         }
         orgTypes?.forEach {
             //idOrgArr.clear()
             addChip(ds.getOrgNameByID(it?.id!!), "orgs", acOrgType)
+            acOrgType.isEnabled = idOrgArr.size <= 12
             addAsString(it.id, idOrgArr)
-            acOrgType.isEnabled = idOrgArr.size != 12
             Log.d("prefs", "org: $prefOrgIds and $idOrgArr")
         }
 
@@ -125,16 +125,23 @@ class PreferredAreasEditFragment : Fragment() {
                     anywhereinBD = true
                     changeBtnBackground(anywhereinBD)
                 }
+                acInsideBD.isEnabled = idInBDArr.size <= 15
                 addAsString(it.id, idInBDArr)
-                acInsideBD.isEnabled = idInBDArr.size != 15
                 Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
             }
         }
         outBD?.forEach {
             //idOutBDArr.clear()
             addChip(ds.getLocationNameByID(it?.id!!).toString(), "out", acOutsideBD)
+            acOutsideBD.isEnabled = idOutBDArr.size <= 10
             addAsString(it.id, idOutBDArr)
-            acOutsideBD.isEnabled = idOutBDArr.size != 3
+
+            /*if (idOutBDArr.size <= 10) {
+                acOutsideBD.isEnabled = true
+                addChip(ds.getLocationNameByID(it?.id!!).toString(), "out", acOutsideBD)
+                addAsString(it.id, idOutBDArr)
+            } else acOutsideBD.isEnabled = false*/
+
             Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
         }
     }
@@ -169,11 +176,6 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun onClicks() {
-        //if (idWCArr.isNullOrEmpty()) {
-        /*acWCjobCat.easyOnTextChangedListener { charSequence ->
-            activity?.ACTVValidation(charSequence.toString(), acWCjobCat, tilWCjobCat)
-        }*/
-        //}
         changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
             var valid = 0
@@ -183,15 +185,6 @@ class PreferredAreasEditFragment : Fragment() {
             prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
             prefCountryIds = TextUtils.join(",", idOutBDArr)
 
-            //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
-            //valid = isValidateAutoCompleteTV(acOutsideBD, tilOutsideBD, null, true, valid)
-
-            /*if (idWCArr.isEmpty()) {
-                valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
-            }
-*/
-            //valid = isValidateAutoCompleteTV(acWCjobCat, tilWCjobCat, null, true, valid)
-            //valid = isValidateAutoCompleteTV(acInsideBD, tilInsideBD, null, true, valid)
             when {
                 idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
                     tilInsideBD.isErrorEnabled = true
@@ -234,10 +227,6 @@ class PreferredAreasEditFragment : Fragment() {
                     tilInsideBD.hideError()
                 }
             }
-
-            /*if (idInBDArr.isNullOrEmpty()) {
-                toast("Getting inBd null")
-            }*/
 
             if (!idInBDArr.isNullOrEmpty() || !idOutBDArr.isNullOrEmpty() || anywhereinBD) valid += 1
             //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
@@ -285,8 +274,6 @@ class PreferredAreasEditFragment : Fragment() {
                         addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
                         addAsString(inputId, idWCArr)
                         d("Array size : ${idWCArr.size} and $prefWcIds and id : $id")
-                        /*isEmpty = true
-                        experiencesTIL.isErrorEnabled = true*/
                         tilWCjobCat.hideError()
                     }
                 }
@@ -384,12 +371,13 @@ class PreferredAreasEditFragment : Fragment() {
                     } else {
                         addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
                         addAsString(inputId.toString(), idInBDArr)
-                        d("Array size : ${idInBDArr.size} and $prefDistrictIds and id : $id")
+                        d("Array size : ${idOutBDArr.size} and $prefCountryIds and id : $id")
                         tilInsideBD.hideError()
                     }
                 }
             }
         }
+
         acOutsideBD.onFocusChange { _, hasFocus ->
             if (hasFocus) {
                 val acList: Array<String> = ds.allCountries
@@ -401,7 +389,7 @@ class PreferredAreasEditFragment : Fragment() {
                     d("Selected : ${acList[position + 1]} and gotStr : ${acOutsideBD.text}")
                     val inputId = ds.getLocationIDByName(acOutsideBD.text.toString())
                     //idOutBDArr.add(inputId!!)
-                    //Log.d("acWCjobCat", "Countryarr2: $idInBDArr")
+                    //Log.d("acWCjobCat", "Countryarr2: idOutBDArr")
                     if (idOutBDArr.size != 0) {
                         if (!idOutBDArr.contains(inputId)) {
                             addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)

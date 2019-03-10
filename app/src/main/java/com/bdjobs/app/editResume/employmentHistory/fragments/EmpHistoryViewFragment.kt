@@ -70,9 +70,13 @@ class EmpHistoryViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetExps> {
             override fun onFailure(call: Call<GetExps>, t: Throwable) {
-                shimmerStop()
-                assert(activity != null)
-                activity.toast(R.string.message_common_error)
+                try {
+                    shimmerStop()
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    activity?.logException(e)
+                    activity?.error("++${e.message}")
+                }
             }
 
             override fun onResponse(call: Call<GetExps>, response: Response<GetExps>) {

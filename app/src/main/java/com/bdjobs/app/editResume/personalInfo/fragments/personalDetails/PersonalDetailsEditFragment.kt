@@ -95,7 +95,9 @@ class PersonalDetailsEditFragment : Fragment() {
         cbPerIsBd.setOnCheckedChangeListener { _, isChecked ->
             isNotBangladeshi = if (!isChecked) {
                 nidTIL.hide()
+                etPerNationality.clear()
                 nationalityTIL.show()
+                etPerNationality.clear()
                 true
             } else {
                 //etPerNationality.clear()
@@ -207,22 +209,22 @@ class PersonalDetailsEditFragment : Fragment() {
 
     private fun updateData() {
         Log.d("nation", "val : $nationality and ${etPerNationality.getString()}")
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePersonalData(session.userId, session.decodId, session.IsResumeUpdate,
                 etPerFirstName.getString(), etPerLastName.getString(), etPerFName.getString(), etPerMName.getString(),
                 etPerDob.getString(), etPerNationality.getString(), marital, gender, etPerNid.getString(), etPerReligion.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
                             session.updateFullName(etPerFirstName.getString().plus(" ${etPerLastName.getString()}"))
                             session.updateIsCvPosted("True")
@@ -231,7 +233,7 @@ class PersonalDetailsEditFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    //activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                 }
             }

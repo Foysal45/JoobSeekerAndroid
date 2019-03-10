@@ -62,13 +62,12 @@ class ArmyEmpHisViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        armyMainCl.hide()
         fab_eh_army.hide()
         val call = ApiServiceMyBdjobs.create().getArmyExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetArmyEmpHis> {
             override fun onFailure(call: Call<GetArmyEmpHis>, t: Throwable) {
                 shimmerStop()
-                activity.toast("Error occurred")
+                activity?.toast("Error occurred")
                 d(t.message.toString() + "url : ${call.request()}")
             }
 
@@ -77,6 +76,7 @@ class ArmyEmpHisViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
+                        armyMainCl.show()
                         tv_no_data.hide()
                         fab_eh_army.show()
                         nsArmyEmp.show()
