@@ -8,15 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ModelClasses.JobListModelData
-import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Jobs.JoblistAdapter
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toSimpleDateString
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.selector
@@ -33,7 +29,7 @@ class ShortListedJobFragment : Fragment() {
     var favListSize = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
     }
 
 
@@ -136,7 +132,7 @@ class ShortListedJobFragment : Fragment() {
             uiThread {
                 joblistAdapter = JoblistAdapter(activity)
                 shortListRV?.adapter = joblistAdapter
-                joblistAdapter?.addAllTest(jobList)
+                joblistAdapter.addAllTest(jobList)
                 joblistAdapter.notifyDataSetChanged()
 
                 favListSize= jobList.size
@@ -177,19 +173,23 @@ class ShortListedJobFragment : Fragment() {
             }
 
             uiThread {
-                joblistAdapter = JoblistAdapter(activity)
-                shortListRV?.adapter = joblistAdapter
-                joblistAdapter?.addAllTest(jobList)
-                joblistAdapter.notifyDataSetChanged()
+                try {
+                    joblistAdapter = JoblistAdapter(activity)
+                    shortListRV?.adapter = joblistAdapter
+                    joblistAdapter.addAllTest(jobList)
+                    joblistAdapter.notifyDataSetChanged()
 
-                favListSize= jobList.size
+                    favListSize = jobList.size
 
-                if (favListSize> 1) {
-                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
-                    jobCountTV?.text = Html.fromHtml(styledText)
-                } else {
-                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
-                    jobCountTV?.text = Html.fromHtml(styledText)
+                    if (favListSize > 1) {
+                        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
+                        jobCountTV?.text = Html.fromHtml(styledText)
+                    } else {
+                        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
+                        jobCountTV?.text = Html.fromHtml(styledText)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
 

@@ -106,26 +106,36 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private fun doWork(connected: Boolean) {
         var mSnackBar: Snackbar? = null
         if (!connected) {
-            setContentView(R.layout.no_internet)
-            mSnackBar = Snackbar
-                    .make(noInternet, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.turn_on_wifi)) {
-                        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-                    }
-                    .setActionTextColor(resources.getColor(R.color.colorWhite))
-            mSnackBar.show()
+            try {
+                setContentView(R.layout.no_internet)
+                mSnackBar = Snackbar
+                        .make(noInternet, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.turn_on_wifi)) {
+                            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                        }
+                        .setActionTextColor(resources.getColor(R.color.colorWhite))
+                mSnackBar.show()
+            } catch (e: Exception) {
+            }
 
         } else {
-            mSnackBar?.dismiss()
-            setContentView(R.layout.activity_splash)
+            try {
+                mSnackBar?.dismiss()
+                setContentView(R.layout.activity_splash)
+            } catch (e: Exception) {
+            }
 
             val dbUpdateDate = pref.getString(key_db_update, dfault_date_db_update)
-            debug("getDbInfo: Update_date = $dbUpdateDate")
+            //debug("getDbInfo: Update_date = $dbUpdateDate")
 
             ApiServiceJobs.create().getDbInfo(dbUpdateDate!!).enqueue(object : Callback<DatabaseUpdateModel> {
                 override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
-                    debug("getDbInfo: ${t?.message!!}")
-                    goToNextActivity()
+                    try {
+                        debug("getDbInfo: ${t?.message!!}")
+                        goToNextActivity()
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
                 }
 
                 override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {

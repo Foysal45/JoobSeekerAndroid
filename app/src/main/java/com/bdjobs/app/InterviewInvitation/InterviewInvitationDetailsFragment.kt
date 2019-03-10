@@ -80,7 +80,6 @@ class InterviewInvitationDetailsFragment : Fragment() {
             )
 
 
-
             /*val progressDialog = ProgressDialog(activity)
             progressDialog.setMessage("Please wait")
             progressDialog.setCancelable(false)
@@ -129,7 +128,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
         followedRV?.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
-        Log.d("sdofjwioapfgh","userId= ${bdjobsUserSession.userId!!}" +
+        Log.d("sdofjwioapfgh", "userId= ${bdjobsUserSession.userId!!}" +
                 "decodId= ${bdjobsUserSession.decodId!!}" +
                 "CompanyJobID= ${interviewInvitationCommunicator.getCompanyJobID()}")
 
@@ -148,19 +147,23 @@ class InterviewInvitationDetailsFragment : Fragment() {
                     }
 
                     override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
-                        constraintLayout3.show()
-                        followedRV?.show()
-                        shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmerAnimation()
+                        try {
+                            constraintLayout3?.show()
+                            followedRV?.show()
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmerAnimation()
 
-                        Log.d("sdofjwioapfgh", "res: ${response.body()}")
-                        if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
-                            appliedDateTV.text = "Applied on: ${response.body()!!.common?.applyDate}"
-                            val interviewInvitationDetailsAdapter = InterviewInvitationDetailsAdapter(activity, (response?.body()?.data!!))
-                            followedRV?.setHasFixedSize(true)
-                            followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                            followedRV?.adapter = interviewInvitationDetailsAdapter
-                            showStickyPopUp(response.body()?.data?.get(0)!!, response.body()?.common!!)
+                            Log.d("sdofjwioapfgh", "res: ${response.body()}")
+                            if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+                                appliedDateTV.text = "Applied on: ${response.body()!!.common?.applyDate}"
+                                val interviewInvitationDetailsAdapter = InterviewInvitationDetailsAdapter(activity, (response.body()?.data!!))
+                                followedRV?.setHasFixedSize(true)
+                                followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                                followedRV?.adapter = interviewInvitationDetailsAdapter
+                                showStickyPopUp(response.body()?.data?.get(0)!!, response.body()?.common!!)
+                            }
+                        } catch (e: Exception) {
+                            logException(e)
                         }
                     }
                 }
@@ -192,15 +195,15 @@ class InterviewInvitationDetailsFragment : Fragment() {
                 ratingShowRL.visibility = View.VISIBLE
                 val rating = java.lang.Float.parseFloat(companyRating)
                 companyRatingBar.rating = rating
-                ratingMsgTV.setText(ratingMessage)
-                ratingDateTV.setText(ratingDate)
+                ratingMsgTV.text = ratingMessage
+                ratingDateTV.text = ratingDate
             }
         } else {
             if (latestJobInviteDetails.confimationStatus?.equalIgnoreCase("0")!!) {
                 questionRL.visibility = View.VISIBLE
                 messageTV.text = message
                 rescheduleRequestTV.visibility = View.VISIBLE
-            } else if (latestJobInviteDetails.confimationStatus?.equalIgnoreCase("5")!!) {
+            } else if (latestJobInviteDetails.confimationStatus.equalIgnoreCase("5")) {
                 questionRL.visibility = View.VISIBLE
                 messageTV.text = message
                 rescheduleRequestTV.visibility = View.GONE
@@ -208,7 +211,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
                 questionRL.visibility = View.GONE
             }
 
-            if(common.showUndo?.equalIgnoreCase("1")!!){
+            if (common.showUndo?.equalIgnoreCase("1")!!) {
                 val snack = Snackbar.make(invDetailsRoot, "Your request has been sent to the employer.", Snackbar.LENGTH_INDEFINITE)
                         .setAction("UNDO") {
                             sendInterviewConfirmation(
@@ -218,7 +221,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
                             )
                         }
 
-                snack?.show()
+                snack.show()
             }
         }
     }
@@ -342,9 +345,9 @@ class InterviewInvitationDetailsFragment : Fragment() {
                         jobId = interviewInvitationCommunicator.getCompanyJobID(),
                         ratting = rating,
                         rattingComment = ratingMessage
-                ).enqueue(object:Callback<InvitationDetailModels>{
+                ).enqueue(object : Callback<InvitationDetailModels> {
                     override fun onFailure(call: Call<InvitationDetailModels>, t: Throwable) {
-                        error("onFailure",t)
+                        error("onFailure", t)
                     }
 
                     override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
@@ -430,8 +433,8 @@ class InterviewInvitationDetailsFragment : Fragment() {
                 sendInterviewConfirmation(
                         applyID = applyID,
                         userActivity = "2",
-                        selectedReason=selectedReason,
-                        otherReason=otherReason,
+                        selectedReason = selectedReason,
+                        otherReason = otherReason,
                         invitationID = invitationID
                 )
 
@@ -484,8 +487,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
     }
 
 
-    private fun sendInterviewConfirmation(applyID:String, userActivity:String, selectedReason:String="", otherReason:String="", invitationID:String,rescheduleComment:String="")
-    {
+    private fun sendInterviewConfirmation(applyID: String, userActivity: String, selectedReason: String = "", otherReason: String = "", invitationID: String, rescheduleComment: String = "") {
         val progressDialog = ProgressDialog(activity)
         progressDialog.setMessage("Please wait")
         progressDialog.setCancelable(false)
@@ -529,8 +531,6 @@ class InterviewInvitationDetailsFragment : Fragment() {
 
         })
     }
-
-
 
 
 }

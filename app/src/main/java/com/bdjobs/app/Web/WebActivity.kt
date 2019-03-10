@@ -76,12 +76,12 @@ class WebActivity : Activity() {
 
 
     private fun loadUrlWithoutCookie(url: String?) {
-        bdjobsWeb.settings.javaScriptEnabled = true
-        bdjobsWeb.settings.setSupportZoom(true)
-        bdjobsWeb.settings.builtInZoomControls = true
-        bdjobsWeb.settings.displayZoomControls = false
-        bdjobsWeb.settings.loadWithOverviewMode = true
-        bdjobsWeb.settings.useWideViewPort = true
+        bdjobsWeb?.settings?.javaScriptEnabled = true
+        bdjobsWeb?.settings?.setSupportZoom(true)
+        bdjobsWeb?.settings?.builtInZoomControls = true
+        bdjobsWeb?.settings?.displayZoomControls = false
+        bdjobsWeb?.settings?.loadWithOverviewMode = true
+        bdjobsWeb?.settings?.useWideViewPort = true
         bdjobsWeb?.webViewClient = object : WebViewClient() {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -109,7 +109,7 @@ class WebActivity : Activity() {
             }
         }
         url?.let { ur ->
-            bdjobsWeb.loadUrl(ur)
+            bdjobsWeb?.loadUrl(ur)
         }
 
     }
