@@ -125,10 +125,14 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
             ).enqueue(object : Callback<EmpVwdResume> {
                 override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
-                   activity?.toast("${t.message}")
-                    shimmer_view_container_employerViewedMyList?.hide()
-                    shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                    try {
+                        activity?.toast("${t.message}")
+                        shimmer_view_container_employerViewedMyList?.hide()
+                        shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                    } catch (e: Exception) {
+                        logException(e)
                     }
+                }
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
                     Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
@@ -204,9 +208,13 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
             ).enqueue(object : Callback<EmpVwdResume> {
                 override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
-                    activity?.toast("${t.message}")
-                    error("onFailure", t)
-                      }
+                    try {
+                        activity?.toast("${t.message}")
+                        error("onFailure", t)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
 

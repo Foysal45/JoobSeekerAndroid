@@ -16,6 +16,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.logException
 import com.facebook.FacebookSdk.getApplicationContext
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -110,22 +111,25 @@ class ChangePasswordFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<ChangePassword>, response: Response<ChangePassword>) {
-                // toast(response.body()?.message!!)
-
-                Log.d("msg", "user = " + bdjobsUserSession.userId +
-                        "decode = " + bdjobsUserSession.decodId
-
-
-                )
-                activity?.toast(response.body()?.message!!)
-                if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
-                    Log.d("msg", response.body()?.message)
+                try {
                     // toast(response.body()?.message!!)
-                    if (response.body()?.message == "The information has been updated Successfully") {
-                        communicator.backButtonPressed()
+
+                /*    Log.d("msg", "user = " + bdjobsUserSession.userId +
+                            "decode = " + bdjobsUserSession.decodId
+
+                    )*/
+                    activity?.toast(response.body()?.message!!)
+                    if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
+                        Log.d("msg", response.body()?.message)
+                        // toast(response.body()?.message!!)
+                        if (response.body()?.message == "The information has been updated Successfully") {
+                            communicator.backButtonPressed()
+                        }
+
+
                     }
-
-
+                } catch (e: Exception) {
+                    logException(e)
                 }
 
             }

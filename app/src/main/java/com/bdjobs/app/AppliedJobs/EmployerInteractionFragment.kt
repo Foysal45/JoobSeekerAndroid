@@ -345,12 +345,16 @@ class EmployerInteractionFragment : Fragment() {
             ).enqueue(object : Callback<EmployerInteraction> {
 
                 override fun onFailure(call: Call<EmployerInteraction>, t: Throwable) {
-                    activity?.stopProgressBar(loadingProgressBar)
-                    error("onFailure", t)
-                  /*  Log.d("key", "userid = " + bdjobsUserSession.userId
-                            + "decode id = " + bdjobsUserSession.decodId + "status = "
-                            + status + "jobid = " + appliedJobsCommunicator.getjobID()
-                            + "experienceid = " + expID)*/
+                    try {
+                        activity?.stopProgressBar(loadingProgressBar)
+                        error("onFailure", t)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    /*  Log.d("key", "userid = " + bdjobsUserSession.userId
+                              + "decode id = " + bdjobsUserSession.decodId + "status = "
+                              + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                              + "experienceid = " + expID)*/
                 }
 
                 override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
