@@ -113,7 +113,7 @@ class AppliedJobsFragment : Fragment() {
     }
 
     private fun loadFirstPage(activityDate: String) {
-
+//
         try {
             appliedJobsRV?.hide()
             favCountTV?.hide()
