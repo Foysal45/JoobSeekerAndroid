@@ -173,6 +173,19 @@ fun String.removeLastComma(): String {
     return this
 }
 
+fun String.countCommas(): Int {
+    val someStringArr = this.toCharArray()
+    var count = 0
+    val someChar = ','
+
+    someStringArr.forEach {
+        if (it == someChar)
+            count++
+    }
+    Log.d("CommaCount", "count: $count")
+    return count
+}
+
 fun Date.toSimpleDateString(): String {
     val format = SimpleDateFormat("dd/MM/yyy")
     return format.format(this)

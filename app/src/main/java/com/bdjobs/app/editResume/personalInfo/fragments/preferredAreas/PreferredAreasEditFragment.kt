@@ -136,12 +136,6 @@ class PreferredAreasEditFragment : Fragment() {
             acOutsideBD.isEnabled = idOutBDArr.size <= 10
             addAsString(it.id, idOutBDArr)
 
-            /*if (idOutBDArr.size <= 10) {
-                acOutsideBD.isEnabled = true
-                addChip(ds.getLocationNameByID(it?.id!!).toString(), "out", acOutsideBD)
-                addAsString(it.id, idOutBDArr)
-            } else acOutsideBD.isEnabled = false*/
-
             Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
         }
     }
@@ -432,37 +426,27 @@ class PreferredAreasEditFragment : Fragment() {
 
     private fun addChip(input: String, tag: String, acTV: AutoCompleteTextView) {
         var maxItems = 0
-        var maxArr = ArrayList<String>()
+        //var maxArr = ArrayList<String>()
         val cg: ChipGroup = when (tag) {
             "wc" -> {
                 maxItems = 3
-                maxArr = idWCArr
-                //dWCArr.add(ds.getCategoryIDByName(input).toString())
                 wc_entry_chip_group
             }
             "bc" -> {
                 maxItems = 3
-                maxArr = idBCArr
-                //idBCArr.add(ds.getCategoryIDByName(input).toString())
                 bc_entry_chip_group
             }
             "orgs" -> {
                 maxItems = 12
-                maxArr = idWCArr
-                //idOrgArr.add(ds.getCategoryIDByName(input).toString())
                 org_entry_chip_group
             }
             "in" -> {
                 maxItems = 15
-                maxArr = idWCArr
-                //idInBDArr.add(ds.getCategoryIDByName(input).toString())
                 Log.d("insideBD", "$idInBDArr")
                 pref_locs_entry_chip_group
             }
             "out" -> {
                 maxItems = 10
-                maxArr = idWCArr
-                //idOutBDArr.add(ds.getCategoryIDByName(input).toString())
                 pref_countries_entry_chip_group
             } else -> org_entry_chip_group
         }
@@ -476,16 +460,10 @@ class PreferredAreasEditFragment : Fragment() {
                     acTV.isEnabled = false
                 cg.addView(c1)
             }
-            /*cg.childCount == maxItems -> {
-                activity.toast("Maximum $maxItems items can be added.")
-                acTV.isEnabled = false
-            }*/
             else -> {
-                /*acTV.isEnabled = true
-                Log.d("chip_child", "count: ${cg.childCount}")*/
-
                 activity.toast("Maximum $maxItems items can be added.")
                 acTV.isEnabled = false
+                acTV.clearFocus()
             }
         }
         acTV.clearText()
