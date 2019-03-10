@@ -72,7 +72,6 @@ class ORIEditFragment : Fragment() {
                 if (keywordsCount + charSequence.length < maxInput) {
                     val maxLength = maxInput - keywordsCount
                     etOriKeywords.isEnabled = true
-                    etOriKeywords?.closeKeyboard(activity)
                     etOriKeywords?.filters = arrayOf(InputFilter.LengthFilter(maxLength))
                 } else {
                     etOriKeywords.isEnabled = false
@@ -117,7 +116,7 @@ class ORIEditFragment : Fragment() {
         etOriKeywords.easyOnTextChangedListener {
             val str = etOriKeywords.getString()
 
-            if (it.isNotBlank() and (str.endsWith(","))) {
+            if (it.isNotBlank() && (str.endsWith(","))) {
                 clORIedit.closeKeyboard(activity)
                 if (str.trim() != ",") {
                     etOriKeywords.isEnabled = true
