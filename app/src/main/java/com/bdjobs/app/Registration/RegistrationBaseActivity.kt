@@ -3,6 +3,7 @@ package com.bdjobs.app.Registration
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -38,6 +39,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
@@ -937,18 +939,35 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun bcBirthDateAndAgeSelected(birthDate: String, age: String) {
 
-        var strDate = ""
-        try {
-            val sm = SimpleDateFormat("MM/dd/yyyy")
-            strDate = sm.format(birthDate)
-        } catch (e: RuntimeException) {
-            e.printStackTrace()
+        Log.d("catagorySelected", "birthDate nbmm $birthDate")
+
+        if (TextUtils.isEmpty(birthDate)) {
+
+            this.birthDate = ""
+
+        } else {
+            try {
+                val initDate = SimpleDateFormat("dd/MM/yyyy").parse(birthDate)
+                val formatter = SimpleDateFormat("MM/dd/yyyy")
+                val parsedDate = formatter.format(initDate)
+                println(parsedDate)
+                this.birthDate = parsedDate
+                Log.d("catagorySelected", " birthDate ${this.birthDate}")
+
+
+            } catch (e: RuntimeException) {
+
+                Log.d("catagorySelected", " RuntimeException ${e.message}")
+                e.printStackTrace()
+            }
+
         }
 
-        this.birthDate = strDate
+
+
         this.age = age
 
-        Log.d("catagorySelected", "birthDate ${this.birthDate} age ${this.age}")
+        Log.d("catagorySelected", "birthDate ll  ${this.birthDate} age ${this.age}")
 
     }
 
@@ -1040,22 +1059,22 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 51
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcGenderFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 68
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcPhoneEmailFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 85
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcPasswordFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 100
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
             // blue collar
@@ -1063,7 +1082,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             bcNameFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 20
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcGenderFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
@@ -1073,43 +1092,43 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             bcMobileNumberFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 40
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcOtpCodeFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 50
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcBirthDateFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 60
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcAdressFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 70
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcExperienceFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 80
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcEducationFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 90
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcPhotoUploadFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 100
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
             bcCategoryFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 10
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
 
