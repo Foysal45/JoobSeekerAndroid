@@ -180,21 +180,24 @@ class DataStorage(context: Context) {
     val allDomesticLocations: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT DISTINCT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " = 'False' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT DISTINCT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " = 'False' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -203,21 +206,24 @@ class DataStorage(context: Context) {
     val allLocationsExceptPostOffice: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " != 'PostOffice' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " != 'PostOffice' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -225,21 +231,24 @@ class DataStorage(context: Context) {
     val allCountries: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'Country' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'Country' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -275,21 +284,24 @@ class DataStorage(context: Context) {
     val allDivision: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='0' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='0' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -422,21 +434,24 @@ class DataStorage(context: Context) {
     val allInstitutes: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.INSTITUTES_COL_INSTITUTE_NAME + " FROM " + DBHelper.TABLE_NAME_INSTITUTES
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.INSTITUTES_COL_INSTITUTE_NAME + " FROM " + DBHelper.TABLE_NAME_INSTITUTES
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.INSTITUTES_COL_INSTITUTE_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.INSTITUTES_COL_INSTITUTE_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -446,21 +461,24 @@ class DataStorage(context: Context) {
     val allInMajorSubjects: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.MAJOR_SUBJECTS_COL_MAJOR_NAME + " FROM " + DBHelper.TABLE_NAME_MAJOR_SUBJECTS
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.MAJOR_SUBJECTS_COL_MAJOR_NAME + " FROM " + DBHelper.TABLE_NAME_MAJOR_SUBJECTS
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.MAJOR_SUBJECTS_COL_MAJOR_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.MAJOR_SUBJECTS_COL_MAJOR_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -469,21 +487,24 @@ class DataStorage(context: Context) {
     val allResults: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT + " FROM " + DBHelper.TABLE_NAME_RESULTS
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT + " FROM " + DBHelper.TABLE_NAME_RESULTS
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.RESULTS_COL_RESULT)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.RESULTS_COL_RESULT)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -492,21 +513,24 @@ class DataStorage(context: Context) {
     val allGender: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.GENDER_COL_GENDER)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.GENDER_COL_GENDER)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -515,21 +539,24 @@ class DataStorage(context: Context) {
     val allMaritalStatus: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.MARITAL_COL_MARITAL_STATUS + " FROM " + DBHelper.TABLE_NAME_MARITAL
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.MARITAL_COL_MARITAL_STATUS + " FROM " + DBHelper.TABLE_NAME_MARITAL
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.MARITAL_COL_MARITAL_STATUS)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.MARITAL_COL_MARITAL_STATUS)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -538,21 +565,24 @@ class DataStorage(context: Context) {
     val allLooking: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.LOOKING_COL_LOOKING_FOR + " FROM " + DBHelper.TABLE_NAME_LOOKING
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.LOOKING_COL_LOOKING_FOR + " FROM " + DBHelper.TABLE_NAME_LOOKING
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOOKING_COL_LOOKING_FOR)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOOKING_COL_LOOKING_FOR)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -785,70 +815,80 @@ class DataStorage(context: Context) {
     }
 
     fun getOrgNameByID(ID: String): String {
-
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES + " WHERE " + DBHelper.ORG_TYPES_COL_ORG_TYPE_ID + " = '" + ID + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
         var s = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES + " WHERE " + DBHelper.ORG_TYPES_COL_ORG_TYPE_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME))
-            cursor.moveToNext()
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getOrgIDByOrgName(name: String): String {
 
         dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_ID + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES + " WHERE " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
-
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.ORG_TYPES_COL_ORG_TYPE_ID))
-            cursor.moveToNext()
+        var s: String = ""
+        try {
+            val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_ID + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES + " WHERE " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.ORG_TYPES_COL_ORG_TYPE_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getEduLevelByID(ID: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS + " WHERE " + DBHelper.EDU_LEVELS_COL_EDU_ID + " = '" + ID + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
-
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_LEVELS_COL_EDU_LEVEL))
-            cursor.moveToNext()
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS + " WHERE " + DBHelper.EDU_LEVELS_COL_EDU_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_LEVELS_COL_EDU_LEVEL))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getEduIDByEduLevel(name: String): String {
 
         dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_ID + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS + " WHERE " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_ID + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS + " WHERE " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_LEVELS_COL_EDU_ID))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_LEVELS_COL_EDU_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
@@ -856,56 +896,65 @@ class DataStorage(context: Context) {
 
     fun getEduTypesByEduLevelID(ID: String): Array<String> {
         val OrgTypes = ArrayList<String>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES_TAG + " LIKE '%," + ID + ",%'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES_TAG + " LIKE '%," + ID + ",%'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.EDU_TYPES_COL_EDU_TYPES)))
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.EDU_TYPES_COL_EDU_TYPES)))
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
 
         return OrgTypes.toTypedArray()
     }
 
     fun getEduTypeIDByEduType(name: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES_ID + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES_ID + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_TYPES_COL_EDU_TYPES_ID))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_TYPES_COL_EDU_TYPES_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getEduTypeByEduTypeID(id: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES_ID + " = '" + id + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES_ID + " = '" + id + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_TYPES_COL_EDU_TYPES))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EDU_TYPES_COL_EDU_TYPES))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
@@ -1254,52 +1303,58 @@ class DataStorage(context: Context) {
 
     fun getAllEnglishDistrictList(): ArrayList<LocationModel>? {
         val OrgTypes = ArrayList<LocationModel>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
-                val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
+                for (i in 0 until cursor.count) {
+                    val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME))
+                    val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
 
-                val locationData =  LocationModel(locationName = locationName, locationId = locationId)
+                    val locationData = LocationModel(locationName = locationName, locationId = locationId)
 
-                OrgTypes.add(i,locationData)
+                    OrgTypes.add(i, locationData)
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
 
         return OrgTypes
     }
 
     fun getAllBngDistrictList(): ArrayList<LocationModel>? {
         val OrgTypes = ArrayList<LocationModel>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA))
-                val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
+                for (i in 0 until cursor.count) {
+                    val locationName = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA))
+                    val locationId = cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_ID))
 
-                val locationData =  LocationModel(locationName = locationName, locationId = locationId)
+                    val locationData = LocationModel(locationName = locationName, locationId = locationId)
 
-                OrgTypes.add(i,locationData)
+                    OrgTypes.add(i, locationData)
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
 
         return OrgTypes
     }
@@ -1450,163 +1505,189 @@ class DataStorage(context: Context) {
 
     fun getCategoryBanglaNameByID(ID: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE " + DBHelper.CATEGORY_COL_CAT_ID + " = '" + ID + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
-
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORY_COL_CAT_NAME_BANGLA))
-            cursor.moveToNext()
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE " + DBHelper.CATEGORY_COL_CAT_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORY_COL_CAT_NAME_BANGLA))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getResultIDByResultName(name: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT_ID + " FROM " + DBHelper.TABLE_NAME_RESULTS + " WHERE " + DBHelper.RESULTS_COL_RESULT + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT_ID + " FROM " + DBHelper.TABLE_NAME_RESULTS + " WHERE " + DBHelper.RESULTS_COL_RESULT + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.RESULTS_COL_RESULT_ID))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.RESULTS_COL_RESULT_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getResultNameByResultID(ID: String): String {
         //RESULTS_COL_RESULT_ID
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT + " FROM " + DBHelper.TABLE_NAME_RESULTS + " WHERE " + DBHelper.RESULTS_COL_RESULT_ID + " = '" + ID + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
-
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.RESULTS_COL_RESULT))
-            cursor.moveToNext()
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT + " FROM " + DBHelper.TABLE_NAME_RESULTS + " WHERE " + DBHelper.RESULTS_COL_RESULT_ID + " = '" + ID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.RESULTS_COL_RESULT))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getGenderByID(name: String?): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER + " WHERE " + DBHelper.GENDER_COL_GENDER_ID + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER + " WHERE " + DBHelper.GENDER_COL_GENDER_ID + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.GENDER_COL_GENDER))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.GENDER_COL_GENDER))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
+
         }
-        dbHelper.close()
         return s
     }
 
     fun getMaritalIDByMaritalStatus(name: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.MARITAL_COL_MARITAL_ID + " FROM " + DBHelper.TABLE_NAME_MARITAL + " WHERE " + DBHelper.MARITAL_COL_MARITAL_STATUS + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.MARITAL_COL_MARITAL_ID + " FROM " + DBHelper.TABLE_NAME_MARITAL + " WHERE " + DBHelper.MARITAL_COL_MARITAL_STATUS + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.MARITAL_COL_MARITAL_ID))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.MARITAL_COL_MARITAL_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     fun getLookingIDByName(name: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.LOOKING_COL_LOOKING_ID + " FROM " + DBHelper.TABLE_NAME_LOOKING + " WHERE " + DBHelper.LOOKING_COL_LOOKING_FOR + " = '" + name + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOOKING_COL_LOOKING_ID + " FROM " + DBHelper.TABLE_NAME_LOOKING + " WHERE " + DBHelper.LOOKING_COL_LOOKING_FOR + " = '" + name + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.LOOKING_COL_LOOKING_ID))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.LOOKING_COL_LOOKING_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
         return s
     }
 
     //------------------------------EducationDegrees----------------------------------------------//
     fun getEducationDegreesByEduLevelID(ID: String): Array<String> {
         val OrgTypes = ArrayList<String>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_EDU_LEVEL + " = '" + ID + "' or " + DBHelper.EDUCATION_DEGREES_COL_EDU_LEVEL + " = '-1'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_EDU_LEVEL + " = '" + ID + "' or " + DBHelper.EDUCATION_DEGREES_COL_EDU_LEVEL + " = '-1'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME)))
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME)))
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
         }
-        dbHelper.close()
 
         return OrgTypes.toTypedArray()
     }
 
     fun isDegreeVerified(DegreeName: String): Boolean {
         var state = false
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " = '" + DegreeName + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " = '" + DegreeName + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            var s = ""
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME))
-            cursor.moveToNext()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+            state = s.equals(DegreeName, ignoreCase = true)
+        } catch (e: Exception) {
         }
-        dbHelper.close()
-        state = s.equals(DegreeName, ignoreCase = true)
         return state
     }
 
     fun getEducationTypeByEducationDegreeName(DegreeName: String): String {
 
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_EDUCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " = '" + DegreeName + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
-        var s = ""
-
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            s = cursor.getString(cursor.getColumnIndex(DBHelper.EDUCATION_DEGREES_COL_EDUCATION_TYPE))
-            cursor.moveToNext()
-        }
-        dbHelper.close()
-        if (s == "" || s.matches("".toRegex())) {
-            s = "0"
+        var s: String = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_EDUCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " = '" + DegreeName + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.EDUCATION_DEGREES_COL_EDUCATION_TYPE))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+            if (s == "" || s.matches("".toRegex())) {
+                s = "0"
+            }
+        } catch (e: Exception) {
         }
         return s
     }

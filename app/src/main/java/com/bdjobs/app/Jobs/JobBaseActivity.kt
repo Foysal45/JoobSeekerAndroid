@@ -25,6 +25,22 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun setCurrentJobPosition(from: Int) {
+        this.currentJbPosition = from
+    }
+
+    override fun getCurrentJobPosition(): Int {
+        return this.currentJbPosition
+    }
+
+    override fun getBackFrom(): String {
+        return this.backFrom
+    }
+
+    override fun setBackFrom(from: String) {
+        this.backFrom = from
+    }
+
     override fun showShortListedIcon() {
         jobDetailsFragment.showShortListedIcon()
     }
@@ -33,6 +49,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         jobDetailsFragment.showUnShortListedIcon()
     }
 
+    var currentJbPosition: Int = 0
 
     private var totalRecordsFound: Int? = null
     private val joblistFragment = JoblistFragment()
@@ -72,6 +89,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     lateinit var dataStorage: DataStorage
     lateinit var bdjobsDB: BdjobsDB
 
+    private var backFrom = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +117,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
 
-                Log.d("catTest", "typedData : $typedData")
+                Log.d("eryfdh", "from: $from --- typedData : $typedData")
 
                 when (from) {
                     Constants.key_jobtitleET -> setKeyword(typedData!!)
@@ -477,7 +496,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun setTotalJob(totalPage: Int) {
-        totalPages = totalPage
+        totalRecordsFound = totalPage
 
     }
 
