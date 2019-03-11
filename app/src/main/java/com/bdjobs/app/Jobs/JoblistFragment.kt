@@ -70,6 +70,8 @@ class JoblistFragment : Fragment() {
     private var filterID = ""
     lateinit var bdjobsDB: BdjobsDB
 
+    var totalRecordsFound = 0
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_joblist_layout, container, false)!!
@@ -80,7 +82,6 @@ class JoblistFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         bdjobsDB = BdjobsDB.getInstance(activity)
     }
-
 
     private fun getData() {
         keyword = communicator.getKeyword()
@@ -218,7 +219,6 @@ class JoblistFragment : Fragment() {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         session = BdjobsUserSession(activity)
@@ -306,15 +306,21 @@ class JoblistFragment : Fragment() {
         }
 
 
-        val totalRecordsFound = communicator.getTotalJobCount()
 
-        if (totalRecordsFound?.toInt()!! > 1) {
-            val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
-            jobCounterTV?.text = Html.fromHtml(styledText)
-        } else {
-            val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Job"
-            jobCounterTV?.text = Html.fromHtml(styledText)
+
+        try {
+            if (totalRecordsFound.toInt() > 1) {
+                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
+                jobCounterTV?.text = Html.fromHtml(styledText)
+            } else {
+                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Job"
+                jobCounterTV?.text = Html.fromHtml(styledText)
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
+
+
         currentPage = communicator.getCurrentPageNumber()
         TOTAL_PAGES = communicator.getTotalPage()
         isLastPages = communicator.getLastPasge()
@@ -443,10 +449,10 @@ class JoblistFragment : Fragment() {
                             val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
                             jobCounterTV?.text = Html.fromHtml(styledText)
                         }
-
-                        communicator.totalJobCount(jobResponse.common!!.totalRecordsFound!!)
                         communicator.setIsLoading(isLoadings)
                         communicator.setLastPasge(isLastPages)
+                        communicator.setTotalJob(jobResponse.common!!.totalRecordsFound!!.toInt())
+                        totalRecordsFound = jobResponse.common.totalRecordsFound!!.toInt()
 
                     } else {
                         /*Log.d("TAG", "not successful: $TAG")*/
@@ -518,9 +524,21 @@ class JoblistFragment : Fragment() {
                             }
 
                             communicator.setIsLoading(isLoadings)
-                            communicator.totalJobCount(resp_jobs!!.common!!.totalRecordsFound!!)
                             communicator.setLastPasge(isLastPages)
+                            communicator.setTotalJob(resp_jobs?.common!!.totalRecordsFound!!.toInt())
 
+
+
+                            totalRecordsFound = resp_jobs.common.totalRecordsFound!!
+
+
+                            if (totalRecordsFound.toInt() > 1) {
+                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
+                                jobCounterTV?.text = Html.fromHtml(styledText)
+                            } else {
+                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Job"
+                                jobCounterTV?.text = Html.fromHtml(styledText)
+                            }
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }

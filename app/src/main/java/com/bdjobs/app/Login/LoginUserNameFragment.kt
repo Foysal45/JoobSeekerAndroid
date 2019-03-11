@@ -34,6 +34,7 @@ import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.android.synthetic.main.fragment_login_username.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -244,7 +245,7 @@ class LoginUserNameFragment : Fragment() {
         }
 
         nextButtonFAB?.setOnClickListener {
-            val userName = usernameTIET.getString()
+            val userName = usernameTIET?.getString()
             if (validateUserName(userName)) {
                 checkUserHasAccount(userName)
             }
@@ -263,17 +264,20 @@ class LoginUserNameFragment : Fragment() {
         }
 
         linkedInSignInIMGV?.setOnClickListener {
-            //signInWithLinkedIn()
+            try {
+                alert("For signing in with linkedin please use Bdjobs.com web version.") {
+                    title = "Sign In"
+                    positiveButton("Go to bdjobs.com web") { activity?.openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/signin.asp") }
+                    negativeButton("Ok") { }
+                }.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
         }
-
 
         createAccountButton?.setOnClickListener{
-
           loginCommunicator.goToRegistrationActivity()
         }
-
-
-
 
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
             try {
@@ -294,68 +298,6 @@ class LoginUserNameFragment : Fragment() {
         }
     }
 
-   /* private fun buildScope(): Scope {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
-    }
-
-    private fun signInWithLinkedIn() {
-
-        LISessionManager.getInstance(activity.applicationContext).init(activity, buildScope(), object : AuthListener {
-
-            override fun onAuthSuccess() {
-
-                val apiHelper = APIHelper.getInstance(activity)
-
-                apiHelper.getRequest(activity, LINKEDIN_REQUEST_URL, object : ApiListener {
-
-                    override fun onApiSuccess(result: ApiResponse) {
-                        val response = result.responseDataAsJson
-                        try {
-                            var lemail = ""
-                            var sMid = ""
-                            if (response.has("emailAddress")) {
-                                lemail = response.getString("emailAddress")
-                            }
-
-
-                            if (response.has("id")) {
-                                sMid = response.getString("id")
-                            }
-
-                            socialMediaMapping(sMid, lemail, SOCIAL_MEDIA_LINKEDIN)
-                            Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
-
-
-                        } catch (e: Exception) {
-                            logException(e)
-
-                            e.printStackTrace()
-                            toast(e.toString())
-                            toast("Some internal errors have been occurred,please try again later!")
-                        }
-
-
-                    }
-
-                    override fun onApiError(error: LIApiError) {
-                        logException(error)
-                        toast(error.toString())
-
-                    }
-                })
-
-
-            }
-
-            override fun onAuthError(error: LIAuthError) {
-                error(error)
-                toast(error.toString())
-
-            }
-        }, true)
-
-
-    }*/
 
     private fun signInWithFacebook() {
         LoginManager.getInstance().logInWithReadPermissions(this@LoginUserNameFragment, Arrays.asList("public_profile", "email"))
@@ -368,7 +310,7 @@ class LoginUserNameFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager?.onActivityResult(requestCode, resultCode, data)
-        //LISessionManager.getInstance(activity.applicationContext).onActivityResult(activity, requestCode, resultCode, data);
+
         if (requestCode == RC_SIGN_IN) {
 
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -417,7 +359,7 @@ class LoginUserNameFragment : Fragment() {
         }
     }
 
-    private fun checkUserHasAccount(userName: String) {
+    private fun checkUserHasAccount(userName: String?) {
         activity?.showProgressBar(loadingProgressBar)
         ApiServiceMyBdjobs.create().getLoginUserDetails(userName).enqueue(object : Callback<LoginUserModel> {
 
@@ -449,25 +391,19 @@ class LoginUserNameFragment : Fragment() {
 
     }
 
-    private fun validateUserName(userName: String): Boolean {
+    private fun validateUserName(userName: String?): Boolean {
 
-        when {
-            TextUtils.isEmpty(userName) -> {
-                useNameTIL?.showError("Please enter Username, Email or Mobile No")
-                requestFocus(usernameTIET)
-                return false
+        try {
+            when {
+                TextUtils.isEmpty(userName) -> {
+                    useNameTIL?.showError("Please enter Username, Email or Mobile No")
+                    requestFocus(usernameTIET)
+                    return false
+                }
+                else -> useNameTIL?.hideError()
             }
-           /* checkStringHasSymbol(userName) -> {
-                useNameTIL.showError("Username can not contain $symbol")
-                requestFocus(usernameTIET)
-                return false
-            }*/
-            /*userName.trim { it <= ' ' }.length < 5 *//*|| userName.trim { it <= ' ' }.length > 15*//* -> {
-                useNameTIL.showError("Username is too short!")
-                requestFocus(usernameTIET)
-                return false
-            }*/
-            else -> useNameTIL?.hideError()
+        } catch (e: Exception) {
+            logException(e)
         }
         return true
     }

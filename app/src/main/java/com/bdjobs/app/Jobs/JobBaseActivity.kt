@@ -117,7 +117,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
 
-                Log.d("catTest", "typedData : $typedData")
+                Log.d("eryfdh", "from: $from --- typedData : $typedData")
 
                 when (from) {
                     Constants.key_jobtitleET -> setKeyword(typedData!!)
@@ -496,7 +496,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
     override fun setTotalJob(totalPage: Int) {
-        totalPages = totalPage
+        totalRecordsFound = totalPage
 
     }
 

@@ -280,8 +280,9 @@ class JobDetailsFragment : Fragment() {
                         }
 
                         communicator.setIsLoading(isLoadings)
-                        communicator.totalJobCount(resp_jobs!!.common!!.totalRecordsFound!!)
                         communicator.setLastPasge(isLastPages)
+                        communicator.setTotalJob(resp_jobs!!.common!!.totalRecordsFound!!.toInt())
+
                     } else {
                         Log.d("TAG", "not successful: ")
                     }

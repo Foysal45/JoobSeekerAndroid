@@ -20,7 +20,7 @@ class AdvanceSearchFragment : Fragment() {
     lateinit var dataStorage: DataStorage
     var gender: String = ""
 
-    val genderList:MutableList<String> =ArrayList<String>()
+    val genderList: MutableList<String> = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_advance_search_layout, container, false)!!
@@ -39,20 +39,44 @@ class AdvanceSearchFragment : Fragment() {
             jobCommunicator.backButtonPressesd()
         }
 
+        generalCatET?.easyOnTextChangedListener { text ->
+            showHideCrossButton(generalCatET)
+            if (text.isBlank()) {
+                Log.d("catTest", "generalCatET : isBlank")
+                try {
+                    val catid = jobCommunicator.getCategory().trim().toInt()
+                    if (catid in 1..30 || catid == -10) {
+                        Log.d("eryfdh", "white")
+                        jobCommunicator.setCategory("")
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+        }
+
+        specialCatET?.easyOnTextChangedListener { text ->
+            showHideCrossButton(specialCatET)
+            if (text.isBlank()) {
+                Log.d("catTest", "specialCatET : isBlank")
+                try {
+                    val catid = jobCommunicator.getCategory().trim().toInt()
+                    if (catid > 60 || catid == -11) {
+                        Log.d("eryfdh", "blue")
+                        jobCommunicator.setCategory("")
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+        }
+
         keywordET?.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setKeyword("")
             }
-        }
-        generalCatET?.easyOnTextChangedListener { text ->
-            showHideCrossButton(generalCatET)
-            if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setCategory("")
-            }
-
         }
 
         loacationET?.easyOnTextChangedListener { text ->
@@ -62,14 +86,7 @@ class AdvanceSearchFragment : Fragment() {
                 jobCommunicator.setLocation("")
             }
         }
-        specialCatET?.easyOnTextChangedListener { text ->
-            showHideCrossButton(specialCatET)
-            if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setCategory("")
-            }
 
-        }
         newsPaperET?.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
             if (text.isBlank()) {
@@ -126,11 +143,11 @@ class AdvanceSearchFragment : Fragment() {
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if (isChecked) {
-                if("M" !in genderList){
+                if ("M" !in genderList) {
                     genderList.add("M")
                 }
             } else {
-                if("M" in genderList) {
+                if ("M" in genderList) {
                     genderList.remove("M")
                 }
             }
@@ -141,11 +158,11 @@ class AdvanceSearchFragment : Fragment() {
 
         femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if("F" !in genderList){
+                if ("F" !in genderList) {
                     genderList.add("F")
                 }
             } else {
-                if("F" in genderList) {
+                if ("F" in genderList) {
                     genderList.remove("F")
                 }
             }
@@ -156,12 +173,12 @@ class AdvanceSearchFragment : Fragment() {
 
         otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if("O" !in genderList){
+                if ("O" !in genderList) {
                     genderList.add("O")
                 }
             } else {
 
-                if("O" in genderList) {
+                if ("O" in genderList) {
                     genderList.remove("O")
                 }
             }
@@ -248,30 +265,21 @@ class AdvanceSearchFragment : Fragment() {
         setGenderData()
         keywordET?.setText(jobCommunicator.getKeyword())
 
-        Log.d("catTest", "category : ${jobCommunicator.getCategory()}")
+        Log.d("eryfdh", "category Adv : ${jobCommunicator.getCategory()}")
 
-        if (!jobCommunicator.getCategory().isNullOrBlank()) {
-            try {
-                if (jobCommunicator.getCategory().toInt() < 30) {
-                    generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
-                    specialCatET?.text?.clear()
-                } else {
-                    generalCatET?.text?.clear()
-                }
-            } catch (e: Exception) {
-                logException(e)
+        try {
+            val catid = jobCommunicator.getCategory().trim().toInt()
+            if (catid > 60 || catid == -11) {
+                Log.d("eryfdh", "blue")
+                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
+                generalCatET.text?.clear()
+            } else if (catid in 1..30 || catid == -10) {
+                Log.d("eryfdh", "white")
+                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
+                specialCatET?.text?.clear()
             }
-
-            try {
-                if (jobCommunicator.getCategory().toInt() > 60) {
-                    specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
-                    generalCatET.text?.clear()
-                } else {
-                    specialCatET?.text?.clear()
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
+        } catch (e: Exception) {
+            logException(e)
         }
 
 

@@ -153,7 +153,7 @@ interface ApiServiceJobs {
     @FormUrlEncoded
     @POST("savefilter.asp")
     fun saveOrUpdateFilter(
-            @Field("icat ") icat: String = "",
+            @Field("icat") icat: String = "",
             @Field("fcat") fcat: String? = "",
             @Field("location") location: String? = "",
             @Field("qOT") qOT: String? = "",
