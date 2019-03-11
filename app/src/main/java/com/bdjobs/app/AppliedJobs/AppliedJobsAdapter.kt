@@ -203,19 +203,24 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             logException(e)
                         }
                     }
-                    updateBTN.setOnClickListener {
-                        try {//update
-                            var salary = expected_salary_tv.getString()
-                            Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
-                            ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
-                            // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
-                            saveSearchDialog?.dismiss()
-                            appliedJobsLists?.get(position)?.expectedSalary = salary
-                            notifyItemChanged(position)
-                        } catch (e: Exception) {
-                            logException(e)
+
+
+                        updateBTN.setOnClickListener {
+                            if(expected_salary_ET.length() != 0) {
+                                try {//update
+                                    var salary = expected_salary_tv.getString()
+                                    Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
+                                    ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
+                                    // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
+                                    saveSearchDialog?.dismiss()
+                                    appliedJobsLists?.get(position)?.expectedSalary = salary
+                                    notifyItemChanged(position)
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+                            }
                         }
-                    }
+
                 } catch (e: Exception) {
                     logException(e)
                 }

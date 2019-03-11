@@ -3,6 +3,7 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,16 @@ class EmployerListFragment : Fragment() {
             isLoadings = false
             initPagination()
             Log.d("searchBTN", "searchBTN text: $orgName")
+        }
+        searchBTN?.setEnabled(false);
+        suggestiveSearch_ET.easyOnTextChangedListener {text ->
+            if (text.isBlank()) {
+                searchBTN?.setEnabled(false);
+              //  Log.d("searchBTN", "searchBTN text: $text")
+            }
+            else {
+                searchBTN?.setEnabled(true);
+            }
         }
     }
 
