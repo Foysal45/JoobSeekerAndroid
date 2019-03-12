@@ -80,14 +80,21 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             var jobCountint = jobCount?.toInt()
             //      Log.d("crash", "crash $jobCount")
 
-            jobCountint?.let {
+
+            holder?.itemView?.setOnClickListener {
                 if (jobCountint > 0) {
-                    holder?.followemployersCard?.setOnClickListener {
-                        var company_name_1 = followedEmployerList?.get(position)?.CompanyName!!
-                        var company_ID_1 = followedEmployerList?.get(position)?.CompanyID!!
-                        employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
-                        Log.d("companyid", company_ID_1)
-                        Log.d("companyid", company_name_1)
+                    try {
+                        if (position < followedEmployerList?.size!!) {
+
+                            Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
+                            var company_name_1 = followedEmployerList?.get(position)?.CompanyName!!
+                            var company_ID_1 = followedEmployerList?.get(position)?.CompanyID!!
+                            employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+                            Log.d("companyid", company_ID_1)
+                            Log.d("companyid", company_name_1)
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
                     }
                 }
             }

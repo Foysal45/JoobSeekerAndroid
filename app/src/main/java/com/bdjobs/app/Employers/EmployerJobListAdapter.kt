@@ -44,8 +44,8 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
             val jobids = ArrayList<String>()
             val lns = ArrayList<String>()
             employerJobList?.forEach { data->
-                jobids.add(data.jobid)
-                lns.add(data.ln)
+                data.jobid?.let { it1 -> jobids.add(it1) }
+                data.ln?.let { it1 -> lns.add(it1) }
             }
             context?.startActivity<JobBaseActivity>("from" to "employer","jobids" to jobids,"lns" to lns,"position" to position)
         }
