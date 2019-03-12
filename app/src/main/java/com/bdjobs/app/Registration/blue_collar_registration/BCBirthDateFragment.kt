@@ -83,7 +83,7 @@ class BCBirthDateFragment : Fragment() {
 
                     Log.d("Test", " birthDate after parse $birthDateCal ")
 
-                    age = calculateAge(birthDateCal)
+                    val age = calculateAge(birthDateCal)
 
                     Log.d("Test", " age in calculationn ${calculateAge(birthDateCal)} age ${age}")
 
@@ -91,12 +91,13 @@ class BCBirthDateFragment : Fragment() {
                     e.printStackTrace()
                 }
 
+                age = 0
 
                 Log.d("Test", " age in birth condition ${age} ageLimit ${ageLimit}")
 
             } else {
-
                 birthdate = ""
+                age = 0
                 try {
                     age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
@@ -169,7 +170,7 @@ class BCBirthDateFragment : Fragment() {
 
 
                         Log.d("Test", " ageTemp ${ageTemp} ageLimit $ageLimit")
-                        age = ageTemp
+                        val age = ageTemp
                         if (age in 12..85) {
                             ageLimit = true
                             bcBirthDateTIL?.hideError()

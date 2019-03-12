@@ -832,9 +832,10 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                         "birthDate: " + birthDate + "\n" +
                         "age " + age + "\n" +
                         "subcategoriesID: " + subcategoriesID + "\n" +
+                        "experience: " + experience + "\n" +
                         "eduLevel " + eduLevel + "\n" +
                         "instName: " + instName + "\n" +
-                        "educationType " + educationType + "\n" +
+                        "educationType or inlineradio options " + educationType + "\n" +
                         "eduDegree " + eduDegree + "\n" +
                         "passingYear " + passingYear + "\n" +
                         "hasEducation " + hasEducation + "\n"
