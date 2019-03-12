@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
+import com.bdjobs.app.API.ModelClasses.EmployerListModelData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
@@ -125,7 +126,7 @@ class EmployerListFragment : Fragment() {
                     if (!response?.body()?.data.isNullOrEmpty()) {
                         employerList_RV!!.visibility = View.VISIBLE
                         employerListAdapter?.removeAll()
-                        employerListAdapter?.addAll(response?.body()?.data!!)
+                        employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
 
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
@@ -181,7 +182,7 @@ class EmployerListFragment : Fragment() {
                     employerListAdapter?.removeLoadingFooter()
                     isLoadings = false
 
-                    employerListAdapter?.addAll(response?.body()?.data!!)
+                    employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
 
 
                     if (pgNo != TOTAL_PAGES)

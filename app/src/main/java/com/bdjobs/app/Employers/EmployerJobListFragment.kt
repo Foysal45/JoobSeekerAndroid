@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModel
+import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_employer_job_list.*
@@ -85,7 +86,7 @@ class EmployerJobListFragment : Fragment() {
                     employerjobList_RV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                     Log.d("initPag", "called")
                     employerjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                    employersJobListsAdapter?.addAll(jobLists!!)
+                    employersJobListsAdapter?.addAll((jobLists as List<EmployerJobListsModelData>?)!!)
 
                     /*val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs"
                     favCountTV?.text = Html.fromHtml(styledText)
