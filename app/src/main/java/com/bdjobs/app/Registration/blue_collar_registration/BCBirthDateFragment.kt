@@ -30,6 +30,7 @@ class BCBirthDateFragment : Fragment() {
     internal var birthdate: String? = null
     private var ageLimit = false
     private lateinit var returnView: View
+    private var date = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         returnView = inflater.inflate(R.layout.fragment_bc_birth_date, container, false)
@@ -76,20 +77,27 @@ class BCBirthDateFragment : Fragment() {
                 birthdate = bcBirthDateTIET?.text.toString()
                 Log.d("Test", " birthDtae ${birthdate}")
 
-                val sdf = SimpleDateFormat("MM/dd/yyyy")
+                val sdf = SimpleDateFormat("dd/MM/yyyy")
                 try {
-                    val birthDate = sdf.parse(birthdate)
-                    age = calculateAge(birthDate)
+                    val birthDateCal = sdf.parse(birthdate)
+
+                    Log.d("Test", " birthDate after parse $birthDateCal ")
+
+                    val age = calculateAge(birthDateCal)
+
+                    Log.d("Test", " age in calculationn ${calculateAge(birthDateCal)} age ${age}")
+
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
 
+                age = 0
 
                 Log.d("Test", " age in birth condition ${age} ageLimit ${ageLimit}")
 
             } else {
-
                 birthdate = ""
+                age = 0
                 try {
                     age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
@@ -104,17 +112,21 @@ class BCBirthDateFragment : Fragment() {
 
 
 
-            if (ageLimit) {
-                registrationCommunicator.bcBirthDateAndAgeSelected(birthdate!!, age.toString())
-                registrationCommunicator.bcGoToStepAdress()
 
-            }
 
 
             if (TextUtils.isEmpty(bcBirthDateTIET?.text.toString()) && TextUtils.isEmpty(bcAgeTIET?.text.toString())) {
 
                 bcAgeTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
                 bcBirthDateTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
+
+            }
+
+
+
+            if (ageLimit) {
+                registrationCommunicator.bcBirthDateAndAgeSelected(birthdate.toString(), age.toString())
+                registrationCommunicator.bcGoToStepAdress()
 
             }
 
@@ -133,7 +145,7 @@ class BCBirthDateFragment : Fragment() {
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
 
-                        val date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
+                        date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
                         bcAgeTIET.text!!.clear()
 
 
@@ -158,7 +170,7 @@ class BCBirthDateFragment : Fragment() {
 
 
                         Log.d("Test", " ageTemp ${ageTemp} ageLimit $ageLimit")
-                        age = ageTemp
+                        val age = ageTemp
                         if (age in 12..85) {
                             ageLimit = true
                             bcBirthDateTIL?.hideError()

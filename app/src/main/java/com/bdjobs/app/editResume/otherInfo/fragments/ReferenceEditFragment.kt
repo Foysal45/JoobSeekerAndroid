@@ -240,9 +240,10 @@ class ReferenceEditFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    assert(activity != null)
-                    activity.stopProgressBar(referenceLoadingProgressBar)
+                    /*   assert(activity != null)*/
+                    /*  activity.stopProgressBar(referenceLoadingProgressBar)*/
                     e.printStackTrace()
+                    logException(e)
                 }
             }
         })

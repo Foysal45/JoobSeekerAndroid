@@ -3,6 +3,7 @@ package com.bdjobs.app.Registration
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -39,8 +40,8 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
+class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
     //white Collar
@@ -53,7 +54,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val wcPasswordFragment = WCPasswordFragment()
     private val wcCongratulationFragment = WCCongratulationFragment()
     private val wcMobileVerificationFragment = WCOtpCodeFragment()
-    private lateinit var categoryId: String
+    private var categoryId: String = ""
     private var category: String = ""
     private lateinit var dataStorage: DataStorage
     private var name: String = ""
@@ -157,14 +158,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun checkInviteCodeEligibility() {
         val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
         ApiServiceMyBdjobs.create().inviteCodeUserVerify(
-                userID= bdjobsUserSession.userId,
+                userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
                 mobileNumber = bdjobsUserSession.userName,
                 catId = getBlueCollarUserId().toString(),
                 deviceID = getDeviceID()
-        ).enqueue(object:Callback<InviteCodeUserVerifyModel>{
+        ).enqueue(object : Callback<InviteCodeUserVerifyModel> {
             override fun onFailure(call: Call<InviteCodeUserVerifyModel>, t: Throwable) {
-                error("onFailure",t)
+                error("onFailure", t)
             }
 
             override fun onResponse(call: Call<InviteCodeUserVerifyModel>, response: Response<InviteCodeUserVerifyModel>) {
@@ -405,7 +406,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             }
 
             override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
-
 
 
                 if (categoryType.equals("1", true)) {
@@ -696,7 +696,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             }
 
 
-
         })
 
 
@@ -724,7 +723,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                     logException(e)
                 }
-
 
 
             }
@@ -834,9 +832,10 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                         "birthDate: " + birthDate + "\n" +
                         "age " + age + "\n" +
                         "subcategoriesID: " + subcategoriesID + "\n" +
+                        "experience: " + experience + "\n" +
                         "eduLevel " + eduLevel + "\n" +
                         "instName: " + instName + "\n" +
-                        "educationType " + educationType + "\n" +
+                        "educationType or inlineradio options " + educationType + "\n" +
                         "eduDegree " + eduDegree + "\n" +
                         "passingYear " + passingYear + "\n" +
                         "hasEducation " + hasEducation + "\n"
@@ -941,18 +940,35 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun bcBirthDateAndAgeSelected(birthDate: String, age: String) {
 
-        var strDate = ""
-        try {
-            val sm = SimpleDateFormat("MM/dd/yyyy")
-            strDate = sm.format(birthDate)
-        } catch (e: RuntimeException) {
-            e.printStackTrace()
+        Log.d("catagorySelected", "birthDate nbmm $birthDate")
+
+        if (TextUtils.isEmpty(birthDate)) {
+
+            this.birthDate = ""
+
+        } else {
+            try {
+                val initDate = SimpleDateFormat("dd/MM/yyyy").parse(birthDate)
+                val formatter = SimpleDateFormat("MM/dd/yyyy")
+                val parsedDate = formatter.format(initDate)
+                println(parsedDate)
+                this.birthDate = parsedDate
+                Log.d("catagorySelected", " birthDate ${this.birthDate}")
+
+
+            } catch (e: RuntimeException) {
+
+                Log.d("catagorySelected", " RuntimeException ${e.message}")
+                e.printStackTrace()
+            }
+
         }
 
-        this.birthDate = strDate
+
+
         this.age = age
 
-        Log.d("catagorySelected", "birthDate ${this.birthDate} age ${this.age}")
+        Log.d("catagorySelected", "birthDate ll  ${this.birthDate} age ${this.age}")
 
     }
 
@@ -1017,9 +1033,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         }
 
 
-
-
-
     }
 
     private fun setProgreesBar() {
@@ -1047,22 +1060,22 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 51
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcGenderFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 68
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcPhoneEmailFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 85
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             wcPasswordFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 100
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
             // blue collar
@@ -1070,7 +1083,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             bcNameFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 20
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcGenderFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
@@ -1080,43 +1093,43 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
             bcMobileNumberFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 40
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcOtpCodeFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 50
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcBirthDateFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 60
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcAdressFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 70
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcExperienceFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 80
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcEducationFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 90
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
             bcPhotoUploadFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 100
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
             bcCategoryFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 10
-                Log.d("stepChange", " in wccategoryFragment")
+
             }
 
 
@@ -1132,13 +1145,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun getINLROData(): String {
         return educationType
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
-
-
         try {
-            if (resultCode != RESULT_CANCELED) {
+            if (resultCode != RESULT_CANCELED && requestCode != null && data != null) {
+
 
                 bcPhotoUploadFragment.onActivityResult(requestCode, resultCode, data)
                 callbackManager?.onActivityResult(requestCode, resultCode, data)
@@ -1204,7 +1217,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                     }
                 }
 
+
             }
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -1450,9 +1465,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
-   /* private fun buildScope(): Scope {
-        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
-    }*/
+    /* private fun buildScope(): Scope {
+         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
+     }*/
 
 
     private fun initializeGoogleRegistration() {

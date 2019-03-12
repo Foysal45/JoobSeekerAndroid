@@ -107,7 +107,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         when (getItemViewType(position)) {
             BASIC -> {
 
-               // holder.setIsRecyclable(false)
+                // holder.setIsRecyclable(false)
 
                 val jobsVH = holder as JobsListVH
                 jobsVH.itemView.setOnClickListener {
@@ -156,9 +156,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 applyonlinePostions.add(position)
                             }
 
-                            if(jobList?.get(position)?.lantype!!.equalIgnoreCase("2")){
+                            if (jobList?.get(position)?.lantype!!.equalIgnoreCase("2")) {
                                 jobsVH.followTV.hide()
-                            }else{
+                            } else {
                                 jobsVH.followTV.show()
                             }
 
@@ -186,7 +186,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             }
 
                             jobsVH.followTV.setOnClickListener {
+                                val bdjobsUserSession = BdjobsUserSession(context)
                                 if (!bdjobsUserSession.isLoggedIn!!) {
+                                    jobCommunicator?.setBackFrom("jobdetail")
                                     jobCommunicator?.goToLoginPage()
                                 } else {
                                     doAsync {
@@ -208,17 +210,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
                             }
 
-                            Log.d("applyPostion","online: $applyonlinePostions")
+                            Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
-                                    jobsVH.applyButton.visibility = View.VISIBLE
-                                    jobsVH.applyButton.setOnClickListener {
-                                        val bdjobsUserSession = BdjobsUserSession(context)
-                                        if (!bdjobsUserSession.isLoggedIn!!) {
-                                            jobCommunicator?.goToLoginPage()
-                                        } else {
-                                            showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-                                        }
+                                jobsVH.applyButton.visibility = View.VISIBLE
+                                jobsVH.applyButton.setOnClickListener {
+                                    val bdjobsUserSession = BdjobsUserSession(context)
+                                    if (!bdjobsUserSession.isLoggedIn!!) {
+                                        jobCommunicator?.setBackFrom("jobdetail")
+                                        jobCommunicator?.goToLoginPage()
+                                    } else {
+                                        showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                     }
+                                }
                             } else {
                                 jobsVH.applyButton.visibility = View.GONE
                             }
@@ -414,7 +417,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 var job = "job"
                                 try {
-                                    if(companyOtherJobs.toInt()>0){
+                                    if (companyOtherJobs.toInt() > 0) {
                                         job = "jobs"
                                     }
                                 } catch (e: Exception) {
@@ -432,7 +435,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 var job = "job"
                                 try {
-                                    if(companyOtherJobs.toInt()>0){
+                                    if (companyOtherJobs.toInt() > 0) {
                                         job = "jobs"
                                     }
                                 } catch (e: Exception) {
@@ -546,11 +549,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     private fun applyOnlineJob(position: Int, salary: String, gender: String, jobphotograph: String) {
-
-
         Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
-
-
+        val bdjobsUserSession = BdjobsUserSession(context)
         val loadingDialog = context.indeterminateProgressDialog("Applying")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
@@ -595,14 +595,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             return LOADING
         } else if (jobList!![position].standout.equals("1")) {
             return BASIC
-        }
-        else if (jobList!![position].standout.equals("0")) {
+        } else if (jobList!![position].standout.equals("0")) {
             return BASIC
         }
         return LOADING
     }
-
-
 
 
     fun add(r: JobListModelData) {
@@ -764,7 +761,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     fun shorlistAndUnshortlistJob(position: Int) {
+        val bdjobsUserSession = BdjobsUserSession(context)
         if (!bdjobsUserSession.isLoggedIn!!) {
+            jobCommunicator?.setBackFrom("jobdetail")
             jobCommunicator?.goToLoginPage()
         } else {
             doAsync {
@@ -860,6 +859,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
     private fun callFollowApi(companyid: String, companyname: String) {
+        val bdjobsUserSession = BdjobsUserSession(context)
         ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = companyname, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fei", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass> {
             override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
                 error("onFailure", t)
@@ -870,8 +870,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     val statuscode = response.body()?.statuscode
                     val message = response.body()?.data?.get(0)?.message
                     Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
                     if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                         doAsync {
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = companyid,
@@ -891,6 +892,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     private fun callUnFollowApi(companyid: String, companyName: String) {
+        val bdjobsUserSession = BdjobsUserSession(context)
         ApiServiceJobs.create().getUnfollowMessage(id = companyid, name = companyName, userId = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS, actType = "fed", decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<FollowUnfollowModelClass> {
             override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
                 error("onFailure", t)
@@ -905,7 +907,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
                         doAsync {
-                            bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid,companyName)
+                            bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid, companyName)
                         }
                     }
                 } catch (e: Exception) {

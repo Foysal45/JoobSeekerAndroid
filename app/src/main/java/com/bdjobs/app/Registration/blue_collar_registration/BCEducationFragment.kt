@@ -109,15 +109,19 @@ class BCEducationFragment : Fragment() {
 
         }
 
-        bcPassingYearTIET.setOnClickListener {
+        bcPassingYearTIET?.setOnClickListener {
 
 
             for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
             activity.selector("পাশ করার বছর ", yearList.toList()) { dialogInterface, i ->
-                bcPassingYearTIET.setText(yearList[i])
-                bcPassingYearTIL.requestFocus()
+                try {
+                    bcPassingYearTIET?.setText(yearList[i])
+                    bcPassingYearTIL?.requestFocus()
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
 
@@ -186,20 +190,20 @@ class BCEducationFragment : Fragment() {
 
     private fun addTextChangedListener() {
 
-        bcEduLevelTIET.easyOnTextChangedListener { charSequence ->
+        bcEduLevelTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcEduLevelTIET, bcEduLevelTIL, "")
         }
-        bcEduDegreeTIET.easyOnTextChangedListener { charSequence ->
+        bcEduDegreeTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcEduDegreeTIET, bcEduDegreeTIL, "")
         }
-        bcInstituteNameTIET.easyOnTextChangedListener { charSequence ->
+        bcInstituteNameTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcInstituteNameTIET, bcInstituteNameTIL, "শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
         }
-        bcPassingYearTIET.easyOnTextChangedListener { charSequence ->
+        bcPassingYearTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcPassingYearTIET, bcPassingYearTIL, "")
         }
 
-        bcEduDegreeOtherTIET.easyOnTextChangedListener { charSequence ->
+        bcEduDegreeOtherTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcEduDegreeOtherTIET, bcEduDegreeOtherTIL, "পরীক্ষা/ডিগ্রীর নাম লিখুন")
 
         }

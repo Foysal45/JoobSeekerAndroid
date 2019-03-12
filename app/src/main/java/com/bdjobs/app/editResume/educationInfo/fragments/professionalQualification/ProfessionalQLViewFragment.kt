@@ -77,7 +77,7 @@ class ProfessionalQLViewFragment : Fragment() {
         call.enqueue(object : Callback<ProfessionalModel> {
             override fun onFailure(call: Call<ProfessionalModel>, t: Throwable) {
                 shimmerStop()
-                rv_professional_view.show()
+                rv_professional_view?.show()
                 activity?.toast("Error occurred")
             }
 

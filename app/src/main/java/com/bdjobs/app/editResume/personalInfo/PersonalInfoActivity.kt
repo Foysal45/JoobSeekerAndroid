@@ -142,7 +142,11 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun passOriData(data: ORIdataItem) {
-        this.dataOri = data
+        try {
+            this.dataOri = data
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun getPrefAreasData(): PreferredAreasData {

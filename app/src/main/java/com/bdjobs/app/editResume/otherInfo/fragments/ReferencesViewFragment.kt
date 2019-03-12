@@ -96,9 +96,14 @@ class ReferencesViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getReferenceInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<ReferenceModel> {
             override fun onFailure(call: Call<ReferenceModel>, t: Throwable) {
-                shimmerStop()
-                rv_reference_view.show()
-                activity.toast("Error occurred")
+                try {
+                    shimmerStop()
+                    rv_reference_view?.show()
+                    activity.toast("Error occurred")
+                } catch (e: Exception) {
+
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<ReferenceModel>, response: Response<ReferenceModel>) {

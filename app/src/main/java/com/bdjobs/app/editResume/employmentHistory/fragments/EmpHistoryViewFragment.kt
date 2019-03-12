@@ -102,11 +102,9 @@ class EmpHistoryViewFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
-                    }
+                    activity?.logException(e)
+                    activity?.error("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
             }

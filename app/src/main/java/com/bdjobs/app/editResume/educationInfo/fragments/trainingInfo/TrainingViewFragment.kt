@@ -72,9 +72,13 @@ class TrainingViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getTrainingInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetTrainingInfo> {
             override fun onFailure(call: Call<GetTrainingInfo>, t: Throwable) {
-                shimmerStop()
-                rv_tr_view?.show()
-                activity.toast("Error occurred")
+                try {
+                    shimmerStop()
+                    rv_tr_view?.show()
+                    activity?.toast("Error occurred")
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<GetTrainingInfo>, response: Response<GetTrainingInfo>) {

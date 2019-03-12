@@ -59,7 +59,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     val genderList: MutableList<String> = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_favourite_search_filter_edit, container, false)!!
+        return inflater.inflate(R.layout.fragment_favourite_search_filter_edit, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -105,10 +105,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     Constants.key_categoryET -> {
                         category = dataStorage.getCategoryIDByName(typedData!!)!!
                         generalCatET?.setText(dataStorage.getCategoryNameByID(category))
+                        specialCatET?.text?.clear()
                     }
                     Constants.key_special_categoryET -> {
                         category = dataStorage.getCategoryIDByBanglaName(typedData!!)!!
                         specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(category))
+                        generalCatET?.text?.clear()
                     }
                     Constants.key_newspaperET -> {
                         newspaper = dataStorage.getNewspaperIDByName(typedData!!)!!
@@ -125,7 +127,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun onClicks() {
         backIV.setOnClickListener {
-            favCommunicator?.backButtonPressed()
+            favCommunicator.backButtonPressed()
         }
 
         updateBTN.setOnClickListener {
@@ -134,7 +136,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByName(filterNameET.getString().trim())
                     var fid = ""
                     try {
-                        fid = favSearch?.filterid!!
+                        fid = favSearch.filterid!!
                     } catch (e: java.lang.Exception) {
                         logException(e)
                     }
@@ -143,7 +145,27 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             filterNameTIL.showError("This filter name is already exists.")
                             activity.requestFocus(filterNameET)
                         } else {
-                            updateFavSearch()
+                            if (
+                                    industry.isBlank() &&
+                                    category.isBlank() &&
+                                    location.isBlank() &&
+                                    organization.isBlank() &&
+                                    jobNature.isBlank() &&
+                                    jobLevel.isBlank() &&
+                                    postedWithin.isBlank() &&
+                                    deadline.isBlank() &&
+                                    keyword.isBlank() &&
+                                    experience.isBlank() &&
+                                    gender.isBlank() &&
+                                    jobType.isBlank() &&
+                                    army.isBlank() &&
+                                    age.isBlank() &&
+                                    newspaper.isBlank()
+                            ) {
+                                toast("Please apply at least one filter to update the search")
+                            } else {
+                                updateFavSearch()
+                            }
                         }
                     }
                 }
@@ -157,14 +179,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
         keywordET?.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
-            if (text?.isBlank()) {
+            if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 keyword = ""
             }
         }
         generalCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
-            if (text?.isBlank()) {
+            if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 category = ""
             }
@@ -173,14 +195,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
         loacationET?.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
-            if (text?.isBlank()) {
+            if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 location = ""
             }
         }
         specialCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
-            if (text?.isBlank()) {
+            if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 category = ""
             }
@@ -188,14 +210,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         }
         newsPaperET?.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
-            if (text?.isBlank()) {
+            if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 newspaper = ""
             }
         }
         industryET?.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
-            if (text?.isBlank()) {
+            if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 industry = ""
             }
@@ -282,8 +304,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
 
         val loadingDialog = indeterminateProgressDialog("Saving")
-        loadingDialog?.setCancelable(false)
-        loadingDialog?.show()
+        loadingDialog.setCancelable(false)
+        loadingDialog.show()
         ApiServiceJobs.create().saveOrUpdateFilter(
                 icat = industry,
                 fcat = category,
@@ -318,7 +340,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 try {
                     Log.d("resposet", response.body().toString())
 
-                    if (response?.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                    if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                         doAsync {
                             val favouriteSearch = FavouriteSearch(
                                     filterid = filterID,
@@ -348,7 +370,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
                             uiThread {
                                 loadingDialog.dismiss()
-                                toast("${response?.body()?.data?.get(0)?.message}")
+                                toast("${response.body()?.data?.get(0)?.message}")
                                 favCommunicator.backButtonPressed()
                             }
                         }
@@ -366,7 +388,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             if (i > 0) {
                 val chip = chipGroup?.findViewById(i) as Chip
                 Log.d("chip", "text: ${chip.text}")
-                val data = chip?.text.toString()
+                val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
                         organization = dataStorage.getJobSearcOrgTypeIDByName(data)!!
@@ -451,7 +473,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             val chipText = chip.text.toString()
             if (data.equalIgnoreCase(chipText)) {
                 Log.d("chip", "text:$i")
-                chip?.isChecked = true
+                chip.isChecked = true
             }
         }
     }
@@ -463,22 +485,22 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
             uiThread {
                 setGenderData(filterData.gender)
-                filterName = filterData?.filtername!!
-                createdOn = filterData?.createdon
+                filterName = filterData.filtername!!
+                createdOn = filterData.createdon
                 filterNameET?.setText(filterName)
                 keywordET?.setText(filterData.keyword)
                 Log.d("catTest", "category : ${filterData.keyword}")
 
-                if (filterData?.functionalCat?.isNotBlank()!!) {
-                    if (filterData?.functionalCat.toInt() < 30) {
-                        generalCatET?.setText(dataStorage.getCategoryNameByID(filterData?.functionalCat))
+                if (filterData.functionalCat?.isNotBlank()!!) {
+                    if (filterData.functionalCat.toInt() < 30) {
+                        generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
                         specialCatET?.text?.clear()
                     } else {
                         generalCatET?.text?.clear()
                     }
 
-                    if (filterData?.functionalCat.toInt() > 60) {
-                        specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData?.functionalCat))
+                    if (filterData.functionalCat.toInt() > 60) {
+                        specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
                         generalCatET?.text?.clear()
                     } else {
                         specialCatET?.text?.clear()
@@ -486,11 +508,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 }
 
 
-                keyword = filterData?.keyword!!
-                category = filterData?.functionalCat!!
-                location = filterData?.location!!
-                industry = filterData?.industrialCat!!
-                newspaper = filterData?.newspaper!!
+                keyword = filterData.keyword!!
+                category = filterData.functionalCat
+                location = filterData.location!!
+                industry = filterData.industrialCat!!
+                newspaper = filterData.newspaper!!
 
 
 
@@ -523,11 +545,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText?.text.isBlank()) {
-            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (editText.text.isBlank()) {
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
-            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText?.clearTextOnDrawableRightClick()
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+            editText.clearTextOnDrawableRightClick()
         }
     }
 }

@@ -23,7 +23,7 @@ class BCExperienceFragment : Fragment() {
 
     private lateinit var registrationCommunicator : RegistrationCommunicator
     private lateinit var categoryId: String
-    private lateinit var category: String
+    private var category: String = ""
     private lateinit var progressDialog: ProgressDialog
     private var selectedSubcategories = ArrayList<String>()
     private lateinit var subCategories: Array<String>
@@ -39,8 +39,9 @@ class BCExperienceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        onClick()
         initialization()
+        onClick()
+
 
     }
 
@@ -132,13 +133,13 @@ class BCExperienceFragment : Fragment() {
 
         supportTextView?.setOnClickListener {
 
-           activity.callHelpLine()
+            activity?.callHelpLine()
 
         }
 
         bcHelpLineLayout?.setOnClickListener {
 
-            activity.callHelpLine()
+            activity?.callHelpLine()
         }
 
 
@@ -148,8 +149,6 @@ class BCExperienceFragment : Fragment() {
 
         registrationCommunicator = activity as RegistrationCommunicator
         categoryTV?.text = category
-
-        registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
         subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(categoryId)
 

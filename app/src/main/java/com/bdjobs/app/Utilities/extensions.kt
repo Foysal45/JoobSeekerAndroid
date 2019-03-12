@@ -173,6 +173,19 @@ fun String.removeLastComma(): String {
     return this
 }
 
+fun String.countCommas(): Int {
+    val someStringArr = this.toCharArray()
+    var count = 0
+    val someChar = ','
+
+    someStringArr.forEach {
+        if (it == someChar)
+            count++
+    }
+    Log.d("CommaCount", "count: $count")
+    return count
+}
+
 fun Date.toSimpleDateString(): String {
     val format = SimpleDateFormat("dd/MM/yyy")
     return format.format(this)
@@ -333,8 +346,8 @@ fun Activity.enableUserInteraction() {
     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 }
 
-fun EditText.getString(): String {
-    return text.trim().toString()
+fun EditText?.getString(): String {
+    return this!!.text.trim().toString()
 }
 
 fun Activity.ACTVValidation(char: String, et: AutoCompleteTextView, til: TextInputLayout): Boolean {

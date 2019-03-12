@@ -242,8 +242,8 @@ class WCPhoneEmailFragment : Fragment() {
     }
 
 
-    private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
+    private fun requestFocus(view: View?) {
+        if (view?.requestFocus()!!) {
             activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
     }

@@ -137,23 +137,26 @@ class BCMobileNumberFragment : Fragment() {
         }
 
         yesButton?.setOnClickListener {
+            try {
+                registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET?.getString()!!)
+                registrationCommunicator.wcUserNameTypeSelected("mobile")
+                registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET?.getString()!!)
+                Log.d("CountryCode", "${bcCountryCodeTIET?.text}")
 
-            registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET.getString())
-            registrationCommunicator.wcUserNameTypeSelected("mobile")
-            registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET.getString())
-            Log.d("CountryCode", "${bcCountryCodeTIET?.text}")
+                val countryNameAndCountryCode = bcCountryCodeTIET?.getString()!!
+                val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
 
-            val countryNameAndCountryCode = bcCountryCodeTIET.getString()
-            val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-            countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
+                registrationCommunicator.wcCountrySeledted(countryCode)
+                ///-------------------api------------calling------------------
 
-            registrationCommunicator.wcCountrySeledted(countryCode)
-            ///-------------------api------------calling------------------
+                registrationCommunicator.wcCreateAccount()
+                /* registrationCommunicator.bcGoToStepOtpCode()*/
 
-            registrationCommunicator.wcCreateAccount()
-            /* registrationCommunicator.bcGoToStepOtpCode()*/
-
-            dialog.dismiss()
+                dialog.dismiss()
+            } catch (e: Exception) {
+                logException(e)
+            }
 
         }
 
@@ -183,8 +186,8 @@ class BCMobileNumberFragment : Fragment() {
     }
 
 
-    private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
+    private fun requestFocus(view: View?) {
+        if (view?.requestFocus()!!) {
             activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
     }
