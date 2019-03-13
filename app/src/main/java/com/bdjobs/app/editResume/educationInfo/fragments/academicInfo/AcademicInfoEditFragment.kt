@@ -156,7 +156,7 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun checkValidity(editText: TextInputEditText, textInputLayout: TextInputLayout) {
         if (TextUtils.isEmpty(editText.getString())) {
-            textInputLayout.showError("This Field can not be empty")
+            textInputLayout.showError("This field can not be empty")
         } else {
             textInputLayout.isErrorEnabled = false
         }

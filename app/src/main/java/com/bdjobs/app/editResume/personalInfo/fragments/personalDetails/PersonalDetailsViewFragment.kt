@@ -39,7 +39,6 @@ class PersonalDetailsViewFragment : Fragment() {
         session = BdjobsUserSession(activity)
         personalInfoCB = activity as PersonalInfo
         personalInfoCB.setTitle(getString(R.string.title_personal))
-        personalInfoCB.setEditButton(true, "editPersonal")
     }
 
     override fun onResume() {
@@ -76,14 +75,13 @@ class PersonalDetailsViewFragment : Fragment() {
                         val respo = response.body()
                         personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo)
+                        personalInfoCB.setEditButton(true, "editPersonal")
                     }
                 } catch (e: Exception) {
                     shimmerStop()
-                    if (activity != null) {
-                        activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
-                    }
+                    e.printStackTrace()
+                    activity?.logException(e)
+                    activity?.error("++${e.message}")
                 }
             }
         })

@@ -117,12 +117,11 @@ class PersonalDetailsEditFragment : Fragment() {
             if (isNotBangladeshi) {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
             }
-            if (validation >= 2) {
+            if (cbPerIsBd.isChecked && validation >= 2) {
                 updateData()
-            }/* else {
-                assert(activity != null)
-                activity?.toast("Please fill up the mandatory field first")
-            }*/
+            } else if (!cbPerIsBd.isChecked && validation >= 3) {
+                updateData()
+            }
         }
     }
 

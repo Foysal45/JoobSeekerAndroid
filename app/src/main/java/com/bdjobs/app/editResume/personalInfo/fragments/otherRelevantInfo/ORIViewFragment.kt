@@ -44,7 +44,6 @@ class ORIViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         oriCallBack.setTitle(getString(R.string.title_ORI))
-        oriCallBack.setEditButton(true, "editORI")
     }
 
     private fun doWork() {
@@ -68,6 +67,7 @@ class ORIViewFragment : Fragment() {
                         val respo = response.body()
                         oriCallBack.passOriData(respo?.data?.get(0)!!)
                         setupView(respo)
+                        oriCallBack.setEditButton(true, "editORI")
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -21,8 +21,8 @@ interface EmpHisCB {
     fun setExpIDs(idArr: ArrayList<String>)
     fun getExpIDs(): ArrayList<String>
 
-    fun checkingExtraID(b: Boolean)
-    fun getchecking(): Boolean
+    fun setIsFirst(b: Boolean)
+    fun getIsFirst(): Boolean
 
     fun saveExpsArray(exps: ArrayList<DataItem>?)
     fun getExpsArray(): ArrayList<DataItem>
