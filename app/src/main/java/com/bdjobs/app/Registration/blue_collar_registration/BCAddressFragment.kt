@@ -64,6 +64,8 @@ class BCAddressFragment : Fragment() {
             address = bcVillageTIET.getString().trim()
             postOffice = bcPostOfficeTIET.getString()
 
+            //fjgng
+
             /*if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
                 locationID = dataStorage.getBanglaLocationIDByName(thana)!!
             } else {

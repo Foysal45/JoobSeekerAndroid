@@ -5,6 +5,12 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 
 interface JobCommunicator {
 
+
+    fun setCurrentJobPosition(from: Int)
+    fun getCurrentJobPosition(): Int
+
+    fun setBackFrom(from: String)
+    fun getBackFrom(): String
     fun onItemClicked(position: Int)
     fun setJobList(jobList: MutableList<JobListModelData>?)
     fun getJobList(): MutableList<JobListModelData>?

@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
@@ -204,16 +203,18 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         }
                     }
                     updateBTN.setOnClickListener {
-                        try {//update
-                            var salary = expected_salary_tv.getString()
-                            Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
-                            ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
-                            // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
-                            saveSearchDialog?.dismiss()
-                            appliedJobsLists?.get(position)?.expectedSalary = salary
-                            notifyItemChanged(position)
-                        } catch (e: Exception) {
-                            logException(e)
+                        if (expected_salary_ET.length() != 0) {
+                            try {//update
+                                var salary = expected_salary_tv.getString()
+                                Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
+                                ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
+                                // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
+                                saveSearchDialog.dismiss()
+                                appliedJobsLists?.get(position)?.expectedSalary = salary
+                                notifyItemChanged(position)
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
                         }
                     }
                 } catch (e: Exception) {
@@ -337,7 +338,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 
     fun addAll(moveResults: List<AppliedJobModelData>) {
-        for (result in moveResults!!) {
+        for (result in moveResults) {
             add(result)
         }
     }
@@ -349,7 +350,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     }
 
     fun addAllActivity(moveResults: List<AppliedJobModelActivity>) {
-        for (result in moveResults!!) {
+        for (result in moveResults) {
             addActivity(result)
         }
     }

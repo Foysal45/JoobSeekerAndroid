@@ -81,13 +81,13 @@ class FollowedEmployersListFragment : Fragment() {
         followedRV?.scrollToPosition(position)
         followedListSize++
         val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
-        favCountTV.text = Html.fromHtml(styledText)
+        favCountTV?.text = Html.fromHtml(styledText)
     }
 
     fun decrementCounter(){
         followedListSize--
         val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
-        favCountTV.text = Html.fromHtml(styledText)
+        favCountTV?.text = Html.fromHtml(styledText)
     }
 
 

@@ -70,7 +70,7 @@ class JobDetailsFragment : Fragment() {
         communicator = activity as JobCommunicator
 
         shareJobPosition = communicator.getItemClickPosition()
-
+        communicator.setCurrentJobPosition(communicator.getItemClickPosition())
         getData()
 
         snapHelper = PagerSnapHelper()
@@ -92,6 +92,7 @@ class JobDetailsFragment : Fragment() {
                     Log.d("PositionTest", "snapHelper   $currentJobPosition")
 
                     shareJobPosition = currentJobPosition
+                    communicator.setCurrentJobPosition(currentJobPosition)
 
                     counterTV?.let { tv ->
                         tv.text = "Job ${currentJobPosition + 1}/$totalRecordsFound"
@@ -104,6 +105,7 @@ class JobDetailsFragment : Fragment() {
 
         onClick()
         loadFirstPage()
+        communicator.setBackFrom("jobdetails")
 
         Handler().postDelayed({ jobDetailRecyclerView?.scrollToPosition(communicator.getItemClickPosition()) }, 200)
 
@@ -267,7 +269,7 @@ class JobDetailsFragment : Fragment() {
                         if (!results.isNullOrEmpty()) {
 
                             jobDetailAdapter?.addAll(results)
-                            jobDetailAdapter?.showHideShortListedIcon(position =currentJobPosition)
+                            jobDetailAdapter?.showHideShortListedIcon(position = currentJobPosition)
                         }
 
 
@@ -277,6 +279,9 @@ class JobDetailsFragment : Fragment() {
                             jobDetailAdapter?.addLoadingFooter()
                         }
 
+                        communicator.setIsLoading(isLoadings)
+                        communicator.setLastPasge(isLastPages)
+                        communicator.setTotalJob(resp_jobs!!.common!!.totalRecordsFound!!.toInt())
 
                     } else {
                         Log.d("TAG", "not successful: ")
@@ -331,15 +336,13 @@ class JobDetailsFragment : Fragment() {
     }
 
 
-    fun showShortListedIcon(){
+    fun showShortListedIcon() {
         shortListIMGV?.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))
     }
 
-    fun showUnShortListedIcon(){
+    fun showUnShortListedIcon() {
         shortListIMGV?.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
     }
-
-
 
 
 }

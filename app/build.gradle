@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 626 //58
-        versionName "600.0.4.8.3"  //2.0
+        versionCode 63 //626
+        versionName "2.0.0.02"  //600.0.4.8.3
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -39,11 +39,11 @@ dependencies {
     implementation "com.google.android.material:material:1.0.0"
 
     //----firebase
-    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation "com.google.firebase:firebase-messaging:17.4.0"
     implementation 'com.google.firebase:firebase-perf:16.2.3'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     //google sign in
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
@@ -88,11 +88,11 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha11"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha11"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-rc02"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-rc02"
 
     //-----google maps
-    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation "com.google.android.gms:play-services-maps:16.1.0"
     implementation 'com.github.kittinunf.fuel:fuel-android:1.6.0'
 
 }

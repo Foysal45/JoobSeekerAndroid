@@ -214,8 +214,12 @@ class SpecializationEditFragment : Fragment() {
                 session.IsResumeUpdate, skills, etSkillDescription.getString(), etCaricular.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(specializationLoadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                try {
+                    activity?.stopProgressBar(specializationLoadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -236,8 +240,9 @@ class SpecializationEditFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(specializationLoadingProgressBar)
+                    /*  activity.stopProgressBar(specializationLoadingProgressBar)*/
                     e.printStackTrace()
+                    logException(e)
                 }
             }
         })
