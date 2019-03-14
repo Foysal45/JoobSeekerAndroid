@@ -243,7 +243,7 @@ class BCPhotoUploadFragment : Fragment() {
         Log.d("dfgh", "  onActivityResult called")
 
         try {
-            if (resultCode != Activity.RESULT_CANCELED && requestCode != null && resultData != null) {
+            if (resultCode != Activity.RESULT_CANCELED) {
 
                 /*  Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")*/
                 if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && resultData != null) {
@@ -348,7 +348,7 @@ class BCPhotoUploadFragment : Fragment() {
 
                     Log.d("ImageUpload", "")
 
-                    val cropError = UCrop.getError(resultData)
+                    val cropError = UCrop.getError(resultData!!)
                     Log.d("ImageUpload", " cropError $cropError")
                 }
 
