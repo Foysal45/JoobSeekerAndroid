@@ -30,6 +30,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class ContactEditFragment : Fragment() {
 
     private lateinit var contactInfo: PersonalInfo
@@ -147,7 +148,7 @@ class ContactEditFragment : Fragment() {
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
             if (isChecked) {
-                cgPermanent.clearCheck()
+                //cgPermanent.clearCheck()
                 llPermenantPortion.hide()
                 cgPermanent.hide()
                 pmContactDivTIET1.enableOrdisableEdit(false)
@@ -254,21 +255,18 @@ class ContactEditFragment : Fragment() {
 
         //if (count == 1) contactMobileNumber1TIL?.show() else contactMobileNumber2TIL?.show()
         if (mobile1 && mobile2) {
-            Log.d("mobile1","called")
+            Log.d("mobile1", "called")
             contactAddMobileButton?.hide()
-        }
-        else if (mobile1 && !mobile2) {
+        } else if (mobile1 && !mobile2) {
             contactMobileNumber2TIL?.show()
             contactAddMobileButton?.hide()
-            Log.d("mobile2","called")
-        }
-        else if (!mobile1 && mobile2) {
-            Log.d("mobile3","called")
+            Log.d("mobile2", "called")
+        } else if (!mobile1 && mobile2) {
+            Log.d("mobile3", "called")
             contactMobileNumber1TIL?.show()
             contactAddMobileButton?.hide()
-        }
-        else {
-            Log.d("mobile4","called")
+        } else {
+            Log.d("mobile4", "called")
             contactMobileNumber1TIL?.show()
             contactAddMobileButton?.show()
         }
@@ -348,6 +346,7 @@ class ContactEditFragment : Fragment() {
             }
         })
     }
+
     private fun getIdByName(s: String, list: ArrayList<LocationModel>?, tag: String): String {
         var id = ""
         if (!list.isNullOrEmpty()) {
@@ -393,7 +392,7 @@ class ContactEditFragment : Fragment() {
 
         this.addressCheckbox.isChecked = addressType == "3"
 
-        if (data.permanentInsideOutsideBD == "") cgPermanent.clearCheck()
+        //if (data.permanentInsideOutsideBD == "") cgPermanent.clearCheck()
 
         if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
 
@@ -402,10 +401,14 @@ class ContactEditFragment : Fragment() {
         prContactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
         d("thana : ${data.presentThana}")
         contactInfo.setThana(data.presentThana)
-        if (data.presentPostOffice != "0") {
-            prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
-            contactInfo.setPostOffice(data.presentPostOffice)
-        } else prContactPostOfficeTIET1?.setText(getString(R.string.hint_post_office_other))
+        when {
+            data.presentPostOffice != "0" -> {
+                prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
+                contactInfo.setPostOffice(data.presentPostOffice)
+            }
+            data.permanentPostOffice == "-2" -> prContactPostOfficeTIET1?.setText(getString(R.string.hint_post_office_other))
+            else -> prContactPostOfficeTIET1?.setText("")
+        }
         d("postOffice : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
         val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
@@ -418,14 +421,15 @@ class ContactEditFragment : Fragment() {
         pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
         pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
         contactInfo.setPmThana(data.permanentThana)
-        if (data.permanentPostOffice != "0") {
-            pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
-            contactInfo.setPmPostOffice(data.permanentPostOffice)
-        } else pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
+        when {
+            data.permanentPostOffice != "0" -> {
+                pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
+                contactInfo.setPmPostOffice(data.permanentPostOffice)
+            }
+            data.permanentPostOffice == "-2" -> pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
+            else -> pmContactPostOfficeTIET?.setText("")
+        }
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
-        //val pmDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.permanentDistrict).toString())
-        //pmContactDivTIET1?.setText(pmDiv)
-        //d("divisionPm : id : ${data.permanentDistrict} & ${dataStorage.getLocationNameByID(data.permanentDistrict)}")
         if (data.permanentCountry != "118") permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.permanentCountry))
 
         contactMobileNumberTIET?.setText(data.mobile)
@@ -530,8 +534,11 @@ class ContactEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
         cg.setOnCheckedChangeListener { chipGroup, i ->
+            //val chip = chipGroup.getChildAt(chipGroup.checkedChipId) as Chip
+            val chip = chipGroup.findViewById(i) as Chip
+            cg.radioCheckableChip(chip)
             if (i > 0) {
-                val chip = chipGroup.findViewById(i) as Chip
+                //val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip_entry", "text: ${chip.text}")
                 val dataC = chip.text.toString()
                 when (chipGroup.id) {
@@ -597,6 +604,7 @@ class ContactEditFragment : Fragment() {
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
+            chip.isClickable = true
             if (data.equalIgnoreCase(chipText)) {
                 Log.d("chip_entry", "text:$i")
                 chip.isChecked = true

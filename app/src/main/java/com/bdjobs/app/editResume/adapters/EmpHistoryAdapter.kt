@@ -83,6 +83,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         holder.ivEdit?.setOnClickListener {
             call.passData(dModel)
             call.goToEditInfo("edit")
+            call.setIsFirst(true)
         }
 
         holder.imageViewExpand!!.setOnClickListener {

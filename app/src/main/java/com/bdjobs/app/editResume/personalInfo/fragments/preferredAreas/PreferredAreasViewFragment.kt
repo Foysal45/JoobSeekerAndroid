@@ -67,9 +67,9 @@ class PreferredAreasViewFragment : Fragment() {
                         shimmerStop()
                         clPrefAreaView.show()
                         val respo = response.body()
-                        prefCallBack.setEditButton(true, "editPrefAreas")
                         prefCallBack.passPrefAreasData(respo?.prefData?.get(0)!!)
                         setupView(respo)
+                        prefCallBack.setEditButton(true, "editPrefAreas")
                     }
                 } catch (e: Exception) {
                     if (activity != null) {
