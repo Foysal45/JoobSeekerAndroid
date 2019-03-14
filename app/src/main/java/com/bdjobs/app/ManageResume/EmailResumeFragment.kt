@@ -27,7 +27,7 @@ class EmailResumeFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var symbol: String
     lateinit var communicator: ManageResumeCommunicator
-    private var isResumeUpdate : String = "0"
+    private var isResumeUpdate: String = "0"
     private var subject = ""
     private var toEmail = ""
     private var jobID = ""
@@ -89,18 +89,19 @@ class EmailResumeFragment : Fragment() {
             return
         }
 
-        if(mybdjobsResume.isChecked){
-
-            isResumeUpdate = "0"
+        if (mybdjobsResume.isChecked) {
+            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
+            //  isResumeUpdate = "0"
             //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
 
+        } else if (uploadResume.isChecked) {
+            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
+            //  isResumeUpdate = "1"
+            //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
-        else if(uploadResume.isChecked){
-            isResumeUpdate = "1"
-         //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
-        }
+        Log.d("isresumeUpdate", "is = $isResumeUpdate")
         //
-       // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
         callSendEmailCV(isResumeUpdate)
     }
 
@@ -163,18 +164,17 @@ class EmailResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
-           try {
-               if (response.isSuccessful) {
-                   activity.stopProgressBar(EmailResumeLoadingProgressBar)
-                   Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
-                   activity?.toast(response.body()?.message!!)
-                   communicator.backButtonPressed()
-               }
-           }
-           catch (e : Exception){
-               activity?.stopProgressBar(EmailResumeLoadingProgressBar)
-               e.printStackTrace()
-           }
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(EmailResumeLoadingProgressBar)
+                        Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
+                        activity?.toast(response.body()?.message!!)
+                        communicator.backButtonPressed()
+                    }
+                } catch (e: Exception) {
+                    activity?.stopProgressBar(EmailResumeLoadingProgressBar)
+                    e.printStackTrace()
+                }
             }
 
         })
