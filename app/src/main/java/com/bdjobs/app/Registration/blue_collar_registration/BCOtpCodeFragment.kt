@@ -150,7 +150,7 @@ class BCOtpCodeFragment : Fragment() {
 
                     bcTimerTV?.text = time
                 }catch (e:Exception){
-
+                    logException(e)
                 }
             }
 
