@@ -89,12 +89,16 @@ class EmailResumeFragment : Fragment() {
             return
         }
 
+        var uploaded ="0"
+
         if (mybdjobsResume.isChecked) {
+            uploaded = "0"
             isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
             //  isResumeUpdate = "0"
             //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
 
         } else if (uploadResume.isChecked) {
+            uploaded = "1"
             isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
             //  isResumeUpdate = "1"
             //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
@@ -102,7 +106,7 @@ class EmailResumeFragment : Fragment() {
         Log.d("isresumeUpdate", "is = $isResumeUpdate")
         //
         // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
-        callSendEmailCV(isResumeUpdate)
+        callSendEmailCV(isResumeUpdate, uploaded)
     }
 
     private fun callApiMyBdjobsResume() {
@@ -143,19 +147,19 @@ class EmailResumeFragment : Fragment() {
         })
     }
 
-    private fun callSendEmailCV(isResumeUpdate: String) {
+    private fun callSendEmailCV(isResumeUpdate: String, uploadedCV : String) {
         activity.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
-                uploadedCv = "0",
-                application = et_Message.text?.toString(),
+                uploadedCv = uploadedCV,
+                application = et_Message?.getString(),
                 isResumeUpdate = isResumeUpdate,
                 fullName = bdjobsUserSession.fullName,
                 Jobid = jobID,
-                userEmail = et_from.text?.toString(),
-                companyEmail = toEmail,
-                mailSubject = subject
+                userEmail = et_from?.getString(),
+                companyEmail = et_to?.getString(),
+                mailSubject = et_Subject?.getString()
 
 
         ).enqueue(object : Callback<SendEmailCV> {

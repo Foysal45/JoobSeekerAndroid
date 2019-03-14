@@ -27,7 +27,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
     private var from = ""
     private var subject = ""
     private var toEmail = ""
-    private var jobID = "0"
+    private var jobID = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
