@@ -115,6 +115,7 @@ class BCAddressFragment : Fragment() {
     private fun addTextChangedListener() {
 
 
+        //kjhjh
 
         bcDistrictTIET?.easyOnTextChangedListener { charSequence ->
 
