@@ -27,7 +27,7 @@ class EmailResumeFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var symbol: String
     lateinit var communicator: ManageResumeCommunicator
-    private var isResumeUpdate : String = "0"
+    private var isResumeUpdate: String = "0"
     private var subject = ""
     private var toEmail = ""
     private var jobID = ""
@@ -89,19 +89,24 @@ class EmailResumeFragment : Fragment() {
             return
         }
 
-        if(mybdjobsResume.isChecked){
+        var uploaded ="0"
 
-            isResumeUpdate = "0"
+        if (mybdjobsResume.isChecked) {
+            uploaded = "0"
+            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
+            //  isResumeUpdate = "0"
             //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
 
+        } else if (uploadResume.isChecked) {
+            uploaded = "1"
+            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
+            //  isResumeUpdate = "1"
+            //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
-        else if(uploadResume.isChecked){
-            isResumeUpdate = "1"
-         //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
-        }
+        Log.d("isresumeUpdate", "is = $isResumeUpdate")
         //
-       // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
-        callSendEmailCV(isResumeUpdate)
+        // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
+        callSendEmailCV(isResumeUpdate, uploaded)
     }
 
     private fun callApiMyBdjobsResume() {
@@ -142,19 +147,19 @@ class EmailResumeFragment : Fragment() {
         })
     }
 
-    private fun callSendEmailCV(isResumeUpdate: String) {
+    private fun callSendEmailCV(isResumeUpdate: String, uploadedCV : String) {
         activity.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
-                uploadedCv = "0",
-                application = et_Message.text?.toString(),
+                uploadedCv = uploadedCV,
+                application = et_Message?.getString(),
                 isResumeUpdate = isResumeUpdate,
                 fullName = bdjobsUserSession.fullName,
                 Jobid = jobID,
-                userEmail = et_from.text?.toString(),
-                companyEmail = toEmail,
-                mailSubject = subject
+                userEmail = et_from?.getString(),
+                companyEmail = et_to?.getString(),
+                mailSubject = et_Subject?.getString()
 
 
         ).enqueue(object : Callback<SendEmailCV> {
@@ -163,18 +168,17 @@ class EmailResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
-           try {
-               if (response.isSuccessful) {
-                   activity.stopProgressBar(EmailResumeLoadingProgressBar)
-                   Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
-                   activity?.toast(response.body()?.message!!)
-                   communicator.backButtonPressed()
-               }
-           }
-           catch (e : Exception){
-               activity?.stopProgressBar(EmailResumeLoadingProgressBar)
-               e.printStackTrace()
-           }
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(EmailResumeLoadingProgressBar)
+                        Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
+                        activity?.toast(response.body()?.message!!)
+                        communicator.backButtonPressed()
+                    }
+                } catch (e: Exception) {
+                    activity?.stopProgressBar(EmailResumeLoadingProgressBar)
+                    e.printStackTrace()
+                }
             }
 
         })
