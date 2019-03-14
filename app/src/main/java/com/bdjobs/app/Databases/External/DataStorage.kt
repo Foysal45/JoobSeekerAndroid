@@ -78,21 +78,27 @@ class DataStorage(context: Context) {
     val allEduLevels: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.EDU_LEVELS_COL_EDU_LEVEL)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.EDU_LEVELS_COL_EDU_LEVEL)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -103,21 +109,28 @@ class DataStorage(context: Context) {
     val allWorkDiscipline: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()
-            dbHelper.openDataBase()
-            val selectQuery = "SELECT DISTINCT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
-            Log.d("selectQuery", selectQuery)
-            val cursor = dbHelper.getCursor(selectQuery)
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT DISTINCT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
 
-            if (cursor != null && cursor.count > 0) {
-                cursor.moveToFirst()
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
 
-                for (i in 0 until cursor.count) {
-                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.SUB_CATEGORY_COL_SUB_NAME)))
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.SUB_CATEGORY_COL_SUB_NAME)))
 
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    }
                 }
+                dbHelper.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
-            dbHelper.close()
 
             return OrgTypes.toTypedArray()
         }
@@ -223,6 +236,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -248,6 +264,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -301,6 +320,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -451,6 +473,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -478,6 +503,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -504,6 +532,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -530,6 +561,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -556,6 +590,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -582,6 +619,9 @@ class DataStorage(context: Context) {
                 }
                 dbHelper.close()
             } catch (e: Exception) {
+                e.printStackTrace()
+            } catch (e: SQLException) {
+                e.printStackTrace()
             }
 
             return OrgTypes.toTypedArray()
@@ -830,6 +870,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -849,6 +892,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -868,6 +914,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -888,6 +937,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -913,6 +965,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
 
         return OrgTypes.toTypedArray()
@@ -934,6 +989,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -954,27 +1012,36 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
 
     fun getWorkDisciplinesByCategoryID(catID: String): ArrayList<String> {
         val OrgTypes = ArrayList<String>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area' AND " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + catID + "'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area' AND " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + catID + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.SUB_CATEGORY_COL_SUB_NAME)))
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.SUB_CATEGORY_COL_SUB_NAME)))
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
-        dbHelper.close()
 
         return OrgTypes
     }
@@ -1086,42 +1153,54 @@ class DataStorage(context: Context) {
 
     fun getAllDistrictList(): Array<String> {
         val OrgTypes = ArrayList<String>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
-        dbHelper.close()
 
         return OrgTypes.toTypedArray()
     }
 
     fun getAllBanglaDistrictList(): Array<String> {
         val OrgTypes = ArrayList<String>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA)))
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA)))
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
-        dbHelper.close()
 
         return OrgTypes.toTypedArray()
     }
@@ -1180,21 +1259,27 @@ class DataStorage(context: Context) {
     fun getDependentLocationByParentName(locationName: String): Array<String> {
         val locationID = getLocationIDByName(locationName)
         val OrgTypes = ArrayList<String>()
-        dbHelper.openDataBase()
-        val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-        Log.d("selectQuery", selectQuery)
-        val cursor = dbHelper.getCursor(selectQuery)
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
 
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
 
-            for (i in 0 until cursor.count) {
-                OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
+                for (i in 0 until cursor.count) {
+                    OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.LOCATIONS_COL_LOCATION_NAME)))
 
-                cursor.moveToNext()
+                    cursor.moveToNext()
+                }
             }
+            dbHelper.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
-        dbHelper.close()
 
         return OrgTypes.toTypedArray()
 
@@ -1325,6 +1410,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
 
         return OrgTypes
@@ -1354,6 +1442,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
 
         return OrgTypes
@@ -1518,6 +1609,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1538,6 +1632,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1558,6 +1655,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1578,7 +1678,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
-
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1599,6 +1701,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1620,6 +1725,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1644,6 +1752,9 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
 
         return OrgTypes.toTypedArray()
@@ -1666,6 +1777,9 @@ class DataStorage(context: Context) {
             dbHelper.close()
             state = s.equals(DegreeName, ignoreCase = true)
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return state
     }
@@ -1688,6 +1802,9 @@ class DataStorage(context: Context) {
                 s = "0"
             }
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
         return s
     }
@@ -1736,6 +1853,8 @@ class DataStorage(context: Context) {
             }
             dbHelper.close()
         } catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: SQLException) {
             e.printStackTrace()
         }
 
