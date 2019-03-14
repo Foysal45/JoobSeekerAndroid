@@ -6,4 +6,7 @@ interface ManageResumeCommunicator {
     fun gotoDownloadResumeFragment()
     fun gotoEmailResumeFragment()
     fun gotoTimesResumeFrag()
+    fun getjobID() : String
+    fun getEmailTo() : String
+    fun getSubject() : String
 }

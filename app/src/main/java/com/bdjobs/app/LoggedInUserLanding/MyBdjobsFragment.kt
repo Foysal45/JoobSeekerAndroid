@@ -169,12 +169,12 @@ class MyBdjobsFragment : Fragment() {
 
         ).enqueue(object : Callback<StatsModelClass> {
             override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
-                activity.stopProgressBar(mybdjobsLoadingProgressBar)
+                activity?.stopProgressBar(mybdjobsLoadingProgressBar)
                 activity?.toast("${t.message}")
             }
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
-                activity.stopProgressBar(mybdjobsLoadingProgressBar)
+                activity?.stopProgressBar(mybdjobsLoadingProgressBar)
                 myBdjobsgridView_RV.visibility = View.VISIBLE
                 try {
                     if (activityDate == "0") {
@@ -189,7 +189,7 @@ class MyBdjobsFragment : Fragment() {
                         }
                     } else if (activityDate == "1") {
                         lastMonthStatsData = response.body()?.data
-                      //  populateDataLastMonthStats()
+                        //  populateDataLastMonthStats()
                         if (bdjobsList.isNullOrEmpty()) {
                             populateDataLastMonthStats()
                         } else {
@@ -201,7 +201,7 @@ class MyBdjobsFragment : Fragment() {
 
                     Log.d("respp", " === $allStatsData /n $lastMonthStatsData")
                 } catch (e: Exception) {
-                    activity.stopProgressBar(mybdjobsLoadingProgressBar)
+                    activity?.stopProgressBar(mybdjobsLoadingProgressBar)
                     logException(e)
                 }
             }
