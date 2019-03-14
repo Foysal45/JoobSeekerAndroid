@@ -187,9 +187,26 @@ class BCMobileNumberFragment : Fragment() {
 
 
     private fun requestFocus(view: View?) {
-        if (view?.requestFocus()!!) {
-            activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        try {
+            if (view != null) {
+
+                try {
+                    if (view.requestFocus()) {
+                        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+        } catch (e: Exception) {
+
+            logException(e)
+
         }
+
+
     }
 
 

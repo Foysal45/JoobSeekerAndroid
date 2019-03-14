@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:name=".BackgroundJob.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

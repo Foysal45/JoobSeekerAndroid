@@ -141,7 +141,6 @@ class BCAddressFragment : Fragment() {
 
         bcVillageTIET?.easyOnTextChangedListener { charSequence ->
 
-
             addressValidation(charSequence.toString(), bcVillageTIET, bcVillageTIL, "এলাকার ঠিকানা লিখুন")
 
         }
@@ -154,22 +153,41 @@ class BCAddressFragment : Fragment() {
     }
 
 
-    private fun addressValidation(char: String, et: TextInputEditText, til: TextInputLayout, message: String): Boolean {
+    private fun addressValidation(char: String, et: TextInputEditText?, til: TextInputLayout?, message: String): Boolean {
         when {
             TextUtils.isEmpty(char) -> {
-                til.showError(message)
-                requestFocus(et)
+                til?.showError(message)
+                if (et != null) {
+                    try {
+                        requestFocus(et)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
                 return false
             }
-            else -> til.hideError()
+            else -> til?.hideError()
         }
         return true
     }
 
 
-    private fun requestFocus(view: View) {
-        if (view.requestFocus()) {
-            activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    private fun requestFocus(view: View?) {
+        try {
+            if (view != null) {
+
+                try {
+                    if (view.requestFocus()) {
+                        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+        } catch (e: Exception) {
+            logException(e)
+
         }
     }
 
