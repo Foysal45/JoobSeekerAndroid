@@ -235,19 +235,19 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                             val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(item?.deadline)
                             Log.d("deadline", "deadline: $deadline")
                             val shortlistedJob = ShortListedJobs(
-                                    jobid = item.jobid,
-                                    jobtitle = item.jobtitle,
-                                    companyname = item.companyname,
+                                    jobid = item?.jobid,
+                                    jobtitle = item?.jobtitle,
+                                    companyname = item?.companyname,
                                     deadline = deadline,
-                                    eduRec = item.eduRec,
-                                    experience = item.experience,
-                                    standout = item.standout,
-                                    logo = item.logo,
-                                    lantype = item.lantype
+                                    eduRec = item?.eduRec,
+                                    experience = item?.experience,
+                                    standout = item?.standout,
+                                    logo = item?.logo,
+                                    lantype = item?.lantype
                             )
 
-                            Log.d("item.jobTitle", "item.jobTitle: ${item.jobtitle}")
-                            Log.d("item.jobTitle", "item.companyName: ${item.companyname}")
+                            Log.d("item.jobTitle", "item.jobTitle: ${item?.jobtitle}")
+                            Log.d("item.jobTitle", "item.companyName: ${item?.companyname}")
                             bdjobsInternalDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                         }
                     }
