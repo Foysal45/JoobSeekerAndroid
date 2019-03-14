@@ -93,7 +93,7 @@ dependencies {
 
     //-----google maps
     implementation "com.google.android.gms:play-services-maps:16.1.0"
-    implementation 'com.github.kittinunf.fuel:fuel-android:1.6.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -9,6 +9,7 @@ import android.speech.RecognizerIntent
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Suggestion
@@ -59,7 +60,9 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         setFilterAdapter(from)
         setTextWatcher()
 
-        historyViewCL.hide()
+        historyViewCL.show()
+        suggestiveSearchET.requestFocus()
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
     }
 
     private fun initialization() {
@@ -76,20 +79,20 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                 suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
                     filterRV.show()
-                    //historyViewCL.show()
+                    historyViewCL.show()
                 } else {
                     filterRV.hide()
-                    //historyViewCL.show()
+                    historyViewCL.show()
                 }
             } else {
                 suggestiveSearchET?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_white, 0)
                 suggestiveSearchET?.clearTextOnDrawableRightClick()
                 if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
                     filterRV.show()
-                    //historyViewCL.show()
+                    historyViewCL.hide()
                 } else {
                     filterRV.show()
-                    //historyViewCL.hide()
+                    historyViewCL.hide()
                 }
             }
             adapter?.filter?.filter(e)

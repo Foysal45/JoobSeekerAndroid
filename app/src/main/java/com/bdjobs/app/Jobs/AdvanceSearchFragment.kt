@@ -333,7 +333,7 @@ class AdvanceSearchFragment : Fragment() {
 
     private fun showHideCrossButton(editText: EditText) {
         if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
         } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
             editText.clearTextOnDrawableRightClick()

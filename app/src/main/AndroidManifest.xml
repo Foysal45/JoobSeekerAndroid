@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:name=".BackgroundJob.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -90,6 +88,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SuggestiveSearch.SuggestiveSearchActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait" />
 
         <service
