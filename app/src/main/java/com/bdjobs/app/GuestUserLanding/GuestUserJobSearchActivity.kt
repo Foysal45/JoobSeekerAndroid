@@ -125,7 +125,7 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         val intent = Intent(this, SuggestiveSearchActivity::class.java)
         intent.putExtra(key_from, from)
         intent.putExtra(key_typedData, editText?.getString())
-        val options = ActivityOptions.makeSceneTransitionAnimation(this, editText!!, "robot")
+        val options = ActivityOptions.makeSceneTransitionAnimation(this, editText!!, "robotx")
         window.exitTransition = null
         startActivityForResult(intent, BdjobsUserRequestCode, options.toBundle())
     }
@@ -158,11 +158,11 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText?.text.isBlank()) {
-            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (editText.text.isBlank()) {
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
         } else {
-            editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText?.clearTextOnDrawableRightClick()
+            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+            editText.clearTextOnDrawableRightClick()
         }
     }
 }

@@ -21,6 +21,7 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.Employers.EmployersBaseActivity
+import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -71,6 +72,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var companyLogoUrl = ""
     var companyOtherJobs = ""
     var applyOnline = ""
+    var applyStatus = false
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
 
@@ -84,6 +86,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var viewHolder: RecyclerView.ViewHolder? = null
         var inflater = LayoutInflater.from(parent.context)
+
+
 
         call = context as JobCommunicator
         when (viewType) {
@@ -102,7 +106,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        applyStatus = false
 
         when (getItemViewType(position)) {
             BASIC -> {
@@ -151,6 +158,35 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyLogoUrl = jobDetailResponseAll.jobLOgoName!!
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
+
+
+                            if (jobDetailResponseAll.companyWeb.isNullOrBlank()) {
+                                jobsVH.websiteTV.hide()
+                                jobsVH.wbsiteHeadingTV.hide()
+                            } else {
+                                jobsVH.websiteTV.show()
+                                jobsVH.wbsiteHeadingTV.show()
+
+                                if (jobDetailResponseAll.companyWeb.startsWith("http") || jobDetailResponseAll.companyWeb.startsWith("Http")) {
+                                    jobsVH.websiteTV.text = Html.fromHtml("<a href='" + jobDetailResponseAll.companyWeb + "'>" + jobDetailResponseAll.companyWeb + "</a>")
+                                    jobsVH.websiteTV.movementMethod = MovementCheck()
+                                } else {
+                                    jobsVH.websiteTV.text = Html.fromHtml("<a href='https://" + jobDetailResponseAll.companyWeb + "'>" + jobDetailResponseAll.companyWeb + "</a>")
+                                    jobsVH.websiteTV.movementMethod = MovementCheck()
+                                }
+                            }
+
+
+                            if (jobDetailResponseAll.companyBusiness.isNullOrBlank()) {
+                                jobsVH.businessHeadingTV.hide()
+                                jobsVH.businessTV.hide()
+                            } else {
+                                jobsVH.businessHeadingTV.show()
+                                jobsVH.businessTV.show()
+                                jobsVH.businessTV.text = jobDetailResponseAll.companyBusiness
+                            }
+
+
 
                             if (applyOnline.equalIgnoreCase("True")) {
                                 applyonlinePostions.add(position)
@@ -391,16 +427,40 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
 
                                 if (readApplyData.isBlank()) {
-
                                     jobsVH.tvReadBefApply.visibility = View.GONE
                                     jobsVH.tvReadBefApplyData.visibility = View.GONE
 
                                 } else {
-
                                     jobsVH.tvReadBefApplyData.text = Html.fromHtml(readApplyData)
                                     jobsVH.tvReadBefApply.visibility = View.VISIBLE
                                     jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
                                     jobsVH.tvReadBefApplyData.movementMethod = MovementCheck()
+
+                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank()) {
+                                        jobsVH.emailApplyTV.hide()
+                                        jobsVH.emailApplyMsgTV.hide()
+                                    } else {
+                                        jobsVH.emailApplyTV.show()
+                                        jobsVH.emailApplyMsgTV.show()
+                                        jobsVH.emailApplyMsgTV.text = "or to Email CV from MY BDJOBS account please "
+                                        jobsVH.emailApplyTV.text = Html.fromHtml("<a href='" + "CLICK HERE" + "'>" + "CLICK HERE" + "</a>")
+
+                                        jobsVH.emailApplyTV.setOnClickListener {
+                                            val bdjobsUserSession = BdjobsUserSession(context)
+                                            if (bdjobsUserSession.isLoggedIn!!) {
+                                                context.startActivity<ManageResumeActivity>(
+                                                        "from" to "emailResumeCompose",
+                                                        "subject" to jobDetailResponseAll.jobTitle,
+                                                        "emailAddress" to jobDetailResponseAll.jobAppliedEmail,
+                                                        "jobid" to jobDetailResponseAll.jobId
+                                                )
+
+                                            } else {
+                                                jobCommunicator?.setBackFrom("jobdetail")
+                                                jobCommunicator?.goToLoginPage()
+                                            }
+                                        }
+                                    }
 
                                 }
 
@@ -530,9 +590,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
 
         okButton.setOnClickListener {
-            if (validateFilterName(salaryTIET.getString(), salaryTIL)) {
+
+            d("applyTest in ok button $applyStatus")
+
+            if (validateFilterName(salaryTIET.getString(), salaryTIL) && !applyStatus) {
+                applyStatus = true
                 applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+                d("applyTest validate $applyStatus")
+
             }
+
+
         }
         dialog.show()
     }
@@ -560,16 +628,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 Log.d("dlkgj", "respone ${t.message}")
                 loadingDialog.dismiss()
                 dialog.dismiss()
+                applyStatus = false
+                d("applyTest onFailure ")
 
             }
 
             override fun onResponse(call: Call<ApplyOnlineModel>, response: Response<ApplyOnlineModel>) {
+
+
                 try {
+
+                    d("applyTest onResponse ")
                     dialog.dismiss()
                     loadingDialog.dismiss()
                     context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
 
+                        applyStatus = true
                         doAsync {
                             val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
                             bdjobsDB.appliedJobDao().insertAppliedJobs(appliedJobs)
@@ -577,6 +652,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 notifyDataSetChanged()
                             }
                         }
+
+                        d("applyTest success $applyStatus")
+                    } else {
+                        applyStatus = false
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -714,6 +793,13 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
         val applyButton: Button = viewItem?.findViewById(R.id.applyButton) as Button
+
+        val wbsiteHeadingTV: TextView = viewItem?.findViewById(R.id.wbsiteHeadingTV) as TextView
+        val websiteTV: TextView = viewItem?.findViewById(R.id.websiteTV) as TextView
+        val businessHeadingTV: TextView = viewItem?.findViewById(R.id.businessHeadingTV) as TextView
+        val businessTV: TextView = viewItem?.findViewById(R.id.businessTV) as TextView
+        val emailApplyTV: TextView = viewItem?.findViewById(R.id.emailApplyTV) as TextView
+        val emailApplyMsgTV: TextView = viewItem?.findViewById(R.id.emailApplyMsgTV) as TextView
     }
 
 

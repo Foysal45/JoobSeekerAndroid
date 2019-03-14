@@ -27,8 +27,10 @@ class EmailResumeFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var symbol: String
     lateinit var communicator: ManageResumeCommunicator
-    private var isResumeUpdate : String = "0"
-
+    private var isResumeUpdate: String = "0"
+    private var subject = ""
+    private var toEmail = ""
+    private var jobID = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,10 +42,19 @@ class EmailResumeFragment : Fragment() {
         super.onResume()
         bdjobsUserSession = BdjobsUserSession(activity)
         communicator = activity as ManageResumeCommunicator
+        subject = communicator?.getSubject()
+        toEmail = communicator?.getEmailTo()
+        jobID = communicator?.getjobID()
+
         et_from.setText(bdjobsUserSession.email)
+        et_Subject?.setText(subject)
+        et_to?.setText(toEmail)
+
         backIV.setOnClickListener {
             communicator.backButtonPressed()
         }
+
+        Log.d("manage", "===${communicator?.getEmailTo()}")
 
         uploadResume.isEnabled = Constants.cvUploadStatus == "0" || Constants.cvUploadStatus == "4"
 
@@ -78,19 +89,24 @@ class EmailResumeFragment : Fragment() {
             return
         }
 
-        if(mybdjobsResume.isChecked){
+        var uploaded ="0"
 
-            isResumeUpdate = "0"
+        if (mybdjobsResume.isChecked) {
+            uploaded = "0"
+            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
+            //  isResumeUpdate = "0"
             //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
 
+        } else if (uploadResume.isChecked) {
+            uploaded = "1"
+            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
+            //  isResumeUpdate = "1"
+            //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
-        else if(uploadResume.isChecked){
-            isResumeUpdate = "1"
-         //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
-        }
+        Log.d("isresumeUpdate", "is = $isResumeUpdate")
         //
-       // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
-        callSendEmailCV(isResumeUpdate)
+        // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
+        callSendEmailCV(isResumeUpdate, uploaded)
     }
 
     private fun callApiMyBdjobsResume() {
@@ -110,12 +126,12 @@ class EmailResumeFragment : Fragment() {
                 decodeID = bdjobsUserSession.decodId,
                 isResumeUpdate = bdjobsUserSession.IsResumeUpdate,
                 userEmail = et_from.text?.toString(),
-                companyEmail = et_to.text?.toString(),
-                mailSubject = et_Subject.text?.toString(),
+                companyEmail = communicator.getEmailTo(),
+                mailSubject = communicator.getSubject(),
                 application = "",
                 fullName = bdjobsUserSession.fullName,
                 uploadedCv = "0",
-                Jobid = "0"
+                Jobid = communicator?.getjobID()
 
 
         ).enqueue(object : Callback<EmailResume> {
@@ -131,19 +147,19 @@ class EmailResumeFragment : Fragment() {
         })
     }
 
-    private fun callSendEmailCV(isResumeUpdate: String) {
+    private fun callSendEmailCV(isResumeUpdate: String, uploadedCV : String) {
         activity.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
-                uploadedCv = "0",
-                application = et_Message.text?.toString(),
+                uploadedCv = uploadedCV,
+                application = et_Message?.getString(),
                 isResumeUpdate = isResumeUpdate,
                 fullName = bdjobsUserSession.fullName,
-                Jobid = "0",
-                userEmail = et_from.text?.toString(),
-                companyEmail = et_to.text?.toString(),
-                mailSubject = et_Subject.text?.toString()
+                Jobid = jobID,
+                userEmail = et_from?.getString(),
+                companyEmail = et_to?.getString(),
+                mailSubject = et_Subject?.getString()
 
 
         ).enqueue(object : Callback<SendEmailCV> {
@@ -152,18 +168,17 @@ class EmailResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
-           try {
-               if (response.isSuccessful) {
-                   activity.stopProgressBar(EmailResumeLoadingProgressBar)
-                   Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
-                   toast(response.body()?.message!!)
-                   communicator.backButtonPressed()
-               }
-           }
-           catch (e : Exception){
-               activity.stopProgressBar(EmailResumeLoadingProgressBar)
-               e.printStackTrace()
-           }
+                try {
+                    if (response.isSuccessful) {
+                        activity.stopProgressBar(EmailResumeLoadingProgressBar)
+                        Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
+                        activity?.toast(response.body()?.message!!)
+                        communicator.backButtonPressed()
+                    }
+                } catch (e: Exception) {
+                    activity?.stopProgressBar(EmailResumeLoadingProgressBar)
+                    e.printStackTrace()
+                }
             }
 
         })

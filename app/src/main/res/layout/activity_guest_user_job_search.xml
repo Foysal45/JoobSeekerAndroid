@@ -75,12 +75,14 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:editable="false"
+            android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
+            android:drawablePadding="3dp"
             android:focusableInTouchMode="false"
             android:fontFamily="@font/roboto"
             android:hint="Category"
             android:inputType="none"
             android:textSize="16sp"
-            android:transitionName="robot"
+            android:transitionName=""
             app:fontFamily="@font/roboto" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -107,13 +109,14 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:editable="false"
-
+            android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
+            android:drawablePadding="3dp"
             android:focusableInTouchMode="false"
             android:fontFamily="@font/roboto"
             android:hint="Location"
             android:inputType="none"
             android:textSize="16sp"
-            android:transitionName="robot" />
+            android:transitionName="" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -137,6 +140,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/jobtitleET"
+            android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
+            android:drawablePadding="3dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -146,7 +151,7 @@
             android:hint="Job Title"
             android:inputType="none"
             android:textSize="16sp"
-            android:transitionName="robot" />
+            android:transitionName="" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

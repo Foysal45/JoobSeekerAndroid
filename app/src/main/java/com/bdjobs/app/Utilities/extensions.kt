@@ -322,21 +322,28 @@ fun Context.setLanguage(localeName: String) {
 }
 
 fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: Boolean) {
-    val transaction = fragmentManager.beginTransaction()
+    try {
+        val transaction = fragmentManager.beginTransaction()
 
-    if (addToBackStack) {
-        transaction.replace(holderID, fragment, simpleClassName(fragment)).addToBackStack(simpleClassName(fragment))
-    } else {
-        transaction.replace(holderID, fragment, simpleClassName(fragment))
+        if (addToBackStack) {
+            transaction.replace(holderID, fragment, simpleClassName(fragment)).addToBackStack(simpleClassName(fragment))
+        } else {
+            transaction.replace(holderID, fragment, simpleClassName(fragment))
+        }
+        transaction.commit()
+    } catch (e: Exception) {
+        logException(e)
     }
-    transaction.commit()
 }
 
 fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
-
-    val transaction = fragmentManager.beginTransaction()
-    transaction.replace(holderID, fragment, simpleClassName(fragment))
-    transaction.commit()
+    try {
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(holderID, fragment, simpleClassName(fragment))
+        transaction.commit()
+    } catch (e: Exception) {
+        logException(e)
+    }
 }
 
 
