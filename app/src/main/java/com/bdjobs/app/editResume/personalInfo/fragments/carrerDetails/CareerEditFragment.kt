@@ -124,7 +124,6 @@ class CareerEditFragment : Fragment() {
 
             }
             from.equalIgnoreCase("objectiveExample") -> {
-
                 headingText.show()
                 mainText.hide()
                 constraintLayout.show()
