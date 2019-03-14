@@ -184,9 +184,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             getUserStatus(userId = session.userId!!, decodeId = session.decodId!!, invitedUserId = session.userId!!)
         }
 
-        getStatsData("0")
-        getStatsData("1")
-        getIsCvUploaded()
+        /*getStatsData("0")
+        getStatsData("1")*/
+        Log.d("calling", "Mainlanding")
+        //getIsCvUploaded()
 
         tetsLog()
     }
@@ -348,7 +349,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
     }
 
-    private fun getStatsData(activityDate: String) {
+   /* private fun getStatsData(activityDate: String) {
         ApiServiceMyBdjobs.create().mybdjobStats(
                 userId = session.userId,
                 decodeId = session.decodId,
@@ -370,14 +371,14 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                         lastMonthStats = response.body()?.data
                     }
 
-                    Log.d("respp", "$allTimeStats /n $lastMonthStats")
+                    Log.d("respp", " === $allTimeStats /n $lastMonthStats")
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
 
         })
-    }
+    }*/
 
 
     private fun getUserStatus(userId: String, decodeId: String, invitedUserId: String) {
@@ -532,7 +533,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         }
     }
 
-    private fun getIsCvUploaded() {
+    /*private fun getIsCvUploaded() {
         ApiServiceMyBdjobs.create().getCvFileAvailable(
                 userID = session.userId,
                 decodeID = session.decodId
@@ -555,6 +556,6 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
         })
 
-    }
+    }*/
 
 }
