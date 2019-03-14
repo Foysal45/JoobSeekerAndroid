@@ -142,11 +142,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun passOriData(data: ORIdataItem) {
-        try {
-            this.dataOri = data
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        this.dataOri = data
     }
 
     override fun getPrefAreasData(): PreferredAreasData {
@@ -160,24 +156,21 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     override fun setEditButton(b: Boolean, type: String) {
         try {
             if (b) {
+                iv_edit_data.show()
                 iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit_white))
                 iv_edit_data.setOnClickListener {
                     goToEditInfo(type)
                 }
             } else {
-                iv_edit_data.setImageDrawable(null)
+                iv_edit_data.hide()
+                //iv_edit_data.setImageDrawable(null)
             }
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
         }
     }
-/*
-    override fun setDeleteButton(b: Boolean) {
-        if (b) {
-            iv_edit_data.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_white_24dp))
-        }
-    }*/
+
 
     private fun goToEditInfo(check: String) {
         try {

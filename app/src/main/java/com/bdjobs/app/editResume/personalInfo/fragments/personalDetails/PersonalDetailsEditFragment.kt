@@ -117,12 +117,11 @@ class PersonalDetailsEditFragment : Fragment() {
             if (isNotBangladeshi) {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
             }
-            if (validation >= 2) {
+            if (cbPerIsBd.isChecked && validation >= 2) {
                 updateData()
-            }/* else {
-                assert(activity != null)
-                activity?.toast("Please fill up the mandatory field first")
-            }*/
+            } else if (!cbPerIsBd.isChecked && validation >= 3) {
+                updateData()
+            }
         }
     }
 
@@ -131,6 +130,7 @@ class PersonalDetailsEditFragment : Fragment() {
             personalInfo.validateField(charSequence.toString(), editText, inputLayout)
         }
     }
+
     private fun pickDateOfBirth(listener: DatePickerDialog.OnDateSetListener) {
         val cal = Calendar.getInstance()
         val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
@@ -242,8 +242,9 @@ class PersonalDetailsEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
         cg.setOnCheckedChangeListener { chipGroup, i ->
+            val chip = chipGroup.findViewById(i) as Chip
+            cg.radioCheckableChip(chip)
             if (i > 0) {
-                val chip = chipGroup.findViewById(i) as Chip
                 Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {

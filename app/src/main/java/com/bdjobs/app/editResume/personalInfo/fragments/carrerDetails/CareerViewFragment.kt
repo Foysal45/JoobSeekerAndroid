@@ -67,8 +67,8 @@ class CareerViewFragment : Fragment() {
                         clContent.show()
                         val respo = response.body()
                         val data = respo?.data?.get(0)!!
-                        contactCB.setEditButton(true, "editCareer")
                         contactCB.passCareerData(data)
+                        contactCB.setEditButton(true, "editCareer")
                         setupView(respo)
                     }
                 } catch (e: Exception) {

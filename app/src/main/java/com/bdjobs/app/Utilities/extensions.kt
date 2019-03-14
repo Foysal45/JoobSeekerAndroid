@@ -38,6 +38,8 @@ import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -327,7 +329,7 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
     } else {
         transaction.replace(holderID, fragment, simpleClassName(fragment))
     }
-    transaction.commit()
+    transaction.commitAllowingStateLoss()
 }
 
 fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
@@ -452,6 +454,13 @@ fun ImageView.loadCircularImageFromUrl(url: String?) {
 
 fun EditText.clearText() {
     text?.clear()
+}
+
+fun ChipGroup.radioCheckableChip(chip: Chip) {
+    for (item in 0 until this.childCount) {
+        this.getChildAt(item).isClickable = true
+    }
+    chip.isClickable = false
 }
 
 fun EditText.clearTextOnDrawableRightClick() {

@@ -24,20 +24,20 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
+    override fun setIsFirst(b: Boolean) {
+        IsFirst = b
+    }
+
+    override fun getIsFirst(): Boolean {
+        return IsFirst
+    }
+
     override fun saveExpsArray(exps: ArrayList<DataItem>?) {
         expsList = exps as ArrayList<DataItem>
     }
 
     override fun getExpsArray(): ArrayList<DataItem> {
         return expsList
-    }
-
-    override fun checkingExtraID(b: Boolean) {
-        checkingExtraID = b
-    }
-
-    override fun getchecking(): Boolean {
-        return checkingExtraID
     }
 
     override fun setExpIDs(idArr: ArrayList<String>) {
@@ -57,7 +57,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     private var dataitArmy: ArmydataItem? = null
     private var expIDs = ArrayList<String>()
     private var expsList = ArrayList<DataItem>()
-    private var checkingExtraID = false
+    private var IsFirst = false
     lateinit var name: String
     lateinit var gotToAddEmployment: String
 

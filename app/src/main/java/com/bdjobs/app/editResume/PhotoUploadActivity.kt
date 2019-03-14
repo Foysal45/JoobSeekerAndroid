@@ -334,8 +334,20 @@ class PhotoUploadActivity : Activity() {
 
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
 
-                Log.e("Deltete", error.message)
-                toast(error.message!!)
+                try {
+                    try {
+                        Log.e("Deltete", error.message)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    try {
+                        toast(error.message!!)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
         })
     }
@@ -422,12 +434,11 @@ class PhotoUploadActivity : Activity() {
         Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
 
         try {
-            if (resultCode != RESULT_CANCELED && requestCode != null && data != null) {
+            if (resultCode != RESULT_CANCELED) {
 
                 if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
 
                     var fileUri: Uri? = null
-
                     val selectedImageUri = data.data
                     val tempPath = getPathCloud(selectedImageUri, this@PhotoUploadActivity)
                     val url = data.data!!.toString()
@@ -523,7 +534,7 @@ class PhotoUploadActivity : Activity() {
 
 
                 } else if (resultCode == UCrop.RESULT_ERROR) {
-                    val cropError = UCrop.getError(data)
+                    val cropError = UCrop.getError(data!!)
                 }
 
                 if (requestCode == REQ_CAMERA_IMAGE && resultCode == Activity.RESULT_OK) {

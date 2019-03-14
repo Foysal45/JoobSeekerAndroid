@@ -45,9 +45,7 @@ class EmpHistoryEditFragment: Fragment() {
     private var currentlyWorking: String = "OFF"
     //private var companyBusinessID = ""
     private var workExperienceID = ""
-    private var isFirst = false
     private var idArr: ArrayList<String> = ArrayList()
-    //private var isEmpty = false
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
@@ -84,7 +82,6 @@ class EmpHistoryEditFragment: Fragment() {
         dataStorage = DataStorage(activity)
         empHisCB.setTitle(getString(R.string.title_emp_history))
         initViews()
-        isFirst = true
         if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
@@ -100,7 +97,7 @@ class EmpHistoryEditFragment: Fragment() {
         Log.i("onResume", "onPause called... $idArr")
         /*if (idArr.isNotEmpty()) {
             try {
-                entry_chip_group?.removeAllViews()
+                //entry_chip_group?.removeAllViews()
                 idArr.removeAll(idArr)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -115,7 +112,8 @@ class EmpHistoryEditFragment: Fragment() {
         if (isEdit) {
             empHisCB.setDeleteButton(true)
             hID = "4"
-            preloadedData()
+            if (empHisCB.getIsFirst())
+                preloadedData()
         } else if (!isEdit) {
             empHisCB.setDeleteButton(false)
             hID = "-4"
@@ -129,7 +127,7 @@ class EmpHistoryEditFragment: Fragment() {
     private fun addChip(input: String, id: String) {
         Log.i("getInput", "\n// |$input| and |$id|")
 
-        if (input.trim().isBlank() or input.trim().isEmpty()) {
+        if (input.trim().isBlank() || input.trim().isEmpty()) {
             val data = empHisCB.getExpsArray()
             data.forEach { dt ->
                 dt.areaofExperience?.forEach {
@@ -137,7 +135,6 @@ class EmpHistoryEditFragment: Fragment() {
                         addAsString(id)
                         val c1 = getChip(entry_chip_group, it.expsName.toString(), R.xml.chip_entry)
                         entry_chip_group.addView(c1)
-                        empHisCB.checkingExtraID(false)
                     }
                 }
                 Log.i("getAreaOfExpsData", "\n ${dt.areaofExperience},// |$input| and |$id|")
@@ -148,14 +145,13 @@ class EmpHistoryEditFragment: Fragment() {
                     addAsString(id)
                     val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
                     entry_chip_group.addView(c1)
-                    empHisCB.checkingExtraID(false)
                 }
-                entry_chip_group.childCount == 3 -> {
+                else -> {
                     //idArr.remove(workExperienceID)
                     //removeItem(workExperienceID)
-                    activity?.toast("Maximum 3 experiences can be added.")
+                    experiencesMACTV.setText("")
+                    experiencesMACTV.clearFocus()
                 }
-                else -> empHisCB.checkingExtraID(false)
             }
         }
 
@@ -176,6 +172,8 @@ class EmpHistoryEditFragment: Fragment() {
         chip.setOnCloseIconClickListener {
             entryChipGroup.removeView(chip)
             removeItem(chip.text.toString())
+            //experiencesMACTV.isEnabled = true
+            //experiencesMACTV.requestFocus()
         }
         return chip
     }
@@ -219,13 +217,13 @@ class EmpHistoryEditFragment: Fragment() {
                 experiencesMACTV.setAdapter(expsAdapter)
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
-                    empHisCB.checkingExtraID(false)
                     d("Array size : pos : $position id : $id")
                     //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     workExperienceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
 
-                    if (idArr.size != 0) {
+                    if (idArr.size in 0..2) {
+                        //experiencesMACTV.isEnabled = true
                         if (idArr.contains(workExperienceID)) {
                             experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
@@ -233,11 +231,13 @@ class EmpHistoryEditFragment: Fragment() {
                             addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
                         }
                         experiencesTIL.hideError()
-                    } else {
-                        addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
+                    } else if (idArr.size >= 3) {
+                        //addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
                         d("Array_size : ${idArr.size} and exps and id : $id")
-                        /*isEmpty = true
-                        experiencesTIL.isErrorEnabled = true*/
+                        //experiencesMACTV.isEnabled = false
+                        experiencesMACTV.setText("")
+                        experiencesMACTV.clearFocus()
+                        activity?.toast("Maximum 3 experiences can be added.")
                         experiencesTIL.hideError()
                     }
                 }
@@ -321,41 +321,35 @@ class EmpHistoryEditFragment: Fragment() {
             else
                 companyBusinessTIL.hideError()
 
-            if (validation >= 4) {
+            if (cb_present.isChecked && validation >= 4) {
                 disableError()
-                /*try {
-                    val chars: Char = exps[0]
-                    if (!chars.equals(","))
-                        exps = ",$exps"
-                    exps = exps.replace(",,".toRegex(), ",")
-                } catch (e: Exception) {
-                    Log.e("updateEx: ", "error: ${e.printStackTrace()}")
-                }*/
-                debug("chiIDs: exps, and ids $idArr")
+                debug("chiIDs: exps, and cbValue $currentlyWorking and ${cb_present.isChecked}")
                 if (idArr.size == 0) {
                     activity?.toast("Please select at least one experience")
                     experiencesTIL.isErrorEnabled = true
-                    experiencesTIL?.showError("This Field can not be empty")
+                    experiencesTIL?.showError("This field can not be empty")
+                    endDateTIL.isErrorEnabled = true
+                    endDateTIL.error = "This field can not be empty"
                 } else {
+                    endDateTIL.hideError()
                     experiencesTIL.hideError()
                     updateData()
                 }
+            } else if (!cb_present.isChecked && validation >= 5) {
+                debug("chiIDs: eliffff, and cbValue $currentlyWorking and ${cb_present.isChecked}")
+                /*
+                endDateTIL.isErrorEnabled = true
+                endDateTIL.error = "This field can not be empty"*/
+                disableError()
+                endDateTIL.hideError()
+                updateData()
             }
         }
     }
 
     private fun updateData() {
-
         activity?.showProgressBar(loadingProgressBar)
         val exps = TextUtils.join(",", idArr)
-        /*if (!empHisCB.getchecking()) {
-    TextUtils.join(",", empHisCB.getExpIDs())
-    Log.i("checking","${empHisCB.getchecking()} and // ${empHisCB.getExpIDs()}")
-}
-else {
-    TextUtils.join(",", idArr)
-    Log.i("checking1","${empHisCB.getchecking()} and // ${empHisCB.getExpIDs()}")
-}*/
 
         Log.d("*+*+allValuesExp", exps.toString())
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
@@ -380,7 +374,7 @@ else {
                             onDestroy()
                         } else if (resp?.message == "Please select End Date") {
                             endDateTIL.isErrorEnabled = true
-                            endDateTIL?.showError("This Field can not be empty")
+                            endDateTIL?.showError("This field can not be empty")
                         }
                     } else {
                         activity?.stopProgressBar(loadingProgressBar)
@@ -400,13 +394,11 @@ else {
     }
 
     private fun preloadedData() {
-        with(idArr) {
-            clear()
-        }
+        idArr.clear()
         val data = empHisCB.getData()
+        empHisCB.setIsFirst(false)
+
         val areaOfexps = data.areaofExperience
-        //for ((i, value) in areaOfexps?.withIndex()!!)
-        //if (!alreadyLoaded)
         areaOfexps?.forEach {
             addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString(), it.id)
         }
@@ -423,11 +415,13 @@ else {
 
         //experiencesMACTV.setText(data.areaofExperience)
         if (data.to != "Continuing") {
+            currentlyWorking = "OFF"
             cb_present.isChecked = false
             et_end_date.setText(data.to)
             //toast("not continuing")
         } else {
             et_end_date.clear()
+            currentlyWorking = "ON"
             cb_present.isChecked = true
             et_end_date.isEnabled = false
             endDateTIL.hideError()

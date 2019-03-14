@@ -22,7 +22,7 @@ import java.util.*
 class BCExperienceFragment : Fragment() {
 
     private lateinit var registrationCommunicator : RegistrationCommunicator
-    private lateinit var categoryId: String
+    private var categoryId: String = ""
     private var category: String = ""
     private lateinit var progressDialog: ProgressDialog
     private var selectedSubcategories = ArrayList<String>()

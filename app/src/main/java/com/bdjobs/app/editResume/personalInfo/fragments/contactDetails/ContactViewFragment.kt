@@ -56,7 +56,6 @@ class ContactViewFragment : Fragment() {
         call.enqueue(object : Callback<GetContactInfo> {
             override fun onFailure(call: Call<GetContactInfo>, t: Throwable) {
                 shimmerStop()
-                rlContactMain.show()
                 activity.toast(R.string.message_common_error)
             }
 
@@ -66,9 +65,9 @@ class ContactViewFragment : Fragment() {
                         shimmerStop()
                         rlContactMain.show()
                         val respo = response.body()
-                        contactCB.setEditButton(true, "editContact")
                         contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo)
+                        contactCB.setEditButton(true, "editContact")
                     }
                 } catch (e: Exception) {
                     if (activity != null) {
