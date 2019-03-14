@@ -107,9 +107,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/keywordET"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawablePadding="3dp"
                     android:editable="false"
                     android:textSize="16sp"
                     android:focusableInTouchMode="false"
@@ -136,6 +138,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
+                    android:drawablePadding="3dp"
                     android:textSize="16sp"
                     android:editable="false"
                     android:focusableInTouchMode="false"
@@ -171,8 +175,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/specialCatET"
                     android:layout_width="match_parent"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawablePadding="3dp"
                     android:editable="false"
                     android:textSize="16sp"
                     android:focusableInTouchMode="false"
@@ -197,9 +203,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loacationET"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawablePadding="3dp"
                     android:editable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
@@ -225,8 +233,10 @@
                     android:id="@+id/industryET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:clickable="true"
                     android:editable="false"
+                    android:drawablePadding="3dp"
                     android:textSize="16sp"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
@@ -869,6 +879,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/newsPaperET"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
+                    android:drawablePadding="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"

@@ -601,23 +601,64 @@
                 />
 
 
-            <TextView
-                android:id="@+id/readAndApplyTV"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/readBeforeApplyCL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/layout_bg"
-                android:fontFamily="@font/roboto"
                 android:paddingStart="15dp"
                 android:paddingTop="12dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="12dp"
-                android:text="Please read the circular carefully. If you think you are qualified only then apply. "
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/readAndApply" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/readAndApply">
+
+                <TextView
+                    android:id="@+id/readAndApplyTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Please read the circular carefully. If you think you are qualified only then apply. "
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/emailApplyMsgTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/readAndApplyTV" />
+
+                <TextView
+                    android:id="@+id/emailApplyTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailApplyMsgTV" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <TextView
@@ -630,17 +671,20 @@
                 android:text="Company Information"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/readAndApplyTV" />
+                app:layout_constraintTop_toBottomOf="@+id/readBeforeApplyCL" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutCompanyAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="16dp"
+                android:paddingBottom="16dp"
                 android:background="@drawable/layout_bg"
                 android:paddingStart="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/companyInformation">
 
 
@@ -675,12 +719,10 @@
                     android:id="@+id/companyAddressTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
-                    android:paddingBottom="20dp"
                     android:text="Road No-02, FSB - 5 (3rd Floor), CEPZ "
-
                     android:textColor="#000000"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -689,23 +731,77 @@
                     app:layout_constraintTop_toBottomOf="@+id/address" />
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    app:backgroundTint="#FFFFFF"
                     android:id="@+id/followTV"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="10dp"
-                    app:cornerRadius="8dp"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/roboto"
                     android:text="Follow"
+                    android:textAllCaps="false"
                     android:textColor="#13A10E"
                     android:textSize="12sp"
+                    app:backgroundTint="#FFFFFF"
+                    app:cornerRadius="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/wbsiteHeadingTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Website:"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@+id/companyAddressTV"
+                    app:layout_constraintTop_toBottomOf="@+id/companyAddressTV" />
+
+                <TextView
+                    android:id="@+id/websiteTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/wbsiteHeadingTV"
+                    app:layout_constraintTop_toBottomOf="@+id/wbsiteHeadingTV" />
+
+                <TextView
+                    android:id="@+id/businessHeadingTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Business:"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@+id/websiteTV"
+                    app:layout_constraintTop_toBottomOf="@+id/websiteTV" />
+
+                <TextView
+                    android:id="@+id/businessTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/businessHeadingTV"
+                    app:layout_constraintTop_toBottomOf="@+id/businessHeadingTV" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -715,9 +811,9 @@
                 android:id="@+id/buttonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/button_layout_bg"
                 android:paddingStart="15dp"

@@ -188,7 +188,28 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             showHideCrossButton(generalCatET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
-                category = ""
+                try {
+                    val catid = category.toInt()
+                    if (catid in 1..30 || catid == -10) {
+                        category = ""
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+        }
+
+        specialCatET?.easyOnTextChangedListener { text ->
+            showHideCrossButton(specialCatET)
+            if (text.isBlank()) {
+                Log.d("catTest", "typedData : isBlank")
+                try {
+                    val catid = category.toInt()
+                    if (catid > 60 || catid == -11) {
+                        category = ""
+                    }
+                } catch (e: Exception) {
+                }
             }
 
         }
@@ -200,14 +221,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 location = ""
             }
         }
-        specialCatET?.easyOnTextChangedListener { text ->
-            showHideCrossButton(specialCatET)
-            if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
-                category = ""
-            }
 
-        }
         newsPaperET?.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
             if (text.isBlank()) {
