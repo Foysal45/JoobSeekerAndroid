@@ -71,6 +71,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var companyLogoUrl = ""
     var companyOtherJobs = ""
     var applyOnline = ""
+    var applyStatus = false
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
 
@@ -84,6 +85,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var viewHolder: RecyclerView.ViewHolder? = null
         var inflater = LayoutInflater.from(parent.context)
+
+
 
         call = context as JobCommunicator
         when (viewType) {
@@ -102,7 +105,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        applyStatus = false
 
         when (getItemViewType(position)) {
             BASIC -> {
@@ -530,9 +536,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
 
         okButton.setOnClickListener {
-            if (validateFilterName(salaryTIET.getString(), salaryTIL)) {
+
+            d("applyTest in ok button $applyStatus")
+
+            if (validateFilterName(salaryTIET.getString(), salaryTIL) && !applyStatus) {
+                applyStatus = true
                 applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+                d("applyTest validate $applyStatus")
+
             }
+
+
         }
         dialog.show()
     }
@@ -560,16 +574,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 Log.d("dlkgj", "respone ${t.message}")
                 loadingDialog.dismiss()
                 dialog.dismiss()
+                applyStatus = false
+                d("applyTest onFailure ")
 
             }
 
             override fun onResponse(call: Call<ApplyOnlineModel>, response: Response<ApplyOnlineModel>) {
+
+
                 try {
+
+                    d("applyTest onResponse ")
                     dialog.dismiss()
                     loadingDialog.dismiss()
                     context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
 
+                        applyStatus = true
                         doAsync {
                             val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
                             bdjobsDB.appliedJobDao().insertAppliedJobs(appliedJobs)
@@ -577,6 +598,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 notifyDataSetChanged()
                             }
                         }
+
+                        d("applyTest success $applyStatus")
+                    } else {
+                        applyStatus = false
                     }
                 } catch (e: Exception) {
                     logException(e)

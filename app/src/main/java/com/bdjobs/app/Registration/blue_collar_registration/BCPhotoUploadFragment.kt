@@ -211,8 +211,18 @@ class BCPhotoUploadFragment : Fragment() {
 
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
                 try {
-                    Log.e("photoAPI", error.message)
-                    activity?.toast(error.message!!)
+                    try {
+
+                        Log.e("photoAPI", error.message)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+
+                    try {
+                        activity?.toast(error.message!!)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
                 } catch (e: Exception) {
                     logException(e)
                 }

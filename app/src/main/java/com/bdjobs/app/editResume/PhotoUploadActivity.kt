@@ -334,8 +334,20 @@ class PhotoUploadActivity : Activity() {
 
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
 
-                Log.e("Deltete", error.message)
-                toast(error.message!!)
+                try {
+                    try {
+                        Log.e("Deltete", error.message)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    try {
+                        toast(error.message!!)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
         })
     }

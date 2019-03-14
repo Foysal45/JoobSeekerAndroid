@@ -327,7 +327,7 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
     } else {
         transaction.replace(holderID, fragment, simpleClassName(fragment))
     }
-    transaction.commit()
+    transaction.commitAllowingStateLoss()
 }
 
 fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
