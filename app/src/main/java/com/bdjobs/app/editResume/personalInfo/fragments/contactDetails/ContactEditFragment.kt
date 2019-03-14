@@ -218,17 +218,17 @@ class ContactEditFragment : Fragment() {
                 prContactDistrictTIET.clear()
                 prContactThanaTIET.clear()*/
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            } /* else {
-                toast("Please select Inside or Outside Bangladesh")
-            }*/
+            } else {
+                activity?.toast("Please select Inside or Outside Bangladesh")
+            }
             if (permanentInOutBD == "1") {
                 /*pmContactDivTIET1.clear()
                 pmContactDistrictTIET.clear()
                 pmContactThanaTIETP.clear()*/
                 validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            } /*else if (permanentInOutBD == "" && pmContactAddressTIETPRM.getString().isBlank()) {
-                toast("Please select Inside or Outside Bangladesh")
-            }*/
+            } else if (permanentInOutBD == "" && (pmContactAddressTIETPRM.getString().isEmpty() || pmContactDistrictTIET.getString().isEmpty()) || pmContactThanaTIETP.getString().isEmpty()) {
+                activity?.toast("Please select Inside or Outside Bangladesh")
+            }
             Log.d("checkValid", " val : $validation ")
             Log.d("checkValid", " val : $validation ")
             if (validation >= 2) updateData()
@@ -466,11 +466,15 @@ class ContactEditFragment : Fragment() {
         if (data.presentInsideOutsideBD == "False") {
             selectChip(cgPresent, "Inside Bangladesh")
             presentInOutBD = "0"
+            presentContactCountryTIET.clear()
             presentInsideBangladeshLayout1.show()
             presentOutsideBangladeshLayout.hide()
         } else if (data.presentInsideOutsideBD == "True") {
             selectChip(cgPresent, "Outside Bangladesh")
             presentInOutBD = "1"
+            prContactDivTIET.clear()
+            prContactDistrictTIET.clear()
+            prContactThanaTIET.clear()
             //presentContactCountryTIET.clear()
             presentInsideBangladeshLayout1.hide()
             presentOutsideBangladeshLayout.show()
@@ -478,11 +482,15 @@ class ContactEditFragment : Fragment() {
         if (data.permanentInsideOutsideBD == "False") {
             selectChip(cgPermanent, "Inside Bangladesh")
             permanentInOutBD = "0"
+            permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.show()
             presentOutsideBangladeshLayoutP.hide()
         } else if (data.permanentInsideOutsideBD == "True") {
             selectChip(cgPermanent, "Outside Bangladesh")
             permanentInOutBD = "1"
+            pmContactDivTIET1.clear()
+            pmContactDistrictTIET.clear()
+            pmContactThanaTIETP.clear()
             //permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.hide()
             presentOutsideBangladeshLayoutP.show()
@@ -534,11 +542,10 @@ class ContactEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
         cg.setOnCheckedChangeListener { chipGroup, i ->
-            //val chip = chipGroup.getChildAt(chipGroup.checkedChipId) as Chip
-            val chip = chipGroup.findViewById(i) as Chip
-            cg.radioCheckableChip(chip)
+            //            val c = chipGroup.getChildAt(chipGroup.checkedChipId) as Chip
             if (i > 0) {
-                //val chip = chipGroup.findViewById(i) as Chip
+                val chip = chipGroup.findViewById(i) as Chip
+                cg.radioCheckableChip(chip)
                 Log.d("chip_entry", "text: ${chip.text}")
                 val dataC = chip.text.toString()
                 when (chipGroup.id) {

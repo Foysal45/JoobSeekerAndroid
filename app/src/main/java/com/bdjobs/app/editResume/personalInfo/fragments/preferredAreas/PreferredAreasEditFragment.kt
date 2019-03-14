@@ -64,11 +64,11 @@ class PreferredAreasEditFragment : Fragment() {
         d("onActivityCreated")
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
         prefCallBack.setEditButton(false, "dd")
-        doWork()
     }
 
     override fun onResume() {
         super.onResume()
+        doWork()
         data = prefCallBack.getPrefAreasData()
         preloadedData(data)
     }
@@ -119,14 +119,15 @@ class PreferredAreasEditFragment : Fragment() {
         if (!inBD.isNullOrEmpty()) {
             inBD.forEach {
                 //idInBDArr.clear()
-                if (it?.id != "-1")
+                if (it?.id != "-1") {
                     addChip(ds.getLocationNameByID(it?.id!!).toString(), "in", acInsideBD)
+                    acInsideBD.isEnabled = idInBDArr.size <= 15
+                    addAsString(it.id, idInBDArr)
+                }
                 else {
                     anywhereinBD = true
                     changeBtnBackground(anywhereinBD)
                 }
-                acInsideBD.isEnabled = idInBDArr.size <= 15
-                addAsString(it.id, idInBDArr)
                 Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
             }
         }
@@ -194,7 +195,7 @@ class PreferredAreasEditFragment : Fragment() {
                     tilBCJobCat.isErrorEnabled = true
                     tilBCJobCat.error = "This field can not be empty"
                 }
-                idWCArr.isEmpty() || idBCArr.isNotEmpty() -> {
+                /*idWCArr.isEmpty() || idBCArr.isNotEmpty() -> {
                     valid += 1
                     tilWCjobCat.hideError()
                     tilBCJobCat.hideError()
@@ -203,32 +204,37 @@ class PreferredAreasEditFragment : Fragment() {
                     valid += 1
                     tilWCjobCat.hideError()
                     tilBCJobCat.hideError()
-                }
-                idBCArr.isNotEmpty() && idWCArr.isNotEmpty() -> {
+                }*/
+                idBCArr.isNotEmpty() || idWCArr.isNotEmpty() -> {
                     valid += 1
                     tilBCJobCat.hideError()
                     tilWCjobCat.hideError()
                 }
-                anywhereinBD || idInBDArr.isNotEmpty() -> {
-                    /*tilInsideBD.isErrorEnabled = true
-                    tilInsideBD.error = "This field can not be empty"*/
+                idInBDArr.isNotEmpty() -> {
                     valid += 1
                     tilInsideBD.hideError()
                 }
                 else -> {
+                    valid += 1
                     tilWCjobCat.hideError()
                     tilBCJobCat.hideError()
                     tilInsideBD.hideError()
                 }
             }
 
-            if (!idInBDArr.isNullOrEmpty() || !idOutBDArr.isNullOrEmpty() || anywhereinBD) valid += 1
-            //if (idWCArr.isNullOrEmpty() && (idInBDArr.isNullOrEmpty() || idOutBDArr.isNullOrEmpty()))
+            if (idInBDArr.isEmpty() && !anywhereinBD) {
+                tilInsideBD.isErrorEnabled = true
+                tilInsideBD.error = "This field can not be empty"
+            }
+
             if (valid >= 2) {
-                Log.d("ppppppp","$idWCArr, // $idInBDArr // ")
+                Log.d("ppppppp", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid  ")
                 updateData()
+            } else if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && anywhereinBD) {
+                updateData()
+                Log.d("ppppppp2", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
             } else {
-                Log.d("ppppppp2","$idWCArr, // $idInBDArr // ")
+                Log.d("ppppppp3", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
             }
 
             Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
@@ -236,6 +242,8 @@ class PreferredAreasEditFragment : Fragment() {
 
         btnAnywhereInBD.setOnClickListener {
             anywhereinBD = true
+            idInBDArr.clear()
+            pref_locs_entry_chip_group.removeAllViews()
             changeBtnBackground(anywhereinBD)
         }
         btnSelectDistrict.setOnClickListener {

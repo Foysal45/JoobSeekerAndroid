@@ -69,14 +69,14 @@ class PersonalDetailsEditFragment : Fragment() {
         now = Calendar.getInstance()
         personalInfo.setTitle(getString(R.string.title_personal))
         personalInfo.setEditButton(false, "dd")
-        doWork()
-        nationalityTIL.hideError()
-        dobTIL.hideError()
+        initViews()
     }
 
     override fun onResume() {
         super.onResume()
-        initViews()
+        doWork()
+        nationalityTIL.hideError()
+        dobTIL.hideError()
         etPerNationality.clearFocus()
         etPerFirstName.requestFocus()
     }
@@ -117,9 +117,13 @@ class PersonalDetailsEditFragment : Fragment() {
             if (isNotBangladeshi) {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
             }
-            if (cbPerIsBd.isChecked && validation >= 2) {
+
+            if (gender.isEmpty()) activity?.toast("Please select Gender") else validation += 1
+            if (marital.isEmpty()) activity?.toast("Please select Marital Status") else validation += 1
+
+            if (cbPerIsBd.isChecked && validation >= 4) {
                 updateData()
-            } else if (!cbPerIsBd.isChecked && validation >= 3) {
+            } else if (!cbPerIsBd.isChecked && validation >= 5) {
                 updateData()
             }
         }
@@ -242,9 +246,9 @@ class PersonalDetailsEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
         cg.setOnCheckedChangeListener { chipGroup, i ->
-            val chip = chipGroup.findViewById(i) as Chip
-            cg.radioCheckableChip(chip)
             if (i > 0) {
+                val chip = chipGroup.findViewById(i) as Chip
+                cg.radioCheckableChip(chip)
                 Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
