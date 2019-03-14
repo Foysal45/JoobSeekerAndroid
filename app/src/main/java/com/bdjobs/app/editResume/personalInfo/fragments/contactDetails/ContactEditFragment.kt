@@ -115,6 +115,7 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
         //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
+        addMobileValidation(contactMobileNumberTIET, contactMobileNumberTIL)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
         addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
@@ -247,6 +248,12 @@ class ContactEditFragment : Fragment() {
             }
         }
         setupViews()
+    }
+
+    private fun addMobileValidation(editText: TextInputEditText, inputLayout: TextInputLayout) {
+        editText.easyOnTextChangedListener { charSequence ->
+            mobileValidation(charSequence.toString(), editText, inputLayout)
+        }
     }
 
     private fun checkAddMobileButtonState() {

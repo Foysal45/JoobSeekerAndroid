@@ -180,46 +180,30 @@ class PreferredAreasEditFragment : Fragment() {
             prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
             prefCountryIds = TextUtils.join(",", idOutBDArr)
 
-            when {
-                idInBDArr.isEmpty() && idOutBDArr.isEmpty() -> {
-                    tilInsideBD.isErrorEnabled = true
-                    tilInsideBD.error = "This field can not be empty"
-                    /*tilOutsideBD.isErrorEnabled = true
-                    tilOutsideBD.error = "This field can not be empty"*/
-                }
-                idWCArr.isEmpty() && idBCArr.isEmpty() -> {
-                    //tilWCjobCat.hideError()
-                    tilWCjobCat.isErrorEnabled = true
-                    tilWCjobCat.error = "This field can not be empty"
-                    //tilBCJobCat.hideError()
-                    tilBCJobCat.isErrorEnabled = true
-                    tilBCJobCat.error = "This field can not be empty"
-                }
-                /*idWCArr.isEmpty() || idBCArr.isNotEmpty() -> {
-                    valid += 1
-                    tilWCjobCat.hideError()
-                    tilBCJobCat.hideError()
-                }
-                idWCArr.isNotEmpty() || idBCArr.isEmpty() -> {
-                    valid += 1
-                    tilWCjobCat.hideError()
-                    tilBCJobCat.hideError()
-                }*/
-                idBCArr.isNotEmpty() || idWCArr.isNotEmpty() -> {
-                    valid += 1
-                    tilBCJobCat.hideError()
-                    tilWCjobCat.hideError()
-                }
-                idInBDArr.isNotEmpty() -> {
-                    valid += 1
-                    tilInsideBD.hideError()
-                }
-                else -> {
-                    valid += 1
-                    tilWCjobCat.hideError()
-                    tilBCJobCat.hideError()
-                    tilInsideBD.hideError()
-                }
+            if (idInBDArr.isEmpty() && idOutBDArr.isEmpty()) {
+                tilInsideBD.isErrorEnabled = true
+                tilInsideBD.error = "This field can not be empty"
+                /*tilOutsideBD.isErrorEnabled = true
+                        tilOutsideBD.error = "This field can not be empty"*/
+            } else if (idWCArr.isEmpty() && idBCArr.isEmpty()) {
+                //tilWCjobCat.hideError()
+                tilWCjobCat.isErrorEnabled = true
+                tilWCjobCat.error = "This field can not be empty"
+                //tilBCJobCat.hideError()
+                tilBCJobCat.isErrorEnabled = true
+                tilBCJobCat.error = "This field can not be empty"
+            } else if (idBCArr.isNotEmpty() || idWCArr.isNotEmpty()) {
+                valid += 1
+                tilBCJobCat.hideError()
+                tilWCjobCat.hideError()
+            } else if (idInBDArr.isNotEmpty()) {
+                valid += 1
+                tilInsideBD.hideError()
+            } else {
+                valid += 1
+                tilWCjobCat.hideError()
+                tilBCJobCat.hideError()
+                tilInsideBD.hideError()
             }
 
             if (idInBDArr.isEmpty() && !anywhereinBD) {
