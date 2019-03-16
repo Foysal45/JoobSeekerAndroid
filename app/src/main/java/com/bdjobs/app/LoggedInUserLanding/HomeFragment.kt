@@ -81,8 +81,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         if(Constants.showShortListedPopUp) {
             showShortListedJobsExpirationPopUP()
         }
-
-
     }
 
 
@@ -105,10 +103,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToInterviewInvitation("homePage")
         }
         searchBTN?.setOnClickListener {
-            homeCommunicator.goToKeywordSuggestion()
+            startActivity<JobBaseActivity>("keyword" to "")
         }
-
-
+        newSearchBTN?.setOnClickListener {
+            startActivity<JobBaseActivity>("keyword" to "")
+        }
     }
 
     private fun showData() {
@@ -127,7 +126,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun onResume() {
         super.onResume()
-        activity.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
+        activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showData()
 
@@ -135,7 +134,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun onPause() {
         super.onPause()
-        activity.unregisterReceiver(backgroundJobBroadcastReceiver)
+        activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
     }
 
     override fun jobInvitationSyncComplete() {
@@ -175,6 +174,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     followedCompanyNameTV?.text = followedCompanyNames.removeLastComma()
                     blankCL?.hide()
                     mainLL?.show()
+                    newSearchBTN?.show()
                     followedEmployerView?.show()
                 }
             }
@@ -198,6 +198,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         jobInvitationcounterTV?.text = jobInvitations?.size.toString()
                         blankCL?.hide()
                         mainLL?.show()
+                        newSearchBTN?.show()
                         jobInvitationView?.show()
                     }
                 } catch (e: Exception) {
@@ -219,6 +220,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         favRV?.adapter = favouriteSearchFilterAdapter
                         blankCL?.hide()
                         mainLL?.show()
+                        newSearchBTN?.show()
                         myfavSearchTV?.text = "My favourite search filters (${allfavsearch.size})"
                         favSearchView?.show()
                     } catch (e: Exception) {
@@ -246,6 +248,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         certificationCounterTV?.text = b2CCertificationList?.size.toString().removeLastComma()
                         blankCL?.hide()
                         mainLL?.show()
+                        newSearchBTN?.show()
+                        newSearchBTN?.show()
                         assesmentView?.show()
                     }
                 } catch (e: Exception) {
@@ -263,6 +267,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         ) {
             mainLL?.hide()
             blankCL?.show()
+            newSearchBTN?.hide()
         }
     }
 
@@ -337,6 +342,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     lastSearchView?.show()
                     blankCL?.hide()
                     mainLL?.show()
+                    newSearchBTN?.show()
+                    newSearchBTN?.show()
                 }
             }
         }

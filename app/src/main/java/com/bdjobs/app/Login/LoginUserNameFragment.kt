@@ -62,6 +62,7 @@ class LoginUserNameFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         loginCommunicator = activity as LoginCommunicator
         initializeGoogleSignIN()
         initializeFacebookSignIN()
@@ -381,7 +382,7 @@ class LoginUserNameFragment : Fragment() {
 
                     } else {
                         useNameTIL.showError(response?.body()?.message)
-                        requestFocus(usernameTIET)
+                        //requestFocus(usernameTIET)
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -397,7 +398,7 @@ class LoginUserNameFragment : Fragment() {
             when {
                 TextUtils.isEmpty(userName) -> {
                     useNameTIL?.showError("Please enter Username, Email or Mobile No")
-                    requestFocus(usernameTIET)
+                    //requestFocus(usernameTIET)
                     return false
                 }
                 else -> useNameTIL?.hideError()

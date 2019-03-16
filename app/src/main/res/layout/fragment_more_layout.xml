@@ -141,7 +141,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="OverSeas Jobs"
+                android:text="Overseas Jobs"
                 app:icon="@drawable/ic_overseas" />
 
             <com.google.android.material.button.MaterialButton

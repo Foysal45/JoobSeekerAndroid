@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
 
-        <activity android:name=".Training.TrainingListAcitivity">
+        <activity
+            android:name=".Training.TrainingListAcitivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
@@ -34,7 +36,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDecIbjBWc-XRZdwSgFTRWshTBugdI9cE8" />
 
-        <activity android:name=".ManageResume.ManageResumeActivity" />
+        <activity
+            android:name=".ManageResume.ManageResumeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InviteCode.InviteCodeBaseActivity"
             android:screenOrientation="portrait" />
