@@ -315,13 +315,13 @@ class AdvanceSearchFragment : Fragment() {
         }
     }
 
-    private fun selectChip(chipGroup: ChipGroup, data: String) {
+    private fun selectChip(chipGroup: ChipGroup?, data: String?) {
         try {
-            val count = chipGroup.childCount
-            for (i in 0 until count) {
+            val count = chipGroup?.childCount
+            for (i in 0 until count!!) {
                 val chip = chipGroup.getChildAt(i) as Chip
                 val chipText = chip.text.toString()
-                if (data.equalIgnoreCase(chipText)) {
+                if (data?.equalIgnoreCase(chipText)!!) {
                     Log.d("chip_entry", "text:$i")
                     chip.isChecked = true
                 }
