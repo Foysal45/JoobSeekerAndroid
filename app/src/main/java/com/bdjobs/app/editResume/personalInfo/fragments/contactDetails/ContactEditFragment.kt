@@ -219,16 +219,12 @@ class ContactEditFragment : Fragment() {
                 prContactDistrictTIET.clear()
                 prContactThanaTIET.clear()*/
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            } else {
-                activity?.toast("Please select Inside or Outside Bangladesh")
             }
             if (permanentInOutBD == "1") {
                 /*pmContactDivTIET1.clear()
                 pmContactDistrictTIET.clear()
                 pmContactThanaTIETP.clear()*/
                 validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            } else if (permanentInOutBD == "" && (pmContactAddressTIETPRM.getString().isEmpty() || pmContactDistrictTIET.getString().isEmpty()) || pmContactThanaTIETP.getString().isEmpty()) {
-                activity?.toast("Please select Inside or Outside Bangladesh")
             }
             Log.d("checkValid", " val : $validation ")
             Log.d("checkValid", " val : $validation ")
@@ -291,8 +287,8 @@ class ContactEditFragment : Fragment() {
             activity?.stopProgressBar(loadingProgressBar)
         }*/
 
-        val presentAddressID = contactInfo.getContactData().presentAddressID
-        val permanentAddressID = contactInfo.getContactData().permanentAddressID
+        val presentAddressID = data.presentAddressID
+        val permanentAddressID = data.permanentAddressID
         Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
                 " district presrent  :  ${getIdByName(prContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
                 " thana parmanent :  ${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} " + "\n" +
@@ -390,7 +386,12 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun preloadedData() {
-        data = contactInfo.getContactData()
+        try {
+            data = contactInfo.getContactData()
+        } catch (e: Exception) {
+            logException(e)
+            d("++${e.message}")
+        }
         getDataFromChipGroup(cgPermanent)
         getDataFromChipGroup(cgPresent)
         val addressType = data.addressType1

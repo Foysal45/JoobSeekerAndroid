@@ -11,7 +11,10 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.d
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.adapters.models.SpecialzationModel
@@ -106,8 +109,8 @@ class SpecializationViewFragment : Fragment() {
                     shimmerStop()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity?.logException(e)
-                        activity?.error("++${e.message}")
+                        logException(e)
+                        d("++${e.message}")
                     }
                 }
 

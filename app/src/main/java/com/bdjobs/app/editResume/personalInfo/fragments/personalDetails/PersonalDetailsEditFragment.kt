@@ -14,6 +14,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
+import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -185,17 +186,23 @@ class PersonalDetailsEditFragment : Fragment() {
     private fun preloadedData() {
         getDataFromChipGroup(cgGender)
         getDataFromChipGroup(cgMarital)
-        val data = personalInfo.getPersonalData()
-        etPerFirstName.setText(data.firstName)
-        etPerLastName.setText(data.lastName)
-        etPerFName.setText(data.fatherName)
-        etPerMName.setText(data.motherName)
-        etPerReligion.setText(data.religion)
-        dob = data.dateofBirth.toString()
-        etPerDob.setText(data.dateofBirth)
-        etPerNid.setText(data.nationalIdNo)
-        etPerNationality.setText(data.nationality)
-        selectChip(cgGender, data.gender!!)
+        var data: P_DataItem? = null
+        try {
+            data = personalInfo.getPersonalData()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
+        etPerFirstName.setText(data?.firstName)
+        etPerLastName.setText(data?.lastName)
+        etPerFName.setText(data?.fatherName)
+        etPerMName.setText(data?.motherName)
+        etPerReligion.setText(data?.religion)
+        dob = data?.dateofBirth.toString()
+        etPerDob.setText(data?.dateofBirth)
+        etPerNid.setText(data?.nationalIdNo)
+        etPerNationality.setText(data?.nationality)
+        selectChip(cgGender, data?.gender!!)
         selectChip(cgMarital, data.maritalStatus!!)
 
         if (data.nationality == "Bangladeshi") {
