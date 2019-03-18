@@ -23,7 +23,6 @@ import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
-import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -39,7 +38,6 @@ import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -78,16 +76,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
-        if(Constants.showShortListedPopUp) {
+        if (Constants.showShortListedPopUp) {
             showShortListedJobsExpirationPopUP()
         }
     }
 
 
     private fun onClickListeners() {
+        profilePicIMGV?.setOnClickListener {
+            homeCommunicator.gotoEditresume()
+        }
         searchIMGV?.setOnClickListener {
-            //homeCommunicator.goToKeywordSuggestion()
-            startActivity<JobBaseActivity>("keyword" to "")
+            homeCommunicator.gotoJobSearch()
         }
         followedEmployerView?.setOnClickListener {
             homeCommunicator.setTime("0")
@@ -103,10 +103,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToInterviewInvitation("homePage")
         }
         searchBTN?.setOnClickListener {
-            startActivity<JobBaseActivity>("keyword" to "")
+            homeCommunicator.gotoJobSearch()
         }
         newSearchBTN?.setOnClickListener {
-            startActivity<JobBaseActivity>("keyword" to "")
+            homeCommunicator.gotoJobSearch()
         }
     }
 
@@ -116,8 +116,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showFavouriteSearchFilters()
         if (jobInvitationSynced)
             showJobInvitation()
-       /* if (certificationSynced)
-            showCertificationInfo()*/
+        /* if (certificationSynced)
+             showCertificationInfo()*/
         if (followedEmployerSynced)
             showFollowedEmployers()
 
@@ -281,7 +281,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     val searchData = lastSearch?.get(0)
                     lastPrgrs?.show()
-                    lastSearchcounterTV?.text=""
+                    lastSearchcounterTV?.text = ""
                     ApiServiceJobs.create().getLastSearchCount(
                             jobLevel = searchData?.jobLevel,
                             Newspaper = searchData?.newsPaper,
@@ -446,7 +446,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateUserName(response.body()?.data?.get(0)?.userName!!)
                         bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
                         bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
-                        Log.d("changePassword","changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
+                        Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -460,7 +460,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
 
-    private fun showShortListedJobsExpirationPopUP(){
+    private fun showShortListedJobsExpirationPopUP() {
 
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, 2)

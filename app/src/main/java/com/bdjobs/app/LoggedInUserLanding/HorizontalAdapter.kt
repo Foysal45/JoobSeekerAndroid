@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.InviteCode.InviteCodeBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.editResume.EditResLandingActivity
 import org.jetbrains.anko.startActivity
 
 
@@ -31,9 +30,9 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
     override fun onBindViewHolder(holder: HorizontalViewHolder, position: Int) {
         setFadeAnimation(holder.itemView)
        // holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
-        holder?.resourceID_Value?.setBackgroundResource(moreItems!![position].resourceID)
-        holder?.resourceName_Value?.text = moreItems!![position].resourceName
-        holder?.itemView.setOnClickListener {
+        holder.resourceID_Value.setBackgroundResource(moreItems!![position].resourceID)
+        holder.resourceName_Value.text = moreItems!![position].resourceName
+        holder.itemView.setOnClickListener {
             when(moreItems!![position].resourceName){
 
                 "Favorite\nSearch"->{
@@ -53,7 +52,8 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
                 }
 
                 "Manage\nResume"->{
-                    context.startActivity<EditResLandingActivity>()
+                    //context.startActivity<EditResLandingActivity>()
+                    homeCommunicator.showManageResumePopup()
                 }
 
                 "ইনভাইট &\nআর্ন"->{
@@ -98,8 +98,8 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
 }
 class HorizontalViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    var resourceID_Value: View = itemView?.findViewById(R.id.resourceID)
-    var resourceName_Value: TextView = itemView?.findViewById(R.id.resourceName)
+    var resourceID_Value: View = itemView.findViewById(R.id.resourceID)
+    var resourceName_Value: TextView = itemView.findViewById(R.id.resourceName)
 
 
 }

@@ -25,6 +25,10 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun gotoJobList() {
+        transitFragment(joblistFragment, R.id.jobFragmentHolder)
+    }
+
     override fun setCurrentJobPosition(from: Int) {
         this.currentJbPosition = from
     }
@@ -57,6 +61,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private val advanceSearchFragment = AdvanceSearchFragment()
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
+    private val generalSearch = GeneralSearch()
 
 
     private var jobList1: MutableList<JobListModelData>? = null
@@ -334,6 +339,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     totalPages = 1
                     isLastPage = true
                     transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+                }
+
+                "generalsearch" -> {
+                    transitFragment(generalSearch, R.id.jobFragmentHolder)
                 }
 
                 else -> transitFragment(joblistFragment, R.id.jobFragmentHolder)

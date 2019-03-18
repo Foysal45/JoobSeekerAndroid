@@ -12,10 +12,8 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.HotJobs
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,6 +22,7 @@ import retrofit2.Response
 
 class HotJobsFragmentNew : Fragment() {
     private var hotjobsAdapterNew: HotjobsAdapterNew? = null
+    lateinit var homeCommunicator: HomeCommunicator
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -32,9 +31,24 @@ class HotJobsFragmentNew : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        homeCommunicator = activity as HomeCommunicator
         hotjobsAdapterNew = HotjobsAdapterNew(activity!!)
         loadHotJobsData()
 
+        onclick()
+
+    }
+
+    private fun onclick() {
+        searchIMGV.setOnClickListener {
+            homeCommunicator.gotoJobSearch()
+        }
+
+        profilePicIMGV.setOnClickListener {
+            homeCommunicator.gotoEditresume()
+        }
+
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
     }
 
     private fun loadHotJobsData() {

@@ -40,17 +40,20 @@ class ShortListedJobFragment : Fragment() {
         homeCommunicator = activity as HomeCommunicator
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         searchIMGV?.setOnClickListener {
-            homeCommunicator.goToKeywordSuggestion()
+            homeCommunicator.gotoJobSearch()
+        }
+        profilePicIMGV?.setOnClickListener {
+            homeCommunicator.gotoEditresume()
         }
 
-        filterTV.setOnClickListener {
+        filterTV?.setOnClickListener {
             val  deadline = arrayOf("Today", "Tomorrow", "Next 2 days","Next 3 days","Next 4 days")
             selector("Jobs expire in", deadline.toList()) { dialogInterface, i ->
                 showShortListFIlterList(deadline[i])
             }
         }
 
-        crossBTN.setOnClickListener {
+        crossBTN?.setOnClickListener {
             showShortListFIlterList("")
         }
     }

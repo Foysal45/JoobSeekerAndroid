@@ -1,15 +1,14 @@
 package com.bdjobs.app.Settings
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
-
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -74,7 +73,6 @@ class LogoutFragment : Fragment() {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
                 error("onFailure", t)
                 loadingDialog.dismiss()
-                toast("Something went wrong! Please try again later.")
             }
 
             override fun onResponse(call: Call<CookieModel>, response: Response<CookieModel>) {
@@ -86,7 +84,7 @@ class LogoutFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     logException(e)
-                    toast("Something went wrong! Please try again later.")
+                    bdjobsUserSession.logoutUser()
                 }
             }
         })

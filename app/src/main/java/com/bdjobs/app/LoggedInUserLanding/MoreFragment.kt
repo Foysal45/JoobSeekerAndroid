@@ -11,10 +11,12 @@ import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.getAppVersion
+import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
@@ -27,7 +29,7 @@ class MoreFragment : Fragment() {
     var cvUploadMore: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_more_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_more_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,13 +63,23 @@ class MoreFragment : Fragment() {
 
     private fun onclick() {
 
+        searchIMGV.setOnClickListener {
+            homeCommunicator.gotoJobSearch()
+        }
+
+        profilePicIMGV.setOnClickListener {
+            homeCommunicator.gotoEditresume()
+        }
+
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
+
         versionInfoTV.text = "v${activity.getAppVersion()}"
 
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
         }
         generalSearch_MBTN?.setOnClickListener {
-            startActivity<JobBaseActivity>("keyword" to "")
+            homeCommunicator.gotoJobSearch()
         }
         appGuides_MBTN?.setOnClickListener {
             activity?.openUrlInBrowser("https://bdjobs.com/apps/guide.html")

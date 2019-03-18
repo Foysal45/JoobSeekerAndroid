@@ -12,18 +12,15 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.fragment_advance_search_layout.*
+import kotlinx.android.synthetic.main.fragment_general_search_layout.*
 
-
-class AdvanceSearchFragment : Fragment() {
+class GeneralSearch : Fragment() {
     lateinit var jobCommunicator: JobCommunicator
     lateinit var dataStorage: DataStorage
     var gender: String = ""
 
-    val genderList: MutableList<String> = ArrayList<String>()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_advance_search_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_general_search_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,7 +33,7 @@ class AdvanceSearchFragment : Fragment() {
 
     private fun onClicks() {
         searchBTN?.setOnClickListener {
-            jobCommunicator.backButtonPressesd()
+            jobCommunicator.gotoJobList()
         }
 
         generalCatET?.easyOnTextChangedListener { text ->
@@ -87,23 +84,6 @@ class AdvanceSearchFragment : Fragment() {
             }
         }
 
-        newsPaperET?.easyOnTextChangedListener { text ->
-            showHideCrossButton(newsPaperET)
-            if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setNewsPaper("")
-            }
-        }
-        industryET?.easyOnTextChangedListener { text ->
-            showHideCrossButton(industryET)
-            if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setIndustry("")
-            }
-        }
-
-
-
 
         backIV?.setOnClickListener {
             jobCommunicator.backButtonPressesd()
@@ -121,72 +101,7 @@ class AdvanceSearchFragment : Fragment() {
             jobCommunicator.goToSuggestiveSearch(Constants.key_loacationET, loacationET.text.toString())
         }
 
-        newsPaperET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET.text.toString())
-        }
-
-        industryET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_industryET, industryET.text.toString())
-        }
-
-        getDataFromChipGroup(orgCG)
         getDataFromChipGroup(experienceCG)
-        getDataFromChipGroup(jobTypeCG)
-        getDataFromChipGroup(jobLevelCG)
-        getDataFromChipGroup(jobNatureCG)
-        getDataFromChipGroup(postedWithinCG)
-        getDataFromChipGroup(deadlineCG)
-        getDataFromChipGroup(ageRangeCG)
-        getDataFromChipGroup(armyCG)
-
-
-        maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
-
-            if (isChecked) {
-                if ("M" !in genderList) {
-                    genderList.add("M")
-                }
-            } else {
-                if ("M" in genderList) {
-                    genderList.remove("M")
-                }
-            }
-            gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
-            Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
-        }
-
-        femaleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                if ("F" !in genderList) {
-                    genderList.add("F")
-                }
-            } else {
-                if ("F" in genderList) {
-                    genderList.remove("F")
-                }
-            }
-            gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
-            Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
-        }
-
-        otherChip?.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                if ("O" !in genderList) {
-                    genderList.add("O")
-                }
-            } else {
-
-                if ("O" in genderList) {
-                    genderList.remove("O")
-                }
-            }
-            gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
-            Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
-        }
-
 
     }
 
@@ -262,9 +177,7 @@ class AdvanceSearchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setGenderData()
         keywordET?.setText(jobCommunicator.getKeyword())
-
         Log.d("eryfdh", "category Adv : ${jobCommunicator.getCategory()}")
 
         try {
@@ -282,38 +195,11 @@ class AdvanceSearchFragment : Fragment() {
             logException(e)
         }
 
-
         loacationET?.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
-        newsPaperET?.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
-        industryET?.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
-        selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator.getOrganization())!!)
         selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator.getExperience())!!)
-        selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator.getJobType())!!)
-        selectChip(jobLevelCG, dataStorage.getJobLevelByID(jobCommunicator.getJobLevel())!!)
-        selectChip(jobNatureCG, dataStorage.getJobNatureByID(jobCommunicator.getJobNature())!!)
-        selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(jobCommunicator.getPostedWithin())!!)
-        selectChip(deadlineCG, dataStorage.getDedlineNameByID(jobCommunicator.getDeadline())!!)
-        selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(jobCommunicator.getAge())!!)
-
-        if (jobCommunicator.getArmy() == "1") {
-            selectChip(armyCG, "Yes")
-        }
 
     }
 
-    private fun setGenderData() {
-        val tempGender = jobCommunicator.getGender()
-        Log.d("GenderCheck", "tempGender: $tempGender")
-        maleChip?.isChecked = false
-        femaleChip?.isChecked = false
-        otherChip?.isChecked = false
-        val genderList = tempGender.split(",")
-        genderList.forEach { it ->
-            Log.d("GenderCheck", "genderGet: $it")
-            Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
-            selectChip(genderCG, dataStorage.getGenderByID(it.trim()))
-        }
-    }
 
     private fun selectChip(chipGroup: ChipGroup?, data: String?) {
         try {
@@ -339,6 +225,4 @@ class AdvanceSearchFragment : Fragment() {
             editText.clearTextOnDrawableRightClick()
         }
     }
-
-
 }

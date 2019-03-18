@@ -3,9 +3,12 @@ package com.bdjobs.app.LoggedInUserLanding
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -28,6 +31,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
+import com.bdjobs.app.Web.WebActivity
+import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
@@ -40,8 +45,66 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class MainLandingActivity : Activity(), HomeCommunicator {
+
+
+    override fun showManageResumePopup() {
+        val dialog = Dialog(this@MainLandingActivity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_manage_resume_pop_up)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val editResume = dialog.findViewById<Button>(R.id.editResume)
+        val viewResume = dialog.findViewById<Button>(R.id.viewResume)
+        val uploadResume = dialog.findViewById<Button>(R.id.uploadResume)
+        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
+
+        editResume?.setOnClickListener {
+            startActivity<EditResLandingActivity>()
+        }
+        viewResume?.setOnClickListener {
+            val str1 = random()
+            val str2 = random()
+            val id = str1 + session.userId + session.decodId + str2
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+        }
+        uploadResume?.setOnClickListener {
+            startActivity<ManageResumeActivity>(
+                    "from" to "uploadResume"
+            )
+        }
+        cancelIV?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+        dialog.show()
+    }
+
+    private fun random(): String {
+        val chars = "abcdefghijklmnopqrstuvwxyz12345678910".toCharArray()
+        val sb = StringBuilder()
+        val random = Random()
+        for (i in 0..4) {
+            val c = chars[random.nextInt(chars.size)]
+            sb.append(c)
+        }
+        val output = sb.toString()
+        println(output)
+        return output
+    }
+
+
+    override fun gotoJobSearch() {
+        startActivity<JobBaseActivity>("from" to "generalsearch")
+    }
+
+    override fun gotoEditresume() {
+        startActivity<EditResLandingActivity>()
+    }
 
     override fun gotoTimesEmailedResume(times_last: Boolean) {
         startActivity<ManageResumeActivity>(
