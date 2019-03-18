@@ -18,7 +18,7 @@ import com.bdjobs.app.Utilities.logException
 class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewHolder>() {
 
     val activity = context as Activity
-    private var mybdjobsItems: ArrayList<MybdjobsData>? = ArrayList()
+    open var mybdjobsItems: ArrayList<MybdjobsData>? = ArrayList()
     private val communicator = activity as HomeCommunicator
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyBdjobsViewHolder {
@@ -66,6 +66,20 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
     fun add(r: MybdjobsData) {
         mybdjobsItems?.add(r)
         notifyItemInserted(mybdjobsItems!!.size - 1)
+    }
+    fun addCount() {
+        mybdjobsItems?.get(0)?.itemID = "222"
+        mybdjobsItems?.get(1)?.itemID = "111"
+        mybdjobsItems?.get(2)?.itemID = "333"
+        // mybdjobsItems?.add(r.itemID)
+        //  notifyItemInserted(mybdjobsItems!!.size - 1)
+    //   mybdjobsItems?.get()
+        notifyDataSetChanged()
+    }
+    fun addCountAll(moveResults: List<MybdjobsData>) {
+        for (result in moveResults) {
+           // addCount(result.itemID)
+        }
     }
 
     fun addAll(moveResults: List<MybdjobsData>) {
