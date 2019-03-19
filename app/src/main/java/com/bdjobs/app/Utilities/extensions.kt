@@ -280,6 +280,12 @@ fun TextInputLayout.hideError() {
 }
 
 
+fun TextInputLayout.setError() {
+    isErrorEnabled = true
+    this.error = "This field can not be empty"
+}
+
+
 fun Activity.showProgressBar(progressBar: ProgressBar) {
     progressBar.show()
     disableUserInteraction()

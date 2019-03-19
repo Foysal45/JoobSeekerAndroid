@@ -40,11 +40,7 @@ class ContactEditFragment : Fragment() {
     private var presentInOutBD: String? = ""
     private var permanentInOutBD: String? = ""
     private var sameAddress: String = ""
-
-    private lateinit var district: String
-    private lateinit var thana: String
     private lateinit var postOffice: String
-    private lateinit var address: String
     var districtList: ArrayList<LocationModel>? = null
     var thanaList: ArrayList<LocationModel>? = null
     var postOfficeList: ArrayList<LocationModel>? = null
@@ -89,7 +85,6 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun initViews() {
-        prContactDivTIET.addTextChangedListener(TW.CrossIconBehave(prContactDivTIET))
         prContactDistrictTIET.addTextChangedListener(TW.CrossIconBehave(prContactDistrictTIET))
         prContactThanaTIET.addTextChangedListener(TW.CrossIconBehave(prContactThanaTIET))
         prContactPostOfficeTIET1.addTextChangedListener(TW.CrossIconBehave(prContactPostOfficeTIET1))
@@ -111,7 +106,6 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        addTextChangedListener(prContactDivTIET, contactDivTIL)
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
         //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
@@ -120,30 +114,36 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
 
+        permanentContactCountryTIETP.easyOnTextChangedListener {
+            if (it.trimmedLength() >= 2)
+                permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
+        }
+        pmContactAddressTIETPRM.easyOnTextChangedListener {
+            if (it.trimmedLength() >= 2)
+                contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+        }
         contactMobileNumberTIET.easyOnTextChangedListener {
             if (it.trimmedLength() >= 2)
-                contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
+                contactEmailAddressTIL.hideError() else contactEmailAddressTIL.setError()
         }
         contactEmailAddressTIET.easyOnTextChangedListener {
             if (it.trimmedLength() >= 2)
-                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.setError()
         }
 
-        if (pmContactDivTIET1.getString() != "" || pmContactAddressTIETPRM.getString() != "") {
-            addTextChangedListener(pmContactDivTIET1, contactDivTIL1)
+        if (pmContactAddressTIETPRM.getString().isNotEmpty() || permanentInOutBD != "") {
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
             addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
             //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
             addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
-            addTextChangedListener(permanentContactCountryTIETP, presentContactCountryTILP)
+            addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
             addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
             addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
         } else {
-            contactDivTIL1.hideError()
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
-            if (permanentInOutBD != "1") presentContactCountryTILP.hideError()
+            if (permanentInOutBD != "1" || permanentContactCountryTIETP.getString().isNotEmpty()) permanentContactCountryTILP.hideError()
         }
 
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -152,17 +152,18 @@ class ContactEditFragment : Fragment() {
                 //cgPermanent.clearCheck()
                 llPermenantPortion.hide()
                 cgPermanent.hide()
+                hideAllError()
                 pmContactDivTIET1.enableOrdisableEdit(false)
                 pmContactDistrictTIET.enableOrdisableEdit(false)
                 pmContactThanaTIETP.enableOrdisableEdit(false)
                 pmContactPostOfficeTIET.enableOrdisableEdit(false)
                 pmContactAddressTIETPRM.enableOrdisableEdit(false)
-                pmContactDivTIET1.clear()
+                /*pmContactDivTIET1.clear()
                 pmContactDistrictTIET.clear()
                 pmContactThanaTIETP.clear()
                 pmContactPostOfficeTIET.clear()
                 pmContactAddressTIETPRM.clear()
-                permanentContactCountryTIETP.clear()
+                permanentContactCountryTIETP.clear()*/
             } else {
                 llPermenantPortion.show()
                 cgPermanent.show()
@@ -195,7 +196,7 @@ class ContactEditFragment : Fragment() {
 
             when (permanentInOutBD) {
                 "1" -> {
-                    validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                    validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
                     validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
                     Log.d("CValidaiton", "(out 2.2) value : $validation")
                 }
@@ -215,20 +216,22 @@ class ContactEditFragment : Fragment() {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
             }
             if (presentInOutBD == "1") {
-                /*prContactDivTIET.clear()
-                prContactDistrictTIET.clear()
-                prContactThanaTIET.clear()*/
                 validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
             }
             if (permanentInOutBD == "1") {
-                /*pmContactDivTIET1.clear()
-                pmContactDistrictTIET.clear()
-                pmContactThanaTIETP.clear()*/
-                validation = isValidate(permanentContactCountryTIETP, presentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
             }
+            if (presentInOutBD == "") {
+                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+            }
+            /*if (pmContactAddressTIETPRM.getString().isNotBlank() && permanentInOutBD == "") {
+                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+                activity?.stopProgressBar(loadingProgressBar)
+            }*/
+            clContactEdit.clearFocus()
+            clContactEdit.closeKeyboard(activity)
             Log.d("checkValid", " val : $validation ")
-            Log.d("checkValid", " val : $validation ")
-            if (validation >= 2) updateData()
+            if (validation >= 3) updateData()
         }
 
         contactAddMobileButton?.setOnClickListener {
@@ -278,7 +281,7 @@ class ContactEditFragment : Fragment() {
     private fun updateData() {
 
         activity.showProgressBar(loadingProgressBar)
-        /*if (presentInOutBD == "" && prContactAddressTIETPR.getString().isNotBlank()) {
+        /*if (presentInOutBD == "") {
             activity?.stopProgressBar(loadingProgressBar)
             activity?.toast("Please select Inside or Outside Bangladesh")
         }
@@ -386,6 +389,11 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun preloadedData() {
+        permanentInOutBD = ""
+        cgPermanent.clearCheck()
+        presentInOutBD = ""
+        cgPresent.clearCheck()
+        hideAllError()
         try {
             data = contactInfo.getContactData()
         } catch (e: Exception) {
@@ -487,6 +495,7 @@ class ContactEditFragment : Fragment() {
             presentInsideBangladeshLayout1.hide()
             presentOutsideBangladeshLayout.show()
         }
+
         if (data.permanentInsideOutsideBD == "False") {
             selectChip(cgPermanent, "Inside Bangladesh")
             permanentInOutBD = "0"
@@ -503,6 +512,22 @@ class ContactEditFragment : Fragment() {
             presentInsideBangladeshLayout.hide()
             presentOutsideBangladeshLayoutP.show()
         }
+    }
+
+    private fun hideAllError() {
+        if (permanentInOutBD == "" && (pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) ||
+                (permanentContactCountryTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty())) {
+            contactDistrictTIL.hideError()
+            contactThanaTIL.hideError()
+            contactAddressTILPRM.hideError()
+        } else {
+            contactDistrictTIL.setError()
+            contactThanaTIL.setError()
+            contactAddressTILPRM.setError()
+        }
+        if (pmContactAddressTIETPRM.getString().trimmedLength() >= 2)
+            contactAddressTILPRM.hideError()
+        else contactAddressTILPRM.setError()
     }
 
     private fun setupViews() {
@@ -525,7 +550,7 @@ class ContactEditFragment : Fragment() {
             val countryList: Array<String> = dataStorage.allCountries
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
-                presentContactCountryTILP.requestFocus()
+                permanentContactCountryTILP.requestFocus()
             }
         }
         presentContactCountryTIET.setOnClickListener {
@@ -543,14 +568,13 @@ class ContactEditFragment : Fragment() {
             val countryList: Array<String> = dataStorage.allCountries
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
-                presentContactCountryTILP.requestFocus()
+                permanentContactCountryTILP.requestFocus()
             }
         }
     }
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
         cg.setOnCheckedChangeListener { chipGroup, i ->
-            //            val c = chipGroup.getChildAt(chipGroup.checkedChipId) as Chip
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 cg.radioCheckableChip(chip)

@@ -36,7 +36,7 @@ class PersonalDetailsEditFragment : Fragment() {
     lateinit var dataStorage: DataStorage
     private lateinit var now: Calendar
     private var gender = ""
-    private var marital = ""
+    private var marital: String? = null
     private var dob = ""
     private var date: Date? = null
     private var nationality = ""
@@ -120,11 +120,13 @@ class PersonalDetailsEditFragment : Fragment() {
             }
 
             if (gender.isEmpty()) activity?.toast("Please select Gender") else validation += 1
-            if (marital.isEmpty()) activity?.toast("Please select Marital Status") else validation += 1
+            if (marital?.isEmpty()!!) activity?.toast("Please select Marital Status") else validation += 1
             ClPersonalLayout.clearFocus()
-            if (cbPerIsBd.isChecked && validation >= 4) {
+            ClPersonalLayout.closeKeyboard(activity)
+            if (isNotBangladeshi && validation >= 4) {
                 updateData()
-            } else if (!cbPerIsBd.isChecked && validation >= 5) {
+            }
+            if (!isNotBangladeshi && validation >= 5) {
                 updateData()
             }
         }
@@ -184,6 +186,8 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun preloadedData() {
+        marital = ""
+        gender = ""
         getDataFromChipGroup(cgGender)
         getDataFromChipGroup(cgMarital)
         var data: P_DataItem? = null
