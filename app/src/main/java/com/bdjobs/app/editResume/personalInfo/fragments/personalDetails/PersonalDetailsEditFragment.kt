@@ -115,13 +115,13 @@ class PersonalDetailsEditFragment : Fragment() {
             var validation = 0
             validation = isValidate(etPerFirstName, firstNameTIL, etPerFirstName, true, validation)
             validation = isValidate(etPerDob, dobTIL, etPerDob, true, validation)
-            if (isNotBangladeshi) {
+            if (!isNotBangladeshi) {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
             }
 
             if (gender.isEmpty()) activity?.toast("Please select Gender") else validation += 1
             if (marital.isEmpty()) activity?.toast("Please select Marital Status") else validation += 1
-
+            ClPersonalLayout.clearFocus()
             if (cbPerIsBd.isChecked && validation >= 4) {
                 updateData()
             } else if (!cbPerIsBd.isChecked && validation >= 5) {
@@ -201,15 +201,17 @@ class PersonalDetailsEditFragment : Fragment() {
         dob = data?.dateofBirth.toString()
         etPerDob.setText(data?.dateofBirth)
         etPerNid.setText(data?.nationalIdNo)
-        etPerNationality.setText(data?.nationality)
-        selectChip(cgGender, data?.gender!!)
+        if (data?.nationality?.isNotEmpty()!!) etPerNationality.setText(data.nationality) else etPerNationality.clear()
+        selectChip(cgGender, data.gender!!)
         selectChip(cgMarital, data.maritalStatus!!)
 
         if (data.nationality == "Bangladeshi") {
+            isNotBangladeshi = true
             cbPerIsBd.isChecked = true
             nidTIL.show()
             nationalityTIL.hide()
         } else {
+            isNotBangladeshi = false
             cbPerIsBd.isChecked = false
             //etPerNationality.clear()
             nidTIL.hide()
@@ -226,8 +228,13 @@ class PersonalDetailsEditFragment : Fragment() {
                 etPerDob.getString(), etPerNationality.getString(), marital, gender, etPerNid.getString(), etPerReligion.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                activity?.toast(R.string.message_common_error)
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -246,6 +253,7 @@ class PersonalDetailsEditFragment : Fragment() {
                 } catch (e: Exception) {
                     //activity.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
+                    logException(e)
                 }
             }
         })
