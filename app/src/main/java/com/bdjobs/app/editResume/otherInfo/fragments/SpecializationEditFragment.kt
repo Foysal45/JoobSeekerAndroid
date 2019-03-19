@@ -127,7 +127,7 @@ class SpecializationEditFragment : Fragment() {
                     addChip(refnameATCTV.getString(), workSkillID)
                 else {
                     refnameATCTV?.closeKeyboard(activity)
-                    activity.toast("Experience already added")
+                    activity.toast("Skill already added")
                 }
                 skillTIL.hideError()
             } else {

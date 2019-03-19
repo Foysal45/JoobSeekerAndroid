@@ -40,6 +40,7 @@ class LangPrViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+
         doWork()
     }
 
