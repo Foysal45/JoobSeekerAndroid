@@ -11,7 +11,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -74,8 +74,8 @@ class PreferredAreasViewFragment : Fragment() {
                 } catch (e: Exception) {
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity?.logException(e)
-                        activity?.error("++${e.message}")
+                        logException(e)
+                        d("++${e.message}")
                     }
                 }
             }

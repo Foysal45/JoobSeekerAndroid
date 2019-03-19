@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -72,10 +72,8 @@ class CareerViewFragment : Fragment() {
                         setupView(respo)
                     }
                 } catch (e: Exception) {
-                    if (activity != null) {
-                        activity?.logException(e)
-                        activity?.error("++${e.message}")
-                    }
+                    logException(e)
+                    d("++${e.message}")
                 }
             }
         })
