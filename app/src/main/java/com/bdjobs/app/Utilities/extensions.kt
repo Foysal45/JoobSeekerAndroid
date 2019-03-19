@@ -154,13 +154,18 @@ fun Context.getBlueCollarUserId(): Int {
 
 
 fun Context.openUrlInBrowser(url: String?) {
-    if (url.isNullOrBlank())
-        return
-    val intentBuilder = CustomTabsIntent.Builder()
-    intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-    intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-    val customTabsIntent = intentBuilder.build()
-    customTabsIntent.launchUrl(this, Uri.parse(url.trim()))
+    try {
+        if (url.isNullOrBlank())
+            return
+
+        val intentBuilder = CustomTabsIntent.Builder()
+        intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        val customTabsIntent = intentBuilder.build()
+        customTabsIntent.launchUrl(this, Uri.parse(url.trim()))
+    } catch (e: Exception) {
+        logException(e)
+    }
 }
 
 

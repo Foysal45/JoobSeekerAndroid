@@ -63,7 +63,7 @@ class EmailResumeFragment : Fragment() {
             }
         } else {
             et_from.setText(bdjobsUserSession.email)
-            et_Subject?.setText(subject)
+            et_Subject?.setText("Application for the post of $subject")
             et_to?.setText(toEmail)
 
             backIV.setOnClickListener {
