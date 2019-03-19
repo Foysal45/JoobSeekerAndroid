@@ -97,6 +97,9 @@ class BdjobsUserSession(val context: Context) {
     val userPicUrl = pref?.getString(Constants.session_key_userPicUrl, null)
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
 
+    val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
+
+
     fun logoutUser() {
 
         pref?.edit()?.clear()?.apply()
@@ -117,6 +120,12 @@ class BdjobsUserSession(val context: Context) {
                 context.startActivity(intent)
                 (context as Activity).finishAffinity()
             }
+        }
+    }
+
+    fun insertShortlListedPopupDate(dt: String) {
+        pref?.edit {
+            putString(Constants.KEY_SHORTLISTED_DATE, dt)
         }
     }
 

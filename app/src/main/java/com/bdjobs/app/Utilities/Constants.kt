@@ -17,14 +17,14 @@ class Constants {
         var myBdjobsStatsLastMonth = true
         var matchedTraining = true
         var timesEmailedResumeLast = true
-        var showShortListedPopUp = true
         var cvUploadStatus = ""
-
         var favSearchFiltersSynced = false
         var jobInvitationSynced = false
         var certificationSynced = false
         var followedEmployerSynced = false
         var isDirectCall = false
+
+        const val KEY_SHORTLISTED_DATE = "shortlistedDate"
 
         const val HOTJOBS_WEB_LINK = "http://bdjobs.com/upcoming/files/hotjob/apphotjobs.asp"
         const val FB_KEY_EMAIL = "email"
@@ -171,7 +171,7 @@ class Constants {
                         override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
                             Log.d("DeviceInformation", "send data: ${response.body()}")
                             try {
-                                if (response?.body()?.statuscode == api_request_result_code_ok)
+                                if (response.body()?.statuscode == api_request_result_code_ok)
                                     Constants.isDeviceInfromationSent = true
                             } catch (e: Exception) {
                                 logException(e)

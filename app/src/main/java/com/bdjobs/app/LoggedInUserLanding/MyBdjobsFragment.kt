@@ -19,7 +19,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.EditResLandingActivity
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
-import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,6 +67,17 @@ class MyBdjobsFragment : Fragment() {
     }
 
     private fun onClick() {
+
+        searchIMGV.setOnClickListener {
+            communicator.gotoJobSearch()
+        }
+
+        profilePicIMGV.setOnClickListener {
+            communicator.gotoEditresume()
+        }
+
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
+
         lastmonth_MBTN?.setOnClickListener {
             getStatsData(1.toString())
             communicator.setTime("1")
@@ -113,7 +123,7 @@ class MyBdjobsFragment : Fragment() {
         }
 
         nextButtonFAB?.setOnClickListener {
-            startActivity<EditResLandingActivity>()
+            communicator.showManageResumePopup()
         }
 
         Log.d("sagor", "sagor= " + Constants.myBdjobsStatsLastMonth)
@@ -137,9 +147,6 @@ class MyBdjobsFragment : Fragment() {
             for ((index, value) in lastMonthStatsData!!.withIndex()) {
                 if (index < (lastMonthStatsData?.size!! - 1)) {
                     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
-               Log.d("vvuu","${ bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
-
-                   // bdjobsList?.get(index)?.
                 }
             }
             mybdjobsAdapter?.addAll(bdjobsList)
@@ -160,26 +167,12 @@ class MyBdjobsFragment : Fragment() {
             logException(e)
         }
     }
-    private fun populateDataAllMonthStats2() {
-        try {
-            for ((index, value) in allStatsData!!.withIndex()) {
-                if (index < (allStatsData?.size!! - 1)) {
-               //     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
-              bdjobsList?.get(index)?.itemID = value?.count!!
-
-                }
-            }
-            mybdjobsAdapter?.addAll(bdjobsList)
-        } catch (e: Exception) {
-            logException(e)
-        }
-    }
 
     private fun getStatsData(activityDate: String) {
         activity.showProgressBar(mybdjobsLoadingProgressBar)
        /* myBdjobsgridView_RV?.visibility = View.INVISIBLE
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()*/
+        shimmer_view_container_JobList?.startShimmerAnimation()
 
         ApiServiceMyBdjobs.create().mybdjobStats(
                 userId = session.userId,
@@ -196,9 +189,9 @@ class MyBdjobsFragment : Fragment() {
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
                 activity?.stopProgressBar(mybdjobsLoadingProgressBar)
                 try {
-                   /* myBdjobsgridView_RV?.visibility = View.VISIBLE
+                    myBdjobsgridView_RV?.visibility = View.VISIBLE
                     shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()*/
+                    shimmer_view_container_JobList?.stopShimmerAnimation()
 
                     if (activityDate == "0") {
                         allStatsData = response.body()?.data
@@ -209,8 +202,6 @@ class MyBdjobsFragment : Fragment() {
                             mybdjobsAdapter?.removeAll()
                             bdjobsList.clear()
                             populateDataAllMonthStats()
-
-
                         }
                     } else if (activityDate == "1") {
                         lastMonthStatsData = response.body()?.data
@@ -221,8 +212,6 @@ class MyBdjobsFragment : Fragment() {
                             mybdjobsAdapter?.removeAll()
                             bdjobsList.clear()
                             populateDataLastMonthStats()
-                          /*  mybdjobsAdapter?.mybdjobsItems?.get(0)?.itemID = lastMonthStatsData?.get(0)?.count!!
-*/
                         }
                     }
 
