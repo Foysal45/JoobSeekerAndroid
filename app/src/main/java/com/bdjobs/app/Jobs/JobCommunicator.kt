@@ -33,6 +33,8 @@ interface JobCommunicator {
 
     fun goToSuggestiveSearch(from: String, typedData: String)
 
+    fun gotoJobList()
+
 
     // search params
 

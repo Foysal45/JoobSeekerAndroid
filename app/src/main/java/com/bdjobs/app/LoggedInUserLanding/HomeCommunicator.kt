@@ -1,6 +1,5 @@
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.util.Log
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 
 interface HomeCommunicator {
@@ -27,5 +26,8 @@ interface HomeCommunicator {
     fun setShortListFilter(filter:String)
     fun getShortListFilter():String
     fun gotoTimesEmailedResume(times_last : Boolean)
+    fun gotoJobSearch()
+    fun gotoEditresume()
+    fun showManageResumePopup()
 
 }

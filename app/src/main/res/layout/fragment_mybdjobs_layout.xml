@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -29,10 +30,9 @@
 
             <TextView
                 android:id="@+id/suggestiveSearchET"
-                android:layout_width="0dp"
-                android:layout_height="29dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="32dp"
                 android:drawablePadding="5dp"
                 android:ems="10"
                 android:fontFamily="@font/roboto"
@@ -44,20 +44,89 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/searchIMGV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_search_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/profilePicIMGV"
+                app:layout_constraintEnd_toStartOf="@+id/profilePicIMGV"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/suggestiveSearchET"
+                app:layout_constraintTop_toTopOf="@+id/profilePicIMGV" />
+
+            <ImageView
+
+                android:id="@+id/profilePicIMGV"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_search_black_24dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container_JobList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="@+id/myBdjobsgridView_RV"
+        shimmer:duration="800"
+        shimmer:layout_constraintBottom_toBottomOf="parent"
+        shimmer:layout_constraintEnd_toEndOf="parent"
+        shimmer:layout_constraintStart_toStartOf="parent">
+
+        <!-- Adding 7 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+
+            <include layout="@layout/list_shimmer_layout" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <LinearLayout
         android:id="@+id/buttonLL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/myBdjobsgridView_RV"
@@ -69,11 +138,11 @@
             android:id="@+id/lastmonth_MBTN"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:background="@drawable/left_rounded_background"
-            android:lineSpacingExtra="0sp"
             android:layout_gravity="center"
-            android:text="Last Month"
+            android:background="@drawable/left_rounded_background"
             android:gravity="center_horizontal|center_vertical"
+            android:lineSpacingExtra="0sp"
+            android:text="Last Month"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
@@ -82,9 +151,9 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@drawable/right_rounded_background"
+            android:gravity="center_horizontal|center_vertical"
             android:lineSpacingExtra="0sp"
             android:text="All Time"
-            android:gravity="center_horizontal|center_vertical"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
@@ -94,6 +163,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myBdjobsgridView_RV"
         android:layout_width="0dp"
+        android:background="#FFFFFF"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -126,20 +196,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <ProgressBar
-        android:id="@+id/mybdjobsLoadingProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:indeterminate="true"
-        android:theme="@style/BdjobsLinearProgress"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLL"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

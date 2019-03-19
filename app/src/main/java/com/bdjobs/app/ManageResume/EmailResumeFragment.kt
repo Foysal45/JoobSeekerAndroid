@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.EmailResume
 import com.bdjobs.app.API.ModelClasses.SendEmailCV
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.EditResLandingActivity
 import kotlinx.android.synthetic.main.fragment_email_resume.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,9 +34,7 @@ class EmailResumeFragment : Fragment() {
     private var toEmail = ""
     private var jobID = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(com.bdjobs.app.R.layout.fragment_email_resume, container, false)
     }
 
@@ -42,38 +42,53 @@ class EmailResumeFragment : Fragment() {
         super.onResume()
         bdjobsUserSession = BdjobsUserSession(activity)
         communicator = activity as ManageResumeCommunicator
-        subject = communicator?.getSubject()
-        toEmail = communicator?.getEmailTo()
-        jobID = communicator?.getjobID()
+        subject = communicator.getSubject()
+        toEmail = communicator.getEmailTo()
+        jobID = communicator.getjobID()
 
-        et_from.setText(bdjobsUserSession.email)
-        et_Subject?.setText(subject)
-        et_to?.setText(toEmail)
 
-        backIV.setOnClickListener {
-            communicator.backButtonPressed()
-        }
+        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+            try {
+                val alertd = alert("To Access this feature please post your resume") {
+                    title = "Your resume is not posted!"
+                    positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                    negativeButton("Cancel") {
+                        communicator.backButtonPressed()
+                    }
+                }
+                alertd.isCancelable = false
+                alertd.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
+        } else {
+            et_from.setText(bdjobsUserSession.email)
+            et_Subject?.setText(subject)
+            et_to?.setText(toEmail)
 
-        Log.d("manage", "===${communicator?.getEmailTo()}")
+            backIV.setOnClickListener {
+                communicator.backButtonPressed()
+            }
 
-        uploadResume.isEnabled = Constants.cvUploadStatus == "0" || Constants.cvUploadStatus == "4"
+            Log.d("manage", "===${communicator.getEmailTo()}")
 
-        mybdjobsResume.performClick()
+            uploadResume.isEnabled = Constants.cvUploadStatus == "0" || Constants.cvUploadStatus == "4"
 
-        cbFAB.setOnClickListener {
-            validation()
-        }
+            mybdjobsResume.performClick()
 
-        et_from.easyOnTextChangedListener { charSequence ->
-            validateEmail()
-        }
-        et_to.easyOnTextChangedListener { charSequence ->
-            validateEmpEmail()
+            cbFAB.setOnClickListener {
+                validation()
+            }
 
-        }
-        et_Subject.easyOnTextChangedListener { charSequence ->
-            validateSubj()
-
+            et_from.easyOnTextChangedListener { charSequence ->
+                validateEmail()
+            }
+            et_to.easyOnTextChangedListener { charSequence ->
+                validateEmpEmail()
+            }
+            et_Subject.easyOnTextChangedListener { charSequence ->
+                validateSubj()
+            }
         }
     }
 
@@ -89,72 +104,26 @@ class EmailResumeFragment : Fragment() {
             return
         }
 
-        var uploaded ="0"
+        var uploaded = "0"
 
         if (mybdjobsResume.isChecked) {
             uploaded = "0"
-            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
-            //  isResumeUpdate = "0"
-            //Toast.makeText(getApplicationContext(), "mybdjobs", Toast.LENGTH_SHORT).show()
-
         } else if (uploadResume.isChecked) {
             uploaded = "1"
-            isResumeUpdate = bdjobsUserSession.IsResumeUpdate!!
-            //  isResumeUpdate = "1"
-            //   Toast.makeText(getApplicationContext(), "uploadResume", Toast.LENGTH_SHORT).show()
         }
         Log.d("isresumeUpdate", "is = $isResumeUpdate")
-        //
-        // Toast.makeText(getApplicationContext(), "${isResumeUpdate}", Toast.LENGTH_SHORT).show()
-        callSendEmailCV(isResumeUpdate, uploaded)
+        callSendEmailCV(uploaded)
     }
 
-    private fun callApiMyBdjobsResume() {
-        ApiServiceMyBdjobs.create().getEmailResumeMsg(
-                /*   userID = bdjobsUserSession.userId,
-                   decodeID = bdjobsUserSession.decodId,
-                   isResumeUpdate = bdjobsUserSession.IsResumeUpdate,
-                   userEmail = "a[elpoalpl@jhjnhkj.coijoi",
-                   companyEmail = "rumana.cse7@gmail.com",
-                   mailSubject = "ewaerwrwerwer",
-                   application = "",
-                   fullName = "stertert",
-                   uploadedCv = "0",
-                   Jobid = "0"*/
 
-                userID = bdjobsUserSession.userId,
-                decodeID = bdjobsUserSession.decodId,
-                isResumeUpdate = bdjobsUserSession.IsResumeUpdate,
-                userEmail = et_from.text?.toString(),
-                companyEmail = communicator.getEmailTo(),
-                mailSubject = communicator.getSubject(),
-                application = "",
-                fullName = bdjobsUserSession.fullName,
-                uploadedCv = "0",
-                Jobid = communicator?.getjobID()
-
-
-        ).enqueue(object : Callback<EmailResume> {
-            override fun onFailure(call: Call<EmailResume>, t: Throwable) {
-                error("onFailure", t)
-            }
-
-            override fun onResponse(call: Call<EmailResume>, response: Response<EmailResume>) {
-
-                toast(response.body()?.message!!)
-            }
-
-        })
-    }
-
-    private fun callSendEmailCV(isResumeUpdate: String, uploadedCV : String) {
+    private fun callSendEmailCV(uploadedCV: String) {
         activity.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,
                 uploadedCv = uploadedCV,
                 application = et_Message?.getString(),
-                isResumeUpdate = isResumeUpdate,
+                isResumeUpdate = bdjobsUserSession.IsResumeUpdate,
                 fullName = bdjobsUserSession.fullName,
                 Jobid = jobID,
                 userEmail = et_from?.getString(),
@@ -170,7 +139,7 @@ class EmailResumeFragment : Fragment() {
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(EmailResumeLoadingProgressBar)
+                        activity?.stopProgressBar(EmailResumeLoadingProgressBar)
                         Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
                         activity?.toast(response.body()?.message!!)
                         communicator.backButtonPressed()
@@ -185,52 +154,52 @@ class EmailResumeFragment : Fragment() {
     }
 
     private fun validateEmail(): Boolean {
-        val email = et_from.getText().toString()
-        if (et_from.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            from_TIL.setErrorEnabled(true)
-            from_TIL.setError(getString(com.bdjobs.app.R.string.type_email))
+        val email = et_from?.text.toString()
+        if (et_from?.text.toString().trim({ it <= ' ' }).isEmpty()) {
+            from_TIL?.isErrorEnabled = true
+            from_TIL?.error = getString(com.bdjobs.app.R.string.type_email)
             requestFocus(et_from)
             return false
         } else if (!isValidEmail(email)) {
-            from_TIL.setErrorEnabled(true)
-            from_TIL.setError(getString(com.bdjobs.app.R.string.valid_email))
+            from_TIL?.isErrorEnabled = true
+            from_TIL?.error = getString(com.bdjobs.app.R.string.valid_email)
             requestFocus(et_from)
             return false
         } else {
-            from_TIL.setErrorEnabled(false)
+            from_TIL?.isErrorEnabled = false
         }
 
         return true
     }
 
     private fun validateEmpEmail(): Boolean {
-        val email = et_to.getText().toString()
-        if (et_to.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            to_TIL.setErrorEnabled(true)
-            to_TIL.setError(getString(com.bdjobs.app.R.string.type_email))
+        val email = et_to?.text.toString()
+        if (et_to?.text.toString().trim({ it <= ' ' }).isEmpty()) {
+            to_TIL?.isErrorEnabled = true
+            to_TIL?.error = getString(com.bdjobs.app.R.string.type_email)
             requestFocus(et_to)
             return false
         } else if (!isValidEmail(email)) {
-            to_TIL.setErrorEnabled(true)
-            to_TIL.setError(getString(com.bdjobs.app.R.string.valid_email))
+            to_TIL?.isErrorEnabled = true
+            to_TIL?.error = getString(com.bdjobs.app.R.string.valid_email)
             requestFocus(et_to)
             return false
         } else {
-            to_TIL.setErrorEnabled(false)
+            to_TIL?.isErrorEnabled = false
         }
 
         return true
     }
 
     private fun validateSubj(): Boolean {
-        val email = et_Subject.getText().toString()
-        if (et_Subject.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            Subject_TIL.setErrorEnabled(true)
-            Subject_TIL.setError(getString(com.bdjobs.app.R.string.email_subj))
+
+        if (et_Subject?.text.toString().trim({ it <= ' ' }).isEmpty()) {
+            Subject_TIL?.isErrorEnabled = true
+            Subject_TIL?.error = getString(com.bdjobs.app.R.string.email_subj)
             requestFocus(et_Subject)
             return false
         } else {
-            Subject_TIL.setErrorEnabled(false)
+            Subject_TIL?.isErrorEnabled = false
         }
 
         return true
@@ -239,7 +208,7 @@ class EmailResumeFragment : Fragment() {
 
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
-            activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
     }
 

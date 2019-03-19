@@ -35,7 +35,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:background="@drawable/ic_home_top_bg"
+        android:background="@drawable/ic_edit_resume_header_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

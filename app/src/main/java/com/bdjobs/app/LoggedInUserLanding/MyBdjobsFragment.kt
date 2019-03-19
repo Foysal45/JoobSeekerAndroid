@@ -16,14 +16,8 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.showProgressBar
-import com.bdjobs.app.Utilities.stopProgressBar
-import com.bdjobs.app.editResume.EditResLandingActivity
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,6 +66,17 @@ class MyBdjobsFragment : Fragment() {
     }
 
     private fun onClick() {
+
+        searchIMGV.setOnClickListener {
+            communicator.gotoJobSearch()
+        }
+
+        profilePicIMGV.setOnClickListener {
+            communicator.gotoEditresume()
+        }
+
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
+
         lastmonth_MBTN?.setOnClickListener {
             getStatsData(1.toString())
             communicator.setTime("1")
@@ -112,7 +117,7 @@ class MyBdjobsFragment : Fragment() {
         }
 
         nextButtonFAB?.setOnClickListener {
-            startActivity<EditResLandingActivity>()
+            communicator.showManageResumePopup()
         }
 
         Log.d("sagor", "sagor= " + Constants.myBdjobsStatsLastMonth)
@@ -158,8 +163,11 @@ class MyBdjobsFragment : Fragment() {
     }
 
     private fun getStatsData(activityDate: String) {
-        activity.showProgressBar(mybdjobsLoadingProgressBar)
-        myBdjobsgridView_RV.visibility = View.INVISIBLE
+
+        myBdjobsgridView_RV?.visibility = View.INVISIBLE
+        shimmer_view_container_JobList?.show()
+        shimmer_view_container_JobList?.startShimmerAnimation()
+
         ApiServiceMyBdjobs.create().mybdjobStats(
                 userId = session.userId,
                 decodeId = session.decodId,
@@ -169,14 +177,15 @@ class MyBdjobsFragment : Fragment() {
 
         ).enqueue(object : Callback<StatsModelClass> {
             override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
-                activity?.stopProgressBar(mybdjobsLoadingProgressBar)
-                activity?.toast("${t.message}")
+
             }
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
-                activity?.stopProgressBar(mybdjobsLoadingProgressBar)
-                myBdjobsgridView_RV.visibility = View.VISIBLE
                 try {
+                    myBdjobsgridView_RV?.visibility = View.VISIBLE
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmerAnimation()
+
                     if (activityDate == "0") {
                         allStatsData = response.body()?.data
                         //populateDataAllMonthStats()
@@ -201,7 +210,6 @@ class MyBdjobsFragment : Fragment() {
 
                     Log.d("respp", " === $allStatsData /n $lastMonthStatsData")
                 } catch (e: Exception) {
-                    activity?.stopProgressBar(mybdjobsLoadingProgressBar)
                     logException(e)
                 }
             }
