@@ -235,6 +235,7 @@ class LangProficiencyEditFragment : Fragment() {
 
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
+                cg.radioCheckableChip(chip)
                 Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {

@@ -16,6 +16,7 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_edit_res_landing.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.*
@@ -138,6 +139,12 @@ class EditResLandingActivity : Activity() {
         }
         btnProfessional.setOnClickListener {
             goToFragment("professional", "E")
+        }
+
+        ivProfileImage.onClick {
+
+            startActivity<PhotoUploadActivity>()
+            /*toast("click")*/
         }
 
     }
