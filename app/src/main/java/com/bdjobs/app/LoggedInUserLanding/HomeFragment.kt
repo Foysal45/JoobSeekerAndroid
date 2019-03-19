@@ -42,6 +42,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -76,8 +77,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
-        if (Constants.showShortListedPopUp) {
-            showShortListedJobsExpirationPopUP()
+        alertAboutShortlistedJobs()
+
+    }
+
+    private fun alertAboutShortlistedJobs() {
+        try {
+            val shortlistedDate = bdjobsUserSession.shortListedDate
+            val c = Calendar.getInstance().time
+            val df = SimpleDateFormat("dd-MMM-yyyy")
+            val dtcrnt = df.format(c)
+            Log.d("formattedDate", "dtprev: $shortlistedDate  dtcrnt: $dtcrnt")
+            if (shortlistedDate != dtcrnt) {
+                showShortListedJobsExpirationPopUP()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
@@ -462,6 +477,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showShortListedJobsExpirationPopUP() {
 
+
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, 2)
         val deadlineNext2Days = calendar.time
@@ -483,19 +499,19 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
                         val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
                         val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
-                        // val deadlineCG = dialog.findViewById<ChipGroup>(R.id.deadlineCG)
                         checkBox.setOnCheckedChangeListener { _, isChecked ->
-                            Constants.showShortListedPopUp = !isChecked
+                            val c = Calendar.getInstance().time
+                            val df = SimpleDateFormat("dd-MMM-yyyy")
+                            val formattedDate = df.format(c)
+                            Log.d("formattedDate", "formattedDate: $formattedDate")
+                            bdjobsUserSession.insertShortlListedPopupDate(formattedDate)
                         }
-
 
                         var job = "Job"
                         if (shortlistedjobs.size > 1)
                             job = "Jobs"
 
                         jobCountTV?.text = "${shortlistedjobs.size} $job found"
-
-                        //selectChip(deadlineCG,"Next 2 days")
 
                         cancelIV?.setOnClickListener {
                             dialog.dismiss()
