@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -52,7 +53,6 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_suggestive_search)
-
         initialization()
         onClicks()
         getIntentData()
@@ -76,8 +76,9 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
         suggestiveSearchET?.easyOnTextChangedListener { e: CharSequence ->
             if (TextUtils.isEmpty(e)) {
+                Log.d("susu", "susu")
                 suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
+                if (from == key_categoryET || from == key_special_categoryET || from == key_industryET) {
                     filterRV.show()
                     historyViewCL.show()
                 } else {
@@ -87,7 +88,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             } else {
                 suggestiveSearchET?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_white, 0)
                 suggestiveSearchET?.clearTextOnDrawableRightClick()
-                if (from == key_categoryET || from == key_special_categoryET || from ==key_industryET) {
+                if (from == key_categoryET || from == key_special_categoryET || from == key_industryET) {
                     filterRV.show()
                     historyViewCL.hide()
                 } else {
