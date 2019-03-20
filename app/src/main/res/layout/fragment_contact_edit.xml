@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:animateLayoutChanges="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="100dp">
 
             <TextView
                 android:id="@+id/textView35"
@@ -451,7 +452,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
 
-                        android:id="@+id/presentContactCountryTILP"
+                        android:id="@+id/permanentContactCountryTILP"
                         style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -474,7 +475,6 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-
                     android:id="@+id/contactAddressTILPRM"
                     style="@style/EHTextInputLayout"
                     android:layout_width="match_parent"

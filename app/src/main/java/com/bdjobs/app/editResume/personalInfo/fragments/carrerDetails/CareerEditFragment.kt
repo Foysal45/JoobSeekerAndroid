@@ -74,6 +74,7 @@ class CareerEditFragment : Fragment() {
 
 
         fab_cai_edit.setOnClickListener {
+            clCareerEdit.clearFocus()
             clCareerEdit.closeKeyboard(activity)
             var validation = 0
             validation = isValidate(etCrObj, crObjTIL, etCrObj, true, validation)
