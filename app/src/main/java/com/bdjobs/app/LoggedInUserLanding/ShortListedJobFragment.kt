@@ -56,10 +56,6 @@ class ShortListedJobFragment : Fragment() {
         crossBTN?.setOnClickListener {
             showShortListFIlterList("")
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFIlterList(shortListFilter)
     }

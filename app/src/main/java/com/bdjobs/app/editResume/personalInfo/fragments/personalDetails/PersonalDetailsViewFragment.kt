@@ -80,8 +80,8 @@ class PersonalDetailsViewFragment : Fragment() {
                 } catch (e: Exception) {
                     shimmerStop()
                     e.printStackTrace()
-                    activity?.logException(e)
-                    activity?.error("++${e.message}")
+                    logException(e)
+                    d("++${e.message}")
                 }
             }
         })

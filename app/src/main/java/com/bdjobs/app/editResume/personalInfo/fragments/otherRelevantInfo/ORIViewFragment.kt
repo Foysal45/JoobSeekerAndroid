@@ -71,7 +71,8 @@ class ORIViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    activity?.logException(e)
+                    logException(e)
+                    d("++${e.message}")
 
                 }
             }
