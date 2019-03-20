@@ -125,6 +125,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 jobsVH.shimmer_view_container.show()
                 jobsVH.applyButton.visibility = View.GONE
                 jobsVH.shimmer_view_container.startShimmerAnimation()
+                jobCommunicator?.hideShortListIcon()
+
 
                 ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId, "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
@@ -157,6 +159,19 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyLogoUrl = jobDetailResponseAll.jobLOgoName!!
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
+
+                            try {
+                                val deadlineDB = jobDetailResponseAll.DeadlineDB!!
+
+                                val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadlineDB)
+
+                                if (Date().after(deadlineDate)) {
+                                    jobCommunicator?.hideShortListIcon()
+                                } else {
+                                    jobCommunicator?.showShortListIcon()
+                                }
+                            } catch (e: Exception) {
+                            }
 
 
                             if (jobDetailResponseAll.companyWeb.isNullOrBlank()) {

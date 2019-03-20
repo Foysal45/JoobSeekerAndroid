@@ -7,24 +7,36 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Jobs.JoblistAdapter
+import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.selector
-import org.jetbrains.anko.uiThread
-import java.util.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ShortListedJobFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var joblistAdapter: JoblistAdapter
     lateinit var homeCommunicator: HomeCommunicator
-
+    private var jobListGet: MutableList<JobListModelData>? = null
+    private var currentPage = 1
+    private var TOTAL_PAGES: Int? = null
+    private var isLoadings = false
+    private var isLastPages = false
+    var totalRecordsFound = 0
+    private var layoutManager: RecyclerView.LayoutManager? = null
 
     var favListSize = 0
 
@@ -47,7 +59,7 @@ class ShortListedJobFragment : Fragment() {
         }
 
         filterTV?.setOnClickListener {
-            val  deadline = arrayOf("Today", "Tomorrow", "Next 2 days","Next 3 days","Next 4 days")
+            val deadline = arrayOf("Today", "Tomorrow", "Next 2 days", "Next 3 days", "Next 4 days")
             selector("Jobs expire in", deadline.toList()) { dialogInterface, i ->
                 showShortListFIlterList(deadline[i])
             }
@@ -56,6 +68,11 @@ class ShortListedJobFragment : Fragment() {
         crossBTN?.setOnClickListener {
             showShortListFIlterList("")
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFIlterList(shortListFilter)
     }
@@ -63,155 +80,228 @@ class ShortListedJobFragment : Fragment() {
     private fun showShortListFIlterList(shortListFilter: String) {
         filterTV.text = shortListFilter
         homeCommunicator.setShortListFilter(shortListFilter)
-        when(shortListFilter){
-            ""->{
+        when (shortListFilter) {
+            "" -> {
                 crossBTN.hide()
-                getShortListedJobs()
+                getShortListedJobsByDeadline("")
             }
-            "Today"->{
+            "Today" -> {
                 crossBTN.show()
-                val calendar = Calendar.getInstance()
-                val deadlineToday = calendar.time
-                getShortListedJobsByDeadline(deadlineToday)
+                getShortListedJobsByDeadline("1")
             }
-            "Tomorrow"->{
+            "Tomorrow" -> {
                 crossBTN.show()
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR, 1)
-                val deadlineNextDay = calendar.time
-                getShortListedJobsByDeadline(deadlineNextDay)
+                getShortListedJobsByDeadline("2")
             }
-            "Next 2 days"->{
+            "Next 2 days" -> {
                 crossBTN.show()
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR, 2)
-                val deadlineNext2Days = calendar.time
-                getShortListedJobsByDeadline(deadlineNext2Days)
+                getShortListedJobsByDeadline("3")
             }
-            "Next 3 days"->{
+            "Next 3 days" -> {
                 crossBTN.show()
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR, 3)
-                val deadlineNext3Days = calendar.time
-                getShortListedJobsByDeadline(deadlineNext3Days)
+                getShortListedJobsByDeadline("4")
             }
-            "Next 4 days"->{
+            "Next 4 days" -> {
                 crossBTN.show()
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR, 4)
-                val deadlineNext4Days = calendar.time
-                getShortListedJobsByDeadline(deadlineNext4Days)
+                getShortListedJobsByDeadline("5")
             }
         }
     }
 
-    private fun getShortListedJobsByDeadline(deadline:Date) {
-        doAsync {
+    private fun getShortListedJobsByDeadline(deadline: String) {
+        currentPage = 1
+        TOTAL_PAGES = null
+        isLoadings = false
+        isLastPages = false
+        shortListRV?.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        shortListRV?.layoutManager = layoutManager
+        joblistAdapter = JoblistAdapter(activity)
+        shortListRV?.adapter = joblistAdapter
 
-            val shortListedJobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadline)
+        shortListRV!!.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
 
-            val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+            override val totalPageCount: Int
+                get() = TOTAL_PAGES!!
+            override val isLastPage: Boolean
+                get() = isLastPages
+            override var isLoading: Boolean = false
+                get() = isLoadings
 
-            for (item in shortListedJobs) {
-                Log.d("shortListedJobs","Deadline: ${item.deadline}")
-                val jobListModelData = JobListModelData(
-                        jobid = item.jobid,
-                        jobTitle = item.jobtitle,
-                        companyName = item.companyname,
-                        deadline = item.deadline?.toSimpleDateString(),
-                        eduRec = item.eduRec,
-                        experience = item.experience,
-                        standout = item.standout,
-                        logo = item.logo,
-                        lantype = item.lantype
+            override fun loadMoreItems() {
+                isLoading = true
+                currentPage += 1
+
+                loadNextPage(
+                        deadline = deadline,
+                        pageNumber = currentPage,
+                        rpp = "10"
                 )
-                jobList.add(jobListModelData)
             }
+        })
 
-            uiThread {
-                joblistAdapter = JoblistAdapter(activity)
-                shortListRV?.adapter = joblistAdapter
-                joblistAdapter.addAllTest(jobList)
-                joblistAdapter.notifyDataSetChanged()
+        loadFisrtPageTest(
+                deadline = deadline,
+                pageNumber = currentPage,
+                rpp = "10"
+        )
 
-                favListSize= jobList.size
-
-                if (favListSize> 1) {
-                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
-                    jobCountTV?.text = Html.fromHtml(styledText)
-                } else {
-                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
-                    jobCountTV?.text = Html.fromHtml(styledText)
-                }
-            }
-
-        }
     }
 
-    private fun getShortListedJobs() {
-        doAsync {
+    private fun loadFisrtPageTest(deadline: String, rpp: String, pageNumber: Int) {
+        shortListRV.hide()
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmerAnimation()
 
-            val shortListedJobs = bdjobsDB.shortListedJobDao().getAllShortListedJobs()
+        val call = ApiServiceJobs.create().getStoreJobList(
+                p_id = bdjobsUserSession.userId,
+                encoded = Constants.ENCODED_JOBS,
+                deadline = deadline,
+                rpp = rpp,
+                pg = pageNumber
+        )
+        call.enqueue(object : Callback<JobListModel> {
 
-            val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
-            for (item in shortListedJobs) {
-                Log.d("shortListedJobs","Deadline: ${item.deadline}")
-                val jobListModelData = JobListModelData(
-                        jobid = item.jobid,
-                        jobTitle = item.jobtitle,
-                        companyName = item.companyname,
-                        deadline = item.deadline?.toSimpleDateString(),
-                        eduRec = item.eduRec,
-                        experience = item.experience,
-                        standout = item.standout,
-                        logo = item.logo,
-                        lantype = item.lantype
-                )
-                jobList.add(jobListModelData)
-            }
-
-            uiThread {
                 try {
-                    joblistAdapter = JoblistAdapter(activity)
-                    shortListRV?.adapter = joblistAdapter
-                    joblistAdapter.addAllTest(jobList)
-                    joblistAdapter.notifyDataSetChanged()
+                    if (response.isSuccessful) {
+                        shortListRV?.show()
+                        shimmer_view_container_JobList.hide()
+                        shimmer_view_container_JobList.stopShimmerAnimation()
 
-                    favListSize = jobList.size
+                        val jobResponse = response.body()
 
-                    if (favListSize > 1) {
-                        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
-                        jobCountTV?.text = Html.fromHtml(styledText)
+                        TOTAL_PAGES = jobResponse?.common?.totalpages
+
+
+                        Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                        Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
+
+                        //communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
+                        val results = response.body()?.data
+
+                        if (!results.isNullOrEmpty()) {
+                            joblistAdapter.addAllTest(results)
+                        }
+
+                        if (currentPage == TOTAL_PAGES!!) {
+                            isLastPages = true
+                        } else {
+                            joblistAdapter.addLoadingFooter()
+                        }
+
+                        val totalJobs = jobResponse!!.common!!.totalRecordsFound
+                        if (totalJobs?.toInt()!! > 1) {
+                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted jobs"
+                            jobCountTV?.text = Html.fromHtml(styledText)
+                        } else {
+                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted job"
+                            jobCountTV?.text = Html.fromHtml(styledText)
+                        }
+                        // communicator.setIsLoading(isLoadings)
+                        // communicator.setLastPasge(isLastPages)
+                        // communicator.setTotalJob(jobResponse.common!!.totalRecordsFound!!.toInt())
+                        totalRecordsFound = jobResponse.common?.totalRecordsFound!!.toInt()
+                        favListSize = totalRecordsFound
                     } else {
-                        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
-                        jobCountTV?.text = Html.fromHtml(styledText)
+                        /*Log.d("TAG", "not successful: $TAG")*/
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+
+            override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
+                Log.d("TAG", "not successful!! onFail")
+                error("onFailure", t)
+            }
+        })
+    }
+
+    private fun loadNextPage(deadline: String, rpp: String, pageNumber: Int) {
+        Log.d("ArrayTest", " loadNextPage called")
+
+        val call = ApiServiceJobs.create().getStoreJobList(
+                p_id = bdjobsUserSession.userId,
+                encoded = Constants.ENCODED_JOBS,
+                deadline = deadline,
+                rpp = rpp,
+                pg = pageNumber
+        )
+        call.enqueue(object : Callback<JobListModel> {
+
+            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
+
+                try {
+                    Log.d("Paramtest", "response :   ${response.body().toString()}")
+                    if (response.isSuccessful) {
+
+                        try {
+                            val resp_jobs = response.body()
+                            TOTAL_PAGES = resp_jobs?.common?.totalpages
+                            joblistAdapter.removeLoadingFooter()
+                            isLoadings = false
+
+                            val results = response.body()?.data
+                            joblistAdapter.addAllTest(results as List<JobListModelData>)
+
+                            if (currentPage == TOTAL_PAGES) {
+                                isLastPages = true
+                            } else {
+                                joblistAdapter.addLoadingFooter()
+                            }
+
+                            /*communicator.setIsLoading(isLoadings)
+                            communicator.setLastPasge(isLastPages)
+                            communicator.setTotalJob(resp_jobs?.common!!.totalRecordsFound!!.toInt())*/
+
+
+
+                            totalRecordsFound = resp_jobs?.common?.totalRecordsFound!!
+                            favListSize = totalRecordsFound
+
+                            if (totalRecordsFound.toInt() > 1) {
+                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted jobs"
+                                jobCountTV?.text = Html.fromHtml(styledText)
+                            } else {
+                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted job"
+                                jobCountTV?.text = Html.fromHtml(styledText)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("TAG", "not successful: ")
                     }
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
 
-        }
+            override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
+                Log.d("TAG", "not successful!! onFail")
+            }
+        })
     }
 
 
-    fun scrollToUndoPosition(position:Int){
+    fun scrollToUndoPosition(position: Int) {
         shortListRV?.scrollToPosition(position)
         favListSize++
-        if (favListSize> 1) {
+        if (favListSize > 1) {
             val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
             jobCountTV?.text = Html.fromHtml(styledText)
         } else {
             val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
             jobCountTV?.text = Html.fromHtml(styledText)
         }
-
     }
 
-    fun decrementCounter(){
+    fun decrementCounter() {
         favListSize--
-        if (favListSize> 1) {
+        if (favListSize > 1) {
             val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
             jobCountTV?.text = Html.fromHtml(styledText)
         } else {
