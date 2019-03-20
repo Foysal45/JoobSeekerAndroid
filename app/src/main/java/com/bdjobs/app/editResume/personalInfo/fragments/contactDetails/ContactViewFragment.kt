@@ -52,6 +52,7 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun populateData() {
+        rlContactMain.hide()
         val call = ApiServiceMyBdjobs.create().getContactInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetContactInfo> {
             override fun onFailure(call: Call<GetContactInfo>, t: Throwable) {
