@@ -299,21 +299,21 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private fun undoRemove(v: View, deletedItem: AppliedJobModelData?, deletedIndex: Int, deleteJobID: Int) {
         // here we show snackbar and undo option
 
-        try {
+        //try {
             val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
             val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                     .setAction("UNDO") {
                         CancelAppliedJob.cancelJob(deleteJobID)
                         restoreMe(deletedItem!!, deletedIndex)
                         communicator?.scrollToUndoPosition(deletedIndex)
-                        Log.d("comid", "comid")
+                        Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")
                     }
 
             snack?.show()
             Log.d("swipe", "dir to LEFT")
-        } catch (e: Exception) {
-            logException(e)
-        }
+     //   } catch (e: Exception) {
+  //          logException(e)
+      //  }
     }
 
     private fun restoreMe(item: AppliedJobModelData, pos: Int) {

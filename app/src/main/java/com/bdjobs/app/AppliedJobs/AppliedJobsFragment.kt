@@ -143,28 +143,9 @@ class AppliedJobsFragment : Fragment() {
                      shimmer_view_container_appliedJobList?.stopShimmerAnimation()*/
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
                     Log.d("totalrecords", "totalrecords  = $totalRecords")
-
-                    if (totalRecords != null) {
-                        //   toast("came")
-                    } else {
-
-                        //    toast("came1")
-                        totalRecords = "0"
-                        favCountTV?.show()
-                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    }
                     try {
                         Log.d("callAppliURl", "url: ${call?.request()} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                        //   TOTAL_PAGES = 5
-
-                        jobsAppliedSize = totalRecords?.toInt()!!
-
-
-
-
-
                         if (!response?.body()?.data.isNullOrEmpty()) {
                             appliedJobsRV!!.visibility = View.VISIBLE
                             var value = response.body()?.data
@@ -176,7 +157,7 @@ class AppliedJobsFragment : Fragment() {
                             experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
                             Log.d("callAppliURlex", experienceList?.size?.toString())
                             appliedJobsCommunicator.setexperienceList(experienceList!!)
-
+                            jobsAppliedSize = totalRecords?.toInt()!!
 
                             if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                                 Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
@@ -186,20 +167,16 @@ class AppliedJobsFragment : Fragment() {
                                 isLastPages = true
                             }
 
-                        } else {
-                            //toast("came here")
-                            totalRecords = "0"
                         }
-
                         Log.d("tot", "total = $totalRecords")
                         /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                          favCountTV.text = Html.fromHtml(styledText)*/
 
                         if (totalRecords?.toInt()!! > 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
+                            val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
-                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
+                        } else  {
+                            val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Job Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         }
 
@@ -303,7 +280,7 @@ class AppliedJobsFragment : Fragment() {
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
                     Log.d("totalrecords", "totalrecords  = $totalRecords")
 
-                    if (totalRecords != null) {
+                /*    if (totalRecords != null) {
                         //   toast("came")
                     } else {
 
@@ -312,7 +289,7 @@ class AppliedJobsFragment : Fragment() {
                         favCountTV?.show()
                         val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
                         favCountTV?.text = Html.fromHtml(styledText)
-                    }
+                    }*/
                     try {
                         Log.d("callAppliURl", "url: ${call?.request()} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
@@ -345,23 +322,26 @@ class AppliedJobsFragment : Fragment() {
                                 isLastPages = true
                             }
 
-                        } else {
+                        }
+
+                       /* else {
                             //toast("came here")
                             totalRecords = "0"
-                        }
+                        }*/
 
                         Log.d("tot", "total = $totalRecords")
                         /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                          favCountTV.text = Html.fromHtml(styledText)*/
 
-                        if (totalRecords?.toInt()!! > 1) {
+                 /*       if (totalRecords?.toInt()!! > 1) {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
-                        }
-
+                        }*/
+             /*           val styledText = "<b><font color='#13A10E'>${experienceList?.size}</font></b> Jobs Applied"
+                        favCountTV?.text = Html.fromHtml(styledText)*/
 
                     } catch (e: Exception) {
                         logException(e)
@@ -378,7 +358,7 @@ class AppliedJobsFragment : Fragment() {
         }
     }
 
-    fun scrollToUndoPosition(position: Int) {
+/*    fun scrollToUndoPosition(position: Int) {
         appliedJobsRV?.scrollToPosition(position)
         jobsAppliedSize++
         val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
@@ -389,6 +369,31 @@ class AppliedJobsFragment : Fragment() {
         jobsAppliedSize--
         val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
         favCountTV.text = Html.fromHtml(styledText)
+    }*/
+
+    fun scrollToUndoPosition(position:Int){
+        appliedJobsRV?.scrollToPosition(position)
+        jobsAppliedSize++
+        Log.d("jobiiii", "jobiiii = ${jobsAppliedSize}")
+        if (jobsAppliedSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
+            favCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Job Applied"
+            favCountTV?.text = Html.fromHtml(styledText)
+        }
+
+    }
+
+    fun decrementCounter(){
+        jobsAppliedSize--
+        if (jobsAppliedSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
+            favCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Job Applied"
+            favCountTV?.text = Html.fromHtml(styledText)
+        }
     }
 
 

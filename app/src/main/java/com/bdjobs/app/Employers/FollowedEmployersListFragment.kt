@@ -71,23 +71,57 @@ class FollowedEmployersListFragment : Fragment() {
                 followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 followedEmployersAdapter?.addAll(followedEmployerList!!)
 
-                val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"
-                favCountTV?.text = Html.fromHtml(styledText)
+          /*      val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employer(s)"
+                favCountTV?.text = Html.fromHtml(styledText)*/
+
+                if (followedEmployerList?.size!! > 1) {
+                    val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"
+                    favCountTV?.text = Html.fromHtml(styledText)
+                } else {
+                    val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employer"
+                    favCountTV?.text = Html.fromHtml(styledText)
+                }
+
+
             }
         }
     }
 
-    fun scrollToUndoPosition(position:Int){
+  /*  fun scrollToUndoPosition(position:Int){
         followedRV?.scrollToPosition(position)
         followedListSize++
-        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer(s)"
         favCountTV?.text = Html.fromHtml(styledText)
     }
 
     fun decrementCounter(){
         followedListSize--
-        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer(s)"
         favCountTV?.text = Html.fromHtml(styledText)
+    }*/
+
+    fun scrollToUndoPosition(position:Int){
+        followedRV?.scrollToPosition(position)
+        followedListSize++
+        if (followedListSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+            favCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer"
+            favCountTV?.text = Html.fromHtml(styledText)
+        }
+
+    }
+
+    fun decrementCounter(){
+        followedListSize--
+        if (followedListSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+            favCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer"
+            favCountTV?.text = Html.fromHtml(styledText)
+        }
     }
 
 
