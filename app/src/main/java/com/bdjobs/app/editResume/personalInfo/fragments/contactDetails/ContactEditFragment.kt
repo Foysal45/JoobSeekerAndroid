@@ -393,7 +393,7 @@ class ContactEditFragment : Fragment() {
         cgPermanent.clearCheck()
         presentInOutBD = ""
         cgPresent.clearCheck()
-        hideAllError()
+        //hideAllError()
         try {
             data = contactInfo.getContactData()
         } catch (e: Exception) {
