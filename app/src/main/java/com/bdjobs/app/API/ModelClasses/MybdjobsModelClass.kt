@@ -1,7 +1,7 @@
 package com.bdjobs.app.API.ModelClasses
 
 data class MybdjobsData(
-        val itemID: String,
+        var itemID: String,
         val itemName: String,
         val backgroundID : Int,
         val resourceID : Int

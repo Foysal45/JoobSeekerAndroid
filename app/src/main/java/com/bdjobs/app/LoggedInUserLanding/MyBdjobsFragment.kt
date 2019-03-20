@@ -17,14 +17,15 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.EditResLandingActivity
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MyBdjobsFragment : Fragment() {
-
-
     private var mybdjobsAdapter: MybdjobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()
     private lateinit var communicator: HomeCommunicator
@@ -33,10 +34,23 @@ class MyBdjobsFragment : Fragment() {
     val background_resources = intArrayOf(R.drawable.online_application, R.drawable.times_emailed, R.drawable.viewed_resume, R.drawable.employer_followed, R.drawable.interview_invitation, R.drawable.message_employers)
     val icon_resources = intArrayOf(R.drawable.ic_online_application, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_employers_followed, R.drawable.ic_interview_invitation_1, R.drawable.ic_messages_by_employer)
     private lateinit var session: BdjobsUserSession
-
+    private fun populateDataModel() {
+        try {
+            mybdjobsAdapter?.removeAll()
+            bdjobsList.clear()
+            mybdjobsAdapter?.notifyDataSetChanged()
+            bdjobsList.add(MybdjobsData("0", "Jobs\nApplied", background_resources[0], icon_resources[0]))
+            bdjobsList.add(MybdjobsData("0", "Times Emailed\nResume", background_resources[1], icon_resources[1]))
+            bdjobsList.add(MybdjobsData("0", "Employers Viewed\nResume", background_resources[2], icon_resources[2]))
+            bdjobsList.add(MybdjobsData("0", "Employers\nFollowed", background_resources[3], icon_resources[3]))
+            bdjobsList.add(MybdjobsData("0", "Interview\nInvitations", background_resources[4], icon_resources[4]))
+            bdjobsList.add(MybdjobsData("0", "Messages by \nEmployers", background_resources[5], icon_resources[5]))
+            mybdjobsAdapter?.addAll(bdjobsList)
+        } catch (e: Exception) {
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         return inflater.inflate(R.layout.fragment_mybdjobs_layout, container, false)!!
 
     }
@@ -46,13 +60,10 @@ class MyBdjobsFragment : Fragment() {
         communicator = activity as HomeCommunicator
         session = BdjobsUserSession(activity)
         initializeViews()
-
-
     }
 
     override fun onResume() {
         super.onResume()
-        //  getStatsData()
         onClick()
     }
 
@@ -63,10 +74,10 @@ class MyBdjobsFragment : Fragment() {
         myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
         Log.d("initPag", "called")
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+        populateDataModel()
     }
 
     private fun onClick() {
-
         searchIMGV.setOnClickListener {
             communicator.gotoJobSearch()
         }
@@ -86,18 +97,12 @@ class MyBdjobsFragment : Fragment() {
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
             all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
             lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
-            //    populateDataLastMonthStats()
-            /*    if (bdjobsList.isNullOrEmpty()) {
-                    populateDataLastMonthStats()
-                } else {
-                    mybdjobsAdapter?.removeAll()
-                    bdjobsList.clear()
-                    populateDataLastMonthStats()
-                }*/
+          //  populateDataLastMonthStats()
+            lastmonth_MBTN?.isEnabled = false
+            all_MBTN?.isEnabled = true
 
         }
         all_MBTN?.setOnClickListener {
-            //testing
             getStatsData(0.toString())
             communicator.setTime("0")
             Constants.myBdjobsStatsLastMonth = false
@@ -106,14 +111,9 @@ class MyBdjobsFragment : Fragment() {
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background_black)
             lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
             all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
-            populateDataAllMonthStats()
-            /*  if (bdjobsList.isNullOrEmpty()) {
-                  populateDataAllMonthStats()
-              } else {
-                  mybdjobsAdapter?.removeAll()
-                  bdjobsList.clear()
-                  populateDataAllMonthStats()
-              }*/
+            //  populateDataAllMonthStats()
+            all_MBTN?.isEnabled = false
+            lastmonth_MBTN?.isEnabled = true
         }
 
         nextButtonFAB?.setOnClickListener {
@@ -125,22 +125,15 @@ class MyBdjobsFragment : Fragment() {
             lastmonth_MBTN?.performClick()
         } else if (!Constants.myBdjobsStatsLastMonth) {
             all_MBTN?.performClick()
-
         }
     }
-
-    /* private fun getStatsData() {
-         lastMonthStatsData = communicator.getLastStatsData()
-         allStatsData = communicator.getAllStatsData()
-         getStatsData()
-     }*/
-
 
     private fun populateDataLastMonthStats() {
         try {
             for ((index, value) in lastMonthStatsData!!.withIndex()) {
                 if (index < (lastMonthStatsData?.size!! - 1)) {
                     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+                    Log.d("vvuu", "${bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
                 }
             }
             mybdjobsAdapter?.addAll(bdjobsList)
@@ -148,7 +141,6 @@ class MyBdjobsFragment : Fragment() {
             logException(e)
         }
     }
-
     private fun populateDataAllMonthStats() {
         try {
             for ((index, value) in allStatsData!!.withIndex()) {
@@ -161,12 +153,25 @@ class MyBdjobsFragment : Fragment() {
             logException(e)
         }
     }
+    private fun populateDataAllMonthStats2() {
+        try {
+            for ((index, value) in allStatsData!!.withIndex()) {
+                if (index < (allStatsData?.size!! - 1)) {
+               //     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+              bdjobsList?.get(index)?.itemID = value?.count!!
+                }
+            }
+            mybdjobsAdapter?.addAll(bdjobsList)
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
 
     private fun getStatsData(activityDate: String) {
-
-        myBdjobsgridView_RV?.visibility = View.INVISIBLE
+        activity.showProgressBar(mybdjobsLoadingProgressBar)
+       /* myBdjobsgridView_RV?.visibility = View.INVISIBLE
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmerAnimation()*/
 
         ApiServiceMyBdjobs.create().mybdjobStats(
                 userId = session.userId,
@@ -177,15 +182,18 @@ class MyBdjobsFragment : Fragment() {
 
         ).enqueue(object : Callback<StatsModelClass> {
             override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
-
+                try {
+                    error("onFailure", t)
+                    activity?.stopProgressBar(mybdjobsLoadingProgressBar)
+                    activity.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
+                activity?.stopProgressBar(mybdjobsLoadingProgressBar)
                 try {
-                    myBdjobsgridView_RV?.visibility = View.VISIBLE
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
-
                     if (activityDate == "0") {
                         allStatsData = response.body()?.data
                         //populateDataAllMonthStats()
@@ -198,7 +206,6 @@ class MyBdjobsFragment : Fragment() {
                         }
                     } else if (activityDate == "1") {
                         lastMonthStatsData = response.body()?.data
-                        //  populateDataLastMonthStats()
                         if (bdjobsList.isNullOrEmpty()) {
                             populateDataLastMonthStats()
                         } else {
@@ -208,7 +215,7 @@ class MyBdjobsFragment : Fragment() {
                         }
                     }
 
-                    Log.d("respp", " === $allStatsData /n $lastMonthStatsData")
+                   // Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
                 } catch (e: Exception) {
                     logException(e)
                 }

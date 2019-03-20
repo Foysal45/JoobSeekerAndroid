@@ -78,7 +78,10 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private fun gotToFragment(name: String) {
         when (name) {
             "specialization" -> transitFragment(specializationViewFragment, R.id.other_info_container, false)
-            "language" -> transitFragment(languageViewFragment, R.id.other_info_container, false)
+            "language" -> {
+                iv_OI_delete_data.hide()
+                transitFragment(languageViewFragment, R.id.other_info_container, false)
+            }
             "reference" -> transitFragment(referenceViewFrgament, R.id.other_info_container, false)
         }
     }

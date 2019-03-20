@@ -106,7 +106,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         applyStatus = false
@@ -893,7 +892,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             }
 
                             override fun onResponse(call: Call<ShortlistJobModel>, response: Response<ShortlistJobModel>) {
-                                context.toast(response.body()?.data?.get(0)?.message!!)
+                                try {
+                                    context.toast(response.body()?.data?.get(0)?.message!!)
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
                             }
                         })
 
@@ -1012,10 +1015,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             } catch (ex: Exception) {
                 return true
             }
-
         }
-
     }
-
 
 }
