@@ -63,9 +63,11 @@ class InterviewInvitationDetailsFragment : Fragment() {
         jobDetailTv?.setOnClickListener {
             val jobids = ArrayList<String>()
             val lns = ArrayList<String>()
+            val deadline = ArrayList<String>()
             jobids.add(interviewInvitationCommunicator.getCompanyJobID())
             lns.add("0")
-            startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+            deadline.add("")
+            startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
         }
         noBTN?.setOnClickListener { showCancelPopUp() }
         ratingBTN?.setOnClickListener { showRatingPopUp() }

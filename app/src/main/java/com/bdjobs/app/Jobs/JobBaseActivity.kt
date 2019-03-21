@@ -25,6 +25,14 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun showShortListIcon() {
+        jobDetailsFragment.showShrtListIcon()
+    }
+
+    override fun hideShortListIcon() {
+        jobDetailsFragment.hideShrtListIcon()
+    }
+
     override fun gotoJobList() {
         transitFragment(joblistFragment, R.id.jobFragmentHolder)
     }
@@ -317,6 +325,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     val jobList: MutableList<JobListModelData> = java.util.ArrayList()
                     val jobids = intent.getStringArrayListExtra("jobids")
                     val lns = intent.getStringArrayListExtra("lns")
+                    val deadline = intent.getStringArrayListExtra("deadline")
                     for (i in 0 until jobids.size) {
                         val jobListModelData = JobListModelData(
                                 jobid = jobids[i],
