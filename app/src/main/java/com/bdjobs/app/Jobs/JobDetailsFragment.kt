@@ -307,6 +307,7 @@ class JobDetailsFragment : Fragment() {
                 isLastPages = true
             }
 
+
             counterTV?.let { tv ->
                 tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
                 jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
@@ -342,6 +343,14 @@ class JobDetailsFragment : Fragment() {
 
     fun showUnShortListedIcon() {
         shortListIMGV?.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp))
+    }
+
+    fun showShrtListIcon() {
+        shortListIMGV?.visibility = View.VISIBLE
+    }
+
+    fun hideShrtListIcon() {
+        shortListIMGV?.visibility = View.INVISIBLE
     }
 
 

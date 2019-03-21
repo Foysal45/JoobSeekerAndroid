@@ -19,6 +19,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
+import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -62,23 +63,18 @@ class CareerEditFragment : Fragment() {
 
     private fun doWork() {
         addTextChangedListener(etCrObj, crObjTIL)
-
-
         tv_info_objective.setOnClickListener {
-
             showDialog(activity, "objective")
-
         }
 
 
         btn_example_objective.setOnClickListener {
-
             showDialog(activity, "objectiveExample")
-
         }
 
 
         fab_cai_edit.setOnClickListener {
+            clCareerEdit.clearFocus()
             clCareerEdit.closeKeyboard(activity)
             var validation = 0
             validation = isValidate(etCrObj, crObjTIL, etCrObj, true, validation)
@@ -179,11 +175,17 @@ class CareerEditFragment : Fragment() {
     private fun preloadedData() {
         getDataFromChipGroup(cgLookingFor)
         getDataFromChipGroup(cgAvailable)
-        val data = personalInfo.getCareerData()
-        etCrObj.setText(data.objective)
-        etCrPresentSalary.setText(data.presentSalary)
-        etCrExpSalary.setText(data.expectedSalary)
-        selectChip(cgLookingFor, data.lookingFor!!)
+        var data: Ca_DataItem? = null
+        try {
+            data = personalInfo.getCareerData()
+        } catch (e: Exception) {
+            logException(e)
+            d("++${e.message}")
+        }
+        etCrObj.setText(data?.objective)
+        etCrPresentSalary.setText(data?.presentSalary)
+        etCrExpSalary.setText(data?.expectedSalary)
+        selectChip(cgLookingFor, data?.lookingFor!!)
         selectChip(cgAvailable, data.availableFor!!)
     }
 

@@ -4,6 +4,9 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 
 
 interface JobCommunicator {
+    fun showShortListIcon()
+    fun hideShortListIcon()
+
 
 
     fun setCurrentJobPosition(from: Int)

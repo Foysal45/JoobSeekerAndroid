@@ -74,8 +74,8 @@ class EmpHistoryViewFragment : Fragment() {
                     shimmerStop()
                     activity?.toast(R.string.message_common_error)
                 } catch (e: Exception) {
-                    activity?.logException(e)
-                    activity?.error("++${e.message}")
+                    logException(e)
+                    d("++${e.message}")
                 }
             }
 
@@ -103,8 +103,8 @@ class EmpHistoryViewFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                         //activity.toast("${response.body()?.message}")
-                    activity?.logException(e)
-                    activity?.error("++${e.message}")
+                    logException(e)
+                    d("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
             }

@@ -52,11 +52,12 @@ class ContactViewFragment : Fragment() {
     }
 
     private fun populateData() {
+        rlContactMain.hide()
         val call = ApiServiceMyBdjobs.create().getContactInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetContactInfo> {
             override fun onFailure(call: Call<GetContactInfo>, t: Throwable) {
                 shimmerStop()
-                activity.toast(R.string.message_common_error)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<GetContactInfo>, response: Response<GetContactInfo>) {
@@ -70,11 +71,8 @@ class ContactViewFragment : Fragment() {
                         contactCB.setEditButton(true, "editContact")
                     }
                 } catch (e: Exception) {
-                    if (activity != null) {
-                        //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
-                    }
+                    logException(e)
+                    d("++${e.message}")
                 }
             }
         })

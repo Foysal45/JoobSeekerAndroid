@@ -498,51 +498,55 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             val filterData = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterid = filterID)
 
             uiThread {
-                setGenderData(filterData.gender)
-                filterName = filterData.filtername!!
-                createdOn = filterData.createdon
-                filterNameET?.setText(filterName)
-                keywordET?.setText(filterData.keyword)
-                Log.d("catTest", "category : ${filterData.keyword}")
+                try {
+                    setGenderData(filterData.gender)
+                    filterName = filterData.filtername!!
+                    createdOn = filterData.createdon
+                    filterNameET?.setText(filterName)
+                    keywordET?.setText(filterData.keyword)
+                    Log.d("catTest", "category : ${filterData.keyword}")
 
-                if (filterData.functionalCat?.isNotBlank()!!) {
-                    if (filterData.functionalCat.toInt() < 30) {
-                        generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
-                        specialCatET?.text?.clear()
-                    } else {
-                        generalCatET?.text?.clear()
+                    if (filterData.functionalCat?.isNotBlank()!!) {
+                        if (filterData.functionalCat.toInt() < 30) {
+                            generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
+                            specialCatET?.text?.clear()
+                        } else {
+                            generalCatET?.text?.clear()
+                        }
+
+                        if (filterData.functionalCat.toInt() > 60) {
+                            specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
+                            generalCatET?.text?.clear()
+                        } else {
+                            specialCatET?.text?.clear()
+                        }
                     }
 
-                    if (filterData.functionalCat.toInt() > 60) {
-                        specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
-                        generalCatET?.text?.clear()
-                    } else {
-                        specialCatET?.text?.clear()
+
+                    keyword = filterData.keyword!!
+                    category = filterData.functionalCat
+                    location = filterData.location!!
+                    industry = filterData.industrialCat!!
+                    newspaper = filterData.newspaper!!
+
+
+
+                    loacationET?.setText(dataStorage.getLocationNameByID(filterData.location))
+                    newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
+                    industryET?.setText(dataStorage.getJobSearcIndustryNameByID(filterData.industrialCat))
+                    selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(filterData.organization)!!)
+                    selectChip(experienceCG, dataStorage.getJobExperineceByID(filterData.experience)!!)
+                    selectChip(jobTypeCG, dataStorage.getJobTypeByID(filterData.jobtype)!!)
+                    selectChip(jobLevelCG, dataStorage.getJobLevelByID(filterData.joblevel)!!)
+                    selectChip(jobNatureCG, dataStorage.getJobNatureByID(filterData.jobnature)!!)
+                    selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(filterData.postedon)!!)
+                    selectChip(deadlineCG, dataStorage.getDedlineNameByID(filterData.deadline)!!)
+                    selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(filterData.age)!!)
+                    if (filterData.retiredarmy == "1") {
+                        selectChip(armyCG, "Yes")
                     }
-                }
-
-
-                keyword = filterData.keyword!!
-                category = filterData.functionalCat
-                location = filterData.location!!
-                industry = filterData.industrialCat!!
-                newspaper = filterData.newspaper!!
-
-
-
-                loacationET?.setText(dataStorage.getLocationNameByID(filterData.location))
-                newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
-                industryET?.setText(dataStorage.getJobSearcIndustryNameByID(filterData.industrialCat))
-                selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(filterData.organization)!!)
-                selectChip(experienceCG, dataStorage.getJobExperineceByID(filterData.experience)!!)
-                selectChip(jobTypeCG, dataStorage.getJobTypeByID(filterData.jobtype)!!)
-                selectChip(jobLevelCG, dataStorage.getJobLevelByID(filterData.joblevel)!!)
-                selectChip(jobNatureCG, dataStorage.getJobNatureByID(filterData.jobnature)!!)
-                selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(filterData.postedon)!!)
-                selectChip(deadlineCG, dataStorage.getDedlineNameByID(filterData.deadline)!!)
-                selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(filterData.age)!!)
-                if (filterData.retiredarmy == "1") {
-                    selectChip(armyCG, "Yes")
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
         }

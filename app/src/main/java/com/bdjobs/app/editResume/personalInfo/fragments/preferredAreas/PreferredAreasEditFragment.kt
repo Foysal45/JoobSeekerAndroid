@@ -61,21 +61,27 @@ class PreferredAreasEditFragment : Fragment() {
         ds = DataStorage(activity)
         session = BdjobsUserSession(activity)
         prefCallBack = activity as PersonalInfo
-        d("onActivityCreated")
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
         prefCallBack.setEditButton(false, "dd")
+        doWork()
     }
 
     override fun onResume() {
         super.onResume()
-        doWork()
-        data = prefCallBack.getPrefAreasData()
+        clearAllArr()
+        d("onResume : $idWCArr// $idBCArr// $idOrgArr// $idInBDArr// $idOutBDArr//")
+        try {
+            data = prefCallBack.getPrefAreasData()
+        } catch (e: Exception) {
+            logException(e)
+            d("++${e.message}")
+        }
         preloadedData(data)
+        d("onResume : $idWCArr// $idBCArr// $idOrgArr// $idInBDArr// $idOutBDArr//")
     }
 
     private fun doWork() {
         onClicks()
-
         acWCjobCat?.addTextChangedListener(TW.CrossIconBehaveACTV(acWCjobCat))
         acBCJobCat?.addTextChangedListener(TW.CrossIconBehaveACTV(acBCJobCat))
         acOutsideBD?.addTextChangedListener(TW.CrossIconBehaveACTV(acOutsideBD))
@@ -84,19 +90,17 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun preloadedData(data: PreferredAreasData) {
-        clearAllArr()
         val jobCats = data.preferredJobCategories
         val bcjobCats = data.preferredBlueCategories
         val orgTypes = data.preferredOrganizationType
         val inBD = data.inside
         val outBD = data.outside
-        //val
         //for ((i, value) in areaOfexps?.withIndex()!!)
         jobCats?.forEach {
 
             //idWCArr.clear()
             addChip(ds.getCategoryNameByID(it?.id!!), "wc", acWCjobCat)
-            acWCjobCat.isEnabled = idWCArr.size >= 3
+            acWCjobCat.isEnabled = idWCArr.size <= 3
             addAsString(it.id, idWCArr)
             Log.d("prefs", "wc: $prefWcIds and $idWCArr")
             if (idWCArr.isNullOrEmpty()) tilWCjobCat.hideError() else tilWCjobCat.isErrorEnabled = true
@@ -183,27 +187,36 @@ class PreferredAreasEditFragment : Fragment() {
             if (idInBDArr.isEmpty() && idOutBDArr.isEmpty()) {
                 tilInsideBD.isErrorEnabled = true
                 tilInsideBD.error = "This field can not be empty"
+                Log.d("valid1", "valid: $valid")
                 /*tilOutsideBD.isErrorEnabled = true
                         tilOutsideBD.error = "This field can not be empty"*/
-            } else if (idWCArr.isEmpty() && idBCArr.isEmpty()) {
+            }
+            if (idWCArr.isEmpty() && idBCArr.isEmpty()) {
                 //tilWCjobCat.hideError()
                 tilWCjobCat.isErrorEnabled = true
                 tilWCjobCat.error = "This field can not be empty"
                 //tilBCJobCat.hideError()
                 tilBCJobCat.isErrorEnabled = true
                 tilBCJobCat.error = "This field can not be empty"
-            } else if (idBCArr.isNotEmpty() || idWCArr.isNotEmpty()) {
+                Log.d("valid2", "valid: $valid")
+            }
+            if (idBCArr.isNotEmpty() || idWCArr.isNotEmpty()) {
                 valid += 1
                 tilBCJobCat.hideError()
                 tilWCjobCat.hideError()
-            } else if (idInBDArr.isNotEmpty()) {
+                Log.d("valid3", "valid: $valid")
+            }
+            if (idInBDArr.isNotEmpty()) {
                 valid += 1
                 tilInsideBD.hideError()
-            } else {
+                Log.d("valid4", "valid: $valid")
+            }
+            if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && idInBDArr.isNotEmpty()) {
                 valid += 1
                 tilWCjobCat.hideError()
                 tilBCJobCat.hideError()
                 tilInsideBD.hideError()
+                Log.d("valid5", "valid: $valid")
             }
 
             if (idInBDArr.isEmpty() && !anywhereinBD) {
@@ -245,7 +258,9 @@ class PreferredAreasEditFragment : Fragment() {
                     d("acWCjobCat : ${acList[position + 1]} and gotStr : ${acWCjobCat.text} and $idWCArr")
                     val inputId = ds.getCategoryIDByName(acWCjobCat.text.toString())!!
 
-                    if (idWCArr.size != 0) {
+                    if (idWCArr.size in 0..2) {
+                        acWCjobCat.isEnabled = true
+                        acWCjobCat.requestFocus()
                         if (!idWCArr.contains(inputId)) {
                             addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
                             addAsString(inputId, idWCArr)
@@ -257,10 +272,10 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         tilWCjobCat.hideError()
                     } else {
-                        addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
-                        addAsString(inputId, idWCArr)
-                        d("Array size : ${idWCArr.size} and $prefWcIds and id : $id")
-                        tilWCjobCat.hideError()
+                        activity.toast("Maximum 3 items can be added.")
+                        acWCjobCat.isEnabled = false
+                        acWCjobCat.setText("")
+                        acWCjobCat.clearFocus()
                     }
                 }
             }
@@ -275,7 +290,9 @@ class PreferredAreasEditFragment : Fragment() {
                 acBCJobCat.setOnItemClickListener { _, _, position, id ->
                     d("Selected : ${acList[position + 1]} and gotStr : ${acBCJobCat.text}")
                     val inputId = ds.getCategoryIDByBanglaName(acBCJobCat.text.toString())!!
-                    if (idBCArr.size != 0) {
+                    if (idBCArr.size in 0..2) {
+                        acBCJobCat.isEnabled = true
+                        acBCJobCat.requestFocus()
                         if (!idBCArr.contains(inputId)) {
                             addChip(ds.getCategoryBanglaNameByID(inputId), "bc", acBCJobCat)
                             addAsString(inputId, idBCArr)
@@ -287,10 +304,10 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         tilBCJobCat.hideError()
                     } else {
-                        addChip(ds.getCategoryBanglaNameByID(inputId), "bc", acBCJobCat)
-                        addAsString(inputId, idBCArr)
-                        d("Array size : ${idBCArr.size} and $prefBcIds and id : $id")
-                        tilBCJobCat.hideError()
+                        activity.toast("Maximum 3 items can be added.")
+                        acBCJobCat.isEnabled = false
+                        acBCJobCat.setText("")
+                        acBCJobCat.clearFocus()
                     }
                 }
             }
@@ -305,7 +322,9 @@ class PreferredAreasEditFragment : Fragment() {
                 acOrgType.setOnItemClickListener { _, _, position, id ->
                     d("Selected : ${acList[position + 1]} and gotStr : ${acOrgType.text}")
                     val inputId = ds.getOrgIDByOrgName(acOrgType.text.toString())
-                    if (idOrgArr.size != 0) {
+                    if (idOrgArr.size in 0..11) {
+                        acOrgType.isEnabled = true
+                        acOrgType.requestFocus()
                         if (!idOrgArr.contains(inputId)) {
                             addChip(ds.getOrgNameByID(inputId), "orgs", acOrgType)
                             addAsString(inputId, idOrgArr)
@@ -317,10 +336,10 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         tilOrgType.hideError()
                     } else {
-                        addChip(ds.getOrgNameByID(inputId), "orgs", acOrgType)
-                        addAsString(inputId, idOrgArr)
-                        d("Array size : ${idOrgArr.size} and $prefOrgIds and id : $id")
-                        tilOrgType.hideError()
+                        activity.toast("Maximum 12 items can be added.")
+                        acOrgType.isEnabled = false
+                        acOrgType.setText("")
+                        acOrgType.clearFocus()
                     }
                 }
             }
@@ -343,8 +362,10 @@ class PreferredAreasEditFragment : Fragment() {
                 acInsideBD.setOnItemClickListener { _, _, position, id ->
                     d("Selected : ${acList[position + 1]} and gotStr : ${acInsideBD.text}")
                     val inputId = ds.getLocationIDByName(acInsideBD.text.toString())
-                    if (idInBDArr.size != 0) {
+                    if (idInBDArr.size in 0..14) {
                         if (!idInBDArr.contains(inputId)) {
+                            acInsideBD.isEnabled = true
+                            acInsideBD.requestFocus()
                             addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
                             addAsString(inputId.toString(), idInBDArr)
                             Log.d("acWCjobCat", "arr2: $idInBDArr")
@@ -355,10 +376,10 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         tilInsideBD.hideError()
                     } else {
-                        addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
-                        addAsString(inputId.toString(), idInBDArr)
-                        d("Array size : ${idOutBDArr.size} and $prefCountryIds and id : $id")
-                        tilInsideBD.hideError()
+                        activity.toast("Maximum 15 items can be added.")
+                        acInsideBD.isEnabled = false
+                        acInsideBD.setText("")
+                        acInsideBD.clearFocus()
                     }
                 }
             }
@@ -376,7 +397,9 @@ class PreferredAreasEditFragment : Fragment() {
                     val inputId = ds.getLocationIDByName(acOutsideBD.text.toString())
                     //idOutBDArr.add(inputId!!)
                     //Log.d("acWCjobCat", "Countryarr2: idOutBDArr")
-                    if (idOutBDArr.size != 0) {
+                    if (idOutBDArr.size in 0..9) {
+                        acOutsideBD.isEnabled = true
+                        acOutsideBD.requestFocus()
                         if (!idOutBDArr.contains(inputId)) {
                             addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
                             addAsString(inputId.toString(), idOutBDArr)
@@ -388,10 +411,10 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         tilOutsideBD.hideError()
                     } else {
-                        addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
-                        addAsString(inputId.toString(), idOutBDArr)
-                        d("Array size : ${idOutBDArr.size} and $prefCountryIds and id : $id")
-                        tilOutsideBD.hideError()
+                        activity.toast("Maximum 10 items can be added.")
+                        acOutsideBD.isEnabled = false
+                        acOutsideBD.setText("")
+                        acOutsideBD.clearFocus()
                     }
                 }
             }
@@ -448,14 +471,9 @@ class PreferredAreasEditFragment : Fragment() {
                 acTV.isEnabled = true
                 val c1 = getChip(cg, input, R.xml.chip_entry, tag)
                 //maxItemsArr.add(ds.getCategoryIDByName(input).toString())
-                if (cg.childCount == maxItems - 1)
+                if (cg.childCount == maxItems)
                     acTV.isEnabled = false
                 cg.addView(c1)
-            }
-            else -> {
-                activity.toast("Maximum $maxItems items can be added.")
-                acTV.isEnabled = false
-                acTV.clearFocus()
             }
         }
         acTV.clearText()
@@ -550,11 +568,6 @@ class PreferredAreasEditFragment : Fragment() {
             }
         })
     }
-
-    private fun withComma(ids: String): String? {
-        return ",$ids,"
-    }
-
 
     private fun removeId(id: String?, idArr: ArrayList<String>, range: Int, acTv: AutoCompleteTextView) {
         if (idArr.contains(id)) {

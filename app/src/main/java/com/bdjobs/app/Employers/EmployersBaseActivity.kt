@@ -50,6 +50,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private val employerJobListFragment = EmployerJobListFragment()
     private val employerListFragment = EmployerListFragment()
     private val employerViewedMyResumeFragment = EmployerViewedMyResumeFragment()
+    private val employerMessageListFragment = EmployerMessageListFragment()
     private var jobId = ""
     private var time = ""
 
@@ -115,7 +116,8 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
-        //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+
+
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
@@ -125,6 +127,8 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         } else if (value?.equals("vwdMyResume")) {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+        } else if (value?.equals("employerMessageList")) {
+            /*transitFragment(employerMessageListFragment, R.id.fragmentHolder)*/
         }
 
     }

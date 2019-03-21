@@ -83,26 +83,22 @@ class ProfessionalQLViewFragment : Fragment() {
 
             override fun onResponse(call: Call<ProfessionalModel>, response: Response<ProfessionalModel>) {
                 try {
-                if (response.isSuccessful) {
-                    shimmerStop()
-                    rv_professional_view?.show()
-                    val respo = response.body()
+                    if (response.isSuccessful) {
+                        shimmerStop()
+                        rv_professional_view?.show()
+                        val respo = response.body()
 
 
-                    Log.d("dsfklhgjfd;h", "$respo")
-                    arr = respo?.data as ArrayList<ProfessionalDataModel>
-                    //activity.toast("${arr?.size}")
-                    if (arr != null) {
-                        setupRV(arr!!)
+                        Log.d("dsfklhgjfd;h", "$respo")
+                        arr = respo?.data as ArrayList<ProfessionalDataModel>
+                        //activity.toast("${arr?.size}")
+                        if (arr != null) {
+                            setupRV(arr!!)
+                        }
                     }
-                }
                 } catch (e: Exception) {
-                      shimmerStop()
-                      if (activity != null) {
-                          //activity.toast("${response.body()?.message}")
-                          activity?.logException(e)
-                          activity?.error("++${e.message}")
-                      }
+                    logException(e)
+                    d("++${e.message}")
                 }
                 adapter?.notifyDataSetChanged()
             }

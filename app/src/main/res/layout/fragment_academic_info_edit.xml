@@ -12,7 +12,7 @@
         android:overScrollMode="never">
 
         <LinearLayout
-
+            android:paddingBottom="100dp"
             android:id="@+id/acaEditLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

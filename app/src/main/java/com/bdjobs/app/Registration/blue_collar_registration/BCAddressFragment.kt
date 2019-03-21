@@ -131,15 +131,6 @@ class BCAddressFragment : Fragment() {
 
         }
 
-
-        /* bcPostOfficeTIET.easyOnTextChangedListener { charSequence ->
-
-
-             addressValidation(charSequence.toString(), bcPostOfficeTIET, bcPostOfficeTIL, "")
-
-         }*/
-
-
         bcVillageTIET?.easyOnTextChangedListener { charSequence ->
 
             addressValidation(charSequence.toString(), bcVillageTIET, bcVillageTIL, "এলাকার ঠিকানা লিখুন")
@@ -315,9 +306,12 @@ class BCAddressFragment : Fragment() {
 
                             if (pstOfficeNameList.isNullOrEmpty()) {
 
-                                val otherLocation = LocationModel("অন্যান্য", "-2")
-
-                                postOfficeList?.add(otherLocation)
+                                try {
+                                    val otherLocation = LocationModel("অন্যান্য", "-2")
+                                    postOfficeList?.add(otherLocation)
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
                             }
 
                             postOfficeList?.forEach { dt ->

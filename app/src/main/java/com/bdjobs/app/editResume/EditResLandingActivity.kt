@@ -9,6 +9,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -16,6 +17,8 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_edit_res_landing.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.*
@@ -92,10 +95,30 @@ class EditResLandingActivity : Activity() {
     private fun doWork() {
         enableAll()
         nextButtonFAB.setOnClickListener {
-            val str1 = random()
-            val str2 = random()
-            val id = str1 + session.userId + session.decodId + str2
-            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id" ,"from" to "cvview")
+            if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
+                try {
+                    val alertd = alert("To Access this feature please post your resume") {
+                        title = "Your resume is not posted!"
+                        positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                        negativeButton("Cancel") { dd ->
+                            dd.dismiss()
+                        }
+                    }
+                    alertd.isCancelable = false
+                    alertd.show()
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            } else {
+                try {
+                    val str1 = random()
+                    val str2 = random()
+                    val id = str1 + session.userId + session.decodId + str2
+                    startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
         }
         btnPerItem1.setOnClickListener {
             goToFragment("personal", "P")
@@ -138,6 +161,12 @@ class EditResLandingActivity : Activity() {
         }
         btnProfessional.setOnClickListener {
             goToFragment("professional", "E")
+        }
+
+        ivProfileImage.onClick {
+
+            startActivity<PhotoUploadActivity>()
+            /*toast("click")*/
         }
 
     }

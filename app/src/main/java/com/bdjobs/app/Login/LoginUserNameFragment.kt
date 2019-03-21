@@ -240,7 +240,7 @@ class LoginUserNameFragment : Fragment() {
 
         textView2.setOnClickListener {
             loginCommunicator.goToWebActivity(
-                    url="http://mybdjobs.bdjobs.com/mybdjobs/forgot_UserID_Password.asp?device=app",
+                    url = "http://mybdjobs.bdjobs.com/mybdjobs/forgot_UserID_Password.asp?device=app",
                     from = "forgotuserid"
             )
         }
@@ -276,8 +276,8 @@ class LoginUserNameFragment : Fragment() {
             }
         }
 
-        createAccountButton?.setOnClickListener{
-          loginCommunicator.goToRegistrationActivity()
+        createAccountButton?.setOnClickListener {
+            loginCommunicator.goToRegistrationActivity()
         }
 
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
@@ -310,27 +310,34 @@ class LoginUserNameFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_SIGN_IN) {
+        try {
+            if (requestCode != null && resultCode != null && data != null) {
 
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = result.signInAccount
-                val sid = account?.id
-                val semial = account?.email
-                val name = account?.displayName
-                Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
-                signOutFromGoogle()
-                socialMediaMapping(sid, semial, SOCIAL_MEDIA_GOOGLE)
+                callbackManager?.onActivityResult(requestCode, resultCode, data)
 
-            } else {
-                // Google Sign In failed, update UI appropriately
-                toast("Please sign in to google first to complete your sign in by google")
+                if (requestCode == RC_SIGN_IN) {
+
+                    val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+                    if (result.isSuccess) {
+                        // Google Sign In was successful, authenticate with Firebase
+                        val account = result.signInAccount
+                        val sid = account?.id
+                        val semial = account?.email
+                        val name = account?.displayName
+                        Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
+                        signOutFromGoogle()
+                        socialMediaMapping(sid, semial, SOCIAL_MEDIA_GOOGLE)
+
+                    } else {
+                        // Google Sign In failed, update UI appropriately
+                        toast("Please sign in to google first to complete your sign in by google")
+                    }
+                }
             }
+        } catch (e: Exception) {
+            logException(e)
         }
-
     }
 
     override fun onStart() {

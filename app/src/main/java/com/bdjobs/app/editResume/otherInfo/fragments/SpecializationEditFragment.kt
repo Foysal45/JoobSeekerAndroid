@@ -127,7 +127,7 @@ class SpecializationEditFragment : Fragment() {
                     addChip(refnameATCTV.getString(), workSkillID)
                 else {
                     refnameATCTV?.closeKeyboard(activity)
-                    activity.toast("Experience already added")
+                    activity.toast("Skill already added")
                 }
                 skillTIL.hideError()
             } else {
@@ -206,7 +206,7 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun updateData(skills: String) {
-        activity.showProgressBar(specializationLoadingProgressBar)
+        activity?.showProgressBar(specializationLoadingProgressBar)
         d("specialization test updateData $skills ")
 
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())

@@ -257,10 +257,12 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 try {
                     val jobids = ArrayList<String>()
                     val lns = ArrayList<String>()
+                    val deadline = ArrayList<String>()
+                    deadline.add(appliedJobsLists?.get(position)?.deadLine.toString())
                     jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
                     lns.add("0")
                     communicator.setFrom("")
-                    activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+                    activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -299,7 +301,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private fun undoRemove(v: View, deletedItem: AppliedJobModelData?, deletedIndex: Int, deleteJobID: Int) {
         // here we show snackbar and undo option
 
-        //try {
+        try {
             val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
             val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                     .setAction("UNDO") {
@@ -311,9 +313,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
             snack?.show()
             Log.d("swipe", "dir to LEFT")
-     //   } catch (e: Exception) {
-  //          logException(e)
-      //  }
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
     private fun restoreMe(item: AppliedJobModelData, pos: Int) {

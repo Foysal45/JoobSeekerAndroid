@@ -40,6 +40,7 @@
                 android:textSize="20sp" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_OI_delete_data"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

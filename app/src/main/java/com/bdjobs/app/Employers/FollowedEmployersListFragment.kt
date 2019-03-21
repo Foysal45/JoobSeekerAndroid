@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -26,10 +27,6 @@ class FollowedEmployersListFragment : Fragment() {
     private lateinit var isActivityDate: String
     var followedListSize = 0
     private var followedEmployerList: List<FollowedEmployer>? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -86,19 +83,6 @@ class FollowedEmployersListFragment : Fragment() {
             }
         }
     }
-
-  /*  fun scrollToUndoPosition(position:Int){
-        followedRV?.scrollToPosition(position)
-        followedListSize++
-        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer(s)"
-        favCountTV?.text = Html.fromHtml(styledText)
-    }
-
-    fun decrementCounter(){
-        followedListSize--
-        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer(s)"
-        favCountTV?.text = Html.fromHtml(styledText)
-    }*/
 
     fun scrollToUndoPosition(position:Int){
         followedRV?.scrollToPosition(position)

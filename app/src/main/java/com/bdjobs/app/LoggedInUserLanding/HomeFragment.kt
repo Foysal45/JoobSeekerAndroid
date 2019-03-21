@@ -499,12 +499,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
                         val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
                         val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+
                         checkBox.setOnCheckedChangeListener { _, isChecked ->
-                            val c = Calendar.getInstance().time
-                            val df = SimpleDateFormat("dd-MMM-yyyy")
-                            val formattedDate = df.format(c)
-                            Log.d("formattedDate", "formattedDate: $formattedDate")
-                            bdjobsUserSession.insertShortlListedPopupDate(formattedDate)
+                            if (isChecked) {
+                                val c = Calendar.getInstance().time
+                                val df = SimpleDateFormat("dd-MMM-yyyy")
+                                val formattedDate = df.format(c)
+                                Log.d("formattedDate", "formattedDate: $formattedDate")
+                                bdjobsUserSession.insertShortlListedPopupDate(formattedDate)
+                            } else if (!isChecked) {
+                                bdjobsUserSession.insertShortlListedPopupDate("19-Mar-1919")
+                            }
                         }
 
                         var job = "Job"

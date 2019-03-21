@@ -1,6 +1,7 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
+import java.util.*
 
 interface HomeCommunicator {
     fun goToKeywordSuggestion()
@@ -10,7 +11,7 @@ interface HomeCommunicator {
     fun goToFavSearchFilters()
     fun goToJoblistFromLastSearch()
     fun goToJobSearch(favID:String)
-    fun shortListedClicked(Position:Int)
+    fun shortListedClicked(jobids: ArrayList<String>, lns: ArrayList<String>, deadline: ArrayList<String>)
     fun backButtonClicked()
     fun getLastStatsData() : List<StatsModelClassData?>?
     fun getAllStatsData() : List<StatsModelClassData?>?
@@ -29,5 +30,6 @@ interface HomeCommunicator {
     fun gotoJobSearch()
     fun gotoEditresume()
     fun showManageResumePopup()
+    fun goToMessageByEmployers(value: String)
 
 }

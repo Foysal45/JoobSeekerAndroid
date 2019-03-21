@@ -49,6 +49,16 @@ interface ApiServiceJobs {
     ): Call<JobListModel>
 
 
+    @GET("storedjobsDetailsPagination.asp")
+    fun getStoreJobList(
+            @Query("p_id") p_id: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("deadline") deadline: String? = "",
+            @Query("page") pg: Int? = 1,
+            @Query("rpp") rpp: String? = ""
+    ): Call<JobListModel>
+
+
     @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
             @Query("encoded") encoded: String,
@@ -76,7 +86,7 @@ interface ApiServiceJobs {
     ): Call<FollowEmployerListModelClass>
 
 
-    @GET("storedjobsDetails.asp")
+    @GET("storedjobsDeadlines.asp")  // @GET("storedjobsDetails.asp")
     fun getShortListedJobs(
             @Query("p_id") p_id: String?,
             @Query("encoded") encoded: String?
