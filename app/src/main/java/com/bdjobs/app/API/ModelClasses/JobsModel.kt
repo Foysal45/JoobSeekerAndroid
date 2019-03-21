@@ -48,7 +48,7 @@ data class JobDetailData(
         @SerializedName("JObIMage") val jObIMage: String?,
         @SerializedName("upcoming") val upcoming: String?,
         @SerializedName("upcomingln") val upcomingln: String?,
-        @SerializedName("CompanyOtherJ0bs") val companyOtherJ0bs: String?,
+        @SerializedName("CompanyOtherJ0bs") val companyOtherJ0bs: String? = "0",
         @SerializedName("CompanyID") val companyID: String?,
         @SerializedName("CompanyNameENG") val companyNameENG: String?,
         @SerializedName("AssessmentRequired") val assessmentRequired: String?,

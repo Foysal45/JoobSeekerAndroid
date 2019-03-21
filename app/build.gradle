@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 628 //626 //64
-        versionName "600.2 internal test"  //600.0.4.8.3 // 2.0.0.03
+        versionCode 65 //630 //64
+        versionName "2.0.0.04"  //600.3.1 internal test // 2.0.0.04
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -39,23 +39,23 @@ dependencies {
     implementation "com.google.android.material:material:1.0.0"
 
     //----firebase
-    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
     implementation "com.google.firebase:firebase-messaging:17.4.0"
     implementation 'com.google.firebase:firebase-perf:16.2.4'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
-    //google sign in
+    //-----google sign in
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //----image & animation related
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.airbnb.android:lottie:2.8.0"
 
-    //permission related
+    //------permission related
     implementation 'com.github.fondesa:kpermissions:1.0.0'
 
-    //network communicator and json parsing
+    //-----network communicator and json parsing
     implementation "com.google.code.gson:gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -71,13 +71,11 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.0.0'
     testImplementation 'androidx.room:room-testing:2.0.0'
 
-    //------linkedIn SDK
-//    implementation project(':linkedin-sdk')
-
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.facebook.android:facebook-login:4.38.1'
 
+    //-----background service
     implementation 'com.evernote:android-job:1.2.6'
 
     //----image upload
@@ -88,8 +86,8 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-rc02"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-rc02"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
 
     //-----google maps
     implementation "com.google.android.gms:play-services-maps:16.1.0"

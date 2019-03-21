@@ -77,9 +77,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
-        alertAboutShortlistedJobs()
-
     }
+
 
     private fun alertAboutShortlistedJobs() {
         try {
@@ -144,6 +143,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showData()
+        alertAboutShortlistedJobs()
 
     }
 

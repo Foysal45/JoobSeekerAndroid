@@ -18,7 +18,9 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -93,10 +95,21 @@ class JobDetailsFragment : Fragment() {
 
                     shareJobPosition = currentJobPosition
                     communicator.setCurrentJobPosition(currentJobPosition)
+                    jobDetailAdapter?.showHideShortListedIcon(currentJobPosition)
+                    totalRecordsFound?.let { it ->
+                        try {
+                            if (it > 1) {
+                                counterTV?.show()
+                            } else {
+                                counterTV?.hide()
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
 
                     counterTV?.let { tv ->
                         tv.text = "Job ${currentJobPosition + 1}/$totalRecordsFound"
-                        jobDetailAdapter?.showHideShortListedIcon(currentJobPosition)
+
                     }
                 }
             }
@@ -307,11 +320,27 @@ class JobDetailsFragment : Fragment() {
                 isLastPages = true
             }
 
+            jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
+
+
+            totalRecordsFound?.let { it ->
+                try {
+                    if (it > 1) {
+                        counterTV?.show()
+                    } else {
+                        counterTV?.hide()
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
 
             counterTV?.let { tv ->
                 tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
-                jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
+
             }
+
+
         } catch (e: Exception) {
             logException(e)
         }

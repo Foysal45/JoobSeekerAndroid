@@ -79,8 +79,12 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
                 Log.d("aaa", "Size: ${filterResults.count}")
                 //getRecycledViewPool().clear();
 
-                communicator?.clearRecycledViewPool()
-                notifyDataSetChanged()
+                try {
+                    communicator?.clearRecycledViewPool()
+                    notifyDataSetChanged()
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
         }
     }
