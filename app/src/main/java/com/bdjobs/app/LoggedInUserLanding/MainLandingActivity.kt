@@ -67,10 +67,30 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             startActivity<EditResLandingActivity>()
         }
         viewResume?.setOnClickListener {
-            val str1 = random()
-            val str2 = random()
-            val id = str1 + session.userId + session.decodId + str2
-            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+            if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
+                try {
+                    val alertd = alert("To Access this feature please post your resume") {
+                        title = "Your resume is not posted!"
+                        positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                        negativeButton("Cancel") { dd ->
+                            dd.dismiss()
+                        }
+                    }
+                    alertd.isCancelable = false
+                    alertd.show()
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            } else {
+                try {
+                    val str1 = random()
+                    val str2 = random()
+                    val id = str1 + session.userId + session.decodId + str2
+                    startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
         }
         uploadResume?.setOnClickListener {
             startActivity<ManageResumeActivity>(
@@ -572,57 +592,6 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
         }
     }
-
-    /*private fun getIsCvUploaded() {
-        ApiServiceMyBdjobs.create().getCvFileAvailable(
-                userID = session.userId,
-                decodeID = session.decodId
-
-        ).enqueue(object : Callback<FileInfo> {
-            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
-                error("onFailure", t)
-                toast("${t.toString()}")
-            }
-
-            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
-                //toast("${response.body()?.statuscode}")
-                if (response.isSuccessful) {
-                    cvUpload = response.body()?.statuscode!!
-                    Constants.cvUploadStatus = cvUpload
-                    Log.d("value", "val " + cvUpload)
-
-                }
-            }
-
-        })
-
-    }*/
-
-
-    /*private fun getIsCvUploaded() {
-        ApiServiceMyBdjobs.create().getCvFileAvailable(
-                userID = session.userId,
-                decodeID = session.decodId
-
-        ).enqueue(object : Callback<FileInfo> {
-            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
-                error("onFailure", t)
-                toast("${t.toString()}")
-            }
-
-            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
-                //toast("${response.body()?.statuscode}")
-                if (response.isSuccessful) {
-                    cvUpload = response.body()?.statuscode!!
-                    Constants.cvUploadStatus = cvUpload
-                    Log.d("value", "val " + cvUpload)
-
-                }
-            }
-
-        })
-
-    }*/
 
 
     override fun goToMessageByEmployers(from: String) {

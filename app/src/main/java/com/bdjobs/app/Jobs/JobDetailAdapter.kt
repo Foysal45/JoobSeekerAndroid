@@ -25,6 +25,7 @@ import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.EditResLandingActivity
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -160,17 +161,26 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
+
                             try {
-                                val deadlineDB = jobDetailResponseAll.DeadlineDB!!
+                                val date = Date()
+                                val formatter = SimpleDateFormat("MM/dd/yyyy")
+                                val today: String = formatter.format(date)
+                                val todayDate = SimpleDateFormat("MM/dd/yyyy").parse(today)
 
-                                val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadlineDB)
+                                val deadline = jobDetailResponseAll.DeadlineDB!!
+                                val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadline)
 
-                                if (Date().after(deadlineDate)) {
+                                Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
+
+                                if (todayDate > deadlineDate) {
                                     jobCommunicator?.hideShortListIcon()
                                 } else {
                                     jobCommunicator?.showShortListIcon()
                                 }
+
                             } catch (e: Exception) {
+
                             }
 
 
@@ -269,7 +279,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                         jobCommunicator?.setBackFrom("jobdetail")
                                         jobCommunicator?.goToLoginPage()
                                     } else {
-                                        showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+                                            try {
+                                                val alertd = context.alert("To Access this feature please post your resume") {
+                                                    title = "Your resume is not posted!"
+                                                    positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+                                                    negativeButton("Cancel") { dd ->
+                                                        dd.dismiss()
+                                                    }
+                                                }
+                                                alertd.isCancelable = false
+                                                alertd.show()
+                                            } catch (e: Exception) {
+                                                logException(e)
+                                            }
+                                        } else {
+                                            showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                        }
                                     }
                                 }
                             } else {
@@ -468,7 +494,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                                         "emailAddress" to jobDetailResponseAll.jobAppliedEmail,
                                                         "jobid" to jobDetailResponseAll.jobId
                                                 )
-
                                             } else {
                                                 jobCommunicator?.setBackFrom("jobdetail")
                                                 jobCommunicator?.goToLoginPage()

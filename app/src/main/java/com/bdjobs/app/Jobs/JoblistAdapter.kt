@@ -402,14 +402,19 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                             uiThread { notifyDataSetChanged() }
                         } else {
                             try {
+                                val date = Date()
+                                val formatter = SimpleDateFormat("MM/dd/yyyy")
+                                val today: String = formatter.format(date)
+                                val todayDate = SimpleDateFormat("MM/dd/yyyy").parse(today)
+
                                 val deadline = jobList?.get(position)?.deadlineDB
                                 val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadline)
 
-                                if (Date().after(deadlineDate)) {
-                                    //your_date_is_outdated = true
+                                Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
+
+                                if (todayDate > deadlineDate) {
                                     context.toast("This job's deadline has been expired. You can not shortlist this job")
                                 } else {
-                                    //your_date_is_outdated = false
 
                                     ApiServiceJobs.create().insertShortListJob(
                                             userID = bdjobsUserSession.userId,
