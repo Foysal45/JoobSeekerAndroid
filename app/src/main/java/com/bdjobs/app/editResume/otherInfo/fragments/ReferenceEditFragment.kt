@@ -115,19 +115,23 @@ class ReferenceEditFragment : Fragment() {
 
 
     fun dataDelete() {
-        activity.showProgressBar(referenceLoadingProgressBar)
+        activity?.showProgressBar(referenceLoadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("Reference", hReferenceID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.toast(R.string.message_common_error)
+                try {
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(referenceLoadingProgressBar)
+                        activity?.stopProgressBar(referenceLoadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         clearEditText()
                         eduCB.goBack()
                     }
@@ -209,7 +213,7 @@ class ReferenceEditFragment : Fragment() {
 
 
     private fun updateData() {
-        activity.showProgressBar(referenceLoadingProgressBar)
+        activity?.showProgressBar(referenceLoadingProgressBar)
 
         Log.d("fklfh", "hID $hID, relation $relation, hReferenceID $hReferenceID ")
 
@@ -220,14 +224,18 @@ class ReferenceEditFragment : Fragment() {
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(referenceLoadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                try {
+                    activity?.stopProgressBar(referenceLoadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
 
                 try {
-                    activity.stopProgressBar(referenceLoadingProgressBar)
+                    activity?.stopProgressBar(referenceLoadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(referenceLoadingProgressBar)
                         val resp = response.body()

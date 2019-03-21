@@ -101,7 +101,6 @@ class ReferencesViewFragment : Fragment() {
                     rv_reference_view?.show()
                     activity.toast("Error occurred")
                 } catch (e: Exception) {
-
                     logException(e)
                 }
             }

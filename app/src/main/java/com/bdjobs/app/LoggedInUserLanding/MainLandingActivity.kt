@@ -50,6 +50,7 @@ import java.util.*
 class MainLandingActivity : Activity(), HomeCommunicator {
 
 
+
     override fun showManageResumePopup() {
         val dialog = Dialog(this@MainLandingActivity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -66,10 +67,30 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             startActivity<EditResLandingActivity>()
         }
         viewResume?.setOnClickListener {
-            val str1 = random()
-            val str2 = random()
-            val id = str1 + session.userId + session.decodId + str2
-            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+            if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
+                try {
+                    val alertd = alert("To Access this feature please post your resume") {
+                        title = "Your resume is not posted!"
+                        positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                        negativeButton("Cancel") { dd ->
+                            dd.dismiss()
+                        }
+                    }
+                    alertd.isCancelable = false
+                    alertd.show()
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            } else {
+                try {
+                    val str1 = random()
+                    val str2 = random()
+                    val id = str1 + session.userId + session.decodId + str2
+                    startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
         }
         uploadResume?.setOnClickListener {
             startActivity<ManageResumeActivity>(
@@ -571,4 +592,16 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
         }
     }
+
+
+    override fun goToMessageByEmployers(from: String) {
+
+        startActivity<EmployersBaseActivity>(
+                "from" to from,
+                "time" to time
+        )
+
+
+    }
+
 }

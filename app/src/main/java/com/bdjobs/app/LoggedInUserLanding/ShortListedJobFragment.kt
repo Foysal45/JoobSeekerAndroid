@@ -64,11 +64,9 @@ class ShortListedJobFragment : Fragment() {
                 showShortListFIlterList(deadline[i])
             }
         }
-
         crossBTN?.setOnClickListener {
             showShortListFIlterList("")
         }
-
     }
 
     override fun onResume() {
@@ -109,6 +107,8 @@ class ShortListedJobFragment : Fragment() {
     }
 
     private fun getShortListedJobsByDeadline(deadline: String) {
+        val styledText = "<b><font color='#13A10E'>0</font></b> Shortlisted job"
+        jobCountTV?.text = Html.fromHtml(styledText)
         currentPage = 1
         TOTAL_PAGES = null
         isLoadings = false
