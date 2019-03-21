@@ -138,6 +138,11 @@ class ContactEditFragment : Fragment() {
             if (permanentInOutBD != "1" || permanentContactCountryTIETP.getString().isNotEmpty()) permanentContactCountryTILP.hideError()
         }
 
+        if (contactMobileNumberTIET.getString().isNotEmpty())
+            contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
+        if (contactEmailAddressTIET.getString().isNotEmpty())
+            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
             if (isChecked) {
@@ -159,7 +164,8 @@ class ContactEditFragment : Fragment() {
             } else {
                 llPermenantPortion.show()
                 cgPermanent.show()
-                pmContactDivTIET1.enableOrdisableEdit(true)
+                hideAllError()
+                //pmContactDivTIET1.enableOrdisableEdit(true)
                 pmContactDistrictTIET.enableOrdisableEdit(true)
                 pmContactThanaTIETP.enableOrdisableEdit(true)
                 pmContactPostOfficeTIET.enableOrdisableEdit(true)
@@ -233,11 +239,9 @@ class ContactEditFragment : Fragment() {
             if (validation >= 3) updateData()
             //if ()
         }
-
         contactAddMobileButton?.setOnClickListener {
             checkAddMobileButtonState()
         }
-
         contactAddEmailButton?.setOnClickListener {
             contactEmailAddressTIL1.show()
             if (contactEmailAddressTIL1.isVisible)
@@ -389,6 +393,7 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun preloadedData() {
+        clContactEdit.clearFocus()
         permanentInOutBD = ""
         cgPermanent.clearCheck()
         presentInOutBD = ""
@@ -422,14 +427,15 @@ class ContactEditFragment : Fragment() {
         prContactThanaTIET?.setText(dataStorage.getLocationNameByID(data.presentThana))
         d("thana : ${data.presentThana}")
         contactInfo.setThana(data.presentThana)
-        when {
-            data.presentPostOffice != "0" -> {
-                prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
-                contactInfo.setPostOffice(data.presentPostOffice)
-            }
-            data.permanentPostOffice == "-2" -> prContactPostOfficeTIET1?.setText(getString(R.string.hint_post_office_other))
-            else -> prContactPostOfficeTIET1?.setText("")
+        if (data.presentPostOffice != "0") {
+            prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
+            contactInfo.setPostOffice(data.presentPostOffice)
         }
+        if (data.presentPostOffice == "-2") {
+            prContactPostOfficeTIET1?.setText(getString(R.string.hint_post_office_other))
+            contactInfo.setPostOffice(data.presentPostOffice)
+        }
+        if (data.presentPostOffice == "0" || data.presentPostOffice == "") prContactPostOfficeTIET1?.setText("")
         d("postOffice : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
         val prDiv = dataStorage.getDivisionNameByDistrictName(dataStorage.getLocationNameByID(data.presentDistrict).toString())
@@ -442,14 +448,15 @@ class ContactEditFragment : Fragment() {
         pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
         pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
         contactInfo.setPmThana(data.permanentThana)
-        when {
-            data.permanentPostOffice != "0" -> {
-                pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
-                contactInfo.setPmPostOffice(data.permanentPostOffice)
-            }
-            data.permanentPostOffice == "-2" -> pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
-            else -> pmContactPostOfficeTIET?.setText("")
+        if (data.permanentPostOffice != "0") {
+            pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
+            contactInfo.setPmPostOffice(data.permanentPostOffice)
         }
+        if (data.permanentPostOffice == "-2") {
+            pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
+            contactInfo.setPmPostOffice(data.permanentPostOffice)
+        }
+        if (data.permanentPostOffice == "0" || data.permanentPostOffice == "") pmContactPostOfficeTIET?.setText("")
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
         if (data.permanentCountry != "118") permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.permanentCountry))
 
@@ -489,23 +496,25 @@ class ContactEditFragment : Fragment() {
             contactEmailAddressTIL1?.hide()
             contactAddEmailButton.show()
         }
-        if (data.presentInsideOutsideBD == "False") {
-            selectChip(cgPresent, "Inside Bangladesh")
-            presentInOutBD = "0"
-            presentContactCountryTIET.clear()
-            presentInsideBangladeshLayout1.show()
-            presentOutsideBangladeshLayout.hide()
-        } else if (data.presentInsideOutsideBD == "True") {
-            selectChip(cgPresent, "Outside Bangladesh")
-            presentInOutBD = "1"
-            prContactDivTIET.clear()
-            prContactDistrictTIET.clear()
-            prContactThanaTIET.clear()
-            //presentContactCountryTIET.clear()
-            presentInsideBangladeshLayout1.hide()
-            presentOutsideBangladeshLayout.show()
-        } else {
-            cgPresent.clearCheck()
+        when {
+            data.presentInsideOutsideBD == "False" -> {
+                selectChip(cgPresent, "Inside Bangladesh")
+                presentInOutBD = "0"
+                presentContactCountryTIET.clear()
+                presentInsideBangladeshLayout1.show()
+                presentOutsideBangladeshLayout.hide()
+            }
+            data.presentInsideOutsideBD == "True" -> {
+                selectChip(cgPresent, "Outside Bangladesh")
+                presentInOutBD = "1"
+                prContactDivTIET.clear()
+                prContactDistrictTIET.clear()
+                prContactThanaTIET.clear()
+                //presentContactCountryTIET.clear()
+                presentInsideBangladeshLayout1.hide()
+                presentOutsideBangladeshLayout.show()
+            }
+            else -> cgPresent.clearCheck()
         }
 
         if (data.permanentInsideOutsideBD == "False") {
@@ -547,10 +556,21 @@ class ContactEditFragment : Fragment() {
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
+            permanentContactCountryTILP.hideError()
         } else {
             contactDistrictTIL.setError()
             contactThanaTIL.setError()
             contactAddressTILPRM.setError()
+            permanentContactCountryTILP.setError()
+        }
+        if (permanentInOutBD == "0" && pmContactDistrictTIET.getString().isNotEmpty() && pmContactThanaTIETP.getString().isNotEmpty() && pmContactAddressTIETPRM.getString().isNotEmpty()) {
+            contactDistrictTIL.hideError()
+            contactThanaTIL.hideError()
+            contactAddressTILPRM.hideError()
+        }
+        if (permanentInOutBD == "1" && permanentContactCountryTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
+            permanentContactCountryTILP.hideError()
+            contactAddressTILPRM.hideError()
         }
     }
 
@@ -660,7 +680,7 @@ class ContactEditFragment : Fragment() {
                 when (chipGroup.id) {
                     R.id.cgPresent -> {
                         presentInOutBD = ""
-                        activity?.toast("Please select Inside Bangladesh or Outside Bangladesh!")
+                        //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh!")
                         d("valueD : $presentInOutBD and $permanentInOutBD")
                     }
                     R.id.cgPermanent -> {
