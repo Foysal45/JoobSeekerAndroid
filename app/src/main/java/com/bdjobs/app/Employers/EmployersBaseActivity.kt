@@ -116,7 +116,8 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
-        //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+
+
         Log.d("value", "value = $value")
         if (value.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
