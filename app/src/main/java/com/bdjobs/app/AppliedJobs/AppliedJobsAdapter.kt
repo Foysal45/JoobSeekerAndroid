@@ -175,7 +175,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
             holder?.edit_SalaryIcon?.setOnClickListener {
                 try {
-                    Log.d("huhu", "huhu")
+                //    Log.d("huhu", "huhu")
 
                     val saveSearchDialog = Dialog(context)
                     saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
@@ -225,7 +225,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             }
             holder?.cancelBTN?.setOnClickListener {
                 try {
-                    removeItem(holder.adapterPosition, it)
+                    removeItem(position, it)
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -244,7 +244,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             }
             holder?.interactionBTN?.setOnClickListener {
                 try {
-                    communicator.setFrom("employerInteraction")
+                    communicator?.setFrom("employerInteraction")
                     communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
                     communicator?.gotoEmployerInteractionFragment()
                     communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
@@ -262,7 +262,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
                     lns.add("0")
                     communicator.setFrom("")
-                    activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+                    activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -307,8 +307,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     .setAction("UNDO") {
                         CancelAppliedJob.cancelJob(deleteJobID)
                         restoreMe(deletedItem!!, deletedIndex)
+                        Log.d("jobiiii", "undo = deleted = ${deletedItem} index = ${deletedIndex}")
                         communicator?.scrollToUndoPosition(deletedIndex)
-                        Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")
+                        Log.d("comid", "comid")
                     }
 
             snack?.show()

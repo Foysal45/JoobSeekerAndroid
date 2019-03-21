@@ -75,7 +75,7 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
 
 
     override fun scrollToUndoPosition(position: Int) {
-        if (position > 0) {
+        if (position >= 0) {
             appliedJobsFragment.scrollToUndoPosition(position)
         }
     }
