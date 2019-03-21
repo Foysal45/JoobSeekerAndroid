@@ -35,12 +35,12 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
     override fun onBindViewHolder(holder: MyBdjobsViewHolder, position: Int) {
 
         try {
-            holder?.itemName?.text = mybdjobsItems?.get(position)?.itemName
-            holder?.itemValue?.text = mybdjobsItems?.get(position)?.itemID
-            mybdjobsItems?.get(position)?.backgroundID?.let { holder?.backgroundRRL?.setBackgroundResource(it) }
-            mybdjobsItems?.get(position)?.resourceID?.let { holder?.item_icon?.setBackgroundResource(it) }
+            holder.itemName.text = mybdjobsItems?.get(position)?.itemName
+            holder.itemValue.text = mybdjobsItems?.get(position)?.itemID
+            mybdjobsItems?.get(position)?.backgroundID?.let { holder.backgroundRRL.setBackgroundResource(it) }
+            mybdjobsItems?.get(position)?.resourceID?.let { holder.item_icon.setBackgroundResource(it) }
             //holder.itemName[position]
-            holder?.item_Card.setOnClickListener {
+            holder.item_Card.setOnClickListener {
                 if(mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
                     when (mybdjobsItems?.get(position)?.itemName) {
                         "Jobs\nApplied" -> communicator.goToAppliedJobs()
@@ -48,6 +48,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                         "Interview\nInvitations" -> communicator.goToInterviewInvitation("mybdjobs")
                         "Employers Viewed\nResume" -> communicator.goToEmployerViewedMyResume("vwdMyResume")
                         "Times Emailed\nResume" -> communicator.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
+                        /*   "Messages by\nEmployers" -> communicator.goToMessageByEmployers("employerMessageList")*/
                         else -> { // Note the block
                             print("not found")
                         }
@@ -97,11 +98,11 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
 
 class MyBdjobsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    var itemName: TextView = itemView?.findViewById(R.id.item_name_TV)
-    var itemValue: TextView = itemView?.findViewById(R.id.item_value_TV)
-    var backgroundRRL: RelativeLayout = itemView?.findViewById(R.id.background_RRL)
-    var item_icon: ImageView = itemView?.findViewById(R.id.iv_item_icon)
-    var item_Card: CardView = itemView?.findViewById(R.id.mybdjobsStatsCard)
+    var itemName: TextView = itemView.findViewById(R.id.item_name_TV)
+    var itemValue: TextView = itemView.findViewById(R.id.item_value_TV)
+    var backgroundRRL: RelativeLayout = itemView.findViewById(R.id.background_RRL)
+    var item_icon: ImageView = itemView.findViewById(R.id.iv_item_icon)
+    var item_Card: CardView = itemView.findViewById(R.id.mybdjobsStatsCard)
 
 
 }

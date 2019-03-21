@@ -55,6 +55,9 @@ class LangProficiencyEditFragment : Fragment() {
             clearEditText()
             hLanguageID = ""
             d("hid val $isEdit: $hID")
+            readingLevel = ""
+            speakingLevel = ""
+            writingLevel = ""
         }
 
 
@@ -77,7 +80,11 @@ class LangProficiencyEditFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().deleteData("Language", hID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.toast(R.string.message_common_error)
+                try {
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -116,8 +123,17 @@ class LangProficiencyEditFragment : Fragment() {
         addTextChangedListener(languageTIET, languageTIL)
         getDataFromChip()
 
+
+
         fab_language_update?.setOnClickListener {
+
+
             if (languageValidity()) {
+
+                d("dnjhgbdjgb ${languageValidity()} and ${languageLevelValidity()}")
+
+                d("dnjhgbdjgb in first condition ${languageValidity()}}")
+
                 if (languageLevelValidity()) {
                     updateData()
                 }
@@ -133,8 +149,12 @@ class LangProficiencyEditFragment : Fragment() {
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(languageLoadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                try {
+                    activity?.stopProgressBar(languageLoadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
@@ -177,6 +197,9 @@ class LangProficiencyEditFragment : Fragment() {
             eduCB.setDeleteButton(false)
             hID = ""
             clearEditText()
+            readingLevel = ""
+            speakingLevel = ""
+            writingLevel = ""
 
             d("hid val $isEdit: $hID")
         }
@@ -244,7 +267,7 @@ class LangProficiencyEditFragment : Fragment() {
                             "High" -> "High"
                             "Medium" -> "Medium"
                             "Low" -> "Low"
-                            else -> "O"
+                            else -> ""
                         }
                         debug("value : $chips")
                         readingLevel = chips
@@ -254,7 +277,7 @@ class LangProficiencyEditFragment : Fragment() {
                             "High" -> "High"
                             "Medium" -> "Medium"
                             "Low" -> "Low"
-                            else -> "O"
+                            else -> ""
                         }
                         debug("value : $chips")
                         writingLevel = chips
@@ -265,7 +288,7 @@ class LangProficiencyEditFragment : Fragment() {
                             "High" -> "High"
                             "Medium" -> "Medium"
                             "Low" -> "Low"
-                            else -> "O"
+                            else -> ""
                         }
                         debug("value : $chips")
                         speakingLevel = chips
@@ -304,7 +327,6 @@ class LangProficiencyEditFragment : Fragment() {
             return false
 
         } else {
-
             languageTIET?.requestFocus()
             return true
         }
@@ -325,8 +347,11 @@ class LangProficiencyEditFragment : Fragment() {
         } else if (speakingLevel.equalIgnoreCase("")) {
             activity.toast("Please select Speaking proficiency")
             return false
-        } else return true
+        } else if (!readingLevel.isEmpty() && !writingLevel.isEmpty() && !speakingLevel.isEmpty()) {
+            return true
+        }
 
+        return false
 
     }
 

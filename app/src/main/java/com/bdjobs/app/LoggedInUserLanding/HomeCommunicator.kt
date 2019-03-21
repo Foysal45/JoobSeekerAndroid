@@ -30,5 +30,6 @@ interface HomeCommunicator {
     fun gotoJobSearch()
     fun gotoEditresume()
     fun showManageResumePopup()
+    fun goToMessageByEmployers(value: String)
 
 }

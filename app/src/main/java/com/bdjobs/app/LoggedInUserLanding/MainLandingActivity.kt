@@ -50,6 +50,7 @@ import java.util.*
 class MainLandingActivity : Activity(), HomeCommunicator {
 
 
+
     override fun showManageResumePopup() {
         val dialog = Dialog(this@MainLandingActivity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -571,4 +572,67 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
         }
     }
+
+    /*private fun getIsCvUploaded() {
+        ApiServiceMyBdjobs.create().getCvFileAvailable(
+                userID = session.userId,
+                decodeID = session.decodId
+
+        ).enqueue(object : Callback<FileInfo> {
+            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
+                error("onFailure", t)
+                toast("${t.toString()}")
+            }
+
+            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
+                //toast("${response.body()?.statuscode}")
+                if (response.isSuccessful) {
+                    cvUpload = response.body()?.statuscode!!
+                    Constants.cvUploadStatus = cvUpload
+                    Log.d("value", "val " + cvUpload)
+
+                }
+            }
+
+        })
+
+    }*/
+
+
+    /*private fun getIsCvUploaded() {
+        ApiServiceMyBdjobs.create().getCvFileAvailable(
+                userID = session.userId,
+                decodeID = session.decodId
+
+        ).enqueue(object : Callback<FileInfo> {
+            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
+                error("onFailure", t)
+                toast("${t.toString()}")
+            }
+
+            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
+                //toast("${response.body()?.statuscode}")
+                if (response.isSuccessful) {
+                    cvUpload = response.body()?.statuscode!!
+                    Constants.cvUploadStatus = cvUpload
+                    Log.d("value", "val " + cvUpload)
+
+                }
+            }
+
+        })
+
+    }*/
+
+
+    override fun goToMessageByEmployers(from: String) {
+
+        startActivity<EmployersBaseActivity>(
+                "from" to from,
+                "time" to time
+        )
+
+
+    }
+
 }

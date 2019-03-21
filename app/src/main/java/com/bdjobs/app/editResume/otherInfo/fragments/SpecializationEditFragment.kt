@@ -206,7 +206,7 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun updateData(skills: String) {
-        activity.showProgressBar(specializationLoadingProgressBar)
+        activity?.showProgressBar(specializationLoadingProgressBar)
         d("specialization test updateData $skills ")
 
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())

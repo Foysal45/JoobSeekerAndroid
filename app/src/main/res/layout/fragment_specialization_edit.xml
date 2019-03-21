@@ -96,7 +96,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.skill_description"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="100"
+                    android:maxLength="250"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -125,7 +125,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.caricular_activities"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="100"
+                    android:maxLength="250"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>

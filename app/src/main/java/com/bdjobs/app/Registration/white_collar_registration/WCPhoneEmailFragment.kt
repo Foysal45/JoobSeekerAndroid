@@ -25,8 +25,7 @@ class WCPhoneEmailFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var returnView: View
     private lateinit var dataStorage: DataStorage
-    private var mobileValidity = false
-    private var emailValidity = false
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -56,8 +55,6 @@ class WCPhoneEmailFragment : Fragment() {
 
 
             }
-
-
 
 
         }
@@ -132,7 +129,7 @@ class WCPhoneEmailFragment : Fragment() {
 
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
 
-            selector("Select Your Country", countryList.toList()) { dialogInterface, i ->
+            activity?.selector("Select Your Country", countryList.toList()) { dialogInterface, i ->
 
                 countryCodeTIET.setText(countryList[i])
                 val countryCode: String
@@ -151,13 +148,13 @@ class WCPhoneEmailFragment : Fragment() {
 
         wcSupportTextView?.setOnClickListener {
 
-            activity.callHelpLine()
+            activity?.callHelpLine()
 
         }
 
         wcHelplineLayout?.setOnClickListener {
 
-            activity.callHelpLine()
+            activity?.callHelpLine()
 
         }
 
@@ -191,12 +188,20 @@ class WCPhoneEmailFragment : Fragment() {
         when {
             TextUtils.isEmpty(mobileNumber) -> {
                 mobileNumberTIL?.showError(getString(R.string.field_empty_error_message_common))
-                requestFocus(mobileNumberTIET)
+                try {
+                    requestFocus(mobileNumberTIET)
+                } catch (e: Exception) {
+                    logException(e)
+                }
                 return false
             }
             validateMobileNumber() == false -> {
                 mobileNumberTIL?.showError("Mobile Number is not valid")
-                requestFocus(mobileNumberTIET)
+                try {
+                    requestFocus(mobileNumberTIET)
+                } catch (e: Exception) {
+                    logException(e)
+                }
                 return false
             }
             else -> mobileNumberTIL?.hideError()
@@ -212,19 +217,26 @@ class WCPhoneEmailFragment : Fragment() {
             when {
                 TextUtils.isEmpty(email) -> {
                     emailTIL?.showError(getString(R.string.field_empty_error_message_common))
-                    requestFocus(emailTIET)
+                    try {
+                        requestFocus(emailTIET)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
                     return false
                 }
                 isValidEmail(email) == false -> {
                     emailTIL?.showError("email Not valid")
-                    requestFocus(emailTIET)
+                    try {
+                        requestFocus(emailTIET)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
                     return false
                 }
                 else -> emailTIL?.hideError()
             }
             return true
         }
-
 
         return true
 
@@ -243,12 +255,26 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     private fun requestFocus(view: View?) {
-        if (view?.requestFocus()!!) {
-            activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        try {
+            if (view != null) {
+
+                try {
+                    if (view.requestFocus()) {
+                        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+        } catch (e: Exception) {
+            logException(e)
+
         }
     }
 
-    fun setEmail(){
+
+    fun setEmail() {
 
         emailTIET?.setText(registrationCommunicator.getEmail())
     }
