@@ -141,7 +141,7 @@ class ContactEditFragment : Fragment() {
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
             if (isChecked) {
-                cgPermanent.clearCheck()
+                //cgPermanent.clearCheck()
                 llPermenantPortion.hide()
                 cgPermanent.hide()
                 // hideAllError()
@@ -217,7 +217,7 @@ class ContactEditFragment : Fragment() {
                 activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
             }
             if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
-                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+                //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
                 activity?.stopProgressBar(loadingProgressBar)
             }
             if (pmContactAddressTIETPRM.getString().isEmpty() && (permanentInOutBD == "1" || permanentInOutBD == "0")) {
@@ -405,9 +405,15 @@ class ContactEditFragment : Fragment() {
         val homePhone = data.homePhone
         val officePhone = data.officePhone
 
-        this.addressCheckbox.isChecked = addressType == "3"
+        addressCheckbox.isChecked = addressType == "3"
 
-        //if (data.permanentInsideOutsideBD == "") cgPermanent.clearCheck()
+        if (addressType == "3") {
+            cgPermanent.hide()
+            llPermenantPortion.hide()
+        } else {
+            cgPermanent.show()
+            llPermenantPortion.show()
+        }
 
         if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
 
