@@ -104,22 +104,22 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private fun bindViews(holder: AppliedjobsViewHolder, position: Int) {
 
         try {
-            holder.CompanyName.text = appliedJobsLists?.get(position)?.companyName
-            holder.PositionName.text = appliedJobsLists?.get(position)?.title
-            holder.appliedOn.text = appliedJobsLists?.get(position)?.appliedOn
-            holder.deadline.text = appliedJobsLists?.get(position)?.deadLine
-            holder.expectedSalary.text = appliedJobsLists?.get(position)?.expectedSalary
+            holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
+            holder?.PositionName?.text = appliedJobsLists?.get(position)?.title
+            holder?.appliedOn?.text = appliedJobsLists?.get(position)?.appliedOn
+            holder?.deadline?.text = appliedJobsLists?.get(position)?.deadLine
+            holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
 
             Log.d("activity", appliedjobsActitivityLists?.toString())
 
             if (appliedJobsLists?.get(position)?.isUserSeenInvitation == "0") {
-                holder.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
+                holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
             }
 
             if (appliedJobsLists?.get(position)?.invitaion == "1") {
-                holder.interviewBTN.visibility = View.VISIBLE
+                holder?.interviewBTN?.visibility = View.VISIBLE
             } else if (appliedJobsLists?.get(position)?.invitaion == "0") {
-                holder.interviewBTN.visibility = View.GONE
+                holder?.interviewBTN?.visibility = View.GONE
             }
 
 
@@ -141,11 +141,11 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                           holder?.cancelBTN?.visibility = View.VISIBLE
                       }*/
                     if (deadline > todaysDate) {
-                        holder.cancelBTN.visibility = View.VISIBLE
-                        holder.edit_SalaryIcon.visibility = View.VISIBLE
+                        holder?.cancelBTN?.visibility = View.VISIBLE
+                        holder?.edit_SalaryIcon?.visibility = View.VISIBLE
                     } else if (deadline < todaysDate) {
-                        holder.cancelBTN.visibility = View.GONE
-                        holder.edit_SalaryIcon.visibility = View.GONE
+                        holder?.cancelBTN?.visibility = View.GONE
+                        holder?.edit_SalaryIcon?.visibility = View.GONE
                     }
 
 
@@ -155,39 +155,39 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                 }
             } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
-                holder.employerViewIcon.visibility = View.VISIBLE
-                holder.employerViewIcon.setBackgroundResource(R.drawable.ic_done_appliedadap)
-                holder.cancelBTN.visibility = View.GONE
-                holder.edit_SalaryIcon.visibility = View.GONE
+                holder?.employerViewIcon?.visibility = View.VISIBLE
+                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_done_appliedadap)
+                holder?.cancelBTN?.visibility = View.GONE
+                holder?.edit_SalaryIcon?.visibility = View.GONE
             }
 
             if (appliedJobsLists?.get(position)?.status == "1") {
-                holder.employerViewIcon.visibility = View.VISIBLE
-                holder.employerViewIcon.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
+                holder?.employerViewIcon?.visibility = View.VISIBLE
+                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
             } else if (appliedJobsLists?.get(position)?.status == "2") {
-                holder.employerViewIcon.visibility = View.VISIBLE
-                holder.employerViewIcon.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
+                holder?.employerViewIcon?.visibility = View.VISIBLE
+                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
             } else if (appliedJobsLists?.get(position)?.status == "3") {
-                holder.employerViewIcon.visibility = View.VISIBLE
-                holder.employerViewIcon.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
+                holder?.employerViewIcon?.visibility = View.VISIBLE
+                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
             }
 
 
-            holder.edit_SalaryIcon.setOnClickListener {
+            holder?.edit_SalaryIcon?.setOnClickListener {
                 try {
-                    Log.d("huhu", "huhu")
+                //    Log.d("huhu", "huhu")
 
                     val saveSearchDialog = Dialog(context)
-                    saveSearchDialog.setContentView(R.layout.expected_salary_popup)
-                    saveSearchDialog.setCancelable(true)
-                    saveSearchDialog.show()
-                    val updateBTN = saveSearchDialog.findViewById(R.id.updateBTN) as Button
-                    val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
-                    val expected_salary_tv = saveSearchDialog.findViewById(R.id.expected_salary_ET) as TextInputEditText
-                    val accountResult_tv = saveSearchDialog.findViewById(R.id.accountResult_tv) as TextView
-                    val position_tv = saveSearchDialog.findViewById(R.id.position_tv) as TextView
-                    val employer_tv = saveSearchDialog.findViewById(R.id.employer_tv) as TextView
-                    val expected_salary_ET = saveSearchDialog.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                    saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
+                    saveSearchDialog?.setCancelable(true)
+                    saveSearchDialog?.show()
+                    val updateBTN = saveSearchDialog?.findViewById(R.id.updateBTN) as Button
+                    val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
+                    val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                    val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
+                    val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
+                    val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
+                    val expected_salary_ET = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
                     position_tv.text = appliedJobsLists?.get(position)?.title
                     employer_tv.text = appliedJobsLists?.get(position)?.companyName
                     accountResult_tv.text = session.userName
@@ -195,9 +195,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     expected_salary_ET.setText(expectedSalary.toString())
 
 
-                    cancelBTN.setOnClickListener {
+                    cancelBTN?.setOnClickListener {
                         try {
-                            saveSearchDialog.dismiss()
+                            saveSearchDialog?.dismiss()
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -223,14 +223,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 
             }
-            holder.cancelBTN.setOnClickListener {
+            holder?.cancelBTN?.setOnClickListener {
                 try {
-                    removeItem(holder.adapterPosition, it)
+                    removeItem(position, it)
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
-            holder.interviewBTN.setOnClickListener {
+            holder?.interviewBTN?.setOnClickListener {
                 try {
                     communicator.gotoInterviewInvitationDetails(
                             from = "appliedjobs",
@@ -242,18 +242,18 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     logException(e)
                 }
             }
-            holder.interactionBTN.setOnClickListener {
+            holder?.interactionBTN?.setOnClickListener {
                 try {
-                    communicator.setFrom("employerInteraction")
-                    communicator.setjobID(appliedJobsLists?.get(position)?.jobId!!)
-                    communicator.gotoEmployerInteractionFragment()
-                    communicator.setComapany(appliedJobsLists?.get(position)?.companyName!!)
-                    communicator.setTitle(appliedJobsLists?.get(position)?.title!!)
+                    communicator?.setFrom("employerInteraction")
+                    communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
+                    communicator?.gotoEmployerInteractionFragment()
+                    communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
+                    communicator?.setTitle(appliedJobsLists?.get(position)?.title!!)
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
-            holder.itemView.setOnClickListener {
+            holder?.itemView?.setOnClickListener {
                 try {
                     val jobids = ArrayList<String>()
                     val lns = ArrayList<String>()
@@ -262,7 +262,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
                     lns.add("0")
                     communicator.setFrom("")
-                    activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+                    activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -307,11 +307,12 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     .setAction("UNDO") {
                         CancelAppliedJob.cancelJob(deleteJobID)
                         restoreMe(deletedItem!!, deletedIndex)
-                        communicator.scrollToUndoPosition(deletedIndex)
+                        Log.d("jobiiii", "undo = deleted = ${deletedItem} index = ${deletedIndex}")
+                        communicator?.scrollToUndoPosition(deletedIndex)
                         Log.d("comid", "comid")
                     }
 
-            snack.show()
+            snack?.show()
             Log.d("swipe", "dir to LEFT")
         } catch (e: Exception) {
             logException(e)
@@ -390,30 +391,30 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val appliedOn = view.findViewById(R.id.appliedon_tv) as TextView
-    val expectedSalary = view.findViewById(R.id.exSalary_tv) as TextView
-    val deadline = view.findViewById(R.id.deadline_tv) as TextView
-    val PositionName = view.findViewById(R.id.textViewPositionName) as TextView
-    val CompanyName = view.findViewById(R.id.textViewCompanyName) as TextView
-    val employerViewIcon = view.findViewById(R.id.employerView_icon) as ImageView
-    val interactionBTN = view.findViewById(R.id.interactionBTN) as MaterialButton
-    val interviewBTN = view.findViewById(R.id.interviewInvitationBTN) as MaterialButton
-    val cancelBTN = view.findViewById(R.id.CancelBTN) as MaterialButton
-    val cardViewAppliedJobs = view.findViewById(R.id.cardView) as CardView
-    val edit_SalaryIcon = view.findViewById(R.id.edit_SalaryIcon) as ImageView
+    val appliedOn = view?.findViewById(R.id.appliedon_tv) as TextView
+    val expectedSalary = view?.findViewById(R.id.exSalary_tv) as TextView
+    val deadline = view?.findViewById(R.id.deadline_tv) as TextView
+    val PositionName = view?.findViewById(R.id.textViewPositionName) as TextView
+    val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
+    val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
+    val interactionBTN = view?.findViewById(R.id.interactionBTN) as MaterialButton
+    val interviewBTN = view?.findViewById(R.id.interviewInvitationBTN) as MaterialButton
+    val cancelBTN = view?.findViewById(R.id.CancelBTN) as MaterialButton
+    val cardViewAppliedJobs = view?.findViewById(R.id.cardView) as CardView
+    val edit_SalaryIcon = view?.findViewById(R.id.edit_SalaryIcon) as ImageView
 }
 
 class LoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
+    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
     init {
 
-        mRetryBtn.setOnClickListener(this)
-        mErrorLayout.setOnClickListener(this)
+        mRetryBtn?.setOnClickListener(this)
+        mErrorLayout?.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {

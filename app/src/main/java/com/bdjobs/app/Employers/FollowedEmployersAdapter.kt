@@ -141,7 +141,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     FollowUnfollowJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     employersCommunicator?.scrollToUndoPosition(deletedIndex)
-                    Log.d("comid", "comid")
+                    Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")
                 }
 
         snack?.show()

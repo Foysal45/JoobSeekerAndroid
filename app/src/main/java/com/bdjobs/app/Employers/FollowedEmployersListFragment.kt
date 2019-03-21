@@ -43,7 +43,7 @@ class FollowedEmployersListFragment : Fragment() {
         bdjobsDB = BdjobsDB.getInstance(activity)
 
         backIMV.setOnClickListener {
-            employersCommunicator.backButtonPressed()
+            employersCommunicator?.backButtonPressed()
         }
 
         doAsync {
@@ -59,21 +59,27 @@ class FollowedEmployersListFragment : Fragment() {
 
             Log.d("follow", followedEmployerList.toString())
             uiThread {
-                try {
-                    followedListSize = followedEmployerList?.size!!
-                    followedEmployersAdapter = FollowedEmployersAdapter(activity)
-                    followedRV!!.adapter = followedEmployersAdapter
-                    followedRV!!.setHasFixedSize(true)
-                    followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                    Log.d("initPag", "called")
-                    followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                    followedEmployersAdapter?.addAll(followedEmployerList!!)
+                followedListSize = followedEmployerList?.size!!
+                followedEmployersAdapter = FollowedEmployersAdapter(activity)
+                followedRV!!.adapter = followedEmployersAdapter
+                followedRV!!.setHasFixedSize(true)
+                followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                Log.d("initPag", "called")
+                followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                followedEmployersAdapter?.addAll(followedEmployerList!!)
 
+          /*      val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employer(s)"
+                favCountTV?.text = Html.fromHtml(styledText)*/
+
+                if (followedEmployerList?.size!! > 1) {
                     val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"
                     favCountTV?.text = Html.fromHtml(styledText)
-                } catch (e: Exception) {
-                    logException(e)
+                } else {
+                    val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employer"
+                    favCountTV?.text = Html.fromHtml(styledText)
                 }
+
+
             }
         }
     }
@@ -81,14 +87,25 @@ class FollowedEmployersListFragment : Fragment() {
     fun scrollToUndoPosition(position:Int){
         followedRV?.scrollToPosition(position)
         followedListSize++
-        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
-        favCountTV?.text = Html.fromHtml(styledText)
+        if (followedListSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+            favCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer"
+            favCountTV?.text = Html.fromHtml(styledText)
+        }
+
     }
 
     fun decrementCounter(){
         followedListSize--
-        val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
-        favCountTV?.text = Html.fromHtml(styledText)
+        if (followedListSize> 1) {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
+            favCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer"
+            favCountTV?.text = Html.fromHtml(styledText)
+        }
     }
 
 

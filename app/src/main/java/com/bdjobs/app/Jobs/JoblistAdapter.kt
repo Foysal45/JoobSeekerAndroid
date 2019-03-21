@@ -369,7 +369,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     ShortListedJobDeleteJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     homeCommunicator?.scrollToUndoPosition(deletedIndex)
-                    Log.d("comid", "comid")
+                    Log.d("comid", "comid = ${deletedIndex}")
                 }
 
         snack.show()
