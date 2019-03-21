@@ -116,17 +116,18 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
-        //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+
+
         Log.d("value", "value = $value")
-        if (value.equals("follow")) {
+        if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
-        } else if (value.equals("employer")) {
+        } else if (value?.equals("employer")) {
             transitFragment(employerListFragment, R.id.fragmentHolder)
-        } else if (value.equals("joblist")) {
+        } else if (value?.equals("joblist")) {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
-        } else if (value.equals("vwdMyResume")) {
+        } else if (value?.equals("vwdMyResume")) {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
-        } else if (value.equals("employerMessageList")) {
+        } else if (value?.equals("employerMessageList")) {
             /*transitFragment(employerMessageListFragment, R.id.fragmentHolder)*/
         }
 
