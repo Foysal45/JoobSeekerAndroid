@@ -92,9 +92,9 @@ class LangPrViewFragment : Fragment() {
         val call = ApiServiceMyBdjobs.create().getLanguageInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<LanguageModel> {
             override fun onFailure(call: Call<LanguageModel>, t: Throwable) {
-                shimmerStop()
-                rv_lang_view?.show()
                 try {
+                    shimmerStop()
+                    rv_lang_view?.show()
                     activity?.toast("Error occurred")
                 } catch (e: Exception) {
                     logException(e)
