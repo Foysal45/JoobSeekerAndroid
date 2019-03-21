@@ -62,12 +62,12 @@ class ContactEditFragment : Fragment() {
         contactInfo.setTitle(getString(R.string.title_contact))
         contactInfo.setEditButton(false, "dd")
         initViews()
-        doWork()
     }
 
     override fun onResume() {
         super.onResume()
         d("onResume")
+        doWork()
         updateViewsData()
         preloadedData()
     }
@@ -109,33 +109,25 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
         //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
-        addMobileValidation(contactMobileNumberTIET, contactMobileNumberTIL)
+        addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
         addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
 
-        permanentContactCountryTIETP.easyOnTextChangedListener {
-            if (it.trimmedLength() >= 2)
-                permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
-        }
-        pmContactAddressTIETPRM.easyOnTextChangedListener {
-            if (it.trimmedLength() >= 2)
-                contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-        }
         contactMobileNumberTIET.easyOnTextChangedListener {
             if (it.trimmedLength() >= 2)
-                contactEmailAddressTIL.hideError() else contactEmailAddressTIL.setError()
+                contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
         }
         contactEmailAddressTIET.easyOnTextChangedListener {
             if (it.trimmedLength() >= 2)
-                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.setError()
+                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
         }
 
         if (pmContactAddressTIETPRM.getString().isNotEmpty() || permanentInOutBD != "") {
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
             addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
             //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
-            addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
+            addMobileValidation(pmContactAddressTIETPRM, contactAddressTILPRM)
             addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
             addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
             addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
@@ -152,7 +144,7 @@ class ContactEditFragment : Fragment() {
                 //cgPermanent.clearCheck()
                 llPermenantPortion.hide()
                 cgPermanent.hide()
-                hideAllError()
+                // hideAllError()
                 pmContactDivTIET1.enableOrdisableEdit(false)
                 pmContactDistrictTIET.enableOrdisableEdit(false)
                 pmContactThanaTIETP.enableOrdisableEdit(false)
@@ -224,14 +216,22 @@ class ContactEditFragment : Fragment() {
             if (presentInOutBD == "") {
                 activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
             }
-            /*if (pmContactAddressTIETPRM.getString().isNotBlank() && permanentInOutBD == "") {
-                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+            if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
+                //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
                 activity?.stopProgressBar(loadingProgressBar)
-            }*/
+            }
+            if (pmContactAddressTIETPRM.getString().isEmpty() && (permanentInOutBD == "1" || permanentInOutBD == "0")) {
+                if (pmContactAddressTIETPRM.getString().trimmedLength() < 2)
+                    contactAddressTILPRM.setError()
+                else
+                    contactAddressTILPRM.hideError()
+            }
+
             clContactEdit.clearFocus()
             clContactEdit.closeKeyboard(activity)
             Log.d("checkValid", " val : $validation ")
             if (validation >= 3) updateData()
+            //if ()
         }
 
         contactAddMobileButton?.setOnClickListener {
@@ -393,7 +393,6 @@ class ContactEditFragment : Fragment() {
         cgPermanent.clearCheck()
         presentInOutBD = ""
         cgPresent.clearCheck()
-        hideAllError()
         try {
             data = contactInfo.getContactData()
         } catch (e: Exception) {
@@ -406,9 +405,15 @@ class ContactEditFragment : Fragment() {
         val homePhone = data.homePhone
         val officePhone = data.officePhone
 
-        this.addressCheckbox.isChecked = addressType == "3"
+        addressCheckbox.isChecked = addressType == "3"
 
-        //if (data.permanentInsideOutsideBD == "") cgPermanent.clearCheck()
+        if (addressType == "3") {
+            cgPermanent.hide()
+            llPermenantPortion.hide()
+        } else {
+            cgPermanent.show()
+            llPermenantPortion.show()
+        }
 
         if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
 
@@ -450,6 +455,11 @@ class ContactEditFragment : Fragment() {
 
         contactMobileNumberTIET?.setText(data.mobile)
         contactEmailAddressTIET?.setText(data.email)
+
+        if (data.mobile.isNullOrEmpty())
+            contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
+        if (data.email.isNullOrEmpty())
+            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
 
         if (!homePhone?.isEmpty()!!) {
             contactMobileNumber2TIET?.setText(data.homePhone)
@@ -494,6 +504,8 @@ class ContactEditFragment : Fragment() {
             //presentContactCountryTIET.clear()
             presentInsideBangladeshLayout1.hide()
             presentOutsideBangladeshLayout.show()
+        } else {
+            cgPresent.clearCheck()
         }
 
         if (data.permanentInsideOutsideBD == "False") {
@@ -502,6 +514,10 @@ class ContactEditFragment : Fragment() {
             permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.show()
             presentOutsideBangladeshLayoutP.hide()
+            pmContactAddressTIETPRM.easyOnTextChangedListener {
+                if (it.trimmedLength() >= 2)
+                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+            }
         } else if (data.permanentInsideOutsideBD == "True") {
             selectChip(cgPermanent, "Outside Bangladesh")
             permanentInOutBD = "1"
@@ -511,12 +527,23 @@ class ContactEditFragment : Fragment() {
             //permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.hide()
             presentOutsideBangladeshLayoutP.show()
+            permanentContactCountryTIETP.easyOnTextChangedListener {
+                if (it.trimmedLength() >= 2)
+                    permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
+            }
+            pmContactAddressTIETPRM.easyOnTextChangedListener {
+                if (it.trimmedLength() >= 2)
+                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+            }
+        } else {
+            cgPermanent.clearCheck()
         }
+
+        //hideAllError()
     }
 
     private fun hideAllError() {
-        if (permanentInOutBD == "" && (pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) ||
-                (permanentContactCountryTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty())) {
+        if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
@@ -525,9 +552,6 @@ class ContactEditFragment : Fragment() {
             contactThanaTIL.setError()
             contactAddressTILPRM.setError()
         }
-        if (pmContactAddressTIETPRM.getString().trimmedLength() >= 2)
-            contactAddressTILPRM.hideError()
-        else contactAddressTILPRM.setError()
     }
 
     private fun setupViews() {
@@ -606,12 +630,23 @@ class ContactEditFragment : Fragment() {
                             "Inside Bangladesh" -> {
                                 presentInsideBangladeshLayout.show()
                                 presentOutsideBangladeshLayoutP.hide()
+                                pmContactAddressTIETPRM.easyOnTextChangedListener {
+                                    if (it.trimmedLength() >= 2)
+                                        contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+                                }
                                 "0"
                             }
                             "Outside Bangladesh" -> {
-                                //permanentContactCountryTIETP.clear()
                                 presentInsideBangladeshLayout.hide()
                                 presentOutsideBangladeshLayoutP.show()
+                                permanentContactCountryTIETP.easyOnTextChangedListener {
+                                    if (it.trimmedLength() >= 2)
+                                        permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
+                                }
+                                pmContactAddressTIETPRM.easyOnTextChangedListener {
+                                    if (it.trimmedLength() >= 2)
+                                        contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+                                }
                                 "1"
                             }
                             else -> ""
