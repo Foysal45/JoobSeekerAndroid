@@ -347,7 +347,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
                     searchFilterTV?.text = getFilterString(searchData!!)
-                    if (!searchData.keyword?.isBlank()!!) {
+                    if (!searchData.keyword.isNullOrBlank()) {
                         keywordTV?.text = searchData.keyword
                     } else {
                         keywordTV?.text = "-"
