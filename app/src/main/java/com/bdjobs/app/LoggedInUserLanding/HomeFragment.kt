@@ -72,9 +72,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         bdjobsDB = BdjobsDB.getInstance(activity)
         homeCommunicator = activity as HomeCommunicator
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
-        nameTV.text = bdjobsUserSession.fullName
-        emailTV.text = bdjobsUserSession.email
-        profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        nameTV?.text = bdjobsUserSession.fullName
+        emailTV?.text = bdjobsUserSession.email
+        profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
     }

@@ -51,23 +51,23 @@ class JoblistFragment : Fragment() {
     private var isLastPages = false
     private lateinit var communicator: JobCommunicator
 
-    private var keyword = ""
-    private var location = ""
-    private var category = ""
-    private var newsPaper = ""
-    private var industry = ""
-    private var organization = ""
-    private var gender = ""
-    private var experience = ""
-    private var jobType = ""
-    private var jobLevel = ""
-    private var jobNature = ""
-    private var postedWithin = ""
-    private var deadline = ""
-    private var age = ""
-    private var army = ""
-    private var filterName = ""
-    private var filterID = ""
+    private var keyword:String? = ""
+    private var location:String? = ""
+    private var category:String? = ""
+    private var newsPaper:String? = ""
+    private var industry:String? = ""
+    private var organization:String? = ""
+    private var gender:String? = ""
+    private var experience:String? = ""
+    private var jobType:String? = ""
+    private var jobLevel:String? = ""
+    private var jobNature:String? = ""
+    private var postedWithin:String? = ""
+    private var deadline:String? = ""
+    private var age:String? = ""
+    private var army:String? = ""
+    private var filterName:String? = ""
+    private var filterID:String? = ""
     lateinit var bdjobsDB: BdjobsDB
 
     var totalRecordsFound = 0
@@ -84,21 +84,21 @@ class JoblistFragment : Fragment() {
     }
 
     private fun getData() {
-        keyword = communicator.getKeyword()
-        location = communicator.getLocation()
-        category = communicator.getCategory()
-        newsPaper = communicator.getNewsPaper()
-        industry = communicator.getIndustry()
-        organization = communicator.getOrganization()
-        gender = communicator.getGender()
-        experience = communicator.getExperience()
-        jobType = communicator.getJobType()
-        jobLevel = communicator.getJobLevel()
-        jobNature = communicator.getJobNature()
-        postedWithin = communicator.getPostedWithin()
-        deadline = communicator.getDeadline()
-        age = communicator.getAge()
-        army = communicator.getArmy()
+        keyword = communicator?.getKeyword()
+        location = communicator?.getLocation()
+        category = communicator?.getCategory()
+        newsPaper = communicator?.getNewsPaper()
+        industry = communicator?.getIndustry()
+        organization = communicator?.getOrganization()
+        gender = communicator?.getGender()
+        experience = communicator?.getExperience()
+        jobType = communicator?.getJobType()
+        jobLevel = communicator?.getJobLevel()
+        jobNature = communicator?.getJobNature()
+        postedWithin = communicator?.getPostedWithin()
+        deadline = communicator?.getDeadline()
+        age = communicator?.getAge()
+        army = communicator?.getArmy()
 
         saveSearchDicission()
 
@@ -172,50 +172,53 @@ class JoblistFragment : Fragment() {
     }
 
     private fun saveSearchDicission() {
-        filterName = communicator.getFilterName()
-        filterID = communicator.getFilterID()
+        try {
+            filterName = communicator.getFilterName()
+            filterID = communicator.getFilterID()
 
-        if (filterName.isNotBlank()) {
+            if (filterName?.isNotBlank()!!) {
 
-            doAsync {
-                val favsearch = bdjobsDB.favouriteSearchFilterDao().getFavFilterByFilters(
-                        icat = industry,
-                        fcat = category,
-                        location = location,
-                        qOT = organization,
-                        qJobNature = jobNature,
-                        qJobLevel = jobLevel,
-                        qPosted = postedWithin,
-                        qDeadline = deadline,
-                        txtsearch = keyword,
-                        qExp = experience,
-                        qGender = gender,
-                        qGenderB = "",
-                        qJobSpecialSkill = jobType,
-                        qRetiredArmy = army,
-                        qAge = age,
-                        newspaper = newsPaper
-                )
+                doAsync {
+                    val favsearch = bdjobsDB.favouriteSearchFilterDao().getFavFilterByFilters(
+                            icat = industry,
+                            fcat = category,
+                            location = location,
+                            qOT = organization,
+                            qJobNature = jobNature,
+                            qJobLevel = jobLevel,
+                            qPosted = postedWithin,
+                            qDeadline = deadline,
+                            txtsearch = keyword,
+                            qExp = experience,
+                            qGender = gender,
+                            qGenderB = "",
+                            qJobSpecialSkill = jobType,
+                            qRetiredArmy = army,
+                            qAge = age,
+                            newspaper = newsPaper
+                    )
 
-                uiThread {
-                    if (!favsearch.isNullOrEmpty()) {
-                        saveSearchBtn.text = filterName
-                        saveSearchBtn.setIconTintResource(R.color.fav_search_save)
-                    }
-                    saveSearchBtn.setOnClickListener {
+                    uiThread {
                         if (!favsearch.isNullOrEmpty()) {
-                            Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
-                        } else {
-                            saveSearch()
+                            saveSearchBtn.text = filterName
+                            saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+                        }
+                        saveSearchBtn.setOnClickListener {
+                            if (!favsearch.isNullOrEmpty()) {
+                                Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
+                            } else {
+                                saveSearch()
+                            }
                         }
                     }
                 }
-            }
 
-        } else {
-            saveSearchBtn.setOnClickListener {
-                saveSearch()
+            } else {
+                saveSearchBtn.setOnClickListener {
+                    saveSearch()
+                }
             }
+        } catch (e: Exception) {
         }
     }
 
@@ -237,7 +240,7 @@ class JoblistFragment : Fragment() {
             getDataNew()
         }
 
-        jobListRecyclerView!!.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
+        jobListRecyclerView?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
 
             override val totalPageCount: Int
                 get() = TOTAL_PAGES!!
@@ -316,38 +319,44 @@ class JoblistFragment : Fragment() {
                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Job"
                 jobCounterTV?.text = Html.fromHtml(styledText)
             }
+
+            if(totalRecordsFound>0){
+                noDataLL?.hide()
+            }else{
+                noDataLL?.show()
+            }
         } catch (e: Exception) {
             logException(e)
         }
 
 
-        currentPage = communicator.getCurrentPageNumber()
-        TOTAL_PAGES = communicator.getTotalPage()
-        isLastPages = communicator.getLastPasge()
+        currentPage = communicator?.getCurrentPageNumber()
+        TOTAL_PAGES = communicator?.getTotalPage()
+        isLastPages = communicator?.getLastPasge()
 
-        keyword = communicator.getKeyword()
-        location = communicator.getLocation()
-        category = communicator.getCategory()
-        newsPaper = communicator.getNewsPaper()
-        industry = communicator.getIndustry()
-        organization = communicator.getIndustry()
-        gender = communicator.getGender()
-        experience = communicator.getExperience()
-        jobType = communicator.getJobType()
-        jobLevel = communicator.getJobLevel()
-        jobNature = communicator.getJobNature()
-        postedWithin = communicator.getPostedWithin()
-        deadline = communicator.getDeadline()
-        age = communicator.getAge()
-        army = communicator.getArmy()
+        keyword = communicator?.getKeyword()
+        location = communicator?.getLocation()
+        category = communicator?.getCategory()
+        newsPaper = communicator?.getNewsPaper()
+        industry = communicator?.getIndustry()
+        organization = communicator?.getIndustry()
+        gender = communicator?.getGender()
+        experience = communicator?.getExperience()
+        jobType = communicator?.getJobType()
+        jobLevel = communicator?.getJobLevel()
+        jobNature = communicator?.getJobNature()
+        postedWithin = communicator?.getPostedWithin()
+        deadline = communicator?.getDeadline()
+        age = communicator?.getAge()
+        army = communicator?.getArmy()
 
         saveSearchDicission()
 
         suggestiveSearchET?.text = keyword
 
         suggestiveSearchET?.setOnClickListener { et ->
-            communicator.setBackFrom("")
-            communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
+            communicator?.setBackFrom("")
+            communicator?.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
         loadFirstPageNew()
@@ -359,7 +368,6 @@ class JoblistFragment : Fragment() {
 
 
     private fun loadFirstPageNew() {
-
         try {
             joblistAdapter?.clear()
             joblistAdapter?.addAllTest(jobListGet as List<JobListModelData>)
@@ -370,12 +378,10 @@ class JoblistFragment : Fragment() {
         } catch (e: Exception) {
             logException(e)
         }
-
     }
 
 
-    private fun loadFisrtPageTest(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
-
+    private fun loadFisrtPageTest(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
 
         Log.d("Paramtest", "jobLevel: $jobLevel")
 
@@ -448,6 +454,15 @@ class JoblistFragment : Fragment() {
                         } else {
                             val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
                             jobCounterTV?.text = Html.fromHtml(styledText)
+
+                        }
+
+                        if(totalJobs>0){
+                            jobListRecyclerView?.show()
+                            noDataLL?.hide()
+                        }else{
+                            jobListRecyclerView?.hide()
+                            noDataLL?.show()
                         }
                         communicator.setIsLoading(isLoadings)
                         communicator.setLastPasge(isLastPages)
@@ -470,7 +485,7 @@ class JoblistFragment : Fragment() {
         })
     }
 
-    private fun loadNextPage(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
         Log.d("ArrayTest", " loadNextPage called")
 
         Log.d("Paramtest", "jobLevel: $jobLevel")
@@ -539,6 +554,7 @@ class JoblistFragment : Fragment() {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Job"
                                 jobCounterTV?.text = Html.fromHtml(styledText)
                             }
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -569,30 +585,28 @@ class JoblistFragment : Fragment() {
     }
 
     private fun saveSearch() {
-        if (
-                industry.isBlank() &&
-                category.isBlank() &&
-                location.isBlank() &&
-                organization.isBlank() &&
-                jobNature.isBlank() &&
-                jobLevel.isBlank() &&
-                postedWithin.isBlank() &&
-                deadline.isBlank() &&
-                keyword.isBlank() &&
-                experience.isBlank() &&
-                gender.isBlank() &&
-                jobType.isBlank() &&
-                army.isBlank() &&
-                age.isBlank() &&
-                newsPaper.isBlank()
-
+        if (industry.isNullOrBlank() &&
+                category.isNullOrBlank() &&
+                location.isNullOrBlank() &&
+                organization.isNullOrBlank() &&
+                jobNature.isNullOrBlank() &&
+                jobLevel.isNullOrBlank() &&
+                postedWithin.isNullOrBlank() &&
+                deadline.isNullOrBlank() &&
+                keyword.isNullOrBlank() &&
+                experience.isNullOrBlank() &&
+                gender.isNullOrBlank() &&
+                jobType.isNullOrBlank() &&
+                army.isNullOrBlank() &&
+                age.isNullOrBlank() &&
+                newsPaper.isNullOrBlank()
         ) {
             Snackbar.make(parentCL, "Please apply at least one filter to save the search", Snackbar.LENGTH_LONG).show()
         } else {
             if (!session.isLoggedIn!!) {
                 communicator.goToLoginPage()
             } else {
-                var tempFilterID = ""
+                var tempFilterID:String? = ""
                 val saveSearchDialog = Dialog(activity)
                 saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
                 saveSearchDialog.setCancelable(true)
@@ -606,21 +620,21 @@ class JoblistFragment : Fragment() {
                 Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
-                filterNameET.easyOnTextChangedListener { text ->
+                filterNameET?.easyOnTextChangedListener { text ->
                     validateFilterName(text.toString(), textInputLayout)
                 }
 
-                cancelBTN.setOnClickListener {
+                cancelBTN?.setOnClickListener {
                     saveSearchDialog.dismiss()
                 }
 
-                if (filterID.isNotBlank()) {
+                if (filterID?.isNotBlank()!!) {
                     updateCG.show()
                 } else {
                     updateCG.hide()
                 }
 
-                if (filterName.isNotBlank()) {
+                if (filterName?.isNotBlank()!!) {
                     filterNameET.setText(filterName)
                 }
 
@@ -640,7 +654,7 @@ class JoblistFragment : Fragment() {
                     }
                 }
 
-                saveBTN.setOnClickListener {
+                saveBTN?.setOnClickListener {
 
                     if (validateFilterName(filterNameET.getString(), textInputLayout)) {
                         if (!session.isLoggedIn!!) {
@@ -680,7 +694,7 @@ class JoblistFragment : Fragment() {
         }
     }
 
-    private fun saveSearchIntoAPIAndDB(tempFilterID: String, filterName: String, saveSearchDialog: Dialog) {
+    private fun saveSearchIntoAPIAndDB(tempFilterID: String?, filterName: String?, saveSearchDialog: Dialog) {
         val loadingDialog = indeterminateProgressDialog("Saving")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
@@ -702,7 +716,7 @@ class JoblistFragment : Fragment() {
                 qRetiredArmy = army,
                 savefilterid = tempFilterID,
                 userId = session.userId,
-                filterName = filterName.trim(),
+                filterName = filterName?.trim(),
                 qAge = age,
                 newspaper = newsPaper,
                 encoded = Constants.ENCODED_JOBS
@@ -722,7 +736,7 @@ class JoblistFragment : Fragment() {
                             try {
                                 val favouriteSearch = FavouriteSearch(
                                         filterid = response.body()?.data?.get(0)?.sfilterid,
-                                        filtername = filterName.trim(),
+                                        filtername = filterName?.trim(),
                                         industrialCat = industry,
                                         functionalCat = category,
                                         location = location,
@@ -771,12 +785,12 @@ class JoblistFragment : Fragment() {
     }
 
 
-    private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
+    private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout?): Boolean {
         if (typedData.trim().isNullOrBlank()) {
-            textInputLayout.showError(getString(R.string.field_empty_error_message_common))
+            textInputLayout?.showError(getString(R.string.field_empty_error_message_common))
             return false
         }
-        textInputLayout.hideError()
+        textInputLayout?.hideError()
         return true
     }
 
