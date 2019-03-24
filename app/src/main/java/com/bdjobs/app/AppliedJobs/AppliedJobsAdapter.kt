@@ -193,7 +193,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     accountResult_tv.text = session.userName
                     var expectedSalary = appliedJobsLists?.get(position)?.expectedSalary
                     expected_salary_ET.setText(expectedSalary.toString())
-
+                    expected_salary_ET.setSelection(expected_salary_ET?.getText()?.length!!)
 
                     cancelBTN?.setOnClickListener {
                         try {
@@ -206,6 +206,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         if (expected_salary_ET.length() != 0) {
                             try {//update
                                 var salary = expected_salary_tv.getString()
+
                                 Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
                                 ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
                                 // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)

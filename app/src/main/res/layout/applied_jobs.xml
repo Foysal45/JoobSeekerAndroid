@@ -84,11 +84,13 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewCompanyName" />
+
         <TextView
             android:id="@+id/appliedon_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
+            android:layout_marginTop="3dp"
             android:fontFamily="@font/roboto"
             android:text="4 April 2018"
             android:textColor="#393939"
@@ -109,20 +111,22 @@
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/exSalary_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto"
             android:text="10000"
             android:textColor="#393939"
             android:textSize="12sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/appliedon_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView11" />
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
@@ -140,11 +144,13 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/appliedon_tv" />
+
         <TextView
             android:id="@+id/deadline_tv"
             android:layout_width="wrap_content"
             android:layout_height="13dp"
             android:layout_marginStart="17dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto"
             android:text="Apr 4, 2018"
@@ -166,17 +172,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
         <ImageView
             android:id="@+id/edit_SalaryIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:visibility="gone"
+            android:padding="5dp"
             android:src="@drawable/ic_expected_salary_edit"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/exSalary_tv"
-            app:layout_constraintTop_toTopOf="@+id/exSalary_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <ImageView
             android:id="@+id/imageViewCompanyLogo"

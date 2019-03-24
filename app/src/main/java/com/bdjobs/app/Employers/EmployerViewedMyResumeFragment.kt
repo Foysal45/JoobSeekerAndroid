@@ -28,7 +28,7 @@ import retrofit2.Response
 
 class EmployerViewedMyResumeFragment : Fragment() {
 
-    private val PAGE_START = 1
+    private var PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
     private var isLastPages = false
@@ -48,6 +48,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_employer_viewed_my_resume, container, false)
+        Log.d("called", "onCreateView")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,6 +56,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         employerCommunicator = activity as EmployersCommunicator
         isActivityDate = employerCommunicator.getTime()
         Log.d("test", "test"+isActivityDate)
+        Log.d("called", "onActivityCreated")
         if (isActivityDate.isNullOrEmpty()){
             isActivityDate = "1"
             // this 1 / 0 value is for last time and all time
@@ -67,7 +69,33 @@ class EmployerViewedMyResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initializeViews()
+        Log.d("called", "onResume")
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("called", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("called", "onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("called", "onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("called", "onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("called", "onDetach")
     }
 
 
@@ -99,6 +127,11 @@ class EmployerViewedMyResumeFragment : Fragment() {
     }
 
     private fun loadFirstPage(activityDate : String) {
+          PAGE_START = 1
+         TOTAL_PAGES = null
+         pgNo = PAGE_START
+         isLastPages = false
+         isLoadings = false
 
         try {
             viewedMyResumeRV?.hide()

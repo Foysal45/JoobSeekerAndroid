@@ -69,22 +69,24 @@
         android:id="@+id/bLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:visibility="visible"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
 
-        android:layout_marginTop="14dp"
-        android:layout_marginRight="20dp"
+        android:typeface="normal"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
         <TextView
             android:id="@+id/titleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/numberTV"
             android:fontFamily="@font/noto_sans"
             android:text=" time Emailed Resume"
-            android:layout_centerVertical="true"
             android:textColor="#767676"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/numberTV"
@@ -93,41 +95,51 @@
             android:layout_centerVertical="true"
             android:fontFamily="@font/noto_sans"
             android:textColor="#2F64A3"
-            android:textSize="12sp"
+            android:textSize="14sp"
             tools:text="" />
 
-        <TextView
-            android:id="@+id/allTV"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_alignParentRight="true"
-            android:background="@drawable/pending_inactive_bg"
-            android:fontFamily="@font/noto_sans"
-            android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
-            android:text="All Time"
-            android:textColor="#424242"
-            android:textSize="14sp" />
+            android:visibility="invisible"
 
-        <TextView
-            android:id="@+id/matchedTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/allTV"
-            android:background="@drawable/success_active_bg"
-            android:fontFamily="@font/noto_sans"
-            android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
-            android:text="Last Month"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            >
 
+
+            <TextView
+                android:id="@+id/allTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/pending_inactive_bg"
+                android:fontFamily="@font/noto_sans"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
+                android:text="All Time"
+                android:textColor="#424242"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/matchedTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/allTV"
+                android:background="@drawable/success_active_bg"
+                android:fontFamily="@font/noto_sans"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
+                android:text="Last Month"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
     </RelativeLayout>
 
 
@@ -190,19 +202,19 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="0"
         android:padding="10dp"
         android:text="New Email Resume"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        android:fontFamily="@font/roboto"
         android:typeface="normal"
         app:backgroundTint="#13A10E"
         app:cornerRadius="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:letterSpacing="0"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.18"
