@@ -774,8 +774,8 @@ class JoblistFragment : Fragment() {
                         }
 
                     } else {
-                        loadingDialog.dismiss()
-                        saveSearchDialog.dismiss()
+                        loadingDialog?.dismiss()
+                        saveSearchDialog?.dismiss()
                     }
                 } catch (e: Exception) {
                     logException(e)

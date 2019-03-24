@@ -151,25 +151,23 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     }
                 }
 
-
-
-
                 jobsVH.shortListIconIV.setOnClickListener {
                     shorlistAndUnshortlistJob(position)
                 }
 
                 jobsVH.linearLayout.setOnClickListener {
-
-                    jobCommunicator?.onItemClicked(position)
-
-                    val jobids = ArrayList<String>()
-                    val lns = ArrayList<String>()
-                    val deadline = ArrayList<String>()
-                    jobids.add(jobList?.get(position)?.jobid!!)
-                    lns.add(jobList?.get(position)?.lantype!!)
-                    deadline.add(jobList?.get(position)?.deadlineDB!!)
-                    homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-
+                    try {
+                        jobCommunicator?.onItemClicked(position)
+                        val jobids = ArrayList<String>()
+                        val lns = ArrayList<String>()
+                        val deadline = ArrayList<String>()
+                        jobids.add(jobList?.get(position)?.jobid!!)
+                        lns.add(jobList?.get(position)?.lantype!!)
+                        deadline.add(jobList?.get(position)?.deadlineDB!!)
+                        homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
                 }
             }
 
