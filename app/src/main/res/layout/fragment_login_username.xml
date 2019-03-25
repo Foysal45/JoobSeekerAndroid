@@ -101,6 +101,7 @@
             android:id="@+id/usernameTIET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:importantForAutofill="noExcludeDescendants"
             android:hint="Username, Email or Mobile No"
             android:inputType="text"
             android:singleLine="true"

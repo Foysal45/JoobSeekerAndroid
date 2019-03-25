@@ -453,7 +453,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 }
 
-                                if (readApplyData.isBlank()) {
+                                if (readApplyData.isNullOrBlank()) {
                                     jobsVH.tvReadBefApply.visibility = View.GONE
                                     jobsVH.tvReadBefApplyData.visibility = View.GONE
 

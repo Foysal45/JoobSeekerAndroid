@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface SuggestionDAO {
 
-    @Query("SELECT * FROM Suggestion WHERE flag = :flag ORDER BY InsertTime DESC LIMIT 3")
+    @Query("SELECT * FROM Suggestion WHERE flag = :flag ORDER BY InsertTime DESC LIMIT 5")
     fun getSuggestionByFlag(flag: String): List<Suggestion>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

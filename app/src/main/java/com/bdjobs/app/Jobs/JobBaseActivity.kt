@@ -171,42 +171,52 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
         val intent = this.intent
         try {
-            keyword = intent.getStringExtra(Constants.key_jobtitleET)
+            setKeyword(intent.getStringExtra(Constants.key_jobtitleET))
+            //keyword = intent.getStringExtra(Constants.key_jobtitleET)
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            location = intent.getStringExtra(Constants.key_loacationET)
+            setLocation(intent.getStringExtra(Constants.key_loacationET))
+            //location = intent.getStringExtra(Constants.key_loacationET)
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            category = intent.getStringExtra(Constants.key_categoryET)
+            setCategory(intent.getStringExtra(Constants.key_categoryET))
+            //category = intent.getStringExtra(Constants.key_categoryET)
         } catch (e: Exception) {
             logException(e)
         }
+
+
+        Log.d("wtji","jobase=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 ////
         try {
-            postedWithin = intent.getStringExtra("postedWithin")
+            //postedWithin = intent.getStringExtra("postedWithin")
+            setPostedWithin( intent.getStringExtra("postedWithin"))
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            deadline = intent.getStringExtra("deadline")
+           // deadline = intent.getStringExtra("deadline")
+            setDeadline(intent.getStringExtra("deadline"))
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            jobNature = intent.getStringExtra("jobNature")
+            //jobNature = intent.getStringExtra("jobNature")
+            setJobNature(intent.getStringExtra("jobNature"))
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            organization = intent.getStringExtra("organization")
+            //organization = intent.getStringExtra("organization")
+            setOrganization(intent.getStringExtra("organization"))
         } catch (e: Exception) {
             logException(e)
         }
-        try {
+        /*try {
             location = intent.getStringExtra("location")
         } catch (e: Exception) {
             logException(e)
@@ -215,7 +225,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             keyword = intent.getStringExtra("keyword")
         } catch (e: Exception) {
             logException(e)
-        }
+        }*/
 
 
 

@@ -9,9 +9,9 @@ import android.widget.TextView
 import com.bdjobs.app.API.ModelClasses.InviteCodeCategoryAmountModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.toBanglaDigit
-import java.util.ArrayList
+import java.util.*
 
-class InvitecodeCategoryListAdapter(ctx: Context, private val categoryAmountList: ArrayList<InviteCodeCategoryAmountModelData>) : BaseAdapter() {
+class InvitecodeCategoryListAdapter(ctx: Context?, private val categoryAmountList: ArrayList<InviteCodeCategoryAmountModelData>) : BaseAdapter() {
 
     private val mInflator: LayoutInflater = LayoutInflater.from(ctx)
 

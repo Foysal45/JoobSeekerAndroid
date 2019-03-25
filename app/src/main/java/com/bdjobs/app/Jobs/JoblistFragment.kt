@@ -100,6 +100,8 @@ class JoblistFragment : Fragment() {
         age = communicator?.getAge()
         army = communicator?.getArmy()
 
+        Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
+
         saveSearchDicission()
 
         suggestiveSearchET?.text = keyword
