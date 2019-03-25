@@ -20,6 +20,7 @@ import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
@@ -190,9 +191,18 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     position_tv.text = appliedJobsLists?.get(position)?.title
                     employer_tv.text = appliedJobsLists?.get(position)?.companyName
                     accountResult_tv.text = session.userName
+//                    updateBTN?.isEnabled = false
                     var expectedSalary = appliedJobsLists?.get(position)?.expectedSalary
                     expected_salary_ET.setText(expectedSalary.toString())
                     expected_salary_ET.setSelection(expected_salary_ET?.getText()?.length!!)
+                    expected_salary_ET?.easyOnTextChangedListener {
+                        if (expected_salary_ET?.text?.length!! > 0){
+                            updateBTN?.isEnabled = true
+                    }
+                        else {
+                            updateBTN?.isEnabled = false
+                        }
+                    }
 
                     cancelBTN?.setOnClickListener {
                         try {
@@ -389,9 +399,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
         val position = appliedJobsLists!!.size - 1
         val result = getItem(position)
-        notifyItemRemoved(position)
+        //notifyItemRemoved(position)
 
-        if (result != null) {
+        if (result?.jobId?.isNullOrBlank()!!) {
             appliedJobsLists!!.removeAt(position)
             notifyItemRemoved(position)
         }

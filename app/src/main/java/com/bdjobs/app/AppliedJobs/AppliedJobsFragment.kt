@@ -179,12 +179,17 @@ class AppliedJobsFragment : Fragment() {
                             appliedJobsCommunicator.setexperienceList(experienceList!!)
                             jobsAppliedSize = totalRecords?.toInt()!!
 
-                            if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                     /*       if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                                 Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
                                 appliedJobsAdapter?.addLoadingFooter()
                             } else {
                                 Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
                                 isLastPages = true
+                            }*/
+                            if (pgNo == TOTAL_PAGES!!) {
+                                isLastPages = true
+                            } else {
+                                appliedJobsAdapter?.addLoadingFooter()
                             }
 
                         } else {
@@ -248,9 +253,9 @@ class AppliedJobsFragment : Fragment() {
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
                     try {
-                        Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
+                        Log.d("callAppliURl", "url: ${call?.request()} and $pgNo total= ${TOTAL_PAGES}")
                         Log.d("callAppliURl", response.body()?.data.toString())
-                        TOTAL_PAGES = TOTAL_PAGES?.plus(1)
+                        //TOTAL_PAGES = TOTAL_PAGES?.plus(1)
 
                         //response.body()?.common?.totalpages?.toInt()
                         appliedJobsAdapter?.removeLoadingFooter()
@@ -259,11 +264,17 @@ class AppliedJobsFragment : Fragment() {
                         appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
 
 
-                        if (pgNo != TOTAL_PAGES)
+                        if (pgNo < TOTAL_PAGES!!)
                             appliedJobsAdapter?.addLoadingFooter()
                         else {
                             isLastPages = true
                         }
+                   /*     if (pgNo == TOTAL_PAGES!!) {
+                            isLastPages = true
+                        } else {
+                            appliedJobsAdapter?.addLoadingFooter()
+                        }*/
+
                     } catch (e: Exception) {
                         logException(e)
                     }
