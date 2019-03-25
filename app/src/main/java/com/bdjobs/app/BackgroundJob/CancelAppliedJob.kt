@@ -2,27 +2,18 @@ package com.bdjobs.app.BackgroundJob
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CancelAppliedJobs
-import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
-import com.bdjobs.app.API.ModelClasses.FollowUnfollowModelClass
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 
 class CancelAppliedJob(private val appContext: Context) : Job() {
@@ -38,10 +29,16 @@ class CancelAppliedJob(private val appContext: Context) : Job() {
             extras.putString("decodeid", decodeid)
             extras.putString("jobid", jobid)
 
-            val jobId = JobRequest.Builder(CancelAppliedJob.TAG)
+           /* val jobId = JobRequest.Builder(CancelAppliedJob.TAG)
                     .setExecutionWindow(TimeUnit.SECONDS.toMillis(3), TimeUnit.SECONDS.toMillis(10))
                     .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .setRequirementsEnforced(true)
+                    .setExtras(extras)
+                    .build()
+                    .schedule()*/
+
+            val jobId = JobRequest.Builder(CancelAppliedJob.TAG)
+                    .startNow()
                     .setExtras(extras)
                     .build()
                     .schedule()

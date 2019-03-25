@@ -25,8 +25,7 @@ import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -225,11 +224,20 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
             }
             holder?.cancelBTN?.setOnClickListener {
-                try {
-                    removeItem(position, it)
-                } catch (e: Exception) {
-                    logException(e)
-                }
+
+                activity?.alert("Are you sure you want to cancel this applied jobs?", "Confirmation") {
+                    yesButton {
+                        try {
+                            removeItem(position, holder?.cancelBTN)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                    noButton { dialog ->
+                        dialog.dismiss()
+                    }
+                }.show()
+
             }
             holder?.interviewBTN?.setOnClickListener {
                 try {
@@ -285,7 +293,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 notifyItemRemoved(position)
                 try {
                     val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
-                    undoRemove(view, deletedItem, position, deleteJobID)
+                   // undoRemove(view, deletedItem, position, deleteJobID)
                     communicator.decrementCounter()
                 } catch (e: Exception) {
 

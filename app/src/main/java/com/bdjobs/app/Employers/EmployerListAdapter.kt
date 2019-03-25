@@ -20,8 +20,7 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -96,8 +95,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
             doAsync {
                 val company_ID = employerList?.get(position)?.companyid!!
-                val companyName=employerList?.get(position)?.companyname!!
-                val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,companyName)
+                val companyName = employerList?.get(position)?.companyname!!
+                val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID, companyName)
 
                 uiThread {
                     if (isitFollowed) {
@@ -108,8 +107,27 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                 }
             }
             holder?.followUnfollow?.setOnClickListener {
-                followUnfollowEmployer(position)
-            }
+
+                if (holder?.followUnfollow?.text?.equals("Unfollow")!!){
+                    activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
+                        yesButton {
+                            try {
+                                followUnfollowEmployer(position)
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+                        }
+                        noButton { dialog ->
+                            dialog.dismiss()
+                        }
+                    }.show()
+                }
+                else {
+                    followUnfollowEmployer(position)
+                }
+                }
+
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -121,7 +139,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
             val company_NAME = employerList?.get(position)?.companyname!!
             val jobcount = employerList?.get(position)?.totaljobs!!
 
-            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID,company_NAME)
+            val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID, company_NAME)
 
             Log.d("companyinfo", "companyid: $company_ID \n companyname: $company_NAME \n isitFollowed: $isitFollowed")
 
@@ -256,7 +274,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     var message = response.body()?.data?.get(0)?.message
                     Log.d("msg", message)
                     doAsync {
-                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid,companyName)
+                        bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid, companyName)
 
                         uiThread {
                             notifyDataSetChanged()
