@@ -116,7 +116,9 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
             startActivity<JobBaseActivity>(
                     key_jobtitleET to keyWord,
                     key_loacationET to locationId,
-                    key_categoryET to catID)
+                    key_categoryET to catID,
+                    "from" to "guestuser"
+            )
         }
     }
 

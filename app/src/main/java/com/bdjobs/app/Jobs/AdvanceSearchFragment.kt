@@ -152,7 +152,7 @@ class AdvanceSearchFragment : Fragment() {
                 }
             }
             gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
+            jobCommunicator.setGender(gender.removeLastComma().trim())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
@@ -167,7 +167,7 @@ class AdvanceSearchFragment : Fragment() {
                 }
             }
             gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
+            jobCommunicator.setGender(gender.removeLastComma().trim())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
@@ -183,7 +183,7 @@ class AdvanceSearchFragment : Fragment() {
                 }
             }
             gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
+            jobCommunicator.setGender(gender.removeLastComma().trim())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 

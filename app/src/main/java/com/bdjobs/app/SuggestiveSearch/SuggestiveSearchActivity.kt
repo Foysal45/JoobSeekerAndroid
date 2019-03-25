@@ -35,20 +35,17 @@ import kotlin.collections.ArrayList
 
 
 class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
-    override fun clearRecycledViewPool() {
-        historyRV?.recycledViewPool?.clear()
-    }
 
     private lateinit var textData: String
     private lateinit var from: String
-
     private lateinit var dataStorage: DataStorage
     private val suggestionList = ArrayList<String>()
-    private var adapter: SuggestionAdapter? = null
     private lateinit var bdjobsInternalDB: BdjobsDB
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val historyList = ArrayList<String>()
-    private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var historyListAdapter: HistoryListAdapter
+
+    private lateinit var suggestionAdapter: SuggestionListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +53,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         initialization()
         onClicks()
         getIntentData()
-        //setHistoryAdapter(from)
+        setHistoryAdapter(from)
         setFilterAdapter(from)
         setTextWatcher()
 
@@ -96,7 +93,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     historyViewCL.hide()
                 }
             }
-            adapter?.filter?.filter(e)
+            suggestionAdapter?.filter?.filter(e)
         }
         suggestiveSearchET?.setText(textData)
         suggestiveSearchET?.setSelection(suggestiveSearchET?.text?.length!!)
@@ -113,10 +110,9 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     lineView.hide()
                     clearAllBTN.hide()
                 }
-                historyAdapter = HistoryAdapter(historyList, this@SuggestiveSearchActivity)
-                historyRV?.adapter = historyAdapter
-                historyRV?.recycledViewPool?.clear()
-                historyAdapter.notifyDataSetChanged()
+
+                historyListAdapter = HistoryListAdapter(historyList, this@SuggestiveSearchActivity)
+                historyRV?.adapter = historyListAdapter
             }
         }
     }
@@ -154,9 +150,9 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         for (item in suggestionItems) {
             suggestionList.add(item)
         }
-        adapter = SuggestionAdapter(suggestionList, this)
-
-        filterRV.adapter = adapter
+        //adapter = SuggestionAdapter(suggestionList, this)
+        suggestionAdapter = SuggestionListAdapter(suggestionList, this@SuggestiveSearchActivity)
+        filterRV.adapter = suggestionAdapter
     }
 
     private fun getIntentData() {
@@ -189,8 +185,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             bdjobsInternalDB.suggestionDAO().deleteAllKeywordSuggestion(from)
             uiThread {
                 historyList.clear()
-                historyRV?.recycledViewPool?.clear()
-                historyAdapter.notifyDataSetChanged()
+                historyListAdapter.notifyDataSetChanged()
                 lineView?.hide()
                 clearAllBTN?.hide()
             }

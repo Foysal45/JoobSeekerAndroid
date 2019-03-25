@@ -107,17 +107,18 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/keywordET"
-                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:drawablePadding="3dp"
                     android:editable="false"
-                    android:textSize="16sp"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Keyword"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
+                    android:textSize="16sp"
                     android:transitionName="robot" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -140,12 +141,13 @@
                     android:clickable="true"
                     android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:drawablePadding="3dp"
-                    android:textSize="16sp"
                     android:editable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="General Category"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
+                    android:textSize="16sp"
                     android:transitionName="robot" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -175,16 +177,17 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/specialCatET"
                     android:layout_width="match_parent"
-                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:drawablePadding="3dp"
                     android:editable="false"
-                    android:textSize="16sp"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Special Skilled Category"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
+                    android:textSize="16sp"
                     android:transitionName="robot" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -203,17 +206,18 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loacationET"
-                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:drawablePadding="3dp"
                     android:editable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Location"
-                    android:textSize="16sp"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
+                    android:textSize="16sp"
                     android:transitionName="robot" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -233,15 +237,16 @@
                     android:id="@+id/industryET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:clickable="true"
-                    android:editable="false"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
                     android:drawablePadding="3dp"
-                    android:textSize="16sp"
+                    android:editable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Industry"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
+                    android:textSize="16sp"
                     android:transitionName="robot" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -339,7 +344,6 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-
                     android:text="Others"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -366,61 +370,61 @@
                 app:chipSpacing="10dp">
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/maleChip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:id="@+id/maleChip"
                     android:text="Male"
-                    app:iconStartPadding="5dp"
-                    app:chipIconSize="14dp"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
                     app:chipIcon="@drawable/ic_male_ic"
+                    app:chipIconSize="14dp"
                     app:chipIconTint="@drawable/bg_chip_icon_tint"
                     app:chipIconVisible="true"
                     app:chipStrokeColor="#D9D9D9"
-                    app:chipStrokeWidth="1dp" />
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="5dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/femaleChip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="Female"
-                    android:id="@+id/femaleChip"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
-                    app:iconStartPadding="5dp"
-                    app:chipIconSize="14dp"
                     app:chipIcon="@drawable/ic_female_ic"
+                    app:chipIconSize="14dp"
                     app:chipIconTint="@drawable/bg_chip_icon_tint"
                     app:chipIconVisible="true"
                     app:chipStrokeColor="#D9D9D9"
-                    app:chipStrokeWidth="1dp" />
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="5dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/otherChip"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="Others"
-                    android:id="@+id/otherChip"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"
                     app:chipIcon="@drawable/ic_other_ic"
+                    app:chipIconSize="14dp"
                     app:chipIconTint="@drawable/bg_chip_icon_tint"
                     app:chipIconVisible="true"
-                    app:iconStartPadding="5dp"
-                    app:chipIconSize="14dp"
                     app:chipStrokeColor="#D9D9D9"
-                    app:chipStrokeWidth="1dp" />
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="5dp" />
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
@@ -879,17 +883,18 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/newsPaperET"
-                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
-                    android:drawablePadding="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
+                    android:drawablePadding="3dp"
                     android:editable="false"
-                    android:textSize="16sp"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Newspaper Job"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
+                    android:textSize="16sp"
                     android:transitionName="robot" />
 
             </com.google.android.material.textfield.TextInputLayout>

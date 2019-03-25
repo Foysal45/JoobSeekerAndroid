@@ -5,51 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
+import java.util.*
 
-class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Context) : RecyclerView.Adapter<SuggestionAdapter.ViewHolder>(), Filterable {
-
-
-    var filteredItems: ArrayList<String>? = null
-    var communicator: SuggestionCommunicator? = null
-
-    init {
-        communicator = context as SuggestionCommunicator
-    }
-
-    init {
-        filteredItems = itemList
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        try {
-            holder.itemTV.text = filteredItems!![position]
-            holder.itemTV.setOnClickListener {
-                communicator?.suggestionSelected(holder.itemTV.text.toString())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logException(e)
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(context).inflate(R.layout.item_filterlist, parent, false)
-        return ViewHolder(v)
-    }
-
-    override fun getItemCount(): Int {
-        return filteredItems?.size!!
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemTV = itemView.findViewById<TextView>(R.id.itemNameTV)!!
-    }
+class SuggestionListAdapter(var itemList: ArrayList<String>, private val context: Context) : BaseAdapter(), Filterable {
 
 
     override fun getFilter(): Filter {
@@ -77,10 +41,8 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
             override fun publishResults(charSequence: CharSequence, filterResults: Filter.FilterResults) {
                 filteredItems = filterResults.values as ArrayList<String>
                 Log.d("aaa", "Size: ${filterResults.count}")
-                //getRecycledViewPool().clear();
 
                 try {
-                    communicator?.clearRecycledViewPool()
                     notifyDataSetChanged()
                 } catch (e: Exception) {
                     logException(e)
@@ -89,5 +51,58 @@ class SuggestionAdapter(var itemList: ArrayList<String>, private val context: Co
         }
     }
 
+    var filteredItems: ArrayList<String>? = null
+    var communicator: SuggestionCommunicator? = null
+    private val mInflator: LayoutInflater = LayoutInflater.from(context)
 
+    init {
+        communicator = context as SuggestionCommunicator
+    }
+
+    init {
+        filteredItems = itemList
+    }
+
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View
+        val vh: ListRowHolder
+
+        if (convertView == null) {
+            view = this.mInflator.inflate(R.layout.item_filterlist, parent, false)
+            vh = ListRowHolder(view)
+            view?.tag = vh
+        } else {
+            view = convertView
+            vh = view.tag as ListRowHolder
+        }
+
+        try {
+            vh.itemTV?.text =  filteredItems?.get(position)
+            vh.itemTV?.setOnClickListener {
+                communicator?.suggestionSelected(vh?.itemTV?.text.toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
+
+        return view
+    }
+
+    override fun getItem(position: Int): Any {
+        return filteredItems?.get(position)!!
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getCount(): Int {
+        return filteredItems?.size!!
+    }
+
+    inner class ListRowHolder(row: View) {
+        val itemTV = row?.findViewById<TextView>(R.id.itemNameTV)
+    }
 }
