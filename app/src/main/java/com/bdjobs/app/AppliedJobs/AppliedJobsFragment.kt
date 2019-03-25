@@ -249,6 +249,7 @@ class AppliedJobsFragment : Fragment() {
                 override fun onFailure(call: Call<AppliedJobModel>, t: Throwable) {
                     activity?.toast("${t.message}")
                 }
+                //------------------------------
 
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
