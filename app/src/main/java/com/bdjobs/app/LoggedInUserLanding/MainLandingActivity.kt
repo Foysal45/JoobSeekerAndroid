@@ -594,6 +594,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     }
 
 
+
+
     override fun goToMessageByEmployers(from: String) {
 
         startActivity<EmployersBaseActivity>(

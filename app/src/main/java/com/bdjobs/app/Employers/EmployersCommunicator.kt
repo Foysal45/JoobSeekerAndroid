@@ -9,6 +9,8 @@ interface EmployersCommunicator {
     fun getTime() : String
     fun scrollToUndoPosition(position:Int)
     fun decrementCounter()
-
+    fun setMessageId(messageId: String)
+    fun getMessageId ():String
+    fun gotoMessageDetail()
 
 }
