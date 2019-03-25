@@ -225,7 +225,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             }
             holder?.cancelBTN?.setOnClickListener {
 
-                activity?.alert("Are you sure you want to cancel this applied jobs?", "Confirmation") {
+                activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                     yesButton {
                         try {
                             removeItem(position, holder?.cancelBTN)
