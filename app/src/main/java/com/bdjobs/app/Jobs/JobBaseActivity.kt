@@ -80,23 +80,23 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     var isLoading: Boolean = false
 
 
-    private var keyword = ""
-    private var location = ""
-    private var category = ""
-    private var newsPaper = ""
-    private var industry = ""
-    private var organization = ""
-    private var gender = ""
-    private var experience = ""
-    private var jobType = ""
-    private var jobLevel = ""
-    private var jobNature = ""
-    private var postedWithin = ""
-    private var deadline = ""
-    private var age = ""
-    private var army = ""
-    private var filterID = ""
-    private var filterName = ""
+    private var keyword:String? = ""
+    private var location:String? = ""
+    private var category:String? = ""
+    private var newsPaper:String? = ""
+    private var industry:String? = ""
+    private var organization:String? = ""
+    private var gender:String? = ""
+    private var experience:String? = ""
+    private var jobType:String? = ""
+    private var jobLevel:String? = ""
+    private var jobNature:String? = ""
+    private var postedWithin:String? = ""
+    private var deadline:String? = ""
+    private var age:String? = ""
+    private var army:String? = ""
+    private var filterID:String? = ""
+    private var filterName:String? = ""
 
 
     lateinit var dataStorage: DataStorage
@@ -115,12 +115,15 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
-    override fun goToSuggestiveSearch(from: String, typedData: String) {
-        val intent = Intent(this@JobBaseActivity, SuggestiveSearchActivity::class.java)
-        intent.putExtra(Constants.key_from, from)
-        intent.putExtra(Constants.key_typedData, typedData)
-        window.exitTransition = null
-        startActivityForResult(intent, Constants.BdjobsUserRequestCode)
+    override fun goToSuggestiveSearch(from: String, typedData: String?) {
+        try {
+            val intent = Intent(this@JobBaseActivity, SuggestiveSearchActivity::class.java)
+            intent.putExtra(Constants.key_from, from)
+            intent.putExtra(Constants.key_typedData, typedData)
+            window?.exitTransition = null
+            startActivityForResult(intent, Constants.BdjobsUserRequestCode)
+        } catch (e: Exception) {
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -133,22 +136,22 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 Log.d("eryfdh", "from: $from --- typedData : $typedData")
 
                 when (from) {
-                    Constants.key_jobtitleET -> setKeyword(typedData!!)
-                    Constants.key_loacationET -> setLocation(dataStorage.getLocationIDByName(typedData!!)!!)
-                    Constants.key_categoryET -> setCategory(dataStorage.getCategoryIDByName(typedData!!)!!)
-                    Constants.key_special_categoryET -> setCategory(dataStorage.getCategoryIDByBanglaName(typedData!!)!!)
-                    Constants.key_newspaperET -> setNewsPaper(dataStorage.getNewspaperIDByName(typedData!!)!!)
-                    Constants.key_industryET -> setIndustry(dataStorage.getJobSearcIndustryIDbyName(typedData!!)!!)
+                    Constants.key_jobtitleET -> setKeyword(typedData)
+                    Constants.key_loacationET -> setLocation(dataStorage.getLocationIDByName(typedData))
+                    Constants.key_categoryET -> setCategory(dataStorage.getCategoryIDByName(typedData))
+                    Constants.key_special_categoryET -> setCategory(dataStorage.getCategoryIDByBanglaName(typedData))
+                    Constants.key_newspaperET -> setNewsPaper(dataStorage.getNewspaperIDByName(typedData))
+                    Constants.key_industryET -> setIndustry(dataStorage.getJobSearcIndustryIDbyName(typedData))
                 }
             }
         }
     }
 
-    override fun setFilterID(filterID: String) {
+    override fun setFilterID(filterID: String?) {
         this.filterID = filterID
     }
 
-    override fun setFilterName(filterName: String) {
+    override fun setFilterName(filterName: String?) {
         this.filterName = filterName
     }
 
@@ -156,11 +159,11 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         transitFragment(advanceSearchFragment, R.id.jobFragmentHolder, true)
     }
 
-    override fun getFilterID(): String {
+    override fun getFilterID(): String? {
         return filterID
     }
 
-    override fun getFilterName(): String {
+    override fun getFilterName(): String? {
         return filterName
     }
 
@@ -221,21 +224,21 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             when (from) {
                 "lastsearch" -> doAsync {
                     val lastSearch = bdjobsDB.lastSearchDao().getLastSearch()[0]
-                    setKeyword(lastSearch.keyword!!)
-                    setCategory(lastSearch.category!!)
-                    setLocation(lastSearch.location!!)
-                    setIndustry(lastSearch.industry!!)
-                    setNewsPaper(lastSearch.newsPaper!!)
-                    setOrganization(lastSearch.organization!!)
-                    setGender(lastSearch.gender!!)
-                    setExperience(lastSearch.experince!!)
-                    setJobType(lastSearch.jobType!!)
-                    setJobLevel(lastSearch.jobLevel!!)
-                    setJobNature(lastSearch.jobnature!!)
-                    setPostedWithin(lastSearch.postedWithIn!!)
-                    setDeadline(lastSearch.deadline!!)
-                    setAge(lastSearch.age!!)
-                    setArmy(lastSearch.armyp!!)
+                    setKeyword(lastSearch.keyword)
+                    setCategory(lastSearch.category)
+                    setLocation(lastSearch.location)
+                    setIndustry(lastSearch.industry)
+                    setNewsPaper(lastSearch.newsPaper)
+                    setOrganization(lastSearch.organization)
+                    setGender(lastSearch.gender)
+                    setExperience(lastSearch.experince)
+                    setJobType(lastSearch.jobType)
+                    setJobLevel(lastSearch.jobLevel)
+                    setJobNature(lastSearch.jobnature)
+                    setPostedWithin(lastSearch.postedWithIn)
+                    setDeadline(lastSearch.deadline)
+                    setAge(lastSearch.age)
+                    setArmy(lastSearch.armyp)
 
                     uiThread {
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
@@ -244,24 +247,27 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 "favsearch" -> {
                     filterID = intent.getStringExtra("filterid")
                     doAsync {
-                        val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
-                        setFilterName(favSearch.filtername!!)
-                        setKeyword(favSearch.keyword!!)
-                        setCategory(favSearch.functionalCat!!)
-                        setLocation(favSearch.location!!)
-                        setIndustry(favSearch.industrialCat!!)
-                        setNewsPaper(favSearch.newspaper!!)
-                        setOrganization(favSearch.organization!!)
-                        setGender(favSearch.gender!!)
-                        setExperience(favSearch.experience!!)
-                        setJobType(favSearch.jobtype!!)
-                        setJobLevel(favSearch.joblevel!!)
-                        setJobNature(favSearch.jobnature!!)
-                        setPostedWithin(favSearch.postedon!!)
-                        setDeadline(favSearch.deadline!!)
-                        setAge(favSearch.age!!)
-                        setArmy(favSearch.retiredarmy!!)
-
+                        try {
+                            val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterID)
+                            setFilterName(favSearch.filtername)
+                            setKeyword(favSearch.keyword)
+                            setCategory(favSearch.functionalCat)
+                            setLocation(favSearch.location)
+                            setIndustry(favSearch.industrialCat)
+                            setNewsPaper(favSearch.newspaper)
+                            setOrganization(favSearch.organization)
+                            setGender(favSearch.gender)
+                            setExperience(favSearch.experience)
+                            setJobType(favSearch.jobtype)
+                            setJobLevel(favSearch.joblevel)
+                            setJobNature(favSearch.jobnature)
+                            setPostedWithin(favSearch.postedon)
+                            setDeadline(favSearch.deadline)
+                            setAge(favSearch.age)
+                            setArmy(favSearch.retiredarmy)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
                         uiThread {
                             transitFragment(joblistFragment, R.id.jobFragmentHolder)
                         }
@@ -468,16 +474,16 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
-    override fun getLocation(): String {
+    override fun getLocation(): String? {
         return this.location
     }
 
 
-    override fun getKeyword(): String {
+    override fun getKeyword(): String? {
         return this.keyword
     }
 
-    override fun getCategory(): String {
+    override fun getCategory(): String? {
         return this.category
     }
 
@@ -538,111 +544,111 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         return isLoading
     }
 
-    override fun getOrganization(): String {
+    override fun getOrganization(): String? {
         return this.organization
     }
 
-    override fun getGender(): String {
+    override fun getGender(): String? {
         return this.gender
     }
 
-    override fun getExperience(): String {
+    override fun getExperience(): String? {
         return this.experience
     }
 
-    override fun getJobType(): String {
+    override fun getJobType(): String? {
         return this.jobType
     }
 
-    override fun getJobLevel(): String {
+    override fun getJobLevel(): String? {
         return this.jobLevel
     }
 
-    override fun getJobNature(): String {
+    override fun getJobNature(): String? {
         return this.jobNature
     }
 
-    override fun getPostedWithin(): String {
+    override fun getPostedWithin(): String? {
         return this.postedWithin
     }
 
-    override fun getDeadline(): String {
+    override fun getDeadline(): String? {
         return this.deadline
     }
 
-    override fun getAge(): String {
+    override fun getAge(): String? {
         return this.age
     }
 
-    override fun getArmy(): String {
+    override fun getArmy(): String? {
         return this.army
     }
 
-    override fun setOrganization(value: String) {
+    override fun setOrganization(value: String?) {
         this.organization = value
     }
 
-    override fun setGender(value: String) {
+    override fun setGender(value: String?) {
         this.gender = value
     }
 
-    override fun setExperience(value: String) {
+    override fun setExperience(value: String?) {
         this.experience = value
     }
 
-    override fun setJobType(value: String) {
+    override fun setJobType(value: String?) {
         this.jobType = value
     }
 
-    override fun setJobLevel(value: String) {
+    override fun setJobLevel(value: String?) {
         this.jobLevel = value
     }
 
-    override fun setJobNature(value: String) {
+    override fun setJobNature(value: String?) {
         this.jobNature = value
     }
 
-    override fun setPostedWithin(value: String) {
+    override fun setPostedWithin(value: String?) {
         this.postedWithin = value
     }
 
-    override fun setDeadline(value: String) {
+    override fun setDeadline(value: String?) {
         this.deadline = value
     }
 
-    override fun setAge(value: String) {
+    override fun setAge(value: String?) {
         this.age = value
     }
 
-    override fun setArmy(value: String) {
+    override fun setArmy(value: String?) {
         this.army = value
     }
 
-    override fun getNewsPaper(): String {
+    override fun getNewsPaper(): String? {
         return this.newsPaper
     }
 
-    override fun getIndustry(): String {
+    override fun getIndustry(): String? {
         return this.industry
     }
 
-    override fun setKeyword(value: String) {
+    override fun setKeyword(value: String?) {
         this.keyword = value
     }
 
-    override fun setCategory(value: String) {
+    override fun setCategory(value: String?) {
         this.category = value
     }
 
-    override fun setLocation(value: String) {
+    override fun setLocation(value: String?) {
         this.location = value
     }
 
-    override fun setIndustry(value: String) {
+    override fun setIndustry(value: String?) {
         this.industry = value
     }
 
-    override fun setNewsPaper(value: String) {
+    override fun setNewsPaper(value: String?) {
         this.newsPaper = value
     }
 

@@ -19,7 +19,10 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.logException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 
 /*=============================================================================
  |
@@ -60,14 +63,19 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             holder?.offeringJobs.text = followedEmployerList?.get(position)?.JobCount
             company_name = followedEmployerList?.get(position)?.CompanyName!!
             company_ID = followedEmployerList?.get(position)?.CompanyID!!
-            holder.followUunfollow.setOnClickListener {
-                /*
-                here we start removing the unfollow item
-                 */
+            holder.followUunfollow?.setOnClickListener {
 
                 try {
-                    undoButtonPressed = false
-                    removeItem(holder.adapterPosition, it)
+                    activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
+                        yesButton {
+                            undoButtonPressed = false
+                            removeItem(holder.adapterPosition)
+                        }
+                        noButton { dialog ->
+                            dialog.dismiss()
+                        }
+                    }.show()
+
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -85,7 +93,6 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 if (jobCountint > 0) {
                     try {
                         if (position < followedEmployerList?.size!!) {
-
                             Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
                             var company_name_1 = followedEmployerList?.get(position)?.CompanyName!!
                             var company_ID_1 = followedEmployerList?.get(position)?.CompanyID!!
@@ -106,7 +113,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
     }
 
-    fun removeItem(position: Int, view: View) {
+    fun removeItem(position: Int) {
 
         try {
             if (followedEmployerList?.size != 0) {
@@ -118,7 +125,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 notifyItemRemoved(position)
                 try {
                     val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
-                    undoRemove(view, deletedItem, position, deleteJobID)
+                    //undoRemove(view, deletedItem, position, deleteJobID)
                     employersCommunicator.decrementCounter()
                 } catch (e: Exception) {
 

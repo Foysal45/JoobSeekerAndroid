@@ -25,7 +25,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_favourite_search_base.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
@@ -65,8 +64,19 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.favTitle1TV.text = items[position].filtername
-        holder.dateTV.text = items[position].createdon?.toSimpleDateString()
-        holder.timeTV.text = items[position].createdon?.toSimpleTimeString()
+
+
+        try {
+            if(items[position].updatedon?.toSimpleTimeString().isNullOrBlank()){
+                holder.timeTV.text = items[position].createdon?.toSimpleTimeString()
+                holder.dateTV.text = items[position].createdon?.toSimpleDateString()
+            }else{
+                holder.timeTV.text = items[position].updatedon?.toSimpleTimeString()
+                holder.dateTV.text = items[position].updatedon?.toSimpleDateString()
+            }
+        } catch (e: Exception) {
+        }
+
         holder.filter1TV.text = getFilterString(items[position])
 
         holder.parentView.setOnClickListener {
@@ -91,7 +101,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
             holder.editTV.show()
 
             holder.deleteTV.setOnClickListener {
-                activity.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
+                activity?.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
                     yesButton {
                         deleteFavSearch(position)
                     }
@@ -156,7 +166,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 Log.d("ububua","ububua = "+deletedItem.filterid)
 
                 val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
-                undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
+                //undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
                 favCommunicator?.decrementCounter()
             } else {
                 context.toast("No items left here!")

@@ -16,7 +16,6 @@ import org.jetbrains.anko.doAsync
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 
 class FavSearchDeleteJob(private val appContext: Context) : Job() {
@@ -30,10 +29,15 @@ class FavSearchDeleteJob(private val appContext: Context) : Job() {
             val extras = PersistableBundleCompat()
             extras.putString("favid", favId)
 
-            val jobId = JobRequest.Builder(FavSearchDeleteJob.TAG)
+           /* val jobId = JobRequest.Builder(FavSearchDeleteJob.TAG)
                     .setExecutionWindow(TimeUnit.SECONDS.toMillis(3), TimeUnit.SECONDS.toMillis(10))
                     .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .setRequirementsEnforced(true)
+                    .setExtras(extras)
+                    .build()
+                    .schedule()*/
+            val jobId = JobRequest.Builder(FavSearchDeleteJob.TAG)
+                    .startNow()
                     .setExtras(extras)
                     .build()
                     .schedule()

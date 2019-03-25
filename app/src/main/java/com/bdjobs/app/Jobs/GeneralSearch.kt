@@ -20,7 +20,7 @@ class GeneralSearch : Fragment() {
     var gender: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_general_search_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_general_search_layout, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class GeneralSearch : Fragment() {
             if (text.isBlank()) {
                 Log.d("catTest", "generalCatET : isBlank")
                 try {
-                    val catid = jobCommunicator.getCategory().trim().toInt()
+                    val catid = jobCommunicator.getCategory()?.trim()?.toInt()
                     if (catid in 1..30 || catid == -10) {
                         Log.d("eryfdh", "white")
                         jobCommunicator.setCategory("")
@@ -57,8 +57,8 @@ class GeneralSearch : Fragment() {
             if (text.isBlank()) {
                 Log.d("catTest", "specialCatET : isBlank")
                 try {
-                    val catid = jobCommunicator.getCategory().trim().toInt()
-                    if (catid > 60 || catid == -11) {
+                    val catid = jobCommunicator.getCategory()?.trim()?.toInt()
+                    if (catid!! > 60 || catid == -11) {
                         Log.d("eryfdh", "blue")
                         jobCommunicator.setCategory("")
                     }
@@ -113,28 +113,28 @@ class GeneralSearch : Fragment() {
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
-                        jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data)!!)
+                        jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data))
                     }
                     R.id.experienceCG -> {
-                        jobCommunicator.setExperience(dataStorage.getJobExperineceIDByName(data)!!)
+                        jobCommunicator.setExperience(dataStorage.getJobExperineceIDByName(data))
                     }
                     R.id.jobTypeCG -> {
-                        jobCommunicator.setJobType(dataStorage.getJobTypeIDByName(data)!!)
+                        jobCommunicator.setJobType(dataStorage.getJobTypeIDByName(data))
                     }
                     R.id.jobLevelCG -> {
-                        jobCommunicator.setJobLevel(dataStorage.getJobLevelIDByName(data.toLowerCase())!!)
+                        jobCommunicator.setJobLevel(dataStorage.getJobLevelIDByName(data.toLowerCase()))
                     }
                     R.id.jobNatureCG -> {
-                        jobCommunicator.setJobNature(dataStorage.getJobNatureIDByName(data.toLowerCase())!!)
+                        jobCommunicator.setJobNature(dataStorage.getJobNatureIDByName(data.toLowerCase()))
                     }
                     R.id.postedWithinCG -> {
-                        jobCommunicator.setPostedWithin(dataStorage.getPostedWithinIDByName(data)!!)
+                        jobCommunicator.setPostedWithin(dataStorage.getPostedWithinIDByName(data))
                     }
                     R.id.deadlineCG -> {
-                        jobCommunicator.setDeadline(dataStorage.getDeadlineIDByNAme(data)!!)
+                        jobCommunicator.setDeadline(dataStorage.getDeadlineIDByNAme(data))
                     }
                     R.id.ageRangeCG -> {
-                        jobCommunicator.setAge(dataStorage.getAgeRangeIDByName(data)!!)
+                        jobCommunicator.setAge(dataStorage.getAgeRangeIDByName(data))
                     }
                     R.id.armyCG -> {
                         jobCommunicator.setArmy("1")
@@ -177,26 +177,30 @@ class GeneralSearch : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        keywordET?.setText(jobCommunicator.getKeyword())
-        Log.d("eryfdh", "category Adv : ${jobCommunicator.getCategory()}")
+        keywordET?.setText(jobCommunicator?.getKeyword())
+        Log.d("eryfdh", "category Adv : ${jobCommunicator?.getCategory()}")
 
         try {
-            val catid = jobCommunicator.getCategory().trim().toInt()
-            if (catid > 60 || catid == -11) {
+            val catid = jobCommunicator?.getCategory()?.trim()?.toInt()
+            if (catid!! > 60 || catid == -11) {
                 Log.d("eryfdh", "blue")
-                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
+                specialCatET?.setText(dataStorage?.getCategoryBanglaNameByID(jobCommunicator?.getCategory()))
                 generalCatET.text?.clear()
             } else if (catid in 1..30 || catid == -10) {
                 Log.d("eryfdh", "white")
-                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
+                generalCatET?.setText(dataStorage?.getCategoryNameByID(jobCommunicator?.getCategory()))
                 specialCatET?.text?.clear()
             }
         } catch (e: Exception) {
             logException(e)
         }
 
-        loacationET?.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
-        selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator.getExperience())!!)
+        loacationET?.setText(dataStorage?.getLocationNameByID(jobCommunicator?.getLocation()))
+        try {
+            selectChip(experienceCG, dataStorage?.getJobExperineceByID(jobCommunicator?.getExperience()))
+        } catch (e: Exception) {
+            logException(e)
+        }
 
     }
 
@@ -218,11 +222,15 @@ class GeneralSearch : Fragment() {
     }
 
     private fun showHideCrossButton(editText: EditText) {
-        if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
-        } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText.clearTextOnDrawableRightClick()
+        try {
+            if (editText?.text?.isBlank()!!) {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
+            } else {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+                editText?.clearTextOnDrawableRightClick()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 }
