@@ -78,14 +78,12 @@ class TimesEmailedMyResumeFragment : Fragment() {
             allTV.performClick()
             isActivityDate = "0"
             allOnClickAction(isActivityDate)
-
             initPagination()
         }
         else if(Constants.timesEmailedResumeLast){
             matchedTV.performClick()
             isActivityDate = "1"
             lastOnClickAction(isActivityDate)
-
             initPagination()
         }
 
@@ -100,6 +98,8 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 isActivityDate = "1"
                 lastOnClickAction(isActivityDate)
                 Constants.timesEmailedResumeLast = true
+                matchedTV?.isEnabled = false
+                allTV?.isEnabled = true
             }
             initPagination()
         }
@@ -109,9 +109,9 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 isActivityDate = "0"
                 allOnClickAction(isActivityDate)
                 Constants.timesEmailedResumeLast = false
+                matchedTV?.isEnabled = true
+                allTV?.isEnabled = false
             }
-
-
             initPagination()
         }
 
@@ -156,12 +156,13 @@ class TimesEmailedMyResumeFragment : Fragment() {
     }
 
     private fun initPagination() {
+        Log.d("timesemailedresumepgNo", "vava = ${pgNo}")
         timesEmailedMyResumeAdapter = TimesEmailedMyResumeAdapter(activity!!)
         emailedResumeRV!!.setHasFixedSize(true)
         emailedResumeRV!!.adapter = timesEmailedMyResumeAdapter
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         emailedResumeRV!!.layoutManager = layoutManager as RecyclerView.LayoutManager?
-        Log.d("initPag", "called")
+        Log.d("initPag", "called = ${TOTAL_PAGES}")
         emailedResumeRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
         emailedResumeRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!!) {
@@ -183,6 +184,10 @@ class TimesEmailedMyResumeFragment : Fragment() {
     }
 
     private fun loadFirstPage(isActivityDate: String) {
+        /*pgNo = 1
+        TOTAL_PAGES = 0
+        isLastPages = false*/
+
         emailedResumeRV?.hide()
         shimmer_view_container_emailedResumeList?.show()
         shimmer_view_container_emailedResumeList?.startShimmerAnimation()
@@ -202,6 +207,9 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 Log.d("isActivityDate", "vava = $isActivityDate")
                 shimmer_view_container_emailedResumeList?.hide()
                 shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+                Log.d("timesemailedresume", "timesemailedresume = ${response?.body()?.data}")
+                Log.d("timesemailedresume", "pgNo.toString() = ${pgNo.toString()} " +
+                        "isActivityDate = ${isActivityDate}")
                 try {
                     TOTAL_PAGES = response?.body()?.common?.totalNumberOfPage?.toInt()
                     var totalEmailRecords = response?.body()?.common?.totalNumberOfEmail
@@ -215,7 +223,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
                     }
                     if (!response?.body()?.data.isNullOrEmpty()) {
-                        emailedResumeRV!!.visibility = View.VISIBLE
+                      //  emailedResumeRV!!.visibility = View.VISIBLE
                         timesEmailedMyResumeAdapter?.removeAll()
                         timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
                         numberTV.text = totalEmailRecords
@@ -239,7 +247,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
                         titleTV?.text = styledText
                     }
 
-
+                    //bLL?.visibility = View.VISIBLE
                     emailedResumeRV?.show()
                     numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
@@ -265,6 +273,9 @@ class TimesEmailedMyResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<TimesEmailed>, response: Response<TimesEmailed>) {
+                Log.d("timesemailedresume", "vava = ${response?.body()?.data}")
+                Log.d("timesemailedresume", "pgNo.toString() = ${pgNo.toString()} " +
+                        "isActivityDate = ${isActivityDate}")
                 try {
 
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
@@ -272,8 +283,6 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     isLoadings = false
 
                     timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
-
-
                     if (pgNo != TOTAL_PAGES)
                         timesEmailedMyResumeAdapter?.addLoadingFooter()
                     else {

@@ -197,10 +197,10 @@ class AppliedJobsFragment : Fragment() {
                          favCountTV.text = Html.fromHtml(styledText)*/
 
                         if (totalRecords?.toInt()!! > 1) {
-                            val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
+                            val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         } else  {
-                            val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Job Applied"
+                            val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Job applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         }
 

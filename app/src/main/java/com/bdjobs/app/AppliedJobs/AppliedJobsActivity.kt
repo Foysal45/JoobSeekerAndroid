@@ -1,8 +1,8 @@
 package com.bdjobs.app.AppliedJobs
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
@@ -10,7 +10,7 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.startActivity
 
-class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
+class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
     override fun setFrom(value: String) {
         from = value
     }

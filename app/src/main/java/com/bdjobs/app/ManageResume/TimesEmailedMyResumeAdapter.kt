@@ -130,13 +130,13 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
     private fun bindViews(holder: TimesEmailedMyResumeViewHolder, position: Int) {
 
-        holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject
-        holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo
-        holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn
+        holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
+        holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+        holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
 
         if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!){
             holder?.itemView?.setOnClickListener {
-                Log.d("mumu", "mumu")
+                Log.d("mumu", "mumu ")
                 try {
                     val jobids = ArrayList<String>()
                     val lns = ArrayList<String>()
