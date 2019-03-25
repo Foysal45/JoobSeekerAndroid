@@ -386,7 +386,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             doAsync {
                 val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
                 uiThread {
-                    if (shortListed) {
+                    if (shortListed || homeCommunicator!=null) {
                         context?.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {
                             yesButton {
                                 if (homeCommunicator != null) {
@@ -403,7 +403,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                                 dialog.dismiss()
                             }
                         }.show()
-                    } else {
+                    } else if (homeCommunicator==null) {
                         try {
                             val date = Date()
                             val formatter = SimpleDateFormat("MM/dd/yyyy")
