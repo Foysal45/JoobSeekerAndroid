@@ -845,6 +845,26 @@ interface ApiServiceMyBdjobs {
     ): Call<UploadResume>
 
 
+
+    @FormUrlEncoded
+    @POST("apps_Emp_Message.asp")
+    fun getEmployerMessageList(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("itemsPerPage") itemsPerPage: String?,
+            @Field("pageNumber") pageNumber: String?,
+            @Field("isActivityDate") isActivityDate: String?): Call<EmployerMessageModel>
+
+
+    @FormUrlEncoded
+    @POST("apps_Emp_Message_view.asp")
+    fun getMessageDetail(
+            @Field("userId") userId: String?,
+            @Field("decodeId") decodeId: String?,
+            @Field("messageId") messageId: String): Call<MessageDetailModel>
+
+
+
     companion object Factory {
 
         fun create(): ApiServiceMyBdjobs {
