@@ -63,8 +63,12 @@ class ORIEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        data = oriEditCB.getOriData()
-
+        try {
+            data = oriEditCB.getOriData()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logException(e)
+        }
         onClicks()
         etOriKeywords.easyOnTextChangedListener { charSequence ->
             if (maxInput - keywordsCount != 0) {

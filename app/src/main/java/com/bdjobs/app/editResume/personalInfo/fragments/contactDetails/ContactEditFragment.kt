@@ -69,6 +69,7 @@ class ContactEditFragment : Fragment() {
         d("onResume")
         doWork()
         updateViewsData()
+        hideAllError()
         preloadedData()
     }
 
