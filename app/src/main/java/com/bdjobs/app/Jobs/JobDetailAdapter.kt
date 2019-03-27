@@ -463,7 +463,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
                                     jobsVH.tvReadBefApplyData.movementMethod = MovementCheck()
 
-                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank()) {
+                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank()||jobDetailResponseAll.jobAppliedEmail.isNullOrEmpty()) {
                                         jobsVH.emailApplyTV.hide()
                                         jobsVH.emailApplyMsgTV.hide()
                                     } else {
@@ -498,7 +498,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
 
                                 jobsVH.tvJobSource.text = jobSourceData
-                                jobsVH.tvCompanyAddress.text = companyAddress
+                                if(companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()){
+                                    jobsVH.tvCompanyAddress.hide()
+                                    jobsVH.addressHeadingTV.hide()
+                                }else{
+                                    jobsVH.addressHeadingTV.show()
+                                    jobsVH.tvCompanyAddress.show()
+                                    jobsVH.tvCompanyAddress.text = companyAddress
+                                }
+
                                 jobsVH.tvCompanyName.text = companyName
 
 
@@ -536,7 +544,14 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             } else {
 
                                 jobsVH.tvJobSource.text = jobSourceData
-                                jobsVH.tvCompanyAddress.text = companyAddress
+                                if(companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()){
+                                    jobsVH.tvCompanyAddress.hide()
+                                    jobsVH.addressHeadingTV.hide()
+                                }else{
+                                    jobsVH.addressHeadingTV.show()
+                                    jobsVH.tvCompanyAddress.show()
+                                    jobsVH.tvCompanyAddress.text = companyAddress
+                                }
                                 jobsVH.tvCompanyName.text = companyName
 
                                 if (jobDetailResponseAll.companyOtherJ0bs.equalIgnoreCase("0")) {
@@ -868,6 +883,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val businessTV: TextView = viewItem?.findViewById(R.id.businessTV) as TextView
         val emailApplyTV: TextView = viewItem?.findViewById(R.id.emailApplyTV) as TextView
         val emailApplyMsgTV: TextView = viewItem?.findViewById(R.id.emailApplyMsgTV) as TextView
+
+        val addressHeadingTV:TextView = viewItem?.findViewById(R.id.address) as TextView
     }
 
 

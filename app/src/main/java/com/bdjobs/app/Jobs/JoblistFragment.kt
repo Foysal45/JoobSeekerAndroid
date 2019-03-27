@@ -577,11 +577,15 @@ class JoblistFragment : Fragment() {
 
 
     private fun onClick() {
-        backIV.setOnClickListener {
-            communicator.backButtonPressesd()
+        backIV?.setOnClickListener {
+            communicator?.backButtonPressesd()
         }
-        filterIMGV.setOnClickListener {
-            communicator.goToAdvanceSearch()
+        filterIMGV?.setOnClickListener {
+            communicator?.goToAdvanceSearch()
+        }
+
+        advnSearchFloatBtn?.setOnClickListener {
+            communicator?.goToAdvanceSearch()
         }
 
     }

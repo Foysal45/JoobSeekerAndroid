@@ -127,6 +127,7 @@
             android:layout_marginRight="10dp"
             android:divider="#F2F2F2"
             android:dividerHeight="10dp"
+            android:paddingBottom="5dp"
             android:visibility="visible" />
     </FrameLayout>
 </LinearLayout>

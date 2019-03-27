@@ -231,8 +231,8 @@
     <string name="_150">150</string>
     <string name="unfollow">Unfollow</string>
     <string name="followed_employers">Followed Employers</string>
-    <string name="employers_message">Messages By Employers</string>
-    <string name="employers_message_detail">Employer Message</string>
+    <string name="employers_message">Employer Message</string>
+    <string name="employers_message_detail">Employer Message Details</string>
     <string name="error_msg_unknown">An unexpected error occurred</string>
     <string name="browse_gallery">Browse Gallery</string>
     <string name="capture_photo">Capture Photo</string>

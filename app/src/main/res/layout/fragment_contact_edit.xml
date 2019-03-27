@@ -106,6 +106,7 @@
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/prContactDivTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -161,6 +162,7 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/prContactThanaTIET"
+                                android:importantForAutofill="noExcludeDescendants"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
@@ -181,6 +183,7 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/prContactPostOfficeTIET1"
+                                android:importantForAutofill="noExcludeDescendants"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusableInTouchMode="false"
@@ -242,6 +245,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/prContactAddressTIETPR"
                         android:layout_width="match_parent"
+
                         android:layout_height="wrap_content"
                         android:importantForAutofill="noExcludeDescendants"
                         android:hint="@string/hint.contactAddress"
@@ -373,6 +377,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/pmContactDistrictTIET"
+                            android:importantForAutofill="noExcludeDescendants"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
@@ -409,6 +414,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/hint.contactThana"
+                                android:importantForAutofill="noExcludeDescendants"
                                 android:longClickable="false"
                                 android:focusableInTouchMode="false"
                                 android:inputType="text|textMultiLine"
@@ -431,6 +437,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
+                                android:importantForAutofill="noExcludeDescendants"
                                 android:longClickable="false"
                                 android:hint="@string/hint.contactPost"
                                 android:inputType="text|textMultiLine"
@@ -463,6 +470,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/permanentContactCountryTIETP"
                             android:layout_width="match_parent"
+                            android:importantForAutofill="noExcludeDescendants"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.country"
                             android:longClickable="false"
@@ -486,6 +494,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/pmContactAddressTIETPRM"
                         android:layout_width="match_parent"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.contactAddress"
                         android:inputType="text|textMultiLine"
@@ -508,6 +517,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contactMobileNumberTIET"
                     android:layout_width="match_parent"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.contactMobileNumber"
                     android:inputType="number"
@@ -580,6 +590,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contactEmailAddressTIET"
                     android:layout_width="match_parent"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.contactEmailadress"
                     android:inputType="text"

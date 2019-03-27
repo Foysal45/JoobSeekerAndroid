@@ -144,6 +144,7 @@
                         android:src="@drawable/ic_domain_black_24dp" />
 
                     <TextView
+                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -212,11 +213,15 @@
 
 
                     <ImageView
+
+                        android:id="@+id/positionIconIV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_employment_history" />
 
                     <TextView
+                        android:layout_marginTop="2dp"
+                        android:id="@+id/positionTextTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -235,6 +240,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+
                         android:textColor="#393939"
                         android:id="@+id/positionTV"
                         android:layout_width="wrap_content"
@@ -273,11 +279,12 @@
                         android:src="@drawable/ic_date_range_black_24dp" />
 
                     <TextView
+                        android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Date"
+                        android:text="Mailed on:"
                         android:textColor="#000000"
                         android:textSize="14sp" />
 
