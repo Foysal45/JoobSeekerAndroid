@@ -43,6 +43,7 @@
                     app:helperText="Functional job categories maximum 3">
 
                     <AutoCompleteTextView
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/acWCjobCat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,6 +91,7 @@
                     app:helperText="Special Skilled job categories maximum 3">
 
                     <AutoCompleteTextView
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/acBCJobCat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,6 +138,7 @@
                     app:helperText="Organizations maximum 12">
 
                     <AutoCompleteTextView
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/acOrgType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -244,6 +247,7 @@
                         app:helperText="Districts maximum 15">
 
                         <AutoCompleteTextView
+                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/acInsideBD"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -301,6 +305,7 @@
                         app:helperText="Countries maximum 10">
 
                         <AutoCompleteTextView
+                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/acOutsideBD"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

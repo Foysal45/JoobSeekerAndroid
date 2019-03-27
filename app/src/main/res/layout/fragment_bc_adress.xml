@@ -84,6 +84,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcDistrictTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:hint="জেলা"
@@ -117,6 +118,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcThanaTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:focusable="false"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -151,6 +153,7 @@
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcPostOfficeTIET"
                    android:focusable="false"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:hint="পোস্ট অফিস"
@@ -184,6 +187,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcVillageTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:hint="এলাকার ঠিকানা বাড়ি/মহল্লা"

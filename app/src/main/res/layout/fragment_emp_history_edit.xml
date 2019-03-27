@@ -31,6 +31,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/companyNameET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
                     android:textColorHint="#757575">
 
                     <AutoCompleteTextView
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/companyBusinessACTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/companyLocationET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -113,6 +116,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/positionET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -139,6 +143,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/departmentET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -165,6 +170,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/responsibilitiesET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -194,6 +200,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/estartDateET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -213,6 +220,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/et_end_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -250,6 +258,7 @@
                     app:helperText="@string/msg.you_can_add_maximum_3_work_discipline">
 
                     <AutoCompleteTextView
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/experiencesMACTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

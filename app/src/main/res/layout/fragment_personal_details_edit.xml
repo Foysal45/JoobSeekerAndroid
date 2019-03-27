@@ -41,6 +41,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerFirstName"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.first_name"
@@ -61,6 +62,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerLastName"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.last_name"
@@ -81,6 +83,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerFName"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
@@ -99,6 +102,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerMName"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
@@ -127,6 +131,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerDob"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusableInTouchMode="false"
@@ -147,6 +152,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerReligion"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.religion"
@@ -316,6 +322,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerNid"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.national_id_no"
