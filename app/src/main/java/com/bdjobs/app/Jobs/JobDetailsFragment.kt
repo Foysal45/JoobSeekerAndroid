@@ -18,7 +18,9 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,21 +39,21 @@ class JobDetailsFragment : Fragment() {
     private var totalRecordsFound: Int? = null
     private var isLoadings = false
     private var isLastPages = false
-    private var keyword = ""
-    private var location = ""
-    private var category = ""
-    private var newsPaper = ""
-    private var industry = ""
-    private var organization = ""
-    private var gender = ""
-    private var experience = ""
-    private var jobType = ""
-    private var jobLevel = ""
-    private var jobNature = ""
-    private var postedWithin = ""
-    private var deadline = ""
-    private var age = ""
-    private var army = ""
+    private var keyword :String?= ""
+    private var location:String? = ""
+    private var category:String? = ""
+    private var newsPaper:String? = ""
+    private var industry:String? = ""
+    private var organization:String? = ""
+    private var gender:String? = ""
+    private var experience:String? = ""
+    private var jobType:String? = ""
+    private var jobLevel:String? = ""
+    private var jobNature:String? = ""
+    private var postedWithin:String? = ""
+    private var deadline:String? = ""
+    private var age:String? = ""
+    private var army:String? = ""
 
     var currentJobPosition = 0
     var shareJobPosition = 0
@@ -93,10 +95,21 @@ class JobDetailsFragment : Fragment() {
 
                     shareJobPosition = currentJobPosition
                     communicator.setCurrentJobPosition(currentJobPosition)
+                    jobDetailAdapter?.showHideShortListedIcon(currentJobPosition)
+                    totalRecordsFound?.let { it ->
+                        try {
+                            if (it > 1) {
+                                counterTV?.show()
+                            } else {
+                                counterTV?.hide()
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
 
                     counterTV?.let { tv ->
                         tv.text = "Job ${currentJobPosition + 1}/$totalRecordsFound"
-                        jobDetailAdapter?.showHideShortListedIcon(currentJobPosition)
+
                     }
                 }
             }
@@ -221,7 +234,7 @@ class JobDetailsFragment : Fragment() {
 
     }
 
-    private fun loadNextPage(jobLevel: String, newsPaper: String, armyp: String, blueColur: String, category: String, deadline: String, encoded: String, experince: String, gender: String, genderB: String, industry: String, isFirstRequest: String, jobnature: String, jobType: String, keyword: String, lastJPD: String, location: String, organization: String, pageId: String, pageNumber: Int, postedWithIn: String, age: String, rpp: String, slno: String, version: String) {
+    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
         Log.d("ArrayTestJobdetail", " loadNextPage called")
 
 
@@ -307,11 +320,27 @@ class JobDetailsFragment : Fragment() {
                 isLastPages = true
             }
 
+            jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
+
+
+            totalRecordsFound?.let { it ->
+                try {
+                    if (it > 1) {
+                        counterTV?.show()
+                    } else {
+                        counterTV?.hide()
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
 
             counterTV?.let { tv ->
                 tv.text = "Job ${communicator.getItemClickPosition() + 1}/$totalRecordsFound"
-                jobDetailAdapter?.showHideShortListedIcon(position = communicator.getItemClickPosition())
+
             }
+
+
         } catch (e: Exception) {
             logException(e)
         }

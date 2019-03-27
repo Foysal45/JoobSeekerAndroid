@@ -48,7 +48,7 @@ data class JobDetailData(
         @SerializedName("JObIMage") val jObIMage: String?,
         @SerializedName("upcoming") val upcoming: String?,
         @SerializedName("upcomingln") val upcomingln: String?,
-        @SerializedName("CompanyOtherJ0bs") val companyOtherJ0bs: String?,
+        @SerializedName("CompanyOtherJ0bs") val companyOtherJ0bs: String? = "0",
         @SerializedName("CompanyID") val companyID: String?,
         @SerializedName("CompanyNameENG") val companyNameENG: String?,
         @SerializedName("AssessmentRequired") val assessmentRequired: String?,
@@ -81,9 +81,9 @@ data class JobListModelData(
 )
 
 data class JobListCommon(
-    @SerializedName("total_records_found") val totalRecordsFound: Int?,
+    @SerializedName("total_records_found") val totalRecordsFound: Int?=0,
     @SerializedName("showad") val showad: String?,
-    @SerializedName("totalpages") val totalpages: Int?,
+    @SerializedName("totalpages") val totalpages: Int?=0,
     @SerializedName("appliedid") val appliedid: List<String?>?,
     @SerializedName("totalcount") val totalcount: String?
 )

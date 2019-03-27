@@ -89,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="মোবাইল নাম্বার"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="number"
                     android:fontFamily="@font/roboto"
                     android:singleLine="true"

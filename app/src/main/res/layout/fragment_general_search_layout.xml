@@ -116,6 +116,7 @@
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Keyword"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
                     android:textSize="16sp"
                     android:transitionName="robot" />
@@ -144,6 +145,7 @@
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="General Category"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
                     android:textSize="16sp"
                     android:transitionName="robot" />
@@ -183,6 +185,7 @@
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Special Skilled Category"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
                     android:textSize="16sp"
                     android:transitionName="robot" />
@@ -212,6 +215,7 @@
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/roboto"
                     android:hint="Location"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="none"
                     android:textSize="16sp"
                     android:transitionName="robot" />

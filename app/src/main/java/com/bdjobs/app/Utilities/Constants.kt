@@ -31,19 +31,10 @@ class Constants {
         const val FB_KEY_ID = "id"
         const val SOCIAL_MEDIA_GOOGLE = "G"
         const val SOCIAL_MEDIA_FACEBOOK = "F"
-        const val SOCIAL_MEDIA_LINKEDIN = "L"
         const val FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING = "id,name,email,gender,picture.type(large),first_name,last_name"
         const val FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY = "fields"
 
-        const val LINKEDIN_REQUEST_URL = "https://api.linkedin.com/v1/people/~:(email-address,id,first-name,last-name,formatted-name,phone-numbers,public-profile-url,picture-url,picture-urls::(original))"
-
         const val ENCODED_JOBS = "02041526JSBJ2"
-        const val career_tips = "What is career summary?"
-        const val spQ_tips = "What is Special Qualification?"
-        const val keyword_tips = "What is Keywords?"
-        const val career_tips_details = "The career summary section is an optional customized section of a resume that lists key achievements, skills, and experience relevant to the position for which you are applying.The career summary section of your resume focuses on your relevant experience and lets the prospective employer know that you have taken the time to create a resume that shows how you are qualified for the job."
-        const val spQ_tips_details = "Special Qualifications (Replacing the Objective) is 3-5 concise sentences on a resume. It is a summary of your most pertinent experience and qualifications that is customized for the position in which you are applying. This is also a place where attributes, such as punctuality and honesty, can be conveyed that would otherwise not be appropriate under work experience. Use the job description to help identify the areas of expertise, distinction, traits and related experiences you have without using the words"
-        const val keyword_tips_details = "Keywords are specific words or phrases that job seekers use to search for jobs and employers use to find the right candidates. Keywords are used as search criteria in the same way you do research on the Internet. The more keywords you use, the more closely the job will match what you are really looking for.Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java, HTML, Photo Shop, AIUB, BUET, RUET, KUET, DU, IBA, NSU etc"
 
         const val RC_SIGN_IN = 9001
         const val counterTimeLimit = 30000
@@ -65,7 +56,6 @@ class Constants {
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"
-        const val baseUrlMyBdjobs1 = "https://my.bdjobs.com/apps/mybdjobs/"
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
 
@@ -94,12 +84,9 @@ class Constants {
         const val api_jobs_db_update = "dbupdate.asp"
         const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
 
-
-        const val key_recent_search_keyword = "keyword"
         const val internal_database_name = "BdjobsInternal.db"
         const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="
         const val BROADCAST_DATABASE_UPDATE_JOB = "com.bdjobs.dataBaseUpdateJob.jobComplete"
-
 
         const val KEY_MANUFACTURER = "Manufacturer"
         const val KEY_OS_VERSION = "OS_version"

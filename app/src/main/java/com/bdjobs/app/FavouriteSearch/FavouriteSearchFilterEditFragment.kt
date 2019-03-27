@@ -38,24 +38,24 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private lateinit var bdjobsDB: BdjobsDB
     private lateinit var favCommunicator: FavCommunicator
     private lateinit var dataStorage: DataStorage
-    private var filterID = ""
-    private var organization = ""
-    private var experience = ""
-    private var jobType = ""
-    private var jobLevel = ""
-    private var jobNature = ""
-    private var postedWithin = ""
-    private var deadline = ""
-    private var age = ""
-    private var army = ""
-    private var location = ""
-    private var keyword = ""
-    private var newspaper = ""
-    private var category = ""
-    private var industry = ""
-    private var filterName = ""
+    private var filterID:String? = ""
+    private var organization:String? = ""
+    private var experience:String? = ""
+    private var jobType:String? = ""
+    private var jobLevel:String? = ""
+    private var jobNature:String? = ""
+    private var postedWithin:String? = ""
+    private var deadline:String? = ""
+    private var age:String? = ""
+    private var army:String? = ""
+    private var location:String? = ""
+    private var keyword:String? = ""
+    private var newspaper:String? = ""
+    private var category:String? = ""
+    private var industry:String? = ""
+    private var filterName:String? = ""
     private var createdOn: Date? = null
-    private var gender = ""
+    private var gender:String? = ""
     val genderList: MutableList<String> = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,7 +76,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     }
 
 
-    private fun goToSuggestiveSearch(from: String, typedData: String) {
+    private fun goToSuggestiveSearch(from: String, typedData: String?) {
         val intent = Intent(activity, SuggestiveSearchActivity::class.java)
         intent.putExtra(Constants.key_from, from)
         intent.putExtra(Constants.key_typedData, typedData)
@@ -146,21 +146,21 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             activity.requestFocus(filterNameET)
                         } else {
                             if (
-                                    industry.isBlank() &&
-                                    category.isBlank() &&
-                                    location.isBlank() &&
-                                    organization.isBlank() &&
-                                    jobNature.isBlank() &&
-                                    jobLevel.isBlank() &&
-                                    postedWithin.isBlank() &&
-                                    deadline.isBlank() &&
-                                    keyword.isBlank() &&
-                                    experience.isBlank() &&
-                                    gender.isBlank() &&
-                                    jobType.isBlank() &&
-                                    army.isBlank() &&
-                                    age.isBlank() &&
-                                    newspaper.isBlank()
+                                    industry.isNullOrBlank() &&
+                                    category.isNullOrBlank() &&
+                                    location.isNullOrBlank() &&
+                                    organization.isNullOrBlank() &&
+                                    jobNature.isNullOrBlank() &&
+                                    jobLevel.isNullOrBlank() &&
+                                    postedWithin.isNullOrBlank() &&
+                                    deadline.isNullOrBlank() &&
+                                    keyword.isNullOrBlank() &&
+                                    experience.isNullOrBlank() &&
+                                    gender.isNullOrBlank() &&
+                                    jobType.isNullOrBlank() &&
+                                    army.isNullOrBlank() &&
+                                    age.isNullOrBlank() &&
+                                    newspaper.isNullOrBlank()
                             ) {
                                 toast("Please apply at least one filter to update the search")
                             } else {
@@ -189,7 +189,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 try {
-                    val catid = category.toInt()
+                    val catid = category?.toInt()
                     if (catid in 1..30 || catid == -10) {
                         category = ""
                     }
@@ -204,8 +204,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
                 try {
-                    val catid = category.toInt()
-                    if (catid > 60 || catid == -11) {
+                    val catid = category?.toInt()
+                    if (catid!! > 60 || catid == -11) {
                         category = ""
                     }
                 } catch (e: Exception) {
@@ -238,24 +238,24 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         }
 
         keywordET?.setOnClickListener {
-            goToSuggestiveSearch(Constants.key_jobtitleET, keywordET.text.toString())
+            goToSuggestiveSearch(Constants.key_jobtitleET, keywordET?.text?.toString())
         }
         generalCatET?.setOnClickListener {
-            goToSuggestiveSearch(Constants.key_categoryET, generalCatET.text.toString())
+            goToSuggestiveSearch(Constants.key_categoryET, generalCatET?.text?.toString())
         }
         specialCatET?.setOnClickListener {
-            goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET.text.toString())
+            goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET?.text?.toString())
         }
         loacationET?.setOnClickListener {
-            goToSuggestiveSearch(Constants.key_loacationET, loacationET.text.toString())
+            goToSuggestiveSearch(Constants.key_loacationET, loacationET?.text?.toString())
         }
 
         newsPaperET?.setOnClickListener {
-            goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET.text.toString())
+            goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET?.text?.toString())
         }
 
         industryET?.setOnClickListener {
-            goToSuggestiveSearch(Constants.key_industryET, industryET.text.toString())
+            goToSuggestiveSearch(Constants.key_industryET, industryET?.text?.toString())
         }
 
         getDataFromChipGroup(orgCG)
@@ -358,7 +358,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         doAsync {
                             val favouriteSearch = FavouriteSearch(
                                     filterid = filterID,
-                                    filtername = filterName.trim(),
+                                    filtername = filterName?.trim(),
                                     industrialCat = industry,
                                     functionalCat = category,
                                     location = location,
@@ -480,15 +480,18 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         }
     }
 
-    private fun selectChip(chipGroup: ChipGroup, data: String) {
-        val count = chipGroup.childCount
-        for (i in 0 until count) {
-            val chip = chipGroup.getChildAt(i) as Chip
-            val chipText = chip.text.toString()
-            if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip", "text:$i")
-                chip.isChecked = true
+    private fun selectChip(chipGroup: ChipGroup?, data: String?) {
+        try {
+            val count = chipGroup?.childCount
+            for (i in 0 until count!!) {
+                val chip = chipGroup.getChildAt(i) as Chip
+                val chipText = chip.text.toString()
+                if (data?.equalIgnoreCase(chipText)!!) {
+                    Log.d("chip", "text:$i")
+                    chip.isChecked = true
+                }
             }
+        } catch (e: Exception) {
         }
     }
 
@@ -534,14 +537,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     loacationET?.setText(dataStorage.getLocationNameByID(filterData.location))
                     newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
                     industryET?.setText(dataStorage.getJobSearcIndustryNameByID(filterData.industrialCat))
-                    selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(filterData.organization)!!)
-                    selectChip(experienceCG, dataStorage.getJobExperineceByID(filterData.experience)!!)
-                    selectChip(jobTypeCG, dataStorage.getJobTypeByID(filterData.jobtype)!!)
-                    selectChip(jobLevelCG, dataStorage.getJobLevelByID(filterData.joblevel)!!)
-                    selectChip(jobNatureCG, dataStorage.getJobNatureByID(filterData.jobnature)!!)
-                    selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(filterData.postedon)!!)
-                    selectChip(deadlineCG, dataStorage.getDedlineNameByID(filterData.deadline)!!)
-                    selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(filterData.age)!!)
+                    selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(filterData.organization))
+                    selectChip(experienceCG, dataStorage.getJobExperineceByID(filterData.experience))
+                    selectChip(jobTypeCG, dataStorage.getJobTypeByID(filterData.jobtype))
+                    selectChip(jobLevelCG, dataStorage.getJobLevelByID(filterData.joblevel))
+                    selectChip(jobNatureCG, dataStorage.getJobNatureByID(filterData.jobnature))
+                    selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(filterData.postedon))
+                    selectChip(deadlineCG, dataStorage.getDedlineNameByID(filterData.deadline))
+                    selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(filterData.age))
                     if (filterData.retiredarmy == "1") {
                         selectChip(armyCG, "Yes")
                     }
@@ -555,19 +558,22 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
         if (typedData.trim().isNullOrBlank()) {
-            textInputLayout.showError(getString(R.string.field_empty_error_message_common))
+            textInputLayout?.showError(getString(R.string.field_empty_error_message_common))
             return false
         }
-        textInputLayout.hideError()
+        textInputLayout?.hideError()
         return true
     }
 
-    private fun showHideCrossButton(editText: EditText) {
-        if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-        } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText.clearTextOnDrawableRightClick()
+    private fun showHideCrossButton(editText: EditText?) {
+        try {
+            if (editText?.text?.isBlank()!!) {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            } else {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+                editText?.clearTextOnDrawableRightClick()
+            }
+        } catch (e: Exception) {
         }
     }
 }

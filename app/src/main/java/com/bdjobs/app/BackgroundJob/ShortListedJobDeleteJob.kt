@@ -7,17 +7,14 @@ import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 class ShortListedJobDeleteJob(private val appContext: Context) : Job() {
 
@@ -30,15 +27,21 @@ class ShortListedJobDeleteJob(private val appContext: Context) : Job() {
             val extras = PersistableBundleCompat()
             extras.putString("jobid", jobID)
 
-            val jobId = JobRequest.Builder(ShortListedJobDeleteJob.TAG)
+            /*val jobId = JobRequest.Builder(ShortListedJobDeleteJob.TAG)
                     .setExecutionWindow(TimeUnit.SECONDS.toMillis(3), TimeUnit.SECONDS.toMillis(10))
                     .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .setRequirementsEnforced(true)
                     .setExtras(extras)
                     .build()
+                    .schedule()*/
+
+            val jobId = JobRequest.Builder(ShortListedJobDeleteJob.TAG)
+                    .startNow()
+                    .setExtras(extras)
+                    .build()
                     .schedule()
 
-            Log.d("werywirye", " jobid: $jobId")
+            Log.d(TAG, " jobid: $jobId")
             return jobId
         }
 
@@ -62,7 +65,7 @@ class ShortListedJobDeleteJob(private val appContext: Context) : Job() {
     override fun onRunJob(params: Params): Result {
 
         val jobid = params.extras.getString("jobid", "")
-
+        Log.d(TAG, "Shortlised jobID: $jobid")
         if (jobid.isNotEmpty()) {
             doAsync {
                 bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobid)
@@ -77,7 +80,7 @@ class ShortListedJobDeleteJob(private val appContext: Context) : Job() {
                 }
 
                 override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
-
+                    Log.d(TAG, "Shortlised jobID: $jobid")
                 }
             })
 

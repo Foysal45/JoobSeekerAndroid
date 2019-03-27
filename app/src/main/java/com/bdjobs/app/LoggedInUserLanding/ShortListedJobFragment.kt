@@ -30,14 +30,12 @@ class ShortListedJobFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var joblistAdapter: JoblistAdapter
     lateinit var homeCommunicator: HomeCommunicator
-    private var jobListGet: MutableList<JobListModelData>? = null
     private var currentPage = 1
     private var TOTAL_PAGES: Int? = null
     private var isLoadings = false
     private var isLastPages = false
     var totalRecordsFound = 0
     private var layoutManager: RecyclerView.LayoutManager? = null
-
     var favListSize = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -119,7 +117,7 @@ class ShortListedJobFragment : Fragment() {
         joblistAdapter = JoblistAdapter(activity)
         shortListRV?.adapter = joblistAdapter
 
-        shortListRV!!.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
+        shortListRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
 
             override val totalPageCount: Int
                 get() = TOTAL_PAGES!!
@@ -149,9 +147,10 @@ class ShortListedJobFragment : Fragment() {
     }
 
     private fun loadFisrtPageTest(deadline: String, rpp: String, pageNumber: Int) {
+        noDataLL?.hide()
         shortListRV.hide()
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        shimmer_view_container_JobList?.show()
+        shimmer_view_container_JobList?.startShimmerAnimation()
 
         val call = ApiServiceJobs.create().getStoreJobList(
                 p_id = bdjobsUserSession.userId,
@@ -166,11 +165,21 @@ class ShortListedJobFragment : Fragment() {
 
                 try {
                     if (response.isSuccessful) {
-                        shortListRV?.show()
-                        shimmer_view_container_JobList.hide()
-                        shimmer_view_container_JobList.stopShimmerAnimation()
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmerAnimation()
 
                         val jobResponse = response.body()
+                        val totalJobs = jobResponse?.common?.totalRecordsFound
+
+                        if (totalJobs!! > 0) {
+                            noDataLL?.hide()
+                            shortListRV?.show()
+                            Log.d("totalJobs", "data ase")
+                        } else {
+                            noDataLL?.show()
+                            shortListRV?.hide()
+                            Log.d("totalJobs", "zero")
+                        }
 
                         TOTAL_PAGES = jobResponse?.common?.totalpages
 
@@ -191,18 +200,17 @@ class ShortListedJobFragment : Fragment() {
                             joblistAdapter.addLoadingFooter()
                         }
 
-                        val totalJobs = jobResponse!!.common!!.totalRecordsFound
-                        if (totalJobs?.toInt()!! > 1) {
+
+                        if (totalJobs> 1) {
                             val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted jobs"
                             jobCountTV?.text = Html.fromHtml(styledText)
                         } else {
                             val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted job"
                             jobCountTV?.text = Html.fromHtml(styledText)
                         }
-                        // communicator.setIsLoading(isLoadings)
-                        // communicator.setLastPasge(isLastPages)
-                        // communicator.setTotalJob(jobResponse.common!!.totalRecordsFound!!.toInt())
-                        totalRecordsFound = jobResponse.common?.totalRecordsFound!!.toInt()
+
+
+                        totalRecordsFound = jobResponse.common?.totalRecordsFound
                         favListSize = totalRecordsFound
                     } else {
                         /*Log.d("TAG", "not successful: $TAG")*/

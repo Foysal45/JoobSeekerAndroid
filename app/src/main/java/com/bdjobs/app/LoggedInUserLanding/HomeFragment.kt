@@ -72,14 +72,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         bdjobsDB = BdjobsDB.getInstance(activity)
         homeCommunicator = activity as HomeCommunicator
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
-        nameTV.text = bdjobsUserSession.fullName
-        emailTV.text = bdjobsUserSession.email
-        profilePicIMGV.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        nameTV?.text = bdjobsUserSession.fullName
+        emailTV?.text = bdjobsUserSession.email
+        profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
-        alertAboutShortlistedJobs()
-
     }
+
 
     private fun alertAboutShortlistedJobs() {
         try {
@@ -144,6 +143,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showData()
+        alertAboutShortlistedJobs()
 
     }
 
@@ -347,7 +347,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
                     searchFilterTV?.text = getFilterString(searchData!!)
-                    if (!searchData.keyword?.isBlank()!!) {
+                    if (!searchData.keyword.isNullOrBlank()) {
                         keywordTV?.text = searchData.keyword
                     } else {
                         keywordTV?.text = "-"

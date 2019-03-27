@@ -174,31 +174,36 @@ class EmployerInteractionFragment : Fragment() {
         Log.d("expEXP", "button size = $buttonsize")
         radio_group?.removeAllViews()
         //foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
-        buttonsize = buttonsize?.minus(1)
-        for (i in 0..buttonsize!!) {
-            val designationradioBTN = RadioButton(activity)
-            val companyTV = TextView(activity)
-            designationradioBTN?.id = View.generateViewId()
-            companyTV?.id = View.generateViewId()
-            designationradioBTN?.text = experienceListInteraction?.get(i)?.designation?.trim()
-            companyTV?.text = experienceListInteraction?.get(i)?.companyName?.trim()
+
+        buttonsize?.let {
+            buttonsize = buttonsize?.minus(1)
+            buttonsize?.let {
+                for (i in 0..buttonsize!!) {
+                    val designationradioBTN = RadioButton(activity)
+                    val companyTV = TextView(activity)
+                    designationradioBTN?.id = View.generateViewId()
+                    companyTV?.id = View.generateViewId()
+                    designationradioBTN?.text = experienceListInteraction?.get(i)?.designation?.trim()
+                    companyTV?.text = experienceListInteraction?.get(i)?.companyName?.trim()
 
 
-            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            designationradioBTN?.setTextSize(16F)
-            companyTV?.setTextSize(14F)
-            designationradioBTN?.layoutParams = params
-            companyTV?.layoutParams = paramsTV
-            params?.setMargins(0, 10, 0, 0);
-            paramsTV?.setMargins(80, 0, 0, 25);
+                    val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+                    val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+                    designationradioBTN?.setTextSize(16F)
+                    companyTV?.setTextSize(14F)
+                    designationradioBTN?.layoutParams = params
+                    companyTV?.layoutParams = paramsTV
+                    params?.setMargins(0, 10, 0, 0);
+                    paramsTV?.setMargins(80, 0, 0, 25);
 
-            radio_group?.addView(designationradioBTN)
-            radio_group?.addView(companyTV)
+                    radio_group?.addView(designationradioBTN)
+                    radio_group?.addView(companyTV)
 
-            designationradioBTN.setOnClickListener {
-                expID = experienceListInteraction?.get(i)?.experienceID!!
-                // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
+                    designationradioBTN?.setOnClickListener {
+                        expID = experienceListInteraction?.get(i)?.experienceID!!
+                        // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
+                    }
+                }
             }
         }
 

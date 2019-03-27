@@ -107,6 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:hint="Mobile Number"
                     android:inputType="phone"
                     android:fontFamily="@font/roboto"
@@ -150,14 +151,15 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailTIET"
-                    android:maxLength="50"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
                     android:focusableInTouchMode="true"
-                    android:inputType="textEmailAddress"
-                    android:singleLine="true"
                     android:fontFamily="@font/roboto"
+                    android:hint="Email"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="50"
+                    android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />
             </com.google.android.material.textfield.TextInputLayout>

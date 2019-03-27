@@ -656,7 +656,7 @@ fun Context.getDeviceInformation():HashMap<String,String>{
     val freeBytesInternal = File(filesDir.absoluteFile.toString()).freeSpace
     val totalBytesInternal = File(filesDir.absoluteFile.toString()).totalSpace
     val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    val carrierName = manager.networkOperatorName
+    val carrierName = manager?.networkOperatorName
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         totalRAM = mi.totalMem / 1048576L

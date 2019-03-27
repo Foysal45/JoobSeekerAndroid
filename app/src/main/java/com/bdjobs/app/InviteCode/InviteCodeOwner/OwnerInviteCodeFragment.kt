@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeCategoryAmountModel
@@ -115,7 +114,7 @@ class OwnerInviteCodeFragment : Fragment() {
 
         val categoryLV = dialog.findViewById(R.id.categoryLV) as ListView
         val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
-        val invitecodeCategoryListAdapter = InvitecodeCategoryListAdapter(activity!!, categoryAmountList)
+        val invitecodeCategoryListAdapter = InvitecodeCategoryListAdapter(activity, categoryAmountList)
         categoryLV.setAdapter(invitecodeCategoryListAdapter)
 
         dialog.setCancelable(true)

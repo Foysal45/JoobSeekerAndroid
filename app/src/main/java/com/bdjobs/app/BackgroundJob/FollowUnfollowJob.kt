@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.API.ModelClasses.FollowUnfollowModelClass
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -20,7 +18,6 @@ import org.jetbrains.anko.doAsync
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 
 class FollowUnfollowJob(private val appContext: Context) : Job() {
@@ -35,10 +32,16 @@ class FollowUnfollowJob(private val appContext: Context) : Job() {
             extras.putString("companyid", companyId)
             extras.putString("companyname", companyName)
 
-            val jobId = JobRequest.Builder(FollowUnfollowJob.TAG)
+           /* val jobId = JobRequest.Builder(FollowUnfollowJob.TAG)
                     .setExecutionWindow(TimeUnit.SECONDS.toMillis(3), TimeUnit.SECONDS.toMillis(10))
                     .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .setRequirementsEnforced(true)
+                    .setExtras(extras)
+                    .build()
+                    .schedule()*/
+
+            val jobId = JobRequest.Builder(FollowUnfollowJob.TAG)
+                    .startNow()
                     .setExtras(extras)
                     .build()
                     .schedule()

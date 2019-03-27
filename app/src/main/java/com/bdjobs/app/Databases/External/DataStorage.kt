@@ -1098,11 +1098,11 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getLocationIDByName(nae: String): String? {
+    fun getLocationIDByName(nae: String?): String? {
 
         var s: String? = null
-        var name: String = nae
-        name = name.replace("'", "''")
+        var name: String? = nae
+        name = name?.replace("'", "''")
         Log.d("coxx", "value: $name")
         try {
             dbHelper.openDataBase()
@@ -1519,7 +1519,7 @@ class DataStorage(context: Context) {
 
     }*/
 
-    fun getCategoryIDByName(name: String): String? {
+    fun getCategoryIDByName(name: String?): String? {
 
         var s: String? = null
         try {
@@ -1544,7 +1544,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getCategoryIDByBanglaName(name: String): String? {
+    fun getCategoryIDByBanglaName(name: String?): String? {
 
         var s: String? = null
         try {
@@ -1594,7 +1594,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getCategoryBanglaNameByID(ID: String): String {
+    fun getCategoryBanglaNameByID(ID: String?): String {
 
         var s: String = ""
         try {
@@ -1861,7 +1861,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getNewspaperIDByName(name: String): String? {
+    fun getNewspaperIDByName(name: String?): String? {
 
         var s: String? = null
         try {
@@ -1911,7 +1911,7 @@ class DataStorage(context: Context) {
         return s
     }
 
-    fun getAgeRangeIDByName(name: String): String? {
+    fun getAgeRangeIDByName(name: String?): String? {
 
         var s: String? = null
         try {

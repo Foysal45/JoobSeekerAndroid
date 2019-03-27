@@ -16,7 +16,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.counterTimeLimit
 import com.bdjobs.app.Utilities.Constants.Companion.timer_countDownInterval
 import kotlinx.android.synthetic.main.fragment_login_otp.*
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,8 +42,6 @@ class LoginOTPFragment : Fragment() {
         super.onResume()
         onClicks()
         setData()
-
-
     }
 
     private fun setTime() {

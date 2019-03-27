@@ -1,240 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:fillViewport="true"
     tools:context=".ManageResume.EmailResumeFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutToolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            tools:layout_editor_absoluteX="16dp">
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/suggestiveSearchET"
-                android:layout_width="0dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="32dp"
-                android:drawablePadding="5dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:singleLine="true"
-                android:text="Email Resume"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backIV"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                tools:layout_editor_absoluteX="16dp">
 
-            <ImageView
-                android:id="@+id/backIV"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/suggestiveSearchET"
+                    android:layout_width="0dp"
+                    android:layout_height="29dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:drawablePadding="5dp"
+                    android:ems="10"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="Email Resume"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/backIV"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/backIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ProgressBar
+            android:id="@+id/EmailResumeLoadingProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:theme="@style/BdjobsLinearProgress"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/from_TIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_from"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
+                android:focusable="true"
+                android:foregroundTintMode="src_over"
+                android:hint="From"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingBottom="15dp"
+                android:singleLine="true"
+                android:textEditSuggestionItemLayout="@null"
+                android:textSize="14sp"
+                tools:backgroundTintMode="multiply"
 
-    <ProgressBar
-        android:id="@+id/EmailResumeLoadingProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:theme="@style/BdjobsLinearProgress"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/from_TIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/to_TIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/from_TIL">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_from"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foregroundTintMode="src_over"
+                android:hint="Send To"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingBottom="15dp"
+                android:singleLine="true"
+                android:textEditSuggestionItemLayout="@null"
+                android:textSize="14sp"
+                tools:backgroundTintMode="multiply"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Subject_TIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/to_TIL">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_Subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foregroundTintMode="src_over"
+                android:hint="Subject"
+                android:inputType="textEmailSubject"
+                android:maxLength="100"
+                android:paddingBottom="15dp"
+                android:singleLine="true"
+                android:textSize="14sp"
+                tools:backgroundTintMode="multiply"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Message_TIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:counterEnabled="false"
+            app:counterMaxLength="160"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Subject_TIL">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_Message"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:focusable="true"
+                android:foregroundTintMode="src_over"
+                android:gravity="top|left"
+                android:hint="Message"
+                android:inputType="textCapSentences|textMultiLine"
+                android:lines="10"
+                android:maxLines="15"
+                android:minLines="5"
+                android:paddingBottom="15dp"
+                android:singleLine="true"
+                android:textSize="14sp"
+                tools:backgroundTintMode="multiply"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:foregroundTintMode="src_over"
-            android:hint="From"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:paddingBottom="15dp"
-            android:singleLine="true"
-            android:textEditSuggestionItemLayout="@null"
-            android:textSize="14sp"
-            tools:backgroundTintMode="multiply"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Message_TIL">
 
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            <RadioButton
+                android:id="@+id/mybdjobsResume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Bdjobs Resume Format" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/to_TIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/from_TIL">
+            <RadioButton
+                android:id="@+id/uploadResume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attach Uploaded Resume" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_to"
-            android:layout_width="match_parent"
+        </RadioGroup>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/cbFAB"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:foregroundTintMode="src_over"
-            android:hint="Send To"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:paddingBottom="15dp"
-            android:singleLine="true"
-            android:textEditSuggestionItemLayout="@null"
-            android:textSize="14sp"
-            tools:backgroundTintMode="multiply"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="70dp"
+            android:background="#13A10E"
+            android:src="@drawable/ic_done_black_24dp"
+            app:backgroundTint="#13A10E"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+            app:layout_constraintVertical_bias="1.0" />
 
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/Subject_TIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/to_TIL">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Subject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:foregroundTintMode="src_over"
-            android:hint="Subject"
-            android:inputType="textEmailSubject"
-            android:maxLength="100"
-            android:paddingBottom="15dp"
-            android:singleLine="true"
-            android:textSize="14sp"
-            tools:backgroundTintMode="multiply"
-
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/Message_TIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:counterEnabled="false"
-        app:counterMaxLength="160"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Subject_TIL">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Message"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:focusable="true"
-            android:foregroundTintMode="src_over"
-            android:gravity="top|left"
-            android:hint="Message"
-            android:inputType="textCapSentences|textMultiLine"
-            android:lines="10"
-            android:maxLines="15"
-            android:minLines="5"
-            android:paddingBottom="15dp"
-            android:singleLine="true"
-            android:textSize="14sp"
-            tools:backgroundTintMode="multiply"
-
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Message_TIL">
-
-        <RadioButton
-            android:id="@+id/mybdjobsResume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Bdjobs Resume Format" />
-
-        <RadioButton
-            android:id="@+id/uploadResume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Attach Uploaded Resume" />
-
-    </RadioGroup>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cbFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="70dp"
-        android:background="#13A10E"
-        android:src="@drawable/ic_done_black_24dp"
-        app:backgroundTint="#13A10E"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="1.0" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

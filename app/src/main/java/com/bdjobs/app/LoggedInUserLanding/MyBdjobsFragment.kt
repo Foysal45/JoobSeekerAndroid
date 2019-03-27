@@ -17,9 +17,7 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.editResume.EditResLandingActivity
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -97,7 +95,7 @@ class MyBdjobsFragment : Fragment() {
             all_MBTN?.setBackgroundResource(R.drawable.right_rounded_background)
             all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#000000")))
             lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
-          //  populateDataLastMonthStats()
+            //  populateDataLastMonthStats()
             lastmonth_MBTN?.isEnabled = false
             all_MBTN?.isEnabled = true
 
@@ -141,6 +139,7 @@ class MyBdjobsFragment : Fragment() {
             logException(e)
         }
     }
+
     private fun populateDataAllMonthStats() {
         try {
             for ((index, value) in allStatsData!!.withIndex()) {
@@ -153,12 +152,13 @@ class MyBdjobsFragment : Fragment() {
             logException(e)
         }
     }
+
     private fun populateDataAllMonthStats2() {
         try {
             for ((index, value) in allStatsData!!.withIndex()) {
                 if (index < (allStatsData?.size!! - 1)) {
-               //     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
-              bdjobsList?.get(index)?.itemID = value?.count!!
+                    //     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+                    bdjobsList?.get(index)?.itemID = value?.count!!
                 }
             }
             mybdjobsAdapter?.addAll(bdjobsList)
@@ -168,10 +168,9 @@ class MyBdjobsFragment : Fragment() {
     }
 
     private fun getStatsData(activityDate: String) {
-        activity.showProgressBar(mybdjobsLoadingProgressBar)
-       /* myBdjobsgridView_RV?.visibility = View.INVISIBLE
-        shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()*/
+        //activity.showProgressBar(mybdjobsLoadingProgressBar)
+
+        mybdjobsLoadingProgressBar?.show()
 
         ApiServiceMyBdjobs.create().mybdjobStats(
                 userId = session.userId,
@@ -184,15 +183,17 @@ class MyBdjobsFragment : Fragment() {
             override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
                 try {
                     error("onFailure", t)
-                    activity?.stopProgressBar(mybdjobsLoadingProgressBar)
-                    activity.toast(R.string.message_common_error)
+                    //activity?.stopProgressBar(mybdjobsLoadingProgressBar)
+                    mybdjobsLoadingProgressBar?.hide()
+                    activity?.toast(R.string.message_common_error)
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
-                activity?.stopProgressBar(mybdjobsLoadingProgressBar)
+                // activity?.stopProgressBar(mybdjobsLoadingProgressBar)
+                mybdjobsLoadingProgressBar?.hide()
                 try {
                     if (activityDate == "0") {
                         allStatsData = response.body()?.data
@@ -215,7 +216,7 @@ class MyBdjobsFragment : Fragment() {
                         }
                     }
 
-                   // Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
+                    // Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
                 } catch (e: Exception) {
                     logException(e)
                 }

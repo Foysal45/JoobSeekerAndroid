@@ -231,19 +231,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             jobsVH.applyButton.hide()
                             jobsVH.appliedBadge.hide()
-                            try {
-                                if (companyOtherJobs.toInt() > 0) {
-                                    jobsVH.allJobsButtonLayout.setOnClickListener {
-                                        context.startActivity<EmployersBaseActivity>("from" to "joblist",
-                                                "companyid" to jobDetailResponseAll.companyID,
-                                                "companyname" to jobDetailResponseAll.companyNameENG,
-                                                "jobId" to jobDetailResponseAll.jobId
-                                        )
-                                    }
-                                }
-                            } catch (e: Exception) {
-                                logException(e)
-                            }
 
                             jobsVH.followTV.setOnClickListener {
                                 val bdjobsUserSession = BdjobsUserSession(context)
@@ -466,7 +453,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 }
 
-                                if (readApplyData.isBlank()) {
+                                if (readApplyData.isNullOrBlank()) {
                                     jobsVH.tvReadBefApply.visibility = View.GONE
                                     jobsVH.tvReadBefApplyData.visibility = View.GONE
 
@@ -476,7 +463,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
                                     jobsVH.tvReadBefApplyData.movementMethod = MovementCheck()
 
-                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank()) {
+                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank()||jobDetailResponseAll.jobAppliedEmail.isNullOrEmpty()) {
                                         jobsVH.emailApplyTV.hide()
                                         jobsVH.emailApplyMsgTV.hide()
                                     } else {
@@ -511,37 +498,94 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
 
                                 jobsVH.tvJobSource.text = jobSourceData
-                                jobsVH.tvCompanyAddress.text = companyAddress
+                                if(companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()){
+                                    jobsVH.tvCompanyAddress.hide()
+                                    jobsVH.addressHeadingTV.hide()
+                                }else{
+                                    jobsVH.addressHeadingTV.show()
+                                    jobsVH.tvCompanyAddress.show()
+                                    jobsVH.tvCompanyAddress.text = companyAddress
+                                }
+
                                 jobsVH.tvCompanyName.text = companyName
+
+
+                                if (jobDetailResponseAll.companyOtherJ0bs.equalIgnoreCase("0")) {
+                                    jobsVH.allJobsButtonLayout.hide()
+                                } else {
+                                    jobsVH.allJobsButtonLayout.show()
+                                }
 
                                 var job = "job"
                                 try {
-                                    if (companyOtherJobs.toInt() > 0) {
+                                    if (jobDetailResponseAll.companyOtherJ0bs.toInt() > 0) {
                                         job = "jobs"
                                     }
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
 
-                                jobsVH.viewAllJobsTV.text = "View $companyOtherJobs more $job of this company"
+                                jobsVH.viewAllJobsTV.text = "View ${jobDetailResponseAll.companyOtherJ0bs} more $job of this company"
 
+                                try {
+                                    if (jobDetailResponseAll.companyOtherJ0bs.toInt() > 0) {
+                                        jobsVH.allJobsButtonLayout.setOnClickListener {
+                                            context.startActivity<EmployersBaseActivity>("from" to "joblist",
+                                                    "companyid" to jobDetailResponseAll.companyID,
+                                                    "companyname" to jobDetailResponseAll.companyNameENG,
+                                                    "jobId" to jobDetailResponseAll.jobId
+                                            )
+                                        }
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
 
                             } else {
 
                                 jobsVH.tvJobSource.text = jobSourceData
-                                jobsVH.tvCompanyAddress.text = companyAddress
+                                if(companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()){
+                                    jobsVH.tvCompanyAddress.hide()
+                                    jobsVH.addressHeadingTV.hide()
+                                }else{
+                                    jobsVH.addressHeadingTV.show()
+                                    jobsVH.tvCompanyAddress.show()
+                                    jobsVH.tvCompanyAddress.text = companyAddress
+                                }
                                 jobsVH.tvCompanyName.text = companyName
+
+                                if (jobDetailResponseAll.companyOtherJ0bs.equalIgnoreCase("0")) {
+                                    jobsVH.allJobsButtonLayout.hide()
+                                } else {
+                                    jobsVH.allJobsButtonLayout.show()
+                                }
 
                                 var job = "job"
                                 try {
-                                    if (companyOtherJobs.toInt() > 0) {
+                                    if (jobDetailResponseAll.companyOtherJ0bs.toInt() > 0) {
                                         job = "jobs"
                                     }
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
 
-                                jobsVH.viewAllJobsTV.text = "View $companyOtherJobs more $job of this company"
+                                jobsVH.viewAllJobsTV.text = "View ${jobDetailResponseAll.companyOtherJ0bs} more $job of this company"
+
+                                try {
+                                    if (jobDetailResponseAll.companyOtherJ0bs.toInt() > 0) {
+                                        jobsVH.allJobsButtonLayout.setOnClickListener {
+                                            context.startActivity<EmployersBaseActivity>("from" to "joblist",
+                                                    "companyid" to jobDetailResponseAll.companyID,
+                                                    "companyname" to jobDetailResponseAll.companyNameENG,
+                                                    "jobId" to jobDetailResponseAll.jobId
+                                            )
+                                        }
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+
+
 
                                 jobsVH.govtJobsIMGV.loadImageFromUrl(jobDetailResponseAll.jObIMage)
                                 jobsVH.govtJobsIMGV.setOnClickListener {
@@ -839,6 +883,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val businessTV: TextView = viewItem?.findViewById(R.id.businessTV) as TextView
         val emailApplyTV: TextView = viewItem?.findViewById(R.id.emailApplyTV) as TextView
         val emailApplyMsgTV: TextView = viewItem?.findViewById(R.id.emailApplyMsgTV) as TextView
+
+        val addressHeadingTV:TextView = viewItem?.findViewById(R.id.address) as TextView
     }
 
 

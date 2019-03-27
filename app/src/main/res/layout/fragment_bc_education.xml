@@ -80,6 +80,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcEduLevelTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
@@ -113,6 +114,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcEduDegreeTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:editable="false"
                    android:focusableInTouchMode="false"
@@ -178,6 +180,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcInstituteNameTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"
@@ -210,6 +213,7 @@
 
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/bcPassingYearTIET"
+                   android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:fontFamily="@font/roboto"

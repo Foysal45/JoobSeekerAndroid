@@ -44,7 +44,7 @@ class AdvanceSearchFragment : Fragment() {
             if (text.isBlank()) {
                 Log.d("catTest", "generalCatET : isBlank")
                 try {
-                    val catid = jobCommunicator.getCategory().trim().toInt()
+                    val catid = jobCommunicator.getCategory()?.trim()?.toInt()
                     if (catid in 1..30 || catid == -10) {
                         Log.d("eryfdh", "white")
                         jobCommunicator.setCategory("")
@@ -60,8 +60,8 @@ class AdvanceSearchFragment : Fragment() {
             if (text.isBlank()) {
                 Log.d("catTest", "specialCatET : isBlank")
                 try {
-                    val catid = jobCommunicator.getCategory().trim().toInt()
-                    if (catid > 60 || catid == -11) {
+                    val catid = jobCommunicator.getCategory()?.trim()?.toInt()
+                    if (catid!! > 60 || catid == -11) {
                         Log.d("eryfdh", "blue")
                         jobCommunicator.setCategory("")
                     }
@@ -75,7 +75,7 @@ class AdvanceSearchFragment : Fragment() {
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setKeyword("")
+                jobCommunicator?.setKeyword("")
             }
         }
 
@@ -83,7 +83,7 @@ class AdvanceSearchFragment : Fragment() {
             showHideCrossButton(loacationET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setLocation("")
+                jobCommunicator?.setLocation("")
             }
         }
 
@@ -91,14 +91,14 @@ class AdvanceSearchFragment : Fragment() {
             showHideCrossButton(newsPaperET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setNewsPaper("")
+                jobCommunicator?.setNewsPaper("")
             }
         }
         industryET?.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
             if (text.isBlank()) {
                 Log.d("catTest", "typedData : isBlank")
-                jobCommunicator.setIndustry("")
+                jobCommunicator?.setIndustry("")
             }
         }
 
@@ -106,27 +106,27 @@ class AdvanceSearchFragment : Fragment() {
 
 
         backIV?.setOnClickListener {
-            jobCommunicator.backButtonPressesd()
+            jobCommunicator?.backButtonPressesd()
         }
         keywordET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_jobtitleET, keywordET.text.toString())
+            jobCommunicator?.goToSuggestiveSearch(Constants.key_jobtitleET, keywordET?.text?.toString())
         }
         generalCatET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_categoryET, generalCatET.text.toString())
+            jobCommunicator?.goToSuggestiveSearch(Constants.key_categoryET, generalCatET?.text?.toString())
         }
         specialCatET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET.text.toString())
+            jobCommunicator?.goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET?.text?.toString())
         }
         loacationET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_loacationET, loacationET.text.toString())
+            jobCommunicator?.goToSuggestiveSearch(Constants.key_loacationET, loacationET?.text?.toString())
         }
 
         newsPaperET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET.text.toString())
+            jobCommunicator?.goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET?.text?.toString())
         }
 
         industryET?.setOnClickListener {
-            jobCommunicator.goToSuggestiveSearch(Constants.key_industryET, industryET.text.toString())
+            jobCommunicator?.goToSuggestiveSearch(Constants.key_industryET, industryET?.text?.toString())
         }
 
         getDataFromChipGroup(orgCG)
@@ -152,7 +152,7 @@ class AdvanceSearchFragment : Fragment() {
                 }
             }
             gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
+            jobCommunicator.setGender(gender.removeLastComma().trim())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
@@ -167,7 +167,7 @@ class AdvanceSearchFragment : Fragment() {
                 }
             }
             gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
+            jobCommunicator.setGender(gender.removeLastComma().trim())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
@@ -183,7 +183,7 @@ class AdvanceSearchFragment : Fragment() {
                 }
             }
             gender = genderList.joinToString(transform = { it })
-            jobCommunicator.setGender(gender.removeLastComma())
+            jobCommunicator.setGender(gender.removeLastComma().trim())
             Log.d("GenderCheck", "gender: ${jobCommunicator.getGender()}")
         }
 
@@ -198,28 +198,28 @@ class AdvanceSearchFragment : Fragment() {
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
-                        jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data)!!)
+                        jobCommunicator.setOrganization(dataStorage.getJobSearcOrgTypeIDByName(data))
                     }
                     R.id.experienceCG -> {
-                        jobCommunicator.setExperience(dataStorage.getJobExperineceIDByName(data)!!)
+                        jobCommunicator.setExperience(dataStorage.getJobExperineceIDByName(data))
                     }
                     R.id.jobTypeCG -> {
-                        jobCommunicator.setJobType(dataStorage.getJobTypeIDByName(data)!!)
+                        jobCommunicator.setJobType(dataStorage.getJobTypeIDByName(data))
                     }
                     R.id.jobLevelCG -> {
-                        jobCommunicator.setJobLevel(dataStorage.getJobLevelIDByName(data.toLowerCase())!!)
+                        jobCommunicator.setJobLevel(dataStorage.getJobLevelIDByName(data.toLowerCase()))
                     }
                     R.id.jobNatureCG -> {
-                        jobCommunicator.setJobNature(dataStorage.getJobNatureIDByName(data.toLowerCase())!!)
+                        jobCommunicator.setJobNature(dataStorage.getJobNatureIDByName(data.toLowerCase()))
                     }
                     R.id.postedWithinCG -> {
-                        jobCommunicator.setPostedWithin(dataStorage.getPostedWithinIDByName(data)!!)
+                        jobCommunicator.setPostedWithin(dataStorage.getPostedWithinIDByName(data))
                     }
                     R.id.deadlineCG -> {
-                        jobCommunicator.setDeadline(dataStorage.getDeadlineIDByNAme(data)!!)
+                        jobCommunicator.setDeadline(dataStorage?.getDeadlineIDByNAme(data))
                     }
                     R.id.ageRangeCG -> {
-                        jobCommunicator.setAge(dataStorage.getAgeRangeIDByName(data)!!)
+                        jobCommunicator.setAge(dataStorage?.getAgeRangeIDByName(data))
                     }
                     R.id.armyCG -> {
                         jobCommunicator.setArmy("1")
@@ -268,14 +268,14 @@ class AdvanceSearchFragment : Fragment() {
         Log.d("eryfdh", "category Adv : ${jobCommunicator.getCategory()}")
 
         try {
-            val catid = jobCommunicator.getCategory().trim().toInt()
-            if (catid > 60 || catid == -11) {
+            val catid = jobCommunicator.getCategory()?.trim()?.toInt()
+            if (catid!! > 60 || catid == -11) {
                 Log.d("eryfdh", "blue")
-                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
+                specialCatET?.setText(dataStorage?.getCategoryBanglaNameByID(jobCommunicator?.getCategory()))
                 generalCatET.text?.clear()
             } else if (catid in 1..30 || catid == -10) {
                 Log.d("eryfdh", "white")
-                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
+                generalCatET?.setText(dataStorage?.getCategoryNameByID(jobCommunicator?.getCategory()))
                 specialCatET?.text?.clear()
             }
         } catch (e: Exception) {
@@ -283,19 +283,23 @@ class AdvanceSearchFragment : Fragment() {
         }
 
 
-        loacationET?.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
-        newsPaperET?.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
-        industryET?.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
-        selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator.getOrganization())!!)
-        selectChip(experienceCG, dataStorage.getJobExperineceByID(jobCommunicator.getExperience())!!)
-        selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator.getJobType())!!)
-        selectChip(jobLevelCG, dataStorage.getJobLevelByID(jobCommunicator.getJobLevel())!!)
-        selectChip(jobNatureCG, dataStorage.getJobNatureByID(jobCommunicator.getJobNature())!!)
-        selectChip(postedWithinCG, dataStorage.getPostedWithinNameByID(jobCommunicator.getPostedWithin())!!)
-        selectChip(deadlineCG, dataStorage.getDedlineNameByID(jobCommunicator.getDeadline())!!)
-        selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(jobCommunicator.getAge())!!)
+        loacationET?.setText(dataStorage?.getLocationNameByID(jobCommunicator?.getLocation()))
+        newsPaperET?.setText(dataStorage?.getNewspaperNameById(jobCommunicator?.getNewsPaper()))
+        industryET?.setText(dataStorage?.getJobSearcIndustryNameByID(jobCommunicator?.getIndustry()))
+        try {
+            selectChip(orgCG, dataStorage?.getJobSearcOrgTypeByID(jobCommunicator?.getOrganization()))
+            selectChip(experienceCG, dataStorage?.getJobExperineceByID(jobCommunicator?.getExperience()))
+            selectChip(jobTypeCG, dataStorage?.getJobTypeByID(jobCommunicator?.getJobType()))
+            selectChip(jobLevelCG, dataStorage?.getJobLevelByID(jobCommunicator?.getJobLevel()))
+            selectChip(jobNatureCG, dataStorage?.getJobNatureByID(jobCommunicator?.getJobNature()))
+            selectChip(postedWithinCG, dataStorage?.getPostedWithinNameByID(jobCommunicator?.getPostedWithin()))
+            selectChip(deadlineCG, dataStorage?.getDedlineNameByID(jobCommunicator?.getDeadline()))
+            selectChip(ageRangeCG, dataStorage?.getAgeRangeNameByID(jobCommunicator?.getAge()))
+        } catch (e: Exception) {
+            logException(e)
+        }
 
-        if (jobCommunicator.getArmy() == "1") {
+        if (jobCommunicator?.getArmy() == "1") {
             selectChip(armyCG, "Yes")
         }
 
@@ -307,8 +311,8 @@ class AdvanceSearchFragment : Fragment() {
         maleChip?.isChecked = false
         femaleChip?.isChecked = false
         otherChip?.isChecked = false
-        val genderList = tempGender.split(",")
-        genderList.forEach { it ->
+        val genderList = tempGender?.split(",")
+        genderList?.forEach { it ->
             Log.d("GenderCheck", "genderGet: $it")
             Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
             selectChip(genderCG, dataStorage.getGenderByID(it.trim()))
@@ -331,12 +335,16 @@ class AdvanceSearchFragment : Fragment() {
         }
     }
 
-    private fun showHideCrossButton(editText: EditText) {
-        if (editText.text.isBlank()) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
-        } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-            editText.clearTextOnDrawableRightClick()
+    private fun showHideCrossButton(editText: EditText?) {
+        try {
+            if (editText?.text?.isBlank()!!) {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
+            } else {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+                editText?.clearTextOnDrawableRightClick()
+            }
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 

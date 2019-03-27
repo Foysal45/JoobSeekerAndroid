@@ -1,6 +1,9 @@
 package com.bdjobs.app.ManageResume
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +13,17 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.logException
+import org.jetbrains.anko.startActivity
 
 class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var timesEmailedList: ArrayList<TimesEmailedData>? = ArrayList()
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
-
+    val activity = context as Activity
     companion object {
         // View Types
         private val ITEM = 0
@@ -124,9 +130,29 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
     private fun bindViews(holder: TimesEmailedMyResumeViewHolder, position: Int) {
 
-        holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject
-        holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo
-        holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn
+        holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
+        holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+        holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
+
+        if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!){
+            holder?.itemView?.setOnClickListener {
+                Log.d("mumu", "mumu ")
+                try {
+                    val jobids = ArrayList<String>()
+                    val lns = ArrayList<String>()
+                    jobids.add(timesEmailedList?.get(position)?.jobid.toString())
+                    lns.add("0")
+                   // communicator.setFrom("")
+                    activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+        }
+        else if (timesEmailedList?.get(position)?.jobid?.equals("0")!!){
+          //  holder?.emailTV?.setTextColor(Color.parseColor("#767676"))
+        }
+
 
     }
 }
