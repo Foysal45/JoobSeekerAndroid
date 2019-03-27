@@ -42,7 +42,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         private val STANDOUT = 2
         private val BASIC_AD = 3
         private val STANDOUT_AD = 4
-        private var showAD = true
+        private var showAD = false
     }
 
     private var jobCommunicator: JobCommunicator? = null
@@ -519,11 +519,11 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 return LOADING
 
-            } else if (this.jobList!![position].standout.equals("1")) {
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
 
-                return BASIC
+                return STANDOUT
 
-            } else if (this.jobList!![position].standout.equals("0")) {
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
                 return BASIC
             }
@@ -533,11 +533,11 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 return LOADING
 
-            } else if (this.jobList!![position].standout.equals("1")) {
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
 
                 return STANDOUT
 
-            } else if (this.jobList!![position].standout.equals("0")) {
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
                 return BASIC
             }

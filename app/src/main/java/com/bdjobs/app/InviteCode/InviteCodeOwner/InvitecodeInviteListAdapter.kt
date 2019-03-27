@@ -13,7 +13,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.loadCircularImageFromUrl
 import com.bdjobs.app.Utilities.toBanglaDigit
-import java.util.ArrayList
+import java.util.*
 
 class InvitecodeInviteListAdapter(ctx: Context, private val ownerInviteListModelData: ArrayList<OwnerInviteListModelData>, val state: Int) : BaseAdapter() {
 
@@ -42,11 +42,17 @@ class InvitecodeInviteListAdapter(ctx: Context, private val ownerInviteListModel
         if (state == 1) {
             vh.moneyTV.setTextColor(Color.parseColor("#F57F17"))
             vh.moneyIconIMGV.setBackgroundResource(R.drawable.account_list_money_icon_active)
+
             if (ownerInviteListModelData[position].verifyStatus.equalIgnoreCase("2")) {
                 vh.moneyTypeTV.visibility = View.VISIBLE
-                vh.moneyTypeTV.text = "বাতিল হয়েছে "
+                vh.moneyTypeTV.text = "বাতিল হয়েছে"
                 vh.moneyTypeTV.setTextColor(Color.parseColor("#F44336"))
+            }else if (ownerInviteListModelData[position].verifyStatus.equalIgnoreCase("0")) {
+                vh.moneyTypeTV.visibility = View.VISIBLE
+                vh.moneyTypeTV.text = "পেন্ডিং"
+                vh.moneyTypeTV.setTextColor(Color.parseColor("#F57F17"))
             }
+
         }
 
         if (state == 0) {
@@ -56,12 +62,13 @@ class InvitecodeInviteListAdapter(ctx: Context, private val ownerInviteListModel
             if (ownerInviteListModelData[position].paidStatus.equalIgnoreCase("True")) {
                 vh.moneyTV.setTextColor(Color.parseColor("#AC016D"))
                 vh.moneyTypeTV.setTextColor(Color.parseColor("#AC016D"))
-                vh.moneyTypeTV.text = "ট্রান্সফার হয়েছে "
+                vh.moneyTypeTV.text = "ট্রান্সফার হয়েছে"
                 vh.moneyIconIMGV.setBackgroundResource(R.drawable.account_list_money_icon)
 
             } else if (ownerInviteListModelData[position].paidStatus.equalIgnoreCase("False")) {
                 vh.moneyTypeTV.setTextColor(Color.parseColor("#43A047"))
                 vh.moneyTV.setTextColor(Color.parseColor("#43A047"))
+                vh.moneyTypeTV.text = "জমা হয়েছে"
                 vh.moneyIconIMGV.setBackgroundResource(R.drawable.account_list_submit_money_icon)
             }
         }

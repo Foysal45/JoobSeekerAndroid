@@ -14,10 +14,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.getAppVersion
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
 
@@ -73,7 +70,7 @@ class MoreFragment : Fragment() {
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
 
-        versionInfoTV.text = "v${activity.getAppVersion()}"
+        versionInfoTV.text = "v${activity?.getAppVersion()}"
 
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
@@ -112,7 +109,7 @@ class MoreFragment : Fragment() {
             startActivity<JobBaseActivity>("organization" to "1")
         }
         overseas_MBTN?.setOnClickListener {
-            startActivity<JobBaseActivity>("location" to "Country")
+            startActivity<JobBaseActivity>(Constants.key_loacationET to "Country")
         }
         interviewinvitation_MBTN?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")

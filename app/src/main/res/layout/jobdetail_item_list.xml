@@ -715,6 +715,7 @@
                     android:text="Address:"
                     android:textColor="#000000"
                     android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/companyAddressNameTV" />
 
                 <TextView
@@ -765,7 +766,7 @@
 
                 <TextView
                     android:id="@+id/websiteTV"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
@@ -792,7 +793,7 @@
 
                 <TextView
                     android:id="@+id/businessTV"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
