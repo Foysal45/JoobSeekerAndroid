@@ -27,6 +27,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etLevelEdu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,6 +49,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etExamTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,6 +91,7 @@
                 android:textColorHint="#757575">
 
                 <AutoCompleteTextView
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/majorSubACTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,6 +116,7 @@
 
 
                 <AutoCompleteTextView
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/instituteNameACTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +149,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etResults"
                     android:longClickable="false"
                     android:layout_width="match_parent"
@@ -201,6 +206,7 @@
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/marksTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -231,6 +237,7 @@
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/cgpaTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -251,6 +258,7 @@
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/etScaleTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -272,6 +280,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etPassignYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -294,6 +303,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etDuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -314,6 +324,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etAchievement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -47,7 +47,7 @@
                     app:helperText="@string/hint.maxSkill">
 
                     <AutoCompleteTextView
-
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/refnameATCTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,6 +90,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/skillLIL">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etSkillDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,6 +119,7 @@
                 app:layout_constraintVertical_bias="0.01999998">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etCaricular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

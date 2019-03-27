@@ -31,14 +31,11 @@ class EmployerMessageListFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var employersCommunicator: EmployersCommunicator
     private var employerMessageListAdapter: EmployerMessageListAdapter? = null
-    private var messageData: ArrayList<MessageDataModel>? = ArrayList()
-    private val PAGE_START = 1
+    private var PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
     private var isLastPages = false
     private var isLoadings = false
-    private var time: String = ""
-    var jobsAppliedSize = 0
     var activityDate = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -50,16 +47,11 @@ class EmployerMessageListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        bdjobsDB = BdjobsDB.getInstance(activity)
-        employersCommunicator = activity as EmployersCommunicator
-
 
         initializeViews()
+        messageBackIMV?.onClick {
 
-        messageBackIMV.onClick {
-
-                employersCommunicator.backButtonPressed()
+            employersCommunicator.backButtonPressed()
 
         }
 
@@ -85,19 +77,23 @@ class EmployerMessageListFragment : Fragment() {
                     Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
                     Log.d("callAppliURl", response.body()?.data.toString())
 
+                    val resp_jobs = response.body()
+                    val results = response.body()?.data
+                    TOTAL_PAGES = resp_jobs?.common?.totalpages
 
-                    //response.body()?.common?.totalpages?.toInt()
+
                     employerMessageListAdapter?.removeLoadingFooter()
                     isLoadings = false
 
-                    employerMessageListAdapter?.addAll((response?.body()?.data as List<MessageDataModel>?)!!)
+                    employerMessageListAdapter?.addAll((results as List<MessageDataModel>?)!!)
 
-
-                    if (pgNo != TOTAL_PAGES)
-                        employerMessageListAdapter?.addLoadingFooter()
-                    else {
+                    if (pgNo == TOTAL_PAGES!!) {
                         isLastPages = true
+                    } else {
+                        employerMessageListAdapter?.addLoadingFooter()
                     }
+
+
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -109,18 +105,21 @@ class EmployerMessageListFragment : Fragment() {
 
     private fun initializeViews() {
         bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsDB = BdjobsDB.getInstance(activity)
+        employersCommunicator = activity as EmployersCommunicator
         employerMessageListAdapter = EmployerMessageListAdapter(activity)
-        activityDate = if(Constants.myBdjobsStatsLastMonth) {
+
+        activityDate = if (Constants.myBdjobsStatsLastMonth) {
             "1"
         } else {
             "0"
         }
-        employerMessageRV!!.adapter = employerMessageListAdapter
-        employerMessageRV!!.setHasFixedSize(true)
+
+        employerMessageRV?.adapter = employerMessageListAdapter
+        employerMessageRV?.setHasFixedSize(true)
         employerMessageRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        Log.d("initPag", "called")
         employerMessageRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-        employerMessageRV?.addOnScrollListener(object : PaginationScrollListener((employerMessageRV.layoutManager as LinearLayoutManager?)!!) {
+        employerMessageRV?.addOnScrollListener(object : PaginationScrollListener((employerMessageRV?.layoutManager as LinearLayoutManager?)!!) {
             override val isLoading: Boolean
                 get() = isLoadings
             override val totalPageCount: Int
@@ -130,21 +129,30 @@ class EmployerMessageListFragment : Fragment() {
 
             override fun loadMoreItems() {
                 isLoadings = true
-                pgNo++
+                pgNo += 1
                 loadNextPage(activityDate)
             }
         })
 
-
         loadFirstPage(activityDate)
+
 
     }
 
 
+    override fun onResume() {
+        super.onResume()
+
+
+    }
 
     private fun loadFirstPage(activityDate: String) {
 
-        d("fdjkghfjkg loadFirstPage called")
+        PAGE_START = 1
+        TOTAL_PAGES = null
+        pgNo = PAGE_START
+        isLastPages = false
+        isLoadings = false
 
         try {
             employerMessageRV?.hide()
@@ -153,7 +161,12 @@ class EmployerMessageListFragment : Fragment() {
             shimmer_view_container_employerMessage?.startShimmerAnimation()
 
 
-            ApiServiceMyBdjobs.create().getEmployerMessageList(bdjobsUserSession.userId, bdjobsUserSession.decodId, "10", pgNo.toString(),activityDate
+            ApiServiceMyBdjobs.create().getEmployerMessageList(
+                    userId = bdjobsUserSession.userId,
+                    decodeId = bdjobsUserSession.decodId,
+                    itemsPerPage = "10",
+                    pageNumber = pgNo.toString(),
+                    isActivityDate = activityDate
             ).enqueue(object : Callback<EmployerMessageModel> {
                 override fun onFailure(call: Call<EmployerMessageModel>, t: Throwable) {
                     try {
@@ -166,25 +179,20 @@ class EmployerMessageListFragment : Fragment() {
                 }
 
                 override fun onResponse(call: Call<EmployerMessageModel>, response: Response<EmployerMessageModel>) {
-
-                    d("fdjkghfjkg onResponse called")
-
-                    shimmer_view_container_employerMessage?.hide()
-                    shimmer_view_container_employerMessage?.stopShimmerAnimation()
-                    var totalRecords = response.body()?.common?.totalMessage.toString()
-                    Log.d("totalrecords", "totalrecords  = $totalRecords")
-
-                    messageCountTV?.show()
-                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages"
-                    messageCountTV?.text = Html.fromHtml(styledText)
-
                     try {
+                        d("fdjkghfjkg onResponse called")
+                        shimmer_view_container_employerMessage?.hide()
+                        shimmer_view_container_employerMessage?.stopShimmerAnimation()
+                        var totalRecords = response.body()?.common?.totalMessage.toString()
+                        Log.d("totalrecords", "totalrecords  = $totalRecords")
+
+
+                      /*  val styledText1 = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employers"
+                        messageCountTV?.text = Html.fromHtml(styledText1)
+                        messageCountTV?.show()*/
+
                         Log.d("callAppliURl", "url: ${call?.request()} and ")
-                        TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                        //   TOTAL_PAGES = 5
-
-                        jobsAppliedSize = totalRecords?.toInt()!!
-
+                        TOTAL_PAGES = response.body()?.common?.totalpages
 
                         if (!response.body()?.data.isNullOrEmpty()) {
 
@@ -192,33 +200,33 @@ class EmployerMessageListFragment : Fragment() {
                             employerMessageRV?.show()
 
                             val value = response.body()?.data
-                            employerMessageListAdapter?.removeAll()
-                            employerMessageListAdapter?.addAll(value as List<MessageDataModel>)
-                            /*messageData?.addAll(response.body()?.data as ArrayList<EmployerMessageModel.MessageDataModel>)
-*/
+                            try {
+                                employerMessageListAdapter?.addAll(value as List<MessageDataModel>)
+                            } catch (e: Exception) {
 
-                            if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                                Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                                employerMessageListAdapter?.addLoadingFooter()
-                            } else {
-                                Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                                isLastPages = true
                             }
 
+                            if (pgNo == TOTAL_PAGES!!) {
+                                isLastPages = true
+                            } else {
+                                employerMessageListAdapter?.addLoadingFooter()
+                            }
+
+
                         } else {
-                            //toast("came here")
+
                             totalRecords = "0"
                         }
 
                         Log.d("tot", "total = $totalRecords")
-                         val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages"
+                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employers"
                         messageCountTV.text = Html.fromHtml(styledText)
 
-                        if (totalRecords?.toInt()!! > 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages"
+                        if (totalRecords?.toInt() > 1) {
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employers"
                             messageCountTV?.text = Html.fromHtml(styledText)
                         } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages"
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Message from Employers"
                             messageCountTV?.text = Html.fromHtml(styledText)
                         }
 
@@ -237,7 +245,6 @@ class EmployerMessageListFragment : Fragment() {
             logException(e)
         }
     }
-
 
 
 }

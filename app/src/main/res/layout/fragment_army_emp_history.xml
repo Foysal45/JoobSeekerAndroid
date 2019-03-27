@@ -33,6 +33,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/et_ba_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/et_ba_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -72,6 +74,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/et_ranks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,6 +95,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/et_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,6 +116,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/et_arms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,6 +136,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/et_trade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,6 +155,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/et_course"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,6 +195,7 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/et_retire"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

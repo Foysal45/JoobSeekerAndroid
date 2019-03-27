@@ -29,6 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etCrObj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -261,6 +262,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_example_objective">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etCrPresentSalary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -284,6 +286,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilPresentSal">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etCrExpSalary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

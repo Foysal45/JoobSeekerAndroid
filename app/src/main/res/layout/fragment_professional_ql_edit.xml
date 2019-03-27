@@ -38,6 +38,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etPqCertification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
                 tools:layout_editor_absoluteY="88dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etPqInstitute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
                 tools:layout_editor_absoluteY="255dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etPqLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,6 +124,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/etPqStartDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -142,6 +146,7 @@
                     android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:importantForAutofill="noExcludeDescendants"
                         android:id="@+id/etPqEndDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

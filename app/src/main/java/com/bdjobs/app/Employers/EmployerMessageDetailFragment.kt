@@ -3,6 +3,7 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,12 +26,10 @@ import retrofit2.Response
 class EmployerMessageDetailFragment : Fragment() {
 
     private var toogleStatus = false
+    private var positionDataNullStatus = false
     private var employersCommunicator: EmployersCommunicator? = null
     lateinit var bdjobsUserSession: BdjobsUserSession
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,6 +43,8 @@ class EmployerMessageDetailFragment : Fragment() {
         employersCommunicator = activity as EmployersCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
         d("messageId ${employersCommunicator!!.getMessageId()}")
+        positionDataNullStatus = false
+        toogleStatus = false
 
         onClick()
         getDataFromServer()
@@ -57,16 +58,38 @@ class EmployerMessageDetailFragment : Fragment() {
         expand_arrow.onClick {
 
             if (toogleStatus) {
+
+                Log.d("uuuuuuuu", "click  $toogleStatus")
+
                 toogleStatus = false
                 expand_arrow.setImageResource(R.drawable.ic_arrow_down)
                 positionLayout.hide()
                 dateLayout.hide()
+                /*positionIconIV?.hide()
+                positionTextTV?.hide()
+                positionTV?.hide()*/
 
             } else {
+
+                Log.d("uuuuuuuu", "click  $toogleStatus")
+
                 toogleStatus = true
                 expand_arrow.setImageResource(R.drawable.ic_arrow_up)
-                positionLayout.show()
+
+                if(!positionDataNullStatus){
+
+                    positionLayout.show()
+
+                } else {
+
+                    positionLayout.hide()
+                }
+
+
                 dateLayout.show()
+                /*positionIconIV?.show()
+                positionTextTV?.show()
+                positionTV?.show()*/
             }
 
 
@@ -102,30 +125,80 @@ class EmployerMessageDetailFragment : Fragment() {
 
                 override fun onResponse(call: Call<MessageDetailModel>, response: Response<MessageDetailModel>) {
 
-                    d("fdjkghfjkg onResponse called")
-
-
-
-
                     try {
+
+
 
                         if (!response.body()?.data.isNullOrEmpty()) {
 
-                            subjectTV.text = response?.body()?.data!![0]!!.subject
+                            subjectTV?.text = response?.body()?.data?.get(0)?.subject
 
                             val from = Html.fromHtml(response?.body()?.data?.get(0)?.from)
 
-                            fromTV.text = from
-                            positionTV.text = response?.body()!!.data!![0]!!.jobtitle
-                            messageDateTV.text = response?.body()!!.data!![0]!!.mailedon
+                            fromTV?.text = from
+                            d("jobtitle onResponse called jobtitle: ${response?.body()?.data?.get(0)?.jobtitle}")
+
+
+
+
+                            messageDateTV?.text = response?.body()?.data?.get(0)?.mailedon
 
                             val  messageBody = Html.fromHtml(response?.body()?.data?.get(0)?.msgBody)
 
-                            messageBodyTV.text = messageBody
-                            lastContentTV.text = response?.body()!!.data!![0]!!.lastcontent
+                            messageBodyTV?.text = messageBody
+                            lastContentTV?.text = response?.body()!!.data!![0]!!.lastcontent
                             shimmer_view_container_employerMessageDetail?.hide()
                             shimmer_view_container_employerMessageDetail?.stopShimmerAnimation()
                             linearLayoutMain.show()
+                            if (response?.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
+
+                                Log.d("uuuuuuuu", "dd  $toogleStatus")
+
+                                positionDataNullStatus = true
+
+                              if (!toogleStatus){
+
+                                  positionLayout?.hide()
+                                 /* positionIconIV?.hide()
+                                  positionTextTV?.hide()
+                                  positionTV?.hide()*/
+
+                              } else {
+                                  positionLayout?.show()
+                                  /*positionIconIV?.show()
+                                  positionTextTV?.show()
+                                  positionTV?.show()*/
+
+                              }
+
+
+
+                            } else {
+
+                                Log.d("uuuuuuuu", "dd fgjh $toogleStatus")
+                                positionTV?.text = response?.body()?.data?.get(0)?.jobtitle
+
+                                positionDataNullStatus = false
+
+                                if (!toogleStatus){
+
+                                    positionLayout?.hide()
+                                   /* positionIconIV?.hide()
+                                    positionTextTV?.hide()
+                                    positionTV?.hide()*/
+                                } else {
+
+                                    positionLayout?.show()
+                                    /*positionIconIV?.show()
+                                    positionTextTV?.show()
+                                    positionTV?.show()*/
+
+                                }
+
+
+
+
+                            }
 
                         } else {
 
@@ -150,10 +223,7 @@ class EmployerMessageDetailFragment : Fragment() {
     }
 
 
-    private  fun setViews (){
 
-
-    }
 
 
 }

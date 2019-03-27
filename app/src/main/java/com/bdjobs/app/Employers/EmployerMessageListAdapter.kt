@@ -6,16 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
 import com.bdjobs.app.AppliedJobs.LoadingVH
 import com.bdjobs.app.R
-import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.logException
 import java.util.*
@@ -29,7 +25,6 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
-    private var session: BdjobsUserSession = BdjobsUserSession(context)
     private var employersCommunicator :EmployersCommunicator? = null
 
     companion object {
@@ -68,7 +63,7 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
     }
 
     override fun getItemCount(): Int {
-        return return if (employerMessageList == null) 0 else employerMessageList!!.size
+        return if (this.employerMessageList == null) 0 else this.employerMessageList!!.size
     }
 
 
@@ -110,7 +105,7 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
             holder.jobTitle.text = employerMessageList?.get(position)?.jobTite
             holder.companyName.text = employerMessageList?.get(position)?.companyName
             holder.date.text = employerMessageList?.get(position)?.mailedOn
-            holder.dateHeading.text = "Date"
+            holder.dateHeading.text = "Mailed on:"
 
             Log.d("activity", appliedjobsActitivityLists?.toString())
 
@@ -136,9 +131,10 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
         return if (position == employerMessageList!!.size - 1 && isLoadingAdded) EmployerMessageListAdapter.LOADING else EmployerMessageListAdapter.ITEM
     }
 
-    fun add(r: MessageDataModel) {
-        employerMessageList?.add(r)
+    fun add(item: MessageDataModel) {
+        this.employerMessageList?.add(item)
         notifyItemInserted(employerMessageList!!.size - 1)
+
     }
 
 
@@ -149,21 +145,14 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
     }
 
 
-    fun removeAll() {
-        employerMessageList?.clear()
-        appliedjobsActitivityLists?.clear()
-        notifyDataSetChanged()
-    }
-
-
     fun addLoadingFooter() {
         isLoadingAdded = true
-        // add(EmployerListModelData())
+         add(MessageDataModel())
     }
 
 
     private fun getItem(position: Int): MessageDataModel? {
-        return employerMessageList!![position]
+        return this.employerMessageList!![position]
     }
 
     fun removeLoadingFooter() {
@@ -172,8 +161,7 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
         val position = employerMessageList!!.size - 1
         val result = getItem(position)
 
-
-        if (result != null) {
+        if (result?.messageId.isNullOrBlank() ) {
             employerMessageList!!.removeAt(position)
             notifyItemRemoved(position)
         }
@@ -195,25 +183,3 @@ class EmployerMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 }
 
 
-class EmployerMessageLoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
-
-    init {
-
-        mRetryBtn.setOnClickListener(this)
-        mErrorLayout.setOnClickListener(this)
-    }
-
-    override fun onClick(view: View) {
-        when (view.id) {
-            R.id.loadmore_retry, R.id.loadmore_errorlayout -> {
-                /*  adapter?.showRetry(false, null)
-                  mCallback?.retryPageLoad()*/
-            }
-        }
-    }
-}
