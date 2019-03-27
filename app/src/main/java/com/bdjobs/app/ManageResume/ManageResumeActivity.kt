@@ -154,7 +154,9 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
                                 gotoResumeUploadFragment()
                             }
                         }else if(from.equalIgnoreCase("emailResume")){
+                            Constants.timesEmailedResumeLast = false
                             gotoTimesResumeFrag()
+
                         }
                         else if(from.equalIgnoreCase("timesEmailedResume")){
                             transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)

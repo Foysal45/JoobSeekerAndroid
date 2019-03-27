@@ -22,15 +22,15 @@ data class TimesEmailedCommon(
 
 data class TimesEmailedData(
     @SerializedName("EmailTo")
-    val emailTo: String?,
+    val emailTo: String? = "",
     @SerializedName("EmailedOn")
-    val emailedOn: String?,
+    val emailedOn: String? = "",
     @SerializedName("jobid")
-    val jobid: String?,
+    val jobid: String? = "",
     @SerializedName("sl")
-    val sl: String?,
+    val sl: String? = "",
     @SerializedName("subject")
-    val subject: String?,
+    val subject: String? = "",
     @SerializedName("version")
-    val version: String?
+    val version: String? = ""
 )

@@ -127,6 +127,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         } else if (value?.equals("vwdMyResume")) {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+            time = "0"
         } else if (value?.equals("employerMessageList")) {
             /*transitFragment(employerMessageListFragment, R.id.fragmentHolder)*/
         }
