@@ -49,7 +49,7 @@ class InvitecodeInviteListAdapter(ctx: Context, private val ownerInviteListModel
                 vh.moneyTypeTV.setTextColor(Color.parseColor("#F44336"))
             }else if (ownerInviteListModelData[position].verifyStatus.equalIgnoreCase("0")) {
                 vh.moneyTypeTV.visibility = View.VISIBLE
-                vh.moneyTypeTV.text = "পেন্ডিং"
+                vh.moneyTypeTV.text = "পেন্ডিং আছে"
                 vh.moneyTypeTV.setTextColor(Color.parseColor("#F57F17"))
             }
 
