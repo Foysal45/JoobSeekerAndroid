@@ -40,7 +40,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
             mybdjobsItems?.get(position)?.backgroundID?.let { holder?.backgroundRRL?.setBackgroundResource(it) }
             mybdjobsItems?.get(position)?.resourceID?.let { holder?.item_icon?.setBackgroundResource(it) }
             //holder.itemName[position]
-            holder?.item_Card?.setOnClickListener {
+            holder?.item_Card.setOnClickListener {
                 if(mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
                     when (mybdjobsItems?.get(position)?.itemName) {
                         "Jobs\nApplied" -> communicator?.goToAppliedJobs()
@@ -48,7 +48,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                         "Interview\nInvitations" -> communicator?.goToInterviewInvitation("mybdjobs")
                         "Employers Viewed\nResume" -> communicator?.goToEmployerViewedMyResume("vwdMyResume")
                         "Times Emailed\nResume" -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
-                        /*   "Messages by\nEmployers" -> communicator.goToMessageByEmployers("employerMessageList")*/
+                        "Messages by\nEmployers" -> communicator.goToMessageByEmployers("employerMessageList")
                         else -> { // Note the block
                             print("not found")
                         }

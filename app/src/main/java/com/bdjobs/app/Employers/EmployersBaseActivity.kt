@@ -33,14 +33,7 @@ import com.bdjobs.app.Utilities.transitFragment
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
-    override fun scrollToUndoPosition(position: Int) {
-        if (position >= 0)
-            followedEmployersListFragment.scrollToUndoPosition(position)
-    }
 
-    override fun decrementCounter() {
-        followedEmployersListFragment.decrementCounter()
-    }
 
 
     private var companyid = ""
@@ -51,8 +44,11 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private val employerListFragment = EmployerListFragment()
     private val employerViewedMyResumeFragment = EmployerViewedMyResumeFragment()
     private val employerMessageListFragment = EmployerMessageListFragment()
+    private val employerMessageDetailFragment = EmployerMessageDetailFragment()
     private var jobId = ""
     private var time = ""
+
+    private var messageId =""
 
     override fun getTime(): String {
         return time
@@ -116,8 +112,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
-
-
+        //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
@@ -129,9 +124,36 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
             time = "0"
         } else if (value?.equals("employerMessageList")) {
-            /*transitFragment(employerMessageListFragment, R.id.fragmentHolder)*/
+            transitFragment(employerMessageListFragment, R.id.fragmentHolder)
         }
 
     }
+
+
+
+    override fun scrollToUndoPosition(position: Int) {
+        if (position >= 0)
+            followedEmployersListFragment.scrollToUndoPosition(position)
+    }
+
+    override fun decrementCounter() {
+        followedEmployersListFragment.decrementCounter()
+    }
+
+
+    override fun setMessageId(messageId: String) {
+
+        this.messageId = messageId
+
+    }
+
+    override fun getMessageId(): String {
+      return messageId
+    }
+
+    override fun gotoMessageDetail() {
+        transitFragment(employerMessageDetailFragment, R.id.fragmentHolder,true)
+    }
+
 
 }

@@ -113,6 +113,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
                 historyListAdapter = HistoryListAdapter(historyList, this@SuggestiveSearchActivity)
                 historyRV?.adapter = historyListAdapter
+                historyListAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -153,6 +154,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
         //adapter = SuggestionAdapter(suggestionList, this)
         suggestionAdapter = SuggestionListAdapter(suggestionList, this@SuggestiveSearchActivity)
         filterRV.adapter = suggestionAdapter
+        suggestionAdapter.notifyDataSetChanged()
     }
 
     private fun getIntentData() {

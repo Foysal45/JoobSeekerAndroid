@@ -41,12 +41,7 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
             override fun publishResults(charSequence: CharSequence, filterResults: Filter.FilterResults) {
                 filteredItems = filterResults.values as ArrayList<String>
                 Log.d("aaa", "Size: ${filterResults.count}")
-
-                try {
-                    notifyDataSetChanged()
-                } catch (e: Exception) {
-                    logException(e)
-                }
+                notifyDataSetChanged()
             }
         }
     }
