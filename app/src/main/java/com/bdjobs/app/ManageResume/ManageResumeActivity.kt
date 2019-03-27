@@ -58,6 +58,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
 
         Log.d("manage", "jobid== $jobID toemail = $toEmail subj = $subject")
         /*      try {
+        //
                   from = intent.getStringExtra("from")
 
                   if (from.equalIgnoreCase("emailResumeCompose")){
