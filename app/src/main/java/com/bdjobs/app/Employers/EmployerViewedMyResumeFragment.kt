@@ -140,7 +140,6 @@ class EmployerViewedMyResumeFragment : Fragment() {
             shimmer_view_container_employerViewedMyList?.startShimmerAnimation()
 
 
-
             ApiServiceMyBdjobs.create().getEmpVwdMyResume(
                     userId = bdjobsUserSession.userId,
                     decodeId = bdjobsUserSession.decodId,
@@ -181,11 +180,11 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
                         Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                        var totalRecords = response.body()?.common?.totalNumberOfItems
+                        val totalRecords = response.body()?.common?.totalNumberOfItems
                         if (!response?.body()?.data.isNullOrEmpty()) {
                             Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
-                            viewedMyResumeRV!!.visibility = View.VISIBLE
-                            var value = response.body()?.data
+
+                            val value = response.body()?.data
                             employerViewedMyResumeAdapter?.removeAll()
                             employerViewedMyResumeAdapter?.addAll(value as List<EmpVwdResumeData>)
 
@@ -197,6 +196,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
                                 isLastPages = true
                             }
 
+                            Log.d("totalJobs", "totalRecords $totalRecords")
+
+
+
 
                             if (totalRecords?.toInt()!! > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
@@ -207,9 +210,17 @@ class EmployerViewedMyResumeFragment : Fragment() {
                             }
 
 
+                        } else {
+
+
+                            resumeViewNoDataLL?.show()
+                            viewedMyResumeRV?.hide()
+                            Log.d("totalJobs", "zero")
+
+
                         }
 
-                        viewedMyResumeRV?.show()
+                     /*   viewedMyResumeRV?.show()*/
                         favCountTV?.show()
                         shimmer_view_container_employerViewedMyList?.hide()
                         shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()

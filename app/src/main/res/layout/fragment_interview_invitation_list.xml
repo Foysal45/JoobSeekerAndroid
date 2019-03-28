@@ -104,6 +104,10 @@
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+
     <TextView
         android:id="@+id/favCountTV"
         android:layout_width="match_parent"
@@ -121,7 +125,25 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         tools:text="150 Employers now offering Jobs" />
 
+    <LinearLayout
+        android:id="@+id/invitationNoDataLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/followedRV"
+        app:layout_constraintVertical_bias="0.0">
 
+        <include
+            layout="@layout/layout_no_data_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/followedRV"
         android:layout_width="0dp"
