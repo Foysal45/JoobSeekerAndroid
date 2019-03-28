@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 633 //632 //65
-        versionName "600.3.3 internaltest"  //600.3.1 internal test // 2.0.0.04
+        versionCode 66 //635 //65
+        versionName "2.0.0.05"  //600.3.1 internal test // 2.0.0.04
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,7 +38,7 @@ dependencies {
     //----firebase
     implementation 'com.google.firebase:firebase-core:16.0.8'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:17.4.0"
+    implementation "com.google.firebase:firebase-messaging:17.5.0"
     implementation 'com.google.firebase:firebase-perf:16.2.4'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 

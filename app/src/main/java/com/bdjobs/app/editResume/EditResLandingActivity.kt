@@ -25,8 +25,6 @@ import java.util.*
 
 class EditResLandingActivity : Activity() {
 
-    private var isResumeUpdate = ""
-    private var demoPic = "https://mybdjobs.bdjobs.com/mybdjobs/images/male.png"
     private lateinit var session: BdjobsUserSession
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,70 +35,33 @@ class EditResLandingActivity : Activity() {
         super.onResume()
         session = BdjobsUserSession(this@EditResLandingActivity)
         if (!session.userPicUrl.isNullOrEmpty()) {
-            ivProfileImage.loadCircularImageFromUrl(session.userPicUrl)
-        }/* else if (session.userPicUrl.equals(demoPic)) {
-            ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
-        } else {
-            ivProfileImage.setImageDrawable(ContextCompat.getDrawable(this@EditResLandingActivity, R.drawable.ic_account_circle_black_24px))
-        }*/
-        isResumeUpdate = session.isCvPosted.toString()
+            ivProfileImage?.loadCircularImageFromUrl(session.userPicUrl)
+        }
         d("editResLanding photo:" + session.userPicUrl)
         d("editResLanding name:" + session.fullName)
-        d("editResLanding isResumeUpdate:$isResumeUpdate")
         tvname.text = session.fullName
         tvEmail.text = session.email
 
-
-        /*ivProfileImage.setOnClickListener {
-            //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
-            //startActivity<EmploymentHistoryActivity>("name" to "null", "emp_his_add" to "addDirect")
-            //startActivity<PersonalInfoActivity>("name" to "null", "personal_info_edit" to "addDirect")
-           startActivity<OtherInfoBaseActivity>("name" to "null", "other_info_add" to "addDirect")
-            //startActivity<PhotoUploadActivity>()
-        }*/
-
-        if (isResumeUpdate.equalIgnoreCase("False")) {
+        if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
             disableAll()
-            btnPerItem1.setOnClickListener {
+            btnPerItem1?.setOnClickListener {
                 goToFragment("personal", "P")
             }
-            /*btnPerItem2.setOnClickListener {
-                goToFragment("contact", "P")
-            }
-            btnEduItem1.setOnClickListener {
-                goToFragment("academic", "E")
-            }*/
 
         } else {
             doWork()
         }
-        icBackEr.setOnClickListener {
+
+        icBackEr?.setOnClickListener {
             finish()
         }
-    }
 
-    private fun random(): String {
-        val chars = "abcdefghijklmnopqrstuvwxyz12345678910".toCharArray()
-        val sb = StringBuilder()
-        val random = Random()
-        for (i in 0..4) {
-            val c = chars[random.nextInt(chars.size)]
-            sb.append(c)
-        }
-        val output = sb.toString()
-        println(output)
-        return output
-    }
-
-    private fun doWork() {
-        enableAll()
-        nextButtonFAB.setOnClickListener {
+        viewResumeBTN?.setOnClickListener {
             if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
                 try {
                     val alertd = alert("To Access this feature please post your resume") {
                         title = "Your resume is not posted!"
-                        positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
-                        negativeButton("Cancel") { dd ->
+                        negativeButton("OK") { dd ->
                             dd.dismiss()
                         }
                     }
@@ -120,53 +81,70 @@ class EditResLandingActivity : Activity() {
                 }
             }
         }
-        btnPerItem1.setOnClickListener {
+    }
+
+    private fun random(): String {
+        val chars = "abcdefghijklmnopqrstuvwxyz12345678910".toCharArray()
+        val sb = StringBuilder()
+        val random = Random()
+        for (i in 0..4) {
+            val c = chars[random.nextInt(chars.size)]
+            sb.append(c)
+        }
+        val output = sb.toString()
+        println(output)
+        return output
+    }
+
+    private fun doWork() {
+        enableAll()
+
+        btnPerItem1?.setOnClickListener {
             goToFragment("personal", "P")
         }
-        btnPerItem2.setOnClickListener {
+        btnPerItem2?.setOnClickListener {
             goToFragment("contact", "P")
         }
-        btnPerItem3.setOnClickListener {
+        btnPerItem3?.setOnClickListener {
             goToFragment("career", "P")
         }
-        btnPerItem4.setOnClickListener {
+        btnPerItem4?.setOnClickListener {
             goToFragment("ori", "P")
         }
-        btnPerItem5.setOnClickListener {
+        btnPerItem5?.setOnClickListener {
             goToFragment("prefAreas", "P")
         }
-        btnEduItem1.setOnClickListener {
+        btnEduItem1?.setOnClickListener {
             goToFragment("academic", "E")
         }
-        btnEduItem2.setOnClickListener {
+        btnEduItem2?.setOnClickListener {
             goToFragment("training", "E")
         }
-        btnEmpItem1.setOnClickListener {
+        btnEmpItem1?.setOnClickListener {
             goToFragment("employ", "Emp")
         }
-        btnEmpItem2.setOnClickListener {
+        btnEmpItem2?.setOnClickListener {
             goToFragment("army", "Emp")
         }
-        btnUploadPhoto.setOnClickListener {
+        btnUploadPhoto?.setOnClickListener {
             startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
         }
-        btnSpecilaization.setOnClickListener {
+        btnSpecilaization?.setOnClickListener {
             goToFragment("specialization", "Other")
         }
-        btnLanguage.setOnClickListener {
+        btnLanguage?.setOnClickListener {
             goToFragment("language", "Other")
         }
-        btnReferences.setOnClickListener {
+        btnReferences?.setOnClickListener {
             goToFragment("reference", "Other")
         }
-        btnProfessional.setOnClickListener {
+        btnProfessional?.setOnClickListener {
             goToFragment("professional", "E")
         }
 
-        ivProfileImage.onClick {
-
+        ivProfileImage?.onClick {
             startActivity<PhotoUploadActivity>()
-            /*toast("click")*/
+
         }
 
     }

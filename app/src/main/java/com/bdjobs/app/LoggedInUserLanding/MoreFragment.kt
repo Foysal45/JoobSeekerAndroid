@@ -40,9 +40,10 @@ class MoreFragment : Fragment() {
 
     }
 
-    fun getIfCVuploaded(){
+    fun getIfCVuploaded() {
         cvUploadMore = homeCommunicator.isGetCvUploaded()
     }
+
     private fun shakeHorizontaList() {
         Log.d("horizontaList", "horizontaList: ${horizontaList.size}")
         Handler().postDelayed({
@@ -121,6 +122,7 @@ class MoreFragment : Fragment() {
             startActivity<SettingBaseActivity>()
         }
         viewResume_MBTN.setOnClickListener {
+            homeCommunicator.setTime("0")
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
         }
         emailResume_MBTN.setOnClickListener {
@@ -154,7 +156,8 @@ class MoreFragment : Fragment() {
             when {
                 txt.equalIgnoreCase("o") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_invite_code, "ইনভাইট &\nআর্ন"))
                 txt.equalIgnoreCase("u") -> horizontaList.add(MoreHorizontalData(R.drawable.ic_invite_code, "ইনভাইট\nকোড"))
-                else -> { }
+                else -> {
+                }
             }
         }
 //
