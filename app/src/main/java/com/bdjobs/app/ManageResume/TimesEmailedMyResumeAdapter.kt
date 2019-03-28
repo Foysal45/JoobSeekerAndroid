@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
 import org.jetbrains.anko.startActivity
@@ -34,18 +33,10 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
     }
 
     override fun getItemViewType(position: Int): Int {
-//        return super.getItemViewType(position)
-        d(timesEmailedList?.size?.toString()!!)
         return if (position == timesEmailedList!!.size - 1 && isLoadingAdded) LOADING
         else if (!timesEmailedList?.get(position)?.jobid?.equalIgnoreCase("0")!!) ITEMJOBID
         else ITEM
 
-        /*       if (!timesEmailedList?.get(position)?.jobid?.equalIgnoreCase("0")!!) {
-                   return ITEMJOBID
-               } else if (!(position == timesEmailedList!!.size - 1 && isLoadingAdded)) {
-                   return ITEM
-               }
-               return LOADING*/
     }
 
 
@@ -221,9 +212,6 @@ class TimesEmailedMyResumeVHJobID(view: View) : RecyclerView.ViewHolder(view) {
     val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
     val emailTV = view?.findViewById(R.id.emailTV) as TextView
     val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
-
-//    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
-//    val employersListCard = view?.findViewById(R.id.empList_cardview) as CardView
 
 }
 
