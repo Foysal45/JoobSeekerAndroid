@@ -68,7 +68,7 @@ class JobDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdjobsDB = BdjobsDB.getInstance(activity)
-
+        alertTV?.isSelected = true
         communicator = activity as JobCommunicator
 
         shareJobPosition = communicator.getItemClickPosition()
