@@ -516,8 +516,8 @@ class AcademicInfoEditFragment : Fragment() {
             val edulevelID = ds.getEduIDByEduLevel(queryValue)
             val examList: Array<String> = ds.getEducationDegreesByEduLevelID(edulevelID)
             activity.selector(getString(R.string.alert_exam_title), examList.toList()) { _, i ->
-                etExamTitle.setText(examList[i])
-                examTitleTIL.requestFocus()
+                etExamTitle?.setText(examList[i])
+                examTitleTIL?.requestFocus()
                 Log.d("eduLevel", "ExamTitle ${examList[i]}")
                 if (examList[i].equalIgnoreCase("Other")) {
 
