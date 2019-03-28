@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.d
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
 import org.jetbrains.anko.startActivity
 
@@ -23,15 +25,27 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
     private var retryPageLoad = false
     private var errorMsg: String? = null
     val activity = context as Activity
+
     companion object {
         // View Types
         private val ITEM = 0
         private val LOADING = 1
+        private val ITEMJOBID = 2
     }
 
     override fun getItemViewType(position: Int): Int {
 //        return super.getItemViewType(position)
-        return if (position == timesEmailedList!!.size - 1 && isLoadingAdded) LOADING else ITEM
+        d(timesEmailedList?.size?.toString()!!)
+        return if (position == timesEmailedList!!.size - 1 && isLoadingAdded) LOADING
+        else if (!timesEmailedList?.get(position)?.jobid?.equalIgnoreCase("0")!!) ITEMJOBID
+        else ITEM
+
+        /*       if (!timesEmailedList?.get(position)?.jobid?.equalIgnoreCase("0")!!) {
+                   return ITEMJOBID
+               } else if (!(position == timesEmailedList!!.size - 1 && isLoadingAdded)) {
+                   return ITEM
+               }
+               return LOADING*/
     }
 
 
@@ -48,13 +62,17 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 val viewLoading = inflater.inflate(R.layout.item_progress_1, parent, false)
                 viewHolder = TimesEmailedMyResumeLoadingVH(viewLoading)
             }
+            ITEMJOBID -> {
+                val viewItem = inflater.inflate(R.layout.item_emailed_resume_jobid, parent, false)
+                viewHolder = TimesEmailedMyResumeVHJobID(viewItem)
+            }
         }
 
         return viewHolder!!
     }
 
     override fun getItemCount(): Int {
-        return return if (timesEmailedList == null) 0 else timesEmailedList!!.size
+        return if (timesEmailedList == null) 0 else timesEmailedList!!.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -81,8 +99,12 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                     loadingVH?.mProgressBar?.visibility = View.VISIBLE
                 }
             }
-        }
+            ITEMJOBID -> {
+                val itemHolderJobID = holder as TimesEmailedMyResumeVHJobID
+                bindViewsJOBID(itemHolderJobID, position)
 
+            }
+        }
 
 
     }
@@ -107,7 +129,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-         add(TimesEmailedData())
+        add(TimesEmailedData())
     }
 
     fun removeLoadingFooter() {
@@ -115,13 +137,14 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
         val position = timesEmailedList!!.size - 1
         val result = getItem(position)
-     //   notifyItemRemoved(position)
+        //   notifyItemRemoved(position)
 
         if (result?.jobid?.isNullOrBlank()!!) {
             timesEmailedList!!.removeAt(position)
             notifyItemRemoved(position)
         }
     }
+
     private fun getItem(position: Int): TimesEmailedData? {
         return timesEmailedList!![position]
     }
@@ -131,10 +154,38 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
         holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
         holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
-      //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
+        //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
         holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
 
-        if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!){
+        /*     if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
+                 holder?.itemView?.setOnClickListener {
+                     Log.d("mumu", "mumu ")
+                     try {
+                         val jobids = ArrayList<String>()
+                         val lns = ArrayList<String>()
+                         jobids.add(timesEmailedList?.get(position)?.jobid.toString())
+                         lns.add("0")
+                         // communicator.setFrom("")
+                         activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+                     } catch (e: Exception) {
+                         logException(e)
+                     }
+                 }
+             } else if (timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
+                 //  holder?.emailTV?.setTextColor(Color.parseColor("#767676"))
+             }*/
+
+
+    }
+
+    private fun bindViewsJOBID(holder: TimesEmailedMyResumeVHJobID, position: Int) {
+
+        holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
+        holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+        //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
+        holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
+
+        if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
             holder?.itemView?.setOnClickListener {
                 Log.d("mumu", "mumu ")
                 try {
@@ -142,15 +193,14 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                     val lns = ArrayList<String>()
                     jobids.add(timesEmailedList?.get(position)?.jobid.toString())
                     lns.add("0")
-                   // communicator.setFrom("")
+                    // communicator.setFrom("")
                     activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
-        }
-        else if (timesEmailedList?.get(position)?.jobid?.equals("0")!!){
-          //  holder?.emailTV?.setTextColor(Color.parseColor("#767676"))
+        } else if (timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
+            //  holder?.emailTV?.setTextColor(Color.parseColor("#767676"))
         }
 
 
@@ -158,6 +208,16 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 }
 
 class TimesEmailedMyResumeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
+    val emailTV = view?.findViewById(R.id.emailTV) as TextView
+    val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
+
+//    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
+//    val employersListCard = view?.findViewById(R.id.empList_cardview) as CardView
+
+}
+
+class TimesEmailedMyResumeVHJobID(view: View) : RecyclerView.ViewHolder(view) {
     val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
     val emailTV = view?.findViewById(R.id.emailTV) as TextView
     val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView

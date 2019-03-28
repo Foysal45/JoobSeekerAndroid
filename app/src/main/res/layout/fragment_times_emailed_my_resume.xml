@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:fontFamily="@font/noto_sans"
-            android:textColor="#2F64A3"
+            android:textColor="#13A10E"
             android:textSize="14sp"
             tools:text="" />
 
