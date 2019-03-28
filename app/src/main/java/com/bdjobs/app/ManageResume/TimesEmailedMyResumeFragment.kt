@@ -240,6 +240,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     }
 
 
+
                     if (totalEmailRecords?.toInt()!! > 1) {
                         val styledText = " times Emailed Resume"
                         titleTV?.text = styledText
@@ -253,10 +254,22 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 } catch (e: Exception) {
                     logException(e)
                 }
-                emailedResumeRV?.show()
-                numberTV?.show()
-                shimmer_view_container_emailedResumeList?.hide()
-                shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+
+                if (response?.body()?.data.isNullOrEmpty()){
+                    timesEmailedNoDataLL?.show()
+                    emailedResumeRV?.hide()
+                    numberTV?.show()
+                    shimmer_view_container_emailedResumeList?.hide()
+                    shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+                    Log.d("totalJobs", "zero")
+                }
+                else {
+                    timesEmailedNoDataLL?.hide()
+                    emailedResumeRV?.show()
+                    numberTV?.show()
+                    shimmer_view_container_emailedResumeList?.hide()
+                    shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+                }
             }
 
         })
