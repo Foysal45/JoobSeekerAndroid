@@ -4,7 +4,6 @@ package com.bdjobs.app.ManageResume
 import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +15,9 @@ import com.bdjobs.app.API.ModelClasses.TimesEmailedData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +50,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity!!)
 
         backIMV.setOnClickListener {
-             manageCommunicator.backButtonPressed()
+            manageCommunicator.backButtonPressed()
         }
 
         newEmaiResume.setOnClickListener {
@@ -61,16 +58,16 @@ class TimesEmailedMyResumeFragment : Fragment() {
         }
 
 
-    /*    if (Constants.timesEmailedResumeLast) {
-            isActivityDate = "0"
-            allTV.performClick()
-            lastOnClickAction(isActivityDate)
-        } else if (!Constants.timesEmailedResumeLast) {
-            isActivityDate = "1"
-            matchedTV.performClick()
-            allOnClickAction(isActivityDate)
+        /*    if (Constants.timesEmailedResumeLast) {
+                isActivityDate = "0"
+                allTV.performClick()
+                lastOnClickAction(isActivityDate)
+            } else if (!Constants.timesEmailedResumeLast) {
+                isActivityDate = "1"
+                matchedTV.performClick()
+                allOnClickAction(isActivityDate)
 
-        }*/
+            }*/
 
         Log.d("isActivityDate", "vava = ${Constants.timesEmailedResumeLast}")
 
@@ -79,8 +76,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
             isActivityDate = "0"
             allOnClickAction(isActivityDate)
             initPagination()
-        }
-        else if(Constants.timesEmailedResumeLast){
+        } else if (Constants.timesEmailedResumeLast) {
             matchedTV.performClick()
             isActivityDate = "1"
             lastOnClickAction(isActivityDate)
@@ -89,6 +85,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
 
     }
+
     override fun onResume() {
         super.onResume()
 
@@ -117,14 +114,14 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
     }
 
-    private fun lastOnClickAction(isActivityDate : String) {
+    private fun lastOnClickAction(isActivityDate: String) {
         // lastSelected()
         lastSelected()
         loadFirstPage(isActivityDate)
         Constants.timesEmailedResumeLast = true
     }
 
-    private fun allOnClickAction(isActivityDate : String) {
+    private fun allOnClickAction(isActivityDate: String) {
         // allSelected()
         allSelected()
         loadFirstPage(isActivityDate)
@@ -205,8 +202,8 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
             override fun onResponse(call: Call<TimesEmailed>, response: Response<TimesEmailed>) {
                 Log.d("isActivityDate", "vava = $isActivityDate")
-                shimmer_view_container_emailedResumeList?.hide()
-                shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+                /* shimmer_view_container_emailedResumeList?.hide()
+                 shimmer_view_container_emailedResumeList?.stopShimmerAnimation()*/
                 Log.d("timesemailedresume", "timesemailedresume = ${response?.body()?.data}")
                 Log.d("timesemailedresume", "pgNo.toString() = ${pgNo.toString()} " +
                         "isActivityDate = ${isActivityDate}")
@@ -215,46 +212,51 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     var totalEmailRecords = response?.body()?.common?.totalNumberOfEmail
 
 
-                    if (totalEmailRecords?.isNullOrEmpty()!!){
+                    if (totalEmailRecords?.isNullOrEmpty()!!) {
                         totalEmailRecords = "0"
 
-                      /*  val styledText = " Time Emailed Resume "
-                        titleTV?.text = styledText*/
+                        /*  val styledText = " Time Emailed Resume "
+                          titleTV?.text = styledText*/
 
                     }
                     if (!response?.body()?.data.isNullOrEmpty()) {
-                      //  emailedResumeRV!!.visibility = View.VISIBLE
+                        //  emailedResumeRV!!.visibility = View.VISIBLE
                         timesEmailedMyResumeAdapter?.removeAll()
                         timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
                         numberTV.text = totalEmailRecords
-                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                            Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                            timesEmailedMyResumeAdapter?.addLoadingFooter()
-                        } else {
-                            Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                            isLastPages = true
-                        }
 
+                        /* if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                             Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                             timesEmailedMyResumeAdapter?.addLoadingFooter()
+                         } else {
+                             Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                             isLastPages = true
+                         }*/
+                        if (pgNo == TOTAL_PAGES!!) {
+                            isLastPages = true
+                        } else {
+                            timesEmailedMyResumeAdapter?.addLoadingFooter()
+                        }
                     }
 
 
-                    if (totalEmailRecords?.toInt()!! > 1){
+                    if (totalEmailRecords?.toInt()!! > 1) {
                         val styledText = " times Emailed Resume"
                         titleTV?.text = styledText
-                    }
-                    else {
+                    } else {
                         val styledText = " time Emailed Resume "
                         titleTV?.text = styledText
                     }
 
                     //bLL?.visibility = View.VISIBLE
-                    emailedResumeRV?.show()
-                    numberTV?.show()
-                    shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
-                } catch (e: Exception) {
 
+                } catch (e: Exception) {
+                    logException(e)
                 }
+                emailedResumeRV?.show()
+                numberTV?.show()
+                shimmer_view_container_emailedResumeList?.hide()
+                shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
             }
 
         })
@@ -270,6 +272,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
         ).enqueue(object : Callback<TimesEmailed> {
             override fun onFailure(call: Call<TimesEmailed>, t: Throwable) {
                 error("onFailure", t)
+                activity?.toast("${t.message}")
             }
 
             override fun onResponse(call: Call<TimesEmailed>, response: Response<TimesEmailed>) {
@@ -279,19 +282,18 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 try {
 
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                    timesEmailedMyResumeAdapter?.removeLoadingFooter()
+                     timesEmailedMyResumeAdapter?.removeLoadingFooter()
                     isLoadings = false
 
                     timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
-                    if (pgNo != TOTAL_PAGES)
+                    if (pgNo < TOTAL_PAGES!!)
                         timesEmailedMyResumeAdapter?.addLoadingFooter()
                     else {
                         isLastPages = true
                     }
 
-
                 } catch (e: Exception) {
-
+                    logException(e)
                 }
             }
 

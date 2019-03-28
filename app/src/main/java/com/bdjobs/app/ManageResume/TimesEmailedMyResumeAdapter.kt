@@ -2,7 +2,6 @@ package com.bdjobs.app.ManageResume
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -108,7 +107,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        // add(timesEmailedListModelData())
+         add(TimesEmailedData())
     }
 
     fun removeLoadingFooter() {
@@ -116,9 +115,9 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
         val position = timesEmailedList!!.size - 1
         val result = getItem(position)
-        notifyItemRemoved(position)
+     //   notifyItemRemoved(position)
 
-        if (result != null) {
+        if (result?.jobid?.isNullOrBlank()!!) {
             timesEmailedList!!.removeAt(position)
             notifyItemRemoved(position)
         }
@@ -132,6 +131,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
         holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
         holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+      //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
         holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
 
         if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!){
