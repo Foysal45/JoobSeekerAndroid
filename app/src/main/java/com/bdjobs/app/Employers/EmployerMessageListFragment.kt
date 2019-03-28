@@ -219,14 +219,14 @@ class EmployerMessageListFragment : Fragment() {
                         }
 
                         Log.d("tot", "total = $totalRecords")
-                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employers"
+                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employer(s)"
                         messageCountTV.text = Html.fromHtml(styledText)
 
                         if (totalRecords?.toInt() > 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employers"
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employer(s)"
                             messageCountTV?.text = Html.fromHtml(styledText)
                         } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
-                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Message from Employers"
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Message from Employer(s)"
                             messageCountTV?.text = Html.fromHtml(styledText)
                         }
 

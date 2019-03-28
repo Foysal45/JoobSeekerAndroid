@@ -36,7 +36,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private lateinit var employerViewedMyResumeAdapter: EmployerViewedMyResumeAdapter
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var employerCommunicator: EmployersCommunicator
-    private lateinit var isActivityDate : String
+    private lateinit var isActivityDate: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,13 +55,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         employerCommunicator = activity as EmployersCommunicator
         isActivityDate = employerCommunicator.getTime()
-        Log.d("test", "test"+isActivityDate)
+        Log.d("test", "test" + isActivityDate)
         Log.d("called", "onActivityCreated")
-        if (isActivityDate.isNullOrEmpty()){
-            isActivityDate = "1"
-            // this 1 / 0 value is for last time and all time
-        }
-        backIMV.setOnClickListener {
+
+        backIMV?.setOnClickListener {
             employerCommunicator.backButtonPressed()
         }
     }
@@ -126,19 +123,18 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     }
 
-    private fun loadFirstPage(activityDate : String) {
-          PAGE_START = 1
-         TOTAL_PAGES = null
-         pgNo = PAGE_START
-         isLastPages = false
-         isLoadings = false
+    private fun loadFirstPage(activityDate: String) {
+        PAGE_START = 1
+        TOTAL_PAGES = null
+        pgNo = PAGE_START
+        isLastPages = false
+        isLoadings = false
 
         try {
             viewedMyResumeRV?.hide()
             favCountTV?.hide()
             shimmer_view_container_employerViewedMyList?.show()
             shimmer_view_container_employerViewedMyList?.startShimmerAnimation()
-
 
 
             ApiServiceMyBdjobs.create().getEmpVwdMyResume(
@@ -149,12 +145,12 @@ class EmployerViewedMyResumeFragment : Fragment() {
                     isActivityDate = activityDate,
                     AppsDate = "1"
 
-                /*    userId = "241028",
-                    decodeId = "T8B8Rx",
-                    pageNumber = "1",
-                    itemsPerPage = "10",
-                    isActivityDate = "1",
-                    AppsDate = ""*/
+                    /*    userId = "241028",
+                        decodeId = "T8B8Rx",
+                        pageNumber = "1",
+                        itemsPerPage = "10",
+                        isActivityDate = "1",
+                        AppsDate = ""*/
 
             ).enqueue(object : Callback<EmpVwdResume> {
                 override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
@@ -169,7 +165,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
                     Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
-                            "de-" + bdjobsUserSession.decodId!! )
+                            "de-" + bdjobsUserSession.decodId!!)
 
                     Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
                     Log.d("callAppliURl", "url: ${response.body()?.data}")
@@ -181,11 +177,13 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
                         Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                        var totalRecords = response.body()?.common?.totalNumberOfItems
+                        val totalRecords = response.body()?.common?.totalNumberOfItems
                         if (!response?.body()?.data.isNullOrEmpty()) {
+                            resumeViewNoDataLL?.hide()
+                            viewedMyResumeRV?.show()
                             Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
-                            viewedMyResumeRV!!.visibility = View.VISIBLE
-                            var value = response.body()?.data
+
+                            val value = response.body()?.data
                             employerViewedMyResumeAdapter?.removeAll()
                             employerViewedMyResumeAdapter?.addAll(value as List<EmpVwdResumeData>)
 
@@ -197,6 +195,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
                                 isLastPages = true
                             }
 
+                            Log.d("totalJobs", "totalRecords $totalRecords")
+
+
+
 
                             if (totalRecords?.toInt()!! > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
@@ -207,9 +209,17 @@ class EmployerViewedMyResumeFragment : Fragment() {
                             }
 
 
+                        } else {
+
+
+                            resumeViewNoDataLL?.show()
+                            viewedMyResumeRV?.hide()
+                            Log.d("totalJobs", "zero")
+
+
                         }
 
-                        viewedMyResumeRV?.show()
+                     /*   viewedMyResumeRV?.show()*/
                         favCountTV?.show()
                         shimmer_view_container_employerViewedMyList?.hide()
                         shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
@@ -218,7 +228,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         Log.d("issue", exception.toString())
 
                     }
-                       }
+                }
 
             })
         } catch (e: Exception) {
@@ -228,7 +238,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     }
 
-    private fun loadNextPage(activityDate : String) {
+    private fun loadNextPage(activityDate: String) {
         try {
             ApiServiceMyBdjobs.create().getEmpVwdMyResume(
                     userId = bdjobsUserSession.userId,
@@ -268,8 +278,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
-                        }
-
+                }
 
 
             })
