@@ -127,7 +127,7 @@ class SpecializationEditFragment : Fragment() {
                     addChip(refnameATCTV.getString(), workSkillID)
                 else {
                     refnameATCTV?.closeKeyboard(activity)
-                    activity.toast("Skill already added")
+                    activity?.toast("Skill already added")
                 }
                 skillTIL.hideError()
             } else {
@@ -171,7 +171,7 @@ class SpecializationEditFragment : Fragment() {
             specialization_chip_group.addView(c1)
             refnameATCTV?.clearText()
         } else {
-            activity.toast("Maximum 10 skills can be added.")
+            activity?.toast("Maximum 10 skills can be added.")
 
         }
         refnameATCTV?.closeKeyboard(activity)
@@ -225,15 +225,15 @@ class SpecializationEditFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(specializationLoadingProgressBar)
+                        activity?.stopProgressBar(specializationLoadingProgressBar)
                         val resp = response.body()
 
                         if (resp?.statuscode == "4") {
 
                             if (isEdit) {
-                                activity.toast("The information has been updated successfully")
+                                activity?.toast("The information has been updated successfully")
                             } else {
-                                activity.toast("The information has been added successfully")
+                                activity?.toast("The information has been added successfully")
                             }
 
                             eduCB.goBack()

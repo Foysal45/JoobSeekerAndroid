@@ -285,7 +285,7 @@ class ContactEditFragment : Fragment() {
 
     private fun updateData() {
 
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         /*if (presentInOutBD == "") {
             activity?.stopProgressBar(loadingProgressBar)
             activity?.toast("Please select Inside or Outside Bangladesh")
@@ -328,8 +328,8 @@ class ContactEditFragment : Fragment() {
                 email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
                 Log.d("contact_details", "msg: ${t.message}")
 
             }
@@ -337,18 +337,18 @@ class ContactEditFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
 
                         //if (response.body()?.statuscode != "2")
-                        response.body()?.message?.let { activity.toast(it) }
+                        response.body()?.message?.let { activity?.toast(it) }
 
                         if (response.body()?.statuscode == "4") {
                             session.updateEmail(contactEmailAddressTIET.getString())
                             contactInfo.goBack()
-                            onDestroy()
+                            //onDestroy()
                         }
                     } else {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

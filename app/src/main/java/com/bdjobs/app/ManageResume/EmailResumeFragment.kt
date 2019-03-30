@@ -117,7 +117,7 @@ class EmailResumeFragment : Fragment() {
 
 
     private fun callSendEmailCV(uploadedCV: String) {
-        activity.showProgressBar(EmailResumeLoadingProgressBar)
+        activity?.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
                 userID = bdjobsUserSession.userId,
                 decodeID = bdjobsUserSession.decodId,

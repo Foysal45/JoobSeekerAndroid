@@ -1,7 +1,6 @@
 package com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo
 
 
-import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
 import android.util.Log
@@ -119,7 +118,7 @@ class TrainingEditFragment : Fragment() {
             for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
-            activity.selector("Training Year", yearList.toList()) { _, i ->
+            activity?.selector("Training Year", yearList.toList()) { _, i ->
 
                 etTrTrainingYear?.setText(yearList[i])
                 trTrainingYearTIL?.requestFocus()
@@ -142,32 +141,29 @@ class TrainingEditFragment : Fragment() {
 
 
     private fun updateData() {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateTrainingList(session.userId, session.decodId, session.IsResumeUpdate,
                 etTrTitle.getString(), etTrInstitute.getString(), etTrCountry.getString(), etTrTrainingYear.getString(),
                 etTrDuration.getString(), hID, etTrTopic.getString(), etTrLoc.getString(), hTrainingID)
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
 
                 try {
-                    activity.stopProgressBar(loadingProgressBar)
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
                             eduCB.goBack()
                         }
                     }
                 } catch (e: Exception) {
-                    /* assert(activity != null)
-                     activity?.stopProgressBar(loadingProgressBar)*/
                     logException(e)
                     e.printStackTrace()
                 }
@@ -195,53 +191,27 @@ class TrainingEditFragment : Fragment() {
     }
 
     fun dataDelete() {
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().deleteData("Training", hTrainingID, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.toast(R.string.message_common_error)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        activity.toast(resp?.message.toString())
+                        activity?.toast(resp?.message.toString())
                         clearEditText()
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
-                    /* activity?.stopProgressBar(loadingProgressBar)
-                     activity?.toast(response.body()?.message.toString())*/
                     logException(e)
                     e.printStackTrace()
                 }
             }
         })
-    }
-
-    fun pickDateA() {
-        //yearSelected = false
-        val now = Calendar.getInstance()
-        val dateSelectedListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            now?.set(Calendar.YEAR, year)
-            now?.set(Calendar.MONTH, monthOfYear)
-            now?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            //updateDateInView(year)
-        }
-        val dpd = DatePickerDialog(activity,
-                dateSelectedListener,
-                // set DatePickerDialog to point to today's date when it loads up
-                now.get(Calendar.YEAR),
-                now.get(Calendar.YEAR),
-                now.get(Calendar.YEAR))
-
-        /*now.add(yearT, -55) // subtract 2 years from now
-        dpd.datePicker.minDate = now.timeInMillis
-        now.add(yearT, 5) // add 4 years to min date to have 2 years after now
-        dpd.datePicker.maxDate = now.timeInMillis*/
-        dpd.datePicker.touchables[0].performClick()
-        dpd.show()
     }
 }

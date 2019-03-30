@@ -37,7 +37,7 @@ class ORIEditFragment : Fragment() {
     private lateinit var oriEditCB: PersonalInfo
     private lateinit var session: BdjobsUserSession
     private lateinit var ds: DataStorage
-    private lateinit var data: ORIdataItem
+    private var data: ORIdataItem? = null
     private var idArr: ArrayList<String> = ArrayList()
     private var exps: String = ""
     private var keywordsCount: Int = 0
@@ -91,9 +91,9 @@ class ORIEditFragment : Fragment() {
                 oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
         }
         etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
-        Log.d("ORIData", "data: ${data.keywords}")
-        val keywords = data.keywords?.removeLastComma()
-        maxInput -= data.keywords?.countCommas()!!
+        Log.d("ORIData", "data: ${data?.keywords}")
+        val keywords = data?.keywords?.removeLastComma()
+        maxInput -= data?.keywords?.countCommas()!!
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
             if (it.isNotBlank()) addChip(it)
@@ -114,8 +114,8 @@ class ORIEditFragment : Fragment() {
                 //activity?.toast("Pgasdinkgyword")
             }
         }
-        etOriCareerSummary.setText(data.careerSummery)
-        etOriSpecialQualification.setText(data.specialQualifications)
+        etOriCareerSummary.setText(data?.careerSummery)
+        etOriSpecialQualification.setText(data?.specialQualifications)
 
         etOriKeywords.easyOnTextChangedListener {
             val str = etOriKeywords.getString()

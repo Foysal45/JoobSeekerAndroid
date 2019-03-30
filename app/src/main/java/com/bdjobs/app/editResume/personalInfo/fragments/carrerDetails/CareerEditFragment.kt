@@ -185,8 +185,8 @@ class CareerEditFragment : Fragment() {
         etCrObj.setText(data?.objective)
         etCrPresentSalary.setText(data?.presentSalary)
         etCrExpSalary.setText(data?.expectedSalary)
-        selectChip(cgLookingFor, data?.lookingFor!!)
-        selectChip(cgAvailable, data.availableFor!!)
+        selectChip(cgLookingFor, data?.lookingFor)
+        selectChip(cgAvailable, data?.availableFor)
     }
 
 
@@ -224,12 +224,12 @@ class CareerEditFragment : Fragment() {
         }
     }
 
-    private fun selectChip(chipGroup: ChipGroup, data: String) {
+    private fun selectChip(chipGroup: ChipGroup, data: String?) {
         val count = chipGroup.childCount
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
-            if (data.equalIgnoreCase(chipText)) {
+            if (data?.equalIgnoreCase(chipText) as Boolean) {
                 Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
             }
