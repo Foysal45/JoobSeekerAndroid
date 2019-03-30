@@ -386,7 +386,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        // add(EmployerListModelData())
+        add(AppliedJobModelData())
     }
 
 

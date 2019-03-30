@@ -11,14 +11,18 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 633 //632 //65
-        versionName "600.3.3 internaltest"  //600.3.1 internal test // 2.0.0.04
+        versionCode 636 //635 //67
+        versionName "2.0.0.06 internal test"  //600.3.1 internal test // 2.0.0.06
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -38,7 +42,7 @@ dependencies {
     //----firebase
     implementation 'com.google.firebase:firebase-core:16.0.8'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:17.4.0"
+    implementation "com.google.firebase:firebase-messaging:17.5.0"
     implementation 'com.google.firebase:firebase-perf:16.2.4'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
@@ -80,7 +84,6 @@ dependencies {
     implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.droidninja:filepicker:2.2.0'
-
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation

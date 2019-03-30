@@ -41,12 +41,19 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
             mybdjobsItems?.get(position)?.resourceID?.let { holder?.item_icon?.setBackgroundResource(it) }
             //holder.itemName[position]
             holder?.item_Card.setOnClickListener {
-                if(mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
+                if (mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
                     when (mybdjobsItems?.get(position)?.itemName) {
                         "Jobs\nApplied" -> communicator?.goToAppliedJobs()
                         "Employers\nFollowed" -> communicator?.goToFollowedEmployerList("follow")
                         "Interview\nInvitations" -> communicator?.goToInterviewInvitation("mybdjobs")
-                        "Employers Viewed\nResume" -> communicator?.goToEmployerViewedMyResume("vwdMyResume")
+                        "Employers Viewed\nResume" -> {
+                            if (Constants.myBdjobsStatsLastMonth) {
+                                communicator?.setTime("1")
+                            } else {
+                                communicator?.setTime("0")
+                            }
+                            communicator?.goToEmployerViewedMyResume("vwdMyResume")
+                        }
                         "Times Emailed\nResume" -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
                         "Messages by\nEmployers" -> communicator.goToMessageByEmployers("employerMessageList")
                         else -> { // Note the block
@@ -68,18 +75,20 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
         mybdjobsItems?.add(r)
         notifyItemInserted(mybdjobsItems!!.size - 1)
     }
+
     fun addCount() {
         mybdjobsItems?.get(0)?.itemID = "222"
         mybdjobsItems?.get(1)?.itemID = "111"
         mybdjobsItems?.get(2)?.itemID = "333"
         // mybdjobsItems?.add(r.itemID)
         //  notifyItemInserted(mybdjobsItems!!.size - 1)
-    //   mybdjobsItems?.get()
+        //   mybdjobsItems?.get()
         notifyDataSetChanged()
     }
+
     fun addCountAll(moveResults: List<MybdjobsData>) {
         for (result in moveResults) {
-           // addCount(result.itemID)
+            // addCount(result.itemID)
         }
     }
 

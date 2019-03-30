@@ -36,29 +36,29 @@ data class AppliedJobModelActivity(
 
 data class AppliedJobModelData(
         @SerializedName("appliedOn")
-        val appliedOn: String?,
+        val appliedOn: String?= "",
         @SerializedName("companyName")
-        val companyName: String?,
+        val companyName: String?= "",
         @SerializedName("deadLine")
-        val deadLine: String?,
+        val deadLine: String?= "",
         @SerializedName("expectedSalary")
-        var expectedSalary: String?,
+        var expectedSalary: String?= "",
         @SerializedName("invitaion")
-        val invitaion: String?,
+        val invitaion: String?= "",
         @SerializedName("isUserSeenInvitation")
-        val isUserSeenInvitation: String?,
+        val isUserSeenInvitation: String?= "",
         @SerializedName("jobId")
-        val jobId: String?,
+        val jobId: String?= "",
         @SerializedName("langType")
-        val langType: String?,
+        val langType: String?= "",
         @SerializedName("sl")
-        val sl: String?,
+        val sl: String?= "",
         @SerializedName("status")
-        val status: String?,
+        val status: String?= "",
         @SerializedName("title")
-        val title: String?,
+        val title: String?= "",
         @SerializedName("viewedByEmployer")
-        val viewedByEmployer: String?
+        val viewedByEmployer: String?= ""
 )
 
 data class AppliedJobModelExprience(

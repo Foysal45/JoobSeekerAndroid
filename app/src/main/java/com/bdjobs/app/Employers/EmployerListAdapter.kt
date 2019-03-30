@@ -205,7 +205,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        // add(EmployerListModelData())
+        add(EmployerListModelData())
     }
 
     private fun getItem(position: Int): EmployerListModelData? {

@@ -22,13 +22,13 @@ data class EmpVwdResumeCommon(
 
 data class EmpVwdResumeData(
     @SerializedName("companyName")
-    val companyName: String?,
+    val companyName: String?= "",
     @SerializedName("detailView")
-    val detailView: String?,
+    val detailView: String?= "",
     @SerializedName("sl")
-    val sl: String?,
+    val sl: String?= "",
     @SerializedName("summaryView")
-    val summaryView: String?,
+    val summaryView: String?= "",
     @SerializedName("viewedOn")
-    val viewedOn: String?
+    val viewedOn: String?= ""
 )

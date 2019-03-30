@@ -65,9 +65,7 @@ class EmployerMessageDetailFragment : Fragment() {
                 expand_arrow.setImageResource(R.drawable.ic_arrow_down)
                 positionLayout.hide()
                 dateLayout.hide()
-                /*positionIconIV?.hide()
-                positionTextTV?.hide()
-                positionTV?.hide()*/
+
 
             } else {
 
@@ -85,11 +83,8 @@ class EmployerMessageDetailFragment : Fragment() {
                     positionLayout.hide()
                 }
 
-
                 dateLayout.show()
-                /*positionIconIV?.show()
-                positionTextTV?.show()
-                positionTV?.show()*/
+
             }
 
 
@@ -159,15 +154,11 @@ class EmployerMessageDetailFragment : Fragment() {
                               if (!toogleStatus){
 
                                   positionLayout?.hide()
-                                 /* positionIconIV?.hide()
-                                  positionTextTV?.hide()
-                                  positionTV?.hide()*/
+
 
                               } else {
                                   positionLayout?.show()
-                                  /*positionIconIV?.show()
-                                  positionTextTV?.show()
-                                  positionTV?.show()*/
+
 
                               }
 
@@ -183,15 +174,11 @@ class EmployerMessageDetailFragment : Fragment() {
                                 if (!toogleStatus){
 
                                     positionLayout?.hide()
-                                   /* positionIconIV?.hide()
-                                    positionTextTV?.hide()
-                                    positionTV?.hide()*/
+
                                 } else {
 
                                     positionLayout?.show()
-                                    /*positionIconIV?.show()
-                                    positionTextTV?.show()
-                                    positionTV?.show()*/
+
 
                                 }
 

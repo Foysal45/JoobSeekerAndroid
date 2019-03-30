@@ -1,7 +1,6 @@
 package com.bdjobs.app.Employers
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,7 +127,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        // add(EmplyerViewMyResumeData())
+         add(EmpVwdResumeData())
     }
 
     fun removeLoadingFooter() {

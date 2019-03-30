@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -65,6 +67,17 @@ class FollowedEmployersListFragment : Fragment() {
                     Log.d("initPag", "called")
                     followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                     followedEmployersAdapter?.addAll(followedEmployerList!!)
+
+
+                    if (followedEmployerList?.size!! > 0) {
+                        followEmployerNoDataLL?.hide()
+                        followedRV?.show()
+                        Log.d("totalJobs", "data ase")
+                    } else {
+                        followEmployerNoDataLL?.show()
+                        followedRV?.hide()
+                        Log.d("totalJobs", "zero")
+                    }
 
                     if (followedEmployerList?.size!! > 1) {
                         val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"

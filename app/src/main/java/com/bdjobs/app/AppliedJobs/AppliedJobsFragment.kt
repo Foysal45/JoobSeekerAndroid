@@ -142,28 +142,29 @@ class AppliedJobsFragment : Fragment() {
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
                     /* shimmer_view_container_appliedJobList?.hide()
                      shimmer_view_container_appliedJobList?.stopShimmerAnimation()*/
-                    var totalRecords = response.body()?.common?.totalNumberOfApplication
-                    Log.d("totalrecords", "totalrecords  = $totalRecords")
 
-                    if (totalRecords != null) {
-                        //   toast("came")
-                    } else {
-
-                        //    toast("came1")
-                        totalRecords = "0"
-                        favCountTV?.show()
-                        val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    }
                     try {
+                        var totalRecords = response.body()?.common?.totalNumberOfApplication
+                        Log.d("totalrecords", "totalrecords  = $totalRecords")
+
+                        if (totalRecords != null) {
+                            //   toast("came")
+                        } else {
+
+                            //    toast("came1")
+                            totalRecords = "0"
+                            favCountTV?.show()
+                            val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        }
+
+
+
                         Log.d("callAppliURl", "url: ${call?.request()} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         //   TOTAL_PAGES = 5
 
                         jobsAppliedSize = totalRecords?.toInt()!!
-
-
-
 
 
                         if (!response?.body()?.data.isNullOrEmpty()) {
@@ -179,22 +180,25 @@ class AppliedJobsFragment : Fragment() {
                             appliedJobsCommunicator.setexperienceList(experienceList!!)
                             jobsAppliedSize = totalRecords?.toInt()!!
 
-                     /*       if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                                Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                                appliedJobsAdapter?.addLoadingFooter()
-                            } else {
-                                Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                                isLastPages = true
-                            }*/
+
                             if (pgNo == TOTAL_PAGES!!) {
                                 isLastPages = true
                             } else {
                                 appliedJobsAdapter?.addLoadingFooter()
                             }
 
+
+
+
+
                         } else {
                             //toast("came here")
                             totalRecords = "0"
+
+                                appliedJobsNoDataLL?.show()
+                                appliedJobsRV?.hide()
+                                Log.d("totalJobs", "zero")
+
                         }
 
                         Log.d("tot", "total = $totalRecords")

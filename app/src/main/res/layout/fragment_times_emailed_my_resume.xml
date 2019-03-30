@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:fontFamily="@font/noto_sans"
-            android:textColor="#2F64A3"
+            android:textColor="#13A10E"
             android:textSize="14sp"
             tools:text="" />
 
@@ -183,6 +183,27 @@
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/timesEmailedNoDataLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/emailedResumeRV"
+        app:layout_constraintVertical_bias="0.0">
+
+        <include
+            layout="@layout/layout_no_data_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/emailedResumeRV"

@@ -58,6 +58,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
 
         Log.d("manage", "jobid== $jobID toemail = $toEmail subj = $subject")
         /*      try {
+        //
                   from = intent.getStringExtra("from")
 
                   if (from.equalIgnoreCase("emailResumeCompose")){
@@ -154,7 +155,9 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
                                 gotoResumeUploadFragment()
                             }
                         }else if(from.equalIgnoreCase("emailResume")){
+                            Constants.timesEmailedResumeLast = false
                             gotoTimesResumeFrag()
+
                         }
                         else if(from.equalIgnoreCase("timesEmailedResume")){
                             transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)
