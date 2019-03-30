@@ -15,7 +15,7 @@ interface AppliedJobDao {
     fun getAllAppliedJobs(): List<AppliedJobs>
 
     @Query("SELECT * FROM AppliedJobs WHERE appliedid =:appliedId")
-    fun getAppliedJobsById(appliedId:String): List<AppliedJobs>
+    fun getAppliedJobsById(appliedId:String?): List<AppliedJobs>
 
     @Query("DELETE FROM AppliedJobs")
     fun deleteAllAppliedJobs()

@@ -127,8 +127,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvExperience.text = result?.experience
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result.jobid)
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
                         if (homeCommunicator == null) {
                             if (shortListed) {
@@ -225,8 +225,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 }
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result.jobid)
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
 
                         if (homeCommunicator == null) {
@@ -280,7 +280,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 }
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid!!)
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
                     uiThread {
                         if (shortListed) {
                             jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
@@ -382,9 +382,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             jobCommunicator?.goToLoginPage()
             jobCommunicator?.setBackFrom("jobdetail")
         } else {
-            Log.d("strJobId", "strJobId: ${jobList?.get(position)?.jobid!!}")
             doAsync {
-                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
                 uiThread {
                     if (shortListed || homeCommunicator!=null) {
                         context?.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {

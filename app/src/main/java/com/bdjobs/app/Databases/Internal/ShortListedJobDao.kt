@@ -19,13 +19,13 @@ interface ShortListedJobDao {
     fun deleteShortListedJobsByJobID(jobId: String)
 
     @Query("SELECT * FROM ShortListedJobs WHERE jobid =:jobId")
-    fun getShortListedJobById(jobId: String): List<ShortListedJobs>
+    fun getShortListedJobById(jobId: String?): List<ShortListedJobs>
 
     @Query("SELECT * FROM ShortListedJobs WHERE deadline<=:deadline and deadline>:yesterday ORDER BY id DESC")
     fun getAllShortListedJobsByDeadline(deadline:Date,yesterday:Date): List<ShortListedJobs>
 
     @Transaction
-    fun isItShortListed(jobId: String): Boolean {
+    fun isItShortListed(jobId: String?): Boolean {
         val jobs = getShortListedJobById(jobId)
         if (jobs.isNullOrEmpty()) {
             return false

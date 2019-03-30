@@ -163,19 +163,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:textColor="#b71c1c"
+        android:textColor="#721c24"
         android:singleLine="true"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
-        android:background="@color/colorWhite"
+        android:background="#f8d7da"
         android:textSize="14sp"
         android:padding="10dp"
         android:id="@+id/alertTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="বিডিজবস-এ প্রকাশিত যেকোনো চাকরি সংক্রান্ত তথ্য নিয়োগকারী প্রতিষ্ঠান কর্তৃক দেওয়া হয়ে থাকে I প্রকাশিত যেকোনো ধরণের চাকরি তথ্য বা নিয়োগ-প্রক্রিয়ার দায়-দায়িত্ব স্ব-স্ব নিয়োগকারী প্রতিষ্ঠানের I এ সংক্রান্ত কোনো অসত্য বা অসম্পূর্ন তথ্যের দায় বিডিজবস-এর নয় I চাকরিপ্রার্থীদের এই ব্যাপারে সতর্ক হবার জন্য পরামর্শ দেওয়া হচ্ছে I"
+        android:text="বিডিজবস-এ প্রকাশিত যেকোনো চাকরি সংক্রান্ত তথ্য নিয়োগকারী প্রতিষ্ঠান কর্তৃক দেওয়া হয়ে থাকে। প্রকাশিত যেকোনো ধরণের চাকরি তথ্য বা নিয়োগ-প্রক্রিয়ার দায়-দায়িত্ব স্ব-স্ব নিয়োগকারী প্রতিষ্ঠানের। এ সংক্রান্ত কোনো অসত্য বা অসম্পূর্ন তথ্য অথবা আর্থিক লেনদেনের দায় বিডিজবস-এর নয়।।"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -938,7 +938,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             jobCommunicator?.goToLoginPage()
         } else {
             doAsync {
-                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
                 uiThread {
                     if (shortListed) {
                         ApiServiceMyBdjobs.create().unShortlistJob(
@@ -1020,7 +1020,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     fun showHideShortListedIcon(position: Int) {
         doAsync {
-            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid!!)
+            val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
             uiThread {
                 if (shortListed) {
                     jobCommunicator?.showShortListedIcon()

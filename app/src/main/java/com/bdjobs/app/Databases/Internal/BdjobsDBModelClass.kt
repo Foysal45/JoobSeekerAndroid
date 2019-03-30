@@ -66,47 +66,47 @@ data class ShortListedJobs(@ColumnInfo(name = "jobid")
 @Entity(tableName = "FavouriteSearch", indices = [(Index(value = ["filterid"], unique = true))])
 data class FavouriteSearch(
         @ColumnInfo(name = "filterid")
-        val filterid: String?,
+        val filterid: String?="",
         @ColumnInfo(name = "filtername")
-        val filtername: String?,
+        val filtername: String?="",
         @ColumnInfo(name = "industrialCat")
-        val industrialCat: String?,
+        val industrialCat: String?="",
         @ColumnInfo(name = "functionalCat")
-        val functionalCat: String?,
+        val functionalCat: String?="",
         @ColumnInfo(name = "location")
-        val location: String?,
+        val location: String?="",
         @ColumnInfo(name = "organization")
-        val organization: String?,
+        val organization: String?="",
         @ColumnInfo(name = "jobnature")
-        val jobnature: String?,
+        val jobnature: String?="",
         @ColumnInfo(name = "joblevel")
-        val joblevel: String?,
+        val joblevel: String?="",
         @ColumnInfo(name = "postedon")
-        val postedon: String?,
+        val postedon: String?="",
         @ColumnInfo(name = "deadline")
-        val deadline: String?,
+        val deadline: String?="",
         @ColumnInfo(name = "keyword")
-        val keyword: String?,
+        val keyword: String?="",
         @ColumnInfo(name = "newspaper")
-        val newspaper: String?,
+        val newspaper: String?="",
         @ColumnInfo(name = "gender")
-        val gender: String?,
+        val gender: String?="",
         @ColumnInfo(name = "genderb")
-        val genderb: String?,
+        val genderb: String?="",
         @ColumnInfo(name = "experience")
-        val experience: String?,
+        val experience: String?="",
         @ColumnInfo(name = "age")
-        val age: String?,
+        val age: String?="",
         @ColumnInfo(name = "jobtype")
-        val jobtype: String?,
+        val jobtype: String?="",
         @ColumnInfo(name = "retiredarmy")
-        val retiredarmy: String?,
+        val retiredarmy: String?="",
         @ColumnInfo(name = "createdon")
         val createdon: Date?,
         @ColumnInfo(name = "updatedon")
         val updatedon: Date?,
         @ColumnInfo(name = "totaljobs")
-        val totaljobs: String?
+        val totaljobs: String?=""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
