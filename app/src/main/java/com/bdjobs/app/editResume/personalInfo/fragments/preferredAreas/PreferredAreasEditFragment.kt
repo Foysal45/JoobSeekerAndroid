@@ -268,11 +268,11 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acWCjobCat.closeKeyboard(activity)
-                            activity.toast("Category already added")
+                            activity?.toast("Category already added")
                         }
                         tilWCjobCat.hideError()
                     } else {
-                        activity.toast("Maximum 3 items can be added.")
+                        activity?.toast("Maximum 3 items can be added.")
                         acWCjobCat.isEnabled = false
                         acWCjobCat.setText("")
                         acWCjobCat.clearFocus()
@@ -300,11 +300,11 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acBCJobCat.closeKeyboard(activity)
-                            activity.toast("ক্যাটাগরি ইতিমধ্যে যোগ করা হয়েছে")
+                            activity?.toast("ক্যাটাগরি ইতিমধ্যে যোগ করা হয়েছে")
                         }
                         tilBCJobCat.hideError()
                     } else {
-                        activity.toast("Maximum 3 items can be added.")
+                        activity?.toast("Maximum 3 items can be added.")
                         acBCJobCat.isEnabled = false
                         acBCJobCat.setText("")
                         acBCJobCat.clearFocus()
@@ -332,11 +332,11 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acOrgType.closeKeyboard(activity)
-                            activity.toast("Organization type already added")
+                            activity?.toast("Organization type already added")
                         }
                         tilOrgType.hideError()
                     } else {
-                        activity.toast("Maximum 12 items can be added.")
+                        activity?.toast("Maximum 12 items can be added.")
                         acOrgType.isEnabled = false
                         acOrgType.setText("")
                         acOrgType.clearFocus()
@@ -372,11 +372,11 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acInsideBD.closeKeyboard(activity)
-                            activity.toast("District already added")
+                            activity?.toast("District already added")
                         }
                         tilInsideBD.hideError()
                     } else {
-                        activity.toast("Maximum 15 items can be added.")
+                        activity?.toast("Maximum 15 items can be added.")
                         acInsideBD.isEnabled = false
                         acInsideBD.setText("")
                         acInsideBD.clearFocus()
@@ -407,11 +407,11 @@ class PreferredAreasEditFragment : Fragment() {
                         }
                         else {
                             acOutsideBD.closeKeyboard(activity)
-                            activity.toast("Country already added")
+                            activity?.toast("Country already added")
                         }
                         tilOutsideBD.hideError()
                     } else {
-                        activity.toast("Maximum 10 items can be added.")
+                        activity?.toast("Maximum 10 items can be added.")
                         acOutsideBD.isEnabled = false
                         acOutsideBD.setText("")
                         acOutsideBD.clearFocus()
@@ -538,27 +538,27 @@ class PreferredAreasEditFragment : Fragment() {
                 idInBDArr.remove("-1")
             prefDistrictIds = TextUtils.join(",", idInBDArr)
         }
-        activity.showProgressBar(loadingProgressBar)
+        activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
                 prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
         Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast("Can not connect to the server! Try again")
+                activity?.stopProgressBar(loadingProgressBar)
+                activity?.toast("Can not connect to the server! Try again")
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
                         if (response.body()?.statuscode == "4") {
                             prefCallBack.goBack()
-                            onDestroy()
+                            //onDestroy()
                         }
                     } else {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
                     }
                 } catch (e: Exception) {

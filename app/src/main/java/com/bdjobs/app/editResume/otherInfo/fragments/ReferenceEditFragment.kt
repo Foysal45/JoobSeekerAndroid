@@ -136,9 +136,10 @@ class ReferenceEditFragment : Fragment() {
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(referenceLoadingProgressBar)
-                    activity.toast(response.body()?.message.toString())
+                    //activity.stopProgressBar(referenceLoadingProgressBar)
+                    //activity.toast(response.body()?.message.toString())
                     e.printStackTrace()
+                    logException(e)
                 }
             }
         })

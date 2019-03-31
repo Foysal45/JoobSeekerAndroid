@@ -99,7 +99,7 @@ class ReferencesViewFragment : Fragment() {
                 try {
                     shimmerStop()
                     rv_reference_view?.show()
-                    activity.toast("Error occurred")
+                    activity?.toast("Error occurred")
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -135,8 +135,8 @@ class ReferencesViewFragment : Fragment() {
                     fab_reference_add?.show()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
                 adapter?.notifyDataSetChanged()
