@@ -51,6 +51,7 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
         }
 
 
+
         if (resultId.equalIgnoreCase("8") ||
                 resultId.equalIgnoreCase("9") ||
                 resultId.equalIgnoreCase("10") ||
@@ -63,6 +64,12 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
                 !dModel.marks.equals("0") && !dModel.scale.equals("0") -> {
                     holder.tvAcaResult?.show()
                     holder.tvAcaResult?.text = "CGPA ${dModel.marks} Out of ${dModel.scale}"
+
+                    if (dModel.result.isNullOrEmpty() && resultId.isEmpty() && dModel.marks.isNullOrEmpty() && dModel.scale.isNullOrEmpty()) {
+
+                        d("djkgndj in null condiiton")
+                        holder.tvAcaResult!!.hide()
+                    }
 
                 }
                 !dModel.marks.equals("0") && dModel.scale.equals("0") -> {

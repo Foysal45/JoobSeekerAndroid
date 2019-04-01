@@ -134,7 +134,7 @@ data class AddorUpdateModel(
 )
 
 // Education and Training
-data class GetAcademicInfo(
+/*data class GetAcademicInfo(
 
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
@@ -203,7 +203,61 @@ data class AcaDataItem(
 
         @field:SerializedName("instituteType")
         val instituteType: String? = null
+)*/
+
+
+data class GetAcademicInfo(
+        @SerializedName("common")
+        var common: Any? = null,
+        @SerializedName("data")
+        var `data`: List<AcaDataItem?>? = listOf(),
+        @SerializedName("message")
+        var message: String? =null,
+        @SerializedName("statuscode")
+        var statuscode: String? = null
 )
+
+data class AcaDataItem(
+        @SerializedName("acId")
+        var acId: String? = null,
+        @SerializedName("acievement")
+        var acievement: String? = null,
+        @SerializedName("concentration/major/group")
+        var concentrationMajorGroup: String? = null,
+        @SerializedName("duration")
+        var duration: String? = null,
+        @SerializedName("eduType")
+        var eduType: String? = null,
+        @SerializedName("exam/degreeTitle")
+        val examDegreeTitle: String? = null,
+        @SerializedName("instituteName")
+        var instituteName: String? =null,
+        @SerializedName("instituteType")
+        var instituteType: String? = null,
+        @SerializedName("isItDegree")
+        var isItDegree: String? = null,
+        @SerializedName("levelofEducation")
+        var levelofEducation: String? = null,
+        @SerializedName("levelofEducationId")
+        var levelofEducationId: String? = null,
+        @SerializedName("marks")
+        var marks: String? = null,
+        @SerializedName("messageType")
+        var messageType: String? = null,
+        @SerializedName("otherEduType")
+        var otherEduType: String? = null,
+        @SerializedName("result")
+        var result: String? = null,
+        @SerializedName("resultId")
+        var resultId: String? = null,
+        @SerializedName("scale")
+        var scale: String? = null,
+        @SerializedName("showMarks")
+        var showMarks: String? = null,
+        @SerializedName("yearofPAssing")
+        var yearofPAssing: String? = null
+)
+
 
 // Personal Info
 data class P_DataItem(

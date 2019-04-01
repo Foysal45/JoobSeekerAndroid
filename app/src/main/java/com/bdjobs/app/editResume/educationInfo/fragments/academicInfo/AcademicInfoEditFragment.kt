@@ -106,12 +106,13 @@ class AcademicInfoEditFragment : Fragment() {
 
         }
 
-        etLevelEdu?.setText(data.levelofEducation)
+        etLevelEdu?.setText(ds.getEduLevelByID(data.levelofEducationId.toString()))
         etExamTitle?.setText(data.examDegreeTitle)
 
 
         etExamOtherTitle?.hide()
         examOtherTIL?.hide()
+        etExamOtherTitle?.clear()
 
 
 
@@ -489,6 +490,7 @@ class AcademicInfoEditFragment : Fragment() {
                     etExamTitle?.show()
                     examOtherTIL?.hide()
                     etExamOtherTitle?.hide()
+                    etExamOtherTitle?.clear()
                 }
 
 
@@ -523,6 +525,7 @@ class AcademicInfoEditFragment : Fragment() {
 
                     examOtherTIL?.show()
                     etExamOtherTitle?.show()
+                    etExamOtherTitle?.clear()
                     examOtherTIL.isErrorEnabled = false
 
                     if (!isEdit) {
@@ -535,6 +538,7 @@ class AcademicInfoEditFragment : Fragment() {
                 } else {
                     examOtherTIL?.hide()
                     etExamOtherTitle?.hide()
+                    etExamOtherTitle?.clear()
 
                 }
 
@@ -850,8 +854,16 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
-        examdegree = if (etExamTitle.getString().equalIgnoreCase("Other") || etLevelEdu.getString().equalIgnoreCase("Doctoral")) etExamOtherTitle.getString()
-        else etExamTitle.getString()
+
+        examdegree = when {
+            etExamTitle.getString().equalIgnoreCase("Other") -> etExamOtherTitle.getString()
+            etLevelEdu.getString().equalIgnoreCase("Doctoral") -> etExamTitle.getString()
+            else -> etExamTitle.getString()
+        }
+
+
+
+
         hideRes = if (cbResHide.isChecked) "1" else "0"
         if (cbResHide.isChecked) {
             gradeOrMarks = "0"
