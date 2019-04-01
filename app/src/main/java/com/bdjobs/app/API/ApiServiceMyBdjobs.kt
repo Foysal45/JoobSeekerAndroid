@@ -845,7 +845,6 @@ interface ApiServiceMyBdjobs {
     ): Call<UploadResume>
 
 
-
     @FormUrlEncoded
     @POST("apps_Emp_Message.asp")
     fun getEmployerMessageList(
@@ -863,7 +862,17 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeId: String?,
             @Field("messageId") messageId: String): Call<MessageDetailModel>
 
+    @FormUrlEncoded
+    @POST("apps_update_application_status.asp")
+    fun getapps_update_application_status(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("status") status: String = "",
+            @Field("experienceId") experienceId: String? = "",
+            @Field("changeExprience") changeExprience: String? = "",
+            @Field("jobId") jobId: String? = "")
 
+            : Call<InteractionModel>
 
     companion object Factory {
 

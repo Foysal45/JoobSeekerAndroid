@@ -268,6 +268,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     communicator?.gotoEmployerInteractionFragment()
                     communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
                     communicator?.setTitle(appliedJobsLists?.get(position)?.title!!)
+                    communicator?.setStatus(appliedJobsLists?.get(position)?.status!!)
                 } catch (e: Exception) {
                     logException(e)
                 }
