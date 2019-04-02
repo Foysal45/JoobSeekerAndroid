@@ -142,6 +142,7 @@ class EmailResumeFragment : Fragment() {
                         activity?.stopProgressBar(EmailResumeLoadingProgressBar)
                         Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
                         activity?.toast(response.body()?.message!!)
+                        bdjobsUserSession.incrementTimesEmailedRessume()
                         communicator.backButtonPressed()
                     }
                 } catch (e: Exception) {

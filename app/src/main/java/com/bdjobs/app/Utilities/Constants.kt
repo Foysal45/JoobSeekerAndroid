@@ -85,6 +85,25 @@ class Constants {
         const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
         const val session_key_cvuploadstatus = "cvuploadstatus"
 
+
+
+        const val session_key_mybdjobscount_jobs_applied_lastmonth = "jobs_applied_lastmonth"
+        const val session_key_mybdjobscount_times_emailed_resume_lastmonth = "times_emailed_resume_lastmonth"
+        const val session_key_mybdjobscount_employers_viwed_resume_lastmonth= "employers_viwed_resume_lastmonth"
+        const val session_key_mybdjobscount_employers_followed_lastmonth = "employers_followed_lastmonth"
+        const val session_key_mybdjobscount_interview_invitation_lastmonth = "interview_invitation_lastmonth"
+        const val session_key_mybdjobscount_message_by_employers_lastmonth = "message_by_employers_lastmonth"
+        const val session_key_mybdjobscount_jobs_applied_alltime = "jobs_applied_alltime"
+        const val session_key_mybdjobscount_times_emailed_resume_alltime = "times_emailed_resume_alltime"
+        const val session_key_mybdjobscount_employers_viwed_resume_alltime= "employers_viwed_resume_alltime"
+        const val session_key_mybdjobscount_employers_followed_alltime = "employers_followed_alltime"
+        const val session_key_mybdjobscount_interview_invitation_alltime = "interview_invitation_alltime"
+        const val session_key_mybdjobscount_message_by_employers_alltime = "message_by_employers_alltime"
+
+
+
+
+
         const val internal_database_name = "BdjobsInternal.db"
         const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="
         const val BROADCAST_DATABASE_UPDATE_JOB = "com.bdjobs.dataBaseUpdateJob.jobComplete"
