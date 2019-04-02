@@ -72,7 +72,7 @@ class EmailResumeFragment : Fragment() {
 
             Log.d("manage", "===${communicator.getEmailTo()}")
 
-            uploadResume.isEnabled = Constants.cvUploadStatus == "0" || Constants.cvUploadStatus == "4"
+            uploadResume.isEnabled = bdjobsUserSession.cvUploadStatus == "0" || bdjobsUserSession.cvUploadStatus == "4"
 
             mybdjobsResume.performClick()
 
@@ -142,6 +142,7 @@ class EmailResumeFragment : Fragment() {
                         activity?.stopProgressBar(EmailResumeLoadingProgressBar)
                         Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
                         activity?.toast(response.body()?.message!!)
+                        bdjobsUserSession.incrementTimesEmailedRessume()
                         communicator.backButtonPressed()
                     }
                 } catch (e: Exception) {

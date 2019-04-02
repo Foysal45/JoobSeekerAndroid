@@ -463,7 +463,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     jobsVH.tvReadBefApplyData.visibility = View.VISIBLE
                                     jobsVH.tvReadBefApplyData.movementMethod = MovementCheck()
 
-                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank()||jobDetailResponseAll.jobAppliedEmail.isNullOrEmpty()) {
+                                    if (jobDetailResponseAll.jobAppliedEmail.isNullOrBlank() || jobDetailResponseAll.jobAppliedEmail.isNullOrEmpty()) {
                                         jobsVH.emailApplyTV.hide()
                                         jobsVH.emailApplyMsgTV.hide()
                                     } else {
@@ -498,10 +498,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
 
                                 jobsVH.tvJobSource.text = jobSourceData
-                                if(companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()){
+                                if (companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()) {
                                     jobsVH.tvCompanyAddress.hide()
                                     jobsVH.addressHeadingTV.hide()
-                                }else{
+                                } else {
                                     jobsVH.addressHeadingTV.show()
                                     jobsVH.tvCompanyAddress.show()
                                     jobsVH.tvCompanyAddress.text = companyAddress
@@ -544,10 +544,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             } else {
 
                                 jobsVH.tvJobSource.text = jobSourceData
-                                if(companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()){
+                                if (companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()) {
                                     jobsVH.tvCompanyAddress.hide()
                                     jobsVH.addressHeadingTV.hide()
-                                }else{
+                                } else {
                                     jobsVH.addressHeadingTV.show()
                                     jobsVH.tvCompanyAddress.show()
                                     jobsVH.tvCompanyAddress.text = companyAddress
@@ -726,7 +726,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     loadingDialog.dismiss()
                     context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
-
+                        bdjobsUserSession.incrementJobsApplied()
                         applyStatus = true
                         doAsync {
                             val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
@@ -884,7 +884,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val emailApplyTV: TextView = viewItem?.findViewById(R.id.emailApplyTV) as TextView
         val emailApplyMsgTV: TextView = viewItem?.findViewById(R.id.emailApplyMsgTV) as TextView
 
-        val addressHeadingTV:TextView = viewItem?.findViewById(R.id.address) as TextView
+        val addressHeadingTV: TextView = viewItem?.findViewById(R.id.address) as TextView
     }
 
 
@@ -1048,6 +1048,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                     if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        bdjobsUserSession.incrementFollowedEmployer()
                         doAsync {
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = companyid,
@@ -1084,6 +1085,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         doAsync {
                             bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid, companyName)
                         }
+                        bdjobsUserSession.deccrementFollowedEmployer()
                     }
                 } catch (e: Exception) {
                     logException(e)

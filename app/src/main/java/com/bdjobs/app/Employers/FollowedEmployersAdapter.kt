@@ -126,6 +126,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 try {
                     val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
                     //undoRemove(view, deletedItem, position, deleteJobID)
+                    bdjobsUserSession.deccrementFollowedEmployer()
                     employersCommunicator.decrementCounter()
                 } catch (e: Exception) {
 

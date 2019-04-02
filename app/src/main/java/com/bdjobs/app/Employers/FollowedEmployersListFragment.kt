@@ -25,10 +25,11 @@ class FollowedEmployersListFragment : Fragment() {
     private lateinit var bdjobsDB: BdjobsDB
     private var followedEmployersAdapter: FollowedEmployersAdapter? = null
     lateinit var employersCommunicator: EmployersCommunicator
-    private var layoutManager: androidx.recyclerview.widget.LinearLayoutManager? = null
     private lateinit var isActivityDate: String
     var followedListSize = 0
     private var followedEmployerList: List<FollowedEmployer>? = null
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_followed_employers_list, container, false)
@@ -40,6 +41,9 @@ class FollowedEmployersListFragment : Fragment() {
         employersCommunicator = activity as EmployersCommunicator
         isActivityDate = employersCommunicator.getTime()
         bdjobsDB = BdjobsDB.getInstance(activity)
+
+       /* val adRequest = PublisherAdRequest.Builder().build()
+        publisherAdView?.loadAd(adRequest)*/
 
         backIMV?.setOnClickListener {
             employersCommunicator?.backButtonPressed()

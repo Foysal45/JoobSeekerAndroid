@@ -1,6 +1,7 @@
 package com.bdjobs.app.BackgroundJob
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -8,8 +9,14 @@ import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
+import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
+import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.logException
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
 import org.jetbrains.anko.doAsync
@@ -19,12 +26,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import android.content.Intent
-import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
-import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
-import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
-import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
-import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 
 
 class DatabaseUpdateJob(private val appContext: Context) : Job() {
@@ -50,7 +51,101 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         insertCertificationList()
         insertFollowedEmployers()
         insertShortListedJobs()
+        getMybdjobsCountData("0")
+        getMybdjobsCountData("1")
+        getIsCvUploaded()
         return Result.SUCCESS
+    }
+
+
+
+
+    private fun getMybdjobsCountData(activityDate: String) {
+        ApiServiceMyBdjobs.create().mybdjobStats(
+                userId = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId,
+                isActivityDate = activityDate,
+                trainingId = bdjobsUserSession.trainingId,
+                isResumeUpdate = bdjobsUserSession.IsResumeUpdate
+        ).enqueue(object : Callback<StatsModelClass> {
+            override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
+
+                try {
+                    var jobsApplied:String?=""
+                    var emailResume:String?=""
+                    var viewdResume:String?=""
+                    var followedEmployers:String?=""
+                    var interviewInvitation:String?=""
+                    var employerMessage:String?=""
+
+                    response?.body()?.data?.forEach {itt ->
+                        when(itt?.title){
+                            "Jobs\nApplied"->{jobsApplied = itt?.count}
+                            "Times Emailed\nResume"->{emailResume = itt?.count}
+                            "Employers Viewed\nResume"->{viewdResume = itt?.count}
+                            "Employers\nFollowed"->{followedEmployers = itt?.count}
+                            "Interview\nInvitations"->{interviewInvitation = itt?.count}
+                            "Messages by\nEmployers"->{employerMessage = itt?.count}
+                        }
+
+                    }
+
+                    if (activityDate == "0") {
+                        //alltime
+                        bdjobsUserSession.insertMybdjobsAlltimeCountData(
+                                jobsApplied =jobsApplied,
+                                emailResume = emailResume,
+                                employerViewdResume = viewdResume,
+                                followedEmployers = followedEmployers,
+                                interviewInvitation = interviewInvitation,
+                                messageByEmployers = employerMessage
+                        )
+                    } else if (activityDate == "1") {
+                        //last_moth
+                        bdjobsUserSession.insertMybdjobsLastMonthCountData(
+                                jobsApplied =jobsApplied,
+                                emailResume = emailResume,
+                                employerViewdResume = viewdResume,
+                                followedEmployers = followedEmployers,
+                                interviewInvitation = interviewInvitation,
+                                messageByEmployers = employerMessage
+                        )
+                    }
+
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+
+        })
+    }
+
+
+    private fun getIsCvUploaded() {
+        ApiServiceMyBdjobs.create().getCvFileAvailable(
+                userID = bdjobsUserSession.userId,
+                decodeID = bdjobsUserSession.decodId
+
+        ).enqueue(object : Callback<FileInfo> {
+            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
+                error("onFailure", t)
+
+            }
+
+            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
+                try {
+                    if (response.isSuccessful) {
+                        bdjobsUserSession.updateUserCVUploadStatus(response.body()?.statuscode)
+                    }
+
+                } catch (e: Exception) {
+                }
+            }
+        })
     }
 
 

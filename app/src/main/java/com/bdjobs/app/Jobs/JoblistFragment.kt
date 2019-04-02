@@ -443,7 +443,7 @@ class JoblistFragment : Fragment() {
                             joblistAdapter?.addAllTest(results)
                         }
 
-                        if (currentPage == TOTAL_PAGES!!) {
+                        if (currentPage >= TOTAL_PAGES!!) {
                             isLastPages = true
                         } else {
                             joblistAdapter?.addLoadingFooter()
@@ -468,8 +468,9 @@ class JoblistFragment : Fragment() {
                         }
                         communicator.setIsLoading(isLoadings)
                         communicator.setLastPasge(isLastPages)
-                        communicator.setTotalJob(jobResponse.common!!.totalRecordsFound!!.toInt())
-                        totalRecordsFound = jobResponse.common.totalRecordsFound!!.toInt()
+                        communicator.setTotalJob(jobResponse.common?.totalRecordsFound!!)
+                        communicator.setTotalPage(jobResponse.common?.totalpages)
+                        totalRecordsFound = jobResponse.common.totalRecordsFound
 
                     } else {
                         /*Log.d("TAG", "not successful: $TAG")*/
@@ -534,7 +535,7 @@ class JoblistFragment : Fragment() {
                             val results = response.body()?.data
                             joblistAdapter?.addAllTest(results as List<JobListModelData>)
 
-                            if (currentPage == TOTAL_PAGES) {
+                            if (currentPage >= TOTAL_PAGES!!) {
                                 isLastPages = true
                             } else {
                                 joblistAdapter?.addLoadingFooter()
@@ -548,6 +549,7 @@ class JoblistFragment : Fragment() {
 
                             totalRecordsFound = resp_jobs.common.totalRecordsFound!!
 
+                            communicator.setTotalPage(resp_jobs.common?.totalpages)
 
                             if (totalRecordsFound.toInt() > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"

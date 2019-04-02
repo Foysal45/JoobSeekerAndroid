@@ -56,13 +56,32 @@ class MyBdjobsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as HomeCommunicator
-        session = BdjobsUserSession(activity)
-        initializeViews()
+
     }
 
     override fun onResume() {
         super.onResume()
+        session = BdjobsUserSession(activity)
+        initializeViews()
         onClick()
+        getCountData()
+    }
+
+    private fun getCountData() {
+        Log.d("\nmybdjobsCountTest","mybdjobscount_jobs_applied_lastmonth: ${session.mybdjobscount_jobs_applied_lastmonth}\n" +
+                "mybdjobscount_times_emailed_resume_lastmonth: ${session.mybdjobscount_times_emailed_resume_lastmonth}\n" +
+                "mybdjobscount_employers_viwed_resume_lastmonth: ${session.mybdjobscount_employers_viwed_resume_lastmonth}\n" +
+                "mybdjobscount_employers_followed_lastmonth: ${session.mybdjobscount_employers_followed_lastmonth}\n" +
+                "mybdjobscount_interview_invitation_lastmonth: ${session.mybdjobscount_interview_invitation_lastmonth}\n" +
+                "mybdjobscount_message_by_employers_lastmonth: ${session.mybdjobscount_message_by_employers_lastmonth}\n\n\n" +
+
+                "mybdjobscount_jobs_applied_alltime: ${session.mybdjobscount_jobs_applied_alltime}\n" +
+                "mybdjobscount_times_emailed_resume_alltime: ${session.mybdjobscount_times_emailed_resume_alltime}\n" +
+                "mybdjobscount_employers_viwed_resume_alltime: ${session.mybdjobscount_employers_viwed_resume_alltime}\n" +
+                "mybdjobscount_employers_followed_alltime: ${session.mybdjobscount_employers_followed_alltime}\n" +
+                "mybdjobscount_interview_invitation_lastmonth: ${session.mybdjobscount_interview_invitation_alltime}\n" +
+                "mybdjobscount_message_by_employers_alltime: ${session.mybdjobscount_message_by_employers_alltime}\n"
+        )
     }
 
     private fun initializeViews() {

@@ -25,6 +25,10 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun setTotalPage(pages: Int?) {
+        this.totalPages = pages
+    }
+
     override fun showShortListIcon() {
         jobDetailsFragment.showShrtListIcon()
     }

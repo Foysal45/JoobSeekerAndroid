@@ -10,6 +10,7 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.Utilities.logException
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -97,6 +98,8 @@ class BdjobsUserSession(val context: Context) {
     val userPicUrl = pref?.getString(Constants.session_key_userPicUrl, null)
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
 
+    val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
+
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
 
 
@@ -114,7 +117,7 @@ class BdjobsUserSession(val context: Context) {
             bdjobsDB.lastSearchDao().deleteAllLastSearch()
             bdjobsDB.suggestionDAO().deleteAllSuggestion()
             uiThread {
-               // loadingDialog.dismiss()
+                // loadingDialog.dismiss()
                 val intent = Intent(context, GuestUserJobSearchActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(intent)
@@ -220,5 +223,117 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_userPicUrl, userPicUrl)
         }
     }
+
+    fun updateUserCVUploadStatus(status: String?) {
+        pref?.edit {
+            putString(Constants.session_key_cvuploadstatus, status)
+        }
+    }
+
+
+    fun insertMybdjobsLastMonthCountData(
+            jobsApplied: String?,
+            emailResume: String?,
+            employerViewdResume: String?,
+            followedEmployers: String?,
+            interviewInvitation: String?,
+            messageByEmployers: String?
+    ) {
+
+        pref?.edit {
+            putString(Constants.session_key_mybdjobscount_jobs_applied_lastmonth, jobsApplied)
+            putString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, emailResume)
+            putString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, employerViewdResume)
+            putString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, followedEmployers)
+            putString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, interviewInvitation)
+            putString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, messageByEmployers)
+        }
+
+    }
+
+    fun insertMybdjobsAlltimeCountData(jobsApplied: String?,
+                                       emailResume: String?,
+                                       employerViewdResume: String?,
+                                       followedEmployers: String?,
+                                       interviewInvitation: String?,
+                                       messageByEmployers: String?) {
+
+        pref?.edit {
+            putString(Constants.session_key_mybdjobscount_jobs_applied_alltime, jobsApplied)
+            putString(Constants.session_key_mybdjobscount_times_emailed_resume_alltime, emailResume)
+            putString(Constants.session_key_mybdjobscount_employers_viwed_resume_alltime, employerViewdResume)
+            putString(Constants.session_key_mybdjobscount_employers_followed_alltime, followedEmployers)
+            putString(Constants.session_key_mybdjobscount_interview_invitation_alltime, interviewInvitation)
+            putString(Constants.session_key_mybdjobscount_message_by_employers_alltime, messageByEmployers)
+        }
+
+    }
+
+    val mybdjobscount_jobs_applied_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_lastmonth, "0")
+    val mybdjobscount_times_emailed_resume_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, "0")
+    val mybdjobscount_employers_viwed_resume_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, "0")
+    val mybdjobscount_employers_followed_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, "0")
+    val mybdjobscount_interview_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, "0")
+    val mybdjobscount_message_by_employers_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, "0")
+
+    val mybdjobscount_jobs_applied_alltime = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_alltime, "0")
+    val mybdjobscount_times_emailed_resume_alltime = pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_alltime, "0")
+    val mybdjobscount_employers_viwed_resume_alltime = pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_alltime, "0")
+    val mybdjobscount_employers_followed_alltime = pref?.getString(Constants.session_key_mybdjobscount_employers_followed_alltime, "0")
+    val mybdjobscount_interview_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_alltime, "0")
+    val mybdjobscount_message_by_employers_alltime = pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_alltime, "0")
+
+
+
+    protected fun incrementCount(key:String){
+        try {
+            val value = pref?.getString(key, "0")
+            val count = (value?.toInt()!!+1).toString()
+            pref?.edit {
+                putString(key, count)
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    protected  fun decrementCount(key:String){
+        try {
+            val value = pref?.getString(key, "0")
+            val count = (value?.toInt()!!-1).toString()
+            pref?.edit {
+                putString(key, count)
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
+
+    fun incrementJobsApplied(){
+        incrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
+        incrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
+    }
+
+    fun decrementJobsApplied(){
+        decrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
+        decrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
+    }
+
+
+    fun incrementTimesEmailedRessume(){
+        incrementCount(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth)
+        incrementCount(Constants.session_key_mybdjobscount_times_emailed_resume_alltime)
+    }
+
+    fun incrementFollowedEmployer(){
+        incrementCount(Constants.session_key_mybdjobscount_employers_followed_lastmonth)
+        incrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
+    }
+
+    fun deccrementFollowedEmployer(){
+        decrementCount(Constants.session_key_mybdjobscount_employers_followed_lastmonth)
+        decrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
+    }
+
 
 }

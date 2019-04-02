@@ -97,8 +97,8 @@ class DownloadResumeFragment : Fragment() {
                             Log.d("downloadResume", "Downloadlink: $downloadLink")
                         } else {
                             toast(response.body()?.message!!)
+                            bdjobsUserSession.updateUserCVUploadStatus("3")
                             communicator.gotoResumeUploadFragment()
-                            Constants.cvUploadStatus = ""
                         }
                     }
                 } catch (e: Exception) {

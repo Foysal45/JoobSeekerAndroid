@@ -31,6 +31,7 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.subscribeToFCMTopic
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.no_internet.*
 import okhttp3.ResponseBody
@@ -47,6 +48,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val internetBroadCastReceiver = ConnectivityReceiver()
 
+    private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
@@ -57,7 +60,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         if (bdjobsUserSession.isLoggedIn!!) {
             DatabaseUpdateJob.runJobImmediately()
         }
-
+       /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
+        mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
+        mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
     }
 
 
@@ -132,7 +137,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
                     try {
                         debug("getDbInfo: ${t?.message!!}")
-                        goToNextActivity()
+                        showAdAndGoToNextActivity()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -145,10 +150,10 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                             if (response.body()?.update == "1") {
                                 downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
                             } else {
-                                goToNextActivity()
+                                showAdAndGoToNextActivity()
                             }
                         } else {
-                            goToNextActivity()
+                            showAdAndGoToNextActivity()
                         }
                     } catch (e: Exception) {
                         logException(e)
@@ -163,7 +168,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
         ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                goToNextActivity()
+                showAdAndGoToNextActivity()
             }
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
@@ -178,11 +183,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                                 putString(key_db_update, updateDate)
                             }
                         }
-                        goToNextActivity()
+                        showAdAndGoToNextActivity()
 
                     } else {
                         debug("getDbInfo: server contact failed")
-                        goToNextActivity()
+                        showAdAndGoToNextActivity()
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -192,9 +197,37 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         })
     }
 
-    fun goToNextActivity() {
+    fun showAdAndGoToNextActivity() {
+       /* mPublisherInterstitialAd.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                mPublisherInterstitialAd.show()
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                goToNextActivity()
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            override fun onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+
+            }
+
+            override fun onAdClosed() {
+                goToNextActivity()
+            }
+        }*/
+        goToNextActivity()
+    }
+
+    private fun goToNextActivity(){
         try {
-            Log.d("XZXfg", "goToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
+            Log.d("XZXfg", "The interstitial wasn't loaded yet.")
+            Log.d("XZXfg", "showAdAndGoToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
             if (!bdjobsUserSession.isLoggedIn!!) {
                 if (!isFinishing) {
                     startActivity<GuestUserJobSearchActivity>()
@@ -202,9 +235,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     finish()
                 }
             } else {
-                /* val databaseSync = DatabaseSync(context = this@SplashActivity)
-                 databaseSync.insertDataAndGoToHomepage()*/
-
                 val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -289,7 +319,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         super.onDestroy()
         unregisterReceiver(internetBroadCastReceiver)
     }
-
 
 
 }

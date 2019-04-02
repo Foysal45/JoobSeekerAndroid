@@ -201,9 +201,9 @@ class JobDetailsFragment : Fragment() {
 
             Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
 
-            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+            Log.d("djggsgdjdg", "getCurrentPageNumber: ${communicator.getCurrentPageNumber()}")
 
-            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+            Log.d("djggsgdjdg", "getTotalPage: ${communicator.getTotalPage()}")
         } catch (e: Exception) {
             logException(e)
         }
@@ -214,7 +214,6 @@ class JobDetailsFragment : Fragment() {
         currentPage = communicator.getCurrentPageNumber()
         TOTAL_PAGES = communicator.getTotalPage()
         isLastPages = communicator.getLastPasge()
-
         keyword = communicator.getKeyword()
         location = communicator.getLocation()
         category = communicator.getCategory()
@@ -235,7 +234,8 @@ class JobDetailsFragment : Fragment() {
     }
 
     private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
-        Log.d("ArrayTestJobdetail", " loadNextPage called")
+        Log.d("ArrayTestJobdetail", " loadNextPage called\n ")
+
 
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
@@ -285,16 +285,16 @@ class JobDetailsFragment : Fragment() {
                             jobDetailAdapter?.showHideShortListedIcon(position = currentJobPosition)
                         }
 
-
-                        if (currentPage == TOTAL_PAGES) {
+                        TOTAL_PAGES = resp_jobs?.common?.totalpages
+                        if (currentPage >= TOTAL_PAGES!!) {
                             isLastPages = true
                         } else {
                             jobDetailAdapter?.addLoadingFooter()
                         }
-
+                        communicator.setTotalPage(resp_jobs?.common?.totalpages)
                         communicator.setIsLoading(isLoadings)
                         communicator.setLastPasge(isLastPages)
-                        communicator.setTotalJob(resp_jobs!!.common!!.totalRecordsFound!!.toInt())
+                        communicator.setTotalJob(resp_jobs?.common?.totalRecordsFound!!)
 
                     } else {
                         Log.d("TAG", "not successful: ")
@@ -380,6 +380,31 @@ class JobDetailsFragment : Fragment() {
 
     fun hideShrtListIcon() {
         shortListIMGV?.visibility = View.INVISIBLE
+    }
+
+    override fun onPause() {
+        communicator.setTotalJob(totalRecordsFound!!)
+        communicator.setpageNumber(currentPage)
+        communicator.setTotalPage(TOTAL_PAGES)
+        communicator.setLastPasge(isLastPages)
+
+        communicator.setKeyword(keyword)
+        communicator.setLocation(location)
+        communicator.setCategory(category)
+        communicator.setNewsPaper(newsPaper)
+        communicator.setIndustry(industry)
+        communicator.setOrganization(organization)
+        communicator.setGender(gender)
+        communicator.setExperience(experience)
+        communicator.setJobType(jobType)
+        communicator.setJobLevel(jobLevel)
+        communicator.setJobNature(jobNature)
+        communicator.setPostedWithin(postedWithin)
+        communicator.setDeadline(deadline)
+        communicator.setAge(age)
+        communicator.setArmy(army)
+
+        super.onPause()
     }
 
 
