@@ -14,7 +14,6 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
@@ -164,7 +163,7 @@ class UploadResumeFragment : Fragment() {
                     progressDialog.dismiss()
                     toast(response.body()?.message!!)
                     Log.d("UploadResume", "response: ${response.body()}")
-                    Constants.cvUploadStatus = "0"
+                    bdjobsUserSession.updateUserCVUploadStatus("0")
                     communicator.gotoDownloadResumeFragment()
                 } catch (e: Exception) {
                     logException(e)

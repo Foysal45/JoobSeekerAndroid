@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F2F2"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -163,19 +163,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:textColor="#721c24"
+        android:textColor="#B71C1C"
         android:singleLine="true"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
-        android:background="#f8d7da"
+        android:background="@drawable/alert_bg"
         android:textSize="14sp"
         android:padding="10dp"
         android:id="@+id/alertTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="বিডিজবস-এ প্রকাশিত যেকোনো চাকরি সংক্রান্ত তথ্য নিয়োগকারী প্রতিষ্ঠান কর্তৃক দেওয়া হয়ে থাকে। প্রকাশিত যেকোনো ধরণের চাকরি তথ্য বা নিয়োগ-প্রক্রিয়ার দায়-দায়িত্ব স্ব-স্ব নিয়োগকারী প্রতিষ্ঠানের। এ সংক্রান্ত কোনো অসত্য বা অসম্পূর্ন তথ্য অথবা আর্থিক লেনদেনের দায় বিডিজবস-এর নয়।।"
+        android:text="বিডিজবস-এ প্রকাশিত যেকোনো চাকরি সংক্রান্ত তথ্য নিয়োগকারী প্রতিষ্ঠান কর্তৃক দেওয়া হয়ে থাকে। প্রকাশিত যেকোনো ধরণের চাকরি তথ্য বা নিয়োগ-প্রক্রিয়ার দায়-দায়িত্ব স্ব-স্ব নিয়োগকারী প্রতিষ্ঠানের। এ সংক্রান্ত কোনো অসত্য বা অসম্পূর্ন তথ্য অথবা আর্থিক লেনদেনের দায় বিডিজবস-এর নয়।"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

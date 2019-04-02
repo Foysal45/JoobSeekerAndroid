@@ -6,6 +6,7 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 interface JobCommunicator {
     fun showShortListIcon()
     fun hideShortListIcon()
+    fun setTotalPage(pages:Int?)
 
 
 

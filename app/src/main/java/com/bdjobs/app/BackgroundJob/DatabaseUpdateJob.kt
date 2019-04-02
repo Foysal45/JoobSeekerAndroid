@@ -1,6 +1,7 @@
 package com.bdjobs.app.BackgroundJob
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -8,7 +9,12 @@ import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
+import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
+import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.error
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
@@ -19,12 +25,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import android.content.Intent
-import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
-import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
-import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
-import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
-import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 
 
 class DatabaseUpdateJob(private val appContext: Context) : Job() {
@@ -50,7 +50,32 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         insertCertificationList()
         insertFollowedEmployers()
         insertShortListedJobs()
+        getIsCvUploaded()
         return Result.SUCCESS
+    }
+
+
+    private fun getIsCvUploaded() {
+        ApiServiceMyBdjobs.create().getCvFileAvailable(
+                userID = bdjobsUserSession.userId,
+                decodeID = bdjobsUserSession.decodId
+
+        ).enqueue(object : Callback<FileInfo> {
+            override fun onFailure(call: Call<FileInfo>, t: Throwable) {
+                error("onFailure", t)
+
+            }
+
+            override fun onResponse(call: Call<FileInfo>, response: Response<FileInfo>) {
+                try {
+                    if (response.isSuccessful) {
+                        bdjobsUserSession.updateUserCVUploadStatus(response.body()?.statuscode)
+                    }
+
+                } catch (e: Exception) {
+                }
+            }
+        })
     }
 
 

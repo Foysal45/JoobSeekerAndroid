@@ -97,6 +97,8 @@ class BdjobsUserSession(val context: Context) {
     val userPicUrl = pref?.getString(Constants.session_key_userPicUrl, null)
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
 
+    val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
+
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
 
 
@@ -220,5 +222,13 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_userPicUrl, userPicUrl)
         }
     }
+
+    fun updateUserCVUploadStatus(status: String?) {
+        pref?.edit {
+            putString(Constants.session_key_cvuploadstatus, status)
+        }
+    }
+
+
 
 }

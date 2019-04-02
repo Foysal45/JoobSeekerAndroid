@@ -83,6 +83,7 @@ class Constants {
         const val api_mybdjobs_app_social_agent_log = "app_social_agent_log.asp"
         const val api_jobs_db_update = "dbupdate.asp"
         const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
+        const val session_key_cvuploadstatus = "cvuploadstatus"
 
         const val internal_database_name = "BdjobsInternal.db"
         const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="

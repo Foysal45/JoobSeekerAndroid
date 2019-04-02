@@ -93,6 +93,9 @@ dependencies {
     //-----google maps
     implementation "com.google.android.gms:play-services-maps:16.1.0"
 
+    //----ad manager
+    implementation 'com.google.android.gms:play-services-ads:17.2.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'
