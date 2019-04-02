@@ -153,7 +153,6 @@ class EmployerInteractionFragment : Fragment() {
             "1" -> notcontracted()
             "2" -> contracted()
             "3" -> hired()
-            "" -> activity?.toast("not found")
         }
 
         expAPIcall("0")
@@ -219,13 +218,22 @@ class EmployerInteractionFragment : Fragment() {
                     if (jobID?.equalIgnoreCase(jobIDApplied)!!) {
                         Log.d("matched", " jobID + $jobID appliedjobid = $jobIDApplied")
                         designationradioBTN?.isChecked = true
+                        designationradioBTN?.isEnabled = false
                     } else {
                         Log.d("matched", " not matched")
                     }
 
+
+                    Log.d("matched", " exp id = ${experienceListInteraction?.get(i)?.jobid?.trim()}")
+
+
+                    if (!experienceListInteraction?.get(i)?.jobid?.trim()?.equalIgnoreCase("0")!!){
+                        designationradioBTN?.isEnabled = false
+                    }
+
                     designationradioBTN?.setOnClickListener {
                         expID = experienceListInteraction?.get(i)?.experienceID!!
-                        Log.d("matched", " $expID")
+                        Log.d("matched", " exp id = $expID")
                         changeEXP = "1"
                         // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
                     }
@@ -443,8 +451,8 @@ class EmployerInteractionFragment : Fragment() {
 
         EmpInteractionFab.setOnClickListener {
             activity?.showProgressBar(loadingProgressBar)
-           /* println("hbghkjgfg " + "jobid = " + appliedJobsCommunicator.getjobID() + " " + "userid = " + bdjobsUserSession.userId + " " + "decdeid = " + bdjobsUserSession.decodId + " " +
-                    "exp = " + expID + " " + "status = " + status + " " + "changeexp = " + 0)*/
+            /* println("hbghkjgfg " + "jobid = " + appliedJobsCommunicator.getjobID() + " " + "userid = " + bdjobsUserSession.userId + " " + "decdeid = " + bdjobsUserSession.decodId + " " +
+                     "exp = " + expID + " " + "status = " + status + " " + "changeexp = " + 0)*/
 
             ApiServiceMyBdjobs.create().getEmpInteraction(
                     userId = bdjobsUserSession.userId,
@@ -462,19 +470,19 @@ class EmployerInteractionFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
-                     /* Log.d("key", "userid = " + bdjobsUserSession.userId
-                              + "decode id = " + bdjobsUserSession.decodId + "status = "
-                              + status + "jobid = " + appliedJobsCommunicator.getjobID()
-                              + "experienceid = " + expID)*/
+                    /* Log.d("key", "userid = " + bdjobsUserSession.userId
+                             + "decode id = " + bdjobsUserSession.decodId + "status = "
+                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                             + "experienceid = " + expID)*/
                 }
 
                 override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
-                       Log.d("key", "userid = " + bdjobsUserSession.userId
-                               + "decode id = " + bdjobsUserSession.decodId + "status = "
-                               + status + "jobid = " + appliedJobsCommunicator.getjobID()
-                               + "experienceid = " + expID
-                               + "changeEXP = " + changeEXP
-                       )
+                    Log.d("key", "userid = " + bdjobsUserSession.userId
+                            + "decode id = " + bdjobsUserSession.decodId + "status = "
+                            + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                            + "experienceid = " + expID
+                            + "changeEXP = " + changeEXP
+                    )
                     try {
                         activity?.stopProgressBar(loadingProgressBar)
                         if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")

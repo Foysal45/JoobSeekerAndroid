@@ -239,6 +239,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     yesButton {
                         try {
                             removeItem(position, holder?.cancelBTN)
+                            session?.decrementJobsApplied()
                         } catch (e: Exception) {
                             logException(e)
                         }

@@ -10,18 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
-import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.loadCircularImageFromUrl
+import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
-import org.jetbrains.anko.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MyBdjobsFragment : Fragment() {
     private var mybdjobsAdapter: MybdjobsAdapter? = null
@@ -37,12 +33,27 @@ class MyBdjobsFragment : Fragment() {
             mybdjobsAdapter?.removeAll()
             bdjobsList.clear()
             mybdjobsAdapter?.notifyDataSetChanged()
-            bdjobsList.add(MybdjobsData("0", "Jobs\nApplied", background_resources[0], icon_resources[0]))
-            bdjobsList.add(MybdjobsData("0", "Times Emailed\nResume", background_resources[1], icon_resources[1]))
-            bdjobsList.add(MybdjobsData("0", "Employers Viewed\nResume", background_resources[2], icon_resources[2]))
-            bdjobsList.add(MybdjobsData("0", "Employers\nFollowed", background_resources[3], icon_resources[3]))
-            bdjobsList.add(MybdjobsData("0", "Interview\nInvitations", background_resources[4], icon_resources[4]))
-            bdjobsList.add(MybdjobsData("0", "Messages by \nEmployers", background_resources[5], icon_resources[5]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_lastmonth!!, "Jobs\nApplied", background_resources[0], icon_resources[0]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_lastmonth!!, "Times Emailed\nResume", background_resources[1], icon_resources[1]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_lastmonth!!, "Employers Viewed\nResume", background_resources[2], icon_resources[2]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_lastmonth!!, "Employers\nFollowed", background_resources[3], icon_resources[3]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_lastmonth!!, "Interview\nInvitations", background_resources[4], icon_resources[4]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_lastmonth!!, "Messages by \nEmployers", background_resources[5], icon_resources[5]))
+            mybdjobsAdapter?.addAll(bdjobsList)
+        } catch (e: Exception) {
+        }
+    }
+    private fun populateDataModelALL() {
+        try {
+            mybdjobsAdapter?.removeAll()
+            bdjobsList.clear()
+            mybdjobsAdapter?.notifyDataSetChanged()
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_alltime!!, "Jobs\nApplied", background_resources[0], icon_resources[0]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_alltime!!, "Times Emailed\nResume", background_resources[1], icon_resources[1]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_alltime!!, "Employers Viewed\nResume", background_resources[2], icon_resources[2]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_alltime!!, "Employers\nFollowed", background_resources[3], icon_resources[3]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_alltime!!, "Interview\nInvitations", background_resources[4], icon_resources[4]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_alltime!!, "Messages by \nEmployers", background_resources[5], icon_resources[5]))
             mybdjobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
@@ -107,6 +118,7 @@ class MyBdjobsFragment : Fragment() {
 
         lastmonth_MBTN?.setOnClickListener {
             getStatsData(1.toString())
+            populateDataModel()
             communicator.setTime("1")
             Constants.myBdjobsStatsLastMonth = true
             Constants.timesEmailedResumeLast = true
@@ -121,6 +133,7 @@ class MyBdjobsFragment : Fragment() {
         }
         all_MBTN?.setOnClickListener {
             getStatsData(0.toString())
+            populateDataModelALL()
             communicator.setTime("0")
             Constants.myBdjobsStatsLastMonth = false
             Constants.timesEmailedResumeLast = false
@@ -172,24 +185,12 @@ class MyBdjobsFragment : Fragment() {
         }
     }
 
-    private fun populateDataAllMonthStats2() {
-        try {
-            for ((index, value) in allStatsData!!.withIndex()) {
-                if (index < (allStatsData?.size!! - 1)) {
-                    //     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
-                    bdjobsList?.get(index)?.itemID = value?.count!!
-                }
-            }
-            mybdjobsAdapter?.addAll(bdjobsList)
-        } catch (e: Exception) {
-            logException(e)
-        }
-    }
+
 
     private fun getStatsData(activityDate: String) {
         //activity.showProgressBar(mybdjobsLoadingProgressBar)
 
-        mybdjobsLoadingProgressBar?.show()
+      /*  mybdjobsLoadingProgressBar?.show()
 
         ApiServiceMyBdjobs.create().mybdjobStats(
                 userId = session.userId,
@@ -241,6 +242,6 @@ class MyBdjobsFragment : Fragment() {
                 }
             }
 
-        })
+        })*/
     }
 }

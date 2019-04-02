@@ -70,6 +70,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         yesButton {
                             undoButtonPressed = false
                             removeItem(holder.adapterPosition)
+                            bdjobsUserSession?.deccrementFollowedEmployer()
                         }
                         noButton { dialog ->
                             dialog.dismiss()

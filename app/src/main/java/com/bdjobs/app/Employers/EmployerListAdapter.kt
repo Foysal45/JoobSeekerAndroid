@@ -113,6 +113,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                         yesButton {
                             try {
                                 followUnfollowEmployer(position)
+                                bdjobsUserSession?.deccrementFollowedEmployer()
                             } catch (e: Exception) {
                                 logException(e)
                             }
@@ -123,6 +124,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     }.show()
                 }
                 else {
+                    bdjobsUserSession?.incrementFollowedEmployer()
                     followUnfollowEmployer(position)
                 }
                 }
