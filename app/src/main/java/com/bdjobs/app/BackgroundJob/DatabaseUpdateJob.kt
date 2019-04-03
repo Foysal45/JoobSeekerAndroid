@@ -84,12 +84,12 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
                     response?.body()?.data?.forEach {itt ->
                         when(itt?.title){
-                            "Jobs\nApplied"->{jobsApplied = itt?.count}
-                            "Times Emailed\nResume"->{emailResume = itt?.count}
-                            "Employers Viewed\nResume"->{viewdResume = itt?.count}
-                            "Employers\nFollowed"->{followedEmployers = itt?.count}
-                            "Interview\nInvitations"->{interviewInvitation = itt?.count}
-                            "Messages by\nEmployers"->{employerMessage = itt?.count}
+                            Constants.session_key_mybdjobscount_jobs_applied->{jobsApplied = itt?.count}
+                            Constants.session_key_mybdjobscount_times_emailed_resume->{emailResume = itt?.count}
+                            Constants.session_key_mybdjobscount_employers_viwed_resume->{viewdResume = itt?.count}
+                            Constants.session_key_mybdjobscount_employers_followed->{followedEmployers = itt?.count}
+                            Constants.session_key_mybdjobscount_interview_invitation->{interviewInvitation = itt?.count}
+                            Constants.session_key_mybdjobscount_message_by_employers->{employerMessage = itt?.count}
                         }
 
                     }

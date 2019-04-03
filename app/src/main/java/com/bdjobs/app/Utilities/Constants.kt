@@ -100,6 +100,13 @@ class Constants {
         const val session_key_mybdjobscount_interview_invitation_alltime = "interview_invitation_alltime"
         const val session_key_mybdjobscount_message_by_employers_alltime = "message_by_employers_alltime"
 
+        const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
+        const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"
+        const val session_key_mybdjobscount_employers_viwed_resume= "Employers Viewed\nResume"
+        const val session_key_mybdjobscount_employers_followed = "Employers\nFollowed"
+        const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
+        const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
+
 
 
 

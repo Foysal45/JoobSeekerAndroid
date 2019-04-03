@@ -43,10 +43,10 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
             holder?.item_Card.setOnClickListener {
                 if (mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
                     when (mybdjobsItems?.get(position)?.itemName) {
-                        "Jobs\nApplied" -> communicator?.goToAppliedJobs()
-                        "Employers\nFollowed" -> communicator?.goToFollowedEmployerList("follow")
-                        "Interview\nInvitations" -> communicator?.goToInterviewInvitation("mybdjobs")
-                        "Employers Viewed\nResume" -> {
+                        Constants.session_key_mybdjobscount_jobs_applied -> communicator?.goToAppliedJobs()
+                        Constants.session_key_mybdjobscount_employers_followed -> communicator?.goToFollowedEmployerList("follow")
+                        Constants.session_key_mybdjobscount_interview_invitation -> communicator?.goToInterviewInvitation("mybdjobs")
+                        Constants.session_key_mybdjobscount_employers_viwed_resume -> {
                             if (Constants.myBdjobsStatsLastMonth) {
                                 communicator?.setTime("1")
                             } else {
@@ -54,8 +54,8 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                             }
                             communicator?.goToEmployerViewedMyResume("vwdMyResume")
                         }
-                        "Times Emailed\nResume" -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
-                        "Messages by \nEmployers" -> communicator?.goToMessageByEmployers("employerMessageList")
+                        Constants.session_key_mybdjobscount_times_emailed_resume -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
+                        Constants.session_key_mybdjobscount_message_by_employers -> communicator?.goToMessageByEmployers("employerMessageList")
                         else -> { // Note the block
                             print("not found")
                         }

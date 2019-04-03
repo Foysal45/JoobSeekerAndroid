@@ -174,18 +174,17 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
 
                     try {
-                        Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
-                        Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
+
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         val totalRecords = response.body()?.common?.totalNumberOfItems
                         if (!response?.body()?.data.isNullOrEmpty()) {
                             resumeViewNoDataLL?.hide()
                             viewedMyResumeRV?.show()
-                            Log.d("callAppliURl", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
+                            Log.d("oooooo", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
 
                             val value = response.body()?.data
                             employerViewedMyResumeAdapter?.removeAll()
-                            employerViewedMyResumeAdapter?.addAll(value as List<EmpVwdResumeData>)
+                            employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
 
                             if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                                 Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
