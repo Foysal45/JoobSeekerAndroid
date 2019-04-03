@@ -55,7 +55,7 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                             communicator?.goToEmployerViewedMyResume("vwdMyResume")
                         }
                         "Times Emailed\nResume" -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
-                        "Messages by\nEmployers" -> communicator.goToMessageByEmployers("employerMessageList")
+                        "Messages by \nEmployers" -> communicator?.goToMessageByEmployers("employerMessageList")
                         else -> { // Note the block
                             print("not found")
                         }

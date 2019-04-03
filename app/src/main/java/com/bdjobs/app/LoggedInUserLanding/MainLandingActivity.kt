@@ -593,17 +593,11 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         }
     }
 
-
-
-
     override fun goToMessageByEmployers(from: String) {
-
         startActivity<EmployersBaseActivity>(
                 "from" to from,
                 "time" to time
         )
-
-
     }
 
 }

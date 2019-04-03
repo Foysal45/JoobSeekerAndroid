@@ -65,8 +65,8 @@ class FollowedEmployersListFragment : Fragment() {
                 try {
                     followedListSize = followedEmployerList?.size!!
                     followedEmployersAdapter = FollowedEmployersAdapter(activity)
-                    followedRV!!.adapter = followedEmployersAdapter
-                    followedRV!!.setHasFixedSize(true)
+                    followedRV?.adapter = followedEmployersAdapter
+                    followedRV?.setHasFixedSize(true)
                     followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                     Log.d("initPag", "called")
                     followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()

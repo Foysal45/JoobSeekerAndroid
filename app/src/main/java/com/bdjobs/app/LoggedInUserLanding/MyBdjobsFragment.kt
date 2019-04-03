@@ -97,8 +97,8 @@ class MyBdjobsFragment : Fragment() {
 
     private fun initializeViews() {
         mybdjobsAdapter = MybdjobsAdapter(activity)
-        myBdjobsgridView_RV!!.adapter = mybdjobsAdapter
-        myBdjobsgridView_RV!!.setHasFixedSize(true)
+        myBdjobsgridView_RV?.adapter = mybdjobsAdapter
+        myBdjobsgridView_RV?.setHasFixedSize(true)
         myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
         Log.d("initPag", "called")
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()

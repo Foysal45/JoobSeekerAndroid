@@ -25,7 +25,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ShortListedJobFragment : Fragment() {
+class
+ShortListedJobFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var joblistAdapter: JoblistAdapter
@@ -65,12 +66,13 @@ class ShortListedJobFragment : Fragment() {
         crossBTN?.setOnClickListener {
             showShortListFIlterList("")
         }
+        val shortListFilter = homeCommunicator.getShortListFilter()
+        showShortListFIlterList(shortListFilter)
     }
 
     override fun onResume() {
         super.onResume()
-        val shortListFilter = homeCommunicator.getShortListFilter()
-        showShortListFIlterList(shortListFilter)
+
     }
 
     private fun showShortListFIlterList(shortListFilter: String) {
