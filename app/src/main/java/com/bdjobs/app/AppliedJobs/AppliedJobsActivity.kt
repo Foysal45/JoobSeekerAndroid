@@ -11,6 +11,14 @@ import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
+    override fun setStatus(status: String) {
+        this.status = status
+    }
+
+    override fun getStatus(): String {
+        return status
+    }
+
     override fun setFrom(value: String) {
         from = value
     }
@@ -24,6 +32,7 @@ class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
     private var company: String = ""
     private var experienceList: ArrayList<AppliedJobModelExprience>? = ArrayList()
     private var from = ""
+    private var status = ""
 
     override fun setTitle(title: String) {
         this.title = title

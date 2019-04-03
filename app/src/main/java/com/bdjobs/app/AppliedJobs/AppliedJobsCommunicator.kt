@@ -20,5 +20,7 @@ interface AppliedJobsCommunicator {
     fun getTitle2(): String
     fun setFrom(value : String)
     fun getFrom():String
+    fun setStatus(status : String)
+    fun getStatus():String
 
 }

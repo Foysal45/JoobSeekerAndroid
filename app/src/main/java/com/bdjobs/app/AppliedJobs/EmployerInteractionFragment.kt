@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +15,14 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.API.ModelClasses.AppliedJobModel
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
+import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
+import com.bdjobs.app.API.ModelClasses.EmployerInteraction
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
-import kotlinx.android.synthetic.main.activity_suggestive_search.view.*
 import kotlinx.android.synthetic.main.fragment_employer_interaction.*
-import org.jetbrains.anko.act
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -43,7 +43,10 @@ class EmployerInteractionFragment : Fragment() {
     private var hire = "0"
     private var contracted = "0"
     private var Ncontracted = "0"
+    private var changeEXP = "0"
     //val buttons = 5
+    var jobIDapplied = ""
+
     fun expAPIcall(activityDate: String) {
         //   populateshowExp = "no"
         experienceListInteraction?.clear()
@@ -142,6 +145,16 @@ class EmployerInteractionFragment : Fragment() {
         positionTV.text = appliedJobsCommunicator.getTitle2()
         designation_TV_below.text = "Please select the employer that hired you for" +
                 " " + appliedJobsCommunicator.getTitle2().trim()
+        var getStatus = appliedJobsCommunicator?.getStatus()
+
+        Log.d("calling", " onDestroy + $getStatus")
+
+        when (getStatus) {
+            "1" -> notcontracted()
+            "2" -> contracted()
+            "3" -> hired()
+        }
+
         expAPIcall("0")
         EmpInteractionFab?.setEnabled(false);
         //  EmpInteractionFab?.setBackgroundColor(Color.parseColor("#757575"))
@@ -185,6 +198,9 @@ class EmployerInteractionFragment : Fragment() {
                     companyTV?.id = View.generateViewId()
                     designationradioBTN?.text = experienceListInteraction?.get(i)?.designation?.trim()
                     companyTV?.text = experienceListInteraction?.get(i)?.companyName?.trim()
+                    var jobID = experienceListInteraction?.get(i)?.jobid?.trim()
+                    var jobIDApplied = appliedJobsCommunicator.getjobID()?.trim()
+                    jobIDapplied = jobIDApplied
 
 
                     val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -199,8 +215,26 @@ class EmployerInteractionFragment : Fragment() {
                     radio_group?.addView(designationradioBTN)
                     radio_group?.addView(companyTV)
 
+                    if (jobID?.equalIgnoreCase(jobIDApplied)!!) {
+                        Log.d("matched", " jobID + $jobID appliedjobid = $jobIDApplied")
+                        designationradioBTN?.isChecked = true
+                        designationradioBTN?.isEnabled = false
+                    } else {
+                        Log.d("matched", " not matched")
+                    }
+
+
+                    Log.d("matched", " exp id = ${experienceListInteraction?.get(i)?.jobid?.trim()}")
+
+
+                    if (!experienceListInteraction?.get(i)?.jobid?.trim()?.equalIgnoreCase("0")!!){
+                        designationradioBTN?.isEnabled = false
+                    }
+
                     designationradioBTN?.setOnClickListener {
                         expID = experienceListInteraction?.get(i)?.experienceID!!
+                        Log.d("matched", " exp id = $expID")
+                        changeEXP = "1"
                         // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
                     }
                 }
@@ -256,6 +290,83 @@ class EmployerInteractionFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+    }
+
+    private fun notcontracted() {
+        notContractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        notContractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        notContractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorWhite))
+
+
+        contractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        contractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        contractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
+
+        hiredBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        hiredBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        hiredBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
+        //     registrationCommunicator.bcGenderSelected("M")
+        status = "1"
+        hiredLayoutHide()
+        EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+        EmpInteractionFab?.setEnabled(true);
+        Ncontracted = "1"
+        contracted = "0"
+        hire = "0"
+    }
+
+    private fun contracted() {
+        contractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        contractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        contractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorWhite))
+
+
+        notContractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        notContractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        notContractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
+
+        hiredBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        hiredBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        hiredBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
+        //  registrationCommunicator.bcGenderSelected("F")
+        status = "2"
+        hiredLayoutHide()
+        EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+        EmpInteractionFab?.setEnabled(true);
+        Ncontracted = "0"
+        contracted = "1"
+        hire = "0"
+
+    }
+
+    private fun hired() {
+        hiredBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        hiredBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        hiredBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorWhite))
+
+        contractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        contractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        contractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
+
+
+        notContractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+        notContractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+        notContractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorPrimary))
+        status = "3"
+        Ncontracted = "0"
+        contracted = "0"
+        hire = "1"
+
+        hiredLayoutShow()
+//            if (populateshowExp == "no") {
+//                //addRadioButton()
+//            }
+        EmpInteractionFab?.setEnabled(true);
+        EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+
+
+        // registrationCommunicator.bcGenderSelected("O")
 
     }
 
@@ -340,13 +451,16 @@ class EmployerInteractionFragment : Fragment() {
 
         EmpInteractionFab.setOnClickListener {
             activity?.showProgressBar(loadingProgressBar)
+            /* println("hbghkjgfg " + "jobid = " + appliedJobsCommunicator.getjobID() + " " + "userid = " + bdjobsUserSession.userId + " " + "decdeid = " + bdjobsUserSession.decodId + " " +
+                     "exp = " + expID + " " + "status = " + status + " " + "changeexp = " + 0)*/
+
             ApiServiceMyBdjobs.create().getEmpInteraction(
                     userId = bdjobsUserSession.userId,
                     decodeId = bdjobsUserSession.decodId,
                     status = status,
                     experienceId = expID,
-                    changeExprience = "0",
-                    JobId = appliedJobsCommunicator.getjobID()
+                    changeExprience = changeEXP,
+                    JobId = jobIDapplied
             ).enqueue(object : Callback<EmployerInteraction> {
 
                 override fun onFailure(call: Call<EmployerInteraction>, t: Throwable) {
@@ -356,26 +470,26 @@ class EmployerInteractionFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
-                    /*  Log.d("key", "userid = " + bdjobsUserSession.userId
-                              + "decode id = " + bdjobsUserSession.decodId + "status = "
-                              + status + "jobid = " + appliedJobsCommunicator.getjobID()
-                              + "experienceid = " + expID)*/
+                    /* Log.d("key", "userid = " + bdjobsUserSession.userId
+                             + "decode id = " + bdjobsUserSession.decodId + "status = "
+                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
+                             + "experienceid = " + expID)*/
                 }
 
                 override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
-                 /*   Log.d("key", "userid = " + bdjobsUserSession.userId
+                    Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
                             + "experienceid = " + expID
-                    )*/
+                            + "changeEXP = " + changeEXP
+                    )
                     try {
                         activity?.stopProgressBar(loadingProgressBar)
                         if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")
                             activity?.toast("${response.body()?.message}")
                         appliedJobsCommunicator?.backButtonPressed()
                         //---
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                         logException(e)
                     }
 
