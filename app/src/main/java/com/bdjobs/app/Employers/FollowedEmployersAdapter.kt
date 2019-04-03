@@ -70,7 +70,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         yesButton {
                             undoButtonPressed = false
                             removeItem(holder.adapterPosition)
-                            bdjobsUserSession?.deccrementFollowedEmployer()
+
                         }
                         noButton { dialog ->
                             dialog.dismiss()
@@ -126,8 +126,8 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 notifyItemRemoved(position)
                 try {
                     val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
+                    bdjobsUserSession?.deccrementFollowedEmployer()
                     //undoRemove(view, deletedItem, position, deleteJobID)
-                    bdjobsUserSession.deccrementFollowedEmployer()
                     employersCommunicator.decrementCounter()
                 } catch (e: Exception) {
 

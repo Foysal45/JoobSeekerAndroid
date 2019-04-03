@@ -113,7 +113,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                         yesButton {
                             try {
                                 followUnfollowEmployer(position)
-                                bdjobsUserSession?.deccrementFollowedEmployer()
+
                             } catch (e: Exception) {
                                 logException(e)
                             }
@@ -124,7 +124,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     }.show()
                 }
                 else {
-                    bdjobsUserSession?.incrementFollowedEmployer()
+
                     followUnfollowEmployer(position)
                 }
                 }
@@ -238,7 +238,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     val statuscode = response?.body()?.statuscode
                     val message = response?.body()?.data?.get(0)?.message
                     Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
-
+                    bdjobsUserSession?.incrementFollowedEmployer()
                     doAsync {
                         val followedEmployer = FollowedEmployer(
                                 CompanyID = companyid,
@@ -275,6 +275,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     var statuscode = response.body()?.statuscode
                     var message = response.body()?.data?.get(0)?.message
                     Log.d("msg", message)
+                    bdjobsUserSession?.deccrementFollowedEmployer()
                     doAsync {
                         bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid, companyName)
 
