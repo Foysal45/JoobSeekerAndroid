@@ -17,7 +17,7 @@
         android:elevation="1dp"
         android:orientation="vertical"
         android:visibility="gone"
-        shimmer:duration="800"
+        shimmer:duration="400"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">
@@ -53,8 +53,7 @@
     <ScrollView
         android:id="@+id/jobDetailSCRLV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -77,13 +76,13 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginEnd="24dp"
-                    android:text="PositionName"
                     android:textColor="#ffffff"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toStartOf="@+id/company_icon"
                     app:layout_constraintHorizontal_bias="0.375"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="PositionName" />
 
                 <ImageView
                     android:id="@+id/company_icon"
@@ -109,13 +108,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="80dp"
-                    android:text="CompanyName"
                     android:textColor="#ffffff"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.062"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/positionName" />
+                    app:layout_constraintTop_toBottomOf="@+id/positionName"
+                    tools:text="CompanyName" />
 
 
                 <TextView
@@ -141,12 +140,12 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="05"
                     android:textColor="#ffff"
                     app:layout_constraintEnd_toStartOf="@+id/deadlineValue"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vacancyText" />
+                    app:layout_constraintTop_toBottomOf="@+id/vacancyText"
+                    tools:text="05" />
 
                 <TextView
                     android:id="@+id/deadlineText"
@@ -172,12 +171,12 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="32dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Dec, 2 2018"
                     android:textColor="#ffff"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/deadlineText"
-                    app:layout_constraintTop_toBottomOf="@+id/deadlineText" />
+                    app:layout_constraintTop_toBottomOf="@+id/deadlineText"
+                    tools:text="Dec, 2 2018" />
 
                 <TextView
                     android:id="@+id/locationText"
@@ -202,13 +201,13 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Dhaka"
                     android:textColor="#ffff"
                     app:layout_constraintBottom_toBottomOf="parent"
-
                     app:layout_constraintEnd_toStartOf="@+id/salaryValue"
+
                     app:layout_constraintStart_toStartOf="@+id/locationText"
-                    app:layout_constraintTop_toBottomOf="@+id/locationText" />
+                    app:layout_constraintTop_toBottomOf="@+id/locationText"
+                    tools:text="Dhaka" />
 
                 <TextView
                     android:id="@+id/salaryText"
@@ -231,12 +230,12 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="32dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Negotiable"
                     android:textColor="#ffff"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@id/salaryText"
-                    app:layout_constraintTop_toBottomOf="@+id/salaryText" />
+                    app:layout_constraintTop_toBottomOf="@+id/salaryText"
+                    tools:text="Negotiable" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -275,10 +274,10 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Big Data"
                 android:textColor="#000000"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/keyPoints" />
+                app:layout_constraintTop_toBottomOf="@+id/keyPoints"
+                tools:text="Big Data" />
 
             <TextView
                 android:id="@+id/jobContext"
@@ -301,10 +300,10 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Division Enablars"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/jobContext" />
+                app:layout_constraintTop_toBottomOf="@+id/jobContext"
+                tools:text="Division Enablars" />
 
             <View
                 android:id="@+id/horizontalViewTwo"
@@ -339,10 +338,10 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Software solution development following agile development methodology which includes requirement analysis, system architecture design "
                 android:textColor="#000000"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/responsibility" />
+                app:layout_constraintTop_toBottomOf="@+id/responsibility"
+                tools:text="Software solution development following agile development methodology which includes requirement analysis, system architecture design " />
 
             <TextView
                 android:id="@+id/jobNature"
@@ -366,10 +365,10 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Contractual"
                 android:textColor="#000000"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/jobNature" />
+                app:layout_constraintTop_toBottomOf="@+id/jobNature"
+                tools:text="Contractual" />
 
             <TextView
                 android:id="@+id/requirements"
@@ -405,10 +404,10 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled Service"
                 android:textColor="#000000"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/education" />
+                app:layout_constraintTop_toBottomOf="@+id/education"
+                tools:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled Service" />
 
             <TextView
                 android:id="@+id/Experience"
@@ -430,10 +429,10 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
-                android:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled ServiceThe applicants should have experience in the following business area (s): Software Company, IT Enabled Service"
                 android:textColor="#000000"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/Experience" />
+                app:layout_constraintTop_toBottomOf="@+id/Experience"
+                tools:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled ServiceThe applicants should have experience in the following business area (s): Software Company, IT Enabled Service" />
 
             <TextView
                 android:id="@+id/jobRequirements"
@@ -456,10 +455,10 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Only [males/females] are allowed to apply./ Others (except male  female) are allowed to apply. / Both males and females are allowed to apply."
                 android:textColor="#000000"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/jobRequirements" />
+                app:layout_constraintTop_toBottomOf="@+id/jobRequirements"
+                tools:text="Only [males/females] are allowed to apply./ Others (except male  female) are allowed to apply. / Both males and females are allowed to apply." />
 
             <View
                 android:id="@+id/horizontalViewThree"
@@ -530,10 +529,10 @@
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Other Benefits"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/salaryRangeTV" />
+                app:layout_constraintTop_toBottomOf="@+id/salaryRangeTV"
+                tools:text="Other Benefits" />
 
             <TextView
                 android:id="@+id/otherBenefitsTV"
@@ -583,10 +582,10 @@
                 android:paddingStart="15dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:text="Bdjobs.com Online Job Posting"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/JobSource" />
+                app:layout_constraintTop_toBottomOf="@+id/JobSource"
+                tools:text="Bdjobs.com Online Job Posting" />
 
             <TextView
                 android:id="@+id/readAndApply"
@@ -625,12 +624,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="Please read the circular carefully. If you think you are qualified only then apply. "
                     android:textColor="#000000"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Please read the circular carefully. If you think you are qualified only then apply. " />
 
 
                 <TextView
@@ -639,13 +638,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto"
-                    tools:text="TextView"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/readAndApplyTV" />
+                    app:layout_constraintTop_toBottomOf="@+id/readAndApplyTV"
+                    tools:text="TextView" />
 
                 <TextView
                     android:id="@+id/emailApplyTV"
@@ -653,14 +652,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto"
-                    tools:text="TextView"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/emailApplyMsgTV" />
+                    app:layout_constraintTop_toBottomOf="@+id/emailApplyMsgTV"
+                    tools:text="TextView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -683,9 +682,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
-                android:paddingBottom="16dp"
                 android:background="@drawable/layout_bg"
                 android:paddingStart="15dp"
+                android:paddingBottom="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/companyInformation">
@@ -699,12 +698,12 @@
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingTop="10dp"
-                    android:text="XYZ International Limited."
                     android:textColor="#000000"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/followTV"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="XYZ International Limited." />
 
 
                 <TextView
@@ -726,13 +725,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Road No-02, FSB - 5 (3rd Floor), CEPZ "
                     android:textColor="#000000"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/address" />
+                    app:layout_constraintTop_toBottomOf="@+id/address"
+                    tools:text="Road No-02, FSB - 5 (3rd Floor), CEPZ " />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/followTV"
@@ -772,13 +771,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
-                    android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/wbsiteHeadingTV"
-                    app:layout_constraintTop_toBottomOf="@+id/wbsiteHeadingTV" />
+                    app:layout_constraintTop_toBottomOf="@+id/wbsiteHeadingTV"
+                    tools:text="TextView" />
 
                 <TextView
                     android:id="@+id/businessHeadingTV"
@@ -799,13 +798,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
-                    android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/businessHeadingTV"
-                    app:layout_constraintTop_toBottomOf="@+id/businessHeadingTV" />
+                    app:layout_constraintTop_toBottomOf="@+id/businessHeadingTV"
+                    tools:text="TextView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -862,7 +861,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-
                 android:id="@+id/appliedBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -874,6 +872,7 @@
                 android:text="Applied"
                 android:textColor="#13A10E"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/jobInfo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -901,15 +900,42 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/jobexpirationBtn"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#FFCDD2"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:lineSpacingExtra="0sp"
+        android:text="Application deadline is over"
+        android:textAllCaps="false"
+        android:textColor="#B71C1C"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_access_time_alert_24dp"
+        app:iconGravity="textStart"
+        app:iconPadding="5dp"
+        app:iconTint="#B71C1C"
+        app:layout_constraintBottom_toTopOf="@+id/applyButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/jobDetailSCRLV"
+        app:layout_constraintVertical_bias="1.0" />
 
-        android:visibility="visible"
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/applyButton"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#13A10E"
         android:fontFamily="@font/roboto"
         android:text="Apply Now"

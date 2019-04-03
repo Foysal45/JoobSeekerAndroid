@@ -174,8 +174,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
 
                                 if (todayDate > deadlineDate) {
+                                    jobsVH.jobexpirationBtn.show()
                                     jobCommunicator?.hideShortListIcon()
                                 } else {
+                                    jobsVH.jobexpirationBtn.hide()
                                     jobCommunicator?.showShortListIcon()
                                 }
 
@@ -833,10 +835,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val horizontalView: View = viewItem?.findViewById(R.id.horizontalView) as View
         val horizontalViewfour: View = viewItem?.findViewById(R.id.horizontalViewfour) as View
 
-
         val jobInfo: TextView = viewItem?.findViewById(R.id.jobInfo) as TextView
         val govtJobsIMGV: ImageView = viewItem?.findViewById(R.id.govtJobsIMGV) as ImageView
-
 
         val shimmer_view_container: ShimmerFrameLayout = viewItem?.findViewById(R.id.shimmer_view_container) as ShimmerFrameLayout
         val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
@@ -883,8 +883,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val businessTV: TextView = viewItem?.findViewById(R.id.businessTV) as TextView
         val emailApplyTV: TextView = viewItem?.findViewById(R.id.emailApplyTV) as TextView
         val emailApplyMsgTV: TextView = viewItem?.findViewById(R.id.emailApplyMsgTV) as TextView
-
         val addressHeadingTV: TextView = viewItem?.findViewById(R.id.address) as TextView
+        val jobexpirationBtn: Button = viewItem?.findViewById(R.id.jobexpirationBtn) as Button
     }
 
 

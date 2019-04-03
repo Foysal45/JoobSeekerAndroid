@@ -341,7 +341,7 @@ class JoblistFragment : Fragment() {
         category = communicator?.getCategory()
         newsPaper = communicator?.getNewsPaper()
         industry = communicator?.getIndustry()
-        organization = communicator?.getIndustry()
+        organization = communicator?.getOrganization()
         gender = communicator?.getGender()
         experience = communicator?.getExperience()
         jobType = communicator?.getJobType()
