@@ -157,7 +157,7 @@
 
             <TextView
                 android:id="@+id/textViewEducationNameStandOut"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:layout_marginEnd="8dp"

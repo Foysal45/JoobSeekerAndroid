@@ -269,8 +269,8 @@ ShortListedJobFragment : Fragment() {
 
 
 
-                            totalRecordsFound = resp_jobs?.common?.totalRecordsFound!!
-                            favListSize = totalRecordsFound
+                            //totalRecordsFound = resp_jobs?.common?.totalRecordsFound!!
+                            //favListSize = totalRecordsFound
 
                             /*if (totalRecordsFound.toInt() > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted jobs"
