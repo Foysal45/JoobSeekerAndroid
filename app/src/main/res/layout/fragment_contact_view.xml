@@ -180,7 +180,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical"
         android:visibility="visible"
-        shimmer:duration="800"
+        shimmer:duration="10"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">

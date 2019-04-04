@@ -123,9 +123,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
-                //jobsVH.shimmer_view_container.show()
+                jobsVH.shimmer_view_container.show()
                 jobsVH.applyButton.visibility = View.GONE
-                //jobsVH.shimmer_view_container.startShimmerAnimation()
+                jobsVH.shimmer_view_container.startShimmerAnimation()
                 jobCommunicator?.hideShortListIcon()
 
 
@@ -139,8 +139,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         try {
                             Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
                             Log.d("ApiServiceJobs", "onResponse: " + response.body())
-                            /*jobsVH.shimmer_view_container.hide()
-                            jobsVH.shimmer_view_container.stopShimmerAnimation()*/
+                            jobsVH.shimmer_view_container.hide()
+                            jobsVH.shimmer_view_container.stopShimmerAnimation()
 
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 

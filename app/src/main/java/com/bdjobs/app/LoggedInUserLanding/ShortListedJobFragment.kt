@@ -196,7 +196,7 @@ ShortListedJobFragment : Fragment() {
                             joblistAdapter.addAllTest(results)
                         }
 
-                        if (currentPage == TOTAL_PAGES!!) {
+                        if (currentPage >= TOTAL_PAGES!!) {
                             isLastPages = true
                         } else {
                             joblistAdapter.addLoadingFooter()
@@ -257,7 +257,7 @@ ShortListedJobFragment : Fragment() {
                             val results = response.body()?.data
                             joblistAdapter.addAllTest(results as List<JobListModelData>)
 
-                            if (currentPage == TOTAL_PAGES) {
+                            if (currentPage >= TOTAL_PAGES!!) {
                                 isLastPages = true
                             } else {
                                 joblistAdapter.addLoadingFooter()
@@ -272,13 +272,13 @@ ShortListedJobFragment : Fragment() {
                             totalRecordsFound = resp_jobs?.common?.totalRecordsFound!!
                             favListSize = totalRecordsFound
 
-                            if (totalRecordsFound.toInt() > 1) {
+                            /*if (totalRecordsFound.toInt() > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted jobs"
                                 jobCountTV?.text = Html.fromHtml(styledText)
                             } else {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted job"
                                 jobCountTV?.text = Html.fromHtml(styledText)
-                            }
+                            }*/
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }

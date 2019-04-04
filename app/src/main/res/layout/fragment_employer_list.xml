@@ -88,7 +88,7 @@
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container_JobList"
-        shimmer:duration="800"
+        shimmer:duration="10"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent"

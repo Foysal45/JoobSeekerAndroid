@@ -155,7 +155,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        shimmer:duration="800"
+        shimmer:duration="10"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">

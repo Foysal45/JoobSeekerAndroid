@@ -36,8 +36,6 @@ class MoreFragment : Fragment() {
         clearAddPopulateData()
         getIfCVuploaded()
         onclick()
-
-
     }
 
     fun getIfCVuploaded() {
@@ -71,7 +69,7 @@ class MoreFragment : Fragment() {
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
 
-        versionInfoTV.text = "v${activity?.getAppVersion()}"
+        versionInfoTV?.text = "v${activity?.getAppVersion()} (${activity?.getAppVersionCode()})"
 
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
@@ -125,12 +123,12 @@ class MoreFragment : Fragment() {
             homeCommunicator.setTime("0")
             homeCommunicator.goToEmployerViewedMyResume("vwdMyResume")
         }
-        emailResume_MBTN.setOnClickListener {
+        emailResume_MBTN?.setOnClickListener {
             startActivity<ManageResumeActivity>(
                     "from" to "emailResume"
             )
         }
-        uploadResumeBTN.setOnClickListener {
+        uploadResumeBTN?.setOnClickListener {
             startActivity<ManageResumeActivity>(
                     "from" to "uploadResume"
             )

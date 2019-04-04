@@ -39,7 +39,14 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
         val vtVarMi = isDatabaseExist
 
         if (!vtVarMi) {
-            this.readableDatabase
+            try {
+                val db = this.readableDatabase
+                if (db.isOpen){
+                    db.close()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             try {
                 copyDataBase()
             } catch (e: Exception) {
