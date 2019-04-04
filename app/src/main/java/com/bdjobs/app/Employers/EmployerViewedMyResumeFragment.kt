@@ -180,7 +180,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         if (!response?.body()?.data.isNullOrEmpty()) {
                             resumeViewNoDataLL?.hide()
                             viewedMyResumeRV?.show()
-                            Log.d("oooooo", "url: ${response?.body()?.data?.get(1)?.companyName} and ")
+                            //Log.d("oooooo", "url: ${response?.body()?.data} and ")
 
                             val value = response.body()?.data
                             employerViewedMyResumeAdapter?.removeAll()
@@ -218,7 +218,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                         }
 
-                     /*   viewedMyResumeRV?.show()*/
+                        /*   viewedMyResumeRV?.show()*/
                         favCountTV?.show()
                         shimmer_view_container_employerViewedMyList?.hide()
                         shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
