@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_academic_base.*
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
 
 
+
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val acaEditFragment = AcademicInfoEditFragment()
@@ -43,6 +44,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddEmployment: String
+    private var saveButtonClickStatus = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -215,6 +217,15 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
 
     override fun getProfessionalData(): ProfessionalDataModel {
         return dataPrq
+    }
+
+    override fun saveButtonClickStatus(value: Boolean) {
+        saveButtonClickStatus = value
+    }
+
+    override fun getClickStatus(): Boolean {
+
+        return saveButtonClickStatus
     }
 
 }

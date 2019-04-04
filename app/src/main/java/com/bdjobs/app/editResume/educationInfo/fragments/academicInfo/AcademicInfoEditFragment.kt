@@ -54,12 +54,16 @@ class AcademicInfoEditFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+        d("viewTest onCreateView ")
+
         v = inflater.inflate(R.layout.fragment_academic_info_edit, container, false)
         return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        d("viewTest onActivityCreated ")
         initialization()
         doWork()
         fragAcaInfoEdit.closeKeyboard(activity)
@@ -67,6 +71,9 @@ class AcademicInfoEditFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        d("viewTest onResume ")
+
         d(isEdit.toString())
         if (isEdit) {
             hID = "1"
@@ -409,8 +416,6 @@ class AcademicInfoEditFragment : Fragment() {
         etDuration?.addTextChangedListener(TW.CrossIconBehave(etDuration))
 
 
-
-
     }
 
 
@@ -430,7 +435,6 @@ class AcademicInfoEditFragment : Fragment() {
         }
         return true
     }
-
 
 
     private fun requestFocus(view: View) {
@@ -855,13 +859,34 @@ class AcademicInfoEditFragment : Fragment() {
     private fun updateData() {
         activity.showProgressBar(loadingProgressBar)
 
-        examdegree = when {
-            etExamTitle.getString().equalIgnoreCase("Other") -> etExamOtherTitle.getString()
-            etLevelEdu.getString().equalIgnoreCase("Doctoral") -> etExamTitle.getString()
-            else -> etExamTitle.getString()
+        if (etExamTitle.getString().equalIgnoreCase("Other")) {
+            d("dgbdjhgbdg in other")
+            examdegree = etExamOtherTitle.getString()
+        } else if (etLevelEdu.getString().equalIgnoreCase("Doctoral")) {
+            d("dgbdjhgbdg in Doctoral")
+            d("dgbdjhgbdg $examdegree")
+
+            if (etExamOtherTitle.isVisible) {
+
+                examdegree = etExamOtherTitle.getString()
+
+            }
+
+
+            if (etExamTitle.isVisible) {
+
+                examdegree = etExamTitle.getString()
+
+            }
+
+
+        } else {
+
+            d("dgbdjhgbdg in else ")
+            examdegree = etExamTitle.getString()
         }
 
-
+        d("dgbdjhgbdg $examdegree")
 
 
         hideRes = if (cbResHide.isChecked) "1" else "0"
@@ -904,6 +929,9 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+
+                            eduCB.saveButtonClickStatus(true)
+
                             eduCB.goBack()
                         }
                     }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.InviteCode.InviteCodeBaseActivity
 import com.bdjobs.app.R
@@ -36,6 +37,7 @@ class BCCongratulationFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         initialization()
         onClick()
     }
