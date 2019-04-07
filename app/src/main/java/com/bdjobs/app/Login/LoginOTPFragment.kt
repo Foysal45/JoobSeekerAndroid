@@ -53,14 +53,12 @@ class LoginOTPFragment : Fragment() {
                 val minute = millisUntilFinished / (1000 * 60) % 60
                 val hour = millisUntilFinished / (1000 * 60 * 60) % 24
                 val time = String.format("%02d:%02d", minute, second)
-                counterTV.text = time
+                counterTV?.text = time
             }
 
             override fun onFinish() {
-
                 counterTV?.hide()
                 resendOtpTV?.show()
-
             }
         }.start()
     }
@@ -81,7 +79,7 @@ class LoginOTPFragment : Fragment() {
 
 
 
-        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+        rootView?.viewTreeObserver.addOnGlobalLayoutListener {
             try {
                 val r = Rect()
                 rootView.getWindowVisibleDisplayFrame(r)
@@ -108,10 +106,10 @@ class LoginOTPFragment : Fragment() {
     private fun doLogin() {
         val otpCode = otpTIET.getString()
         if (validateOtpCode(otpCode)) {
-            activity.showProgressBar(progressBar)
+            activity?.showProgressBar(progressBar)
             ApiServiceMyBdjobs.create().doLogin(username = loginCommunicator.getUserName(), otpCode = otpCode, userId = loginCommunicator.getUserId(), fullName = loginCommunicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
                 override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
-                    activity.stopProgressBar(progressBar)
+                    activity?.stopProgressBar(progressBar)
                     error("onFailure", t)
                 }
 
@@ -121,13 +119,13 @@ class LoginOTPFragment : Fragment() {
                     try {
                         if (response.isSuccessful) {
                            if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
-                               otpTIL.hideError()
+                               otpTIL?.hideError()
                                val bdjobsUserSession = BdjobsUserSession(activity)
                                bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
                                loginCommunicator.goToHomePage()
                            }else{
-                               activity.stopProgressBar(progressBar)
-                               otpTIL.showError("The code is not correct or has been expired. Resend code")
+                               activity?.stopProgressBar(progressBar)
+                               otpTIL?.showError("The code is not correct or has been expired. Resend code")
                            }
                         }
                     } catch (e: Exception) {
@@ -143,18 +141,18 @@ class LoginOTPFragment : Fragment() {
 
     private fun validateOtpCode(otpCode: String?): Boolean {
         when {
-            otpCode?.isBlank()!! -> {
-                otpTIL.showError("Please type the code")
+            otpCode.isNullOrBlank() -> {
+                otpTIL?.showError("Please type the code")
                 return false
             }
 
         }
-        otpTIL.hideError()
+        otpTIL?.hideError()
         return true
     }
 
     override fun onStop() {
-        counter.cancel()
+        counter?.cancel()
         super.onStop()
     }
 }

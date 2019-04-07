@@ -22,7 +22,7 @@ interface JobCommunicator {
     fun getItemClickPosition(): Int
     fun setpageNumber(pageNumber: Int)
     fun getCurrentPageNumber(): Int
-    fun setTotalJob(totalPage: Int)
+    fun setTotalJob(totalPage: Int?)
     fun setLastPasge(lastPage: Boolean)
     fun setIsLoading(isLoading: Boolean)
     fun getTotalPage(): Int

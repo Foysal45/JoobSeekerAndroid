@@ -35,8 +35,8 @@ class JobDetailsFragment : Fragment() {
     private lateinit var communicator: JobCommunicator
     private var snapHelper: SnapHelper? = null
     private var jobListGet: MutableList<JobListModelData>? = null
-    private var TOTAL_PAGES: Int? = null
-    private var totalRecordsFound: Int? = null
+    private var TOTAL_PAGES: Int? = 0
+    private var totalRecordsFound: Int? = 0
     private var isLoadings = false
     private var isLastPages = false
     private var keyword :String?= ""
@@ -384,26 +384,30 @@ class JobDetailsFragment : Fragment() {
     }
 
     override fun onPause() {
-        communicator.setTotalJob(totalRecordsFound!!)
-        communicator.setpageNumber(currentPage)
-        communicator.setTotalPage(TOTAL_PAGES)
-        communicator.setLastPasge(isLastPages)
+        try {
+            communicator.setTotalJob(totalRecordsFound)
+            communicator.setpageNumber(currentPage)
+            communicator.setTotalPage(TOTAL_PAGES)
+            communicator.setLastPasge(isLastPages)
 
-        communicator.setKeyword(keyword)
-        communicator.setLocation(location)
-        communicator.setCategory(category)
-        communicator.setNewsPaper(newsPaper)
-        communicator.setIndustry(industry)
-        communicator.setOrganization(organization)
-        communicator.setGender(gender)
-        communicator.setExperience(experience)
-        communicator.setJobType(jobType)
-        communicator.setJobLevel(jobLevel)
-        communicator.setJobNature(jobNature)
-        communicator.setPostedWithin(postedWithin)
-        communicator.setDeadline(deadline)
-        communicator.setAge(age)
-        communicator.setArmy(army)
+            communicator.setKeyword(keyword)
+            communicator.setLocation(location)
+            communicator.setCategory(category)
+            communicator.setNewsPaper(newsPaper)
+            communicator.setIndustry(industry)
+            communicator.setOrganization(organization)
+            communicator.setGender(gender)
+            communicator.setExperience(experience)
+            communicator.setJobType(jobType)
+            communicator.setJobLevel(jobLevel)
+            communicator.setJobNature(jobNature)
+            communicator.setPostedWithin(postedWithin)
+            communicator.setDeadline(deadline)
+            communicator.setAge(age)
+            communicator.setArmy(army)
+        } catch (e: Exception) {
+            logException(e)
+        }
 
         super.onPause()
     }

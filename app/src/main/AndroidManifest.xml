@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true"/>
+            android:value="true" />
 
         <activity
             android:name=".Training.TrainingListAcitivity"
@@ -96,8 +96,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SuggestiveSearch.SuggestiveSearchActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <service
             android:name=".Notification.BdjobsFirebaseMessagingService"
