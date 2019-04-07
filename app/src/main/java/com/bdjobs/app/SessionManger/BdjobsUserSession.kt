@@ -300,9 +300,11 @@ class BdjobsUserSession(val context: Context) {
     protected  fun decrementCount(key:String){
         try {
             val value = pref?.getString(key, "0")
-            val count = (value?.toInt()!!-1).toString()
-            pref?.edit {
-                putString(key, count)
+            if(value?.toInt()!!>0) {
+                val count = (value.toInt() - 1).toString()
+                pref?.edit {
+                    putString(key, count)
+                }
             }
         } catch (e: Exception) {
             logException(e)
