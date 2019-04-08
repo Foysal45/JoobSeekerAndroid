@@ -467,7 +467,10 @@ fun Any.logException(e: java.lang.Exception) {
 
 fun ImageView.loadImageFromUrl(url: String?) {
     try {
-        Picasso.get().load(url?.trim()).into(this)
+        Picasso.get()
+                .load(url?.trim())
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(this)
     } catch (e: Exception) {
         logException(e)
     }
