@@ -84,23 +84,24 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     var isLoading: Boolean = false
 
 
-    private var keyword:String? = ""
-    private var location:String? = ""
-    private var category:String? = ""
-    private var newsPaper:String? = ""
-    private var industry:String? = ""
-    private var organization:String? = ""
-    private var gender:String? = ""
-    private var experience:String? = ""
-    private var jobType:String? = ""
-    private var jobLevel:String? = ""
-    private var jobNature:String? = ""
-    private var postedWithin:String? = ""
-    private var deadline:String? = ""
-    private var age:String? = ""
-    private var army:String? = ""
-    private var filterID:String? = ""
-    private var filterName:String? = ""
+    private var keyword: String? = ""
+    private var location: String? = ""
+    private var category: String? = ""
+    private var newsPaper: String? = ""
+    private var industry: String? = ""
+    private var organization: String? = ""
+    private var gender: String? = ""
+    private var experience: String? = ""
+    private var jobType: String? = ""
+    private var jobLevel: String? = ""
+    private var jobNature: String? = ""
+    private var postedWithin: String? = ""
+    private var deadline: String? = ""
+    private var age: String? = ""
+    private var army: String? = ""
+    private var filterID: String? = ""
+    private var filterName: String? = ""
+    private var from: String? = ""
 
 
     lateinit var dataStorage: DataStorage
@@ -194,16 +195,16 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         }
 
 
-        Log.d("wtji","jobase=>\nkeyword: $keyword \nlocation: $location\n category:$category")
+        Log.d("wtji", "jobase=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 ////
         try {
             //postedWithin = intent.getStringExtra("postedWithin")
-            setPostedWithin( intent.getStringExtra("postedWithin"))
+            setPostedWithin(intent.getStringExtra("postedWithin"))
         } catch (e: Exception) {
             logException(e)
         }
         try {
-           // deadline = intent.getStringExtra("deadline")
+            // deadline = intent.getStringExtra("deadline")
             setDeadline(intent.getStringExtra("deadline"))
         } catch (e: Exception) {
             logException(e)
@@ -220,21 +221,12 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         } catch (e: Exception) {
             logException(e)
         }
-        /*try {
-            location = intent.getStringExtra("location")
-        } catch (e: Exception) {
-            logException(e)
-        }
-        try {
-            keyword = intent.getStringExtra("keyword")
-        } catch (e: Exception) {
-            logException(e)
-        }*/
+
 
 
 
         try {
-            val from = intent.getStringExtra("from")
+            from = intent.getStringExtra("from")
             when (from) {
                 "lastsearch" -> doAsync {
                     val lastSearch = bdjobsDB.lastSearchDao().getLastSearch()[0]
@@ -669,7 +661,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     override fun onBackPressed() {
         try {
             val bdjobsUserSession = BdjobsUserSession(applicationContext)
-            if (bdjobsUserSession.isLoggedIn!!) {
+            Log.d("wreiifb", "From: $from")
+            if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("guestuser")!!) {
                 val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
                 if (joblistFragment != null && joblistFragment.isVisible) {
                     val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)

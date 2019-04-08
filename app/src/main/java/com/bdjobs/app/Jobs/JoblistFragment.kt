@@ -362,7 +362,17 @@ class JoblistFragment : Fragment() {
         }
 
         loadFirstPageNew()
-        Handler().postDelayed({ jobListRecyclerView?.scrollToPosition(communicator.getCurrentJobPosition()) }, 200)
+        Handler().postDelayed({
+            jobListGet?.let{
+                if(it.size-communicator.getCurrentJobPosition()>2) {
+                    jobListRecyclerView?.scrollToPosition((communicator.getCurrentJobPosition()+1))
+                }else{
+                    jobListRecyclerView?.scrollToPosition(communicator.getCurrentJobPosition())
+                }
+            }
+
+
+        }, 200)
         Log.d("jobListRecyclerView", "getCurrentJobPosition = ${communicator.getCurrentJobPosition()}")
 
 
@@ -387,10 +397,10 @@ class JoblistFragment : Fragment() {
 
         Log.d("Paramtest", "jobLevel: $jobLevel")
 
-        jobListRecyclerView.hide()
-        filterLayout.hide()
-        shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        jobListRecyclerView?.hide()
+        filterLayout?.hide()
+        shimmer_view_container_JobList?.show()
+        shimmer_view_container_JobList?.startShimmerAnimation()
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
                 Newspaper = newsPaper,
@@ -425,8 +435,8 @@ class JoblistFragment : Fragment() {
                     if (response.isSuccessful) {
                         jobListRecyclerView?.show()
                         filterLayout.show()
-                        shimmer_view_container_JobList.hide()
-                        shimmer_view_container_JobList.stopShimmerAnimation()
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmerAnimation()
 
                         val jobResponse = response.body()
 
