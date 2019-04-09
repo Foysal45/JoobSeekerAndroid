@@ -44,6 +44,8 @@ interface EduInfo {
     fun getProfessionalData(): ProfessionalDataModel
     fun saveButtonClickStatus(value:Boolean)
     fun getClickStatus():Boolean
+    fun getBackFrom(): String?
+    fun setBackFrom(from: String?)
 }
 
 
@@ -94,6 +96,8 @@ interface PersonalInfo {
     fun setPmPostOffice(po: String?)
     fun getPmPostOffice(): String?
     fun goBack()
+    fun getBackFrom(): String?
+    fun setBackFrom(from: String?)
 }
 
 interface TitleChange {

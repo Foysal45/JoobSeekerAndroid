@@ -29,6 +29,14 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_personal_info.*
 
 class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, PersonalInfo {
+    override fun getBackFrom(): String? {
+        return this.fragmentFrom
+    }
+
+    override fun setBackFrom(from: String?) {
+        this.fragmentFrom = from
+    }
+
 
     override fun setPmThana(thana: String?) {
         pmThana = thana!!
@@ -85,6 +93,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private var prDis: String? = ""
     private var pmThana: String? = ""
     private var pmPost: String? = ""
+    private var fragmentFrom: String? = ""
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null

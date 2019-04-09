@@ -24,6 +24,18 @@ class Constants {
         var followedEmployerSynced = false
         var isDirectCall = false
 
+        // set and get from fragment
+        //personal
+        val personalUpdate = "personalUpdate"
+        val contactUpdate = "contactUpdate"
+        val caiUpdate = "caiUpdate"
+        val prefAreasUpdate = "prefAreasUpdate"
+        val oriUpdate = "oriUpdate"
+
+        //Education
+        val acaUpdate = "acaUpdate"
+
+
         const val KEY_SHORTLISTED_DATE = "shortlistedDate"
 
         const val HOTJOBS_WEB_LINK = "http://bdjobs.com/upcoming/files/hotjob/apphotjobs.asp"

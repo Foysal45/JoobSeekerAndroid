@@ -45,7 +45,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
-import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.io.File
@@ -482,7 +481,7 @@ fun TextInputEditText.enableOrdisableEdit(b: Boolean) {
 
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
-        Picasso.get().load(url).transform(CircleTransform()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(this)
+        Picasso.get().load(url?.trim()).transform(CircleTransform()).networkPolicy(NetworkPolicy.OFFLINE).into(this)
     } catch (e: Exception) {
         logException(e)
     }

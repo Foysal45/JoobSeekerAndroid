@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.AcademicInfoAdapter
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.GetAcademicInfo
@@ -38,32 +41,29 @@ class AcademicInfoViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        eduCB = activity as EduInfo
-        doWork()
     }
 
     override fun onResume() {
         super.onResume()
 
-       /* if (!eduCB.getClickStatus()){
+        session = BdjobsUserSession(activity)
+        eduCB = activity as EduInfo
+        eduCB.setDeleteButton(false)
+        eduCB.setTitle(getString(R.string.title_academic))
+        if (eduCB.getBackFrom() == "") {
 
+        } else {
             doWork()
-
-        }*/
+        }
 
 
         Log.d("acaFrag", "calling... ${eduCB.getClickStatus()}")
     }
 
     private fun doWork() {
-        rv_aca_view?.behaveYourself(fab_aca_add)
+        shimmerStart()
         populateData()
-        eduCB.setDeleteButton(false)
-        eduCB.setTitle(getString(R.string.title_academic))
-        fab_aca_add.setOnClickListener {
-            eduCB.goToEditInfo("add")
-        }
+        eduCB.setBackFrom("")
     }
 
     private fun setupRV(items: ArrayList<AcaDataItem>) {
@@ -77,7 +77,6 @@ class AcademicInfoViewFragment : Fragment() {
 
     private fun populateData() {
         rv_aca_view?.hide()
-        shimmerStart()
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetAcademicInfo> {
             override fun onFailure(call: Call<GetAcademicInfo>, t: Throwable) {

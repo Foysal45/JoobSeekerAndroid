@@ -28,8 +28,16 @@ import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
 
+    override fun getBackFrom(): String? {
+        return this.fragmentFrom
+    }
+
+    override fun setBackFrom(from: String?) {
+        this.fragmentFrom = from
+    }
 
 
+    private var fragmentFrom: String? = ""
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val acaEditFragment = AcademicInfoEditFragment()

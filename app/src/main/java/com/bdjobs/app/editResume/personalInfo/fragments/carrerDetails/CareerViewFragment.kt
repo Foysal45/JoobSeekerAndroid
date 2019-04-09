@@ -13,6 +13,7 @@ import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.editResume.adapters.models.Ca_DataItem
 import com.bdjobs.app.editResume.adapters.models.GetCarrerInfo
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import kotlinx.android.synthetic.main.fragment_career_view.*
@@ -25,7 +26,7 @@ import retrofit2.Response
 
 class CareerViewFragment : Fragment() {
 
-    private lateinit var contactCB: PersonalInfo
+    private lateinit var careerInfoCB: PersonalInfo
     private lateinit var session: BdjobsUserSession
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,21 +38,29 @@ class CareerViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
-        contactCB = activity as PersonalInfo
     }
 
     override fun onResume() {
         super.onResume()
-        contactCB.setTitle(getString(R.string.title_career))
-        doWork()
+        careerInfoCB = activity as PersonalInfo
+        careerInfoCB.setTitle(getString(R.string.title_career))
+        if (careerInfoCB.getBackFrom() == "") {
+            val respo = careerInfoCB.getCareerData()
+            setupView(respo)
+            careerInfoCB.setEditButton(true, "editCareer")
+        } else {
+            doWork()
+        }
     }
 
     private fun doWork() {
         shimmerStart()
         populateData()
+        careerInfoCB.setBackFrom("")
     }
 
     private fun populateData() {
+        clContent.hide()
         val call = ApiServiceMyBdjobs.create().getCareerInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetCarrerInfo> {
             override fun onFailure(call: Call<GetCarrerInfo>, t: Throwable) {
@@ -67,9 +76,9 @@ class CareerViewFragment : Fragment() {
                         clContent.show()
                         val respo = response.body()
                         val data = respo?.data?.get(0)!!
-                        contactCB.passCareerData(data)
-                        contactCB.setEditButton(true, "editCareer")
-                        setupView(respo)
+                        careerInfoCB.passCareerData(data)
+                        setupView(respo?.data?.get(0)!!)
+                        careerInfoCB.setEditButton(true, "editCareer")
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -79,12 +88,12 @@ class CareerViewFragment : Fragment() {
         })
     }
 
-    private fun setupView(info: GetCarrerInfo?) {
-        tvObjectives.text = info?.data?.get(0)?.objective
-        tvPSal.text = info?.data?.get(0)?.presentSalary
-        tvExSal.text = info?.data?.get(0)?.expectedSalary
-        tvLookingFor.text = info?.data?.get(0)?.lookingFor
-        tvAvailableFor.text = info?.data?.get(0)?.availableFor
+    private fun setupView(info: Ca_DataItem?) {
+        tvObjectives.text = info?.objective
+        tvPSal.text = info?.presentSalary
+        tvExSal.text = info?.expectedSalary
+        tvLookingFor.text = info?.lookingFor
+        tvAvailableFor.text = info?.availableFor
     }
 
     private fun shimmerStart() {

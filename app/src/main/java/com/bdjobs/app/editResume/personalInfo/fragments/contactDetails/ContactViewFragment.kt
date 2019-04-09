@@ -12,6 +12,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.GetContactInfo
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import kotlinx.android.synthetic.main.fragment_contact_view.*
@@ -33,8 +34,6 @@ class ContactViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        contactCB = activity as PersonalInfo
         dataStorage = DataStorage(activity)
         d("onActivityCreated")
     }
@@ -42,13 +41,23 @@ class ContactViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         d("onResume")
+        session = BdjobsUserSession(activity)
+        contactCB = activity as PersonalInfo
         contactCB.setTitle(getString(R.string.title_contact))
-        doWork()
+        if (contactCB.getBackFrom() == "") {
+            val respo = contactCB.getContactData()
+            setupView(respo)
+            contactCB.setEditButton(true, "editContact")
+        } else {
+            doWork()
+        }
+
     }
 
     private fun doWork() {
         shimmerStart()
         populateData()
+        contactCB.setBackFrom("")
     }
 
     private fun populateData() {
@@ -67,7 +76,7 @@ class ContactViewFragment : Fragment() {
                         rlContactMain.show()
                         val respo = response.body()
                         contactCB.passContactData(respo?.data?.get(0)!!)
-                        setupView(respo)
+                        setupView(respo?.data?.get(0)!!)
                         contactCB.setEditButton(true, "editContact")
                     }
                 } catch (e: Exception) {
@@ -78,65 +87,65 @@ class ContactViewFragment : Fragment() {
         })
     }
 
-    private fun setupView(info: GetContactInfo?) {
+    private fun setupView(info: C_DataItem?) {
 
-        contactCB.setThana(info?.data?.get(0)?.presentThana)
-        contactCB.setPostOffice(info?.data?.get(0)?.presentPostOffice)
-        contactCB.setPmThana(info?.data?.get(0)?.permanentThana)
-        contactCB.setPmPostOffice(info?.data?.get(0)?.permanentPostOffice)
+        contactCB.setThana(info?.presentThana)
+        contactCB.setPostOffice(info?.presentPostOffice)
+        contactCB.setPmThana(info?.permanentThana)
+        contactCB.setPmPostOffice(info?.permanentPostOffice)
 
-        var presentAddress = if (info?.data?.get(0)?.presentDistrict.equals("")) "" else info?.data?.get(0)?.presentVillage +
-                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentThana) +
-                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentPostOffice) +
-                ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentDistrict)
-        //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry)
+        var presentAddress = if (info?.presentDistrict.equals("")) "" else info?.presentVillage +
+                ", " + dataStorage.getLocationNameByID(info?.presentThana) +
+                ", " + dataStorage.getLocationNameByID(info?.presentPostOffice) +
+                ", " + dataStorage.getLocationNameByID(info?.presentDistrict)
+        //", " + dataStorage.getLocationNameByID(info?.presentCountry)
 
-        val isSameOfPresent = info?.data?.get(0)?.addressType1
+        val isSameOfPresent = info?.addressType1
         var permanentAddress = when {
             isSameOfPresent == "3" -> "Same as present address"
-            info?.data?.get(0)?.permanentDistrict?.trim().equals("") -> ""
+            info?.permanentDistrict?.trim().equals("") -> ""
             else ->
-                info?.data?.get(0)?.permanentVillage +
-                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentThana) +
-                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentPostOffice) +
-                        ", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentDistrict)
-            //", " + dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)
+                info?.permanentVillage +
+                        ", " + dataStorage.getLocationNameByID(info?.permanentThana) +
+                        ", " + dataStorage.getLocationNameByID(info?.permanentPostOffice) +
+                        ", " + dataStorage.getLocationNameByID(info?.permanentDistrict)
+            //", " + dataStorage.getLocationNameByID(info?.permanentCountry)
         }
 
-        if (info?.data?.get(0)?.permanentVillage?.trim().equals("") && isSameOfPresent != "3") rl_2.hide() else rl_2.show()
-        if (info?.data?.get(0)?.email?.trim().equals("") && info?.data?.get(0)?.alternativeEmail?.trim().equals("")) rl_4.hide() else rl_4.show()
-        if (info?.data?.get(0)?.mobile?.trim().equals("") && info?.data?.get(0)?.homePhone?.trim().equals("")
-                && info?.data?.get(0)?.homePhone?.trim().equals("")) rl_3.hide() else rl_3.show()
+        if (info?.permanentVillage?.trim().equals("") && isSameOfPresent != "3") rl_2.hide() else rl_2.show()
+        if (info?.email?.trim().equals("") && info?.alternativeEmail?.trim().equals("")) rl_4.hide() else rl_4.show()
+        if (info?.mobile?.trim().equals("") && info?.homePhone?.trim().equals("")
+                && info?.homePhone?.trim().equals("")) rl_3.hide() else rl_3.show()
 
-        if (info?.data?.get(0)?.presentInsideOutsideBD == "False") {
+        if (info?.presentInsideOutsideBD == "False") {
             presentAddress = presentAddress.replace(", ,".toRegex(), ",")
             presentAddress = presentAddress.replace("Other,".toRegex(), "")
             tvPresentAddress.text = presentAddress.removeLastComma()
         } else {
-            var finalValue = TextUtils.concat(presentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.data?.get(0)?.presentCountry))
+            var finalValue = TextUtils.concat(presentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.presentCountry))
             finalValue = finalValue.replace(",,".toRegex(), ", ")
             tvPresentAddress.text = finalValue.removeLastComma()
         }
-        if (info?.data?.get(0)?.permanentInsideOutsideBD == "False") {
+        if (info?.permanentInsideOutsideBD == "False") {
             permanentAddress = permanentAddress.replace(", ,".toRegex(), ",")
             permanentAddress = permanentAddress.replace("Other,".toRegex(), "")
             tvPermanentAddress.text = permanentAddress.removeLastComma()
         } else {
             //val sb = StringBuilder()
-            //val finalValue = sb.append("$permanentAddress, ").append(dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry)).replace(",".toRegex(), "")
-            var finalValue = TextUtils.concat(permanentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.data?.get(0)?.permanentCountry))
+            //val finalValue = sb.append("$permanentAddress, ").append(dataStorage.getLocationNameByID(info?.permanentCountry)).replace(",".toRegex(), "")
+            var finalValue = TextUtils.concat(permanentAddress.replace(", , , ".toRegex(), ", "), dataStorage.getLocationNameByID(info?.permanentCountry))
             finalValue = finalValue.replace(",,".toRegex(), ",")
             //toast("$finalValue")
             tvPermanentAddress.text = finalValue
         }
-        tvMobileNo.text = info?.data?.get(0)?.mobile
-        val a = info?.data?.get(0)?.email + "\n"
-        val b = info?.data?.get(0)?.alternativeEmail
+        tvMobileNo.text = info?.mobile
+        val a = info?.email + "\n"
+        val b = info?.alternativeEmail
         val sb = StringBuilder()
         tvEmailAddr.text = sb.append(a).append(b)
-        val a1 = info?.data?.get(0)?.mobile + "\n"
-        val b1 = info?.data?.get(0)?.homePhone + "\n"
-        val c1 = info?.data?.get(0)?.officePhone
+        val a1 = info?.mobile + "\n"
+        val b1 = info?.homePhone + "\n"
+        val c1 = info?.officePhone
         val sb1 = StringBuilder()
         tvMobileNo.text = sb1.append(a1).append(b1).append(c1)
     }

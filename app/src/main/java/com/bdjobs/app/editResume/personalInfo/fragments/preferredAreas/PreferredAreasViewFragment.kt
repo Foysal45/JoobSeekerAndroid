@@ -16,6 +16,7 @@ import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.models.GetPreferredAreas
+import com.bdjobs.app.editResume.adapters.models.PreferredAreasData
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -41,19 +42,31 @@ class PreferredAreasViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
-        prefCallBack = activity as PersonalInfo
+    }
+
+    override fun onResume() {
+        super.onResume()
         dataStorage = DataStorage(activity)
+        prefCallBack = activity as PersonalInfo
         prefCallBack.setTitle(getString(R.string.title_pref_areas))
-        doWork()
+        if (prefCallBack.getBackFrom() == "") {
+            val respo = prefCallBack.getPrefAreasData()
+            setupView(respo)
+            prefCallBack.setEditButton(true, "editPrefAreas")
+        } else {
+            doWork()
+        }
     }
 
     private fun doWork() {
         shimmerStart()
         populateData()
+        prefCallBack.setBackFrom("")
     }
 
 
     private fun populateData() {
+        clPrefAreaView.hide()
         val call = ApiServiceMyBdjobs.create().getPreferredAreaInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetPreferredAreas> {
             override fun onFailure(call: Call<GetPreferredAreas>, t: Throwable) {
@@ -68,7 +81,7 @@ class PreferredAreasViewFragment : Fragment() {
                         clPrefAreaView.show()
                         val respo = response.body()
                         prefCallBack.passPrefAreasData(respo?.prefData?.get(0)!!)
-                        setupView(respo)
+                        setupView(respo?.prefData?.get(0)!!)
                         prefCallBack.setEditButton(true, "editPrefAreas")
                     }
                 } catch (e: Exception) {
@@ -82,12 +95,12 @@ class PreferredAreasViewFragment : Fragment() {
         })
     }
 
-    private fun setupView(data: GetPreferredAreas) {
-        val preferredJobCategories = data.prefData?.get(0)?.preferredJobCategories
-        val preferredBlueCategories = data.prefData?.get(0)?.preferredBlueCategories
-        val preferredOrgTypes = data.prefData?.get(0)?.preferredOrganizationType
-        val preferredInsideBDLocs = data.prefData?.get(0)?.inside
-        val preferredOutsideBDLocs = data.prefData?.get(0)?.outside
+    private fun setupView(data: PreferredAreasData) {
+        val preferredJobCategories = data.preferredJobCategories
+        val preferredBlueCategories = data.preferredBlueCategories
+        val preferredOrgTypes = data.preferredOrganizationType
+        val preferredInsideBDLocs = data.inside
+        val preferredOutsideBDLocs = data.outside
         //for ((i, value) in areaOfexps?.withIndex()!!)
         preferredJobCategories?.forEach {
             addChip(it?.prefCatName!!, cg_functional_pref)

@@ -280,6 +280,7 @@ class ORIEditFragment : Fragment() {
                         activity.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
                         if (response.body()?.statuscode == "4") {
+                            oriEditCB.setBackFrom(Constants.oriUpdate)
                             oriEditCB.goBack()
                         }
                     }
