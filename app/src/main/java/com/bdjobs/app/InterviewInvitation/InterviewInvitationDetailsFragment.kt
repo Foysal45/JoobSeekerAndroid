@@ -49,15 +49,12 @@ class InterviewInvitationDetailsFragment : Fragment() {
         backIMV?.setOnClickListener {
             interviewInvitationCommunicator.backButtonClicked()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
         companyNameTV?.text = interviewInvitationCommunicator.getCompanyNm()
         jobtitleTV?.text = interviewInvitationCommunicator.getCompanyJobTitle()
         getDetailsFromServer()
         onClickListeners()
     }
+
 
     private fun onClickListeners() {
         jobDetailTv?.setOnClickListener {
