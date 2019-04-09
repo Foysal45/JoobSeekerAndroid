@@ -46,11 +46,6 @@ class EmployerJobListFragment : Fragment() {
             communicator?.backButtonPressed()
         }
 
-
-    }
-
-    override fun onResume() {
-        super.onResume()
         suggestiveSearchET?.text = communicator?.getCompanyName()
         loadJobList()
 

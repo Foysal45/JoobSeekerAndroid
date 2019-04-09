@@ -672,6 +672,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 } else {
                     super.onBackPressed()
                 }
+            }else if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("employer")!!) {
+                finish()
             } else {
                 super.onBackPressed()
             }
