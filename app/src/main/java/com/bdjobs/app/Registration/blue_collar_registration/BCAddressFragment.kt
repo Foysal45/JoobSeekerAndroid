@@ -60,17 +60,9 @@ class BCAddressFragment : Fragment() {
 
             thana = bcThanaTIET.getString()
             district = bcDistrictTIET.getString()
-            /*   division = bcDivisionTIET.getString()*/
             address = bcVillageTIET.getString().trim()
             postOffice = bcPostOfficeTIET.getString()
 
-            //fjgng
-
-            /*if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
-                locationID = dataStorage.getBanglaLocationIDByName(thana)!!
-            } else {
-                locationID = dataStorage.getBanglaLocationIDByName(postOffice)!!
-            }*/
 
             locationID = if (postOffice.equals("অন্যান্য", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
                 thanaId
@@ -115,7 +107,7 @@ class BCAddressFragment : Fragment() {
     private fun addTextChangedListener() {
 
 
-        //kjhjh
+
 
         bcDistrictTIET?.easyOnTextChangedListener { charSequence ->
 

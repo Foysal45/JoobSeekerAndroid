@@ -148,8 +148,12 @@ class TrainingEditFragment : Fragment() {
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                activity?.toast(R.string.message_common_error)
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {

@@ -3,7 +3,6 @@ package com.bdjobs.app.editResume.educationInfo.fragments.academicInfo
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,20 +39,16 @@ class AcademicInfoViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
-        doWork()
+
     }
 
     override fun onResume() {
         super.onResume()
 
-       /* if (!eduCB.getClickStatus()){
-
-            doWork()
-
-        }*/
+        doWork()
 
 
-        Log.d("acaFrag", "calling... ${eduCB.getClickStatus()}")
+
     }
 
     private fun doWork() {
