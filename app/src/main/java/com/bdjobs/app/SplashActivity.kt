@@ -19,6 +19,7 @@ import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
+import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -47,12 +48,14 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     lateinit var pref: SharedPreferences
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val internetBroadCastReceiver = ConnectivityReceiver()
-
+    private lateinit var dataStorage: DataStorage
     private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         generateKeyHash()
         getFCMtoken()
