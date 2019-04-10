@@ -25,12 +25,9 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
         holder.categoryTV.text = items[position]
-
         Log.d("elkgjtsdlgfghfdh","Item ${items.get(position)}")
         Log.d("elkgjtsdlgfghfdh", "position $position")
-
         holder.categoryTV.setOnClickListener {
             selectedPosition = position
             registrationCommunicator.bcCategorySelected(items[position], selectedPosition)
@@ -39,7 +36,6 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
         }
         if (selectedPosition == position) {
-
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorPrimary)
             holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorWhite))
         }else {
@@ -58,21 +54,10 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
     fun SetCategoryPositionSelected(categoryPositionSelected: Int) {
         selectedPosition = categoryPositionSelected
         notifyDataSetChanged()
-
         Log.d("SetCategory", categoryPositionSelected.toString())
-
     }
-
-
 }
-
-
-
-
-
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val categoryTV = view.findViewById(R.id.categoryText) as TextView
-
-
 }

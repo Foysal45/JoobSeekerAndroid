@@ -129,6 +129,7 @@ class Constants {
         const val KEY_DATE_AND_TIME = "dateAndTime"
         const val KEY_APP_VERSION = "appVersion"
         const val KEY_SCREEN_SIZE = "screensize"
+        const val APP_ID = "1"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

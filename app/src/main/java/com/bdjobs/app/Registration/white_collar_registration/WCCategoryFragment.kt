@@ -49,87 +49,49 @@ class WCCategoryFragment : Fragment() {
 
 
     private fun onClick() {
-
-
         wcSupportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         wcHelplineLayout?.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
         floatingActionButton?.setOnClickListener {
-
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
-
                 activity.toast("Please select your skill from following category")
 
             }
-
-
         }
-
-
     }
 
     private fun intialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
         categories = dataStorage.allWhiteCollarCategories
-
         Log.d("elkgjtsdlg", "Size ${categories.size}")
-
         categoryAdapter = WCCategoryAdapter(activity, categories)
-
-
         layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         wcCategoryList?.layoutManager = layoutManager
-
         wcCategoryList.adapter = categoryAdapter
-
-
     }
-
-
     fun wcGoToNextStep() {
-
         floatingActionButton?.setOnClickListener {
-
             registrationCommunicator.wcGoToStepSocialInfo()
-
-
         }
-
-
     }
-
-
     override fun onResume() {
         super.onResume()
-
         Log.d("selectedPosition", "selectedPosition in fragment $selectedPosition  }")
-
         val wccategoryadater = WCCategoryAdapter(activity, categories)
         wcCategoryList.adapter = wccategoryadater
         wccategoryadater.setCategoryPositionSelected(selectedPosition)
         if (selectedPosition != -1) {
             floatingActionButton?.setOnClickListener {
-
                 registrationCommunicator.wcGoToStepSocialInfo()
-
-
             }
 
         }
 
     }
-
-
     fun getSelectedPosition(position: Int) {
         selectedPosition = position
     }

@@ -21,7 +21,7 @@ import java.util.*
 
 class BCExperienceFragment : Fragment() {
 
-    private lateinit var registrationCommunicator : RegistrationCommunicator
+    private lateinit var registrationCommunicator: RegistrationCommunicator
     private var categoryId: String = ""
     private var category: String = ""
     private lateinit var progressDialog: ProgressDialog
@@ -41,50 +41,30 @@ class BCExperienceFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initialization()
         onClick()
-
-
     }
 
 
-
-
-    private fun onClick(){
-
+    private fun onClick() {
         bcExperinceFAButton?.setOnClickListener {
-
             if (bcExperienceTIET?.text!!.isNotEmpty()) {
-               var subCategoriesID = ""
-               for (i in selectedSubcategories.indices) {
-                   if (i == selectedSubcategories.size - 1) {
-                       subCategoriesID += dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i])
-                   } else {
-                       subCategoriesID = subCategoriesID + dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i]) + ","
-                   }
-               }
-
-               registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.getString())
-               registrationCommunicator.bcGoToStepEducation()
-
-            } else {
-
+                var subCategoriesID = ""
+                for (i in selectedSubcategories.indices) {
+                    if (i == selectedSubcategories.size - 1) {
+                        subCategoriesID += dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i])
+                    } else {
+                        subCategoriesID = subCategoriesID + dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i]) + ","
+                    }
+                }
+                registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.getString())
+                registrationCommunicator.bcGoToStepEducation()
+            }else {
                 bcExperienceTIL?.showError("কর্ম দক্ষতা গুলো নির্বাচন করুন")
             }
-
-
-
         }
-
         bcExperienceTIET?.setOnClickListener {
-
-
             val builder = AlertDialog.Builder(activity)
             builder.setTitle("নিচের অপশন থেকে কাজের ধরন নির্বাচন করুন")
                     .setMultiChoiceItems(subCategories, null) { dialog, which, isChecked ->
-                        /*if (isChecked) {
-                    selectedSubcategories.add(subCategories[which]);
-                } else if (selectedSubcategories.contains(subCategories[which])) {
-                    selectedSubcategories.remove(subCategories[which]);
-                }*/
                         count += if (isChecked) 1 else -1
                         if (count <= 10) {
                             if (isChecked) {
@@ -97,7 +77,6 @@ class BCExperienceFragment : Fragment() {
                         } else if (count > 10) {
                             Toast.makeText(activity, "সর্বোচ্চ ১০টি কর্ম দক্ষতা নির্বাচন করতে পারবেন",
                                     Toast.LENGTH_SHORT).show()
-
                             count--
                             (dialog as AlertDialog).listView.setItemChecked(which, false)
                         }
@@ -105,7 +84,6 @@ class BCExperienceFragment : Fragment() {
                     .setPositiveButton("ঠিক আছে") { dialog, id ->
                         var cat = ""
                         for (i in selectedSubcategories.indices) {
-
                             cat = cat + selectedSubcategories[i] + ", "
                         }
                         cat = cat.replace(", $".toRegex(), "")
@@ -117,7 +95,6 @@ class BCExperienceFragment : Fragment() {
             dialog.setCancelable(false)
             dialog.show()
             if (selectedSubcategories.size != 0) {
-
                 for (i in subCategories.indices) {
                     for (j in selectedSubcategories.indices) {
                         if (subCategories[i].equals(selectedSubcategories[j], ignoreCase = true)) {
@@ -126,39 +103,24 @@ class BCExperienceFragment : Fragment() {
                     }
                 }
             }
-
-
-
         }
-
         supportTextView?.setOnClickListener {
-
             activity?.callHelpLine()
-
         }
-
         bcHelpLineLayout?.setOnClickListener {
-
             activity?.callHelpLine()
         }
-
-
     }
 
-    private fun initialization(){
-
+    private fun initialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         categoryTV?.text = category
         dataStorage = DataStorage(activity)
         subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(categoryId)
-
     }
 
     fun categoryInformation(category: String, categoryID: String) {
         this.category = category
         this.categoryId = categoryID
     }
-
-
-
 }

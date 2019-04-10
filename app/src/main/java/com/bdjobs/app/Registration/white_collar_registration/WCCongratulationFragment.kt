@@ -29,25 +29,12 @@ class WCCongratulationFragment : Fragment() {
         initialization()
         onClick()
     }
-
-
     private fun initialization(){
-
         registrationCommunicator = activity as RegistrationCommunicator
-
     }
-
     private fun onClick(){
-
-
         wcJobSearchButton?.setOnClickListener {
-
-
             registrationCommunicator.goToHomePage()
-
         }
-
-
     }
-
 }

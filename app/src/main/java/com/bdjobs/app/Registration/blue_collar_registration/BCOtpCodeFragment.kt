@@ -33,8 +33,6 @@ class BCOtpCodeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         onClick()
         initialization()
         setTime()
@@ -42,41 +40,19 @@ class BCOtpCodeFragment : Fragment() {
     }
 
     private fun onClick(){
-
-
         bcOTPFAButton?.setOnClickListener {
-
             if (bcOTPCodeTIET?.text.toString().isNullOrEmpty()) {
-
                 bcOTPCodeTIL?.showError("কোডটি লিখুন")
-
-
             } else {
-
                 registrationCommunicator.wcSetOtp(bcOTPCodeTIET.getString())
                 registrationCommunicator.wcOtpVerify()
 
             }
-
-
-            ///---------------api---------calling-------------////
-
-
-
-
         }
-
         bctimeLayout?.setOnClickListener {
-
             setTime()
-
         }
-
-
-
         bcResendOtpTV?.setOnClickListener {
-
-
             registrationCommunicator.bcResendOtp()
             setTime()
             bcTimerTV?.show()
@@ -84,25 +60,16 @@ class BCOtpCodeFragment : Fragment() {
             bcResendOtpTV?.hide()
 
         }
-
         supportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         bcHelpLineLayout?.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
     }
 
     private fun initialization(){
-
         registrationCommunicator = activity as RegistrationCommunicator
-
         bcInfoMobileNumberTV?.text = "${registrationCommunicator.wcGetMobileNumber()} নাম্বারে এস এম এস এর মাধ্যমে একটি কোড পাঠানো হয়েছে, অনুগ্রহ করে কোডটি লিখুন।"
         bcOTPCodeTIET?.easyOnTextChangedListener { charSequence ->
             otpValidityCheck(charSequence.toString())
@@ -112,7 +79,6 @@ class BCOtpCodeFragment : Fragment() {
 
 
     private fun otpValidityCheck(code: String): Boolean {
-
         when {
             TextUtils.isEmpty(code) -> {
                 bcOTPCodeTIL?.showError("কোডটি লিখুন")
@@ -153,9 +119,7 @@ class BCOtpCodeFragment : Fragment() {
                     logException(e)
                 }
             }
-
             override fun onFinish() {
-
                 bcTimerTV?.hide()
                 bcResendOtpTV?.show()
                 bcTimerIconIV?.hide()

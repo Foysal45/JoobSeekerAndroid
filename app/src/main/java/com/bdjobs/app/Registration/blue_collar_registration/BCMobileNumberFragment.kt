@@ -36,79 +36,46 @@ class BCMobileNumberFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         returnView = inflater.inflate(R.layout.fragment_bc_mobile_number, container, false)
         return returnView
     }
 
 
     private fun initialization() {
-
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
-
     }
 
     private fun onClick() {
-
         bcMobileNumberTIET?.easyOnTextChangedListener { charSequence ->
             mobileNumberValidityCheck(charSequence.toString())
         }
-
         bcMobileNumberFAButton?.setOnClickListener {
-
             if (validateMobileNumber()) {
-
-
                 showDialog(activity)
-
-
             } else {
-
                 if (TextUtils.isEmpty(bcMobileNumberTIET?.getString())) {
-
                     bcMobileNumberTIL?.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
                 }
-
-
             }
-
-
         }
-
-
         bcCountryCodeTIET?.setOnClickListener {
-
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
-
-            selector("দেশ নির্বাচন করুন", countryList.toList()) { dialogInterface, i ->
-
+            activity.selector("দেশ নির্বাচন করুন", countryList.toList()) { dialogInterface, i ->
                 bcCountryCodeTIET?.setText(countryList[i])
                 val countryCode: String
                 val countryNameAndCountryCode = countryList[i]
                 val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                 countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
-
                 registrationCommunicator.wcCountrySeledted(countryCode)
-
-
             }
-
-
         }
-
         supportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         bcHelpLineLayout?.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
     }
 
 
@@ -118,24 +85,17 @@ class BCMobileNumberFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_verify_number_layout)
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
         val yesButton = dialog.findViewById<TextView>(R.id.bcYesTV)
         val noButton = dialog.findViewById<TextView>(R.id.bcNoTV)
         val mobileNumberTV = dialog.findViewById<TextView>(R.id.mobileNumberTV)
         val crossIV = dialog.findViewById<ImageView>(R.id.deleteIV)
         mobileNumberTV?.text = "${bcMobileNumberTIET.getString()} এই নাম্বারটিই কি আপনার?"
-
-
         crossIV?.setOnClickListener {
             dialog.dismiss()
         }
         noButton?.setOnClickListener {
-
             dialog.dismiss()
-
         }
-
         yesButton?.setOnClickListener {
             try {
                 registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET?.getString()!!)
@@ -159,16 +119,11 @@ class BCMobileNumberFragment : Fragment() {
             }
 
         }
-
-
-
         dialog.show()
 
     }
 
-
     private fun mobileNumberValidityCheck(mobileNumber: String): Boolean {
-
         when {
             TextUtils.isEmpty(mobileNumber) -> {
                 bcMobileNumberTIL?.showError("মোবাইল নাম্বার খালি রাখা যাবে না")
@@ -185,12 +140,9 @@ class BCMobileNumberFragment : Fragment() {
         return true
     }
 
-
     private fun requestFocus(view: View?) {
-
         try {
             if (view != null) {
-
                 try {
                     if (view.requestFocus()) {
                         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -198,17 +150,12 @@ class BCMobileNumberFragment : Fragment() {
                 } catch (e: Exception) {
                     logException(e)
                 }
-
             }
         } catch (e: Exception) {
-
             logException(e)
 
         }
-
-
     }
-
 
     private fun validateMobileNumber(): Boolean {
         if (!TextUtils.isEmpty(bcCountryCodeTIET?.text.toString()) && !TextUtils.isEmpty(bcMobileNumberTIET?.text.toString())) {
@@ -222,7 +169,6 @@ class BCMobileNumberFragment : Fragment() {
         }
         return false
     }
-
 
     private fun getCountryCode(): String {
         val inputData = bcCountryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()

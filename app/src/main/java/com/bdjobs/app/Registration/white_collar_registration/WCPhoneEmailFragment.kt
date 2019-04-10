@@ -43,73 +43,40 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     private fun onClick() {
-
-
         mobileNumberTIET?.easyOnTextChangedListener { charSequence ->
-
             mobileNumberValidityCheck(charSequence.toString())
-
             if (mobileNumberValidityCheck(charSequence.toString())) {
-
                 emailTIL?.hideError()
-
-
             }
-
-
         }
-
         emailTIET?.easyOnTextChangedListener { charSequence ->
-
             emailValidityCheck(charSequence.toString())
-
             if (emailValidityCheck(charSequence.toString())) {
-
                 mobileNumberTIL?.hideError()
-
-
             }
-
-
         }
 
         phoneEmailFAButton?.setOnClickListener {
-
-
             if (mobileNumberTIET?.getString().isNullOrEmpty() && emailTIET?.getString().isNullOrEmpty()) {
-
                 mobileNumberTIL?.showError("Please fill at least a Mobile Number or Email Address")
                 emailTIL?.showError("Please fill at least a Mobile Number or Email Address")
-
-
             }
-
             when {
                 validateMobileNumber() -> {
-
-                    //hrllo
-
                     registrationCommunicator.wcGoToStepPassword()
                     registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.getString())
                     registrationCommunicator.wcUserNameSelected(mobileNumberTIET.getString())
-
                     Log.d("CountryCode", "${countryCodeTIET?.text}")
                     val countryCode: String
                     val countryNameAndCountryCode = countryCodeTIET?.getString()
                     val inputData = countryNameAndCountryCode!!.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                     countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
-
                     registrationCommunicator.wcCountrySeledted(countryCode)
-
-
                     if (isValidEmail(emailTIET?.text.toString())) {
-
                         registrationCommunicator.wcEmailSelected(emailTIET.getString())
                         registrationCommunicator.wcUserNameSelected(emailTIET.getString())
                         registrationCommunicator.wcUserNameTypeSelected("email")
-
                     }
-
                 }
                 isValidEmail(emailTIET.text.toString()) -> {
                     Log.d("dsklgj", "2")
@@ -118,55 +85,33 @@ class WCPhoneEmailFragment : Fragment() {
                     registrationCommunicator.wcUserNameSelected(emailTIET.getString())
                     registrationCommunicator.wcUserNameTypeSelected("email")
                 }
-
-
             }
-
-
         }
-
         countryCodeTIET?.setOnClickListener {
-
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
-
             activity?.selector("Select Your Country", countryList.toList()) { dialogInterface, i ->
-
                 countryCodeTIET.setText(countryList[i])
                 val countryCode: String
                 val countryNameAndCountryCode = countryList[i]
                 val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                 countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
-
                 registrationCommunicator.wcCountrySeledted(countryCode)
-
-
             }
-
-
         }
-
 
         wcSupportTextView?.setOnClickListener {
-
             activity?.callHelpLine()
-
         }
-
         wcHelplineLayout?.setOnClickListener {
-
             activity?.callHelpLine()
-
         }
 
     }
 
 
     private fun initialization() {
-
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
-
-
     }
 
     private fun validateMobileNumber(): Boolean {
@@ -184,7 +129,6 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     private fun mobileNumberValidityCheck(mobileNumber: String): Boolean {
-
         when {
             TextUtils.isEmpty(mobileNumber) -> {
                 mobileNumberTIL?.showError(getString(R.string.field_empty_error_message_common))
@@ -211,9 +155,7 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     private fun emailValidityCheck(email: String): Boolean {
-
         if (!validateMobileNumber()) {
-
             when {
                 TextUtils.isEmpty(email) -> {
                     emailTIL?.showError(getString(R.string.field_empty_error_message_common))
@@ -252,12 +194,9 @@ class WCPhoneEmailFragment : Fragment() {
     private fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
-
-
     private fun requestFocus(view: View?) {
         try {
             if (view != null) {
-
                 try {
                     if (view.requestFocus()) {
                         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -275,7 +214,6 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     fun setEmail() {
-
         emailTIET?.setText(registrationCommunicator.getEmail())
     }
 

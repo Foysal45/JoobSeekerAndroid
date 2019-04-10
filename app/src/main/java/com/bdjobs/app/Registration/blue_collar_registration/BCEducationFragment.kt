@@ -56,62 +56,42 @@ class BCEducationFragment : Fragment() {
 
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
-
         addTextChangedListener()
 
     }
 
     private fun onClick() {
-
         bcEducationFAButton.setOnClickListener {
-
             val eduLevel = bcEduLevelTIET?.text.toString()
             eduDegree = bcEduDegreeTIET?.text.toString()
-
             instituteName = bcInstituteNameTIET?.text.toString()
             passingYear = bcPassingYearTIET?.text.toString()
             educationType = dataStorage.getEducationTypeByEducationDegreeName(eduDegree)
             levelOfEducation = dataStorage.getEduIDByEduLevel(eduLevel)
             Log.d("MobileNumberVer2", " EducationType in database $educationType")
             Log.d("MobileNumberVer2", " levelOfEducation in database $levelOfEducation")
-
             if (eduDegree.equals("Other", ignoreCase = true)) {
 
                 eduDegree = bcEduDegreeOtherTIET.text.toString()
                 educationType = "5"
-
-
             }
             Log.d("ConditionCheck", " hasEducation $hasEducation ")
-
             if (hasEducation.equals("False", true)) {
 
                 Log.d("ConditionCheck", " First Condition ")
                 registrationCommunicator.bcEducationSelected("0", eduDegree, instituteName, "0", "0")
                 registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
-
-
             } else {
-
                 checkValidity()
-
                 Log.d("ConditionCheck", " validateCondition ${validateCondition()} 2nd ${validateConditionTwo()}")
-
                 if (validateCondition() || validateConditionTwo()) {
                     Log.d("ConditionCheck", " second Condition ")
                     registrationCommunicator.bcEducationSelected(levelOfEducation, eduDegree, instituteName, passingYear, "1")
                     registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
                 }
-
-
             }
-
-
         }
-
         bcPassingYearTIET?.setOnClickListener {
-
-
             for (item in 1964..2024) {
                 yearList.add(item.toString())
             }
@@ -123,17 +103,12 @@ class BCEducationFragment : Fragment() {
                     logException(e)
                 }
             }
-
-
         }
 
         checkBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-
                 if (isChecked) {
-
                     hasEducation = "True"
-
                     bcEduLevelTIET.isEnabled = true
                     bcEduDegreeTIET.isEnabled = true
                     bcInstituteNameTIET.isEnabled = true
@@ -143,15 +118,9 @@ class BCEducationFragment : Fragment() {
                     bcInstituteNameTIET.clearFocus()
                     bcInstituteNameTIL.isErrorEnabled = false
                     bcPassingYearTIL.isErrorEnabled = false
-                    /* registrationCommunicator.setEducationType("")*/
                     educationType = ""
-
-
                 } else {
-
-
                     hasEducation = "False"
-
                     bcEduLevelTIET.clear()
                     bcEduDegreeTIET.clear()
                     bcInstituteNameTIET.clear()
@@ -164,32 +133,22 @@ class BCEducationFragment : Fragment() {
                     bcEduDegreeOtherTIET.visibility = View.GONE
                     bcInstituteNameTIL.isErrorEnabled = false
                     bcPassingYearTIL.isErrorEnabled = false
-
-
                 }
 
 
             }
 
         })
-
         supportTextView.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         bcHelpLineLayout.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
     }
 
 
     private fun addTextChangedListener() {
-
         bcEduLevelTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcEduLevelTIET, bcEduLevelTIL, "")
         }
@@ -202,7 +161,6 @@ class BCEducationFragment : Fragment() {
         bcPassingYearTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcPassingYearTIET, bcPassingYearTIL, "")
         }
-
         bcEduDegreeOtherTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcEduDegreeOtherTIET, bcEduDegreeOtherTIL, "পরীক্ষা/ডিগ্রীর নাম লিখুন")
 
@@ -233,18 +191,13 @@ class BCEducationFragment : Fragment() {
 
 
     private fun validateCondition(): Boolean {
-
-
         if (!bcEduDegreeOtherTIET.isVisible && !bcEduDegreeOtherTIL.isVisible) {
-
             val passingYear = bcPassingYearTIET.getString()
             var passingYearInt = 0
             try {
                 passingYearInt = Integer.parseInt(passingYear)
-
             } catch (e: Exception) {
-
-
+                logException(e)
             }
             return !TextUtils.isEmpty(bcEduLevelTIET.getString()) and
                     !TextUtils.isEmpty(bcEduDegreeTIET.getString()) and
@@ -256,20 +209,13 @@ class BCEducationFragment : Fragment() {
 
 
     private fun validateConditionTwo(): Boolean {
-
         val passingYear = bcPassingYearTIET.getString()
         var passingYearInt = 0
         try {
-
             passingYearInt = Integer.parseInt(passingYear)
-
         } catch (e: Exception) {
-
-
+            logException(e)
         }
-
-
-
         return !TextUtils.isEmpty(bcEduLevelTIET.getString()) and
                 !TextUtils.isEmpty(bcEduDegreeTIET.getString()) and
                 !TextUtils.isEmpty(bcInstituteNameTIET.getString()) and
@@ -278,68 +224,36 @@ class BCEducationFragment : Fragment() {
                         passingYearInt <= 2024) and (passingYearInt >= 1964))
     }
 
-
     private fun checkValidity() {
-
-
         if (TextUtils.isEmpty(bcEduLevelTIET.getString())) {
-
             bcEduLevelTIL?.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
-
         } else {
             bcEduLevelTIL?.isErrorEnabled = false
-
-
         }
-
         if (TextUtils.isEmpty(bcEduDegreeTIET.getString())) {
-
             bcEduDegreeTIL?.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
-
         } else {
-
             bcEduDegreeTIL?.isErrorEnabled = false
-
-
         }
-
         if (TextUtils.isEmpty(bcInstituteNameTIET.getString())) {
-
             bcInstituteNameTIL?.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
             requestFocus(bcInstituteNameTIET)
-
         } else {
             bcInstituteNameTIL?.isErrorEnabled = false
-
         }
-
         if (TextUtils.isEmpty(bcPassingYearTIET.getString())) {
             bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
 
-        } else {
+        }else {
             bcPassingYearTIL?.isErrorEnabled = false
-
-
         }
-
-
-
-
-
         if (bcEduDegreeOtherTIL.isVisible) {
-
             if (TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())) {
-
                 bcEduDegreeOtherTIL?.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
                 requestFocus(bcEduDegreeOtherTIET)
-
             } else {
-
                 bcEduDegreeOtherTIL?.isErrorEnabled = false
-
-
             }
-
         }
 
 
@@ -350,47 +264,25 @@ class BCEducationFragment : Fragment() {
         super.onResume()
 
         bcInstituteNameTIL?.isErrorEnabled = false
-        /*  bcInstituteNameTIET.isFocusable = false*/
-
         val eduLevels = dataStorage.allEduLevels
         setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))
-
         if (!TextUtils.isEmpty(bcEduLevelTIET.getString())) {
             var queryValue = bcEduLevelTIET.getString()
             queryValue = queryValue.replace("'", "''")
             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
             setDialog("পরীক্ষা/ডিগ্রীর নাম", bcEduDegreeTIET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
         }
-
-
-
-
         try {
-
-
             if (bcEduDegreeTIET?.text.toString().equalIgnoreCase("Other")) {
-
                 bcEduDegreeOtherTIET?.show()
-
             }
-
-
             if (educationType == "5") {
-
                 Log.d("ExceptionTest", " In If Condition ")
-
                 bcEduDegreeOtherTIET?.show()
             }
-
-
         } catch (e: Exception) {
-
             Log.d("ExceptionTest", " Exception " + e.message)
-
-
         }
-
-
     }
 
     private fun setDialog(title: String, editText: TextInputEditText, data: Array<String>) {
@@ -401,9 +293,7 @@ class BCEducationFragment : Fragment() {
                     ) { dialog, which ->
                         editText.setText(data[which])
 
-
                         if (data[which].equals("Other", ignoreCase = true)) {
-
                             bcEduDegreeOtherTIET?.show()
                             bcEduDegreeOtherTIL?.show()
                             bcEduDegreeOtherTIET?.clear()

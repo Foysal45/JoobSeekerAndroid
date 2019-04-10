@@ -212,7 +212,7 @@ class SpecializationEditFragment : Fragment() {
         //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
         val call = ApiServiceMyBdjobs.create().updateSpecialization(session.userId, session.decodId,
                 session.IsResumeUpdate, skills, etSkillDescription.getString(), etCaricular.getString())
-        call.enqueue(object : Callback<AddorUpdateModel> {
+        call?.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 try {
                     activity?.stopProgressBar(specializationLoadingProgressBar)

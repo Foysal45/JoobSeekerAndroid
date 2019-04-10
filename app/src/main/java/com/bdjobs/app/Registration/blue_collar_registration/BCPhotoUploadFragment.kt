@@ -91,25 +91,18 @@ class BCPhotoUploadFragment : Fragment() {
     private fun onClick() {
 
         completeButton?.setOnClickListener {
-
             if (encodedString.isBlank()) {
-
                 registrationCommunicator.bcGoToStepCongratulation()
             } else {
-
                 registrationCommunicator.showProgressBar()
                 ApiServiceMyBdjobs.create().getPhotoInfo(registrationCommunicator.getUserId(), registrationCommunicator.getDecodeId()).enqueue(object : Callback<PhotoInfoModel> {
                     override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-
                         Log.d("PhotoUpload", " onFailure ${t.message}")
                     }
-
                     override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
                         try {
-
                             Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
                             Log.d("PhotoUpload", " response ${response.body()!!.message}")
-
                             if (response.body()!!.statuscode.equals("0", true)) {
 
                                 userId = response.body()!!.data[0].userId
@@ -118,8 +111,6 @@ class BCPhotoUploadFragment : Fragment() {
                                 folderId = response.body()!!.data[0].folderId
                                 imageName = response.body()!!.data[0].imageName
                                 isResumeUpdate = response.body()!!.data[0].isResumeUpdate
-
-
                                 params.put("Image", encodedString)
                                 params.put("userid", registrationCommunicator.getUserId())
                                 params.put("decodeid", registrationCommunicator.getDecodeId())
@@ -141,27 +132,21 @@ class BCPhotoUploadFragment : Fragment() {
                 })
             }
         }
-
         photoUploadImageView?.setOnClickListener {
             showDialog(activity)
         }
-
         supportTextView?.setOnClickListener {
             activity.callHelpLine()
         }
-
         bcHelpLineLayout?.setOnClickListener {
             activity.callHelpLine()
         }
 
     }
-
     private fun initialization() {
         registrationCommunicator = activity as RegistrationCommunicator
 
     }
-
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_CAMERA -> {
@@ -178,7 +163,6 @@ class BCPhotoUploadFragment : Fragment() {
     }
 
     fun makeHTTPCall() {
-
         val client = AsyncHttpClient()
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
@@ -187,21 +171,17 @@ class BCPhotoUploadFragment : Fragment() {
                 try {
                     val response = String(responseBody)
                     Log.d("dgdsgdghj", " response ${response}")
-
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
                     val photoUrl = photoUploadModel.data[0].path
                     Log.d("dgdsgdghj", " $photoUrl")
                     val bdjobsUserSession = BdjobsUserSession(activity)
                     bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
-
                     registrationCommunicator.hideProgressBar()
                     registrationCommunicator.bcGoToStepCongratulation()
 
                 } catch (exp: Exception) {
-
                     logException(exp)
-
                 }
 
 
@@ -210,7 +190,6 @@ class BCPhotoUploadFragment : Fragment() {
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
                 try {
                     try {
-
                         Log.e("photoAPI", error.message)
                     } catch (e: Exception) {
                         logException(e)
@@ -279,17 +258,13 @@ class BCPhotoUploadFragment : Fragment() {
 
                     ////////////////////////////////////////////
                     Log.d("dfgh", "  1 condition")
-
-
                     Log.d("dfgh", "Uri: " + fileUri!!.toString())
                     Log.d("PhotoUpload", "Uri: " + fileUri.toString())
                     val myDirectory = File("/sdcard/BDJOBS")
                     if (!myDirectory.exists()) {
                         myDirectory.mkdirs()
                     }
-
                     val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-
                     Log.d("dfgh", "  2 condition")
                     if (file.exists()) {
                         val deleted = file.delete()
@@ -309,10 +284,7 @@ class BCPhotoUploadFragment : Fragment() {
                     val tempURI = Uri.fromFile(File("/sdcard/"))
                     photoUploadImageView.loadCircularImageFromUrl(tempURI.toString())
                     photoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
-
-
                     dialog?.dismiss()
-
                     val path = resultUri!!.path
                     val file = File(path)
                     val size = file.length()
