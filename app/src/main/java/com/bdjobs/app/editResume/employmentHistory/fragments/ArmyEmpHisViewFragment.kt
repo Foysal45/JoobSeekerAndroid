@@ -59,7 +59,7 @@ class ArmyEmpHisViewFragment : Fragment() {
                 setupViews(respo)
             } catch (e: Exception) {
                 e.printStackTrace()
-                armyMainCl.hide()
+                armyMainCl?.hide()
                 logException(e)
             }
         } else {

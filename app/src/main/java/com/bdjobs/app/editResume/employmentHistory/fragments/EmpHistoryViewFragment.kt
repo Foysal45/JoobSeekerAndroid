@@ -45,7 +45,12 @@ class EmpHistoryViewFragment : Fragment() {
             empHisCB.goToEditInfo("add")
         }
         if (empHisCB.getBackFrom() == "") {
-            setupRV(empHisCB.getExpsArray())
+            try {
+                setupRV(empHisCB.getExpsArray())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logException(e)
+            }
         } else {
             doWork()
         }

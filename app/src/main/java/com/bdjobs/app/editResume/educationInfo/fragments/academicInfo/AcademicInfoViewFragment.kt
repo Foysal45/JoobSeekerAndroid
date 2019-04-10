@@ -46,7 +46,7 @@ class AcademicInfoViewFragment : Fragment() {
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_academic))
         if (eduCB.getBackFrom() == "") {
-            setupRV(eduCB.getAcademicList()!!)
+            if (eduCB.getAcademicList() != null) setupRV(eduCB.getAcademicList()!!) // add message if needed in the else part
             Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
         } else {
             Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")

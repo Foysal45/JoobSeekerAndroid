@@ -48,7 +48,7 @@ class TrainingViewFragment : Fragment() {
         }
 
         if (eduCB.getBackFrom() == "") {
-            setupRV(eduCB.getTrainingList()!!)
+            if (eduCB.getTrainingList() != null) setupRV(eduCB.getTrainingList()!!) // add message if needed in the else part
             Log.d("training", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getTrainingList()?.size}|")
         } else {
             Log.d("training1", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getTrainingList()?.size}|")

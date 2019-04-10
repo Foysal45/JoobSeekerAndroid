@@ -54,7 +54,8 @@ class ProfessionalQLViewFragment : Fragment() {
             eduCB.goToEditInfo("addProfessional")
         }
         if (eduCB.getBackFrom() == "") {
-            setupRV(eduCB.getProfessionalList()!!)
+            if (eduCB.getProfessionalList() != null) setupRV(eduCB.getProfessionalList()!!)
+            // add message if needed in the else part
         } else {
             doWork()
         }

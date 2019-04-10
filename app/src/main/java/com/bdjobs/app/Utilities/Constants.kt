@@ -41,6 +41,11 @@ class Constants {
         val empHistoryList = "empHistoryList"
         val armyEmpHistoryList = "armyEmpHistoryList"
 
+        //Other infos
+        val langUpdate = "langUpdate"
+        val referUpdate = "referUpdate"
+        val specUpdate = "specUpdate"
+
 
         const val KEY_SHORTLISTED_DATE = "shortlistedDate"
 

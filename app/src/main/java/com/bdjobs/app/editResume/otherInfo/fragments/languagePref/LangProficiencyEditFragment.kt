@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.otherInfo.fragments
+package com.bdjobs.app.editResume.otherInfo.fragments.languagePref
 
 
 import android.app.Fragment
