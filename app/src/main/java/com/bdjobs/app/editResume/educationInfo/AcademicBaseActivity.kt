@@ -27,6 +27,29 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun setAcademicList(aca: ArrayList<AcaDataItem>) {
+        this.acaList = aca
+    }
+
+    override fun setTrainingList(aca: ArrayList<Tr_DataItem>) {
+        this.trList = aca
+    }
+
+    override fun setProfessionalList(aca: ArrayList<ProfessionalDataModel>) {
+        this.profList = aca
+    }
+
+    override fun getAcademicList(): ArrayList<AcaDataItem>? {
+        return this.acaList
+    }
+
+    override fun getTrainingList(): ArrayList<Tr_DataItem>? {
+        return this.trList
+    }
+
+    override fun getProfessionalList(): ArrayList<ProfessionalDataModel>? {
+        return this.profList
+    }
 
     override fun getBackFrom(): String? {
         return this.fragmentFrom
@@ -37,7 +60,10 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     }
 
 
-    private var fragmentFrom: String? = ""
+    private var fragmentFrom: String? = "first"
+    private var acaList: ArrayList<AcaDataItem>? = null
+    private var trList: ArrayList<Tr_DataItem>? = null
+    private var profList: ArrayList<ProfessionalDataModel>? = null
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val acaEditFragment = AcademicInfoEditFragment()

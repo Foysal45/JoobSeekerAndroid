@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,25 +37,30 @@ class TrainingViewFragment : Fragment() {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        eduCB = activity as EduInfo
-    }
-
     override fun onResume() {
         super.onResume()
-        doWork()
-    }
-
-    private fun doWork() {
-        populateData()
-        rv_tr_view?.behaveYourself(fab_tr_add)
+        session = BdjobsUserSession(activity)
+        eduCB = activity as EduInfo
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_training))
         fab_tr_add?.setOnClickListener {
             eduCB.goToEditInfo("addTr")
         }
+
+        if (eduCB.getBackFrom() == "") {
+            setupRV(eduCB.getTrainingList()!!)
+            Log.d("training", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getTrainingList()?.size}|")
+        } else {
+            Log.d("training1", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getTrainingList()?.size}|")
+            doWork()
+        }
+
+    }
+
+    private fun doWork() {
+        populateData()
+        rv_tr_view?.behaveYourself(fab_tr_add)
+        eduCB.setBackFrom("")
     }
 
     private fun setupRV(items: ArrayList<Tr_DataItem>) {
@@ -88,6 +94,7 @@ class TrainingViewFragment : Fragment() {
                         rv_tr_view?.show()
                         val respo = response.body()
                         arr = respo?.data as ArrayList<Tr_DataItem>
+                        eduCB.setTrainingList(arr!!)
                         //activity.toast("${arr?.size}")
                         if (arr != null) {
                             setupRV(arr!!)

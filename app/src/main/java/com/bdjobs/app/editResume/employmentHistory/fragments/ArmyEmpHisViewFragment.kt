@@ -40,18 +40,11 @@ class ArmyEmpHisViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_army_emp_his_view, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         session = BdjobsUserSession(activity)
         empHisCB = activity as EmpHisCB
         empHisCB.setTitle(getString(R.string.title_army_emp_his))
-        empHisCB.setDeleteButton(false)
-        doWork()
-    }
-
-    private fun doWork() {
-        shimmerStart()
-        populateData()
         empHisCB.setDeleteButton(false)
         fab_eh_army.setOnClickListener {
             if (noData) {
@@ -60,9 +53,28 @@ class ArmyEmpHisViewFragment : Fragment() {
                 empHisCB.goToEditInfo("army_edit")
             }
         }
+        if (empHisCB.getBackFrom() == "") {
+            try {
+                val respo = empHisCB.getArmyData()
+                setupViews(respo)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                armyMainCl.hide()
+                logException(e)
+            }
+        } else {
+            doWork()
+        }
+    }
+
+    private fun doWork() {
+        shimmerStart()
+        populateData()
+        empHisCB.setBackFrom("")
     }
 
     private fun populateData() {
+        armyMainCl.hide()
         fab_eh_army.hide()
         val call = ApiServiceMyBdjobs.create().getArmyExpsList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetArmyEmpHis> {
@@ -86,17 +98,8 @@ class ArmyEmpHisViewFragment : Fragment() {
                             dModel = respo.armydata[0]!!
                             armyMainCl.show()
                             noData = false
-                            fab_eh_army.setImageResource(R.drawable.ic_edit_white)
                             empHisCB.passArmyData(dModel)
-                            tvBa?.text = dModel.baNo1
-                            tvBaNo?.text = dModel.baNo2
-                            tvRank?.text = dModel.rank
-                            tvArmyType?.text = dModel.type
-                            tvTrade?.text = dModel.trade
-                            tvArms?.text = dModel.arms
-                            tvCourse?.text = dModel.course
-                            tvCommisDate?.text = dModel.dateOfCommission
-                            tvRetireDate?.text = dModel.dateOfRetirement
+                            setupViews(dModel)
                         } else {
                             noData = true
                             nsArmyEmp.hide()
@@ -113,6 +116,19 @@ class ArmyEmpHisViewFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun setupViews(dModel: ArmydataItem) {
+        tvBa?.text = dModel.baNo1
+        tvBaNo?.text = dModel.baNo2
+        tvRank?.text = dModel.rank
+        tvArmyType?.text = dModel.type
+        tvTrade?.text = dModel.trade
+        tvArms?.text = dModel.arms
+        tvCourse?.text = dModel.course
+        tvCommisDate?.text = dModel.dateOfCommission
+        tvRetireDate?.text = dModel.dateOfRetirement
+        fab_eh_army.setImageResource(R.drawable.ic_edit_white)
     }
 
     private fun shimmerStart() {

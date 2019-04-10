@@ -39,20 +39,17 @@ class AcademicInfoViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_academic_info_view, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
-
         session = BdjobsUserSession(activity)
         eduCB = activity as EduInfo
         eduCB.setDeleteButton(false)
         eduCB.setTitle(getString(R.string.title_academic))
         if (eduCB.getBackFrom() == "") {
-
+            setupRV(eduCB.getAcademicList()!!)
+            Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
         } else {
+            Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
             doWork()
         }
 
@@ -96,6 +93,7 @@ class AcademicInfoViewFragment : Fragment() {
                         rv_aca_view.show()
                         val respo = response.body()
                         arr = respo?.data as ArrayList<AcaDataItem>
+                        eduCB.setAcademicList(arr!!)
                         //activity.toast("${arr?.size}")
                         if (arr != null) {
                             setupRV(arr!!)
@@ -105,8 +103,8 @@ class AcademicInfoViewFragment : Fragment() {
                     shimmerStop()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        activity?.logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
                 adapter?.notifyDataSetChanged()

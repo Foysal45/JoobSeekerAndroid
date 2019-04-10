@@ -93,7 +93,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private var prDis: String? = ""
     private var pmThana: String? = ""
     private var pmPost: String? = ""
-    private var fragmentFrom: String? = ""
+    private var fragmentFrom: String? = "first"
 
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null

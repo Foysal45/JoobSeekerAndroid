@@ -930,7 +930,6 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
-
                             eduCB.saveButtonClickStatus(true)
                             eduCB.setBackFrom(acaUpdate)
                             eduCB.goBack()
@@ -964,6 +963,7 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {

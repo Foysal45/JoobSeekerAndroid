@@ -1,0 +1,20 @@
+
+/**
+*** Documentation author Saadat Sayem on 10/04/2019
+*/
+
+** Structure
+    1. Create and start an activity for each of the module like i.e. Personal Details, Education and Training, Employment History and others.
+    2. Create sub modules of the individual modules using fragment and transact them using the previously defined method 'transitFragment(param1,param2,param3)'
+        which is mentioned in extensions.kt (will be found in the project)
+    3. Try to declare all main and common methods into the specific activity, check the developed module if needed
+    4. Use interface to build interactions between 'fragment to activity' or 'fragment to fragment'
+    5. Try to develop business logic and other backend threads into the belonging activity using the MVP pattern for each module
+
+** Control
+    1. Each fragments or sub modules of the project is basically controlled by it's own base activity
+    2. Navigation Back button is used to transit fragments which is back stacked previously
+    3. To prevent lists and data to be loaded frequently instead of loading only when data is already updated is basically defined
+        into each fragment onResume() methods using a constant value for each fragment state.
+    4. Network calls and other stuffs are situated inside onResume() method with some conditional statements.
+    5. The total control is being established in each activity created for each module

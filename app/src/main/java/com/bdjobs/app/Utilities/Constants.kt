@@ -34,6 +34,12 @@ class Constants {
 
         //Education
         val acaUpdate = "acaUpdate"
+        val trUpdate = "trUpdate"
+        val profUpdate = "profUpdate"
+
+        // Employment History
+        val empHistoryList = "empHistoryList"
+        val armyEmpHistoryList = "armyEmpHistoryList"
 
 
         const val KEY_SHORTLISTED_DATE = "shortlistedDate"

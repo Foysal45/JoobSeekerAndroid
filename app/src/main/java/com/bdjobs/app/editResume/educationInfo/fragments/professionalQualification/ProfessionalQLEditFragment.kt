@@ -173,6 +173,7 @@ class ProfessionalQLEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            eduCB.setBackFrom(Constants.profUpdate)
                             eduCB.goBack()
                         }
                     }
@@ -296,6 +297,7 @@ class ProfessionalQLEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.setBackFrom(Constants.profUpdate)
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {

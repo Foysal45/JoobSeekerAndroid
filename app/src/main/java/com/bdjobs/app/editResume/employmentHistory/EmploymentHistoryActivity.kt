@@ -24,6 +24,15 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
+
+    override fun getBackFrom(): String? {
+        return this.fragmentFrom
+    }
+
+    override fun setBackFrom(from: String?) {
+        this.fragmentFrom = from
+    }
+
     override fun setIsFirst(b: Boolean) {
         IsFirst = b
     }
@@ -48,6 +57,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         return expIDs
     }
 
+    private var fragmentFrom: String? = "first"
     private var editFragment = EmpHistoryEditFragment()
     private val viewFragment = EmpHistoryViewFragment()
     private val armyEditFragment = ArmyEmpHistoryEditFragment()

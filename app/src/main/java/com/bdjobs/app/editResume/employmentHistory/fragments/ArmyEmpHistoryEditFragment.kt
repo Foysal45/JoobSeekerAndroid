@@ -13,6 +13,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.armyEmpHistoryList
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.textfield.TextInputEditText
@@ -144,8 +145,8 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            empHisCB.setBackFrom(armyEmpHistoryList)
                             empHisCB.goBack()
-                            onDestroy()
                         }
                     } else {
                         activity?.stopProgressBar(loadingProgressBar)
@@ -222,6 +223,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
+                        empHisCB.setBackFrom(armyEmpHistoryList)
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {
