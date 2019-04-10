@@ -16,7 +16,7 @@ import retrofit2.http.*
 interface ApiServiceJobs {
     @GET(api_jobs_db_update)
     fun getDbInfo(@Query("lastUpdateDate") lastUpdateDate: String?="",
-                  @Query("appId") appId :String? = ""
+                  @Query("appId") appId :String? = Constants.APP_ID
                   ): Call<DatabaseUpdateModel>
 
     @GET("joblist.asp")
@@ -46,7 +46,7 @@ interface ApiServiceJobs {
             @Query("rpp") rpp: String? = "",
             @Query("slno") slno: String? = "",
             @Query("version") version: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
 
 
     ): Call<JobListModel>
@@ -59,7 +59,7 @@ interface ApiServiceJobs {
             @Query("deadline") deadline: String? = "",
             @Query("page") pg: Int? = 1,
             @Query("rpp") rpp: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<JobListModel>
 
 
@@ -72,14 +72,14 @@ interface ApiServiceJobs {
             @Query("slno") slno: String? = "",
             @Query("userId") userId: String? = "",
             @Query("version") version: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<JobDetailJsonModel>
 
     @GET("viewfilters.asp")
     fun getFavouriteSearchFilters(
             @Query("encoded") encoded: String? = "",
             @Query("user") userID: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
 
     ): Call<FavouritSearchFilterModelClass>
 
@@ -89,7 +89,7 @@ interface ApiServiceJobs {
             @Query("decodeId") decodeId: String? = "",
             @Query("Apstyp") Apstyp: String? = "M",
             @Query("encoded") encoded: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
 
 
@@ -97,7 +97,7 @@ interface ApiServiceJobs {
     fun getShortListedJobs(
             @Query("p_id") p_id: String? = "",
             @Query("encoded") encoded: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ShortListedJobModel>
 
 
@@ -109,7 +109,7 @@ interface ApiServiceJobs {
             @Query("encoded") encoded: String? = "",
             @Query("actType") actType: String? = "",
             @Query("decodeId") decodeId: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
 
     ): Call<FollowUnfollowModelClass>
 
@@ -122,7 +122,7 @@ interface ApiServiceJobs {
             @Query("encoded") encoded: String?,
             @Query("packageName") packageName: String?= "",
             @Query("packageNameVersion") packageNameVersion: String?= "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<EmployerJobListsModel>
 
     @GET("Employerlist.asp")
@@ -133,7 +133,7 @@ interface ApiServiceJobs {
             @Query("orgFirstLetter") orgFirstLetter: String?= "",
             @Query("encoded") encoded: String? = "",
             @Query("page") page: String?= "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
 
     ): Call<EmployerListModelClass>
 
@@ -169,7 +169,7 @@ interface ApiServiceJobs {
             @Query("rpp") rpp: String? = "",
             @Query("slno") slno: String? = "",
             @Query("version") version: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<LastSearchCountModel>
 
     @FormUrlEncoded
@@ -195,7 +195,7 @@ interface ApiServiceJobs {
             @Field("qAge") qAge: String? = "",
             @Field("newspaper") newspaper: String? = "",
             @Field("encoded") encoded: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<SaveUpdateFavFilterModel>
 
 
@@ -204,7 +204,7 @@ interface ApiServiceJobs {
             @Query("userID") userID: String? = "",
             @Query("encoded") encoded: String? = "",
             @Query("jobID") jobID: String?="",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ShortlistJobModel>
 
     @FormUrlEncoded
@@ -217,7 +217,7 @@ interface ApiServiceJobs {
             @Field("JobSex") JobSex: String? = "",
             @Field("JobPhotograph") JobPhotograph: String? = "",
             @Field("encoded") encoded: String? = "",
-            @Query("appId") appId :String? = ""
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ApplyOnlineModel>
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")
