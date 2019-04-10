@@ -20,8 +20,8 @@ import org.jetbrains.anko.toast
 
 class BCCategoryFragment : Fragment() {
 
-    private lateinit var returnview : View
-    private lateinit var registrationCommunicator : RegistrationCommunicator
+    private lateinit var returnview: View
+    private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var dataStorage: DataStorage
     private lateinit var bcCategories: ArrayList<String>
     private lateinit var bcCategoryAdapter: BCCategoryAdapter
@@ -41,96 +41,54 @@ class BCCategoryFragment : Fragment() {
     }
 
 
-    private fun onClick(){
-
-
+    private fun onClick() {
         supportTextView?.setOnClickListener {
-
             activity?.callHelpLine()
-
         }
-
         bcHelpLineLayout?.setOnClickListener {
-
             activity?.callHelpLine()
         }
-
-
-
         bcCategoryFAButton?.setOnClickListener {
-
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
-
                 activity?.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
-
             }
-
         }
-
     }
 
-    private fun intialization(){
-
-
+    private fun intialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
         bcCategories = dataStorage.allBlueCollarCategoriesInBangla
-
-        bcCategoryAdapter = BCCategoryAdapter(activity,bcCategories)
-        layoutManager = LinearLayoutManager(activity,LinearLayout.VERTICAL, false)
+        bcCategoryAdapter = BCCategoryAdapter(activity, bcCategories)
+        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         bcCategoryList?.layoutManager = layoutManager
-
         bcCategoryList.adapter = bcCategoryAdapter
-
-
     }
 
-     fun bcGoToNextStep(){
-
-         bcCategoryFAButton?.setOnClickListener {
-
-           registrationCommunicator.bcGoToStepName()
-
-
-       }
-
-
+    fun bcGoToNextStep() {
+        bcCategoryFAButton?.setOnClickListener {
+            registrationCommunicator.bcGoToStepName()
+        }
     }
 
 
     override fun onResume() {
         super.onResume()
-
         val bcCategoryAdapter = BCCategoryAdapter(activity, bcCategories)
         bcCategoryList.adapter = bcCategoryAdapter
         bcCategoryAdapter.SetCategoryPositionSelected(selectedPosition)
-
-
-
         bcCategoryFAButton?.setOnClickListener {
-
             if (TextUtils.isEmpty(registrationCommunicator.getCategory())) {
-
                 activity?.toast("অন্তত একটি দক্ষতা নির্বাচন করুন")
-
             }
-
         }
-
         if (selectedPosition != -1) {
             bcCategoryFAButton?.setOnClickListener {
-
                 registrationCommunicator.bcGoToStepName()
-
-
             }
         }
-
     }
-
-
     fun getSelectedPosition(position: Int) {
         selectedPosition = position
     }
-
 }

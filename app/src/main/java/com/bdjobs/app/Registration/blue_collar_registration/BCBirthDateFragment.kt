@@ -37,7 +37,6 @@ class BCBirthDateFragment : Fragment() {
         return returnView
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         intialization()
@@ -47,7 +46,6 @@ class BCBirthDateFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         Log.d("birthd", "onResumeCalled")
         if (!TextUtils.isEmpty(birthdate)) {
             bcBirthDateTIET?.setText(birthdate)
@@ -68,31 +66,21 @@ class BCBirthDateFragment : Fragment() {
     }
 
     private fun onClick() {
-
         bcBirthDateFAButton.setOnClickListener {
-
-
             if (!TextUtils.isEmpty(bcBirthDateTIET?.text.toString())) {
-
                 birthdate = bcBirthDateTIET?.text.toString()
                 Log.d("Test", " birthDtae ${birthdate}")
-
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 try {
                     val birthDateCal = sdf.parse(birthdate)
-
                     Log.d("Test", " birthDate after parse $birthDateCal ")
-
                     val age = calculateAge(birthDateCal)
-
                     Log.d("Test", " age in calculationn ${calculateAge(birthDateCal)} age ${age}")
 
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
-
                 age = 0
-
                 Log.d("Test", " age in birth condition ${age} ageLimit ${ageLimit}")
 
             } else {
@@ -101,42 +89,26 @@ class BCBirthDateFragment : Fragment() {
                 try {
                     age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
-
-
                 }
                 Log.d("Test", " age $age")
                 ageLimit = age in 12..85
-
                 Log.d("Test", " ageLimit ${ageLimit} and age $age ")
             }
-
-
-
-
-
-
             if (TextUtils.isEmpty(bcBirthDateTIET?.text.toString()) && TextUtils.isEmpty(bcAgeTIET?.text.toString())) {
-
                 bcAgeTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
                 bcBirthDateTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
-
             }
-
-
 
             if (ageLimit) {
                 registrationCommunicator.bcBirthDateAndAgeSelected(birthdate.toString(), age.toString())
                 registrationCommunicator.bcGoToStepAdress()
-
             }
 
         }
 
 
         bcBirthDateTIET?.setOnClickListener {
-
             // calender class's instance and get current date , month and year from calender
-
             val mYear = calendar!!.get(Calendar.YEAR) // current year
             val mMonth = calendar!!.get(Calendar.MONTH) // current month
             val mDay = calendar!!.get(Calendar.DAY_OF_MONTH) // current day
@@ -147,27 +119,17 @@ class BCBirthDateFragment : Fragment() {
 
                         date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
                         bcAgeTIET.text!!.clear()
-
-
-
                         Log.d("Test", " date default ${date} ")
-
-
-
                         bcBirthDateTIET.setText(date)
                         var ageTemp = 0
                         val sdf = SimpleDateFormat("dd/MM/yyyy")
                         try {
-
                             val birthDate = sdf.parse(date)
-
                             Log.d("Test", " date after formate ${birthDate} ")
-
                             ageTemp = calculateAge(birthDate)
                         } catch (e: ParseException) {
                             e.printStackTrace()
                         }
-
 
                         Log.d("Test", " ageTemp ${ageTemp} ageLimit $ageLimit")
                         val age = ageTemp
@@ -201,31 +163,18 @@ class BCBirthDateFragment : Fragment() {
 
             datePickerDialog.datePicker.maxDate = calendarMax.timeInMillis
             datePickerDialog.datePicker.minDate = calendarMin.timeInMillis
-
-
             datePickerDialog.show()
         }
 
-
-
-
-
         supportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         bcHelpLineLayout?.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
     }
 
     private fun intialization() {
-
         registrationCommunicator = activity as RegistrationCommunicator
         calendar = Calendar.getInstance()
         addTextChangedListener()
@@ -233,18 +182,11 @@ class BCBirthDateFragment : Fragment() {
 
 
     private fun addTextChangedListener() {
-
         bcBirthDateTIET?.easyOnTextChangedListener { charSequence ->
-
             birthdateValidation(charSequence.toString(), bcBirthDateTIET, bcBirthDateTIL, "জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
-
         }
-
-
         bcAgeTIET?.easyOnTextChangedListener { charSequence ->
-
             ageValidation(charSequence.toString(), bcAgeTIET, bcAgeTIL, "জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
-
         }
 
     }
@@ -257,26 +199,18 @@ class BCBirthDateFragment : Fragment() {
                 return false
             }
             else -> {
-
                 try {
                     age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
-
-
                 }
                 Log.d("Test", " age in age ${age}")
-
-
-
                 if (age in 12..85) {
-
                     Log.d("Test", " true ")
                     ageLimit = true
                 } else {
                     Log.d("Test", " false ")
                     ageLimit = false
                 }
-
                 if (ageLimit) {
                     til.hideError()
                     bcBirthDateTIET?.clear()
@@ -284,8 +218,6 @@ class BCBirthDateFragment : Fragment() {
                 } else {
                     til.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")
                 }
-
-
             }
         }
         return true
@@ -299,16 +231,12 @@ class BCBirthDateFragment : Fragment() {
                 return false
             }
             else -> {
-
                 if (ageLimit) {
                     til.hideError()
                     bcAgeTIL?.hideError()
                 } else {
-
                     til.showError("বয়স অবশ্যই (12-85) একটি সীমার মধ্যে হতে হবে")
                 }
-
-
             }
         }
         return true

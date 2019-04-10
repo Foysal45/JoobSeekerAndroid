@@ -23,13 +23,10 @@ class WCNameFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-
         super.onActivityCreated(savedInstanceState)
-        registrationCommunicator = activity as RegistrationCommunicator
-
+        initilization()
         setName()
         onClick()
-
 
     }
 
@@ -40,38 +37,26 @@ class WCNameFragment : Fragment() {
     }
 
 
+    private fun initilization(){
+        registrationCommunicator = activity as RegistrationCommunicator
+    }
+
     private fun onClick() {
-
         nameFAButton?.setOnClickListener {
-
             if (usernameTIET.length() == 0 || usernameTIET.length() < 1) {
-
                 userNameTIL?.showError("Name can not be empty")
 
             } else {
-
                 registrationCommunicator.wcGoToStepGender()
                 registrationCommunicator.nameSelected(usernameTIET?.text.toString())
             }
-
-
         }
-
-
-
         wcSupportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         wcHelplineLayout?.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
-
         usernameTIET?.easyOnTextChangedListener { charSequence ->
             nameValidityCheck(charSequence.toString())
         }
@@ -80,14 +65,12 @@ class WCNameFragment : Fragment() {
 
 
     private fun nameValidityCheck(mobileNumber: String): Boolean {
-
         when {
             TextUtils.isEmpty(mobileNumber) -> {
                 userNameTIL?.showError("Name can not be empty")
                 requestFocus(usernameTIET)
                 return false
             }
-
             else -> userNameTIL?.hideError()
         }
         return true
@@ -100,13 +83,8 @@ class WCNameFragment : Fragment() {
     }
 
     private fun setName() {
-
         if (!TextUtils.isEmpty(registrationCommunicator.getName())) {
-
             usernameTIET?.setText(registrationCommunicator.getName())
         }
-
     }
-
-
 }

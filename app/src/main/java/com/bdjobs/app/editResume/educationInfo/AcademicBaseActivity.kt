@@ -44,7 +44,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddEmployment: String
-    private var saveButtonClickStatus = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,9 +145,10 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     }
 
     override fun goBack() {
-        onBackPressed()
+
         if (Constants.isDirectCall) finish()
         educationBaseCL.closeKeyboard(this@AcademicBaseActivity)
+        onBackPressed()
     }
 
     override fun setTitle(tit: String?) {
@@ -219,13 +220,6 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         return dataPrq
     }
 
-    override fun saveButtonClickStatus(value: Boolean) {
-        saveButtonClickStatus = value
-    }
 
-    override fun getClickStatus(): Boolean {
-
-        return saveButtonClickStatus
-    }
 
 }

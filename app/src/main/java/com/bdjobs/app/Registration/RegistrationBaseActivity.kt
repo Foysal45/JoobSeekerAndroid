@@ -142,9 +142,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
 
         backIcon.setOnClickListener {
-
             onBackPressed()
-
             setProgreesBar()
         }
     }
@@ -215,7 +213,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun wcGoToStepSocialInfo() {
 
-
         transitFragment(wcSocialInfoFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 34
@@ -275,17 +272,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         this.category = category
         Log.d("catagorySelected", "catagory $category")
         Log.d("catagorySelected", "categoryId $categoryId")
-
-
         Log.d("selectedPosition", " in activity $categorySelectedPosition")
-
         wccategoryFragment.getSelectedPosition(position)
 
     }
 
 
     override fun nameSelected(name: String) {
-
         this.name = name
         Log.d("catagorySelected", "name ${this.name}")
     }
@@ -293,7 +286,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun wcGenderSelected(gender: String) {
 
         this.gender = gender
-
         Log.d("catagorySelected", "gender ${this.gender}")
         wcGenderFragment.goToNextStep()
 
@@ -332,13 +324,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
         wcPassword = password
         wcConfirmPass = confirmPass
-
         Log.d("catagorySelected", "wcPassword $wcPassword , wcConfirmPass $wcConfirmPass ")
 
     }
 
     override fun wcUserNameSelected(userName: String) {
-
         this.userName = userName
         Log.d("catagorySelected", "userName first ${this.userName} ")
     }
@@ -351,7 +341,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
     override fun wcSetOtp(otp: String) {
-
         this.otpCode = otp
         Log.d("catagorySelected", "otpCode  ${this.otpCode} ")
 
@@ -366,7 +355,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun wcCreateAccount() {
 
         loadingProgressBar.visibility = View.VISIBLE
-
         var firstName = name
         var lastName = ""
         val splitedName = name.trim({ it <= ' ' }).split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
@@ -407,9 +395,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
             override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
 
-
                 if (categoryType.equals("1", true)) {
-
                     Log.d("ResponseTesrt", " in blue collar condition ")
                     try {
 
@@ -546,7 +532,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun wcOtpVerify() {
 
         loadingProgressBar.visibility = View.VISIBLE
-
         ApiServiceMyBdjobs.create().sendOtpToVerify(tempId, otpCode).enqueue(object : Callback<CreateAccountModel> {
             override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
                 Log.d("ResponseTesrt", " wcOtpVerify onFailure ${t.message}")
@@ -712,9 +697,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
             override fun onResponse(call: Call<ResendOtpModel>, response: Response<ResendOtpModel>) {
 
-
                 try {
-
                     Log.d("resendOtp", " sjkafhsakfljh ${response.message()}")
                     /*  toast(response.message())*/
                     loadingProgressBar.visibility = View.GONE
@@ -738,7 +721,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun getDecodeId(): String {
-
         return this.decodeId
     }
 
@@ -753,8 +735,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun bcGoToStepName() {
-
-
         transitFragment(bcNameFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 20
@@ -762,7 +742,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun bcGoToStepGender() {
-
         transitFragment(bcGenderFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 30

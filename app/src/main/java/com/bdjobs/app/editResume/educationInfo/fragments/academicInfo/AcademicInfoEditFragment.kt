@@ -930,8 +930,6 @@ class AcademicInfoEditFragment : Fragment() {
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
 
-                            eduCB.saveButtonClickStatus(true)
-
                             eduCB.goBack()
                         }
                     }
