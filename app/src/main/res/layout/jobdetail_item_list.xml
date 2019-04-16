@@ -558,19 +558,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/otherBenefitsTV" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/JobSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Job Source"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/otherBenefitsTV" />
+                app:layout_constraintTop_toBottomOf="@+id/horizontalViewfour" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/jobSourceTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

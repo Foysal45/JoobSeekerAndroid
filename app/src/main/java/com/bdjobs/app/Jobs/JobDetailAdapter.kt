@@ -499,7 +499,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     Picasso.get()?.load(companyLogoUrl)?.into(jobsVH.companyLogo)
                                 }
 
-                                jobsVH.tvJobSource.text = jobSourceData
+
+
+                                if (jobSourceData.isNullOrBlank() || jobSourceData.isNullOrEmpty()) {
+                                    jobsVH.tvJobSource.hide()
+                                    jobsVH.tvJobSourceHeading.hide()
+                                }else{
+                                    jobsVH.tvJobSource.show()
+                                    jobsVH.tvJobSourceHeading.show()
+                                    jobsVH.tvJobSource.text = jobSourceData
+                                }
+
+
+
+
+
                                 if (companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()) {
                                     jobsVH.tvCompanyAddress.hide()
                                     jobsVH.addressHeadingTV.hide()
@@ -545,7 +559,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             } else {
 
-                                jobsVH.tvJobSource.text = jobSourceData
+
+                                if (jobSourceData.isNullOrBlank() || jobSourceData.isNullOrEmpty()) {
+                                    jobsVH.tvJobSource.hide()
+                                    jobsVH.tvJobSourceHeading.hide()
+                                }else{
+                                    jobsVH.tvJobSource.show()
+                                    jobsVH.tvJobSourceHeading.show()
+                                    jobsVH.tvJobSource.text = jobSourceData
+                                }
+
+
+
                                 if (companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()) {
                                     jobsVH.tvCompanyAddress.hide()
                                     jobsVH.addressHeadingTV.hide()
@@ -866,6 +891,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val tvOtherBenifits: TextView = viewItem?.findViewById(R.id.otherBenefits) as TextView
         val tvSalaryAndCompensation: TextView = viewItem?.findViewById(R.id.salaryAndCompensation) as TextView
         val tvJobSource: TextView = viewItem?.findViewById(R.id.jobSourceTV) as TextView
+        val tvJobSourceHeading: TextView = viewItem?.findViewById(R.id.JobSource) as TextView
         val tvReadBefApplyData: TextView = viewItem?.findViewById(R.id.readAndApplyTV) as TextView
         val tvReadBefApply: TextView = viewItem?.findViewById(R.id.readAndApply) as TextView
         val tvCompanyName: TextView = viewItem?.findViewById(R.id.companyAddressNameTV) as TextView
