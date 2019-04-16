@@ -36,25 +36,32 @@ class EmpHistoryViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_emp_history_view, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        empHisCB = activity as EmpHisCB
-    }
-
     override fun onResume() {
         super.onResume()
-        doWork()
+        session = BdjobsUserSession(activity)
+        empHisCB = activity as EmpHisCB
+        empHisCB.setDeleteButton(false)
+        fab_eh_add.setOnClickListener {
+            empHisCB.goToEditInfo("add")
+        }
+        if (empHisCB.getBackFrom() == "") {
+            try {
+                setupRV(empHisCB.getExpsArray())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logException(e)
+            }
+        } else {
+            doWork()
+        }
+
     }
 
     private fun doWork() {
         shimmerStart()
         rv_eh_view.behaveYourself(fab_eh_add)
         populateData()
-        empHisCB.setDeleteButton(false)
-        fab_eh_add.setOnClickListener {
-            empHisCB.goToEditInfo("add")
-        }
+        empHisCB.setBackFrom("")
     }
 
     private fun setupRV(items: ArrayList<DataItem>) {

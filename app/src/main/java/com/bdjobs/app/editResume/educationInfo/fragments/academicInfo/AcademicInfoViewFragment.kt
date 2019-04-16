@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.AcademicInfoAdapter
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.GetAcademicInfo
@@ -35,30 +38,28 @@ class AcademicInfoViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_academic_info_view, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        eduCB = activity as EduInfo
-
-    }
-
     override fun onResume() {
         super.onResume()
+        session = BdjobsUserSession(activity)
+        eduCB = activity as EduInfo
+        eduCB.setDeleteButton(false)
+        eduCB.setTitle(getString(R.string.title_academic))
+        if (eduCB.getBackFrom() == "") {
+            if (eduCB.getAcademicList() != null) setupRV(eduCB.getAcademicList()!!) // add message if needed in the else part
+            Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+        } else {
+            Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+            doWork()
+        }
 
-        doWork()
 
-
-
+        Log.d("acaFrag", "calling... ${eduCB.getClickStatus()}")
     }
 
     private fun doWork() {
-        rv_aca_view?.behaveYourself(fab_aca_add)
+        shimmerStart()
         populateData()
-        eduCB.setDeleteButton(false)
-        eduCB.setTitle(getString(R.string.title_academic))
-        fab_aca_add.setOnClickListener {
-            eduCB.goToEditInfo("add")
-        }
+        eduCB.setBackFrom("")
     }
 
     private fun setupRV(items: ArrayList<AcaDataItem>) {
@@ -72,7 +73,6 @@ class AcademicInfoViewFragment : Fragment() {
 
     private fun populateData() {
         rv_aca_view?.hide()
-        shimmerStart()
         val call = ApiServiceMyBdjobs.create().getAcaInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<GetAcademicInfo> {
             override fun onFailure(call: Call<GetAcademicInfo>, t: Throwable) {
@@ -92,6 +92,7 @@ class AcademicInfoViewFragment : Fragment() {
                         rv_aca_view.show()
                         val respo = response.body()
                         arr = respo?.data as ArrayList<AcaDataItem>
+                        eduCB.setAcademicList(arr!!)
                         //activity.toast("${arr?.size}")
                         if (arr != null) {
                             setupRV(arr!!)
@@ -101,8 +102,8 @@ class AcademicInfoViewFragment : Fragment() {
                     shimmerStop()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
-                        activity.logException(e)
-                        activity.error("++${e.message}")
+                        activity?.logException(e)
+                        activity?.error("++${e.message}")
                     }
                 }
                 adapter?.notifyDataSetChanged()

@@ -10,8 +10,7 @@
     <RelativeLayout
         android:id="@+id/rlContactMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/rl_1"
@@ -179,7 +178,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         shimmer:duration="10"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"

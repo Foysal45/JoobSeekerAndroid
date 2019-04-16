@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.otherInfo.fragments
+package com.bdjobs.app.editResume.otherInfo.fragments.specializations
 
 
 import android.app.Fragment
@@ -40,23 +40,26 @@ class SpecializationViewFragment : Fragment() {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        eduCB.setTitle("Specialization")
+        fab_specialization_add?.setOnClickListener {
+            eduCB.goToEditInfo("addSpecialization")
+        }
         doWork()
+
+        /*if (eduCB.getBackFrom() == "") {
+
+        } else {
+            doWork()
+        }*/
 
     }
 
     private fun doWork() {
-        eduCB.setTitle("Specialization")
-        fab_specialization_add?.setOnClickListener {
-
-            eduCB.goToEditInfo("addSpecialization")
-
-        }
         populateData()
-
     }
 
 
@@ -80,7 +83,6 @@ class SpecializationViewFragment : Fragment() {
     }
 
     private fun populateData() {
-
         mainlayout?.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getSpecializationInfo(session.userId, session.decodId)
@@ -141,7 +143,7 @@ class SpecializationViewFragment : Fragment() {
 
             d("specialization in view fragment ${response.skills!!.size}")
 
-            eduCB.passSpacializationData(response)
+            eduCB.passSpecializationData(response)
 
         }
 

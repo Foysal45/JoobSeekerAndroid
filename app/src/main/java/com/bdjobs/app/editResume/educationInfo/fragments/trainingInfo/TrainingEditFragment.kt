@@ -11,6 +11,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.trUpdate
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
@@ -164,6 +165,7 @@ class TrainingEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            eduCB.setBackFrom(trUpdate)
                             eduCB.goBack()
                         }
                     }
@@ -209,6 +211,7 @@ class TrainingEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.setBackFrom(trUpdate)
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {

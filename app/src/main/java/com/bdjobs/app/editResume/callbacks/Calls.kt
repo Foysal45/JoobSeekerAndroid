@@ -17,6 +17,8 @@ interface EmpHisCB {
     fun getData(): DataItem
     fun getArmyData(): ArmydataItem
     fun goBack()
+    fun getBackFrom(): String?
+    fun setBackFrom(from: String?)
 
     fun setExpIDs(idArr: ArrayList<String>)
     fun getExpIDs(): ArrayList<String>
@@ -35,14 +37,24 @@ interface EduInfo {
     fun setDeleteButton(b: Boolean)
     fun goToEditInfo(check: String)
     fun passData(data: AcaDataItem)
-    fun passTrainingData(data: Tr_DataItem)
     fun getData(): AcaDataItem
+    fun setAcademicList(aca: ArrayList<AcaDataItem>)
+    fun setTrainingList(aca: ArrayList<Tr_DataItem>)
+    fun setProfessionalList(aca: ArrayList<ProfessionalDataModel>)
+    fun getAcademicList(): ArrayList<AcaDataItem>?
+    fun getTrainingList(): ArrayList<Tr_DataItem>?
+    fun getProfessionalList(): ArrayList<ProfessionalDataModel>?
+    fun passTrainingData(data: Tr_DataItem)
     fun getTrainingData(): Tr_DataItem
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
     fun passProfessionalData(Data: ProfessionalDataModel)
     fun getProfessionalData(): ProfessionalDataModel
 
+    fun saveButtonClickStatus(value:Boolean)
+    fun getClickStatus():Boolean
+    fun getBackFrom(): String?
+    fun setBackFrom(from: String?)
 }
 
 
@@ -52,12 +64,14 @@ interface OtherInfo {
     fun setDeleteButton(b: Boolean)
     fun goToEditInfo(check: String)
     fun passLanguageData(data: LanguageDataModel)
-    fun passSpacializationData(data: SpecializationDataModel)
+    fun passSpecializationData(data: SpecializationDataModel)
     fun passReferenceData(data: ReferenceDataModel)
     fun getReferenceData(): ReferenceDataModel
     fun getLanguageData(): LanguageDataModel
     fun validateField(char: String, et: TextInputEditText, til: TextInputLayout): Boolean
     fun goBack()
+    fun getBackFrom(): String?
+    fun setBackFrom(from: String?)
     fun setEditButton(b: Boolean)
     fun getSpecializationData(): SpecializationDataModel
 
@@ -93,6 +107,8 @@ interface PersonalInfo {
     fun setPmPostOffice(po: String?)
     fun getPmPostOffice(): String?
     fun goBack()
+    fun getBackFrom(): String?
+    fun setBackFrom(from: String?)
 }
 
 interface TitleChange {

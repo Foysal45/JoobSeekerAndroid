@@ -1,4 +1,4 @@
-package com.bdjobs.app.editResume.otherInfo.fragments
+package com.bdjobs.app.editResume.otherInfo.fragments.specializations
 
 import android.app.Fragment
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.specUpdate
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.google.android.material.chip.Chip
@@ -235,7 +236,7 @@ class SpecializationEditFragment : Fragment() {
                             } else {
                                 activity?.toast("The information has been added successfully")
                             }
-
+                            eduCB.setBackFrom(specUpdate)
                             eduCB.goBack()
                         }
                     }

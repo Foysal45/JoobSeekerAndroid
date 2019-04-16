@@ -37,27 +37,28 @@ class ProfessionalQLViewFragment : Fragment() {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        eduCB = activity as EduInfo
-        doWork()
-    }
-
     private fun doWork() {
         populateData()
         rv_professional_view?.behaveYourself(fab_professional_add)
-        eduCB.setDeleteButton(false)
-        eduCB.setTitle(getString(R.string.title_professional_qualification))
-        fab_professional_add?.setOnClickListener {
-            eduCB.goToEditInfo("addProfessional")
-        }
+        eduCB.setBackFrom("")
     }
 
 
     override fun onResume() {
         super.onResume()
-        doWork()
+        session = BdjobsUserSession(activity)
+        eduCB = activity as EduInfo
+        eduCB.setDeleteButton(false)
+        eduCB.setTitle(getString(R.string.title_professional_qualification))
+        fab_professional_add?.setOnClickListener {
+            eduCB.goToEditInfo("addProfessional")
+        }
+        if (eduCB.getBackFrom() == "") {
+            if (eduCB.getProfessionalList() != null) setupRV(eduCB.getProfessionalList()!!)
+            // add message if needed in the else part
+        } else {
+            doWork()
+        }
     }
 
 
@@ -91,6 +92,7 @@ class ProfessionalQLViewFragment : Fragment() {
 
                         Log.d("dsfklhgjfd;h", "$respo")
                         arr = respo?.data as ArrayList<ProfessionalDataModel>
+                        eduCB.setProfessionalList(arr!!)
                         //activity.toast("${arr?.size}")
                         if (arr != null) {
                             setupRV(arr!!)

@@ -348,6 +348,7 @@ class ContactEditFragment : Fragment() {
 
                         if (response.body()?.statuscode == "4") {
                             session.updateEmail(contactEmailAddressTIET.getString())
+                            contactInfo.setBackFrom(Constants.contactUpdate)
                             contactInfo.goBack()
                             //onDestroy()
                         }

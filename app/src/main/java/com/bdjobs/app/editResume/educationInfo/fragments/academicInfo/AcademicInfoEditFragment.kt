@@ -17,6 +17,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.acaUpdate
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
@@ -929,7 +930,8 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
-
+                            eduCB.saveButtonClickStatus(true)
+                            eduCB.setBackFrom(acaUpdate)
                             eduCB.goBack()
                         }
                     }
@@ -961,6 +963,7 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {

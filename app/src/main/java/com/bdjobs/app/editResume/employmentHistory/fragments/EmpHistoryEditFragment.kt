@@ -370,8 +370,8 @@ class EmpHistoryEditFragment: Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            empHisCB.setBackFrom(Constants.empHistoryList)
                             empHisCB.goBack()
-                            onDestroy()
                         } else if (resp?.message == "Please select End Date") {
                             endDateTIL.isErrorEnabled = true
                             endDateTIL?.showError("This field can not be empty")
@@ -461,6 +461,7 @@ class EmpHistoryEditFragment: Fragment() {
                         activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
+                        empHisCB.setBackFrom(Constants.empHistoryList)
                         empHisCB.goBack()
                     }
                 } catch (e: Exception) {

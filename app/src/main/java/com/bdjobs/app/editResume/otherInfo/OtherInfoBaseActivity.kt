@@ -15,15 +15,27 @@ import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.adapters.models.ReferenceDataModel
 import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
-import com.bdjobs.app.editResume.otherInfo.fragments.*
+import com.bdjobs.app.editResume.otherInfo.fragments.languagePref.LangPrViewFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.languagePref.LangProficiencyEditFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferenceEditFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferencesViewFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationEditFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationViewFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun getBackFrom(): String? {
+        return this.fragmentFrom
+    }
 
+    override fun setBackFrom(from: String?) {
+        this.fragmentFrom = from
+    }
 
+    private var fragmentFrom: String? = "first"
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
     private val languageEditFrgamnet = LangProficiencyEditFragment()
@@ -200,7 +212,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
 
-    override fun passSpacializationData(data: SpecializationDataModel) {
+    override fun passSpecializationData(data: SpecializationDataModel) {
 
         this.dataSpecialization = data
 

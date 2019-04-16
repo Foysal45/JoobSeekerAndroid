@@ -558,6 +558,7 @@ class PreferredAreasEditFragment : Fragment() {
                         activity?.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
                         if (response.body()?.statuscode == "4") {
+                            prefCallBack.setBackFrom(Constants.prefAreasUpdate)
                             prefCallBack.goBack()
                             //onDestroy()
                         }

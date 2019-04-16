@@ -7,15 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".editResume.personalInfo.PersonalInfoActivity">
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsView"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp">
 
             <include
                 android:id="@+id/il_header"
@@ -83,7 +84,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container_JobList"
         android:layout_width="match_parent"

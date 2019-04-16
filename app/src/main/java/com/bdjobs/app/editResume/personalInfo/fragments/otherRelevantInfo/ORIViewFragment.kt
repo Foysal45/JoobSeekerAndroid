@@ -13,6 +13,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.GetORIResponse
+import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -35,23 +36,31 @@ class ORIViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        session = BdjobsUserSession(activity)
-        oriCallBack = activity as PersonalInfo
         dataStorage = DataStorage(activity)
-        doWork()
     }
 
     override fun onResume() {
         super.onResume()
+        session = BdjobsUserSession(activity)
+        oriCallBack = activity as PersonalInfo
         oriCallBack.setTitle(getString(R.string.title_ORI))
+        if (oriCallBack.getBackFrom() == "") {
+            val respo = oriCallBack.getOriData()
+            setupView(respo)
+            oriCallBack.setEditButton(true, "editORI")
+        } else {
+            doWork()
+        }
     }
 
     private fun doWork() {
         shimmerStart()
         populateData()
+        oriCallBack.setBackFrom("")
     }
 
     private fun populateData() {
+        clORIMainLayout.hide()
         val call = ApiServiceMyBdjobs.create().getORIInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetORIResponse> {
             override fun onFailure(call: Call<GetORIResponse>, t: Throwable) {
@@ -66,7 +75,7 @@ class ORIViewFragment : Fragment() {
                         clORIMainLayout?.show()
                         val respo = response.body()
                         oriCallBack.passOriData(respo?.data?.get(0)!!)
-                        setupView(respo)
+                        setupView(respo?.data?.get(0)!!)
                         oriCallBack.setEditButton(true, "editORI")
                     }
                 } catch (e: Exception) {
@@ -80,8 +89,7 @@ class ORIViewFragment : Fragment() {
 
     }
 
-    private fun setupView(info: GetORIResponse) {
-        val data = info.data?.get(0)
+    private fun setupView(data: ORIdataItem) {
         tvORICareerSummary.text = data?.careerSummery
         tvORISpecialQualificaiton.text = data?.specialQualifications
         val keywords = data?.keywords?.removeLastComma()

@@ -13,6 +13,7 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.personalUpdate
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
@@ -251,6 +252,7 @@ class PersonalDetailsEditFragment : Fragment() {
                             session.updateFullName(etPerFirstName.getString().plus(" ${etPerLastName.getString()}"))
                             session.updateIsCvPosted("True")
                             session.updateFullName(etPerFirstName.getString() + " " + etPerLastName.getString())
+                            personalInfo.setBackFrom(personalUpdate)
                             personalInfo.goBack()
                         }
                     }
