@@ -27,6 +27,14 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun saveButtonClickStatus(value: Boolean) {
+
+    }
+
+    override fun getClickStatus(): Boolean {
+        return true
+    }
+
     override fun setAcademicList(aca: ArrayList<AcaDataItem>) {
         this.acaList = aca
     }

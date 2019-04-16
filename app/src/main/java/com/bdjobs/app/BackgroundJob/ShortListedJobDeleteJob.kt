@@ -12,6 +12,7 @@ import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,6 +82,11 @@ class ShortListedJobDeleteJob(private val appContext: Context) : Job() {
 
                 override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
                     Log.d(TAG, "Shortlised jobID: $jobid")
+                    try {
+                        appContext?.toast("${response.body()?.message}")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             })
 
