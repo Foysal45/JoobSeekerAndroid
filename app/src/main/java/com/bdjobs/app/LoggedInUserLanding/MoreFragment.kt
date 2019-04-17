@@ -78,7 +78,7 @@ class MoreFragment : Fragment() {
             homeCommunicator.gotoJobSearch()
         }
         appGuides_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://bdjobs.com/apps/guide.html")
+            activity?.openUrlInBrowser("https://bdjobs.com/apps/version2/guide.html")
         }
         rateUs_MBTN?.setOnClickListener {
             activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
@@ -160,10 +160,11 @@ class MoreFragment : Fragment() {
         }
 //
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))
+
     }
 
     private fun initializeViews() {
