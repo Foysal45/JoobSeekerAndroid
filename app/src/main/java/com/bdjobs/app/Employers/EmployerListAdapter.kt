@@ -164,7 +164,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
+        var viewHolder: RecyclerView.ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
 
         when (viewType) {

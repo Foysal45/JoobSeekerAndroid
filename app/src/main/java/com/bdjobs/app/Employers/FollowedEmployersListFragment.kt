@@ -15,7 +15,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
-import com.google.android.gms.ads.doubleclick.PublisherAdRequest
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -43,12 +42,12 @@ class FollowedEmployersListFragment : Fragment() {
         isActivityDate = employersCommunicator.getTime()
         bdjobsDB = BdjobsDB.getInstance(activity)
 
-        val adRequest = PublisherAdRequest
+        /*val adRequest = PublisherAdRequest
                 .Builder()
                 .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
                 .build()
 
-        publisherAdView?.loadAd(adRequest)
+        publisherAdView?.loadAd(adRequest)*/
 
         backIMV?.setOnClickListener {
             employersCommunicator?.backButtonPressed()
@@ -81,6 +80,12 @@ class FollowedEmployersListFragment : Fragment() {
                     if (followedEmployerList?.size!! > 0) {
                         followEmployerNoDataLL?.hide()
                         followedRV?.show()
+                        if(employersCommunicator?.getPositionClicked()!!-2>0){
+                            followedRV?.scrollToPosition(employersCommunicator?.getPositionClicked()!!-2)
+                        }else{
+                            followedRV?.scrollToPosition(employersCommunicator?.getPositionClicked()!!)
+                        }
+
                         Log.d("totalJobs", "data ase")
                     } else {
                         followEmployerNoDataLL?.show()

@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="visible"
+        android:visibility="gone"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="/52892455/Admob/admobBanner"
         app:layout_constraintBottom_toBottomOf="parent"

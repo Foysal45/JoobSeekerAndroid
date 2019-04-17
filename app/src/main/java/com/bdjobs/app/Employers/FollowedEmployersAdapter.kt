@@ -98,6 +98,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                             var company_name_1 = followedEmployerList?.get(position)?.CompanyName!!
                             var company_ID_1 = followedEmployerList?.get(position)?.CompanyID!!
                             employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+                            employersCommunicator?.positionClicked(position)
                             Log.d("companyid", company_ID_1)
                             Log.d("companyid", company_name_1)
                         }
