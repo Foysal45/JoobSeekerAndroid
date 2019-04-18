@@ -1444,14 +1444,10 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
 
-    /* private fun buildScope(): Scope {
-         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS)
-     }*/
-
 
     private fun initializeGoogleRegistration() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(Constants.GOOGLE_SIGN_IN_CLIENT_ID)
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleApiClient.Builder(this@RegistrationBaseActivity)
@@ -1462,55 +1458,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     private fun initializeFacebookRegistration() {
         callbackManager = CallbackManager.Factory.create()
-        /* LoginManager.getInstance().registerCallback(callbackManager,
-                 object : FacebookCallback<LoginResult> {
-                     override fun onSuccess(loginResult: LoginResult) {
-                         Log.d("LoginActivity", "onsucess Called")
-                         val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
-                             Log.d("LoginActivity", response.toString())
-                             try {
-                                 var semail: String? = null
-                                 var sMid: String? = null
-
-                                 try {
-                                     if (profileData.has(Constants.FB_KEY_EMAIL)) {
-                                         semail = profileData.getString(Constants.FB_KEY_EMAIL)
-                                     }
-                                     if (profileData.has(Constants.FB_KEY_ID)) {
-                                         sMid = profileData.getString(Constants.FB_KEY_ID)
-                                     }
-                                 } catch (e: Exception) {
-                                     e.printStackTrace()
-                                 }
-
-
-                                   signOutFromFacebook()
-                                  *//* socialMediaMapping(sMid, semail, Constants.SOCIAL_MEDIA_FACEBOOK)*//*
-
-
-                                Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
-
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                        val parameters = Bundle()
-                        parameters.putString(Constants.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY, Constants.FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING)
-                        request.parameters = parameters
-                        request.executeAsync()
-                    }
-
-                    override fun onCancel() {
-                        toast("Please sign in to facebook first to complete your sign in by facebook")
-                    }
-
-                    override fun onError(exception: FacebookException) {
-                        logException(exception)
-
-                        toast(exception.toString())
-
-                    }
-                })*/
     }
 
     override fun getName(): String {

@@ -11,6 +11,7 @@ import retrofit2.Response
 
 class Constants {
     companion object {
+        const val GOOGLE_SIGN_IN_CLIENT_ID ="538810570838-2u4ecb19a0kl7789girooesoq9rsfhdn.apps.googleusercontent.com"
 
         var isDeviceInfromationSent = false
         var changePassword_Eligibility = "0"
