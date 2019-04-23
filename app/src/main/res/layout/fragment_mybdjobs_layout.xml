@@ -75,7 +75,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_search_black_24dp" />
+                android:src="@drawable/ic_user_thumb_small" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

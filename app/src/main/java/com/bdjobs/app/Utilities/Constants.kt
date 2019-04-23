@@ -11,6 +11,7 @@ import retrofit2.Response
 
 class Constants {
     companion object {
+        const val GOOGLE_SIGN_IN_CLIENT_ID ="538810570838-2u4ecb19a0kl7789girooesoq9rsfhdn.apps.googleusercontent.com"
 
         var isDeviceInfromationSent = false
         var changePassword_Eligibility = "0"
@@ -152,6 +153,7 @@ class Constants {
         const val KEY_DATE_AND_TIME = "dateAndTime"
         const val KEY_APP_VERSION = "appVersion"
         const val KEY_SCREEN_SIZE = "screensize"
+        const val APP_ID = "1"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

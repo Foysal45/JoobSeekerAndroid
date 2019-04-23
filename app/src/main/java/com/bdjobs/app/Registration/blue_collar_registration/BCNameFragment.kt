@@ -38,7 +38,7 @@ class BCNameFragment : Fragment() {
 
     }
 
-    private fun onClick(){
+    private fun onClick() {
 
         nameTIET?.easyOnTextChangedListener { charSequence ->
             nameValidityCheck(charSequence.toString())
@@ -60,7 +60,7 @@ class BCNameFragment : Fragment() {
 
         supportTextView?.setOnClickListener {
 
-           activity.callHelpLine()
+            activity.callHelpLine()
 
         }
 
@@ -71,25 +71,22 @@ class BCNameFragment : Fragment() {
 
         bcGoogleButton?.setOnClickListener {
 
-            /*   registrationCommunicator.clearData()*/
             registrationCommunicator.regWithGoogle()
 
         }
         bc_facebookButton?.setOnClickListener {
 
-            /* registrationCommunicator.clearData()*/
             registrationCommunicator.regWithFacebook()
 
         }
 
     }
 
-    private fun initialization(){
+    private fun initialization() {
 
         registrationCommunicator = activity as RegistrationCommunicator
 
     }
-
 
 
     private fun nameValidityCheck(name: String): Boolean {
@@ -113,7 +110,7 @@ class BCNameFragment : Fragment() {
     }
 
 
-    fun setName(){
+    fun setName() {
 
         nameTIET?.setText(registrationCommunicator.getName())
     }

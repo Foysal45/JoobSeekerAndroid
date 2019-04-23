@@ -12,5 +12,7 @@ interface EmployersCommunicator {
     fun setMessageId(messageId: String)
     fun getMessageId ():String
     fun gotoMessageDetail()
+    fun positionClicked(position:Int?)
+    fun getPositionClicked():Int?
 
 }

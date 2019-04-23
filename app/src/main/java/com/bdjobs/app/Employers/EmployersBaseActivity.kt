@@ -32,8 +32,15 @@ import com.bdjobs.app.Utilities.transitFragment
  +-----------------------------------------------------------------------------
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
+    override fun positionClicked(position: Int?) {
+        this.positionClicked = position
+    }
 
+    override fun getPositionClicked(): Int? {
+        return this.positionClicked
+    }
 
+    private var positionClicked:Int? = 0
     private var companyid = ""
     private var companyname = ""
     private var value = ""

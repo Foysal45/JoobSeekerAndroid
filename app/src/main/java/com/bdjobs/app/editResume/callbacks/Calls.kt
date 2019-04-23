@@ -50,6 +50,7 @@ interface EduInfo {
     fun goBack()
     fun passProfessionalData(Data: ProfessionalDataModel)
     fun getProfessionalData(): ProfessionalDataModel
+
     fun saveButtonClickStatus(value:Boolean)
     fun getClickStatus():Boolean
     fun getBackFrom(): String?

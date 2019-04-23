@@ -3,7 +3,6 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +52,7 @@ class EmployerListFragment : Fragment() {
         super.onResume()
         //loadEmployerList(orgType)
 
-        searchBTN.setOnClickListener {
+        searchBTN?.setOnClickListener {
             orgName = suggestiveSearch_ET?.getString()!!
             TOTAL_PAGES = null
             pgNo = PAGE_START
@@ -62,11 +61,18 @@ class EmployerListFragment : Fragment() {
             initPagination()
             Log.d("searchBTN", "searchBTN text: $orgName")
         }
-        searchBTN?.setEnabled(false);
-        suggestiveSearch_ET.easyOnTextChangedListener {text ->
+
+        searchBTN?.isEnabled = false
+
+        suggestiveSearch_ET?.easyOnTextChangedListener {text ->
             if (text.isBlank()) {
-                searchBTN?.setEnabled(false);
-              //  Log.d("searchBTN", "searchBTN text: $text")
+                searchBTN?.isEnabled = false
+                orgName = suggestiveSearch_ET?.getString()!!
+                TOTAL_PAGES = null
+                pgNo = PAGE_START
+                isLastPages = false
+                isLoadings = false
+                initPagination()
             }
             else {
                 searchBTN?.setEnabled(true);
@@ -76,10 +82,10 @@ class EmployerListFragment : Fragment() {
 
     private fun initPagination() {
         employerListAdapter = EmployerListAdapter(activity!!)
-        employerList_RV!!.setHasFixedSize(true)
-        employerList_RV!!.adapter = employerListAdapter
+        employerList_RV?.setHasFixedSize(true)
+        employerList_RV?.adapter = employerListAdapter
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-        employerList_RV!!.layoutManager = layoutManager as RecyclerView.LayoutManager?
+        employerList_RV?.layoutManager = layoutManager as RecyclerView.LayoutManager?
         Log.d("initPag", "called")
         employerList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 

@@ -15,7 +15,9 @@ import retrofit2.http.*
 
 interface ApiServiceJobs {
     @GET(api_jobs_db_update)
-    fun getDbInfo(@Query("lastUpdateDate") lastUpdateDate: String): Call<DatabaseUpdateModel>
+    fun getDbInfo(@Query("lastUpdateDate") lastUpdateDate: String?="",
+                  @Query("appId") appId :String? = Constants.APP_ID
+                  ): Call<DatabaseUpdateModel>
 
     @GET("joblist.asp")
     fun getJobList(
@@ -43,7 +45,8 @@ interface ApiServiceJobs {
             @Query("qAge") qAge: String? = "",
             @Query("rpp") rpp: String? = "",
             @Query("slno") slno: String? = "",
-            @Query("version") version: String? = ""
+            @Query("version") version: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
 
 
     ): Call<JobListModel>
@@ -55,74 +58,82 @@ interface ApiServiceJobs {
             @Query("encoded") encoded: String? = "",
             @Query("deadline") deadline: String? = "",
             @Query("page") pg: Int? = 1,
-            @Query("rpp") rpp: String? = ""
+            @Query("rpp") rpp: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<JobListModel>
 
 
     @GET("jobdetailsscreen.asp")
     fun getJobdetailData(
-            @Query("encoded") encoded: String,
-            @Query("jobId") jobId: String,
-            @Query("ln") ln: String,
-            @Query("next") next: String,
-            @Query("slno") slno: String,
-            @Query("userId") userId: String?,
-            @Query("version") version: String
+            @Query("encoded") encoded: String?  = "",
+            @Query("jobId") jobId: String?  = "",
+            @Query("ln") ln: String?  = "",
+            @Query("next") next: String? = "",
+            @Query("slno") slno: String? = "",
+            @Query("userId") userId: String? = "",
+            @Query("version") version: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<JobDetailJsonModel>
 
     @GET("viewfilters.asp")
     fun getFavouriteSearchFilters(
-            @Query("encoded") encoded: String?,
-            @Query("user") userID: String?
+            @Query("encoded") encoded: String? = "",
+            @Query("user") userID: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
 
     ): Call<FavouritSearchFilterModelClass>
 
     @GET("CompnayListFollowEmployer.asp")
     fun getFollowEmployerList(
-            @Query("userID") userID: String?,
-            @Query("decodeId") decodeId: String?,
+            @Query("userID") userID: String? = "",
+            @Query("decodeId") decodeId: String? = "",
             @Query("Apstyp") Apstyp: String? = "M",
-            @Query("encoded") encoded: String?
+            @Query("encoded") encoded: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
 
 
     @GET("storedjobsDeadlines.asp")  // @GET("storedjobsDetails.asp")
     fun getShortListedJobs(
-            @Query("p_id") p_id: String?,
-            @Query("encoded") encoded: String?
+            @Query("p_id") p_id: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ShortListedJobModel>
 
 
     @GET("FollowerEmployer.asp")
     fun getUnfollowMessage(
-            @Query("id") id: String?,
-            @Query("name") name: String?,
-            @Query("userId") userId: String?,
-            @Query("encoded") encoded: String?,
-            @Query("actType") actType: String?,
-            @Query("decodeId") decodeId: String?
+            @Query("id") id: String? = "",
+            @Query("name") name: String? = "",
+            @Query("userId") userId: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("actType") actType: String? = "",
+            @Query("decodeId") decodeId: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
 
     ): Call<FollowUnfollowModelClass>
 
     @GET("companyotherjobs.asp")
     fun getEmpJobLists(
-            @Query("id") id: String?,
+            @Query("id") id: String? = "",
             @Query("alias") alias: String? = "",
             @Query("companyname") companyname: String?= "",
             @Query("jobid") jobid: String?= "",
             @Query("encoded") encoded: String?,
             @Query("packageName") packageName: String?= "",
-            @Query("packageNameVersion") packageNameVersion: String?= ""
+            @Query("packageNameVersion") packageNameVersion: String?= "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<EmployerJobListsModel>
 
     @GET("Employerlist.asp")
     fun getEmpLists(
             @Query("version") version: String? = "",
-            @Query("orgName") orgName: String?,
+            @Query("orgName") orgName: String? = "",
             @Query("orgType") orgType: String?= "",
             @Query("orgFirstLetter") orgFirstLetter: String?= "",
-            @Query("encoded") encoded: String?,
-            @Query("page") page: String?= ""
+            @Query("encoded") encoded: String? = "",
+            @Query("page") page: String?= "",
+            @Query("appId") appId :String? = Constants.APP_ID
 
     ): Call<EmployerListModelClass>
 
@@ -157,7 +168,8 @@ interface ApiServiceJobs {
             @Query("qAge") qAge: String? = "",
             @Query("rpp") rpp: String? = "",
             @Query("slno") slno: String? = "",
-            @Query("version") version: String? = ""
+            @Query("version") version: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<LastSearchCountModel>
 
     @FormUrlEncoded
@@ -182,15 +194,17 @@ interface ApiServiceJobs {
             @Field("filterName") filterName: String? = "",
             @Field("qAge") qAge: String? = "",
             @Field("newspaper") newspaper: String? = "",
-            @Field("encoded") encoded: String? = ""
+            @Field("encoded") encoded: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<SaveUpdateFavFilterModel>
 
 
     @GET("store.asp")
     fun insertShortListJob(
-            @Query("userID") userID: String?,
-            @Query("encoded") encoded: String?,
-            @Query("jobID") jobID: String?
+            @Query("userID") userID: String? = "",
+            @Query("encoded") encoded: String? = "",
+            @Query("jobID") jobID: String?="",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ShortlistJobModel>
 
     @FormUrlEncoded
@@ -202,7 +216,8 @@ interface ApiServiceJobs {
             @Field("expSalary") expSalary: String? = "",
             @Field("JobSex") JobSex: String? = "",
             @Field("JobPhotograph") JobPhotograph: String? = "",
-            @Field("encoded") encoded: String? = ""
+            @Field("encoded") encoded: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ApplyOnlineModel>
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")

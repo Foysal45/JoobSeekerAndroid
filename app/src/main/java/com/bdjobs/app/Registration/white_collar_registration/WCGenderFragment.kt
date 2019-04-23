@@ -26,46 +26,32 @@ class WCGenderFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_wc_gender, container, false)
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        registrationCommunicator = activity as RegistrationCommunicator
         initialization()
-        onClick()
     }
-
-
     private fun onClick(){
-
         MaleButton?.setOnClickListener {
             MaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             otherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             registrationCommunicator.wcGenderSelected("M")
 
         }
-
 
         FemaleButton?.setOnClickListener {
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             MaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             MaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             otherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -73,102 +59,65 @@ class WCGenderFragment : Fragment() {
 
         }
 
-
         otherButton?.setOnClickListener {
             otherButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             otherButton.setTextColor(resources.getColor(R.color.colorWhite))
-
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
-
             MaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             MaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
             registrationCommunicator.wcGenderSelected("O")
 
-
         }
-
-
         wcSupportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         wcHelplineLayout?.setOnClickListener {
-
             activity.callHelpLine()
         }
-
-
         genderFAButton?.setOnClickListener {
-
             if (TextUtils.isEmpty(registrationCommunicator.getGender())) {
-
                 activity.toast("Please select Gender")
-
             }
         }
 
     }
-
     private fun initialization(){
-
-
-
+        registrationCommunicator = activity as RegistrationCommunicator
+        onClick()
     }
-
     fun goToNextStep(){
-
         genderFAButton?.setOnClickListener {
-
             registrationCommunicator.wcGoToStepPhoneEmail()
         }
 
-
     }
-
-
     override fun onResume() {
         super.onResume()
-
-
-
         if (registrationCommunicator.getGender().equalIgnoreCase("M")) {
-
 
             MaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             otherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             registrationCommunicator.wcGenderSelected("M")
 
-
         } else if (registrationCommunicator.getGender().equalIgnoreCase("F")) {
-
 
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             MaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             MaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             otherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             otherButton.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -180,19 +129,14 @@ class WCGenderFragment : Fragment() {
             otherButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             otherButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             otherButton.setTextColor(resources.getColor(R.color.colorWhite))
-
             FemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             FemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             FemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
-
             MaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             MaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             MaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
             registrationCommunicator.wcGenderSelected("O")
 
         }
-
-
     }
 }

@@ -27,7 +27,6 @@ class BCGenderFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         returnView = inflater.inflate(R.layout.fragment_bc_gender, container, false)
-
         return returnView
     }
 
@@ -40,17 +39,13 @@ class BCGenderFragment : Fragment() {
 
 
     private fun onClick(){
-
         bcMaleButton.setOnClickListener {
             bcMaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             bcFemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcFemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcFemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorPrimary))
@@ -58,22 +53,17 @@ class BCGenderFragment : Fragment() {
 
         }
 
-
         bcFemaleButton.setOnClickListener {
             bcFemaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             bcFemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             bcFemaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             bcMaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorPrimary))
             registrationCommunicator.bcGenderSelected("F")
-
         }
 
 
@@ -81,54 +71,35 @@ class BCGenderFragment : Fragment() {
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorWhite))
-
             bcFemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcFemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcFemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
-
             bcMaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             registrationCommunicator.bcGenderSelected("O")
-
-
         }
-
         supportTextView?.setOnClickListener {
-
-           activity.callHelpLine()
-
+            activity.callHelpLine()
         }
-
         bcHelpLineLayout?.setOnClickListener {
 
             activity.callHelpLine()
         }
 
-
         bcGenderFAButton?.setOnClickListener {
-
             if (TextUtils.isEmpty(registrationCommunicator.getGender())) {
-
                 activity.toast("লিঙ্গ নির্বাচন করুন")
             }
         }
-
-
     }
 
     private fun initialization(){
-
         registrationCommunicator = activity as RegistrationCommunicator
-
     }
 
     fun goToNextStep(){
-
         bcGenderFAButton?.setOnClickListener {
-
             registrationCommunicator.bcGoToStepMobileNumber()
         }
 
@@ -137,60 +108,43 @@ class BCGenderFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-
-
         if (registrationCommunicator.getGender().equalIgnoreCase("M")) {
-
 
             bcMaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             bcFemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcFemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcFemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorPrimary))
             registrationCommunicator.bcGenderSelected("M")
 
-
         } else if (registrationCommunicator.getGender().equalIgnoreCase("F")) {
-
 
             bcFemaleButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             bcFemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             bcFemaleButton.setTextColor(resources.getColor(R.color.colorWhite))
-
-
             bcMaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorPrimary))
             registrationCommunicator.bcGenderSelected("F")
-
 
         } else if (registrationCommunicator.getGender().equalIgnoreCase("O")) {
 
             bcOtherButton.iconTint = resources.getColorStateList(R.color.colorWhite)
             bcOtherButton.backgroundTintList = resources.getColorStateList(R.color.colorPrimary)
             bcOtherButton.setTextColor(resources.getColor(R.color.colorWhite))
-
             bcFemaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcFemaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcFemaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
-
             bcMaleButton.iconTint = resources.getColorStateList(R.color.colorPrimary)
             bcMaleButton.backgroundTintList = resources.getColorStateList(R.color.colorWhite)
             bcMaleButton.setTextColor(resources.getColor(R.color.colorPrimary))
-
             registrationCommunicator.bcGenderSelected("O")
 
         }

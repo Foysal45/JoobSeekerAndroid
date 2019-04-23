@@ -27,6 +27,14 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_academic_base.*
 
 class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun saveButtonClickStatus(value: Boolean) {
+
+    }
+
+    override fun getClickStatus(): Boolean {
+        return true
+    }
+
     override fun setAcademicList(aca: ArrayList<AcaDataItem>) {
         this.acaList = aca
     }
@@ -78,7 +86,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddEmployment: String
-    private var saveButtonClickStatus = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,9 +187,10 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     }
 
     override fun goBack() {
-        onBackPressed()
+
         if (Constants.isDirectCall) finish()
         educationBaseCL.closeKeyboard(this@AcademicBaseActivity)
+        onBackPressed()
     }
 
     override fun setTitle(tit: String?) {
@@ -253,13 +262,6 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         return dataPrq
     }
 
-    override fun saveButtonClickStatus(value: Boolean) {
-        saveButtonClickStatus = value
-    }
 
-    override fun getClickStatus(): Boolean {
-
-        return saveButtonClickStatus
-    }
 
 }

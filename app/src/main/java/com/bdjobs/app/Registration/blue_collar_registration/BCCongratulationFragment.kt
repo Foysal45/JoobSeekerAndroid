@@ -26,8 +26,6 @@ class BCCongratulationFragment : Fragment() {
     private var userType = ""
     private var pcOwnerID = ""
     private var inviteCodeStatus = ""
-
-
     private lateinit var registrationCommunicator: RegistrationCommunicator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,7 +42,6 @@ class BCCongratulationFragment : Fragment() {
 
 
     private fun onClick(){
-
         bcJobSearchButton?.setOnClickListener {
             registrationCommunicator.goToHomePage()
         }

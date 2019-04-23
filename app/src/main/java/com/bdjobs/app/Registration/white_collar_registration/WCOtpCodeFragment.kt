@@ -34,60 +34,34 @@ class WCOtpCodeFragment : Fragment() {
         return returnView
     }
 
-
     private fun initialization() {
-
         registrationCommunicator = activity as RegistrationCommunicator
         wcInfoMobileNumberTV.text = "A code has been sent to ${registrationCommunicator.wcGetMobileNumber()} by SMS, please enter the code."
-
     }
 
     private fun onClick() {
-
-
         wcOTPFAButton?.setOnClickListener {
-
             if (TextUtils.isEmpty(wcOTPCodeTIET?.getString())) {
-
                 wcOTPCodeTIL?.showError("Please type the code")
-
-
             } else {
-
                 registrationCommunicator.wcSetOtp(wcOTPCodeTIET?.text.toString())
                 registrationCommunicator.wcOtpVerify()
-
             }
-
-
         }
-
-
-
         wcResendOtpTV?.setOnClickListener {
             registrationCommunicator.bcResendOtp()
             setTime()
             wcTimerTV?.show()
             wcTimerIconIV?.show()
             wcResendOtpTV?.hide()
-
         }
-
         wcSupportTextView?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
         wcHelplineLayout?.setOnClickListener {
-
             activity.callHelpLine()
-
         }
-
     }
-
-
     private fun setTime() {
         wcTimerTV?.show()
         wcResendOtpTV?.hide()
@@ -101,20 +75,14 @@ class WCOtpCodeFragment : Fragment() {
                 try {
                     wcTimerTV?.text = time
                 } catch (e: Exception) {
-
-
+                    logException(e)
                 }
             }
-
             override fun onFinish() {
-
                 wcTimerTV?.hide()
                 wcResendOtpTV?.show()
                 wcTimerIconIV?.hide()
-
             }
         }.start()
     }
-
-
 }

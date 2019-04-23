@@ -270,14 +270,18 @@ class ORIEditFragment : Fragment() {
                 etOriCareerSummary.getString(), etOriSpecialQualification.getString(), exps)
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity.stopProgressBar(loadingProgressBar)
-                activity.toast("Can not connect to the server! Try again")
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast("Can not connect to the server! Try again")
+                } catch (e: Exception) {
+                    logException(e)
+                }
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                        activity.stopProgressBar(loadingProgressBar)
+                        activity?.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity.toast(it) }
                         if (response.body()?.statuscode == "4") {
                             oriEditCB.setBackFrom(Constants.oriUpdate)
@@ -285,7 +289,7 @@ class ORIEditFragment : Fragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    activity.stopProgressBar(loadingProgressBar)
+                    activity?.stopProgressBar(loadingProgressBar)
                     e.printStackTrace()
                     logException(e)
                 }

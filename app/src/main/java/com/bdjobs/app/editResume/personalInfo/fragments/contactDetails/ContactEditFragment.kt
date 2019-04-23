@@ -328,9 +328,13 @@ class ContactEditFragment : Fragment() {
                 email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                activity?.toast(R.string.message_common_error)
-                Log.d("contact_details", "msg: ${t.message}")
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
+                    Log.d("contact_details", "msg: ${t.message}")
+                } catch (e: Exception) {
+                    logException(e)
+                }
 
             }
 

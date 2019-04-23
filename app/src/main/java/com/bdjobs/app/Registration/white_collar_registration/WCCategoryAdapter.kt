@@ -31,33 +31,25 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
         holder.categoryTV.setOnClickListener {
             selectedPosition = position
             registrationCommunicator.wcCategorySelected(items[position], selectedPosition)
-
             notifyDataSetChanged()
             Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
         }
-
         if (selectedPosition == position) {
-
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorPrimary)
             holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorWhite))
         } else {
-
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorWhite)
             holder.categoryTV.setTextColor(context.resources.getColor(R.color.colorPrimary))
 
         }
 
     }
-
     override fun getItemCount(): Int {
         return items.size
     }
-
-
     fun setCategoryPositionSelected(categoryPositionSelected: Int) {
         selectedPosition = categoryPositionSelected
         notifyDataSetChanged()
-
         Log.d("SetCategory", categoryPositionSelected.toString())
 
     }

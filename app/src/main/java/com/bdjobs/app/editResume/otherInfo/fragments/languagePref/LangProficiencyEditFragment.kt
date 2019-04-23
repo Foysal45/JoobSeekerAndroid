@@ -160,7 +160,7 @@ class LangProficiencyEditFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
 
                 try {
-                    activity.stopProgressBar(languageLoadingProgressBar)
+                    activity?.stopProgressBar(languageLoadingProgressBar)
                     if (response.isSuccessful) {
                         activity.stopProgressBar(languageLoadingProgressBar)
                         val resp = response.body()
@@ -171,7 +171,7 @@ class LangProficiencyEditFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     assert(activity != null)
-                    activity.stopProgressBar(languageLoadingProgressBar)
+                    activity?.stopProgressBar(languageLoadingProgressBar)
                     e.printStackTrace()
                 }
             }

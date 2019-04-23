@@ -42,7 +42,11 @@ class FollowedEmployersListFragment : Fragment() {
         isActivityDate = employersCommunicator.getTime()
         bdjobsDB = BdjobsDB.getInstance(activity)
 
-       /* val adRequest = PublisherAdRequest.Builder().build()
+        /*val adRequest = PublisherAdRequest
+                .Builder()
+                .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+                .build()
+
         publisherAdView?.loadAd(adRequest)*/
 
         backIMV?.setOnClickListener {
@@ -76,6 +80,12 @@ class FollowedEmployersListFragment : Fragment() {
                     if (followedEmployerList?.size!! > 0) {
                         followEmployerNoDataLL?.hide()
                         followedRV?.show()
+                        if(employersCommunicator?.getPositionClicked()!!-2>0){
+                            followedRV?.scrollToPosition(employersCommunicator?.getPositionClicked()!!-2)
+                        }else{
+                            followedRV?.scrollToPosition(employersCommunicator?.getPositionClicked()!!)
+                        }
+
                         Log.d("totalJobs", "data ase")
                     } else {
                         followEmployerNoDataLL?.show()
