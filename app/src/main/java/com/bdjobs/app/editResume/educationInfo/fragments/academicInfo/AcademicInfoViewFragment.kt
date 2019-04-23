@@ -52,8 +52,9 @@ class AcademicInfoViewFragment : Fragment() {
             Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
             doWork()
         }
-
-
+        fab_aca_add.setOnClickListener {
+            eduCB.goToEditInfo("add")
+        }
         Log.d("acaFrag", "calling... ${eduCB.getClickStatus()}")
     }
 
