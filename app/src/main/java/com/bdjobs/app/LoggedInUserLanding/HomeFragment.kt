@@ -30,6 +30,12 @@ import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
@@ -77,6 +83,32 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
+        //showAd()
+    }
+
+    private fun showAd() {
+        val adLoader = AdLoader.Builder(activity, "ca-app-pub-3940256099942544/2247696110")
+                .forUnifiedNativeAd { ad : UnifiedNativeAd ->
+                    // Show the ad.
+                    val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
+                    home_small_template?.setStyles(styles)
+                    home_small_template?.setNativeAd(ad)
+
+                    home_medium_template?.setStyles(styles)
+                    home_medium_template?.setNativeAd(ad)
+                }
+                .withAdListener(object : AdListener() {
+                    override fun onAdFailedToLoad(errorCode: Int) {
+                        // Handle the failure by logging, altering the UI, and so on.
+                        Log.d("adLoader","error code: $errorCode")
+                    }
+                })
+                .withNativeAdOptions(NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build())
+                .build()
+        adLoader.loadAd(AdRequest.Builder().build())
     }
 
 

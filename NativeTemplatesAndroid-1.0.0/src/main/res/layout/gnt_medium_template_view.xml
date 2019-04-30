@@ -6,9 +6,9 @@
       android:layout_width="match_parent"
       android:layout_centerInParent="true"
       android:id="@+id/native_ad_view"
-      android:background="@color/gnt_black">
+      android:background="@color/gnt_white">
 
-   <android.support.constraint.ConstraintLayout
+   <androidx.constraintlayout.widget.ConstraintLayout
        android:layout_height="match_parent"
        android:layout_width="match_parent"
        android:layout_centerInParent="true"
@@ -30,7 +30,7 @@
          android:id="@+id/background"
          >
 
-       <android.support.constraint.ConstraintLayout
+       <androidx.constraintlayout.widget.ConstraintLayout
            android:id="@+id/top"
            android:layout_width="match_parent"
            android:layout_height="@dimen/gnt_no_size"
@@ -66,7 +66,7 @@
                >
            </TextView>
          </LinearLayout>
-         <android.support.constraint.ConstraintLayout
+         <androidx.constraintlayout.widget.ConstraintLayout
              android:layout_width="match_parent"
              android:layout_height="@dimen/gnt_no_size"
              android:id="@+id/top_bottom"
@@ -216,10 +216,10 @@
                    ></TextView>
              </LinearLayout>
            </LinearLayout>
-         </android.support.constraint.ConstraintLayout>
+         </androidx.constraintlayout.widget.ConstraintLayout>
 
-       </android.support.constraint.ConstraintLayout>
-       <android.support.constraint.ConstraintLayout
+       </androidx.constraintlayout.widget.ConstraintLayout>
+       <androidx.constraintlayout.widget.ConstraintLayout
            android:layout_width="match_parent"
            android:id="@+id/bottom"
            android:layout_height="wrap_content"
@@ -275,11 +275,11 @@
 
          </LinearLayout>
 
-       </android.support.constraint.ConstraintLayout>
+       </androidx.constraintlayout.widget.ConstraintLayout>
 
      </LinearLayout>
 
-   </android.support.constraint.ConstraintLayout>
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
   </com.google.android.gms.ads.formats.UnifiedNativeAdView>
 

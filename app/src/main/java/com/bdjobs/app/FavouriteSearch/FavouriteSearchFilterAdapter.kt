@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
 import com.bdjobs.app.Databases.External.DataStorage
@@ -67,10 +68,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
 
         try {
-            if(items[position].updatedon?.toSimpleTimeString().isNullOrBlank()){
+            if (items[position].updatedon?.toSimpleTimeString().isNullOrBlank()) {
                 holder.timeTV.text = items[position].createdon?.toSimpleTimeString()
                 holder.dateTV.text = items[position].createdon?.toSimpleDateString()
-            }else{
+            } else {
                 holder.timeTV.text = items[position].updatedon?.toSimpleTimeString()
                 holder.dateTV.text = items[position].updatedon?.toSimpleDateString()
             }
@@ -125,29 +126,58 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
 
         holder.progressBar.show()
-        ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = items[position].filterid).enqueue(object : Callback<FavouriteSearchCountModel> {
-            override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
-                error("onFailure", t)
-            }
 
-            override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
-                try {
-                    response.body()?.statuscode?.let { status ->
-                        if (status.equalIgnoreCase(api_request_result_code_ok)) {
-                            holder.progressBar.hide()
-                            holder.favcounter1BTN.textSize = 18.0F
-                            if (response.body()?.data?.get(0)?.intCount?.length!! > 3) {
-                                holder.favcounter1BTN.textSize = 14.0F
-                            }
-                            holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
-                            Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
-                        }
-                    }
-                } catch (e: Exception) {
-                    logException(e)
+        val filterId = items[position].filterid
+
+        val filterCount = Constants.favCounts.filter { it ->
+            it.id == filterId
+        }
+
+        if (filterCount.isNullOrEmpty()) {
+
+            ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = filterId).enqueue(object : Callback<FavouriteSearchCountModel> {
+                override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
+                    error("onFailure", t)
                 }
+
+                override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
+                    try {
+                        response.body()?.statuscode?.let { status ->
+                            if (status.equalIgnoreCase(api_request_result_code_ok)) {
+                                holder.progressBar.hide()
+                                holder.favcounter1BTN.textSize = 18.0F
+                                if (response.body()?.data?.get(0)?.intCount?.length!! > 3) {
+                                    holder.favcounter1BTN.textSize = 14.0F
+                                }
+
+                                holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
+                                Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
+                                val favCountWithID = FavouriteSearchCountDataModelWithID(
+                                        intCount = response.body()?.data?.get(0)?.intCount,
+                                        id = filterId
+                                )
+                                Constants.favCounts.add(favCountWithID)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+            })
+        } else {
+            try {
+                Log.d("filterCount", "filterCount= $filterCount")
+                holder.progressBar.hide()
+                holder.favcounter1BTN.textSize = 18.0F
+                if (filterCount.get(0)?.intCount?.length!! > 3) {
+                    holder.favcounter1BTN.textSize = 14.0F
+                }
+                holder.favcounter1BTN.text = filterCount.get(0)?.intCount
+            } catch (e: Exception) {
+                logException(e)
             }
-        })
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -163,7 +193,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 val deletedItem = items.get(position)
                 items.removeAt(position)
                 notifyItemRemoved(position)
-                Log.d("ububua","ububua = "+deletedItem.filterid)
+                Log.d("ububua", "ububua = " + deletedItem.filterid)
 
                 val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
                 //undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
