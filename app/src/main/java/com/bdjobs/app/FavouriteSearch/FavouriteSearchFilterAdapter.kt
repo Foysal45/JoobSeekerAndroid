@@ -129,7 +129,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         val filterId = items[position].filterid
 
-        val filterCount = Constants.favCounts.filter { it ->
+        val filterCount = Constants.Favcounts.filter { it ->
             it.id == filterId
         }
 
@@ -156,7 +156,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                                         intCount = response.body()?.data?.get(0)?.intCount,
                                         id = filterId
                                 )
-                                Constants.favCounts.add(favCountWithID)
+                                Constants.Favcounts.add(favCountWithID)
                             }
                         }
                     } catch (e: Exception) {
