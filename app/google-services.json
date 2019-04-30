@@ -23,19 +23,11 @@
           }
         },
         {
-          "client_id": "538810570838-qmic7j95g3mb1ds87s0iqgv40frle1c3.apps.googleusercontent.com",
+          "client_id": "538810570838-dcpe3u97gtq21i9h1e7ju1quug4fdl3c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bdjobs.app",
-            "certificate_hash": "8c483c2e57776d2699977fb29b1a1067bfd4439e"
-          }
-        },
-        {
-          "client_id": "538810570838-itm5qi6ca8bqduhr9mkb9nh5fgqe6ve9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bdjobs.app",
-            "certificate_hash": "af4efd13bdd3e063ac72abd288dd2a043ed02424"
+            "certificate_hash": "133ee65e869c1501e08a6183f1453acf82463975"
           }
         },
         {
@@ -47,19 +39,47 @@
           }
         },
         {
-          "client_id": "538810570838-dcpe3u97gtq21i9h1e7ju1quug4fdl3c.apps.googleusercontent.com",
+          "client_id": "538810570838-qmic7j95g3mb1ds87s0iqgv40frle1c3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bdjobs.app",
-            "certificate_hash": "133ee65e869c1501e08a6183f1453acf82463975"
+            "certificate_hash": "8c483c2e57776d2699977fb29b1a1067bfd4439e"
+          }
+        },
+        {
+          "client_id": "538810570838-4b4d71n3n4o542m0e6kje83u8baq5ri6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "cdaf11b945d716e07a80a4f5f9124f74522f93de"
+          }
+        },
+        {
+          "client_id": "538810570838-itm5qi6ca8bqduhr9mkb9nh5fgqe6ve9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "af4efd13bdd3e063ac72abd288dd2a043ed02424"
+          }
+        },
+        {
+          "client_id": "538810570838-obthecv0geo7jof2ueuckv8bqojjpvlm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "8b5fab5fdbc828708d8b1656486534555f74fc96"
+          }
+        },
+        {
+          "client_id": "538810570838-mfrd6jcefl9g4qig4nsvndvhqdsag10u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdjobs.app",
+            "certificate_hash": "69db5308182615d2df7c4f06bad73b0188393c6c"
           }
         },
         {
           "client_id": "538810570838-g58930ita5m31fse6mr8v3jmhiq7ui7j.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "538810570838-2u4ecb19a0kl7789girooesoq9rsfhdn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -69,17 +89,23 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538810570838-g58930ita5m31fse6mr8v3jmhiq7ui7j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "538810570838-mi9g1nfq0mvfaq6vbjl0dr20uv44ms06.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bdjobs.iosapp"
+              }
+            }
+          ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-5130888087776673~6094744346"
     }
   ],
   "configuration_version": "1"
