@@ -316,6 +316,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
         filterName = filterNameET.getString()
 
+        Constants.deleteFavCount(filterID)
 
         val loadingDialog = indeterminateProgressDialog("Saving")
         loadingDialog.setCancelable(false)
