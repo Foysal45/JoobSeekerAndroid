@@ -80,11 +80,11 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val oriEditFragment = ORIEditFragment()
     private val prefViewFragment = PreferredAreasViewFragment()
     private val prefEditFragment = PreferredAreasEditFragment()
-    private var dataCa: Ca_DataItem? = null
-    private var dataCon: C_DataItem? = null
-    private var dataPer: P_DataItem? = null
-    private var dataOri: ORIdataItem? = null
-    private var dataAreas: PreferredAreasData? = null
+    private lateinit var dataCa: Ca_DataItem
+    private lateinit var dataCon: C_DataItem
+    private lateinit var dataPer: P_DataItem
+    private lateinit var dataOri: ORIdataItem
+    private lateinit var dataAreas: PreferredAreasData
     private lateinit var name: String
     private lateinit var gotToAddEmployment: String
     private var prThana: String? = ""
@@ -123,7 +123,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun getPersonalData(): P_DataItem {
-        return dataPer!!
+        return dataPer
     }
 
     override fun passPersonalData(data: P_DataItem) {
@@ -131,7 +131,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun getCareerData(): Ca_DataItem {
-        return dataCa!!
+        return dataCa
     }
 
     override fun passCareerData(data: Ca_DataItem) {
@@ -139,7 +139,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun getContactData(): C_DataItem {
-        return dataCon!!
+        return dataCon
     }
 
     override fun passContactData(data: C_DataItem) {
@@ -147,7 +147,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun getOriData(): ORIdataItem {
-        return dataOri!!
+        return dataOri
     }
 
     override fun passOriData(data: ORIdataItem) {
@@ -155,7 +155,7 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     }
 
     override fun getPrefAreasData(): PreferredAreasData {
-        return dataAreas!!
+        return dataAreas
     }
 
     override fun passPrefAreasData(data: PreferredAreasData) {
