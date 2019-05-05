@@ -230,7 +230,7 @@ class CareerEditFragment : Fragment() {
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
-            if (data?.equalIgnoreCase(chipText) as Boolean) {
+            if (data?.equalIgnoreCase(chipText)!!) {
                 Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
             }

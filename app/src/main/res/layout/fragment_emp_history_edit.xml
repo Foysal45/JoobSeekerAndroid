@@ -177,7 +177,6 @@
                         android:focusableInTouchMode="true"
                         android:digits="@string/special_chars_comma"
                         android:hint="@string/hint.responsibilities"
-                        android:maxLength="250"
                         android:inputType="text|textMultiLine"
                         android:textColor="#212121" />
 
