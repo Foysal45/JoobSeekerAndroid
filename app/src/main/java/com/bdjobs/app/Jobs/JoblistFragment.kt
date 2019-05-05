@@ -703,6 +703,7 @@ class JoblistFragment : Fragment() {
                                 }
 
                             } else {
+                                Constants.deleteFavCount(filterID)
                                 saveSearchIntoAPIAndDB(tempFilterID = tempFilterID, filterName = filterNameET.getString(), saveSearchDialog = saveSearchDialog)
                             }
                         }

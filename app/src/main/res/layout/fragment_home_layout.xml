@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/baseCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/baseCL"
     android:background="#F2F2F2"
     android:orientation="vertical">
 
@@ -30,17 +30,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:singleLine="true"
             android:id="@+id/nameTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/roboto"
+            android:singleLine="true"
             android:text="TextView"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
@@ -50,11 +49,11 @@
             tools:text="John Doe" />
 
         <TextView
-            android:singleLine="true"
             android:id="@+id/emailTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:singleLine="true"
             android:text="TextView"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
@@ -152,6 +151,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/searchBTN"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
@@ -162,7 +162,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="Search Job"
                     android:textAllCaps="false"
-                    android:id="@+id/searchBTN"
                     android:textSize="16sp"
                     app:backgroundTint="#13A10E"
                     app:cornerRadius="6dp"
@@ -175,55 +174,74 @@
 
             <LinearLayout
                 android:id="@+id/mainLL"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <include
-                    android:layout_marginTop="24dp"
-                    android:visibility="gone"
                     android:id="@+id/lastSearchView"
                     layout="@layout/my_last_search_filter_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone" />
 
                 <include
-                    android:visibility="gone"
-                    android:layout_marginBottom="5dp"
                     android:id="@+id/favSearchView"
                     layout="@layout/my_favourite_search_filter_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone" />
 
                 <include
-                    android:visibility="gone"
                     android:id="@+id/jobInvitationView"
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <include
-                    android:visibility="gone"
                     android:id="@+id/assesmentView"
                     layout="@layout/my_assessment_filter_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <include
-                    android:visibility="gone"
                     android:id="@+id/followedEmployerView"
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
+
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:visibility="gone"
+                    android:id="@+id/home_small_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:gnt_template_type="@layout/gnt_small_template_view" />
+
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:visibility="gone"
+                    android:id="@+id/home_medium_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="20dp"
+                    app:gnt_template_type="@layout/gnt_medium_template_view" />
 
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

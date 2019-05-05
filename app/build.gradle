@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 644//639 //68
-        versionName "2.0.0.08 internal test"  //600.3.1 internal test // 2.0.0.06
+        versionCode 69 //645 //69
+        versionName "2.0.0.08"  //600.3.1 internal test // 2.0.0.06
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     //----androidx for design and others
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.google.android.material:material:1.0.0"
@@ -99,6 +99,7 @@ dependencies {
 
     //----ad manager
     implementation 'com.google.android.gms:play-services-ads:17.2.0'
+    implementation project(':NativeTemplatesAndroid-1.0.0')
 
 
 }
