@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
+import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import retrofit2.Call
@@ -12,6 +13,8 @@ import retrofit2.Response
 
 class Constants {
     companion object {
+
+        var hotjobs: List<HotJobsData?>? = listOf()
 
 
         fun deleteFavCount(filterId:String?){

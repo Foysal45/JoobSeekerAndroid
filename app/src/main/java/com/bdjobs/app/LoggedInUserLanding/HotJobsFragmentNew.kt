@@ -34,9 +34,7 @@ class HotJobsFragmentNew : Fragment() {
         homeCommunicator = activity as HomeCommunicator
         hotjobsAdapterNew = HotjobsAdapterNew(activity!!)
         loadHotJobsData()
-
         onclick()
-
     }
 
     private fun onclick() {
@@ -57,41 +55,68 @@ class HotJobsFragmentNew : Fragment() {
         shimmer_view_container_hotJobList?.show()
         shimmer_view_container_hotJobList?.startShimmerAnimation()
 
-        ApiServiceJobs.create().getHotJobs().enqueue(object : Callback<HotJobs> {
-            override fun onFailure(call: Call<HotJobs>, t: Throwable) {
-                error("onFailure", t)
-            }
-
-            override fun onResponse(call: Call<HotJobs>, response: Response<HotJobs>) {
-                try {
-                    Log.d("hehe", response.body().toString())
-                    if (response.isSuccessful) {
-                        hotjobList_RV?.adapter = hotjobsAdapterNew
-                        hotjobList_RV?.setHasFixedSize(true)
-                        Log.d("initPag", response.body()?.data?.size.toString())
-                        hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                        hotjobsAdapterNew?.removeAll()
-                        hotjobsAdapterNew?.addAll(response.body()?.data as List<HotJobsData>)
-
-                    }
-
-                    if (response.body()?.data?.size?.toString()?.toInt()!! > 1) {
-                        val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Jobs"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    } else {
-                        val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Job"
-                        favCountTV?.text = Html.fromHtml(styledText)
-                    }
-
-                    hotjobList_RV?.show()
-                    favCountTV?.show()
-                    shimmer_view_container_hotJobList?.hide()
-                    shimmer_view_container_hotJobList?.stopShimmerAnimation()
-                } catch (e: Exception) {
-                    logException(e)
+        if (Constants.hotjobs.isNullOrEmpty()) {
+            ApiServiceJobs.create().getHotJobs().enqueue(object : Callback<HotJobs> {
+                override fun onFailure(call: Call<HotJobs>, t: Throwable) {
+                    error("onFailure", t)
                 }
+
+                override fun onResponse(call: Call<HotJobs>, response: Response<HotJobs>) {
+                    try {
+                        Log.d("hehe", response.body().toString())
+                        if (response.isSuccessful) {
+                            hotjobList_RV?.adapter = hotjobsAdapterNew
+                            hotjobList_RV?.setHasFixedSize(true)
+                            Log.d("initPag", response.body()?.data?.size.toString())
+                            hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                            hotjobsAdapterNew?.removeAll()
+                            hotjobsAdapterNew?.addAll(response.body()?.data as List<HotJobsData>)
+
+                            Constants.hotjobs = response.body()?.data
+
+                        }
+
+                        if (response.body()?.data?.size?.toString()?.toInt()!! > 1) {
+                            val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Jobs"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        } else {
+                            val styledText = "<b><font color='#13A10E'>${response.body()?.data?.size?.toString()}</font></b> Hot Job"
+                            favCountTV?.text = Html.fromHtml(styledText)
+                        }
+
+                        hotjobList_RV?.show()
+                        favCountTV?.show()
+                        shimmer_view_container_hotJobList?.hide()
+                        shimmer_view_container_hotJobList?.stopShimmerAnimation()
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+            })
+        } else {
+            try {
+                hotjobList_RV?.adapter = hotjobsAdapterNew
+                hotjobList_RV?.setHasFixedSize(true)
+                hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                hotjobsAdapterNew?.removeAll()
+                hotjobsAdapterNew?.addAll(Constants.hotjobs as List<HotJobsData>)
+
+                if (Constants.hotjobs?.size!! > 1) {
+                    val styledText = "<b><font color='#13A10E'>${Constants.hotjobs?.size}</font></b> Hot Jobs"
+                    favCountTV?.text = Html.fromHtml(styledText)
+                } else {
+                    val styledText = "<b><font color='#13A10E'>${Constants.hotjobs?.size}</font></b> Hot Job"
+                    favCountTV?.text = Html.fromHtml(styledText)
+                }
+
+                hotjobList_RV?.show()
+                favCountTV?.show()
+                shimmer_view_container_hotJobList?.hide()
+                shimmer_view_container_hotJobList?.stopShimmerAnimation()
+            } catch (e: Exception) {
+                logException(e)
             }
-        })
+        }
     }
 
 }
