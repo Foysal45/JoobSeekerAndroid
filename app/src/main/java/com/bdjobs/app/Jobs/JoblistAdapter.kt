@@ -345,6 +345,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 val deletedItem = jobList?.get(position)
                 jobList?.removeAt(position)
                 notifyItemRemoved(position)
+                notifyItemRangeRemoved(position, jobList?.size!!)
                 val actv = context as Activity
                 val deleteJobID = ShortListedJobDeleteJob.scheduleAdvancedJob(deletedItem?.jobid!!)
                 //undoRemove(actv.mainCL, deletedItem, position, deleteJobID)

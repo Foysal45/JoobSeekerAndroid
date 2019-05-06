@@ -194,7 +194,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 items.removeAt(position)
                 notifyItemRemoved(position)
                 Log.d("ububua", "ububua = " + deletedItem.filterid)
-
+                notifyItemRangeRemoved(position, items?.size!!)
                 val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
                 //undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
                 favCommunicator?.decrementCounter()
