@@ -1,177 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_editor_absoluteY="81dp">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="#DA70D6"
-        android:id="@+id/cardViewNewJob"
+        android:id="@+id/cardViewStandOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/card_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutNewJob"
+            android:id="@+id/constraintLayoutStandOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_shape_yello">
 
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/shortlist_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
             <TextView
-                android:id="@+id/textViewPositionNameNewJob"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewPositionNameStandOut"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto"
                 android:paddingEnd="64dp"
                 android:text="UI Designer Sketch"
                 android:textColor="#0078D7"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="normal|bold"
-                app:layout_constraintEnd_toStartOf="@+id/imageViewCompanyLogoNewJob"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewCompanyLogoStandOut"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewCompanyNameNewJob"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewCompanyNameStandOut"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto"
                 android:text="Google.com"
                 android:textColor="#393939"
-                android:textSize="16sp"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewPositionNameNewJob" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewPositionNameStandOut" />
 
-            <ImageView
-                android:id="@+id/imageViewStandOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCompanyNameNewJob"
-                android:src="@drawable/ic_dead_line" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="8dp"
+                android:drawableLeft="@drawable/ic_dead_line"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
                 android:text="Deadline:"
                 android:textColor="#767676"
-                app:layout_constraintStart_toEndOf="@+id/imageViewStandOut"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCompanyNameNewJob" />
+                app:layout_constraintEnd_toStartOf="@+id/textView11"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCompanyNameStandOut" />
 
             <TextView
-                android:id="@+id/textViewDeadlineDateNewJob"
+                android:id="@+id/textViewDeadlineDateStandOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto"
                 android:text="4 April  2018"
                 android:textColor="#393939"
+                app:layout_constraintEnd_toStartOf="@+id/textViewExperienceYearStandOut"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
                 tools:text="4 April  2018" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintEnd_toStartOf="@+id/textView11"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCompanyNameNewJob"
-                android:src="@drawable/ic_experience_icon" />
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
                 android:layout_marginEnd="82dp"
-                android:layout_marginRight="82dp"
-                android:text="Experince"
+                android:drawableLeft="@drawable/ic_experience_icon"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Experience"
                 android:textColor="#767676"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/textViewExperienceYearNewJob"
+                android:id="@+id/textViewExperienceYearStandOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:fontFamily="@font/roboto"
                 android:text="2 to 3 years"
                 android:textColor="#393939"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textViewDeadlineDateNewJob"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textViewDeadlineDateStandOut"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView11"
                 tools:text="2 to 3 years" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDeadlineDateNewJob"
-                android:src="@drawable/ic_education_icon" />
 
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="288dp"
+                android:drawableLeft="@drawable/ic_education_icon"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
                 android:text="Education"
-
+                android:textColor="#767676"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDeadlineDateStandOut" />
 
             <TextView
-                android:id="@+id/textViewEducationNameNewJob"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewEducationNameStandOut"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/roboto"
                 android:paddingRight="64dp"
-                android:paddingBottom="20dp"
                 android:text="BBA/MBA in marketing "
-                android:textColor="#767676"
+                android:textColor="#393939"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/appliedBadge"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView13"
@@ -181,50 +181,62 @@
                 android:id="@+id/shortlist_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_star"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/ic_star" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
-                android:visibility="gone"
-                android:id="@+id/imageViewCompanyLogoNewJob"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="10dp"
+                android:id="@+id/imageViewCompanyLogoStandOut"
+                android:layout_width="64dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="8dp"
                 android:paddingLeft="10dp"
+                android:src="@drawable/google_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="H,5:2"
+                app:layout_constraintDimensionRatio="H,"
                 app:layout_constraintEnd_toEndOf="parent"
-
-                app:layout_constraintHorizontal_bias="0.72"
-                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                android:src="@drawable/google_logo" />
+                app:layout_constraintVertical_bias="0.0" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
+            <TextView
+                android:id="@+id/appliedBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="184dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="20dp" />
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="8dp"
+                android:drawableLeft="@drawable/ic_check_circle_black_14dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Applied"
+                android:textColor="#13A10E"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/shortlist_icon"
+                app:layout_constraintEnd_toStartOf="@+id/shortlist_icon"
+                app:layout_constraintTop_toTopOf="@+id/shortlist_icon"
+                app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/ad_small_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="visible"
+        app:gnt_template_type="@layout/gnt_small_template_view" />
+
+</LinearLayout>
+
