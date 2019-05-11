@@ -15,6 +15,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -43,6 +44,8 @@ class InterveiwInvitationListFragment : Fragment() {
         backIMV.setOnClickListener {
             interviewInvitationCommunicator.backButtonClicked()
         }
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
     }
 
     override fun onResume() {

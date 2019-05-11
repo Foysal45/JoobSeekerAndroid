@@ -28,7 +28,7 @@ class Constants {
         val ADMOB_APP_ID = "ca-app-pub-5130888087776673~6094744346"
 
 
-        fun showNativeAd(nativeAdTemplete : TemplateView,context:Context){
+        fun showNativeAd(nativeAdTemplete :TemplateView, context:Context){
             MobileAds.initialize(context, ADMOB_APP_ID)
             val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
                     .forUnifiedNativeAd { ad : UnifiedNativeAd ->

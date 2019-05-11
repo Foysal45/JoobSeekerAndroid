@@ -6,6 +6,11 @@
     <!--facebook login related data end-->
 
 
+    <string name="banner_ad_unit_id">ca-app-pub-5130888087776673/4478410348</string>
+    <string name="interstitial_full_screen">ca-app-pub-5130888087776673/2947644743</string>
+
+
+
     <string name="app_name">Bdjobs</string>
     <string name="hint_keyword">Job title, Keyword</string>
     <string name="hint.location">Location</string>

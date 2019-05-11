@@ -534,7 +534,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
             } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
-                return BASIC
+                    return BASIC
             }
         }
         return LOADING

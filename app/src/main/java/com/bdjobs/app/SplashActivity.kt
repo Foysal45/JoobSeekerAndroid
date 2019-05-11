@@ -23,15 +23,13 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.getFCMtoken
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.subscribeToFCMTopic
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.no_internet.*
@@ -63,6 +61,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         if (bdjobsUserSession.isLoggedIn!!) {
             DatabaseUpdateJob.runJobImmediately()
         }
+        MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
        /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
         mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
         mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/

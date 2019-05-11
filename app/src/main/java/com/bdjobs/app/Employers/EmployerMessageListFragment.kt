@@ -17,6 +17,7 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_message_list.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -142,8 +143,8 @@ class EmployerMessageListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
     }
 
     private fun loadFirstPage(activityDate: String) {

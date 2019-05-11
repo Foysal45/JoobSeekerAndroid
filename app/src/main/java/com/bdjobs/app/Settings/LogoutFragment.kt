@@ -11,8 +11,11 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.changePassword_Eligibility
+import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.Utilities.isBlueCollarUser
+import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
@@ -63,6 +66,8 @@ class LogoutFragment : Fragment() {
            // changepass.hide()
             changepass?.visibility = View.GONE
         }
+
+        Constants.showNativeAd(ad_small_template,activity)
     }
 
     private fun logout() {
@@ -73,15 +78,14 @@ class LogoutFragment : Fragment() {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
                 error("onFailure", t)
                 loadingDialog.dismiss()
+                bdjobsUserSession.logoutUser()
             }
 
             override fun onResponse(call: Call<CookieModel>, response: Response<CookieModel>) {
                 try {
                     loadingDialog.dismiss()
+                    bdjobsUserSession.logoutUser()
                     toast(response.body()?.message!!)
-                    if (response.body()?.statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
-                        bdjobsUserSession.logoutUser()
-                    }
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()

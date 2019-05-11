@@ -16,6 +16,7 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -56,18 +57,10 @@ class TimesEmailedMyResumeFragment : Fragment() {
         newEmaiResume.setOnClickListener {
             manageCommunicator.gotoEmailResumeFragment()
         }
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
 
 
-        /*    if (Constants.timesEmailedResumeLast) {
-                isActivityDate = "0"
-                allTV.performClick()
-                lastOnClickAction(isActivityDate)
-            } else if (!Constants.timesEmailedResumeLast) {
-                isActivityDate = "1"
-                matchedTV.performClick()
-                allOnClickAction(isActivityDate)
-
-            }*/
 
         Log.d("isActivityDate", "vava = ${Constants.timesEmailedResumeLast}")
 

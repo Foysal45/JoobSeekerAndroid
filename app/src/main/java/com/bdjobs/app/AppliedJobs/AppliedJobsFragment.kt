@@ -22,6 +22,7 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_applied_jobs.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -67,6 +68,9 @@ class AppliedJobsFragment : Fragment() {
         backIMV?.setOnClickListener {
             appliedJobsCommunicator.backButtonPressed()
         }
+
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
     }
 
 
