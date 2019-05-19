@@ -510,6 +510,10 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     override fun getItemViewType(position: Int): Int {
 
+        if(position%40==0){
+            Constants.nativeAdvertisement=null
+        }
+
         if (showAD && (position % 3 == 0) && position!=0) {
             if (position == this.jobList!!.size - 1 && isLoadingAdded) {
 

@@ -26,30 +26,41 @@ class Constants {
 
         val ADMOB_NATIVE_AD_UNIT_ID = "ca-app-pub-5130888087776673/8613851148"
         val ADMOB_APP_ID = "ca-app-pub-5130888087776673~6094744346"
+        var nativeAdvertisement : UnifiedNativeAd? = null
 
 
         fun showNativeAd(nativeAdTemplete :TemplateView, context:Context){
-            MobileAds.initialize(context, ADMOB_APP_ID)
-            val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
-                    .forUnifiedNativeAd { ad : UnifiedNativeAd ->
-                        // Show the ad.
-                        val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
-                        nativeAdTemplete?.setStyles(styles)
-                        nativeAdTemplete?.setNativeAd(ad)
 
-                    }
-                    .withAdListener(object : AdListener() {
-                        override fun onAdFailedToLoad(errorCode: Int) {
-                            // Handle the failure by logging, altering the UI, and so on.
-                            Log.d("adLoader","error code: $errorCode")
+
+
+            if(nativeAdvertisement!=null){
+                val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
+                nativeAdTemplete?.setStyles(styles)
+                nativeAdTemplete?.setNativeAd(nativeAdvertisement)
+            }else {
+                MobileAds.initialize(context, ADMOB_APP_ID)
+                val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
+                        .forUnifiedNativeAd { ad: UnifiedNativeAd ->
+                            // Show the ad.
+                            nativeAdvertisement = ad
+                            val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
+                            nativeAdTemplete?.setStyles(styles)
+                            nativeAdTemplete?.setNativeAd(ad)
+
                         }
-                    })
-                    .withNativeAdOptions(NativeAdOptions.Builder()
-                            // Methods in the NativeAdOptions.Builder class can be
-                            // used here to specify individual options settings.
-                            .build())
-                    .build()
-            adLoader.loadAd(AdRequest.Builder().build())
+                        .withAdListener(object : AdListener() {
+                            override fun onAdFailedToLoad(errorCode: Int) {
+                                // Handle the failure by logging, altering the UI, and so on.
+                                Log.d("adLoader", "error code: $errorCode")
+                            }
+                        })
+                        .withNativeAdOptions(NativeAdOptions.Builder()
+                                // Methods in the NativeAdOptions.Builder class can be
+                                // used here to specify individual options settings.
+                                .build())
+                        .build()
+                adLoader.loadAd(AdRequest.Builder().build())
+            }
         }
 
 

@@ -959,7 +959,20 @@ interface ApiServiceMyBdjobs {
 
     companion object Factory {
 
+        @Volatile
+        private var retrofit: Retrofit? = null
+
+        @Synchronized
         fun create(): ApiServiceMyBdjobs {
+
+            retrofit ?: synchronized(this) {
+                retrofit = buildRetrofit()
+            }
+
+            return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
+        }
+
+        private fun buildRetrofit():Retrofit {
 
             val gson = GsonBuilder()
                     .setLenient()
@@ -977,7 +990,8 @@ interface ApiServiceMyBdjobs {
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
-            return retrofit.create(ApiServiceMyBdjobs::class.java)
+
+            return retrofit
         }
     }
 

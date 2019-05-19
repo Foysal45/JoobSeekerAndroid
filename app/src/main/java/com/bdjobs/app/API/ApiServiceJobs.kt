@@ -226,7 +226,23 @@ interface ApiServiceJobs {
 
     companion object Factory {
 
+        @Volatile
+        private var retrofit: Retrofit? = null
+
+
+        @Synchronized
         fun create(): ApiServiceJobs {
+
+            retrofit ?: synchronized(this) {
+                retrofit = buildRetrofit()
+            }
+
+            return retrofit?.create(ApiServiceJobs::class.java)!!
+        }
+
+
+        private fun buildRetrofit():Retrofit {
+
             val gson = GsonBuilder()
                     .setLenient()
                     .create()
@@ -238,13 +254,13 @@ interface ApiServiceJobs {
                     .addInterceptor(interceptor)
                     .build()
 
-
             val retrofit = Retrofit.Builder()
                     .baseUrl(Constants.baseUrlJobs)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
-            return retrofit.create(ApiServiceJobs::class.java)
+
+            return retrofit
         }
     }
 
