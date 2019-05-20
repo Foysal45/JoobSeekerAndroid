@@ -27,6 +27,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -688,6 +689,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val okButton = dialog.findViewById<Button>(R.id.onlineApplyOkBTN)
         val salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
         val salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
+        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
+
+        Constants.showNativeAd(ad_small_template,context)
 
 
         salaryTIET.easyOnTextChangedListener { text ->

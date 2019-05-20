@@ -41,28 +41,31 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
             mybdjobsItems?.get(position)?.resourceID?.let { holder?.item_icon?.setBackgroundResource(it) }
             //holder.itemName[position]
             holder?.item_Card.setOnClickListener {
-                if (mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
-                    when (mybdjobsItems?.get(position)?.itemName) {
-                        Constants.session_key_mybdjobscount_jobs_applied -> communicator?.goToAppliedJobs()
-                        Constants.session_key_mybdjobscount_employers_followed -> communicator?.goToFollowedEmployerList("follow")
-                        Constants.session_key_mybdjobscount_interview_invitation -> communicator?.goToInterviewInvitation("mybdjobs")
-                        Constants.session_key_mybdjobscount_employers_viwed_resume -> {
-                            if (Constants.myBdjobsStatsLastMonth) {
-                                communicator?.setTime("1")
-                            } else {
-                                communicator?.setTime("0")
+                try {
+                    if (mybdjobsItems?.get(position)?.itemID?.toInt()!! > 0) {
+                        when (mybdjobsItems?.get(position)?.itemName) {
+                            Constants.session_key_mybdjobscount_jobs_applied -> communicator?.goToAppliedJobs()
+                            Constants.session_key_mybdjobscount_employers_followed -> communicator?.goToFollowedEmployerList("follow")
+                            Constants.session_key_mybdjobscount_interview_invitation -> communicator?.goToInterviewInvitation("mybdjobs")
+                            Constants.session_key_mybdjobscount_employers_viwed_resume -> {
+                                if (Constants.myBdjobsStatsLastMonth) {
+                                    communicator?.setTime("1")
+                                } else {
+                                    communicator?.setTime("0")
+                                }
+                                communicator?.goToEmployerViewedMyResume("vwdMyResume")
                             }
-                            communicator?.goToEmployerViewedMyResume("vwdMyResume")
-                        }
-                        Constants.session_key_mybdjobscount_times_emailed_resume -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
-                        Constants.session_key_mybdjobscount_message_by_employers -> communicator?.goToMessageByEmployers("employerMessageList")
-                        else -> { // Note the block
-                            print("not found")
-                        }
+                            Constants.session_key_mybdjobscount_times_emailed_resume -> communicator?.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
+                            Constants.session_key_mybdjobscount_message_by_employers -> communicator?.goToMessageByEmployers("employerMessageList")
+                            else -> { // Note the block
+                                print("not found")
+                            }
 
+                        }
                     }
+                } catch (e: Exception) {
+                    logException(e)
                 }
-
             }
         } catch (e: Exception) {
             logException(e)

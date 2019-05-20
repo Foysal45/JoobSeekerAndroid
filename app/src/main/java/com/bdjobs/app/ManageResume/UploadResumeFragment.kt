@@ -42,12 +42,16 @@ class UploadResumeFragment : Fragment() {
         return inflater.inflate(com.bdjobs.app.R.layout.fragment_upload_resume, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        communicator = activity as ManageResumeCommunicator
+        bdjobsUserSession = BdjobsUserSession(activity)
+    }
+
 
     override fun onResume() {
         super.onResume()
 
-        communicator = activity as ManageResumeCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity)
         submitTV?.setOnClickListener {
             browseFile()
         }

@@ -206,9 +206,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 }
 
                 jobsVH.shortListIconIV.setOnClickListener {
-
-                    Toast.makeText(context, "Shortlist Standout Clicked ", Toast.LENGTH_LONG).show()
-
+                    shorlistAndUnshortlistJob(position)
 
                 }
                 if (result?.logo != null) {
@@ -240,9 +238,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     }
                 }
 
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-                }
 
             }
 
@@ -272,11 +267,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 }
 
                 jobsVH.shortListIconIV.setOnClickListener {
-
-                    Toast.makeText(context, "Shortlist Standout Clicked ", Toast.LENGTH_LONG).show()
-
-
+                    shorlistAndUnshortlistJob(position)
                 }
+
                 if (result?.logo != null) {
                     jobsVH.logoImageView.visibility = View.VISIBLE
                     Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
@@ -306,9 +299,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                     }
                 }
 
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-                }
 
             }
 
@@ -510,11 +500,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     override fun getItemViewType(position: Int): Int {
 
-        if(position%40==0){
-            Constants.nativeAdvertisement=null
-        }
-
-        if (showAD && (position % 3 == 0) && position!=0) {
+        if (showAD && (position % 3 == 0) && position!=0 && position<21) {
             if (position == this.jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
