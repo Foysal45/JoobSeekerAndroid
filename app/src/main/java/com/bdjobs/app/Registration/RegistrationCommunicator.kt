@@ -1,5 +1,7 @@
 package com.bdjobs.app.Registration
 
+import com.bdjobs.app.API.ModelClasses.AddExpModel
+
 interface RegistrationCommunicator {
 
     //------------white collar-------------//
@@ -44,7 +46,7 @@ interface RegistrationCommunicator {
     fun bcCategorySelected(category: String, position: Int)
     fun bcGenderSelected(gender: String)
     fun bcBirthDateAndAgeSelected(birthDate: String, age: String)
-    fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String)
+    fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String,skilledBy:String,ntvqfLevel:String, categoryID:String,category: String)
     fun bcAddressSelected(district: String, thana: String, postOffice: String, address: String, locationID: String)
     fun bcGetAge():String
     fun bcResendOtp()
@@ -70,5 +72,12 @@ interface RegistrationCommunicator {
 
 
     fun getINLROData(): String
+
+
+    fun setItemClick(position: Int)
+    fun getItemClick():Int
+    fun showEditDialog(item : AddExpModel)
+
+    fun getCategoryId():String
 
 }

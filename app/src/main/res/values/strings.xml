@@ -10,7 +10,6 @@
     <string name="interstitial_full_screen">ca-app-pub-5130888087776673/2947644743</string>
 
 
-
     <string name="app_name">Bdjobs</string>
     <string name="hint_keyword">Job title, Keyword</string>
     <string name="hint.location">Location</string>
@@ -348,4 +347,11 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="hint.er_keywords">Keywords</string>
     <string name="hint_bangladesh">Bangladeshi</string>
     <string name="hint.post_office_other">Other</string>
+
+    <string name="bc_category_heading">নিচের তালিকা থেকে দক্ষতা নির্বাচন করুন</string>
+    <string name="bc_category_text">ক্যাটাগরি</string>
+    <string name="bc_work_experience_text">কাজের ধরন/দক্ষতা</string>
+    <string name="bc_work_experience_add_text">(এক বা একাধিক যোগ করতে পারেন)</string>
+    <string name="bc_work_experience_add">কাজের দক্ষতা যোগ করুন</string>
+    <string name="bc_experience_year_text_hint">অভিজ্ঞতা (বছর)</string>
 </resources>
