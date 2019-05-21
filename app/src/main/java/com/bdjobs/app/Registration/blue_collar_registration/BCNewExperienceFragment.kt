@@ -196,6 +196,7 @@ class BCNewExperienceFragment : Fragment() {
         bcSkillAdapter = BCSkillAdapter(activity, addExpList)
         skillListView.adapter = bcSkillAdapter
 
+        //----
 
     }
 
