@@ -505,6 +505,9 @@ interface ApiServiceMyBdjobs {
             @Field("examDegreeTitle") examDegreeTitle: String? = "",
             @Field("yearOfPassing") yearOfPassing: String? = "",
             @Field("hasEdu") hasEdu: String? = "",
+            @Field("SkilledBy") SkilledBy: String = "",
+            @Field("ntvqfLevel") ntvqfLevel: String = "",
+            @Field("cat_id") cat_id: String = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<UpdateBlueCvModel>
 

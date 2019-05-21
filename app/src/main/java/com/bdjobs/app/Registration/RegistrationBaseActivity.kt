@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.CreateAccountModel
-import com.bdjobs.app.API.ModelClasses.InviteCodeUserVerifyModel
-import com.bdjobs.app.API.ModelClasses.ResendOtpModel
-import com.bdjobs.app.API.ModelClasses.UpdateBlueCvModel
+import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -42,6 +39,7 @@ import java.util.*
 
 
 class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
+
 
 
     //white Collar
@@ -86,6 +84,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private val bcEducationFragment = BCEducationFragment()
     private val bcPhotoUploadFragment = BCPhotoUploadFragment()
     private val bcCongratulationFragment = BCCongratulationFragment()
+    private val bcNewExperienceFragment = BCNewExperienceFragment()
 
     private lateinit var division: String
     private lateinit var district: String
@@ -98,6 +97,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     var birthDate: String? = ""
     private var subcategoriesID: String = ""
     private var experience: String = ""
+
+    private var skilledBy : String =""
+    private var ntvqfLevel : String =""
+    private var clickPosition = -1
+
 
     private var eduDegree = ""
     private var eduLevel = ""
@@ -219,7 +223,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-
     override fun wcGoToStepName() {
 
         transitFragment(wcNameFragment, R.id.registrationFragmentHolderFL, true)
@@ -243,7 +246,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         stepProgressBar.progress = 85
 
     }
-
 
     override fun wcGoToStepPassword() {
 
@@ -276,7 +278,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         wccategoryFragment.getSelectedPosition(position)
 
     }
-
 
     override fun nameSelected(name: String) {
         this.name = name
@@ -333,12 +334,10 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         Log.d("catagorySelected", "userName first ${this.userName} ")
     }
 
-
     override fun wcCountrySeledted(countryCode: String) {
         wcCountryCode = countryCode
         Log.d("catagorySelected", "wcCountryCode  ${this.wcCountryCode} ")
     }
-
 
     override fun wcSetOtp(otp: String) {
         this.otpCode = otp
@@ -518,7 +517,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-
     override fun showProgressBar() {
 
         loadingProgressBar.visibility = View.VISIBLE
@@ -686,7 +684,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-
     override fun bcResendOtp() {
         loadingProgressBar.visibility = View.VISIBLE
         ApiServiceMyBdjobs.create().resendOtp(tempId, mobileNumber, "1").enqueue(object : Callback<ResendOtpModel> {
@@ -715,7 +712,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-
     override fun getUserId(): String {
         return this.userID
     }
@@ -723,7 +719,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun getDecodeId(): String {
         return this.decodeId
     }
-
 
     // -----------------------------  blue Collar start ------------------  //
     override fun goToStepBlueCollar() {
@@ -768,7 +763,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         stepProgressBar.progress = 60
     }
 
-
     override fun bcGoToStepAdress() {
 
         transitFragment(bcAdressFragment, R.id.registrationFragmentHolderFL, true)
@@ -778,8 +772,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     override fun bcGoToStepExperience() {
 
-        transitFragment(bcExperienceFragment, R.id.registrationFragmentHolderFL, true)
-        bcExperienceFragment.categoryInformation(category, categoryId)
+        transitFragment(bcNewExperienceFragment, R.id.registrationFragmentHolderFL, true)
+        bcNewExperienceFragment.categoryInformation(category, categoryId)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 80
     }
@@ -790,7 +784,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 90
     }
-
 
     override fun bcGoToStepPhotoUpload(hasEducation: String) {
 
@@ -823,7 +816,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
         ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, address, locationID, birthDate!!,
                 experience, subcategoriesID, age, userName, eduLevel, instName,
-                educationType, eduDegree, passingYear, hasEducation).enqueue(object : Callback<UpdateBlueCvModel> {
+                educationType, eduDegree, passingYear, hasEducation,skilledBy,ntvqfLevel,categoryId).enqueue(object : Callback<UpdateBlueCvModel> {
             override fun onFailure(call: Call<UpdateBlueCvModel>, t: Throwable) {
                 Log.d("Ressdjg", " onFailure ${t.message}")
                 loadingProgressBar.visibility = View.GONE
@@ -901,13 +894,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-
     override fun getCategory(): String {
 
         return this.category
 
     }
-
 
     override fun bcGenderSelected(gender: String) {
 
@@ -915,7 +906,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         Log.d("catagorySelected", "gender ${this.gender}")
         bcGenderFragment.goToNextStep()
     }
-
 
     override fun bcBirthDateAndAgeSelected(birthDate: String, age: String) {
 
@@ -951,9 +941,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
     }
 
-    override fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String) {
+    override fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String, skilledBy:String, ntvqfLevel:String, categoryID:String, category : String) {
         subcategoriesID = IDs
         this.experience = experience
+        this.skilledBy = skilledBy
+        this.ntvqfLevel = ntvqfLevel
+        this.categoryId = categoryID
+        this.category = category
 
 
         Log.d("catagorySelected", "subcategoriesID ${this.subcategoriesID} experience ${this.experience}")
@@ -988,10 +982,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     }
 
     override fun bcGetAge(): String {
-
         return age
     }
-
 
     //-------------blue Collar End-----------------//
 
@@ -1089,7 +1081,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 stepProgressBar.progress = 70
 
             }
-            bcExperienceFragment -> {
+            bcNewExperienceFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 80
 
@@ -1205,7 +1197,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
 
     }
-
 
     private fun signOutFromGoogle() {
         if (mGoogleSignInClient?.isConnected!!) {
@@ -1443,8 +1434,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         startActivityForResult(signInIntent, Constants.RC_SIGN_IN)
     }
 
-
-
     private fun initializeGoogleRegistration() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(Constants.GOOGLE_SIGN_IN_CLIENT_ID)
@@ -1454,7 +1443,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build()
     }
-
 
     private fun initializeFacebookRegistration() {
         callbackManager = CallbackManager.Factory.create()
@@ -1479,11 +1467,27 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         val request = GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, GraphRequest.Callback { LoginManager.getInstance().logOut() }).executeAsync()
     }
 
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
 
         bcPhotoUploadFragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+    }
+
+    override fun setItemClick(position: Int) {
+        clickPosition = position
+    }
+
+    override fun getItemClick(): Int {
+        return clickPosition
+    }
+
+    override fun showEditDialog(item: AddExpModel) {
+        bcNewExperienceFragment.showEditDialog(item)
+    }
+
+    override fun getCategoryId(): String {
+
+        return categoryId
     }
 
 }

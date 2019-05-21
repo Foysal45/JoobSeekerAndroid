@@ -12,7 +12,6 @@ import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.showError
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
@@ -55,8 +54,8 @@ class BCExperienceFragment : Fragment() {
                         subCategoriesID = subCategoriesID + dataStorage.getBlueCollarSubCategoryIDByName(selectedSubcategories[i]) + ","
                     }
                 }
-                registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.getString())
-                registrationCommunicator.bcGoToStepEducation()
+               /* registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(subCategoriesID, bcExperienceYearTIET.getString())
+                registrationCommunicator.bcGoToStepEducation()*/
             }else {
                 bcExperienceTIL?.showError("কর্ম দক্ষতা গুলো নির্বাচন করুন")
             }
