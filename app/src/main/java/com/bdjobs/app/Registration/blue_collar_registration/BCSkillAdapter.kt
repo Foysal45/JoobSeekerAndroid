@@ -1,7 +1,6 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
 
-
 import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
@@ -121,11 +120,6 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
 
 
     }
-
-
-
-
-
 
 
 }

@@ -354,4 +354,13 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="bc_work_experience_add_text">(এক বা একাধিক যোগ করতে পারেন)</string>
     <string name="bc_work_experience_add">কাজের দক্ষতা যোগ করুন</string>
     <string name="bc_experience_year_text_hint">অভিজ্ঞতা (বছর)</string>
+
+
+    //---------------new add for specialization---------5/22/2019
+
+    <string name="skill_number_text">Skill</string>
+    <string name="add_skill_text">Add Skill</string>
+    <string name="add_skill_instruction_text">Click \'Add Skill\' button to enter your required skill.</string>
+
+
 </resources>
