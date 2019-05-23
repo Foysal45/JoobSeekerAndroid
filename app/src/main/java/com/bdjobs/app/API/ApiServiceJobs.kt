@@ -254,13 +254,11 @@ interface ApiServiceJobs {
                     .addInterceptor(interceptor)
                     .build()
 
-            val retrofit = Retrofit.Builder()
+            return Retrofit.Builder()
                     .baseUrl(Constants.baseUrlJobs)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
-
-            return retrofit
         }
     }
 

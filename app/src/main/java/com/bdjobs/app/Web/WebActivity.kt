@@ -10,6 +10,7 @@ import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_web.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,6 +25,9 @@ class WebActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
         bdjobsUserSession = BdjobsUserSession(this@WebActivity)
+
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
 
         backIV.setOnClickListener {
             onBackPressed()
