@@ -11,7 +11,7 @@
 
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container_specialization"
+        android:id="@+id/shimmer_view_container_specialization_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -114,7 +114,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView48">
 
                     <LinearLayout
-                        android:visibility="gone"
+
                         android:id="@+id/noSkillTVLayout"
                         android:padding="10dp"
                         android:background="@drawable/yellow_rounded_corner_layout"
@@ -133,7 +133,7 @@
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-
+                        android:visibility="gone"
                         android:id="@+id/skillListView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

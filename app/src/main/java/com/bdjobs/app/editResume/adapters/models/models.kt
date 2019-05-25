@@ -644,6 +644,12 @@ data class Skill(
         @SerializedName("id")
         val id: String?,
         @SerializedName("skill_name")
-        val skillName: String?
+        val skillName: String? ,
+        @SerializedName("s_id")
+        val sId: String?,
+        @SerializedName("skilled_by")
+        val skillBy: String?,
+        @SerializedName("ntvqf_level")
+        val ntvqfLevel: String?
 )
 

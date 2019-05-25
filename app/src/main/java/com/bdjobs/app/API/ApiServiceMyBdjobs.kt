@@ -124,8 +124,22 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<LanguageModel>
 
-    @FormUrlEncoded
+
+    ////////////PreviousOne
+
+  /*  @FormUrlEncoded
     @POST("apps_step_04_view_spe.asp")
+    fun getSpecializationInfo(
+            @Field("userId") userId: String?="",
+            @Field("decodeId") decodeId: String?="",
+            @Field("appId") appId: String? = Constants.APP_ID
+    ): Call<SpecialzationModel>*/
+
+
+    ///////////////////New Test One
+
+  @FormUrlEncoded
+    @POST("apps_step_04_view_spe_newP.asp")
     fun getSpecializationInfo(
             @Field("userId") userId: String?="",
             @Field("decodeId") decodeId: String?="",

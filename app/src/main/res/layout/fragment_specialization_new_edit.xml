@@ -33,7 +33,6 @@
                 android:layout_marginStart="22dp"
                 android:layout_marginEnd="22dp"
                 android:layout_marginBottom="25dp"
-                android:background="@drawable/layout_rounded_corner"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/skillDescriptionTIL"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,13 +47,12 @@
                     android:orientation="vertical">
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="skills"
-                        android:textColor="@color/colorBlack"
+                        android:text="@string/add_skill_heading_text"
+                        android:textColor="#2F64A3"
                         android:textSize="16sp"
 
                         />
@@ -62,7 +60,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:text="@string/add_skill_instruction_text"
                         android:textColor="#767676"
@@ -83,13 +80,11 @@
 
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/bcAddExperienceButton"
+                    android:id="@+id/addSkillButton"
                     style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
                     android:backgroundTint="#2F64A3"
                     android:fontFamily="@font/roboto"

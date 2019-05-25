@@ -1,5 +1,6 @@
 package com.bdjobs.app.editResume.callbacks
 
+import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.editResume.adapters.models.*
 import com.google.android.material.textfield.TextInputEditText
@@ -74,6 +75,9 @@ interface OtherInfo {
     fun setBackFrom(from: String?)
     fun setEditButton(b: Boolean)
     fun getSpecializationData(): SpecializationDataModel
+    fun setItemClick(position: Int)
+    fun getItemClick():Int
+    fun showEditDialog(item : AddExpModel)
 
 
 }
