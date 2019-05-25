@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ModelClasses.EmployerListModelData
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +42,9 @@ class EmployerListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         listCommunicator = activity as EmployersCommunicator
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
+
         backIV.setOnClickListener {
             listCommunicator?.backButtonPressed()
         }

@@ -14,6 +14,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -33,6 +34,9 @@ class FavouriteSearchFilterListFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity)
         bdjobsDB = BdjobsDB.getInstance(activity)
         favCommunicator = activity as FavCommunicator
+
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
 
         backIV.setOnClickListener {
             favCommunicator.backButtonPressed()

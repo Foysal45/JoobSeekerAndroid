@@ -110,12 +110,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/publisherAdView"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/favCountTV" />
 
-    <com.google.android.gms.ads.doubleclick.PublisherAdView
+   <!-- <com.google.android.gms.ads.doubleclick.PublisherAdView
         android:id="@+id/publisherAdView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,6 +128,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"></com.google.android.gms.ads.doubleclick.PublisherAdView>
-
+        app:layout_constraintVertical_bias="1.0"></com.google.android.gms.ads.doubleclick.PublisherAdView>-->
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
 </androidx.constraintlayout.widget.ConstraintLayout>
