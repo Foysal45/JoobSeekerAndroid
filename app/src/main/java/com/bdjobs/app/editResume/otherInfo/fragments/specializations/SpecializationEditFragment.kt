@@ -85,7 +85,7 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun preloadedData() {
-        //jgkhgfjkh
+
 
         refnameATCTV?.clearText()
 
