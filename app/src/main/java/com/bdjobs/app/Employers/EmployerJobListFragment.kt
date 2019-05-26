@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ModelClasses.EmployerJobListsModel
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_job_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,6 +49,9 @@ class EmployerJobListFragment : Fragment() {
 
         suggestiveSearchET?.text = communicator?.getCompanyName()
         loadJobList()
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
+        adView?.show()
 
         Log.d("onResume", "onResume")
     }

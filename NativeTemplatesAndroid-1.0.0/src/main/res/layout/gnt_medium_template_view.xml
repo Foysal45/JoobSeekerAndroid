@@ -150,10 +150,11 @@
                  app:layout_constraintTop_toBottomOf="@id/headline"
                  >
                <RatingBar
+                   style="?android:attr/ratingBarStyleSmall"
                    android:background="@color/gnt_white"
                    android:id="@+id/rating_bar"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
                    android:textSize="@dimen/gnt_text_size_large"
                    android:textColor="@color/gnt_gray"
                    android:lines="1"
@@ -252,7 +253,6 @@
              android:layout_height="@dimen/gnt_medium_cta_button_height"
              android:layout_marginTop="@dimen/gnt_default_margin"
              android:layout_marginBottom="@dimen/gnt_default_margin"
-             android:clickable="false"
              app:layout_constraintBottom_toBottomOf="parent"
              app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintStart_toStartOf="parent"
@@ -260,8 +260,9 @@
              android:background="@color/gnt_test_background_color_2"
              >
            <Button
+               android:enabled="true"
                android:id="@+id/cta"
-               android:clickable="false"
+               android:clickable="true"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                app:layout_constraintBottom_toBottomOf="parent"

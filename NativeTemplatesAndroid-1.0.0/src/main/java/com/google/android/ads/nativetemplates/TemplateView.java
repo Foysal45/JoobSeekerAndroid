@@ -201,8 +201,8 @@ public class TemplateView extends FrameLayout {
     Image icon = nativeAd.getIcon();
 
     String tertiaryText;
-
-    nativeAdView.setCallToActionView(callToActionParentView);
+   // nativeAdView.setCallToActionView(callToActionParentView);
+    nativeAdView.setCallToActionView(callToActionView);
     nativeAdView.setHeadlineView(primaryParentView);
     nativeAdView.setMediaView(mediaView);
 
@@ -236,6 +236,7 @@ public class TemplateView extends FrameLayout {
       secondaryView.setVisibility(GONE);
       ratingBar.setVisibility(VISIBLE);
       ratingBar.setMax(5);
+      ratingBar.setRating(starRating.floatValue());
       nativeAdView.setStarRatingView(ratingBar);
     } else {
       secondaryView.setText(body);
