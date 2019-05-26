@@ -104,7 +104,7 @@
 
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                    android:visibility="gone"
+                android:visibility="gone"
                     android:id="@+id/firstCheckbox"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="24dp"
@@ -117,7 +117,7 @@
                     />
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                    android:visibility="gone"
+                android:visibility="gone"
                     android:id="@+id/secondCheckBox"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="24dp"
@@ -131,7 +131,7 @@
 
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                    android:visibility="gone"
+                android:visibility="gone"
                     android:id="@+id/thirdCheckBox"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="24dp"
@@ -144,20 +144,20 @@
                     app:layout_constraintHorizontal_bias="0.0"/>
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                    android:visibility="gone"
-                    android:id="@+id/fourthCheckBox"
-                    android:layout_marginTop="18dp"
-                    android:text="ট্রেনিং-এ "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/thirdCheckBox"
-                    app:layout_constraintTop_toBottomOf="@+id/secondCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-            />
+                android:visibility="gone"
+                android:id="@+id/fourthCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="ট্রেনিং-এ "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.46"
+                app:layout_constraintStart_toEndOf="@+id/thirdCheckBox"
+                app:layout_constraintTop_toBottomOf="@+id/secondCheckBox" />
 
 
             <androidx.appcompat.widget.AppCompatCheckBox
-                   android:visibility="gone"
+                  android:visibility="gone"
                     android:id="@+id/fifthCheckBox"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="24dp"

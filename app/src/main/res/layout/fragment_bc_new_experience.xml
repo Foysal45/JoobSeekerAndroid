@@ -55,7 +55,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/bc_category_text"
-                android:textColor="#FFE57F"
+                android:textColor="#767676"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -69,7 +69,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="8dp"
                 android:text="ড্রাইভার/চালক"
-                android:textColor="@color/colorBlack"
+                android:textColor="#2F64A3"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -98,7 +98,7 @@
                     <TextView
                         android:layout_marginEnd="20dp"
                         android:layout_marginStart="20dp"
-                        android:textColor="#FFE57F"
+                        android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:layout_marginTop="20dp"
                         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                     <TextView
                         android:layout_marginEnd="20dp"
                         android:layout_marginStart="20dp"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="#767676"
                         android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -136,16 +136,16 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     app:iconGravity="textStart"
-                    app:iconTint="@color/colorBlack"
+                    app:iconTint="@color/colorWhite"
                     app:icon="@drawable/ic_add_circle_bdjobs"
-                    android:backgroundTint="#FFE57F"
+                    android:backgroundTint="#13A10E"
                     android:paddingStart="15dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="15dp"
                     android:paddingBottom="12dp"
                     android:text="@string/bc_work_experience_add"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
                     android:layout_marginTop="20dp"
                     android:textColorHighlight="#ffffff"
                     android:textSize="16sp"
@@ -163,15 +163,17 @@
             </LinearLayout>
 
 
+
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/bcNewExperienceYearTIL"
-                android:theme="@style/TextLabel"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="24dp"
-                android:textColorHint="@color/colorWhite"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -189,13 +191,11 @@
                     android:fontFamily="@font/roboto"
                     android:hint="@string/bc_experience_year_text_hint"
                     android:inputType="number"
-                    android:textColor="@color/colorWhite"
                     android:maxLength="2"
                     android:singleLine="true"
                     android:typeface="normal"
                     app:fontFamily="@font/roboto" />
             </com.google.android.material.textfield.TextInputLayout>
-
             <include
                 android:layout_marginTop="325dp"
                 android:id="@+id/footer"
@@ -223,9 +223,9 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="70dp"
         android:src="@drawable/ic_arrow_floating_white"
-        app:backgroundTint="#FFE57F"
-        android:background="#FFE57F"
-        android:tint="#000000"
+        app:backgroundTint="#13A10E"
+        android:background="#13A10E"
+        android:tint="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

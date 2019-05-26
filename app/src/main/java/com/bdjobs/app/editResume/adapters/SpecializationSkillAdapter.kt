@@ -1,5 +1,4 @@
-package com.bdjobs.app.Registration.blue_collar_registration
-
+package com.bdjobs.app.editResume.adapters
 
 import android.app.Activity
 import android.util.Log
@@ -11,22 +10,29 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Registration.RegistrationBaseActivity
-import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.editResume.callbacks.OtherInfo
+import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.google.android.material.chip.Chip
 import java.util.*
 
+class SpecializationSkillAdapter(private val context: Activity, private val items: ArrayList<AddExpModel>?): RecyclerView.Adapter<SpecializationSkillViewHolder>() {
+    private var otherInfo: OtherInfo? = null
 
-class BCSkillAdapter(private val context: Activity, private val items: ArrayList<AddExpModel>?) :
-        RecyclerView.Adapter<SkillViewHolder>() {
+    init {
+
+        if ((context) is OtherInfoBaseActivity) {
+            otherInfo = context
+        }
 
 
-    override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
+    }
 
+    override fun onBindViewHolder(holder: SpecializationSkillViewHolder, position: Int) {
         holder.experienceValueTV.text = items?.get(position)?.workExp
-        holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"
+        holder.workExperienceTV.text = "skill - ${position+1}"
+       /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
         Log.d("uhiuhiu", "workExp ${items?.get(position)?.workExp}")
         Log.d("fdhbjh", "position $position")
         Log.d("fdhbjh", "expSource ${items?.get(position)?.expSource}")
@@ -37,19 +43,19 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
             Log.d("expTest", "exp: $s")
             when (s) {
                 "1" -> {
-                    holder.filter_chip1.text = "নিজেই"
+                    holder.filter_chip1.text = "Self"
                     holder.filter_chip1.show()
                 }
                 "2" -> {
-                    holder.filter_chip2.text = "শিক্ষা ক্ষেত্রে"
+                    holder.filter_chip2.text = "Educational"
                     holder.filter_chip2.show()
                 }
                 "3" -> {
-                    holder.filter_chip3.text = "চাকরিতে"
+                    holder.filter_chip3.text = "job"
                     holder.filter_chip3.show()
                 }
                 "4" -> {
-                    holder.filter_chip4.text = "ট্রেনিং -এ"
+                    holder.filter_chip4.text = "Professional Training"
                     holder.filter_chip4.show()
                 }
                 "5" -> {
@@ -90,19 +96,21 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
 
         holder.skillEditIcon.setOnClickListener {
 
-            registrationCommunicator?.showEditDialog(items[position])
+            otherInfo?.showEditDialog(items[position])
 
             /*  d("fdhbjh Passing Model ${items[position]?.expSource} ")*/
 
-            registrationCommunicator?.setItemClick(position)
+            otherInfo?.setItemClick(position)
             /* notifyItemChanged(position)*/
 
 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillViewHolder {
-        return SkillViewHolder(LayoutInflater.from(context).inflate(R.layout.add_skill_list_item_layout, parent, false))
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecializationSkillViewHolder {
+        return SpecializationSkillViewHolder(LayoutInflater.from(context).inflate(R.layout.specialization_add_skill_list_item_layout, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -110,27 +118,18 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
     }
 
 
-    private var registrationCommunicator: RegistrationCommunicator? = null
 
-    init {
-
-        if ((context) is RegistrationBaseActivity) {
-            registrationCommunicator = context
-        }
-
-
-    }
 
 
 }
 
-
-class SkillViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class SpecializationSkillViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val experienceValueTV = view.findViewById(R.id.experienceValueTV) as TextView
     val experienceInstructionTV = view.findViewById(R.id.experienceInstructionTV) as TextView
     val skillDeleteIcon = view.findViewById(R.id.skillDeleteIcon) as ImageView
     val skillEditIcon = view.findViewById(R.id.skillEditIcon) as ImageView
+    val workExperienceTV = view.findViewById(R.id.workExperienceTV) as TextView
 
 
     val filter_chip1 = view.findViewById(R.id.filter_chip1) as Chip
@@ -140,4 +139,3 @@ class SkillViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val filter_chip5 = view.findViewById(R.id.filter_chip5) as Chip
 
 }
-

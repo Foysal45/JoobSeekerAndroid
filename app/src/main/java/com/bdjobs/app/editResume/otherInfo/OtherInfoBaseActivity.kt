@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
+import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -20,6 +21,8 @@ import com.bdjobs.app.editResume.otherInfo.fragments.languagePref.LangProficienc
 import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferenceEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferencesViewFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationEditFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewEditFragment
+import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewViewFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationViewFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -27,6 +30,8 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+
+
     override fun getBackFrom(): String? {
         return this.fragmentFrom
     }
@@ -42,14 +47,21 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private val languageViewFragment = LangPrViewFragment()
     private val refernceEditFragment = ReferenceEditFragment()
     private val referenceViewFrgament = ReferencesViewFragment()
+
     private val specializationEditFragment = SpecializationEditFragment()
     private val specializationViewFragment = SpecializationViewFragment()
+
+    private val specializationNewEditFragment = SpecializationNewEditFragment()
+    private val specializationNewViewFragment = SpecializationNewViewFragment()
+
     private lateinit var dataReference: ReferenceDataModel
     private lateinit var dataLanguage: LanguageDataModel
     private lateinit var dataSpecialization: SpecializationDataModel
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddOtherInfo: String
+
+    private var clickPosition = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +101,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     private fun gotToFragment(name: String) {
         when (name) {
-            "specialization" -> transitFragment(specializationViewFragment, R.id.other_info_container, false)
+            "specialization" -> transitFragment(specializationNewViewFragment, R.id.other_info_container, false)
             "language" -> {
                 iv_OI_delete_data.hide()
                 transitFragment(languageViewFragment, R.id.other_info_container, false)
@@ -166,7 +178,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
             when (check) {
                 "addDirect" -> {
                     specializationEditFragment.isEdit = false
-                    transitFragment(specializationEditFragment, R.id.other_info_container, false)
+                    transitFragment(specializationNewEditFragment, R.id.other_info_container, false)
                     Constants.isDirectCall = true
                 }
                 "addLanguage" -> {
@@ -181,12 +193,12 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
                 }
                 "addSpecialization" -> {
                     specializationEditFragment.isEdit = false
-                    transitFragment(specializationEditFragment, R.id.other_info_container, true)
+                    transitFragment(specializationNewEditFragment, R.id.other_info_container, true)
 
                 }
                 "editSpecialization" -> {
                     specializationEditFragment.isEdit = true
-                    transitFragment(specializationEditFragment, R.id.other_info_container, true)
+                    transitFragment(specializationNewEditFragment, R.id.other_info_container, true)
 
                 }
                 "addReference" -> {
@@ -263,6 +275,21 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     override fun getReferenceData(): ReferenceDataModel {
         return dataReference
+    }
+
+
+
+
+    override fun setItemClick(position: Int) {
+       clickPosition = position
+    }
+
+    override fun getItemClick(): Int {
+       return clickPosition
+    }
+
+    override fun showEditDialog(item: AddExpModel) {
+        specializationNewEditFragment.showEditDialog(item)
     }
 
 }
