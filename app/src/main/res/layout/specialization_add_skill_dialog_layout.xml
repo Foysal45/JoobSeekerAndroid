@@ -28,7 +28,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/colorBlack"
                 android:id="@+id/typeOfJob"
-                android:text="কাজের ধরন/দক্ষতা "
+                android:text="@string/skill_number_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/typeOfJob"
-                android:text="(এক বা একাধিক যোগ করতে পারেন)"
+                android:text="@string/skill_add_ins_text"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"/>
 
@@ -114,7 +114,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     android:textColorHint="#757575"
-                    app:helperText="@string/hint.maxSkill">
+                    >
 
                     <AutoCompleteTextView
                         android:importantForAutofill="noExcludeDescendants"

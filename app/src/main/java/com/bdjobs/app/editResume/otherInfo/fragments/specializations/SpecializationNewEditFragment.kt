@@ -14,11 +14,14 @@ import android.view.Window
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.SpecializationSkillAdapter
+import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -30,6 +33,9 @@ import kotlinx.android.synthetic.main.fragment_specialization_new_edit.etSkillDe
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 
@@ -40,12 +46,8 @@ class SpecializationNewEditFragment : Fragment() {
     private var skills: String = ""
     private var isEmpty = false
     private var idArr: ArrayList<String> = ArrayList()
-
-    private lateinit var bcCategories: ArrayList<String>
     private lateinit var specializationSkillAdapter: SpecializationSkillAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var selectedPosition = -1
-    private var checkBoxStatus = false
     private var addExpList: ArrayList<AddExpModel>? = ArrayList()
     private var workExp = ""
     private var NTVQF = ""
@@ -55,11 +57,13 @@ class SpecializationNewEditFragment : Fragment() {
     private lateinit var levelList: Array<String>
     private lateinit var dialogEdit: Dialog
     private lateinit var eduCB: OtherInfo
+    private lateinit var session: BdjobsUserSession
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        onclick()
         initialization()
+        onclick()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +88,8 @@ class SpecializationNewEditFragment : Fragment() {
         specializationSkillAdapter = SpecializationSkillAdapter(activity, addExpList)
         skillListView.adapter = specializationSkillAdapter
         eduCB = activity as OtherInfo
+        session = BdjobsUserSession(activity)
+
 
     }
 
@@ -96,7 +102,119 @@ class SpecializationNewEditFragment : Fragment() {
 
         }
 
+       new_fab_specialization_update.onClick {
 
+
+           var subCategoriesID = ""
+           var skilledBy = ""
+           var ntvqfLevel = ""
+
+           for (i in addExpList!!.indices) {
+               if (i == addExpList!!.size - 1) {
+                     subCategoriesID += dataStorage.getSkillIDBySkillType(addExpList!![i].workExp!!)
+               } else {
+                   subCategoriesID = subCategoriesID + dataStorage.getSkillIDBySkillType(addExpList!![i].workExp!!) + ","
+
+               }
+           }
+
+           addExpList?.forEach {
+
+               it.expSource?.forEach {
+
+                   if (it.toInt() > 0) {
+                       skilledBy += it + ","
+                       /*  d("dhjb inside $skilledBy" )*/
+                   }
+               }
+
+               skilledBy += "s"
+
+           }
+           val updateSkilledBy = skilledBy.replace(",s", "s")
+           val updateNewSkilledBy = updateSkilledBy.removeSuffix("s")
+
+           addExpList?.forEach {
+
+               /* d("ntvqf test in fa button ${it.NTVQF}")*/
+
+               if (it.NTVQF.isNullOrEmpty()) {
+
+                   ntvqfLevel += "0" + ","
+               } else {
+                   when {
+                       it.NTVQF!!.equalIgnoreCase("Pre-Voc Level 1") -> ntvqfLevel += "1" + ","
+                       it.NTVQF!!.equalIgnoreCase("Pre-Voc Level 2") -> ntvqfLevel += "2" + ","
+                       it.NTVQF!!.equalIgnoreCase("NTVQF Level 1") -> ntvqfLevel += "3" + ","
+                       it.NTVQF!!.equalIgnoreCase("NTVQF Level 2") -> ntvqfLevel += "4" + ","
+                       it.NTVQF!!.equalIgnoreCase("NTVQF Level 3") -> ntvqfLevel += "5" + ","
+                       it.NTVQF!!.equalIgnoreCase("NTVQF Level 4") -> ntvqfLevel += "6" + ","
+                       it.NTVQF!!.equalIgnoreCase("NTVQF Level 5") -> ntvqfLevel += "7" + ","
+                       it.NTVQF!!.equalIgnoreCase("NTVQF Level 6") -> ntvqfLevel += "8" + ","
+
+                   }
+
+
+               }
+
+           }
+
+           val updateNtvqf = ntvqfLevel.removeSuffix(",")
+
+
+
+
+           updateData(subCategoriesID,updateNewSkilledBy,updateNtvqf)
+
+
+
+       }
+
+
+    }
+
+
+    private fun updateData(skills: String ,skillBy:String,ntvqf:String) {
+       /* activity?.showProgressBar(specializationLoadingProgressBar)*/
+        d("specialization test updateData $skills ")
+
+        //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
+        val call = ApiServiceMyBdjobs.create().updateSpecializationTest(session.userId, session.decodId,
+                session.IsResumeUpdate, skills, etSkillDescription.getString(), etCaricular.getString(),skillBy,ntvqf)
+        call?.enqueue(object : Callback<AddorUpdateModel> {
+            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                try {
+                   /* activity?.stopProgressBar(specializationLoadingProgressBar)
+                    activity?.toast(R.string.message_common_error)*/
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+
+            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                try {
+                    if (response.isSuccessful) {
+                      /*  activity?.stopProgressBar(specializationLoadingProgressBar)*/
+                        val resp = response.body()
+
+                        if (resp?.statuscode == "4") {
+                            activity?.toast("The information has been updated successfully")
+                           /* if (isEdit) {
+                                activity?.toast("The information has been updated successfully")
+                            } else {
+                                activity?.toast("The information has been added successfully")
+                            }*/
+                            eduCB.setBackFrom(Constants.specUpdate)
+                            eduCB.goBack()
+                        }
+                    }
+                } catch (e: Exception) {
+                    /*  activity.stopProgressBar(specializationLoadingProgressBar)*/
+                    e.printStackTrace()
+                    logException(e)
+                }
+            }
+        })
     }
 
 
@@ -162,7 +280,7 @@ class SpecializationNewEditFragment : Fragment() {
                 thirdCheckBox.isChecked = false
                 fourthCheckBox.isChecked = false
                 fifthCheckBox.isChecked = false
-                experienceLevelTIET!!.setText("NTVQF লেভেল")
+                experienceLevelTIET!!.setText("NTVQF Level")
                 }
                 else {
                     refnameATCTV?.closeKeyboard(activity)
@@ -185,7 +303,7 @@ class SpecializationNewEditFragment : Fragment() {
                 thirdCheckBox.isChecked = false
                 fourthCheckBox.isChecked = false
                 fifthCheckBox.isChecked = false
-                experienceLevelTIET!!.setText("NTVQF লেভেল")
+                experienceLevelTIET!!.setText("NTVQF level")
 
 
 
@@ -284,7 +402,7 @@ class SpecializationNewEditFragment : Fragment() {
 
         }
         experienceLevelTIET.setOnClickListener {
-            activity.selector("NTVQF লেভেল নির্বাচন করুন", levelList.toList()) { dialogInterface, i ->
+            activity.selector("Select NTVQF Level", levelList.toList()) { dialogInterface, i ->
                 experienceLevelTIET.setText(levelList[i])
                 NTVQF = levelList[i]
 
@@ -321,12 +439,12 @@ class SpecializationNewEditFragment : Fragment() {
 
 
             if (skillDuplicateStatus) {
-                activity.toast("এই দক্ষতাটি ইতোমধ্যে যোগ করা হয়েছে।")
+                activity.toast("Already exists!")
                 skillDuplicateStatus = false
                 skillSourceNotEmptyStatus = false
             } else {
                 if (addExpList!!.size == 10) {
-                    activity.toast("কাজের ধরন/দক্ষতা ১০টির বেশি হবে না ")
+                    activity.toast("Skill maximum 10")
                     skillSourceNotEmptyStatus = false
                      dialog.dismiss()
                 } else {
@@ -335,7 +453,7 @@ class SpecializationNewEditFragment : Fragment() {
                             if (ntvqfStatus) {
 
                                 if (item.NTVQF.isNullOrEmpty()) {
-                                    activity.toast("NTVQF লেভেল  নির্বাচন করুন")
+                                    activity.toast("Please select NTVQF level")
                                     skillSourceNotEmptyStatus = false
                                 } else {
 
@@ -367,11 +485,11 @@ class SpecializationNewEditFragment : Fragment() {
 
                         } else {
                             skillSourceNotEmptyStatus = false
-                            activity.toast("কাজের ধরন/দক্ষতা শেখার মাধ্যমটি নির্বাচন করুন।")
+                            activity.toast("Please select Skill learning process")
 
                         }
                     } else {
-                        activity.toast("কাজের ধরন/দক্ষতা লিখুন")
+                        activity.toast("Please select Skill")
                         skillSourceNotEmptyStatus = false
 
                     }
@@ -416,7 +534,7 @@ class SpecializationNewEditFragment : Fragment() {
         dialogEdit = Dialog(activity)
         dialogEdit.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogEdit.setCancelable(true)
-        dialogEdit.setContentView(R.layout.add_skill_dialog_layout)
+        dialogEdit.setContentView(R.layout.specialization_add_skill_dialog_layout)
         dialogEdit.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val addExperienceTIET = dialogEdit.findViewById<TextInputEditText>(R.id.addExperienceTIET)
 
@@ -431,6 +549,7 @@ class SpecializationNewEditFragment : Fragment() {
         val experienceLevelTIET = dialogEdit.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
         val declineButton = dialogEdit.findViewById<MaterialButton>(R.id.declineButton)
         val saveButton = dialogEdit.findViewById<MaterialButton>(R.id.saveButton)
+        val refnameATCTV = dialog.findViewById<AutoCompleteTextView>(R.id.refnameATCTV)
 
         whereSkillText.show()
         firstCheckbox.show()
@@ -441,8 +560,8 @@ class SpecializationNewEditFragment : Fragment() {
 
         //set View start
 
-        addExperienceTIET.setText(item.workExp)
-        whereSkillText.text = "কিভাবে '${item.workExp}' কাজের দক্ষতাটি শিখেছেন ?"
+        refnameATCTV.setText(item.workExp)
+        whereSkillText.text = "Skill you learned from"
         val list = item?.expSource!!
 
         for (each in list) {
@@ -480,6 +599,74 @@ class SpecializationNewEditFragment : Fragment() {
         workSource[2] = item.expSource!![2]
         workSource[3] = item.expSource!![3]
         workSource[4] = item.expSource!![4]
+
+
+
+        val skillList: Array<String> = dataStorage.allSkills
+        val skillAdapter = ArrayAdapter<String>(activity!!,
+                android.R.layout.simple_dropdown_item_1line, skillList)
+        refnameATCTV?.setAdapter(skillAdapter)
+        refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+        refnameATCTV?.setOnItemClickListener { _, _, position, id ->
+            d("specialization test Array size : pos : $position id : $id")
+            //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+            d("Selected : ${skillList[position + 1]} and gotStr : ${refnameATCTV.text}")
+            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.text.toString())!!
+
+            d("specialization test workSkillID : ${workSkillID} ")
+            d("specialization test idArr : ${idArr} ")
+            if (idArr.size != 0) {
+                if (!idArr.contains(workSkillID)){
+                    /* addChip(refnameATCTV.getString(), workSkillID)*/
+                    refnameATCTV.setText(refnameATCTV.getString())
+                    workExp = refnameATCTV.getString()
+                    whereSkillText.show()
+                    firstCheckbox.show()
+                    secondCheckBox.show()
+                    thirdCheckBox.show()
+                    fourthCheckBox.show()
+                    fifthCheckBox.show()
+
+
+                    firstCheckbox.isChecked = false
+                    secondCheckBox.isChecked = false
+                    thirdCheckBox.isChecked = false
+                    fourthCheckBox.isChecked = false
+                    fifthCheckBox.isChecked = false
+                    experienceLevelTIET!!.setText("NTVQF Level")
+                }
+                else {
+                    refnameATCTV?.closeKeyboard(activity)
+                    activity?.toast("Skill already added")
+                }
+                skillTIL.hideError()
+            } else {
+                refnameATCTV.setText(refnameATCTV.getString())
+                workExp = refnameATCTV.getString()
+                whereSkillText.show()
+                firstCheckbox.show()
+                secondCheckBox.show()
+                thirdCheckBox.show()
+                fourthCheckBox.show()
+                fifthCheckBox.show()
+
+
+                firstCheckbox.isChecked = false
+                secondCheckBox.isChecked = false
+                thirdCheckBox.isChecked = false
+                fourthCheckBox.isChecked = false
+                fifthCheckBox.isChecked = false
+                experienceLevelTIET!!.setText("NTVQF level")
+
+
+
+                d("specialization test Array size : ${idArr.size} and $skills and id : $id")
+                isEmpty = true
+                skillTIL?.isErrorEnabled = true
+                skillTIL?.hideError()
+            }
+        }
+
 
         // set data end
         firstCheckbox?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -534,7 +721,7 @@ class SpecializationNewEditFragment : Fragment() {
         }
         experienceLevelTIET.setOnClickListener {
 
-            activity.selector("NTVQF লেভেল নির্বাচন করুন ", levelList.toList()) { dialogInterface, i ->
+            activity.selector("Select NTVQF level", levelList.toList()) { dialogInterface, i ->
 
                 experienceLevelTIET.setText(levelList[i])
 
@@ -625,7 +812,7 @@ class SpecializationNewEditFragment : Fragment() {
 
             if (skillDuplicateStatus) {
 
-                activity.toast("এই দক্ষতাটি ইতোমধ্যে যোগ করা হয়েছে।")
+                activity.toast("Already exists!")
                 skillDuplicateStatus = false
                 skillSourceNotEmptyStatus = false
 
@@ -635,7 +822,7 @@ class SpecializationNewEditFragment : Fragment() {
                 if (skillSourceNotEmptyStatus) {
                     if (ntvqfStatus) {
                         if (addItem.NTVQF.isNullOrEmpty()) {
-                            activity.toast("NTVQF লেভেল  নির্বাচন করুন")
+                            activity.toast("Please select NTVQF level")
                             skillSourceNotEmptyStatus = false
 
                         } else {
@@ -658,7 +845,7 @@ class SpecializationNewEditFragment : Fragment() {
                     }
                 } else {
                     skillSourceNotEmptyStatus = false
-                    activity.toast("কাজের ধরন/দক্ষতা শেখার মাধ্যমটি নির্বাচন করুন।")
+                    activity.toast("Please select Skill learning process")
                 }
 
             }
