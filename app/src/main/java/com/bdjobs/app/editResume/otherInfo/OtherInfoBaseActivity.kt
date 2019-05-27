@@ -32,6 +32,32 @@ import kotlinx.android.synthetic.main.activity_other_info_base.*
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
 
 
+
+    private var skillList = ArrayList<AddExpModel>()
+    private var skillDescription =""
+    private var extraCuri =""
+
+    override fun passSpecializationDataNew(data: ArrayList<AddExpModel>?, SkillDes: String, extraCuricular: String) {
+        skillList = data!!
+        skillDescription = SkillDes
+        extraCuri = extraCuricular
+    }
+
+
+    override fun getSpecializationDataNew(): ArrayList<AddExpModel>? {
+
+        return skillList
+    }
+
+    override fun getSkillDes(): String? {
+       return skillDescription
+    }
+
+    override fun getExtraCuri(): String? {
+        return extraCuri
+    }
+
+
     override fun getBackFrom(): String? {
         return this.fragmentFrom
     }

@@ -59,16 +59,21 @@ class SpecializationNewEditFragment : Fragment() {
     private lateinit var eduCB: OtherInfo
     private lateinit var session: BdjobsUserSession
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+
+    override fun onResume() {
+        super.onResume()
         initialization()
         onclick()
+        preloadedData()
 
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_specialization_new_edit, container, false)
     }
 
@@ -162,6 +167,7 @@ class SpecializationNewEditFragment : Fragment() {
            val updateNtvqf = ntvqfLevel.removeSuffix(",")
 
 
+           d("fjnn subCategoriesID $subCategoriesID updateNewSkilledBy $updateNewSkilledBy updateNtvqf $updateNtvqf ")
 
 
            updateData(subCategoriesID,updateNewSkilledBy,updateNtvqf)
@@ -314,32 +320,6 @@ class SpecializationNewEditFragment : Fragment() {
             }
         }
 
-
-
-     /*   addExperienceTIET?.setOnClickListener {
-            activity.selector("কাজের ধরন/দক্ষতা নির্বাচন করুন ", subCategories.toList()) { dialogInterface, i ->
-
-                addExperienceTIET.setText(subCategories[i])
-                whereSkillText.text = "কিভাবে '${subCategories[i]}' কাজের দক্ষতাটি শিখেছেন ?"
-                workExp = subCategories[i]!!
-                whereSkillText.show()
-                firstCheckbox.show()
-                secondCheckBox.show()
-                thirdCheckBox.show()
-                fourthCheckBox.show()
-                fifthCheckBox.show()
-
-
-                firstCheckbox.isChecked = false
-                secondCheckBox.isChecked = false
-                thirdCheckBox.isChecked = false
-                fourthCheckBox.isChecked = false
-                fifthCheckBox.isChecked = false
-                experienceLevelTIET!!.setText("NTVQF লেভেল")
-
-
-            }
-        }*/
 
 
         firstCheckbox?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -549,7 +529,7 @@ class SpecializationNewEditFragment : Fragment() {
         val experienceLevelTIET = dialogEdit.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
         val declineButton = dialogEdit.findViewById<MaterialButton>(R.id.declineButton)
         val saveButton = dialogEdit.findViewById<MaterialButton>(R.id.saveButton)
-        val refnameATCTV = dialog.findViewById<AutoCompleteTextView>(R.id.refnameATCTV)
+        val refnameATCTV = dialogEdit.findViewById<AutoCompleteTextView>(R.id.refnameATCTV)
 
         whereSkillText.show()
         firstCheckbox.show()
@@ -732,37 +712,13 @@ class SpecializationNewEditFragment : Fragment() {
 
 
         }
-     /*   addExperienceTIET?.setOnClickListener {
 
-            activity.selector("কাজের ধরন/দক্ষতা নির্বাচন করুন ", subCategories.toList()) { dialogInterface, i ->
-
-                addExperienceTIET.setText(subCategories[i])
-                whereSkillText.text = "কিভাবে ${subCategories[i]} কাজের দক্ষতাটি শিখেছেন ?"
-
-
-                firstCheckbox.isChecked = false
-                secondCheckBox.isChecked = false
-                thirdCheckBox.isChecked = false
-                fourthCheckBox.isChecked = false
-                fifthCheckBox.isChecked = false
-                experienceLevelTIET!!.setText("NTVQF লেভেল")
-
-                workSource[0] = "-1"
-                workSource[1] = "-2"
-                workSource[2] = "-3"
-                workSource[3] = "-4"
-                workSource[4] = "-5"
-
-
-            }
-
-        }*/
         declineButton?.setOnClickListener {
             dialogEdit.dismiss()
         }
         saveButton?.setOnClickListener {
 
-            workExp = addExperienceTIET.getString()
+            workExp = refnameATCTV.getString()
 
             d("ntvqf test in update ${fifthCheckBox.isChecked}")
 
@@ -873,15 +829,27 @@ class SpecializationNewEditFragment : Fragment() {
     private fun preloadedData() {
         //jgkhgfjkh
 
+        addExpList!!.clear()
 
+        val data = eduCB.getSpecializationDataNew()
 
-        val data = eduCB.getSpecializationData()
-        data.skills?.forEach {
-           /* addChip(it?.skillName!!, it.id!!)*/
+        d("fklhnfhn before ${addExpList!!.size}")
+        d("fklhnfhn before ${data!!.size}")
+
+        for (item in data!!){
+
+            d("fklhnfhn ${item.workExp}  ${item.expSource} ${item.NTVQF}")
+            addExpList!!.add(item)
+            specializationSkillAdapter.notifyItemInserted(addExpList!!.size - 1)
+            addExperienceLayout.hide()
+            skillListView.show()
 
         }
-        etSkillDescription?.setText(data.description)
-        etCaricular?.setText(data.extracurricular)
+
+        etSkillDescription.setText(eduCB.getSkillDes())
+        etCaricular.setText(eduCB.getExtraCuri())
+
+        d("fklhnfhn  after ${addExpList!!.size}")
     }
 
 }
