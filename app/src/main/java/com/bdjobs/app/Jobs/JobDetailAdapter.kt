@@ -284,7 +284,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                                 logException(e)
                                             }
                                         } else {
-                                            showSalaryDialog(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                            checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                         }
                                     }
                                 }
@@ -505,7 +505,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 if (jobSourceData.isNullOrBlank() || jobSourceData.isNullOrEmpty()) {
                                     jobsVH.tvJobSource.hide()
                                     jobsVH.tvJobSourceHeading.hide()
-                                }else{
+                                } else {
                                     jobsVH.tvJobSource.show()
                                     jobsVH.tvJobSourceHeading.show()
                                     jobsVH.tvJobSource.text = jobSourceData
@@ -564,7 +564,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 if (jobSourceData.isNullOrBlank() || jobSourceData.isNullOrEmpty()) {
                                     jobsVH.tvJobSource.hide()
                                     jobsVH.tvJobSourceHeading.hide()
-                                }else{
+                                } else {
                                     jobsVH.tvJobSource.show()
                                     jobsVH.tvJobSourceHeading.show()
                                     jobsVH.tvJobSource.text = jobSourceData
@@ -679,6 +679,55 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
+    private fun checkApplyEligibility(activity: Context, position: Int, gender: String, jobphotograph: String) {
+
+        val bdjobsUserSession = BdjobsUserSession(context)
+        val loadingDialog = activity.indeterminateProgressDialog("Applying")
+        loadingDialog?.setCancelable(false)
+        loadingDialog?.show()
+
+        ApiServiceJobs.create().applyEligibilityCheck(
+                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, jobID = jobList?.get(position)?.jobid!!, JobSex = gender, JobPhotograph = jobphotograph, encoded = Constants.ENCODED_JOBS
+        ).enqueue(
+                object : Callback<ApplyEligibilityModel> {
+                    override fun onFailure(call: Call<ApplyEligibilityModel>, t: Throwable) {
+                        loadingDialog?.dismiss()
+                    }
+
+                    override fun onResponse(call: Call<ApplyEligibilityModel>, response: Response<ApplyEligibilityModel>) {
+
+                        loadingDialog?.dismiss()
+
+                        try {
+                            if (response.isSuccessful) {
+                                if (response.body()?.data?.get(0)?.applyEligibility?.equalIgnoreCase("true")!!) {
+                                    showSalaryDialog(activity, position, gender, jobphotograph)
+                                } else {
+                                    val plainMessage = response?.body()?.message
+                                    val plainHeading = response?.body()?.title
+
+                                    val message = Html.fromHtml(plainMessage)
+                                    val heading = Html.fromHtml(plainHeading)
+
+                                    val alertd = context.alert(message) {
+                                        title = heading
+                                        //positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+                                        negativeButton("OK") { dd ->
+                                            dd.dismiss()
+                                        }
+                                    }
+                                    alertd.isCancelable = false
+                                    alertd.show()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                }
+        )
+    }
+
 
     private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String) {
         dialog = Dialog(activity)
@@ -691,7 +740,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
         val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
 
-        Constants.showNativeAd(ad_small_template,context)
+        Constants.showNativeAd(ad_small_template, context)
 
 
         salaryTIET.easyOnTextChangedListener { text ->

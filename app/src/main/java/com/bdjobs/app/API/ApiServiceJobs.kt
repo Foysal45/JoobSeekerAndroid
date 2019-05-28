@@ -220,6 +220,26 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ApplyOnlineModel>
 
+
+    @FormUrlEncoded
+    @POST("JobApplyPreScreen.asp")
+    fun applyEligibilityCheck(
+            @Field("userID") userID: String? = "",
+            @Field("decodeID") decodeID: String? = "",
+            @Field("jobID") jobID: String? = "",
+            @Field("JobSex") JobSex: String? = "",
+            @Field("JobPhotograph") JobPhotograph: String? = "",
+            @Field("encoded") encoded: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
+    ): Call<ApplyEligibilityModel>
+
+
+
+
+
+
+
+
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")
     fun getHotJobs(): Call<HotJobs>
 
