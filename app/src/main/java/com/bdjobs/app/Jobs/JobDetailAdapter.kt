@@ -703,8 +703,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 if (response.body()?.data?.get(0)?.applyEligibility?.equalIgnoreCase("true")!!) {
                                     showSalaryDialog(activity, position, gender, jobphotograph)
                                 } else {
-                                    val plainMessage = response?.body()?.message
-                                    val plainHeading = response?.body()?.title
+                                    val plainMessage = response.body()?.data?.get(0)?.message
+                                    val plainHeading = response.body()?.data?.get(0)?.title
 
                                     val message = Html.fromHtml(plainMessage)
                                     val heading = Html.fromHtml(plainHeading)
