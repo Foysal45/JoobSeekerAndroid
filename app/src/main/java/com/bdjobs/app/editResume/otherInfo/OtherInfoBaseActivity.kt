@@ -97,7 +97,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         setContentView(R.layout.activity_other_info_base)
         gotToFragment(name)
         val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+        adViewOtherInfo?.loadAd(adRequest)
         //fjkhgfhfh
 
     }
