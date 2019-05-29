@@ -96,6 +96,7 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         gotToFragment(name)
         val adRequest = AdRequest.Builder().build()
         adViewAcademicInfo?.loadAd(adRequest)
+        //jghgh
     }
 
     private fun gotToFragment(name: String) {
