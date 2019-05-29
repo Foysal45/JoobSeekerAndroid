@@ -40,7 +40,7 @@ class SpecializationNewViewFragment : Fragment() {
     private lateinit var specializationViewAdapter: SpecializationViewAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var session: BdjobsUserSession
-    private var addExpList: ArrayList<AddExpModel>? = ArrayList()
+    private var addSkillList: ArrayList<AddExpModel>? = ArrayList()
     private var arr: ArrayList<Skill?>? = null
 
     private lateinit var eduCB: OtherInfo
@@ -141,33 +141,28 @@ class SpecializationNewViewFragment : Fragment() {
 
             eduCB.setDeleteButton(false)
             eduCB.setEditButton(true)
-
-
-
-            addExpList!!.clear()
+            addSkillList!!.clear()
 
             for (item in array){
 
               val  skillList = getNewList(item?.skillBy!!)
 
                 d("dfshgb ${item.ntvqfLevel}")
-
                 val ntvqfLevel = getNtvqf(item.ntvqfLevel!!)
-
-               val skillArrayList = skillList.toCollection(ArrayList())
+                val skillArrayList = skillList.toCollection(ArrayList())
 
                 val dataItem = AddExpModel(item.skillName,skillArrayList,ntvqfLevel)
-                addExpList?.add(dataItem)
+                addSkillList?.add(dataItem)
             }
 
 
 
 
-            d("ttttt ${addExpList!!.size}")
+            d("ttttt ${addSkillList!!.size}")
 
-            eduCB.passSpecializationDataNew(addExpList,skillDes,curricular)
+            eduCB.passSpecializationDataNew(addSkillList,skillDes,curricular)
 
-            /* addExpList.add(array)*/
+            /* addSkillList.add(array)*/
 
         }
 

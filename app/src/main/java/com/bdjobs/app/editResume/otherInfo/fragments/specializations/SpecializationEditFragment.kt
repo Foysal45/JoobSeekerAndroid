@@ -85,8 +85,6 @@ class SpecializationEditFragment : Fragment() {
 
 
     private fun preloadedData() {
-        //jhfjghj
-
         refnameATCTV?.clearText()
 
         val data = eduCB.getSpecializationData()

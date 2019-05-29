@@ -118,7 +118,7 @@
 
                     <AutoCompleteTextView
                         android:importantForAutofill="noExcludeDescendants"
-                        android:id="@+id/refnameATCTV"
+                        android:id="@+id/newRefnameATCTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusableInTouchMode="true"

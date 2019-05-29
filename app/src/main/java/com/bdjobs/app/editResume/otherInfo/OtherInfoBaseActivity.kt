@@ -24,6 +24,7 @@ import com.bdjobs.app.editResume.otherInfo.fragments.specializations.Specializat
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewViewFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationViewFragment
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -95,6 +96,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         getIntentValues()
         setContentView(R.layout.activity_other_info_base)
         gotToFragment(name)
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
         //fjkhgfhfh
 
     }
@@ -203,7 +206,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         try {
             when (check) {
                 "addDirect" -> {
-                    specializationEditFragment.isEdit = false
+                    specializationNewEditFragment.isEdit = false
                     transitFragment(specializationNewEditFragment, R.id.other_info_container, false)
                     Constants.isDirectCall = true
                 }
@@ -218,12 +221,12 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
                 }
                 "addSpecialization" -> {
-                    specializationEditFragment.isEdit = false
+                    specializationNewEditFragment.isEdit = false
                     transitFragment(specializationNewEditFragment, R.id.other_info_container, true)
 
                 }
                 "editSpecialization" -> {
-                    specializationEditFragment.isEdit = true
+                    specializationNewEditFragment.isEdit = true
                     transitFragment(specializationNewEditFragment, R.id.other_info_container, true)
 
                 }
