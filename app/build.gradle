@@ -45,8 +45,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.9'
     //implementation "com.google.firebase:firebase-ads:17.0.0"
     implementation "com.google.firebase:firebase-messaging:18.0.0"
-    implementation 'com.google.firebase:firebase-perf:17.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'com.google.firebase:firebase-perf:17.0.2'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     //-----google sign in
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
@@ -100,7 +100,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:16.1.0"
 
     //----ad manager
-    implementation 'com.google.android.gms:play-services-ads:17.2.0'
+    implementation 'com.google.android.gms:play-services-ads:17.2.1'
     implementation project(':NativeTemplatesAndroid-1.0.0')
 
 

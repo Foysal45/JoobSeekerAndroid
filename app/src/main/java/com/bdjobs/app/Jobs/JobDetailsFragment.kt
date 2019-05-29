@@ -351,17 +351,21 @@ class JobDetailsFragment : Fragment() {
 
     private fun onClick() {
 
-        BackIMGV.setOnClickListener {
+        BackIMGV?.setOnClickListener {
             communicator.backButtonPressesd()
         }
 
-        filterIMGV.setOnClickListener {
+        filterIMGV?.setOnClickListener {
             jobDetailAdapter!!.shareJobs(shareJobPosition)
             Log.d("ShareJob", "currentJobPosition $shareJobPosition")
         }
 
-        shortListIMGV.setOnClickListener {
+        shortListIMGV?.setOnClickListener {
             jobDetailAdapter!!.shorlistAndUnshortlistJob(shareJobPosition)
+
+        }
+        shortListIMGV2?.setOnClickListener {
+            jobDetailAdapter!!.reportthisJob(shareJobPosition)
 
         }
     }
@@ -389,7 +393,6 @@ class JobDetailsFragment : Fragment() {
             communicator.setpageNumber(currentPage)
             communicator.setTotalPage(TOTAL_PAGES)
             communicator.setLastPasge(isLastPages)
-
             communicator.setKeyword(keyword)
             communicator.setLocation(location)
             communicator.setCategory(category)

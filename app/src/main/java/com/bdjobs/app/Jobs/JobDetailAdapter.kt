@@ -1,5 +1,6 @@
 package com.bdjobs.app.Jobs
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -25,6 +26,7 @@ import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.ads.nativetemplates.TemplateView
@@ -122,6 +124,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     call?.onItemClicked(position)
                 }
 
+                jobsVH.callBTN.setOnClickListener {
+                    try {
+                        (context as Activity)?.callHelpLine()
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+
+                jobsVH.emailBTN.setOnClickListener {
+                    sendEmail()
+                }
+
+                jobsVH.reportBTN.setOnClickListener {
+                    reportthisJob(position)
+                }
+
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
                 jobsVH.shimmer_view_container.show()
@@ -138,11 +156,12 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     override fun onResponse(call: Call<JobDetailJsonModel>, response: Response<JobDetailJsonModel>) {
 
                         try {
+
                             Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
                             Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
                             jobsVH.shimmer_view_container.stopShimmerAnimation()
-
+                            Constants.showNativeAd(jobsVH.ad_small_template,context)
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 
                             jobKeyPointsData = jobDetailResponseAll!!.jobKeyPoints!!
@@ -679,6 +698,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
+    private fun sendEmail() {
+       context.email("complain@bdjobs.com", "", "")
+    }
+
     private fun checkApplyEligibility(activity: Context, position: Int, gender: String, jobphotograph: String) {
 
         val bdjobsUserSession = BdjobsUserSession(context)
@@ -964,6 +987,13 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val emailApplyMsgTV: TextView = viewItem?.findViewById(R.id.emailApplyMsgTV) as TextView
         val addressHeadingTV: TextView = viewItem?.findViewById(R.id.address) as TextView
         val jobexpirationBtn: Button = viewItem?.findViewById(R.id.jobexpirationBtn) as Button
+
+        val ad_small_template: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
+
+
+        val reportBTN: Button = viewItem?.findViewById(R.id.reportBTN) as Button
+        val callBTN: Button = viewItem?.findViewById(R.id.callBTN) as Button
+        val emailBTN: Button = viewItem?.findViewById(R.id.emailBTN) as Button
     }
 
 
@@ -1108,6 +1138,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 }
 
             }
+        }
+    }
+
+    fun reportthisJob(position: Int){
+        try {
+            val jobid = jobList?.get(position)?.jobid
+            context.startActivity<WebActivity>("url" to "https://jobs.bdjobs.com/reportthisjob.asp?id=$jobid", "from" to "reportJob")
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
