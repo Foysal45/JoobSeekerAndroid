@@ -400,7 +400,28 @@ interface ApiServiceMyBdjobs {
             @Field("extracurricular") extracurricular: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
-    ?
+
+
+
+    ///-------------updateSpcializationTest
+
+
+    @FormUrlEncoded
+    @POST("apps_step_04_update_spe_newP.asp")
+    fun updateSpecializationTest(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("isResumeUpdate") isResumeUpdate: String? = "",
+            @Field("skills") skills: String? = "",
+            @Field("skillDescription") skillDescription: String? = "",
+            @Field("extracurricular") extracurricular: String? = "",
+            @Field("skilledBy") skilledBy: String? = "",
+            @Field("ntvqfLevel") ntvqfLevel: String? = "",
+            @Field("appId") appId: String? = Constants.APP_ID
+    ): Call<AddorUpdateModel>
+
+
+
 
     @FormUrlEncoded
     @POST("apps_step_04_update_ref.asp")

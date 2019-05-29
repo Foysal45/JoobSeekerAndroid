@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
@@ -18,7 +19,6 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.adapters.SpecializationViewAdapter
 import com.bdjobs.app.editResume.adapters.models.Skill
-import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.adapters.models.SpecialzationModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import kotlinx.android.synthetic.main.fragment_specialization_new_edit.skillListView
@@ -31,7 +31,6 @@ import kotlinx.android.synthetic.main.fragment_view_specialization.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Response
-import java.util.*
 
 
 class SpecializationNewViewFragment : Fragment() {
@@ -41,7 +40,7 @@ class SpecializationNewViewFragment : Fragment() {
     private lateinit var specializationViewAdapter: SpecializationViewAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var session: BdjobsUserSession
-
+    private var addSkillList: ArrayList<AddExpModel>? = ArrayList()
     private var arr: ArrayList<Skill?>? = null
 
     private lateinit var eduCB: OtherInfo
@@ -66,6 +65,10 @@ class SpecializationNewViewFragment : Fragment() {
         eduCB.setEditButton(true)
 
         session = BdjobsUserSession(activity)
+
+        fab_specialization_add?.setOnClickListener {
+            eduCB.goToEditInfo("addSpecialization")
+        }
 
         populateData()
 
@@ -95,7 +98,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                         val respo = response.body()
                         arr = respo?.data!![0]?.skills as ArrayList<Skill?>
-                        setData(arr!!, respo.data[0]?.description!!, respo.data[0]?.extracurricular!!, respo.data[0]!!)
+                        setData(arr!!, respo.data[0]?.description!!, respo.data[0]?.extracurricular!!)
 
 
 
@@ -116,7 +119,7 @@ class SpecializationNewViewFragment : Fragment() {
     }
 
 
-    private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String, response: SpecializationDataModel) {
+    private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String) {
 
         if (array.size == 0 && TextUtils.isEmpty(skillDes) && TextUtils.isEmpty(curricular)) {
             mainlayout?.hide()
@@ -138,16 +141,83 @@ class SpecializationNewViewFragment : Fragment() {
 
             eduCB.setDeleteButton(false)
             eduCB.setEditButton(true)
+            addSkillList!!.clear()
 
-            d("specialization in view fragment ${response.skills!!.size}")
+            for (item in array){
 
-            eduCB.passSpecializationData(response)
+              val  skillList = getNewList(item?.skillBy!!)
 
-            /* addExpList.add(array)*/
+                d("dfshgb ${item.ntvqfLevel}")
+                val ntvqfLevel = getNtvqf(item.ntvqfLevel!!)
+                val skillArrayList = skillList.toCollection(ArrayList())
+
+                val dataItem = AddExpModel(item.skillName,skillArrayList,ntvqfLevel)
+                addSkillList?.add(dataItem)
+            }
+
+
+
+
+            d("ttttt ${addSkillList!!.size}")
+
+            eduCB.passSpecializationDataNew(addSkillList,skillDes,curricular)
+
+            /* addSkillList.add(array)*/
 
         }
 
     }
+
+    private fun getNtvqf(item :String) :String {
+
+        var ntvqflevel = ""
+
+        when (item) {
+            "1" -> {
+
+
+                ntvqflevel = "Pre-Voc Level 1"
+            }
+            "2" -> {
+
+                ntvqflevel = "Pre-Voc Level 2"
+
+            }
+            "3"-> {
+
+                ntvqflevel = "NTVQF Level 1"
+
+            }
+            "4" -> {
+
+                ntvqflevel = "NTVQF Level 2"
+            }
+            "5" -> {
+                ntvqflevel = "NTVQF Level 3"
+
+            }
+            "6"-> {
+
+                ntvqflevel = "NTVQF Level 4"
+            }
+            "7"-> {
+                ntvqflevel = "NTVQF Level 5"
+
+            }
+            "8"-> {
+                ntvqflevel = "NTVQF Level 6"
+
+            }
+
+            /*val dataItem = AddExpModel(item.skillName,skillArrayList,)*/
+        }
+
+        return ntvqflevel
+    }
+
+
+
+
 
     private fun shimmerStart() {
         try {
@@ -168,6 +238,36 @@ class SpecializationNewViewFragment : Fragment() {
             logException(e)
         }
     }
+
+
+   private fun getNewList(id:String): Array<String>{
+        val nums = arrayOf("-1", "-2", "-3", "-4", "-5")
+
+        val ids = id.split(",").toTypedArray()
+        ids.forEach{it->
+            when(it){
+                "1"->{
+                    nums[0]="1"
+                }
+                "2"->{
+                    nums[1]="2"
+                }
+                "3"->{
+                    nums[2]="3"
+                }
+                "4"->{
+                    nums[3]="4"
+                }
+                "5"->{
+                    nums[4]="5"
+                }
+            }
+        }
+
+        return nums
+
+    }
+
 
 
 

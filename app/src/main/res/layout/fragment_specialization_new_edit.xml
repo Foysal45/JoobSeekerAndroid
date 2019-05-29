@@ -235,7 +235,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_specialization_update"
+        android:id="@+id/new_fab_specialization_update"
         style="@style/FabStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -246,7 +246,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ProgressBar
-        android:id="@+id/specializationLoadingProgressBar"
+        android:id="@+id/newSpecializationLoadingProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

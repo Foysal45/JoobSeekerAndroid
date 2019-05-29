@@ -372,6 +372,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="save_text">Save</string>
     <string name="update_text">Update</string>
     <string name="cancel_text">Cancel</string>
+    <string name="skill_add_ins_text">You may add single or multiple skills</string>
 
 
 

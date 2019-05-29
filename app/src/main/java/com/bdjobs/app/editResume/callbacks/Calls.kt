@@ -65,6 +65,7 @@ interface OtherInfo {
     fun setDeleteButton(b: Boolean)
     fun goToEditInfo(check: String)
     fun passLanguageData(data: LanguageDataModel)
+    fun passSpecializationDataNew(data: ArrayList<AddExpModel>?,SkillDes : String, extraCuricular :String)
     fun passSpecializationData(data: SpecializationDataModel)
     fun passReferenceData(data: ReferenceDataModel)
     fun getReferenceData(): ReferenceDataModel
@@ -74,10 +75,13 @@ interface OtherInfo {
     fun getBackFrom(): String?
     fun setBackFrom(from: String?)
     fun setEditButton(b: Boolean)
+    fun getSpecializationDataNew(): ArrayList<AddExpModel>?
     fun getSpecializationData(): SpecializationDataModel
     fun setItemClick(position: Int)
     fun getItemClick():Int
     fun showEditDialog(item : AddExpModel)
+    fun getSkillDes():String?
+    fun getExtraCuri():String?
 
 
 }

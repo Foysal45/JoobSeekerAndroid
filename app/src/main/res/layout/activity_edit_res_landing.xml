@@ -34,7 +34,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="148dp"
         android:background="@drawable/ic_edit_resume_header_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,10 +56,10 @@
 
         <ImageView
             android:id="@+id/ivProfileImage"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/ic_user_thumb_small"
             android:contentDescription="@string/app_name"

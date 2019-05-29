@@ -24,12 +24,39 @@ import com.bdjobs.app.editResume.otherInfo.fragments.specializations.Specializat
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewViewFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationViewFragment
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+
+
+
+    private var skillList = ArrayList<AddExpModel>()
+    private var skillDescription =""
+    private var extraCuri =""
+
+    override fun passSpecializationDataNew(data: ArrayList<AddExpModel>?, SkillDes: String, extraCuricular: String) {
+        skillList = data!!
+        skillDescription = SkillDes
+        extraCuri = extraCuricular
+    }
+
+
+    override fun getSpecializationDataNew(): ArrayList<AddExpModel>? {
+
+        return skillList
+    }
+
+    override fun getSkillDes(): String? {
+       return skillDescription
+    }
+
+    override fun getExtraCuri(): String? {
+        return extraCuri
+    }
 
 
     override fun getBackFrom(): String? {
@@ -69,6 +96,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         getIntentValues()
         setContentView(R.layout.activity_other_info_base)
         gotToFragment(name)
+        val adRequest = AdRequest.Builder().build()
+        adViewOtherInfo?.loadAd(adRequest)
         //fjkhgfhfh
 
     }
@@ -174,10 +203,11 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     override fun goToEditInfo(check: String) {
 
+
         try {
             when (check) {
                 "addDirect" -> {
-                    specializationEditFragment.isEdit = false
+                    specializationNewEditFragment.isEdit = false
                     transitFragment(specializationNewEditFragment, R.id.other_info_container, false)
                     Constants.isDirectCall = true
                 }
@@ -192,12 +222,12 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
                 }
                 "addSpecialization" -> {
-                    specializationEditFragment.isEdit = false
+                    specializationNewEditFragment.isEdit = false
                     transitFragment(specializationNewEditFragment, R.id.other_info_container, true)
 
                 }
                 "editSpecialization" -> {
-                    specializationEditFragment.isEdit = true
+                    specializationNewEditFragment.isEdit = true
                     transitFragment(specializationNewEditFragment, R.id.other_info_container, true)
 
                 }
