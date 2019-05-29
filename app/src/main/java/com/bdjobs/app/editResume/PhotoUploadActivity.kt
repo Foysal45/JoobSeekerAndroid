@@ -35,6 +35,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -107,6 +108,9 @@ class PhotoUploadActivity : Activity() {
             ic_edit_photo.hide()
             photoDeleteButton.hide()
         }
+
+        val adRequest = AdRequest.Builder().build()
+        adViewPhoto?.loadAd(adRequest)
     }
 
     override fun onResume() {

@@ -18,6 +18,7 @@ import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragm
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragment
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -155,6 +156,8 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         setContentView(R.layout.activity_emplyment_history)
         setupToolbar(getString(R.string.title_emp_his))
         gotToFragment(name)
+        val adRequest = AdRequest.Builder().build()
+        adViewEmploymentInfo?.loadAd(adRequest)
     }
 
 

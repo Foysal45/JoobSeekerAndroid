@@ -21,6 +21,7 @@ import com.bdjobs.app.editResume.educationInfo.fragments.professionalQualificati
 import com.bdjobs.app.editResume.educationInfo.fragments.professionalQualification.ProfessionalQLViewFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingEditFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -93,6 +94,9 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
         getIntentValues()
         setContentView(R.layout.activity_academic_base)
         gotToFragment(name)
+        val adRequest = AdRequest.Builder().build()
+        adViewAcademicInfo?.loadAd(adRequest)
+        //jghgh
     }
 
     private fun gotToFragment(name: String) {
