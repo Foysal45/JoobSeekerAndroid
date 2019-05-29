@@ -203,6 +203,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     override fun goToEditInfo(check: String) {
 
+        /jhgh
         try {
             when (check) {
                 "addDirect" -> {
