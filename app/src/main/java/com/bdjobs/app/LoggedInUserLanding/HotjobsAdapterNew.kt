@@ -30,7 +30,7 @@ class HotjobsAdapterNew(private val context: Context) : RecyclerView.Adapter<Rec
 
 
     override fun getItemViewType(position: Int): Int {
-        return if (showAD && (position % 5 == 0) && position != 0 && position < 40) ITEMWITHAD
+        return if (showAD && (position % 5 == 0) && position != 0 && position < 80) ITEMWITHAD
         else ITEM
     }
 

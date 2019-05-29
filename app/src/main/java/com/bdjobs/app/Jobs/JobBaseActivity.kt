@@ -117,8 +117,23 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         dataStorage = DataStorage(applicationContext)
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         getData()
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+
+        try {
+            adView?.hide()
+            val deviceInfo = getDeviceInformation()
+            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
+
+            screenSize?.let{it->
+                if(it.toFloat()>5.0){
+                    val adRequest = AdRequest.Builder().build()
+                    adView?.loadAd(adRequest)
+                    adView?.show()
+                }
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
+
     }
 
 
