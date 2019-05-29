@@ -23,6 +23,7 @@ import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.Personal
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas.PreferredAreasEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas.PreferredAreasViewFragment
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -103,6 +104,8 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         getIntentValues()
         setContentView(R.layout.activity_personal_info)
         gotToFragment(name)
+        val adRequest = AdRequest.Builder().build()
+        adViewPersonalInfo?.loadAd(adRequest)
     }
 
     private fun gotToFragment(name: String) {
