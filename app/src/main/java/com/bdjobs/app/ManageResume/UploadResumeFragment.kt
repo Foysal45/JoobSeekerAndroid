@@ -18,6 +18,7 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
 import com.facebook.FacebookSdk.getApplicationContext
+import com.google.android.gms.ads.AdRequest
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import droidninja.filepicker.models.sort.SortingTypes
@@ -46,6 +47,10 @@ class UploadResumeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as ManageResumeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
+
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
+
     }
 
 
