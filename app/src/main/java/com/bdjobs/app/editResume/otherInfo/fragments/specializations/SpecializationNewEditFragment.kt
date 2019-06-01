@@ -101,10 +101,7 @@ class SpecializationNewEditFragment : Fragment() {
         )
 
 
-        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        skillListView?.layoutManager = layoutManager
-        specializationSkillAdapter = SpecializationSkillAdapter(activity, addExpList)
-        skillListView.adapter = specializationSkillAdapter
+
         eduCB = activity as OtherInfo
         session = BdjobsUserSession(activity)
 
@@ -118,13 +115,7 @@ class SpecializationNewEditFragment : Fragment() {
 
         }
 
-        addSkillButton.onClick {
 
-            NTVQF = ""
-            workExp = ""
-
-            showDialog(activity)
-        }
 
         new_fab_specialization_update.onClick {
 
@@ -464,16 +455,7 @@ class SpecializationNewEditFragment : Fragment() {
 
             }
 
-            if (addExpList?.size == 0) {
 
-                addExperienceLayout.show()
-                skillListView.hide()
-
-            } else {
-
-                addExperienceLayout.hide()
-                skillListView.show()
-            }
 
 
 
@@ -804,8 +786,7 @@ class SpecializationNewEditFragment : Fragment() {
 
             addExpList!!.add(item)
             specializationSkillAdapter.notifyItemInserted(addExpList!!.size - 1)
-            addExperienceLayout.hide()
-            skillListView.show()
+
 
         }
 

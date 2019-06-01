@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,20 +18,20 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
 
-    <TextView
-        android:textSize="16sp"
+    <com.google.android.material.chip.Chip
         android:id="@+id/experienceValueTV"
-        android:layout_width="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginStart="20dp"
-        android:textColor="#393939"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
         android:text="ডাটা এন্ট্রি"
-        app:layout_constraintTop_toBottomOf="@+id/workExperienceTV"
+        android:textColor="#393939"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/workExperienceTV" />
 
     <ImageView
         android:padding="3dp"
@@ -77,62 +78,95 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
 
-
-
-
-    <com.google.android.material.chip.ChipGroup
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/filter_chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/experienceInstructionTV"
-        >
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/experienceInstructionTV">
 
-        <com.google.android.material.chip.Chip
-            android:visibility="gone"
+        <TextView
+
             android:id="@+id/filter_chip1"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="chip1"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="chip1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filter_chip2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.Chip
-            android:visibility="gone"
+        <TextView
+
             android:id="@+id/filter_chip2"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="chip2"/>
-        <com.google.android.material.chip.Chip
-            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="chip2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filter_chip3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/filter_chip1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+
             android:id="@+id/filter_chip3"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="chip3"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="chip3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filter_chip4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/filter_chip2"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.google.android.material.chip.Chip
-            android:visibility="gone"
+        <TextView
+
             android:id="@+id/filter_chip4"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="chip4"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="chip4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filter_chip5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/filter_chip3"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.Chip
-            android:visibility="gone"
+        <TextView
+
             android:id="@+id/filter_chip5"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="chip5"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="chip5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/filter_chip4"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </com.google.android.material.chip.ChipGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <View android:layout_width="match_parent"

@@ -125,17 +125,17 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
 class SpecializationSkillViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
-    val experienceValueTV = view.findViewById(R.id.experienceValueTV) as TextView
+    val experienceValueTV = view.findViewById(R.id.experienceValueTV) as Chip
     val experienceInstructionTV = view.findViewById(R.id.experienceInstructionTV) as TextView
     val skillDeleteIcon = view.findViewById(R.id.skillDeleteIcon) as ImageView
     val skillEditIcon = view.findViewById(R.id.skillEditIcon) as ImageView
     val workExperienceTV = view.findViewById(R.id.workExperienceTV) as TextView
 
 
-    val filter_chip1 = view.findViewById(R.id.filter_chip1) as Chip
-    val filter_chip2 = view.findViewById(R.id.filter_chip2) as Chip
-    val filter_chip3 = view.findViewById(R.id.filter_chip3) as Chip
-    val filter_chip4 = view.findViewById(R.id.filter_chip4) as Chip
-    val filter_chip5 = view.findViewById(R.id.filter_chip5) as Chip
+    val filter_chip1 = view.findViewById(R.id.filter_chip1) as TextView
+    val filter_chip2 = view.findViewById(R.id.filter_chip2) as TextView
+    val filter_chip3 = view.findViewById(R.id.filter_chip3) as TextView
+    val filter_chip4 = view.findViewById(R.id.filter_chip4) as TextView
+    val filter_chip5 = view.findViewById(R.id.filter_chip5) as TextView
 
 }

@@ -171,6 +171,37 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView24"
                 app:layout_constraintTop_toBottomOf="@+id/skillLayout" />
 
+
+            <ImageView
+                android:id="@+id/descriptionEditIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/specialization_rounded_corner"
+                android:padding="3dp"
+                android:src="@drawable/specialization_ic_edit_black_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView52"
+                app:layout_constraintTop_toTopOf="@+id/textView52"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <ImageView
+                android:id="@+id/curicularEditIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/specialization_rounded_corner"
+                android:padding="3dp"
+                android:src="@drawable/specialization_ic_edit_black_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView54"
+                app:layout_constraintTop_toTopOf="@+id/textView54"
+                app:layout_constraintVertical_bias="0.0" />
+
             <TextView
                 android:fontFamily="@font/roboto_bold"
                 android:id="@+id/skillDescriptionTV"
