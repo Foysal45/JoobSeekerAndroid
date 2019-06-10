@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:supportsRtl"
+        >
 
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
