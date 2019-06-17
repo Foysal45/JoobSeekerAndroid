@@ -319,7 +319,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
     override fun showEditDialog(item: AddExpModel) {
-        specializationNewEditFragment.showEditDialog(item)
+        specializationNewViewFragment.showEditDialog(item)
     }
 
 }

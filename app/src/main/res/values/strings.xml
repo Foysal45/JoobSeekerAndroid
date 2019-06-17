@@ -300,7 +300,7 @@
     <string name="hint.Reading">Reading</string>
     <string name="hint.Writing">Writing</string>
     <string name="hint.heading_speaking">Speaking</string>
-    <string name="specialization_skill_heading">Your Skills</string>
+    <string name="specialization_skill_heading">Skills</string>
     <string name="specialization_skill_description_heading">Skill Description</string>
     <string name="specialization_extra_curricular_heading">Extra Curricular Activities</string>
     <string name="email_invalid_message">Please type a valid Email Address</string>

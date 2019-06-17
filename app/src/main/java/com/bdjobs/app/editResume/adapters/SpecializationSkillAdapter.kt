@@ -10,8 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.google.android.material.chip.Chip
@@ -19,7 +17,6 @@ import java.util.*
 
 class SpecializationSkillAdapter(private val context: Activity, private val items: ArrayList<AddExpModel>?): RecyclerView.Adapter<SpecializationSkillViewHolder>() {
     private var otherInfo: OtherInfo? = null
-
     init {
 
         if ((context) is OtherInfoBaseActivity) {
@@ -39,58 +36,69 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
         Log.d("uhiuhiu", "NTVQF ${items?.get(position)?.NTVQF}")
 
         val list = items?.get(position)?.expSource!!
+
+        var firstText =""
+        var secondText =""
+        var thirdText =""
+        var fourthText =""
+        var fifthText =""
+
+
         list.forEachIndexed { index, s ->
             Log.d("expTest", "exp: $s")
             when (s) {
                 "1" -> {
-                    holder.filter_chip1.text = "Self"
-                    holder.filter_chip1.show()
+                   firstText = "Self"
+
                 }
                 "2" -> {
-                    holder.filter_chip2.text = "Educational"
-                    holder.filter_chip2.show()
+                    secondText = "Educational"
+
                 }
                 "3" -> {
-                    holder.filter_chip3.text = "job"
-                    holder.filter_chip3.show()
+                   thirdText = "job"
+
                 }
                 "4" -> {
-                    holder.filter_chip4.text = "Professional Training"
-                    holder.filter_chip4.show()
+                    fourthText = "Professional Training"
+
                 }
                 "5" -> {
-                    holder.filter_chip5.text = "NTVQF:${items?.get(position)?.NTVQF}"
-                    holder.filter_chip5.show()
-                }
-                "-1" -> {
+                    fifthText = "NTVQF:${items?.get(position)?.NTVQF}"
 
-                    holder.filter_chip1.hide()
+                }
+
+                "-1" -> {
+                   firstText = ""
+
                 }
                 "-2" -> {
+                    secondText = ""
 
-                    holder.filter_chip2.hide()
                 }
                 "-3" -> {
+                   thirdText = ""
 
-                    holder.filter_chip3.hide()
                 }
                 "-4" -> {
+                    fourthText = ""
 
-                    holder.filter_chip4.hide()
                 }
                 "-5" -> {
+                    fifthText = ""
 
-                    holder.filter_chip5.hide()
                 }
+
             }
         }
 
-
+        holder.skillByTV.text = "$firstText , $secondText , $thirdText , $fourthText , $fifthText"
 
         holder.skillDeleteIcon.setOnClickListener {
             items?.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeRemoved(position, items?.size!!)
+
 
         }
 
@@ -132,10 +140,7 @@ class SpecializationSkillViewHolder(view: View) : RecyclerView.ViewHolder(view) 
     val workExperienceTV = view.findViewById(R.id.workExperienceTV) as TextView
 
 
-    val filter_chip1 = view.findViewById(R.id.filter_chip1) as TextView
-    val filter_chip2 = view.findViewById(R.id.filter_chip2) as TextView
-    val filter_chip3 = view.findViewById(R.id.filter_chip3) as TextView
-    val filter_chip4 = view.findViewById(R.id.filter_chip4) as TextView
-    val filter_chip5 = view.findViewById(R.id.filter_chip5) as TextView
+    val skillByTV = view.findViewById(R.id.skillByTV) as TextView
+
 
 }
