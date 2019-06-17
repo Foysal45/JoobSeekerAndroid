@@ -71,6 +71,16 @@ class WebActivity : Activity() {
                 suggestiveSearchET.text = "View Resume"
                 loadUrlWithoutCookie(url)
             }
+            "reportJob"->{
+                suggestiveSearchET.text = "Report this Job / Company"
+                if(BdjobsUserSession(this@WebActivity).isLoggedIn!!){
+                    loadUrlWithCookie(url)
+                    Log.d("reportJob","loadUrlWithCookie")
+                }else{
+                    loadUrlWithoutCookie(url)
+                    Log.d("reportJob","loadUrlWithoutCookie")
+                }
+            }
             else -> {
                 loadUrlWithoutCookie(url)
             }

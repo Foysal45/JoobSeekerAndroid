@@ -14,6 +14,7 @@ import com.bdjobs.app.API.ModelClasses.SendEmailCV
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.EditResLandingActivity
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_email_resume.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
@@ -45,6 +46,10 @@ class EmailResumeFragment : Fragment() {
         subject = communicator.getSubject()
         toEmail = communicator.getEmailTo()
         jobID = communicator.getjobID()
+
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
+
 
 
         if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {

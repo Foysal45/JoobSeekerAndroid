@@ -48,7 +48,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         Log.d("DatabaseUpdateJob", "DatabaseUpdateJob Start : ${Calendar.getInstance().time}")
         insertFavouriteSearchFilter()
         insertJobInvitation()
-        insertCertificationList()
+        //insertCertificationList()
         insertFollowedEmployers()
         insertShortListedJobs()
         getMybdjobsCountData("0")

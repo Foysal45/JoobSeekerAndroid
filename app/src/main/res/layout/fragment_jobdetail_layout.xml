@@ -32,7 +32,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:drawablePadding="5dp"
                 android:ems="10"
@@ -41,13 +41,13 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                tools:text="Job 2/50"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/shortListIMGV"
+                app:layout_constraintEnd_toStartOf="@+id/shortListIMGV2"
                 app:layout_constraintStart_toEndOf="@+id/BackIMGV"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Job 2/50" />
 
             <ImageView
                 android:id="@+id/BackIMGV"
@@ -108,6 +108,21 @@
                 app:layout_constraintEnd_toStartOf="@+id/filterIMGV"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/ic_star_black_24dp" />
+
+            <ImageView
+                android:id="@+id/shortListIMGV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_flag_black_24dp"
+                app:layout_constraintEnd_toStartOf="@+id/shortListIMGV"
+                shimmer:layout_constraintBottom_toBottomOf="parent"
+                shimmer:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>

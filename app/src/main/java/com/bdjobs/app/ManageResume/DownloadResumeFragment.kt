@@ -11,6 +11,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_download_resume.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
@@ -36,6 +37,9 @@ class DownloadResumeFragment : Fragment() {
 
         communicator = activity as ManageResumeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
+
+        val adRequest = AdRequest.Builder().build()
+        adView?.loadAd(adRequest)
 
         downloadOrDeleteCV("download")
 
