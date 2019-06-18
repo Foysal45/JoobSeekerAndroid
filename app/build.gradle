@@ -11,7 +11,7 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 648 //647 //71
+        versionCode 648//650 //71
         versionName "2.0.0.10"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -25,6 +25,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -32,8 +33,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //----androidx for design and others
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
@@ -62,8 +63,8 @@ dependencies {
     implementation "com.google.code.gson:gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.7.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.2'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.14.0'
 
     //----jetbrains kotlin extension
@@ -102,6 +103,9 @@ dependencies {
     //----ad manager
     implementation 'com.google.android.gms:play-services-ads:17.2.1'
     implementation project(':NativeTemplatesAndroid-1.0.0')
+
+    //google play core for app update
+    implementation 'com.google.android.play:core:1.6.1'
 
 
 }

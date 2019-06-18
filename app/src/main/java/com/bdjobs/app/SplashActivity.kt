@@ -32,6 +32,9 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.no_internet.*
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
@@ -48,6 +51,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private lateinit var dataStorage: DataStorage
     private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
+    private val APP_UPDATE_REQUEST_CODE = 156
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,16 +59,16 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
         bdjobsUserSession = BdjobsUserSession(applicationContext)
-        generateKeyHash()
+        //generateKeyHash()
         getFCMtoken()
         subscribeToFCMTopic("Kamol")
         if (bdjobsUserSession.isLoggedIn!!) {
             DatabaseUpdateJob.runJobImmediately()
         }
         MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
-       /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
-        mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
-        mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
+        /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
+         mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
+         mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
     }
 
 
@@ -200,33 +204,33 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     fun showAdAndGoToNextActivity() {
-       /* mPublisherInterstitialAd.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                mPublisherInterstitialAd.show()
-            }
+        /* mPublisherInterstitialAd.adListener = object : AdListener() {
+             override fun onAdLoaded() {
+                 // Code to be executed when an ad finishes loading.
+                 mPublisherInterstitialAd.show()
+             }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                goToNextActivity()
-            }
+             override fun onAdFailedToLoad(errorCode: Int) {
+                 checkUpdate()
+             }
 
-            override fun onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
+             override fun onAdOpened() {
+                 // Code to be executed when the ad is displayed.
+             }
 
-            override fun onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
+             override fun onAdLeftApplication() {
+                 // Code to be executed when the user has left the app.
 
-            }
+             }
 
-            override fun onAdClosed() {
-                goToNextActivity()
-            }
-        }*/
-        goToNextActivity()
+             override fun onAdClosed() {
+                 checkUpdate()
+             }
+         }*/
+        checkUpdate()
     }
 
-    private fun goToNextActivity(){
+    private fun goToNextActivity() {
         try {
             Log.d("XZXfg", "The interstitial wasn't loaded yet.")
             Log.d("XZXfg", "showAdAndGoToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
@@ -244,6 +248,35 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             }
         } catch (e: Exception) {
             logException(e)
+        }
+    }
+
+    private fun checkUpdate() {
+        val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+        appUpdateInfoTask.addOnSuccessListener { it ->
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                    it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                Log.d("UpdateCheck", "UPDATE_AVAILABLE")
+                appUpdateManager.startUpdateFlowForResult(
+                        it,
+                        AppUpdateType.IMMEDIATE,
+                        this@SplashActivity,
+                        APP_UPDATE_REQUEST_CODE)
+            } else {
+                Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
+                goToNextActivity()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("UpdateCheck", "requestCode= $requestCode\nresultCode= $resultCode ")
+        if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK) {
+            Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")
+            //checkUpdate()
+            goToNextActivity()
         }
     }
 
@@ -321,6 +354,5 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         super.onDestroy()
         unregisterReceiver(internetBroadCastReceiver)
     }
-
-
 }
+
