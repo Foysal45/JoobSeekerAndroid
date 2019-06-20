@@ -133,6 +133,19 @@ data class AddorUpdateModel(
         val message: String? = null
 )
 
+data class SpecializationAdModel(
+    @SerializedName("data")
+    var `data`: Any? = Any(),
+    @SerializedName("common")
+    var common: Any? = Any(),
+    @SerializedName("isResumeUpdate")
+    var isResumeUpdate: String? = "",
+    @SerializedName("message")
+    var message: String? = "",
+    @SerializedName("statuscode")
+    var statuscode: String? = ""
+)
+
 // Education and Training
 /*data class GetAcademicInfo(
 

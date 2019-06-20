@@ -8,8 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment">
 
-
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container_specialization_new"
         android:layout_width="match_parent"
