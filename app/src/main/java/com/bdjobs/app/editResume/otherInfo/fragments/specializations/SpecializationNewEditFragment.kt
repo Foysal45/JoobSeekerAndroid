@@ -37,6 +37,7 @@ class SpecializationNewEditFragment : Fragment() {
             eduCB.setDeleteButton(true)
             eduCB.setEditButton(false)
 
+            //fdghfjkh
 
         } else {
             eduCB.setEditButton(false)
