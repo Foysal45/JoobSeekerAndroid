@@ -90,12 +90,9 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private lateinit var gotToAddEmployment: String
     private var prThana: String? = ""
     private var prPost: String? = ""
-    private var pmDis: String? = ""
-    private var prDis: String? = ""
     private var pmThana: String? = ""
     private var pmPost: String? = ""
     private var fragmentFrom: String? = "first"
-
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
 
