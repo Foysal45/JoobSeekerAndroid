@@ -208,7 +208,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
             when (check) {
                 "addDirect" -> {
                     specializationNewEditFragment.isEdit = false
-                    transitFragment(specializationNewEditFragment, R.id.other_info_container, false)
+                    transitFragment(specializationNewViewFragment, R.id.other_info_container, false)
                     Constants.isDirectCall = true
                 }
                 "addLanguage" -> {

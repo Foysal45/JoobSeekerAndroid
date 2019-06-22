@@ -29,22 +29,22 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/skillDescriptionTIL"
                 style="@style/EHTextInputLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:textColorHint="#757575"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-               >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etSkillDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.skill_description"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="250"
                     android:textColor="#212121" />
@@ -54,7 +54,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/caricularTIL"
                 style="@style/EHTextInputLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
@@ -68,13 +68,13 @@
                 app:layout_constraintVertical_bias="0.01999998">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etCaricular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.caricular_activities"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="250"
                     android:textColor="#212121" />
