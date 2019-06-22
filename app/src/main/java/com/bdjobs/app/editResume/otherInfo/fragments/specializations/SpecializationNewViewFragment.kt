@@ -820,8 +820,7 @@ class SpecializationNewViewFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         populateData()
-                        /* clearEditText()*/
-                        /*eduCB.goBack()*/
+
                     }
                 } catch (e: Exception) {
                     //activity.stopProgressBar(referenceLoadingProgressBar)
