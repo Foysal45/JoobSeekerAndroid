@@ -277,7 +277,7 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV.setText(item?.skillName)
         whereSkillText.text = "Skill you learned from"
         val list = item?.skillBy!!
-        skilledBy = item.skillBy
+        skilledBy = "${item.skillBy},"
 
         for (each in list) {
             when (each.toString()) {
@@ -430,19 +430,40 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             val addItem = AddExpModel(workExp, workSource, NTVQF)
-            var skilbyID = ""
-            val skil = skilledBy.replace(",","")
+
+
+            d("nbnnn skilledBy $skilledBy")
+
+            val skilbyID   = skilledBy.replace(",,,",",")
+
+            val skilbyIDNew   = skilbyID.replace(",,",",")
+
+            d("nbnnn skilbyID $skilbyID")
+
+            val removeSuffixSkill = skilbyIDNew.removeSuffix(",")
+
+            d("nbnnn removeSuffixSkill $removeSuffixSkill")
+
+            val removePrefixSkill = removeSuffixSkill.removePrefix(",")
+
+            d("nbnnn removePrefixSkill $removePrefixSkill")
+
+
+            val removePrefixSkillAgain = removePrefixSkill.removePrefix(",")
+
+            val skil = removePrefixSkill.replace(",","")
 
             if (stringContainsNumber(skil.trim())){
 
                 skillSourceNotEmptyStatus = true
-                skilbyID  = skilledBy.replace(",,",",")
+
                 d("skillTest three $skilbyID")
             } else {
 
                 skillSourceNotEmptyStatus = false
 
             }
+
 
 
             updateSkill = dataStorage.getSkillIDBySkillType(addItem.workExp.toString()).toString()
@@ -486,7 +507,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                             } else if (!addItem.NTVQF.isNullOrEmpty()) {
 
-                                d("fjdgnfj 1 $ntvqfStatus")
+
 
 
 
@@ -496,11 +517,10 @@ class SpecializationNewViewFragment : Fragment() {
                                 ntvqfStatus = false
                                 dialogEdit.dismiss()
 
-                                d("SkillBy  item.skillBy ${item.skillBy}")
-                                d("SkillBy updateNewSkilledBy $updateNewSkilledBy")
+
 
                                 NTVQF =""
-                                addOrUpdateItem(updateSkill, item.sId.toString(), skilbyID, updateNtvqf, "1")
+                                addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
 
 
                             }
@@ -510,14 +530,14 @@ class SpecializationNewViewFragment : Fragment() {
                             skillSourceNotEmptyStatus = false
                             ntvqfStatus = false
 
-                            d("fjdgnfj 2 $ntvqfStatus")
+
                             d("SkillBy ${item.skillBy}")
                             d("SkillBy $skilledBy")
 
                             d("SkillBy  item.skillBy ${item.skillBy}")
                             d("SkillBy updateNewSkilledBy $updateNewSkilledBy")
                             NTVQF =""
-                            addOrUpdateItem(updateSkill, item.sId.toString(), skilbyID, updateNtvqf, "1")
+                            addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
                             dialogEdit.dismiss()
                         }
                     } else {
