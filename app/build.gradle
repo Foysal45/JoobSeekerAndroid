@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 64//650 //71
-        versionName "2.0.0.10"  //600.3.1 internal test // 2.0.0.06
+        versionCode 651//650 //71
+        versionName "2.0.0.11"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,19 +37,19 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //----androidx for design and others
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation "com.google.android.material:material:1.0.0"
 
     //----firebase
     implementation 'com.google.firebase:firebase-core:17.0.0'
-    implementation "com.google.firebase:firebase-messaging:19.0.0"
-    implementation 'com.google.firebase:firebase-perf:18.0.0'
+    implementation "com.google.firebase:firebase-messaging:19.0.1"
+    implementation 'com.google.firebase:firebase-perf:18.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     //-----google sign in
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //----image & animation related
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -71,10 +71,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
 
     //----room database
-    implementation 'androidx.room:room-runtime:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
-    implementation 'androidx.room:room-rxjava2:2.0.0'
-    testImplementation 'androidx.room:room-testing:2.0.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
@@ -96,10 +96,10 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
 
     //-----google maps
-    implementation "com.google.android.gms:play-services-maps:16.1.0"
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
 
     //----ad manager
-    implementation 'com.google.android.gms:play-services-ads:17.2.1'
+    implementation 'com.google.android.gms:play-services-ads:18.0.0'
     implementation project(':NativeTemplatesAndroid-1.0.0')
 
     //-----google play core for app update
