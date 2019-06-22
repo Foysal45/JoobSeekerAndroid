@@ -327,49 +327,49 @@ data class GetPersInfo(
 // Contact Info
 data class C_DataItem(
         @SerializedName("addressType1")
-        val addressType1: String?,
+        val addressType1: String?="",
         @SerializedName("addressType2")
-        val addressType2: String?,
+        val addressType2: String?="",
         @SerializedName("alternativeEmail")
-        val alternativeEmail: String?,
+        val alternativeEmail: String?="",
         @SerializedName("primaryEmail")
-        val email: String?,
+        val email: String?="",
         @SerializedName("mobileNo1")
-        val homePhone: String?,
+        val homePhone: String?="",
         @SerializedName("messageType")
-        val messageType: String?,
+        val messageType: String?="",
         @SerializedName("primaryMobileNo")
-        val mobile: String?,
+        val mobile: String?="",
         @SerializedName("mobileNo2")
-        val officePhone: String?,
+        val officePhone: String?="",
         @SerializedName("permanentAddressID")
-        val permanentAddressID: String?,
+        val permanentAddressID: String?="",
         @SerializedName("permanentCountry")
-        val permanentCountry: String?,
+        val permanentCountry: String?="",
         @SerializedName("permanentDistrict")
-        val permanentDistrict: String?,
+        val permanentDistrict: String?="",
         @SerializedName("permanentInsideOutsideBD")
-        val permanentInsideOutsideBD: String?,
+        val permanentInsideOutsideBD: String?="",
         @SerializedName("permanentPostOffice")
-        val permanentPostOffice: String?,
+        val permanentPostOffice: String?="",
         @SerializedName("permanentThana")
-        val permanentThana: String?,
+        val permanentThana: String?="",
         @SerializedName("permanentVillage")
-        val permanentVillage: String?,
+        val permanentVillage: String?="",
         @SerializedName("presentAddressID")
-        val presentAddressID: String?,
+        val presentAddressID: String?="",
         @SerializedName("presentCountry")
-        val presentCountry: String?,
+        val presentCountry: String?="",
         @SerializedName("presentDistrict")
-        val presentDistrict: String?,
+        val presentDistrict: String?="",
         @SerializedName("presentInsideOutsideBD")
-        val presentInsideOutsideBD: String?,
+        val presentInsideOutsideBD: String?="",
         @SerializedName("presentPostOffice")
-        val presentPostOffice: String?,
+        val presentPostOffice: String?="",
         @SerializedName("presentThana")
-        val presentThana: String?,
+        val presentThana: String?="",
         @SerializedName("presentVillage")
-        val presentVillage: String?
+        val presentVillage: String?=""
 )
 
 data class GetContactInfo(
@@ -486,7 +486,7 @@ data class PreferredAreasData(
         @SerializedName("inside")
         val inside: List<Inside?>? = listOf(),
         @SerializedName("messageType")
-        val messageType: String?,
+        val messageType: String?="",
         @SerializedName("outside")
         val outside: List<Outside?>? = listOf(),
         @SerializedName("preferredBlueCategories")

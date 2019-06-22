@@ -81,11 +81,11 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val oriEditFragment = ORIEditFragment()
     private val prefViewFragment = PreferredAreasViewFragment()
     private val prefEditFragment = PreferredAreasEditFragment()
-    private lateinit var dataCa: Ca_DataItem
-    private lateinit var dataCon: C_DataItem
-    private lateinit var dataPer: P_DataItem
-    private lateinit var dataOri: ORIdataItem
-    private lateinit var dataAreas: PreferredAreasData
+    private  var dataCa: Ca_DataItem = Ca_DataItem()
+    private  var dataCon: C_DataItem = C_DataItem()
+    private  var dataPer: P_DataItem = P_DataItem()
+    private  var dataOri: ORIdataItem = ORIdataItem()
+    private  var dataAreas: PreferredAreasData = PreferredAreasData()
     private lateinit var name: String
     private lateinit var gotToAddEmployment: String
     private var prThana: String? = ""
