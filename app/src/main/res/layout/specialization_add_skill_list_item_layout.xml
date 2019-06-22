@@ -21,15 +21,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginEnd="50dp"
         android:text="ডাটা এন্ট্রি"
         android:textColor="#393939"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/workExperienceTV" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skillEditIcon" />
 
     <ImageView
         android:padding="3dp"
@@ -67,7 +67,8 @@
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="#767676"
+        android:textColor="#393939"
+        android:fontFamily="@font/roboto_medium"
         android:text="Skill you learned from"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/experienceValueTV"
@@ -79,12 +80,15 @@
     <TextView
         android:id="@+id/skillByTV"
         style="@style/Widget.MaterialComponents.Chip.Filter"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginStart="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/roboto"
+        android:paddingBottom="15dp"
         android:text="@string/add_skill_text"
+        android:textColor="#393939"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
