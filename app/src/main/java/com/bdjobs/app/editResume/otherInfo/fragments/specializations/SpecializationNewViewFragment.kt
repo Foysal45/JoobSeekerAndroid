@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -27,11 +28,6 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_specialization_new_view.*
-import kotlinx.android.synthetic.main.fragment_specialization_new_view.curricularTV
-import kotlinx.android.synthetic.main.fragment_specialization_new_view.fab_specialization_add
-import kotlinx.android.synthetic.main.fragment_specialization_new_view.mainlayout
-import kotlinx.android.synthetic.main.fragment_specialization_new_view.skillDescriptionTV
-import kotlinx.android.synthetic.main.fragment_view_specialization.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
@@ -47,16 +43,11 @@ class SpecializationNewViewFragment : Fragment() {
 
     private lateinit var specializationSkillAdapter: SpecializationSkillAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
-
-    private var addSkillList: ArrayList<AddExpModel>? = ArrayList()
     private var arr: ArrayList<Skill?>? = null
     private lateinit var dialog: Dialog
     private lateinit var dataStorage: DataStorage
     private var workSkillID = ""
-    private var skills: String = ""
-    private var isEmpty = false
     private var idArr: java.util.ArrayList<String> = java.util.ArrayList()
-
     private var addExpList: java.util.ArrayList<AddExpModel>? = java.util.ArrayList()
     private var workExp = ""
     private var NTVQF = ""
@@ -65,10 +56,8 @@ class SpecializationNewViewFragment : Fragment() {
     private var ntvqfStatus = false
     private lateinit var levelList: Array<String>
     private lateinit var dialogEdit: Dialog
-
     private lateinit var session: BdjobsUserSession
     var isEdit: Boolean = false
-
     private lateinit var eduCB: OtherInfo
     var updateNewSkilledBy = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -227,7 +216,7 @@ class SpecializationNewViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_specialization_new?.show()
-            shimmer_view_container_specialization?.startShimmerAnimation()
+            shimmer_view_container_specialization_new?.startShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -237,7 +226,7 @@ class SpecializationNewViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_specialization_new?.hide()
-            shimmer_view_container_specialization?.stopShimmerAnimation()
+            shimmer_view_container_specialization_new?.stopShimmerAnimation()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -510,7 +499,7 @@ class SpecializationNewViewFragment : Fragment() {
                                 d("SkillBy  item.skillBy ${item.skillBy}")
                                 d("SkillBy updateNewSkilledBy $updateNewSkilledBy")
 
-
+                                NTVQF =""
                                 addOrUpdateItem(updateSkill, item.sId.toString(), skilbyID, updateNtvqf, "1")
 
 
@@ -527,7 +516,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                             d("SkillBy  item.skillBy ${item.skillBy}")
                             d("SkillBy updateNewSkilledBy $updateNewSkilledBy")
-
+                            NTVQF =""
                             addOrUpdateItem(updateSkill, item.sId.toString(), skilbyID, updateNtvqf, "1")
                             dialogEdit.dismiss()
                         }
@@ -740,7 +729,7 @@ class SpecializationNewViewFragment : Fragment() {
                                     activity.toast("Please select NTVQF level")
                                     skillSourceNotEmptyStatus = false
                                 } else {
-
+                                    NTVQF =""
                                     addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
                                     skillDuplicateStatus = false
                                     skillSourceNotEmptyStatus = false
@@ -749,7 +738,7 @@ class SpecializationNewViewFragment : Fragment() {
                                 }
 
                             } else {
-
+                                NTVQF= ""
                                 addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
                                 skillDuplicateStatus = false
                                 skillSourceNotEmptyStatus = false
@@ -799,6 +788,32 @@ class SpecializationNewViewFragment : Fragment() {
 
 
     }
+
+
+    fun confirmationPopUp(item: String){
+
+
+        val builder = AlertDialog.Builder(activity)
+
+        builder.setPositiveButton("ok") { _, which ->
+
+            dataDelete(item)
+
+        }
+        builder.setNegativeButton("cancel") { dialog, which ->
+
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.setCancelable(false)
+        dialog.setTitle("Are you sure, want to delete this record?")
+        dialog.show()
+
+
+
+    }
+
+
 
     fun dataDelete(deleteItemId: String) {
           activity?.showProgressBar(newSpecializationLoadingProgressBar)

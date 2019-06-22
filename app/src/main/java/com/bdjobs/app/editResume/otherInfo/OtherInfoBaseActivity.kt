@@ -322,8 +322,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
         specializationNewViewFragment.showEditDialog(item)
     }
 
-    override fun deleteSpecialization(deleteItem: String) {
-        specializationNewViewFragment.dataDelete(deleteItem)
+    override fun confirmationPopup(deleteItem: String) {
+        specializationNewViewFragment.confirmationPopUp(deleteItem)
     }
 
 

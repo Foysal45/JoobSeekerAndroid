@@ -111,7 +111,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
             notifyItemRangeRemoved(position, items?.size!!)*/
             d("deleteItemId: in adapter position   $position")
             d("deleteItemId: in adapter   ${items[position]!!.sId.toString()}")
-            otherInfo?.deleteSpecialization(items[position]!!.sId.toString())
+            otherInfo?.confirmationPopup(items[position]!!.sId.toString())
 
 
         }

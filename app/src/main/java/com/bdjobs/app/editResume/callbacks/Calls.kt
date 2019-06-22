@@ -82,7 +82,7 @@ interface OtherInfo {
     fun showEditDialog(item : Skill?)
     fun getSkillDes():String?
     fun getExtraCuri():String?
-    fun deleteSpecialization(deleteItem:String)
+    fun confirmationPopup(deleteItem:String)
 
 
 
