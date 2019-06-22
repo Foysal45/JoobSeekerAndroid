@@ -79,9 +79,11 @@ interface OtherInfo {
     fun getSpecializationData(): SpecializationDataModel
     fun setItemClick(position: Int)
     fun getItemClick():Int
-    fun showEditDialog(item : AddExpModel)
+    fun showEditDialog(item : Skill?)
     fun getSkillDes():String?
     fun getExtraCuri():String?
+    fun deleteSpecialization(deleteItem:String)
+
 
 
 }

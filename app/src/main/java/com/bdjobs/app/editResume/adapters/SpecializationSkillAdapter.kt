@@ -8,16 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.d
+import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
-import com.google.android.material.chip.Chip
-import java.util.*
 
-class SpecializationSkillAdapter(private val context: Activity, private val items: ArrayList<AddExpModel>?): RecyclerView.Adapter<SpecializationSkillViewHolder>() {
+class SpecializationSkillAdapter(private val context: Activity, private val items: ArrayList<Skill?>): RecyclerView.Adapter<SpecializationSkillViewHolder>() {
     private var otherInfo: OtherInfo? = null
 
     init {
@@ -30,78 +27,102 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
     }
 
     override fun onBindViewHolder(holder: SpecializationSkillViewHolder, position: Int) {
-        holder.experienceValueTV.text = items?.get(position)?.workExp
+        holder.experienceValueTV.text = items?.get(position)?.skillName
         holder.workExperienceTV.text = "skill - ${position+1}"
        /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
-        Log.d("uhiuhiu", "workExp ${items?.get(position)?.workExp}")
+        Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
         Log.d("fdhbjh", "position $position")
-        Log.d("fdhbjh", "expSource ${items?.get(position)?.expSource}")
-        Log.d("uhiuhiu", "NTVQF ${items?.get(position)?.NTVQF}")
+        Log.d("fdhbjh", "expSource ${items?.get(position)?.skillBy}")
+        Log.d("fdhbjh", "NTVQF ${items?.get(position)?.ntvqfLevel}")
 
-        val list = items?.get(position)?.expSource!!
+        var firstText =""
+        var secondText =""
+        var thirdText =""
+        var fourthText =""
+        var fifthText =""
+
+        val list = items?.get(position)?.skillBy!!
         list.forEachIndexed { index, s ->
             Log.d("expTest", "exp: $s")
-            when (s) {
+            when (s.toString()) {
                 "1" -> {
-                    holder.filter_chip1.text = "Self"
-                    holder.filter_chip1.show()
+                    firstText = "Self,"
+
                 }
                 "2" -> {
-                    holder.filter_chip2.text = "Educational"
-                    holder.filter_chip2.show()
+                    secondText = "Educational,"
+
                 }
                 "3" -> {
-                    holder.filter_chip3.text = "job"
-                    holder.filter_chip3.show()
+                    thirdText = "Job,"
+
                 }
                 "4" -> {
-                    holder.filter_chip4.text = "Professional Training"
-                    holder.filter_chip4.show()
+                    fourthText = "Professional Training,"
+
                 }
                 "5" -> {
-                    holder.filter_chip5.text = "NTVQF:${items?.get(position)?.NTVQF}"
-                    holder.filter_chip5.show()
-                }
-                "-1" -> {
 
-                    holder.filter_chip1.hide()
-                }
-                "-2" -> {
+                   /* fifthText = "NTVQF:${items?.get(position)?.ntvqfLevel}"*/
 
-                    holder.filter_chip2.hide()
-                }
-                "-3" -> {
+                   fifthText = getNtvqf(items[position]?.ntvqfLevel.toString())
 
-                    holder.filter_chip3.hide()
-                }
-                "-4" -> {
+                    d("fifthText :  $fifthText")
 
-                    holder.filter_chip4.hide()
                 }
-                "-5" -> {
 
-                    holder.filter_chip5.hide()
-                }
             }
         }
 
+        var finalText = ""
+
+        if (firstText.isNotEmpty()){
+
+            finalText += firstText
+        }
 
 
+        if (secondText.isNotEmpty()){
+            finalText += secondText
+
+        }
+
+        if (thirdText.isNotEmpty()){
+            finalText += thirdText
+
+        }
+
+        if (fourthText.isNotEmpty()){
+            finalText += fourthText
+
+        }
+
+        if (fifthText.isNotEmpty()){
+            finalText += fifthText
+
+        }
+
+        val showingText = finalText.removeSuffix(",")
+
+        holder.skillByTV.text = showingText
         holder.skillDeleteIcon.setOnClickListener {
-            items?.removeAt(position)
+          /*  items?.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeRemoved(position, items?.size!!)
+            notifyItemRangeRemoved(position, items?.size!!)*/
+            d("deleteItemId: in adapter position   $position")
+            d("deleteItemId: in adapter   ${items[position]!!.sId.toString()}")
+            otherInfo?.deleteSpecialization(items[position]!!.sId.toString())
+
 
         }
 
         holder.skillEditIcon.setOnClickListener {
 
-            otherInfo?.showEditDialog(items[position])
-
-            /*  d("fdhbjh Passing Model ${items[position]?.expSource} ")*/
+          otherInfo?.showEditDialog(items[position])
+          d("fdhbjh Passing Model ${items[position]?.skillName} ")
 
             otherInfo?.setItemClick(position)
-            /* notifyItemChanged(position)*/
+           /* notifyItemChanged(position)*/
 
 
         }
@@ -119,6 +140,52 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
 
 
+    private fun getNtvqf(item: String): String {
+
+        var ntvqflevel = ""
+
+        when (item) {
+            "1" -> {
+
+
+                ntvqflevel = "Pre-Voc Level 1"
+            }
+            "2" -> {
+
+                ntvqflevel = "Pre-Voc Level 2"
+
+            }
+            "3" -> {
+
+                ntvqflevel = "NTVQF Level 1"
+
+            }
+            "4" -> {
+
+                ntvqflevel = "NTVQF Level 2"
+            }
+            "5" -> {
+                ntvqflevel = "NTVQF Level 3"
+
+            }
+            "6" -> {
+
+                ntvqflevel = "NTVQF Level 4"
+            }
+            "7" -> {
+                ntvqflevel = "NTVQF Level 5"
+
+            }
+            "8" -> {
+                ntvqflevel = "NTVQF Level 6"
+
+            }
+
+            /*val dataItem = AddExpModel(item.skillName,skillArrayList,)*/
+        }
+
+        return ntvqflevel
+    }
 
 
 }
@@ -132,10 +199,7 @@ class SpecializationSkillViewHolder(view: View) : RecyclerView.ViewHolder(view) 
     val workExperienceTV = view.findViewById(R.id.workExperienceTV) as TextView
 
 
-    val filter_chip1 = view.findViewById(R.id.filter_chip1) as Chip
-    val filter_chip2 = view.findViewById(R.id.filter_chip2) as Chip
-    val filter_chip3 = view.findViewById(R.id.filter_chip3) as Chip
-    val filter_chip4 = view.findViewById(R.id.filter_chip4) as Chip
-    val filter_chip5 = view.findViewById(R.id.filter_chip5) as Chip
+    val skillByTV = view.findViewById(R.id.skillByTV) as TextView
+
 
 }

@@ -57,7 +57,6 @@
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
-
         android:id="@+id/other_info_container"
         android:layout_width="0dp"
         android:layout_height="0dp"

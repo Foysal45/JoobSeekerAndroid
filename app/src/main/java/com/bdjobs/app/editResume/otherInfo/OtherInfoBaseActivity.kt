@@ -14,6 +14,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.adapters.models.ReferenceDataModel
+import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.adapters.models.SpecializationDataModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.fragments.languagePref.LangPrViewFragment
@@ -31,7 +32,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 
 class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
-
 
 
     private var skillList = ArrayList<AddExpModel>()
@@ -318,8 +318,13 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
        return clickPosition
     }
 
-    override fun showEditDialog(item: AddExpModel) {
-        specializationNewEditFragment.showEditDialog(item)
+    override fun showEditDialog(item: Skill?) {
+        specializationNewViewFragment.showEditDialog(item)
     }
+
+    override fun deleteSpecialization(deleteItem: String) {
+        specializationNewViewFragment.dataDelete(deleteItem)
+    }
+
 
 }
