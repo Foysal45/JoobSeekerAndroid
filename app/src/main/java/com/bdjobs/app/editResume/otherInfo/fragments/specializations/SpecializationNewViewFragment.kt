@@ -530,7 +530,7 @@ class SpecializationNewViewFragment : Fragment() {
                             skillSourceNotEmptyStatus = false
                             ntvqfStatus = false
 
-                            d("fjdgnfj 2 $ntvqfStatus")
+
                             d("SkillBy ${item.skillBy}")
                             d("SkillBy $skilledBy")
 
