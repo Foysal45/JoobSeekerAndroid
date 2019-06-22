@@ -50,11 +50,6 @@ class SpecializationViewFragment : Fragment() {
         }
         doWork()
 
-        /*if (eduCB.getBackFrom() == "") {
-
-        } else {
-            doWork()
-        }*/
 
     }
 
