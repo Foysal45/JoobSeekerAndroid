@@ -801,7 +801,7 @@ class SpecializationNewViewFragment : Fragment() {
     }
 
     fun dataDelete(deleteItemId: String) {
-         /* activity?.showProgressBar(newSpecializationLoadingProgressBar)*/
+          activity?.showProgressBar(newSpecializationLoadingProgressBar)
         d("deleteItemId: in fragment   $deleteItemId")
         val call = ApiServiceMyBdjobs.create().deleteData("Specialist", deleteItemId, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
@@ -816,7 +816,7 @@ class SpecializationNewViewFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                         /*  activity?.stopProgressBar(newSpecializationLoadingProgressBar)*/
+                           activity?.stopProgressBar(newSpecializationLoadingProgressBar)
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         populateData()
@@ -837,7 +837,7 @@ class SpecializationNewViewFragment : Fragment() {
 
         d("nbnnn  ${session.userId} ${session.decodId} ${session.IsResumeUpdate} $skills  $s_id  $skilledBy $ntvqfLevel  $insertOrUpdate")
 
-      /*  activity?.showProgressBar(newSpecializationLoadingProgressBar)*/
+        activity?.showProgressBar(newSpecializationLoadingProgressBar)
         ApiServiceMyBdjobs.create().specializationAddOrUpdate(session.userId, session.decodId, session.IsResumeUpdate!!, skills.trim(), s_id, skilledBy.trim(), ntvqfLevel, insertOrUpdate).enqueue(object : Callback<SpecializationAdModel> {
             override fun onFailure(call: Call<SpecializationAdModel>, t: Throwable) {
 
@@ -849,7 +849,7 @@ class SpecializationNewViewFragment : Fragment() {
             override fun onResponse(call: Call<SpecializationAdModel>, response: Response<SpecializationAdModel>) {
 
                 if (response.isSuccessful) {
-                      /* activity?.stopProgressBar(newSpecializationLoadingProgressBar)*/
+                    activity?.stopProgressBar(newSpecializationLoadingProgressBar)
                     val resp = response.body()
 
                     d("nbnnn ${resp!!.statuscode!!}")
