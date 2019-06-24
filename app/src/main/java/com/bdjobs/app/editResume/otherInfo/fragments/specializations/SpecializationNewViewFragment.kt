@@ -560,12 +560,11 @@ class SpecializationNewViewFragment : Fragment() {
                             skillSourceNotEmptyStatus = false
                             ntvqfStatus = false
 
-
-                            d("SkillBy ${item.skillBy}")
+                           /* d("SkillBy ${item.skillBy}")
                             d("SkillBy $skilledBy")
-
                             d("SkillBy  item.skillBy ${item.skillBy}")
-                            d("SkillBy updateNewSkilledBy $updateNewSkilledBy")
+                            d("SkillBy updateNewSkilledBy $updateNewSkilledBy")*/
+
                             NTVQF =""
                             addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
                             dialogEdit.dismiss()
