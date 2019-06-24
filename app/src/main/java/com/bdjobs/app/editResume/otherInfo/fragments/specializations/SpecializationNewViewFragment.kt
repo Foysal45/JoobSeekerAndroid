@@ -7,6 +7,9 @@ import android.app.Fragment
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -137,11 +140,19 @@ class SpecializationNewViewFragment : Fragment() {
 
     private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String, response: SpecializationDataModel) {
 
-       /* if (array.size == 0 && TextUtils.isEmpty(skillDes) && TextUtils.isEmpty(curricular)) {
-            mainlayout?.hide()
-            fab_specialization_add?.show()
-            eduCB.setEditButton(false)
-        } else {*/
+        if (array.size == 0 ) {
+            mainlayout?.show()
+           /* fab_specialization_add?.show()
+            eduCB.setEditButton(false)*/
+
+            imageView22.hide()
+            textView48.hide()
+            skillListView.hide()
+        } else {
+
+            imageView22.show()
+            textView48.show()
+
             mainlayout.show()
             fab_specialization_add?.hide()
             skillDescriptionTV?.text = skillDes
@@ -171,7 +182,7 @@ class SpecializationNewViewFragment : Fragment() {
             eduCB.passSpecializationData(response)
 
 
-      /*  }*/
+        }
 
     }
 
@@ -319,7 +330,7 @@ class SpecializationNewViewFragment : Fragment() {
             d("specialization test Array size : pos : $position id : $id")
             //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
             d("Selected : ${skillList[position + 1]} and gotStr : ${refnameATCTV.text}")
-            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.text.toString())!!
+            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
 
             d("specialization test workSkillID : ${workSkillID} ")
             d("specialization test idArr : ${idArr} ")
@@ -345,6 +356,8 @@ class SpecializationNewViewFragment : Fragment() {
 
 
         }
+
+
 
         // set data end
         firstCheckbox?.setOnCheckedChangeListener { _, isChecked ->
@@ -398,6 +411,34 @@ class SpecializationNewViewFragment : Fragment() {
 
         }
 
+
+        refnameATCTV.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().length > 2){
+
+                    d("popup showing ${refnameATCTV.isPopupShowing}")
+                    if (refnameATCTV.isPopupShowing){
+
+
+                    } else {
+
+                        activity.toast("Skill Not found")
+                        refnameATCTV.clearText()
+                    }
+
+                }
+            }
+        })
+
+
         experienceLevelTIET.setOnClickListener {
 
             activity.selector("Select NTVQF level", levelList.toList()) { dialogInterface, i ->
@@ -430,25 +471,14 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             val addItem = AddExpModel(workExp, workSource, NTVQF)
-
-
             d("nbnnn skilledBy $skilledBy")
-
             val skilbyID   = skilledBy.replace(",,,",",")
-
             val skilbyIDNew   = skilbyID.replace(",,",",")
-
             d("nbnnn skilbyID $skilbyID")
-
             val removeSuffixSkill = skilbyIDNew.removeSuffix(",")
-
             d("nbnnn removeSuffixSkill $removeSuffixSkill")
-
             val removePrefixSkill = removeSuffixSkill.removePrefix(",")
-
             d("nbnnn removePrefixSkill $removePrefixSkill")
-
-
             val removePrefixSkillAgain = removePrefixSkill.removePrefix(",")
 
             val skil = removePrefixSkill.replace(",","")
@@ -492,7 +522,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                 if (skillDuplicateStatus) {
 
-                    activity.toast("Already exists!")
+                    activity.toast("This skill already exists")
                     skillDuplicateStatus = false
                     skillSourceNotEmptyStatus = false
 
@@ -548,7 +578,7 @@ class SpecializationNewViewFragment : Fragment() {
                 }
 
             } else {
-                activity.toast("Please select Skill")
+                activity.toast("Please type your Skill")
                 skillSourceNotEmptyStatus = false
             }
 
@@ -604,7 +634,7 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
         refnameATCTV?.setOnItemClickListener { _, _, position, id ->
 
-            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.text.toString())!!
+            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
 
             refnameATCTV.setText(refnameATCTV.getString())
             workExp = refnameATCTV.getString()
@@ -624,6 +654,34 @@ class SpecializationNewViewFragment : Fragment() {
             ntvqfStatus = false
             experienceLevelTIET!!.setText("NTVQF Level")
         }
+
+
+        refnameATCTV.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().length > 2){
+
+                    d("popup showing ${refnameATCTV.isPopupShowing}")
+                    if (refnameATCTV.isPopupShowing){
+
+
+                    } else {
+
+                        activity.toast("Skill Not found")
+                        refnameATCTV.clearText()
+                    }
+
+                }
+            }
+        })
+
 
         firstCheckbox?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -732,7 +790,7 @@ class SpecializationNewViewFragment : Fragment() {
 
 
             if (skillDuplicateStatus) {
-                activity.toast("Already exists!")
+                activity.toast("This skill already exists")
                 skillDuplicateStatus = false
                 skillSourceNotEmptyStatus = false
             } else {
@@ -770,14 +828,13 @@ class SpecializationNewViewFragment : Fragment() {
 
                         }
                     } else {
-                        activity.toast("Please select Skill")
+                        activity.toast("Please type your Skill")
                         skillSourceNotEmptyStatus = false
 
                     }
 
 
                 }
-
 
             }
 
@@ -786,6 +843,17 @@ class SpecializationNewViewFragment : Fragment() {
 
     }
 
+
+     fun sugessionValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
+        when {
+            TextUtils.isEmpty(char) -> {
+                til.showError(getString(R.string.field_empty_error_message_common))
+                return false
+            }
+            else -> til.hideError()
+        }
+        return true
+    }
 
 
     private fun onClick() {

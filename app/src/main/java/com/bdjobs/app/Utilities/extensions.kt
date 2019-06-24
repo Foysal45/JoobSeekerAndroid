@@ -636,6 +636,20 @@ fun TextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = th
     }
 })
 
+
+fun AutoCompleteTextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = this.addTextChangedListener(object : TextWatcher {
+    override fun afterTextChanged(p0: Editable) {
+    }
+
+    override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+
+    }
+
+    override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+        listener(p0)
+    }
+})
+
 fun Activity.getAppVersion():String{
     val pinfo = packageManager.getPackageInfo(packageName,0)
     return pinfo.versionName
