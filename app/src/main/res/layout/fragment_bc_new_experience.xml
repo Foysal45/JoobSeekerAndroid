@@ -139,9 +139,7 @@
                     app:iconTint="@color/colorWhite"
                     app:icon="@drawable/ic_add_circle_bdjobs"
                     android:backgroundTint="#13A10E"
-                    android:paddingStart="15dp"
                     android:paddingTop="12dp"
-                    android:paddingEnd="15dp"
                     android:paddingBottom="12dp"
                     android:text="@string/bc_work_experience_add"
                     android:textAllCaps="false"
@@ -149,16 +147,11 @@
                     android:layout_marginTop="20dp"
                     android:textColorHighlight="#ffffff"
                     android:textSize="16sp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginStart="20dp"
                     android:layout_marginBottom="20dp"
                     app:cornerRadius="5dp"
                     app:strokeColor="#DBDBDB"
                     app:strokeWidth="1dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    />
 
             </LinearLayout>
 

@@ -3,7 +3,6 @@ package com.bdjobs.app.Registration.blue_collar_registration
 import android.app.Activity
 import android.app.Dialog
 import android.app.Fragment
-import android.app.ProgressDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -40,8 +39,6 @@ class BCNewExperienceFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private var bcCategoryId: String = ""
     private var category: String = ""
-    private lateinit var progressDialog: ProgressDialog
-    private var selectedSubcategories = ArrayList<String>()
     private lateinit var subCategories: Array<String>
     private lateinit var levelList: Array<String>
     internal var count: Int = 0
@@ -50,13 +47,11 @@ class BCNewExperienceFragment : Fragment() {
     private lateinit var dialog: Dialog
     private lateinit var dialogEdit: Dialog
     private lateinit var categoryEdit: Dialog
-    private lateinit var returnview: View
 
     private lateinit var bcCategories: ArrayList<String>
     private lateinit var bcSkillAdapter: BCSkillAdapter
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var selectedPosition = -1
-    private var checkBoxStatus = false
+
     private var addExpList: ArrayList<AddExpModel>? = ArrayList()
     private var workExp = ""
     private var NTVQF = ""

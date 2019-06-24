@@ -14,7 +14,7 @@ import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 
-class SpecializationSkillAdapter(private val context: Activity, private val items: ArrayList<Skill?>): RecyclerView.Adapter<SpecializationSkillViewHolder>() {
+class SpecializationSkillAdapter(private val context: Activity, private val items: ArrayList<Skill?>) : RecyclerView.Adapter<SpecializationSkillViewHolder>() {
     private var otherInfo: OtherInfo? = null
 
     init {
@@ -28,18 +28,18 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
     override fun onBindViewHolder(holder: SpecializationSkillViewHolder, position: Int) {
         holder.experienceValueTV.text = items?.get(position)?.skillName
-        holder.workExperienceTV.text = "skill - ${position+1}"
-       /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
-        Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
+        holder.workExperienceTV.text = "skill - ${position + 1}"
+        /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
+        /*Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
         Log.d("fdhbjh", "position $position")
         Log.d("fdhbjh", "expSource ${items?.get(position)?.skillBy}")
-        Log.d("fdhbjh", "NTVQF ${items?.get(position)?.ntvqfLevel}")
+        Log.d("fdhbjh", "NTVQF ${items?.get(position)?.ntvqfLevel}")*/
 
-        var firstText =""
-        var secondText =""
-        var thirdText =""
-        var fourthText =""
-        var fifthText =""
+        var firstText = ""
+        var secondText = ""
+        var thirdText = ""
+        var fourthText = ""
+        var fifthText = ""
 
         val list = items?.get(position)?.skillBy!!
         list.forEachIndexed { index, s ->
@@ -63,9 +63,9 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
                 }
                 "5" -> {
 
-                   /* fifthText = "NTVQF:${items?.get(position)?.ntvqfLevel}"*/
+                    /* fifthText = "NTVQF:${items?.get(position)?.ntvqfLevel}"*/
 
-                   fifthText = getNtvqf(items[position]?.ntvqfLevel.toString())
+                    fifthText = getNtvqf(items[position]?.ntvqfLevel.toString())
 
                     d("fifthText :  $fifthText")
 
@@ -76,28 +76,28 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
         var finalText = ""
 
-        if (firstText.isNotEmpty()){
+        if (firstText.isNotEmpty()) {
 
             finalText += firstText
         }
 
 
-        if (secondText.isNotEmpty()){
+        if (secondText.isNotEmpty()) {
             finalText += secondText
 
         }
 
-        if (thirdText.isNotEmpty()){
+        if (thirdText.isNotEmpty()) {
             finalText += thirdText
 
         }
 
-        if (fourthText.isNotEmpty()){
+        if (fourthText.isNotEmpty()) {
             finalText += fourthText
 
         }
 
-        if (fifthText.isNotEmpty()){
+        if (fifthText.isNotEmpty()) {
             finalText += fifthText
 
         }
@@ -106,11 +106,8 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
         holder.skillByTV.text = showingText
         holder.skillDeleteIcon.setOnClickListener {
-          /*  items?.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeRemoved(position, items?.size!!)*/
-            d("deleteItemId: in adapter position   $position")
-            d("deleteItemId: in adapter   ${items[position]!!.sId.toString()}")
+            /* d("deleteItemId: in adapter position   $position")
+            d("deleteItemId: in adapter   ${items[position]!!.sId.toString()}")*/
             otherInfo?.confirmationPopup(items[position]!!.sId.toString())
 
 
@@ -118,16 +115,14 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
         holder.skillEditIcon.setOnClickListener {
 
-          otherInfo?.showEditDialog(items[position])
-          d("fdhbjh Passing Model ${items[position]?.skillName} ")
+            otherInfo?.showEditDialog(items[position])
+            d("fdhbjh Passing Model ${items[position]?.skillName} ")
 
             otherInfo?.setItemClick(position)
-           /* notifyItemChanged(position)*/
 
 
         }
     }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecializationSkillViewHolder {
@@ -137,7 +132,6 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
     override fun getItemCount(): Int {
         return items!!.size
     }
-
 
 
     private fun getNtvqf(item: String): String {
