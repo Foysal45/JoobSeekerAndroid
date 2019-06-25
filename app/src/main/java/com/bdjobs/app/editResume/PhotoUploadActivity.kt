@@ -18,7 +18,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
-import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -32,7 +31,6 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
 import com.bdjobs.app.R
-import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
@@ -51,16 +49,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
 
 class PhotoUploadActivity : Activity() {
 
 
-    private lateinit var registrationCommunicator: RegistrationCommunicator
-    private lateinit var returnView: View
-    internal var filePaths = ArrayList<String>()
+
     private val REQ_CAMERA_IMAGE = 40
-    private val READ_REQUEST_CODE = 42
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private var bitmap: Bitmap? = null
     private var encodedString: String = ""
