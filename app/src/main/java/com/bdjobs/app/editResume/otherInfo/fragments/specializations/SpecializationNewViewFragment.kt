@@ -140,8 +140,7 @@ class SpecializationNewViewFragment : Fragment() {
 
         if (array.size == 0) {
             mainlayout?.show()
-            /* fab_specialization_add?.show()
-             eduCB.setEditButton(false)*/
+          
 
             imageView22.hide()
             textView48.hide()
