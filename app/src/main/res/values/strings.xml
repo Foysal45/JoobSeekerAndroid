@@ -364,7 +364,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="add_skill_instruction_text">Click \'Add Skill\' button to enter your required skill.</string>
     <string name="skill_learn_media_text">How did you learn the skill?</string>
     <string name="skill_self_text">Self</string>
-    <string name="skill_job_text">job</string>
+    <string name="skill_job_text">Job</string>
     <string name="skill_education_text">Educational</string>
     <string name="skill_professional_text">Professional Training</string>
     <string name="skill_ntvqf_text">NTVQF</string>

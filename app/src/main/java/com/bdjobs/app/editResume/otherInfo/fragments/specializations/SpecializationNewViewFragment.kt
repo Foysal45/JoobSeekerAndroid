@@ -88,9 +88,7 @@ class SpecializationNewViewFragment : Fragment() {
         )
         session = BdjobsUserSession(activity)
         dataStorage = DataStorage(activity!!)
-        fab_specialization_add?.setOnClickListener {
 
-        }
 
         populateData()
 
@@ -124,7 +122,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                     }
                 } catch (e: Exception) {
-                    /*  shimmerStop()*/
+                      shimmerStop()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
                         logException(e)
@@ -140,32 +138,33 @@ class SpecializationNewViewFragment : Fragment() {
 
         if (array.size == 0) {
             mainlayout?.show()
-          
-
-            imageView22.hide()
-            textView48.hide()
-            skillListView.hide()
+            imageView22?.hide()
+            textView48?.hide()
+            skillListView?.hide()
+            skillDescriptionTV?.text = skillDes
+            curricularTV?.text = curricular
+            eduCB.passSpecializationData(response)
         } else {
 
-            imageView22.show()
-            textView48.show()
+            imageView22?.show()
+            textView48?.show()
 
-            mainlayout.show()
+            mainlayout?.show()
             fab_specialization_add?.hide()
             skillDescriptionTV?.text = skillDes
             curricularTV?.text = curricular
 
             if (array.size == 10) {
 
-                addSkillButton.hide()
+                addSkillButton?.hide()
 
             } else {
 
-                addSkillButton.show()
+                addSkillButton?.show()
             }
 
             /*noSkillTVLayout.hide()*/
-            skillListView.show()
+            skillListView?.show()
 
 
 
@@ -272,40 +271,41 @@ class SpecializationNewViewFragment : Fragment() {
         val saveButton = dialogEdit.findViewById<MaterialButton>(R.id.saveButton)
         val refnameATCTV = dialogEdit.findViewById<AutoCompleteTextView>(R.id.newRefnameATCTV)
 
-        whereSkillText.show()
-        firstCheckbox.show()
-        secondCheckBox.show()
-        thirdCheckBox.show()
-        fourthCheckBox.show()
-        fifthCheckBox.show()
+        whereSkillText?.show()
+        firstCheckbox?.show()
+        secondCheckBox?.show()
+        thirdCheckBox?.show()
+        fourthCheckBox?.show()
+        fifthCheckBox?.show()
 
         //set View start
 
-        refnameATCTV.setText(item?.skillName)
-        whereSkillText.text = "Skill you learned from"
+        refnameATCTV?.setText(item?.skillName)
+        refnameATCTV?.setSelection(refnameATCTV.getString().length)
+        whereSkillText?.text = "Skill you learned from"
         val list = item?.skillBy!!
         skilledBy = "${item.skillBy},"
 
         for (each in list) {
             when (each.toString()) {
                 "1" -> {
-                    firstCheckbox.isChecked = true
+                    firstCheckbox?.isChecked = true
                 }
                 "2" -> {
-                    secondCheckBox.isChecked = true
+                    secondCheckBox?.isChecked = true
                 }
                 "3" -> {
 
-                    thirdCheckBox.isChecked = true
+                    thirdCheckBox?.isChecked = true
                 }
                 "4" -> {
-                    fourthCheckBox.isChecked = true
+                    fourthCheckBox?.isChecked = true
                 }
                 "5" -> {
-                    fifthCheckBox.isChecked = true
-                    experienceLevelTIET.setText(getNtvqf(item.ntvqfLevel.toString()))
-                    experienceLevelTIL.show()
-                    experienceLevelTIET.show()
+                    fifthCheckBox?.isChecked = true
+                    experienceLevelTIET?.setText(getNtvqf(item.ntvqfLevel.toString()))
+                    experienceLevelTIL?.show()
+                    experienceLevelTIET?.show()
                 }
 
             }
@@ -324,25 +324,25 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
         refnameATCTV?.setOnItemClickListener { _, _, position, id ->
 
-            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
+            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
 
-            refnameATCTV.setText(refnameATCTV.getString())
+            refnameATCTV?.setText(refnameATCTV?.getString())
             workExp = refnameATCTV.getString()
-            whereSkillText.show()
-            firstCheckbox.show()
-            secondCheckBox.show()
-            thirdCheckBox.show()
-            fourthCheckBox.show()
-            fifthCheckBox.show()
+            whereSkillText?.show()
+            firstCheckbox?.show()
+            secondCheckBox?.show()
+            thirdCheckBox?.show()
+            fourthCheckBox?.show()
+            fifthCheckBox?.show()
 
 
-            firstCheckbox.isChecked = false
-            secondCheckBox.isChecked = false
-            thirdCheckBox.isChecked = false
-            fourthCheckBox.isChecked = false
-            fifthCheckBox.isChecked = false
+            firstCheckbox?.isChecked = false
+            secondCheckBox?.isChecked = false
+            thirdCheckBox?.isChecked = false
+            fourthCheckBox?.isChecked = false
+            fifthCheckBox?.isChecked = false
             ntvqfStatus = false
-            experienceLevelTIET!!.setText("NTVQF Level")
+            experienceLevelTIET?.setText("NTVQF Level")
 
 
         }
@@ -383,16 +383,16 @@ class SpecializationNewViewFragment : Fragment() {
         fifthCheckBox?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 skilledBy += "5,"
-                experienceLevelTIL.show()
-                experienceLevelTIET.show()
+                experienceLevelTIL?.show()
+                experienceLevelTIET?.show()
                 ntvqfStatus = true
                 NTVQF = ""
 
 
             } else {
                 skilledBy = skilledBy.replace("5", "", true)
-                experienceLevelTIL.hide()
-                experienceLevelTIET.hide()
+                experienceLevelTIL?.hide()
+                experienceLevelTIET?.hide()
                 ntvqfStatus = false
                 NTVQF = ""
 
@@ -414,24 +414,24 @@ class SpecializationNewViewFragment : Fragment() {
                 if (s.toString().length > 2) {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
-                    if (refnameATCTV.isPopupShowing) {
+                    if (refnameATCTV?.isPopupShowing!!) {
 
 
                     } else {
 
-                        activity.toast("No skill found!")
-                        refnameATCTV.clearText()
+                        activity?.toast("No skill found!")
+                        refnameATCTV?.clearText()
                     }
 
                 }
             }
         })
 
-        experienceLevelTIET.setOnClickListener {
+        experienceLevelTIET?.setOnClickListener {
 
             activity.selector("Select NTVQF level", levelList.toList()) { dialogInterface, i ->
 
-                experienceLevelTIET.setText(levelList[i])
+                experienceLevelTIET?.setText(levelList[i])
 
                 NTVQF = levelList[i]
 
@@ -450,7 +450,7 @@ class SpecializationNewViewFragment : Fragment() {
             if (fifthCheckBox.isChecked) {
                 if (!experienceLevelTIET.getString().equalIgnoreCase("NTVQF Level")) {
 
-                    NTVQF = experienceLevelTIET.getString()
+                    NTVQF = experienceLevelTIET?.getString()!!
                 }
             } else {
                 NTVQF = ""
@@ -484,13 +484,13 @@ class SpecializationNewViewFragment : Fragment() {
 
             if (updateSkill.isEmpty() && refnameATCTV.getString().length == 2) {
 
-                activity.toast("Please type valid skill")
+                activity?.toast("Please type valid skill")
 
             } else {
 
                 if (!addItem.workExp.isNullOrEmpty()) {
                     if (skillDuplicateStatus) {
-                        activity.toast("The skill is already exists!")
+                        activity?.toast("The skill is already exists!")
                         skillDuplicateStatus = false
                         skillSourceNotEmptyStatus = false
 
@@ -499,7 +499,7 @@ class SpecializationNewViewFragment : Fragment() {
                         if (skillSourceNotEmptyStatus) {
                             if (ntvqfStatus) {
                                 if (addItem.NTVQF.isNullOrEmpty()) {
-                                    activity.toast("Please select NTVQF level")
+                                    activity?.toast("Please select NTVQF level")
                                     skillSourceNotEmptyStatus = false
 
                                 } else if (!addItem.NTVQF.isNullOrEmpty()) {
@@ -526,7 +526,7 @@ class SpecializationNewViewFragment : Fragment() {
 
 
                             skillSourceNotEmptyStatus = false
-                            activity.toast("Please select Skill learning process")
+                            activity?.toast("Please select how you have learned the skill")
 
 
                         }
@@ -534,7 +534,7 @@ class SpecializationNewViewFragment : Fragment() {
                     }
 
                 } else {
-                    activity.toast("Please type your Skill")
+                    activity?.toast("Please type your Skill")
                     skillSourceNotEmptyStatus = false
                 }
 
@@ -596,20 +596,21 @@ class SpecializationNewViewFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
 
             refnameATCTV.setText(refnameATCTV.getString())
-            workExp = refnameATCTV.getString()
-            whereSkillText.show()
-            firstCheckbox.show()
-            secondCheckBox.show()
-            thirdCheckBox.show()
-            fourthCheckBox.show()
-            fifthCheckBox.show()
+            refnameATCTV?.setSelection(refnameATCTV.getString().length)
+            workExp = refnameATCTV?.getString()
+            whereSkillText?.show()
+            firstCheckbox?.show()
+            secondCheckBox?.show()
+            thirdCheckBox?.show()
+            fourthCheckBox?.show()
+            fifthCheckBox?.show()
 
 
-            firstCheckbox.isChecked = false
-            secondCheckBox.isChecked = false
-            thirdCheckBox.isChecked = false
-            fourthCheckBox.isChecked = false
-            fifthCheckBox.isChecked = false
+            firstCheckbox?.isChecked = false
+            secondCheckBox?.isChecked = false
+            thirdCheckBox?.isChecked = false
+            fourthCheckBox?.isChecked = false
+            fifthCheckBox?.isChecked = false
             ntvqfStatus = false
             experienceLevelTIET!!.setText("NTVQF Level")
         }
@@ -628,13 +629,13 @@ class SpecializationNewViewFragment : Fragment() {
                 if (s.toString().length > 2) {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
-                    if (refnameATCTV.isPopupShowing) {
+                    if (refnameATCTV?.isPopupShowing!!) {
 
 
                     } else {
 
-                        activity.toast("No skill found!")
-                        refnameATCTV.clearText()
+                        activity?.toast("No skill found!")
+                        refnameATCTV?.clearText()
                     }
 
                 }
@@ -694,7 +695,7 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
         }
-        experienceLevelTIET.setOnClickListener {
+        experienceLevelTIET?.setOnClickListener {
             activity.selector("Select NTVQF Level", levelList.toList()) { dialogInterface, i ->
                 experienceLevelTIET.setText(levelList[i])
                 NTVQF = levelList[i]
@@ -747,7 +748,7 @@ class SpecializationNewViewFragment : Fragment() {
 
             if (skill.isEmpty() && refnameATCTV.getString().length == 2) {
 
-                activity.toast("Please type valid skill")
+                activity?.toast("Please type valid skill")
 
             } else {
 
@@ -757,7 +758,7 @@ class SpecializationNewViewFragment : Fragment() {
                     skillSourceNotEmptyStatus = false
                 } else {
                     if (addExpList!!.size == 10) {
-                        activity.toast("Skill maximum 10")
+                        activity?.toast("Skill maximum 10")
                         skillSourceNotEmptyStatus = false
                         dialog.dismiss()
                     } else {
@@ -787,11 +788,11 @@ class SpecializationNewViewFragment : Fragment() {
                             } else {
 
                                 skillSourceNotEmptyStatus = false
-                                activity.toast("Please select Skill learning process")
+                                activity?.toast("Please select how you have learned the skill")
 
                             }
                         } else {
-                            activity.toast("Please type your Skill")
+                            activity?.toast("Please type your Skill")
                             skillSourceNotEmptyStatus = false
 
                         }
@@ -815,17 +816,17 @@ class SpecializationNewViewFragment : Fragment() {
 
     private fun onClick() {
 
-        addSkillButton.onClick {
+        addSkillButton?.onClick {
             showDialog(activity)
         }
 
-        descriptionEditIcon.onClick {
+        descriptionEditIcon?.onClick {
 
             eduCB.goToEditInfo("editSpecialization")
 
         }
 
-        curicularEditIcon.onClick {
+        curicularEditIcon?.onClick {
 
             eduCB.goToEditInfo("editSpecialization")
 
@@ -903,32 +904,37 @@ class SpecializationNewViewFragment : Fragment() {
 
             override fun onResponse(call: Call<SpecializationAdModel>, response: Response<SpecializationAdModel>) {
 
-                if (response.isSuccessful) {
-                    activity?.stopProgressBar(newSpecializationLoadingProgressBar)
-                    val resp = response.body()
+                try {
+                    if (response.isSuccessful) {
+                        activity?.stopProgressBar(newSpecializationLoadingProgressBar)
+                        val resp = response.body()
 
-                    d("nbnnn ${resp!!.statuscode!!}")
-                    activity?.toast(resp.message.toString())
-                    populateData()
-                    if (resp.statuscode!!.equalIgnoreCase("2")) {
-
+                        d("nbnnn ${resp!!.statuscode!!}")
                         activity?.toast(resp.message.toString())
+                        populateData()
+                        if (resp.statuscode!!.equalIgnoreCase("2")) {
 
-                    } else if (resp.statuscode!!.equalIgnoreCase("4")) {
+                            activity?.toast(resp.message.toString())
+
+                        } else if (resp.statuscode!!.equalIgnoreCase("4")) {
 
 
-                        if (insertOrUpdate.equalIgnoreCase("-1")) {
-                            dialog.dismiss()
+                            if (insertOrUpdate.equalIgnoreCase("-1")) {
+                                dialog.dismiss()
 
-                        } else if (insertOrUpdate.equalIgnoreCase("1")) {
+                            } else if (insertOrUpdate.equalIgnoreCase("1")) {
 
-                            dialogEdit.dismiss()
+                                dialogEdit.dismiss()
+                            }
+
+
                         }
 
 
                     }
-
-
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    logException(e)
                 }
 
 

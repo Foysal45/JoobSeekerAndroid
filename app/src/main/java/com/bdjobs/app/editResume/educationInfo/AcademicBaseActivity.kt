@@ -81,9 +81,9 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private val trainingViewFragment = TrainingViewFragment()
     private val professionalQLEditFragment = ProfessionalQLEditFragment()
     private val professionalQLViewFragment = ProfessionalQLViewFragment()
-    private lateinit var datait: AcaDataItem
-    private lateinit var dataTr: Tr_DataItem
-    private lateinit var dataPrq: ProfessionalDataModel
+    private  var datait: AcaDataItem = AcaDataItem()
+    private  var dataTr: Tr_DataItem = Tr_DataItem()
+    private  var dataPrq: ProfessionalDataModel  = ProfessionalDataModel()
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddEmployment: String
