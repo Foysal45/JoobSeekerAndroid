@@ -21,10 +21,8 @@ import com.bdjobs.app.editResume.otherInfo.fragments.languagePref.LangPrViewFrag
 import com.bdjobs.app.editResume.otherInfo.fragments.languagePref.LangProficiencyEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferenceEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferencesViewFragment
-import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewViewFragment
-import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationViewFragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -75,8 +73,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private val refernceEditFragment = ReferenceEditFragment()
     private val referenceViewFrgament = ReferencesViewFragment()
 
-    private val specializationEditFragment = SpecializationEditFragment()
-    private val specializationViewFragment = SpecializationViewFragment()
+  /*  private val specializationEditFragment = SpecializationEditFragment()
+    private val specializationViewFragment = SpecializationViewFragment()*/
 
     private val specializationNewEditFragment = SpecializationNewEditFragment()
     private val specializationNewViewFragment = SpecializationNewViewFragment()

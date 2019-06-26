@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -137,13 +136,11 @@ class SpecializationNewViewFragment : Fragment() {
         })
     }
 
-
     private fun setData(array: ArrayList<Skill?>, skillDes: String, curricular: String, response: SpecializationDataModel) {
 
-        if (array.size == 0 ) {
+        if (array.size == 0) {
             mainlayout?.show()
-           /* fab_specialization_add?.show()
-            eduCB.setEditButton(false)*/
+          
 
             imageView22.hide()
             textView48.hide()
@@ -244,7 +241,6 @@ class SpecializationNewViewFragment : Fragment() {
         }
     }
 
-
     fun showEditDialog(item: Skill?) {
 
         val workSource = java.util.ArrayList<String>()
@@ -327,15 +323,9 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV?.setAdapter(skillAdapter)
         refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
         refnameATCTV?.setOnItemClickListener { _, _, position, id ->
-            d("specialization test Array size : pos : $position id : $id")
-            //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
-            d("Selected : ${skillList[position + 1]} and gotStr : ${refnameATCTV.text}")
+
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
 
-            d("specialization test workSkillID : ${workSkillID} ")
-            d("specialization test idArr : ${idArr} ")
-
-            /* addChip(refnameATCTV.getString(), workSkillID)*/
             refnameATCTV.setText(refnameATCTV.getString())
             workExp = refnameATCTV.getString()
             whereSkillText.show()
@@ -358,20 +348,19 @@ class SpecializationNewViewFragment : Fragment() {
         }
 
 
-
         // set data end
         firstCheckbox?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 skilledBy += "1,"
             } else {
-                skilledBy = skilledBy.replace("1","",true)
+                skilledBy = skilledBy.replace("1", "", true)
             }
         }
         secondCheckBox?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 skilledBy += "2,"
             } else {
-                skilledBy = skilledBy.replace("2","",true)
+                skilledBy = skilledBy.replace("2", "", true)
             }
 
 
@@ -380,7 +369,7 @@ class SpecializationNewViewFragment : Fragment() {
             if (isChecked) {
                 skilledBy += "3,"
             } else {
-                skilledBy = skilledBy.replace("3","",true)
+                skilledBy = skilledBy.replace("3", "", true)
             }
 
         }
@@ -388,7 +377,7 @@ class SpecializationNewViewFragment : Fragment() {
             if (isChecked) {
                 skilledBy += "4,"
             } else {
-                skilledBy = skilledBy.replace("4","",true)
+                skilledBy = skilledBy.replace("4", "", true)
             }
         }
         fifthCheckBox?.setOnCheckedChangeListener { _, isChecked ->
@@ -401,7 +390,7 @@ class SpecializationNewViewFragment : Fragment() {
 
 
             } else {
-                skilledBy = skilledBy.replace("5","",true)
+                skilledBy = skilledBy.replace("5", "", true)
                 experienceLevelTIL.hide()
                 experienceLevelTIET.hide()
                 ntvqfStatus = false
@@ -412,7 +401,7 @@ class SpecializationNewViewFragment : Fragment() {
         }
 
 
-        refnameATCTV.addTextChangedListener(object :TextWatcher{
+        refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -422,22 +411,21 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().length > 2){
+                if (s.toString().length > 2) {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
-                    if (refnameATCTV.isPopupShowing){
+                    if (refnameATCTV.isPopupShowing) {
 
 
                     } else {
 
-                        activity.toast("Skill Not found")
+                        activity.toast("No skill found!")
                         refnameATCTV.clearText()
                     }
 
                 }
             }
         })
-
 
         experienceLevelTIET.setOnClickListener {
 
@@ -452,7 +440,6 @@ class SpecializationNewViewFragment : Fragment() {
 
 
         }
-
         declineButton?.setOnClickListener {
             dialogEdit.dismiss()
         }
@@ -471,43 +458,21 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             val addItem = AddExpModel(workExp, workSource, NTVQF)
-            d("nbnnn skilledBy $skilledBy")
-            val skilbyID   = skilledBy.replace(",,,",",")
-            val skilbyIDNew   = skilbyID.replace(",,",",")
-            d("nbnnn skilbyID $skilbyID")
+            val skilbyID = skilledBy.replace(",,,", ",")
+            val skilbyIDNew = skilbyID.replace(",,", ",")
             val removeSuffixSkill = skilbyIDNew.removeSuffix(",")
-            d("nbnnn removeSuffixSkill $removeSuffixSkill")
             val removePrefixSkill = removeSuffixSkill.removePrefix(",")
-            d("nbnnn removePrefixSkill $removePrefixSkill")
             val removePrefixSkillAgain = removePrefixSkill.removePrefix(",")
+            val skil = removePrefixSkill.replace(",", "")
 
-            val skil = removePrefixSkill.replace(",","")
-
-            if (stringContainsNumber(skil.trim())){
-
-                skillSourceNotEmptyStatus = true
-
-                d("skillTest three $skilbyID")
-            } else {
-
-                skillSourceNotEmptyStatus = false
-
-            }
-
-
+            skillSourceNotEmptyStatus = stringContainsNumber(skil.trim())
 
             updateSkill = dataStorage.getSkillIDBySkillType(addItem.workExp.toString()).toString()
             updateNtvqf = getNtvqfLevel(NTVQF)
 
-
             arr!!.forEachIndexed { index, element ->
-                d("expTest update position ${eduCB.getItemClick()} index $index")
-
                 if (eduCB.getItemClick() != index) {
-
                     if (element?.skillName!!.equalIgnoreCase(addItem.workExp!!)) {
-
-                        d("expTest already exist")
                         skillDuplicateStatus = true
                     }
 
@@ -517,76 +482,72 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
 
+            if (updateSkill.isEmpty() && refnameATCTV.getString().length == 2) {
 
-            if (!addItem.workExp.isNullOrEmpty()) {
-
-                if (skillDuplicateStatus) {
-
-                    activity.toast("This skill already exists")
-                    skillDuplicateStatus = false
-                    skillSourceNotEmptyStatus = false
-
-
-                } else {
-
-                    if (skillSourceNotEmptyStatus) {
-                        if (ntvqfStatus) {
-                            if (addItem.NTVQF.isNullOrEmpty()) {
-                                activity.toast("Please select NTVQF level")
-                                skillSourceNotEmptyStatus = false
-
-                            } else if (!addItem.NTVQF.isNullOrEmpty()) {
-
-
-
-
-
-
-                                skillSourceNotEmptyStatus = false
-                                skillDuplicateStatus = false
-                                ntvqfStatus = false
-                                dialogEdit.dismiss()
-
-
-
-                                NTVQF =""
-                                addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
-
-
-                            }
-
-                        } else {
-                            skillDuplicateStatus = false
-                            skillSourceNotEmptyStatus = false
-                            ntvqfStatus = false
-
-                           /* d("SkillBy ${item.skillBy}")
-                            d("SkillBy $skilledBy")
-                            d("SkillBy  item.skillBy ${item.skillBy}")
-                            d("SkillBy updateNewSkilledBy $updateNewSkilledBy")*/
-
-                            NTVQF =""
-                            addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
-                            dialogEdit.dismiss()
-                        }
-                    } else {
-                        skillSourceNotEmptyStatus = false
-                        activity.toast("Please select Skill learning process")
-                    }
-
-                }
+                activity.toast("Please type valid skill")
 
             } else {
-                activity.toast("Please type your Skill")
-                skillSourceNotEmptyStatus = false
+
+                if (!addItem.workExp.isNullOrEmpty()) {
+                    if (skillDuplicateStatus) {
+                        activity.toast("The skill is already exists!")
+                        skillDuplicateStatus = false
+                        skillSourceNotEmptyStatus = false
+
+
+                    } else {
+                        if (skillSourceNotEmptyStatus) {
+                            if (ntvqfStatus) {
+                                if (addItem.NTVQF.isNullOrEmpty()) {
+                                    activity.toast("Please select NTVQF level")
+                                    skillSourceNotEmptyStatus = false
+
+                                } else if (!addItem.NTVQF.isNullOrEmpty()) {
+                                    skillSourceNotEmptyStatus = false
+                                    skillDuplicateStatus = false
+                                    ntvqfStatus = false
+                                    dialogEdit.dismiss()
+
+                                    NTVQF = ""
+                                    addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
+
+
+                                }
+
+                            } else {
+                                skillDuplicateStatus = false
+                                skillSourceNotEmptyStatus = false
+                                ntvqfStatus = false
+                                NTVQF = ""
+                                addOrUpdateItem(updateSkill, item.sId.toString(), removePrefixSkillAgain, updateNtvqf, "1")
+                                dialogEdit.dismiss()
+                            }
+                        } else {
+
+
+                            skillSourceNotEmptyStatus = false
+                            activity.toast("Please select Skill learning process")
+
+
+                        }
+
+                    }
+
+                } else {
+                    activity.toast("Please type your Skill")
+                    skillSourceNotEmptyStatus = false
+                }
+
             }
+
+
+
 
 
         }
 
         dialogEdit.show()
     }
-
 
     fun stringContainsNumber(s: String): Boolean {
 
@@ -597,7 +558,6 @@ class SpecializationNewViewFragment : Fragment() {
 
         return m.find()
     }
-
 
     private fun showDialog(activity: Activity) {
         val workSource = java.util.ArrayList<String>()
@@ -655,7 +615,7 @@ class SpecializationNewViewFragment : Fragment() {
         }
 
 
-        refnameATCTV.addTextChangedListener(object :TextWatcher{
+        refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -665,15 +625,15 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().length > 2){
+                if (s.toString().length > 2) {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
-                    if (refnameATCTV.isPopupShowing){
+                    if (refnameATCTV.isPopupShowing) {
 
 
                     } else {
 
-                        activity.toast("Skill Not found")
+                        activity.toast("No skill found!")
                         refnameATCTV.clearText()
                     }
 
@@ -748,7 +708,6 @@ class SpecializationNewViewFragment : Fragment() {
 
         saveButton?.setOnClickListener {
 
-
             var skill = ""
             var ntvqf = ""
             updateNewSkilledBy = ""
@@ -786,74 +745,73 @@ class SpecializationNewViewFragment : Fragment() {
             ntvqf = getNtvqfLevel(NTVQF)
 
 
+            if (skill.isEmpty() && refnameATCTV.getString().length == 2) {
 
+                activity.toast("Please type valid skill")
 
-            if (skillDuplicateStatus) {
-                activity.toast("This skill already exists")
-                skillDuplicateStatus = false
-                skillSourceNotEmptyStatus = false
             } else {
-                if (addExpList!!.size == 10) {
-                    activity.toast("Skill maximum 10")
-                    skillSourceNotEmptyStatus = false
-                    dialog.dismiss()
-                } else {
-                    if (!item.workExp.isNullOrEmpty()) {
-                        if (skillSourceNotEmptyStatus) {
-                            if (ntvqfStatus) {
 
-                                if (item.NTVQF.isNullOrEmpty()) {
-                                    activity.toast("Please select NTVQF level")
-                                    skillSourceNotEmptyStatus = false
+                if (skillDuplicateStatus) {
+                    activity.toast("The skill is already exists!")
+                    skillDuplicateStatus = false
+                    skillSourceNotEmptyStatus = false
+                } else {
+                    if (addExpList!!.size == 10) {
+                        activity.toast("Skill maximum 10")
+                        skillSourceNotEmptyStatus = false
+                        dialog.dismiss()
+                    } else {
+                        if (!item.workExp.isNullOrEmpty()) {
+                            if (skillSourceNotEmptyStatus) {
+                                if (ntvqfStatus) {
+
+                                    if (item.NTVQF.isNullOrEmpty()) {
+                                        activity.toast("Please select NTVQF level")
+                                        skillSourceNotEmptyStatus = false
+                                    } else {
+                                        NTVQF = ""
+                                        addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
+                                        skillDuplicateStatus = false
+                                        skillSourceNotEmptyStatus = false
+                                        ntvqfStatus = false
+
+                                    }
+
                                 } else {
-                                    NTVQF =""
+                                    NTVQF = ""
                                     addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
                                     skillDuplicateStatus = false
                                     skillSourceNotEmptyStatus = false
-                                    ntvqfStatus = false
-
                                 }
 
                             } else {
-                                NTVQF= ""
-                                addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
-                                skillDuplicateStatus = false
-                                skillSourceNotEmptyStatus = false
-                            }
 
+                                skillSourceNotEmptyStatus = false
+                                activity.toast("Please select Skill learning process")
+
+                            }
                         } else {
+                            activity.toast("Please type your Skill")
                             skillSourceNotEmptyStatus = false
-                            activity.toast("Please select Skill learning process")
 
                         }
-                    } else {
-                        activity.toast("Please type your Skill")
-                        skillSourceNotEmptyStatus = false
+
 
                     }
-
 
                 }
 
             }
 
+
+
+
+
+
         }
         dialog.show()
 
     }
-
-
-     fun sugessionValidation(char: String, et: TextInputEditText, til: TextInputLayout): Boolean {
-        when {
-            TextUtils.isEmpty(char) -> {
-                til.showError(getString(R.string.field_empty_error_message_common))
-                return false
-            }
-            else -> til.hideError()
-        }
-        return true
-    }
-
 
     private fun onClick() {
 
@@ -876,8 +834,7 @@ class SpecializationNewViewFragment : Fragment() {
 
     }
 
-
-    fun confirmationPopUp(item: String){
+    fun confirmationPopUp(item: String) {
 
 
         val builder = AlertDialog.Builder(activity)
@@ -897,13 +854,10 @@ class SpecializationNewViewFragment : Fragment() {
         dialog.show()
 
 
-
     }
 
-
-
     fun dataDelete(deleteItemId: String) {
-          activity?.showProgressBar(newSpecializationLoadingProgressBar)
+        activity?.showProgressBar(newSpecializationLoadingProgressBar)
         d("deleteItemId: in fragment   $deleteItemId")
         val call = ApiServiceMyBdjobs.create().deleteData("Specialist", deleteItemId, session.IsResumeUpdate!!, session.userId!!, session.decodId!!)
         call.enqueue(object : Callback<AddorUpdateModel> {
@@ -918,7 +872,7 @@ class SpecializationNewViewFragment : Fragment() {
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
                 try {
                     if (response.isSuccessful) {
-                           activity?.stopProgressBar(newSpecializationLoadingProgressBar)
+                        activity?.stopProgressBar(newSpecializationLoadingProgressBar)
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         populateData()
@@ -1027,8 +981,5 @@ class SpecializationNewViewFragment : Fragment() {
 
         return ntvqflevel
     }
-
-
-
 
 }
