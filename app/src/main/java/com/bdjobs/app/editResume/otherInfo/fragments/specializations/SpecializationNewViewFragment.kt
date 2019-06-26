@@ -327,6 +327,7 @@ class SpecializationNewViewFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
 
             refnameATCTV?.setText(refnameATCTV?.getString())
+            refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV.getString()
             whereSkillText?.show()
             firstCheckbox?.show()
