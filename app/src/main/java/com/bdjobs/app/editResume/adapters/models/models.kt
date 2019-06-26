@@ -551,17 +551,17 @@ data class LanguageModel(
 
 data class LanguageDataModel(
         @SerializedName("language")
-        val language: String?,
+        val language: String?="",
         @SerializedName("ln_id")
-        val lnId: String?,
+        val lnId: String?="",
         @SerializedName("messageType")
-        val messageType: String?,
+        val messageType: String?="",
         @SerializedName("reading")
-        val reading: String?,
+        val reading: String?="",
         @SerializedName("speaking")
-        val speaking: String?,
+        val speaking: String?="",
         @SerializedName("writing")
-        val writing: String?
+        val writing: String?=""
 )
 
 
@@ -578,27 +578,27 @@ data class ReferenceModel(
 
 data class ReferenceDataModel(
         @SerializedName("address")
-        val address: String?,
+        val address: String?="",
         @SerializedName("designation")
-        val designation: String?,
+        val designation: String?="",
         @SerializedName("email")
-        val email: String?,
+        val email: String?="",
         @SerializedName("messageType")
-        val messageType: String?,
+        val messageType: String?="",
         @SerializedName("mobile")
-        val mobile: String?,
+        val mobile: String?="",
         @SerializedName("name")
-        val name: String?,
+        val name: String?="",
         @SerializedName("organization")
-        val organization: String?,
+        val organization: String?="",
         @SerializedName("phone_office")
-        val phoneOffice: String?,
+        val phoneOffice: String?="",
         @SerializedName("phone_res")
-        val phoneRes: String?,
+        val phoneRes: String?="",
         @SerializedName("ref_id")
-        val refId: String?,
+        val refId: String?="",
         @SerializedName("relation")
-        val relation: String?
+        val relation: String?=""
 )
 
 
@@ -615,19 +615,19 @@ data class ProfessionalModel(
 
 data class ProfessionalDataModel(
         @SerializedName("certification")
-        val certification: String?,
+        val certification: String?="",
         @SerializedName("from")
-        val from: String?,
+        val from: String?="",
         @SerializedName("institute")
-        val institute: String?,
+        val institute: String?="",
         @SerializedName("location")
-        val location: String?,
+        val location: String?="",
         @SerializedName("messageType")
-        val messageType: String?,
+        val messageType: String?="",
         @SerializedName("prId")
-        val prId: String?,
+        val prId: String?="",
         @SerializedName("to")
-        val to: String?
+        val to: String?=""
 )
 
 
@@ -644,13 +644,13 @@ data class SpecialzationModel(
 
 data class SpecializationDataModel(
         @SerializedName("description")
-        val description: String?,
+        val description: String?="",
         @SerializedName("extracurricular")
-        val extracurricular: String?,
+        val extracurricular: String?="",
         @SerializedName("messageType")
-        val messageType: String?,
+        val messageType: String?="",
         @SerializedName("skills")
-        val skills: List<Skill?>?
+        val skills : List<Skill?>? =listOf()
 )
 
 data class Skill(

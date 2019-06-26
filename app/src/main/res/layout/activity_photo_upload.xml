@@ -60,14 +60,15 @@
     <ScrollView
         android:id="@+id/scrollView5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto">
+
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/adViewPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto"
+        tools:layout_editor_absoluteX="0dp">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+          <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,41 +76,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <FrameLayout
-                android:id="@+id/framelayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+              <FrameLayout
+                  android:id="@+id/framelayout"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dp"
+                  app:layout_constraintBottom_toTopOf="@+id/noPhotoTV"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintHorizontal_bias="0.541"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent">
+
+                  <ImageView
+                      android:id="@+id/editResPhotoUploadImageView"
+                      android:layout_width="140dp"
+                      android:layout_height="140dp"
+                      android:layout_marginStart="8dp"
+                      android:layout_marginTop="50dp"
+                      android:layout_marginEnd="8dp"
+                      android:src="@drawable/ic_photo_upload"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintStart_toStartOf="parent"
+                      app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto" />
+
+                  <ImageView
+                      android:id="@+id/ic_edit_photo"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom|right"
+                      android:layout_marginEnd="20dp"
+                      android:layout_marginBottom="7dp"
+                      android:src="@drawable/ic_edit_photo"
+
+                      />
 
 
-                >
-
-                <ImageView
-                    android:id="@+id/editResPhotoUploadImageView"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_photo_upload"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tbUploadPhoto" />
-
-                <ImageView
-                    android:id="@+id/ic_edit_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:src="@drawable/ic_edit_photo"
-
-                    />
-
-
-            </FrameLayout>
+              </FrameLayout>
 
 
             <TextView
@@ -200,7 +202,23 @@
                 app:strokeWidth="1dp" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+              <com.google.android.ads.nativetemplates.TemplateView
+                  android:id="@+id/ad_small_template"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="8dp"
+                  android:layout_marginTop="380dp"
+                  android:layout_marginEnd="8dp"
+                  android:layout_marginBottom="20dp"
+                  android:visibility="visible"
+                  app:gnt_template_type="@layout/gnt_medium_template_view"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent" />
+
+
+          </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </ScrollView>

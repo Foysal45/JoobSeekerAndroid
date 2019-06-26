@@ -79,9 +79,9 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private val specializationNewEditFragment = SpecializationNewEditFragment()
     private val specializationNewViewFragment = SpecializationNewViewFragment()
 
-    private lateinit var dataReference: ReferenceDataModel
-    private lateinit var dataLanguage: LanguageDataModel
-    private lateinit var dataSpecialization: SpecializationDataModel
+    private  var dataReference: ReferenceDataModel = ReferenceDataModel()
+    private  var dataLanguage: LanguageDataModel = LanguageDataModel()
+    private  var dataSpecialization: SpecializationDataModel = SpecializationDataModel()
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddOtherInfo: String
@@ -139,9 +139,13 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
 
     private fun getIntentValues() {
-        name = intent.getStringExtra("name")
-        gotToAddOtherInfo = intent.getStringExtra("other_info_add")
-        goToEditInfo(gotToAddOtherInfo)
+        try {
+            name = intent.getStringExtra("name")
+            gotToAddOtherInfo = intent.getStringExtra("other_info_add")
+            goToEditInfo(gotToAddOtherInfo)
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 
 

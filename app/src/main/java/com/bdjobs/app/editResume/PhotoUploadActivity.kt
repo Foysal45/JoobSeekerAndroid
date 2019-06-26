@@ -111,6 +111,7 @@ class PhotoUploadActivity : Activity() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
         onClick()
+        Constants.showNativeAd(ad_small_template,this@PhotoUploadActivity)
     }
 
     private fun onClick() {

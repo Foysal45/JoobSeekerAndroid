@@ -87,7 +87,7 @@ class SpecializationNewEditFragment : Fragment() {
         }
 
 
-        new_fab_specialization_update.onClick {
+        new_fab_specialization_update?.onClick {
 
             updateData()
 
@@ -120,11 +120,15 @@ class SpecializationNewEditFragment : Fragment() {
 
                         if (resp?.statuscode == "4") {
 
-                            if (isEdit) {
+
+                            if (etSkillDescription.getString().isNotEmpty() && etCaricular.getString().isNotEmpty() ){
                                 activity?.toast("The information has been updated successfully")
-                            } else {
-                                activity?.toast("The information has been added successfully")
+
+                            } else if (etSkillDescription.getString().isNotEmpty() || etCaricular.getString().isNotEmpty()){
+                                activity?.toast("The information has been updated successfully")
+
                             }
+
                             eduCB.setBackFrom(Constants.specUpdate)
                             eduCB.goBack()
                         }
