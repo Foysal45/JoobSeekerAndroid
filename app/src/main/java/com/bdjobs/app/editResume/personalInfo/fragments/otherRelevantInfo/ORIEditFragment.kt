@@ -93,7 +93,11 @@ class ORIEditFragment : Fragment() {
         etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
         Log.d("ORIData", "data: ${data?.keywords}")
         val keywords = data?.keywords?.removeLastComma()
-        maxInput -= data?.keywords?.countCommas()!!
+        try {
+            maxInput -= data?.keywords?.countCommas()!!
+        } catch (e: Exception) {
+            logException(e)
+        }
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         keyArray?.forEach {
             if (it.isNotBlank()) addChip(it)
