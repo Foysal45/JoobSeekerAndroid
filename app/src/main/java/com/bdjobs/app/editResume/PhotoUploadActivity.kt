@@ -57,13 +57,13 @@ class PhotoUploadActivity : Activity() {
     private val REQ_CAMERA_IMAGE = 40
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private var bitmap: Bitmap? = null
-    private var encodedString: String = ""
-    private var userId: String = ""
-    private var decodeId: String = ""
-    private var folderName: String = ""
-    private var folderId: String = ""
-    private var imageName: String = ""
-    private var isResumeUpdate: String = ""
+    private var encodedString: String? = ""
+    private var userId: String? = ""
+    private var decodeId: String? = ""
+    private var folderName: String? = ""
+    private var folderId: String? = ""
+    private var imageName: String? = ""
+    private var isResumeUpdate: String? = ""
     internal var params = RequestParams()
     internal var reqParams = RequestParams()
     private var dialog: Dialog? = null
@@ -88,19 +88,19 @@ class PhotoUploadActivity : Activity() {
         if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
             editResPhotoUploadImageView.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
             Log.d("dgdsgdghjOnRes", "Session url ${bdjobsUserSession.userPicUrl}")
-            noPhotoTV.text = "You can change or delete your photo"
-            photoInfoTV.hide()
-            editResPhotoUploadButton.hide()
-            editResChangePhotoButton.show()
-            ic_edit_photo.show()
-            photoDeleteButton.show()
+            noPhotoTV?.text = "You can change or delete your photo"
+            photoInfoTV?.hide()
+            editResPhotoUploadButton?.hide()
+            editResChangePhotoButton?.show()
+            ic_edit_photo?.show()
+            photoDeleteButton?.show()
         } else if (bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
-            noPhotoTV.show()
-            photoInfoTV.show()
-            editResPhotoUploadButton.show()
-            editResChangePhotoButton.hide()
-            ic_edit_photo.hide()
-            photoDeleteButton.hide()
+            noPhotoTV?.show()
+            photoInfoTV?.show()
+            editResPhotoUploadButton?.show()
+            editResChangePhotoButton?.hide()
+            ic_edit_photo?.hide()
+            photoDeleteButton?.hide()
         }
 
         val adRequest = AdRequest.Builder().build()
@@ -143,18 +143,18 @@ class PhotoUploadActivity : Activity() {
 
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-                    val photoUrl = photoUploadModel.data[0].path
+                    val photoUrl = photoUploadModel.data?.get(0)?.path
                     Log.d("dgdsgdghj", photoUrl)
 
-                    bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
+                    bdjobsUserSession.updateUserPicUrl(photoUrl?.trim().toString())
 
                     Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
-                    noPhotoTV.text = "You can change or delete your photo"
-                    photoInfoTV.hide()
-                    editResPhotoUploadButton.hide()
-                    editResChangePhotoButton.show()
-                    photoDeleteButton.show()
-                    progressDialog.dismiss()
+                    noPhotoTV?.text = "You can change or delete your photo"
+                    photoInfoTV?.hide()
+                    editResPhotoUploadButton?.hide()
+                    editResChangePhotoButton?.show()
+                    photoDeleteButton?.show()
+                    progressDialog?.dismiss()
 
                     if (ic_edit_photo.isVisible) {
 
@@ -162,10 +162,10 @@ class PhotoUploadActivity : Activity() {
 
                     } else {
 
-                        toast(photoUploadModel.message)
+                        toast(photoUploadModel.message.toString())
                     }
 
-                    ic_edit_photo.show()
+                    ic_edit_photo?.show()
                 } catch (e: Exception) {
 
                     logException(e)
@@ -203,12 +203,12 @@ class PhotoUploadActivity : Activity() {
 
                     if (response.body()!!.statuscode.equals("0", true)) {
 
-                        userId = response.body()!!.data[0].userId
-                        decodeId = response.body()!!.data[0].decodId
-                        folderName = response.body()!!.data[0].folderName
-                        folderId = response.body()!!.data[0].folderId
-                        imageName = response.body()!!.data[0].imageName
-                        isResumeUpdate = response.body()!!.data[0].isResumeUpdate
+                        userId = response.body()?.data?.get(0)?.userId
+                        decodeId = response.body()?.data?.get(0)?.decodId
+                        folderName = response.body()?.data?.get(0)?.folderName
+                        folderId = response.body()?.data?.get(0)?.folderId
+                        imageName = response.body()?.data?.get(0)?.imageName
+                        isResumeUpdate =response.body()?.data?.get(0)?.isResumeUpdate
                         params.put("Image", encodedString)
                         params.put("userid", bdjobsUserSession.userId)
                         params.put("decodeid", bdjobsUserSession.decodId)
@@ -248,9 +248,9 @@ class PhotoUploadActivity : Activity() {
                                 if (response.body()!!.statuscode.equals("0", true)) {
 
 
-                                    folderName = response.body()!!.data[0].folderName
-                                    folderId = response.body()!!.data[0].folderId
-                                    imageName = response.body()!!.data[0].imageName
+                                    folderName = response.body()?.data?.get(0)?.folderName
+                                    folderId = response.body()?.data?.get(0)?.folderId
+                                    imageName = response.body()?.data?.get(0)?.imageName
 
                                     reqParams.put("Image", encodedString)
                                     reqParams.put("userid", bdjobsUserSession.userId)
@@ -288,9 +288,9 @@ class PhotoUploadActivity : Activity() {
 
 
         val dialog = builder.create()
-        dialog.setCancelable(false)
-        dialog.setTitle("Are you sure to delete this photo?")
-        dialog.show()
+        dialog?.setCancelable(false)
+        dialog?.setTitle("Are you sure to delete this photo?")
+        dialog?.show()
 
     }
 
@@ -310,19 +310,19 @@ class PhotoUploadActivity : Activity() {
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
 
-                    progressDialog.dismiss()
-                    noPhotoTV.text = "No photo is uploaded yet"
-                    photoInfoTV.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
-                    photoInfoTV.show()
-                    editResPhotoUploadButton.show()
-                    editResChangePhotoButton.hide()
-                    ic_edit_photo.hide()
-                    photoDeleteButton.hide()
-                    editResPhotoUploadImageView.setImageResource(R.drawable.ic_photo_upload)
+                    progressDialog?.dismiss()
+                    noPhotoTV?.text = "No photo is uploaded yet"
+                    photoInfoTV?.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
+                    photoInfoTV?.show()
+                    editResPhotoUploadButton?.show()
+                    editResChangePhotoButton?.hide()
+                    ic_edit_photo?.hide()
+                    photoDeleteButton?.hide()
+                    editResPhotoUploadImageView?.setImageResource(R.drawable.ic_photo_upload)
                     bdjobsUserSession.updateUserPicUrl("")
 
 
-                    toast(photoUploadModel.message)
+                    toast(photoUploadModel.message.toString())
 
                     Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
                 } catch (e: Exception) {
@@ -491,7 +491,7 @@ class PhotoUploadActivity : Activity() {
                 if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
                     resultUri = UCrop.getOutput(data)!!
 
-                    editResPhotoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
+                    editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(resultUri.toString())
 
                     uploadPhoto()
 

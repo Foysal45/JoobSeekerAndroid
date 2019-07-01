@@ -68,7 +68,10 @@
                 android:background="#2F64A3"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:paddingBottom="25dp">
+                android:paddingBottom="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/positionName"
@@ -607,7 +610,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/readBeforeApplyCL"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
@@ -623,27 +626,32 @@
 
                 <TextView
                     android:id="@+id/readAndApplyTV"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Please read the circular carefully. If you think you are qualified only then apply. " />
+                    tools:text="Please read the circular carefully. If you think you are qualified only then apply." />
 
 
                 <TextView
                     android:id="@+id/emailApplyMsgTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto"
+
                     android:textColor="#000000"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/readAndApplyTV"
                     tools:text="TextView" />
@@ -652,7 +660,10 @@
                     android:id="@+id/emailApplyTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
                     android:textSize="14sp"
@@ -679,7 +690,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutCompanyAddress"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
@@ -961,10 +972,8 @@
         android:text="Apply Now"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:gravity="center"
         android:textSize="15sp"
         app:cornerRadius="8dp"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/jobDetailSCRLV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

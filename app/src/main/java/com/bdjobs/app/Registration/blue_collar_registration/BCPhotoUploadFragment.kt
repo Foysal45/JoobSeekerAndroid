@@ -46,7 +46,6 @@ import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,13 +61,13 @@ class BCPhotoUploadFragment : Fragment() {
     private val REQ_CAMERA_IMAGE = 40
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private lateinit var bitmap: Bitmap
-    private var encodedString: String = ""
-    private var userId: String = ""
-    private var decodeId: String = ""
-    private var folderName: String = ""
-    private var folderId: String = ""
-    private var imageName: String = ""
-    private var isResumeUpdate: String = ""
+    private var encodedString: String? = ""
+    private var userId: String? = ""
+    private var decodeId: String? = ""
+    private var folderName: String? = ""
+    private var folderId: String? = ""
+    private var imageName: String? = ""
+    private var isResumeUpdate: String? = ""
     private var params = RequestParams()
     private var dialog: Dialog? = null
 
@@ -91,7 +90,7 @@ class BCPhotoUploadFragment : Fragment() {
     private fun onClick() {
 
         completeButton?.setOnClickListener {
-            if (encodedString.isBlank()) {
+            if (encodedString?.isBlank()!!) {
                 registrationCommunicator.bcGoToStepCongratulation()
             } else {
                 registrationCommunicator.showProgressBar()
@@ -103,14 +102,14 @@ class BCPhotoUploadFragment : Fragment() {
                         try {
                             Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
                             Log.d("PhotoUpload", " response ${response.body()!!.message}")
-                            if (response.body()!!.statuscode.equals("0", true)) {
+                            if (response.body()?.statuscode.equals("0", true)) {
 
-                                userId = response.body()!!.data[0].userId
-                                decodeId = response.body()!!.data[0].decodId
-                                folderName = response.body()!!.data[0].folderName
-                                folderId = response.body()!!.data[0].folderId
-                                imageName = response.body()!!.data[0].imageName
-                                isResumeUpdate = response.body()!!.data[0].isResumeUpdate
+                                userId = response.body()?.data?.get(0)?.userId
+                                decodeId = response.body()?.data?.get(0)?.decodId
+                                folderName = response.body()?.data?.get(0)?.folderName
+                                folderId = response.body()?.data?.get(0)?.folderId
+                                imageName = response.body()?.data?.get(0)?.imageName
+                                isResumeUpdate = response.body()?.data?.get(0)?.isResumeUpdate
                                 params.put("Image", encodedString)
                                 params.put("userid", registrationCommunicator.getUserId())
                                 params.put("decodeid", registrationCommunicator.getDecodeId())
@@ -136,10 +135,10 @@ class BCPhotoUploadFragment : Fragment() {
             showDialog(activity)
         }
         supportTextView?.setOnClickListener {
-            activity.callHelpLine()
+            activity?.callHelpLine()
         }
         bcHelpLineLayout?.setOnClickListener {
-            activity.callHelpLine()
+            activity?.callHelpLine()
         }
 
     }
@@ -164,19 +163,17 @@ class BCPhotoUploadFragment : Fragment() {
 
     fun makeHTTPCall() {
         val client = AsyncHttpClient()
-        client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
+        client?.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
-
-
                 try {
                     val response = String(responseBody)
                     Log.d("dgdsgdghj", " response ${response}")
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-                    val photoUrl = photoUploadModel.data[0].path
+                    val photoUrl = photoUploadModel.data?.get(0)?.path
                     Log.d("dgdsgdghj", " $photoUrl")
                     val bdjobsUserSession = BdjobsUserSession(activity)
-                    bdjobsUserSession.updateUserPicUrl(photoUrl.trim())
+                    bdjobsUserSession.updateUserPicUrl(photoUrl?.trim().toString())
                     registrationCommunicator.hideProgressBar()
                     registrationCommunicator.bcGoToStepCongratulation()
 
@@ -195,11 +192,6 @@ class BCPhotoUploadFragment : Fragment() {
                         logException(e)
                     }
 
-                    try {
-                        activity?.toast(error.message!!)
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
                 } catch (e: Exception) {
                     logException(e)
                 }
