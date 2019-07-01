@@ -3,6 +3,7 @@ package com.bdjobs.app.Employers
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
@@ -32,6 +33,74 @@ import com.bdjobs.app.Utilities.transitFragment
  +-----------------------------------------------------------------------------
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
+    override fun setFollowedListSize(value: Int?) {
+        if (value != null) {
+            followedListSize = value
+        }
+    }
+
+    override fun getFollowedListSize(): Int? {
+       return  followedListSize
+    }
+
+    override fun setCurrentPage(value: Int?) {
+        if (value != null) {
+            currentPage = value
+        }
+    }
+
+    override fun setTotalPage(value: Int?) {
+        if (value != null) {
+            TOTAL_PAGES = value
+        }
+    }
+
+    override fun setIsloading(value: Boolean?) {
+        if (value != null) {
+            isLoadings = value
+        }
+    }
+
+    override fun setIsLastPage(value: Boolean?) {
+        if (value != null) {
+            isLastPages = value
+        }
+    }
+
+    override fun getCurrentPage(): Int? {
+        return currentPage
+    }
+
+    override fun getTotalPage(): Int? {
+        return TOTAL_PAGES
+    }
+
+    override fun getIsloading(): Boolean? {
+        return isLoadings
+    }
+
+    override fun getIsLastPage(): Boolean? {
+        return isLastPages
+    }
+
+    private var currentPage = 1
+    private var TOTAL_PAGES: Int? = 1
+    private var isLoadings = false
+    private var isLastPages = false
+    private var followedListSize = 0
+
+
+    private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
+
+
+    override fun setFollowedEmployerList(empList: ArrayList<FollowEmployerListData>?) {
+        followedEmployerList = empList
+    }
+
+    override fun getFollowedEmployerList(): ArrayList<FollowEmployerListData>? {
+        return followedEmployerList
+    }
+
     override fun positionClicked(position: Int?) {
         this.positionClicked = position
     }
@@ -40,7 +109,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         return this.positionClicked
     }
 
-    private var positionClicked:Int? = 0
+    private var positionClicked: Int? = 0
     private var companyid = ""
     private var companyname = ""
     private var value = ""
@@ -139,8 +208,8 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             followedEmployersListFragment.scrollToUndoPosition(position)
     }
 
-    override fun decrementCounter() {
-        followedEmployersListFragment.decrementCounter()
+    override fun decrementCounter(position: Int) {
+        followedEmployersListFragment.decrementCounter(position)
     }
 
 

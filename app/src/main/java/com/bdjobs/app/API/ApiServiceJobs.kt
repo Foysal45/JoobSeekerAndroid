@@ -87,8 +87,19 @@ interface ApiServiceJobs {
     fun getFollowEmployerList(
             @Query("userID") userID: String? = "",
             @Query("decodeId") decodeId: String? = "",
-            @Query("Apstyp") Apstyp: String? = "M",
+            @Query("Apstyp") Apstyp: String? = "J", // M for all list and j for only live job
             @Query("encoded") encoded: String? = "",
+            @Query("appId") appId :String? = Constants.APP_ID
+    ): Call<FollowEmployerListModelClass>
+
+    @GET("CompanyListFollowEmployerForAll.asp")
+    fun getFollowEmployerListLazy(
+            @Query("userID") userID: String? = "",
+            @Query("decodeId") decodeId: String? = "",
+            @Query("Apstyp") Apstyp: String? = "M", // M for all list and j for only live job
+            @Query("encoded") encoded: String? = "",
+            @Query("isActivityDate") isActivityDate: String? = "0",
+            @Query("pg") pg: String? = "1",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
 

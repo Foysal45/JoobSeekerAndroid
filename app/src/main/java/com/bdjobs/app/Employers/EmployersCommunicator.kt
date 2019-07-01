@@ -1,5 +1,7 @@
 package com.bdjobs.app.Employers
 
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
+
 interface EmployersCommunicator {
     fun backButtonPressed()
     fun gotoJobListFragment(companyID : String?, companyName : String?)
@@ -8,11 +10,27 @@ interface EmployersCommunicator {
     fun getJobId() : String
     fun getTime() : String
     fun scrollToUndoPosition(position:Int)
-    fun decrementCounter()
+    fun decrementCounter(position:Int)
     fun setMessageId(messageId: String)
     fun getMessageId ():String
     fun gotoMessageDetail()
     fun positionClicked(position:Int?)
     fun getPositionClicked():Int?
+    fun setFollowedEmployerList( empList:ArrayList<FollowEmployerListData>?)
+    fun getFollowedEmployerList():ArrayList<FollowEmployerListData>?
+
+    fun setCurrentPage(value:Int?)
+    fun setTotalPage(value:Int?)
+    fun setIsloading(value:Boolean?)
+    fun setIsLastPage(value:Boolean?)
+    fun setFollowedListSize(value:Int?)
+
+    fun getCurrentPage():Int?
+    fun getTotalPage():Int?
+    fun getIsloading():Boolean?
+    fun getIsLastPage():Boolean?
+    fun getFollowedListSize():Int?
+
+
 
 }

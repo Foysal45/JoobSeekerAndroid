@@ -9,17 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListModelClass
 import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.FollowedEmployer
+import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import java.util.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class FollowedEmployersListFragment : Fragment() {
@@ -28,8 +33,12 @@ class FollowedEmployersListFragment : Fragment() {
     lateinit var employersCommunicator: EmployersCommunicator
     private lateinit var isActivityDate: String
     var followedListSize = 0
-    private var followedEmployerList: List<FollowedEmployer>? = null
-
+    private var followedEmployerList: List<FollowEmployerListData>? = null
+    private var currentPage = 1
+    private var TOTAL_PAGES: Int? = 1
+    private var isLoadings = false
+    private var isLastPages = false
+    private lateinit var bdjobsUserSession: BdjobsUserSession
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,13 +51,7 @@ class FollowedEmployersListFragment : Fragment() {
         employersCommunicator = activity as EmployersCommunicator
         isActivityDate = employersCommunicator.getTime()
         bdjobsDB = BdjobsDB.getInstance(activity)
-
-       /*  val adRequest = PublisherAdRequest
-                .Builder()
-                .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
-                .build()
-
-        publisherAdView?.loadAd(adRequest)*/
+        bdjobsUserSession = BdjobsUserSession(activity)
 
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
@@ -57,64 +60,137 @@ class FollowedEmployersListFragment : Fragment() {
             employersCommunicator?.backButtonPressed()
         }
 
-        doAsync {
-            followedEmployerList = if (isActivityDate == "0") {
-                bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
+        try {
+            followedEmployersAdapter = FollowedEmployersAdapter(activity)
+            followedRV?.adapter = followedEmployersAdapter
+            followedRV?.setHasFixedSize(true)
+            val layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            followedRV?.layoutManager = layoutManager
+            Log.d("initPag", "called")
+            followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+
+            if (employersCommunicator.getFollowedEmployerList().isNullOrEmpty()) {
+                shimmer_view_container_JobList?.show()
+                shimmer_view_container_JobList?.startShimmerAnimation()
+                loadData(1)
             } else {
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DAY_OF_YEAR, -30)
-                val lastmonth = calendar.time
-                bdjobsDB.followedEmployerDao().getFollowedEmployerbyDate(lastmonth)
-
-            }
-
-            Log.d("follow", followedEmployerList.toString())
-            uiThread {
                 try {
-                    followedListSize = followedEmployerList?.size!!
-                    followedEmployersAdapter = FollowedEmployersAdapter(activity)
-                    followedRV?.adapter = followedEmployersAdapter
-                    followedRV?.setHasFixedSize(true)
-                    followedRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                    Log.d("initPag", "called")
-                    followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-                    followedEmployersAdapter?.addAll(followedEmployerList!!)
-
-
-                    if (followedEmployerList?.size!! > 0) {
-                        followEmployerNoDataLL?.hide()
-                        followedRV?.show()
-                        if(employersCommunicator?.getPositionClicked()!!-2>0){
-                            followedRV?.scrollToPosition(employersCommunicator?.getPositionClicked()!!-2)
-                        }else{
-                            followedRV?.scrollToPosition(employersCommunicator?.getPositionClicked()!!)
-                        }
-
-                        Log.d("totalJobs", "data ase")
-                    } else {
-                        followEmployerNoDataLL?.show()
-                        followedRV?.hide()
-                        Log.d("totalJobs", "zero")
-                    }
-
-                    if (followedEmployerList?.size!! > 1) {
-                        val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employers"
+                    followedEmployersAdapter?.addAll(employersCommunicator.getFollowedEmployerList()!!)
+                    currentPage = employersCommunicator.getCurrentPage()!!
+                    TOTAL_PAGES = employersCommunicator.getTotalPage()!!
+                    isLoadings = employersCommunicator.getIsloading()!!
+                    isLastPages = employersCommunicator.getIsLastPage()!!
+                    followedListSize = employersCommunicator.getFollowedListSize()!!
+                } catch (e: Exception) {
+                    logException(e)
+                }
+                try {
+                    if (followedListSize > 1) {
+                        val styledText = "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employers"
                         favCountTV?.text = Html.fromHtml(styledText)
                     } else {
-                        val styledText = "<b><font color='#13A10E'>${followedEmployerList?.size}</font></b> Followed Employer"
+                        val styledText = "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employer"
                         favCountTV?.text = Html.fromHtml(styledText)
                     }
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
+
+
+            followedRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager as LinearLayoutManager) {
+
+                override val totalPageCount: Int
+                    get() = TOTAL_PAGES!!
+                override val isLastPage: Boolean
+                    get() = isLastPages
+                override var isLoading: Boolean = false
+                    get() = isLoadings
+
+                override fun loadMoreItems() {
+                    isLoading = true
+                    currentPage += 1
+                    loadData(currentPage);
+
+                }
+            })
+
+        } catch (e: Exception) {
+            logException(e)
         }
+
+
     }
 
-    fun scrollToUndoPosition(position:Int){
+    private fun loadData(currentPage: Int) {
+
+
+        ApiServiceJobs.create().getFollowEmployerListLazy(
+                pg = currentPage.toString(),
+                isActivityDate = isActivityDate,
+                userID = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId,
+                encoded = Constants.ENCODED_JOBS
+
+
+        ).enqueue(object : Callback<FollowEmployerListModelClass> {
+            override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
+                Log.d("getFEmployerListLazy", t.message)
+            }
+
+            override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
+                shimmer_view_container_JobList?.hide()
+                shimmer_view_container_JobList?.stopShimmerAnimation()
+                try {
+                    followedEmployerList = response.body()?.data as List<FollowEmployerListData>?
+
+                    followedListSize = response.body()?.common?.total_records_found?.toInt()!!
+                    followedEmployersAdapter?.addAll(followedEmployerList!!)
+
+                    TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
+                    if (currentPage >= TOTAL_PAGES!!) {
+                        isLastPages = true
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+                try {
+                    if (followedEmployerList?.size!! > 0) {
+                        followEmployerNoDataLL?.hide()
+                        followedRV?.show()
+                        Log.d("totalJobs", "data ase")
+                    } else {
+                        followEmployerNoDataLL?.show()
+                        followedRV?.hide()
+                        Log.d("totalJobs", "zero")
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+                try {
+                    if (followedListSize > 1) {
+                        val styledText = "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employers"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    } else {
+                        val styledText = "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employer"
+                        favCountTV?.text = Html.fromHtml(styledText)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+
+        })
+
+    }
+
+    fun scrollToUndoPosition(position: Int) {
         followedRV?.scrollToPosition(position)
         followedListSize++
-        if (followedListSize> 1) {
+        if (followedListSize > 1) {
             val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
             favCountTV?.text = Html.fromHtml(styledText)
         } else {
@@ -124,15 +200,32 @@ class FollowedEmployersListFragment : Fragment() {
 
     }
 
-    fun decrementCounter(){
+    fun decrementCounter(position: Int) {
         followedListSize--
-        if (followedListSize> 1) {
+        run {
+            followedRV?.scrollToPosition(position)
+        }
+        if (followedListSize > 1) {
             val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
             favCountTV?.text = Html.fromHtml(styledText)
         } else {
             val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer"
             favCountTV?.text = Html.fromHtml(styledText)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        try {
+            employersCommunicator.setFollowedListSize(followedListSize)
+            employersCommunicator.setCurrentPage(currentPage)
+            employersCommunicator.setTotalPage(TOTAL_PAGES)
+            employersCommunicator.setIsloading(isLoadings)
+            employersCommunicator.setIsLastPage(isLastPages)
+        } catch (e: Exception) {
+            logException(e)
+        }
+
     }
 
 

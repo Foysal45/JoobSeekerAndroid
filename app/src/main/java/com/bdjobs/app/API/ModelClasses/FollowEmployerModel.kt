@@ -18,7 +18,13 @@ data class Common(
         @SerializedName("TotalCompnay")
         val totalCompnay: String?,
         @SerializedName("TotalCount")
-        val totalCount: String?
+        val totalCount: String?,
+        @SerializedName("total_records_found")
+        val total_records_found: String?="",
+        @SerializedName("TotalJobCount")
+        val TotalJobCount: String?="",
+        @SerializedName("totalpages")
+        val totalpages: String?=""
 )
 
 data class FollowEmployerListData(
@@ -30,4 +36,5 @@ data class FollowEmployerListData(
         val followedOn: String?,
         @SerializedName("JobCount")
         val jobCount: String?
+
 )

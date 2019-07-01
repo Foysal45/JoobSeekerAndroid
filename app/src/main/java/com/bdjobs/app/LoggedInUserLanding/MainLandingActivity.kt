@@ -38,6 +38,9 @@ import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main_landing.*
@@ -48,7 +51,7 @@ import retrofit2.Response
 import java.util.*
 
 class MainLandingActivity : Activity(), HomeCommunicator {
-
+    private lateinit var mInterstitialAd: InterstitialAd
 
 
     override fun showManageResumePopup() {
@@ -235,7 +238,12 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         try {
             alert("Are you sure you want to exit?") {
                 yesButton {
-                    super.onBackPressed()
+                    if (mInterstitialAd.isLoaded) {
+                        mInterstitialAd.show()
+                    } else {
+                        Log.d("TAG", "The interstitial wasn't loaded yet.")
+                        super.onBackPressed()
+                    }
                 }
                 noButton { dialog ->
                     dialog.dismiss()
@@ -264,6 +272,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
+
+        loadAd()
+
+
         if (!isDeviceInfromationSent) {
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
                 val token = instanceIdResult.token
@@ -282,6 +294,38 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         //getIsCvUploaded()
 
         tetsLog()
+    }
+
+    private fun loadAd() {
+        mInterstitialAd = InterstitialAd(this@MainLandingActivity)
+        mInterstitialAd.adUnitId = Constants.INTERSTITIAL_AD_UNIT_ID
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        mInterstitialAd.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.d("mInterstitialAd", "Ad Loaded")
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                // Code to be executed when an ad request fails.
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            override fun onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            override fun onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            override fun onAdClosed() {
+                finish()
+            }
+        }
     }
 
 

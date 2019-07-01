@@ -10,10 +10,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.logException
@@ -24,25 +23,13 @@ import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
-/*=============================================================================
- |
- |Author :  Firoz Hasan
- |Date : 22 Dec 2018
- |BASIC IDEA : IN THIS ADAPTER FIRST IN INIT WE RECEIVE THE ARRAYLIST & ON onBindViewHolder
- |             WE SET ONCLICKLISTENER OF UNFOLLOW BUTTON
- |
- |
- |
- +-----------------------------------------------------------------------------
- */
 
 class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     val activity = context as Activity
     val dataStorage = DataStorage(context)
     val bdjobsUserSession = BdjobsUserSession(context)
-    private var followedEmployerList: ArrayList<FollowedEmployer>? = ArrayList()
-    private val bdjobsDB: BdjobsDB = BdjobsDB.getInstance(activity)
+    private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
     private lateinit var company_ID: String
     private lateinit var company_name: String
     private var undoButtonPressed: Boolean = false
@@ -53,16 +40,16 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
     }
 
     override fun getItemCount(): Int {
-        return return if (followedEmployerList == null) 0 else followedEmployerList!!.size
+        return if (followedEmployerList == null) 0 else followedEmployerList!!.size
 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder?.employerCompany.text = followedEmployerList?.get(position)?.CompanyName
-            holder?.offeringJobs.text = followedEmployerList?.get(position)?.JobCount
-            company_name = followedEmployerList?.get(position)?.CompanyName!!
-            company_ID = followedEmployerList?.get(position)?.CompanyID!!
+            holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
+            holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
+            company_name = followedEmployerList?.get(position)?.companyName!!
+            company_ID = followedEmployerList?.get(position)?.companyID!!
             holder.followUunfollow?.setOnClickListener {
 
                 try {
@@ -82,7 +69,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 }
             }
 
-            var jobCount = followedEmployerList?.get(position)?.JobCount
+            var jobCount = followedEmployerList?.get(position)?.jobCount
             if (jobCount == null) {
                 jobCount = "0"
             }
@@ -95,8 +82,8 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     try {
                         if (position < followedEmployerList?.size!!) {
                             Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
-                            var company_name_1 = followedEmployerList?.get(position)?.CompanyName!!
-                            var company_ID_1 = followedEmployerList?.get(position)?.CompanyID!!
+                            var company_name_1 = followedEmployerList?.get(position)?.companyName!!
+                            var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
                             employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
                             employersCommunicator?.positionClicked(position)
                             Log.d("companyid", company_ID_1)
@@ -120,8 +107,8 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         try {
             if (followedEmployerList?.size != 0) {
                 val deletedItem = followedEmployerList?.get(position)
-                val companyid = followedEmployerList?.get(position)?.CompanyID
-                val companyName = followedEmployerList?.get(position)?.CompanyName
+                val companyid = followedEmployerList?.get(position)?.companyID
+                val companyName = followedEmployerList?.get(position)?.companyName
                 Log.d("werywirye", "companyid = $companyid companyname = $companyName")
                 followedEmployerList?.removeAt(position)
                 notifyItemRemoved(position)
@@ -130,7 +117,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
                     bdjobsUserSession?.deccrementFollowedEmployer()
                     //undoRemove(view, deletedItem, position, deleteJobID)
-                    employersCommunicator.decrementCounter()
+                    employersCommunicator.decrementCounter(position)
                 } catch (e: Exception) {
 
                 }
@@ -143,7 +130,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         }
     }
 
-    private fun undoRemove(v: View, deletedItem: FollowedEmployer?, deletedIndex: Int, deleteJobID: Int) {
+    private fun undoRemove(v: View, deletedItem: FollowEmployerListData?, deletedIndex: Int, deleteJobID: Int) {
         // here we show snackbar and undo option
 
         val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
@@ -159,18 +146,19 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         Log.d("swipe", "dir to LEFT")
     }
 
-    private fun restoreMe(item: FollowedEmployer, pos: Int) {
+    private fun restoreMe(item: FollowEmployerListData, pos: Int) {
         followedEmployerList?.add(pos, item)
         notifyItemInserted(pos)
         undoButtonPressed = true
     }
 
-    fun add(r: FollowedEmployer) {
+    fun add(r: FollowEmployerListData) {
         followedEmployerList?.add(r)
         notifyItemInserted(followedEmployerList!!.size - 1)
+        employersCommunicator.setFollowedEmployerList(followedEmployerList)
     }
 
-    fun addAll(moveResults: List<FollowedEmployer>) {
+    fun addAll(moveResults: List<FollowEmployerListData>) {
         for (result in moveResults) {
             add(result)
         }
