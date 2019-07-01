@@ -18,7 +18,7 @@ data class FavouritSearchFilterData(
         @SerializedName("age")
         val age: String?,
         @SerializedName("createdon")
-        val createdon: String?,
+        val createdon: String?="",
         @SerializedName("deadline")
         val deadline: String?,
         @SerializedName("experience")
@@ -56,7 +56,7 @@ data class FavouritSearchFilterData(
         @SerializedName("totaljobs")
         val totaljobs: String?,
         @SerializedName("updatedon")
-        val updatedon: String?
+        val updatedon: String?=""
 
 )
 
