@@ -365,7 +365,7 @@ class PhotoUploadActivity : Activity() {
         if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
+
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                             Manifest.permission.CAMERA)) {
 
