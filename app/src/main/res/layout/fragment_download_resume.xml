@@ -25,9 +25,10 @@
 
             <TextView
                 android:id="@+id/suggestiveSearchET"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="29dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
                 android:drawablePadding="5dp"
                 android:ems="10"
                 android:fontFamily="@font/roboto"
@@ -39,6 +40,8 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/backIV"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -149,12 +152,12 @@
         android:layout_marginStart="82dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:paddingStart="20dp"
+
         android:stateListAnimator="@null"
         app:backgroundTint="#FFFFFF"
         app:cornerRadius="2dp"
         app:icon="@drawable/ic_cloud_download"
-        app:iconGravity="textStart"
+        app:iconGravity=""
         app:iconTint="#666666"
         app:layout_constraintEnd_toStartOf="@+id/submitTV1"
         app:layout_constraintHorizontal_bias="0.5"
@@ -170,11 +173,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        android:paddingStart="20dp"
+
         app:backgroundTint="#FFFFFF"
         app:cornerRadius="2dp"
         app:icon="@drawable/ic_email_black"
-        app:iconGravity="textStart"
         app:iconTint="#666666"
         app:layout_constraintEnd_toStartOf="@+id/submitTV3"
         android:stateListAnimator="@null"
@@ -192,11 +194,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="82dp"
         android:gravity="center"
-        android:paddingStart="20dp"
         app:backgroundTint="#FFFFFF"
         app:cornerRadius="2dp"
         app:icon="@drawable/ic_share_black"
-        app:iconGravity="textStart"
+
         android:stateListAnimator="@null"
         app:iconTint="#666666"
         app:layout_constraintEnd_toEndOf="parent"

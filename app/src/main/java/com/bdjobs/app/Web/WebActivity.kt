@@ -18,8 +18,10 @@ import retrofit2.Response
 
 class WebActivity : Activity() {
     var url: String? = null
-    var from: String? = null
+    var from: String = ""
     lateinit var bdjobsUserSession: BdjobsUserSession
+    lateinit var cookieSyncManager :CookieSyncManager
+    lateinit var cookieManager :CookieManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,11 @@ class WebActivity : Activity() {
             onBackPressed()
         }
         getIntentData()
+
+        cookieSyncManager = CookieSyncManager.createInstance(bdjobsWeb.context)
+        cookieManager = CookieManager.getInstance()
+        cookieManager?.setAcceptCookie(true)
+        cookieManager?.removeSessionCookie()
     }
 
     private fun getIntentData() {
@@ -129,10 +136,7 @@ class WebActivity : Activity() {
     }
 
     private fun loadUrlWithCookie(url: String?) {
-        val cookieSyncManager = CookieSyncManager.createInstance(bdjobsWeb.context)
-        val cookieManager = CookieManager.getInstance()
-        cookieManager?.setAcceptCookie(true)
-        cookieManager?.removeSessionCookie()
+
 
         bdjobsWeb?.hide()
         shimmer_view_container_JobList?.show()
@@ -222,7 +226,7 @@ class WebActivity : Activity() {
     }
 
     override fun onBackPressed() {
-        if (bdjobsWeb.copyBackForwardList().currentIndex > 0) {
+        if (bdjobsWeb.copyBackForwardList().currentIndex > 0 && !from.equalIgnoreCase("reportJob")) {
             bdjobsWeb.goBack()
         } else {
             super.onBackPressed()
