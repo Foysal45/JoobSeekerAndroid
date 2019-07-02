@@ -38,6 +38,7 @@ import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.crashlytics.android.Crashlytics
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -65,6 +66,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         val viewResume = dialog.findViewById<Button>(R.id.viewResume)
         val uploadResume = dialog.findViewById<Button>(R.id.uploadResume)
         val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
+
+        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
+
+        Constants.showNativeAd(ad_small_template, this@MainLandingActivity)
 
         editResume?.setOnClickListener {
             startActivity<EditResLandingActivity>()
