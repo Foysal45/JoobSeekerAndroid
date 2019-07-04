@@ -11,7 +11,7 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 74 //658 //74
+        versionCode 76 //658 //74
         versionName "2.0.0.12"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -37,11 +37,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //----androidx for design and others
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3' //Please Don't upgrade  this library
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation "com.google.android.material:material:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.1.0-beta01" // google sign in activity get crash without this library
+    implementation "androidx.appcompat:appcompat:1.1.0-rc01" // google sign in activity get crash without this library
 
     //----firebase
     implementation 'com.google.firebase:firebase-core:17.0.0'

@@ -252,6 +252,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     private fun checkUpdate() {
+        //goToNextActivity()
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
