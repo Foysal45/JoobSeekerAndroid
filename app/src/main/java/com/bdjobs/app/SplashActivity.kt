@@ -265,7 +265,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                         AppUpdateType.IMMEDIATE,
                         this@SplashActivity,
                         APP_UPDATE_REQUEST_CODE)
-            } else {
+            } else {    
                 Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
                 goToNextActivity()
             }
