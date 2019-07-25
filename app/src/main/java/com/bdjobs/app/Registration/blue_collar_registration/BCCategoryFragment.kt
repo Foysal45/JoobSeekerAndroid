@@ -55,6 +55,11 @@ class BCCategoryFragment : Fragment() {
         }
     }
 
+    /**
+     *  @desc Interface, DataStorage initialised
+     *  @param bcCategories gets data from DataStorage and sends to adapter
+     */
+
     private fun intialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
