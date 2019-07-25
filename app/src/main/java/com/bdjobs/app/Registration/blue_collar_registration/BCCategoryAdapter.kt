@@ -24,12 +24,17 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.categoryTV.text = items[position]
         Log.d("elkgjtsdlgfghfdh","Item ${items.get(position)}")
         Log.d("elkgjtsdlgfghfdh", "position $position")
         holder.categoryTV.setOnClickListener {
             selectedPosition = position
+
+            /**
+             * @desc below line sends the category name and position back
+             * to the interface implemented in RegistrationBaseActivity
+             */
+
             registrationCommunicator.bcCategorySelected(items[position], selectedPosition)
             notifyDataSetChanged()
             Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
