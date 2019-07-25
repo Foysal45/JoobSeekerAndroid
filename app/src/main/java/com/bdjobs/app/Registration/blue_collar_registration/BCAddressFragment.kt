@@ -46,6 +46,7 @@ class BCAddressFragment : Fragment() {
         initialization()
 
     }
+
     private fun onClick() {
         bcAddressFAButton.setOnClickListener {
             checkValidity()
