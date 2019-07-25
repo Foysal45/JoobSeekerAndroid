@@ -40,8 +40,6 @@ import java.util.*
 
 class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
 
-
-
     //white Collar
     private val registrationLandingFragment = RegistrationLandingFragment()
     private val wccategoryFragment = WCCategoryFragment()
@@ -740,6 +738,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         transitFragment(bcGenderFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 30
+        //bcGoToStepExperience()
     }
 
     override fun bcGoToStepMobileNumber() {
