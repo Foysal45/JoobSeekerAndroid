@@ -19,10 +19,12 @@ import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Registration.blue_collar_registration.adapter.BCSkillAdapter
 import com.bdjobs.app.Utilities.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.add_category_dialog_layout.*
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.bcExperinceFAButton
 import kotlinx.android.synthetic.main.fragment_bc_experience.categoryTV
@@ -326,6 +328,8 @@ class BCNewExperienceFragment : Fragment() {
             dialog.dismiss()
         }
         saveButton?.setOnClickListener {
+
+
 
 
             val item = AddExpModel(workExp, workSource, NTVQF)
@@ -715,10 +719,6 @@ class BCNewExperienceFragment : Fragment() {
         val declineButton = categoryEdit.findViewById<MaterialButton>(R.id.declineButton)
         val saveButton = categoryEdit.findViewById<MaterialButton>(R.id.saveButton)
 
-        skillTIET.setText(categoryTV.text)
-
-
-
         skillTIET?.setOnClickListener {
 
 
@@ -749,6 +749,11 @@ class BCNewExperienceFragment : Fragment() {
             categoryEdit.dismiss()
 
 
+            //added by Rakib
+            category = categoryTV.text.toString()
+            bcCategoryId = dataStorage.getCategoryIDByBanglaName(category)!!
+            debug(" category id {$bcCategoryId}")
+            registrationCommunicator.bcCategorySelected(category,bcCategoryId.toInt())
         }
 
         categoryEdit.show()
