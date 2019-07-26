@@ -2,7 +2,10 @@ package com.bdjobs.app.Registration
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -10,6 +13,7 @@ import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.InviteCodeInfo
@@ -25,6 +29,8 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_login_base.*
 import kotlinx.android.synthetic.main.activity_registration_base.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
@@ -38,7 +44,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
+class RegistrationBaseActivity : Activity(), RegistrationCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
+
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+    private var mSnackBar: Snackbar? = null
+
 
     //white Collar
     private val registrationLandingFragment = RegistrationLandingFragment()
@@ -56,6 +66,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     private var name: String = ""
     private var gender: String = ""
     private var mobileNumber: String = ""
+
     private var wcEmail: String = ""
     private var userNameType: String = ""
     private var wcPassword: String = ""
@@ -152,6 +163,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
     override fun onPostResume() {
         super.onPostResume()
         setProgreesBar()
+        registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        ConnectivityReceiver.connectivityReceiverListener = this
     }
 
 
@@ -1489,4 +1502,26 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator {
         return categoryId
     }
 
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (!isConnected) {
+            mSnackBar = Snackbar
+                    .make(registrationBaseCL, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.turn_on_wifi)) {
+                        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                    }
+                    .setActionTextColor(resources.getColor(R.color.colorWhite))
+
+            mSnackBar?.show()
+
+        } else {
+            mSnackBar?.dismiss()
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(internetBroadCastReceiver)
+    }
 }
