@@ -74,6 +74,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/positionName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -106,6 +107,7 @@
 
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/companyName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -136,6 +138,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/companyName" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/vacancyValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -166,7 +169,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/companyName" />
 
                 <TextView
-
+                    android:textIsSelectable="true"
                     android:id="@+id/deadlineValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -197,6 +200,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/vacancyValue" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/locationValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -207,7 +211,6 @@
                     android:textColor="#ffff"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/salaryValue"
-
                     app:layout_constraintStart_toStartOf="@+id/locationText"
                     app:layout_constraintTop_toBottomOf="@+id/locationText"
                     tools:text="Dhaka" />
@@ -226,6 +229,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/deadlineValue" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/salaryValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -257,6 +261,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/govtJobsIMGV" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/keyPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -270,6 +275,7 @@
                 app:layout_constraintTop_toBottomOf="@id/jobInfo" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/keyPointsTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,6 +289,7 @@
                 tools:text="Big Data" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/jobContext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -296,6 +303,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/keyPointsTv" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/jobContextTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -334,6 +342,7 @@
                 app:layout_constraintTop_toBottomOf="@id/jobContextTV" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/responsibilityTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -360,7 +369,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/responsibilityTV" />
 
             <TextView
-
+                android:textIsSelectable="true"
                 android:id="@+id/jobNatureTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -374,6 +383,7 @@
                 tools:text="Contractual" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/requirements"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -400,6 +410,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/requirements" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/educationTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -426,6 +437,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/educationTV" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/experienceTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -451,6 +463,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/experienceTV" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/jobRequirementsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -512,6 +525,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/salaryAndCompensation" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/salaryRangeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -538,6 +552,7 @@
                 tools:text="Other Benefits" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/otherBenefitsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -575,6 +590,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/horizontalViewfour" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:visibility="gone"
                 android:id="@+id/jobSourceTV"
                 android:layout_width="match_parent"
@@ -625,6 +641,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/readAndApply">
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/readAndApplyTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -657,6 +674,7 @@
                     tools:text="TextView" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/emailApplyTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -704,6 +722,7 @@
 
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/companyAddressNameTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -720,6 +739,7 @@
 
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -732,6 +752,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/companyAddressNameTV" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/companyAddressTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -766,6 +787,7 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/wbsiteHeadingTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -778,6 +800,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/companyAddressTV" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/websiteTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -793,6 +816,7 @@
                     tools:text="TextView" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/businessHeadingTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -805,6 +829,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/websiteTV" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/businessTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -842,6 +867,7 @@
 
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:id="@+id/viewAllJobs"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -874,6 +900,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/appliedBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

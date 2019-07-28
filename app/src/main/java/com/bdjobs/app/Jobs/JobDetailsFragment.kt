@@ -17,10 +17,7 @@ import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,26 +31,26 @@ class JobDetailsFragment : Fragment() {
     private var currentPage = 1
     private lateinit var communicator: JobCommunicator
     private var snapHelper: SnapHelper? = null
-    private var jobListGet: MutableList<JobListModelData>? = null
+    private var  jobListGet: MutableList<JobListModelData>? = null
     private var TOTAL_PAGES: Int? = 0
     private var totalRecordsFound: Int? = 0
     private var isLoadings = false
     private var isLastPages = false
-    private var keyword :String?= ""
-    private var location:String? = ""
-    private var category:String? = ""
-    private var newsPaper:String? = ""
-    private var industry:String? = ""
-    private var organization:String? = ""
-    private var gender:String? = ""
-    private var experience:String? = ""
-    private var jobType:String? = ""
-    private var jobLevel:String? = ""
-    private var jobNature:String? = ""
-    private var postedWithin:String? = ""
-    private var deadline:String? = ""
-    private var age:String? = ""
-    private var army:String? = ""
+    private var keyword: String? = ""
+    private var location: String? = ""
+    private var category: String? = ""
+    private var newsPaper: String? = ""
+    private var industry: String? = ""
+    private var organization: String? = ""
+    private var gender: String? = ""
+    private var experience: String? = ""
+    private var jobType: String? = ""
+    private var jobLevel: String? = ""
+    private var jobNature: String? = ""
+    private var postedWithin: String? = ""
+    private var deadline: String? = ""
+    private var age: String? = ""
+    private var army: String? = ""
 
     var currentJobPosition = 0
     var shareJobPosition = 0
@@ -191,6 +188,7 @@ class JobDetailsFragment : Fragment() {
 
         try {
             jobListGet = communicator.getJobList()!!
+            Log.d("Job detail fragment", "${jobListGet?.size}")
         } catch (e: Exception) {
             logException(e)
         }
@@ -236,7 +234,6 @@ class JobDetailsFragment : Fragment() {
 
     private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
         Log.d("ArrayTestJobdetail", " loadNextPage called\n ")
-
 
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
@@ -314,8 +311,11 @@ class JobDetailsFragment : Fragment() {
 
     private fun loadFirstPage() {
 
+        Log.d("Job detail fragment","came here")
+
         try {
             jobDetailAdapter?.addAll(jobListGet as List<JobListModelData>)
+
             if (currentPage == TOTAL_PAGES!!) {
 
                 isLastPages = true
