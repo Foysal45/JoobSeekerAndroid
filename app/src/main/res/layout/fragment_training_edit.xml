@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clTrainingEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/clTrainingEdit"
     tools:context=".editResume.educationInfo.fragments.trainingInfo.TrainingEditFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -13,12 +13,12 @@
         android:overScrollMode="never">
 
         <LinearLayout
-            android:paddingBottom="100dp"
             android:id="@+id/ehMailLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:descendantFocusability="beforeDescendants"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/trainingTitleTIL"
@@ -28,13 +28,13 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.training_title"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="100"
                     android:textColor="#212121" />
@@ -50,14 +50,14 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrTopic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
-                    android:hint="@string/hint.topic_covered"
                     android:focusableInTouchMode="true"
+                    android:hint="@string/hint.topic_covered"
                     android:imeOptions="actionNext"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="300"
                     android:textColor="#212121" />
@@ -73,13 +73,13 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrInstitute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
+                    android:focusableInTouchMode="true"
                     android:hint="@string/hint.institute_name_tr"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="80"
                     android:textColor="#212121" />
@@ -95,13 +95,13 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrCountry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
-                    android:hint="@string/hint.country"
                     android:focusableInTouchMode="true"
+                    android:hint="@string/hint.country"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -117,14 +117,14 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrLoc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'_"
+                    android:focusableInTouchMode="true"
                     android:hint="@string/hint.location"
                     android:imeOptions="actionNext"
-                    android:focusableInTouchMode="true"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textMultiLine"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -142,14 +142,14 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrTrainingYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:longClickable="false"
                     android:hint="@string/hint.training_year"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="number"
+                    android:longClickable="false"
                     android:maxLength="4"
                     android:textColor="#212121" />
 
@@ -164,12 +164,12 @@
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etTrDuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hint.duration_tr"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text"
                     android:maxLength="10"
                     android:textColor="#212121" />
