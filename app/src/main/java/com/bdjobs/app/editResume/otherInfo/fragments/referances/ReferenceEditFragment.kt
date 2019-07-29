@@ -39,6 +39,7 @@ class ReferenceEditFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_reference_edit, container, false)
     }
