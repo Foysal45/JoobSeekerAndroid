@@ -84,6 +84,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     init {
         jobList = java.util.ArrayList()
         jobCommunicator = context as JobCommunicator
+        Log.d("JobDetailFragment","${jobList?.size}")
     }
 
 

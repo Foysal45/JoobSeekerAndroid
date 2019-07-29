@@ -72,6 +72,7 @@ class JoblistFragment : Fragment() {
 
     var totalRecordsFound = 0
 
+    private val TAG = "JobListFragment"
 
     override fun onDestroy() {
         Constants.nativeAdvertisement=null
@@ -149,7 +150,7 @@ class JoblistFragment : Fragment() {
             }
         }
 
-        loadFisrtPageTest(
+        loadFirstPageFromAPI(
                 jobLevel = jobLevel,
                 newsPaper = newsPaper,
                 armyp = army,
@@ -366,7 +367,7 @@ class JoblistFragment : Fragment() {
             communicator?.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
-        loadFirstPageNew()
+        loadFirstPageFromJobDetailBackButton()
         Handler().postDelayed({
             jobListGet?.let{
                 if(it.size-communicator.getCurrentJobPosition()>2) {
@@ -384,10 +385,11 @@ class JoblistFragment : Fragment() {
     }
 
 
-    private fun loadFirstPageNew() {
+    private fun loadFirstPageFromJobDetailBackButton() {
+        Log.d(TAG, "came here from loadFirstPageFromJobDetailBackButton")
         try {
             joblistAdapter?.clear()
-            joblistAdapter?.addAllTest(jobListGet as List<JobListModelData>)
+            joblistAdapter?.addAll(jobListGet as List<JobListModelData>)
             if (currentPage == TOTAL_PAGES!!) {
                 isLastPages = true
             }
@@ -398,8 +400,9 @@ class JoblistFragment : Fragment() {
     }
 
 
-    private fun loadFisrtPageTest(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
+    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
 
+        Log.d(TAG, "came here")
         Log.d("Paramtest", "jobLevel: $jobLevel")
 
         jobListRecyclerView?.hide()
@@ -455,7 +458,7 @@ class JoblistFragment : Fragment() {
                         val results = response.body()?.data
 
                         if (!results.isNullOrEmpty()) {
-                            joblistAdapter?.addAllTest(results)
+                            joblistAdapter?.addAll(results)
                         }
 
                         if (currentPage >= TOTAL_PAGES!!) {
@@ -504,9 +507,9 @@ class JoblistFragment : Fragment() {
     }
 
     private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
-        Log.d("ArrayTest", " loadNextPage called")
+        Log.d(TAG, " loadNextPage called")
 
-        Log.d("Paramtest", "jobLevel: $jobLevel")
+        //Log.d("${TAG} Param", "jobLevel: $jobLevel")
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
                 Newspaper = newsPaper,
@@ -548,7 +551,10 @@ class JoblistFragment : Fragment() {
                             isLoadings = false
 
                             val results = response.body()?.data
-                            joblistAdapter?.addAllTest(results as List<JobListModelData>)
+
+                            Log.d(TAG, "total jobs ${results?.size}")
+
+                            joblistAdapter?.addAll(results as List<JobListModelData>)
 
                             if (currentPage >= TOTAL_PAGES!!) {
                                 isLastPages = true
