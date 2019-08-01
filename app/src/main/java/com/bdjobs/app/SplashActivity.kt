@@ -46,6 +46,11 @@ import java.security.MessageDigest
 
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
+
+    companion object{
+        var i = 1
+    }
+
     lateinit var pref: SharedPreferences
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -55,6 +60,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("Rakib", "on create ${i++}")
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
@@ -62,9 +68,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         //generateKeyHash()
         getFCMtoken()
         subscribeToFCMTopic("Kamol")
-        if (bdjobsUserSession.isLoggedIn!!) {
-            DatabaseUpdateJob.runJobImmediately()
-        }
         MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
         /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
          mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
@@ -73,6 +76,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
 
     override fun onResume() {
+        Log.d("Rakib", "on resume ${i++}")
         super.onResume()
         pref = getSharedPreferences(name_sharedPref, Context.MODE_PRIVATE)
         ConnectivityReceiver.connectivityReceiverListener = this
@@ -130,6 +134,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             }
 
         } else {
+            if (bdjobsUserSession.isLoggedIn!!) {
+                DatabaseUpdateJob.runJobImmediately()
+            }
             try {
                 mSnackBar?.dismiss()
                 setContentView(R.layout.activity_splash)
@@ -153,7 +160,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                     try {
                         if (response?.body()?.messageType == "1") {
+
                             if (response.body()?.update == "1") {
+                                Log.d("Rakib", response.body()?.dblink)
                                 downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
                             } else {
                                 showAdAndGoToNextActivity()
@@ -228,6 +237,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
              }
          }*/
         checkUpdate()
+//        goToNextActivity()
     }
 
     private fun goToNextActivity() {
@@ -282,7 +292,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        Log.d("Rakib", "on network changed $isConnected ${i++}")
         takeDecisions(isConnected)
+        Log.d("splash", "called")
     }
 
     private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
