@@ -107,6 +107,7 @@
         android:id="@+id/submitTV"
         android:textAllCaps="false"
         android:text="Submit"
+        android:letterSpacing="0"
         android:layout_marginTop="15dp"
         android:layout_below="@id/otherReasonET"
         android:layout_alignParentRight="true"

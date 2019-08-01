@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingTop="10dp"
-    android:background="@color/colorWhite"
     android:paddingRight="20dp"
     android:paddingBottom="28dp">
 
     <ImageView
-        android:layout_marginRight="-10dp"
         android:id="@+id/closeIMGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="-10dp"
         android:padding="5dp"
         android:src="@drawable/ic_close_black_24dp" />
 
@@ -29,12 +29,12 @@
         android:src="@drawable/ic_reschedule_popup_ic" />
 
     <TextView
-        android:gravity="center"
         android:id="@+id/heading1TV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/icon1IMGV"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="You can request for your preferred schedule. After reviewing employer may accept or reject the reschedule request."
         android:textColor="#303030"
         android:textSize="14sp"
@@ -43,47 +43,48 @@
 
     
     <EditText
-        android:inputType="textFilter"
-        android:maxLength="200"
+        android:id="@+id/otherReasonET"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/heading1TV"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/previous_sch_details_bg"
         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,:/-1234567890?"
         android:gravity="top"
-        android:textSize="12sp"
-        android:padding="5dp"
         android:hint="Write your reasons for rescheduling"
-        android:background="@drawable/previous_sch_details_bg"
-        android:id="@+id/otherReasonET"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/heading1TV"
-        android:layout_width="match_parent"
-        android:layout_height="70dp" />
+        android:inputType="textFilter"
+        android:maxLength="200"
+        android:padding="5dp"
+        android:textSize="12sp" />
 
     <TextView
-        android:textStyle="italic"
-        android:textSize="12sp"
         android:id="@+id/messageTV"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/otherReasonET"
-        android:text="Example: I am not available during the scheduled time for interview. I can appear the interview on 05-07-2018 at 3.00pm. "
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otherReasonET"
+        android:layout_marginTop="10dp"
+        android:text="Example: I am not available during the scheduled time for interview. I can appear the interview on 05-07-2018 at 3.00pm. "
+        android:textSize="12sp"
+        android:textStyle="italic" />
 
     <com.google.android.material.button.MaterialButton
-        android:paddingBottom="10dp"
-        android:paddingTop="8dp"
-        android:paddingRight="15dp"
-        app:cornerRadius="4dp"
-        android:paddingLeft="15dp"
-        android:textColor="@color/colorWhite"
-        app:backgroundTint="#43A047"
         android:id="@+id/submitTV"
-        android:textAllCaps="false"
-        android:textSize="14sp"
-        android:text="Request Reschedule"
-        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/messageTV"
         android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="15dp"
+        android:letterSpacing="0"
+        android:paddingLeft="15dp"
+        android:paddingTop="8dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:text="Request Reschedule"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        app:backgroundTint="#43A047"
+        app:cornerRadius="4dp" />
     
     
 
