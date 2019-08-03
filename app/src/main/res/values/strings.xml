@@ -374,6 +374,15 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="cancel_text">Cancel</string>
     <string name="skill_add_ins_text">You may add single or multiple skills</string>
 
-
+    <string name="warning_title">Warning</string>
+    <string name="warning_title_bangla">সতর্কবার্তা</string>
+    <string name="warning_message">Bdjobs.com only works as a mean of communication between employers and job-seekers. Bdjob.com Limited will not be responsible for any financial transaction or irregularity/ fraud by the company after applying through the bdjobs.com website.</string>
+    <string name="warning_message_bangla">বিডিজবস শুধুমাত্রই নিয়োগকর্তা এবং চাকরিপ্রার্থীদের মাঝে যোগাযোগ মাধ্যম হিসেবে কাজ করে। বিডিজবস ওয়েবসাইটের মাধ্যমে চাকরিতে আবেদন করার পর কোম্পানি যদি আপনার সাথে কোনো আর্থিক লেনদেন অথবা অনিয়ম/প্রতারণা করে তার জন্য Bdjobs.com Limited দায়ী থাকবে না।</string>
+    <string name="warning_message_agreement">I have read the above warning message</string>
+    <string name="warning_message_agreement_bangla">উপরোক্ত সতর্ক বার্তাটি আমি পড়েছি</string>
+    <string name="warning_cancel_button">Cancel</string>
+    <string name="warning_cancel_button_bangla">বাতিল</string>
+    <string name="warning_agree_button">Agree</string>
+    <string name="warning_agree_button_bangla">আবেদন</string>
 
 </resources>

@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.provider.CalendarContract
 import android.text.Html
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -80,11 +82,13 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
 
+    private var language = ""
 
     init {
         jobList = java.util.ArrayList()
         jobCommunicator = context as JobCommunicator
-        Log.d("JobDetailFragment","${jobList?.size}")
+        language = "bangla"
+        Log.d("JobDetailFragment", "${jobList?.size}")
     }
 
 
@@ -162,7 +166,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
                             jobsVH.shimmer_view_container.stopShimmerAnimation()
-                            Constants.showNativeAd(jobsVH.ad_small_template,context)
+                            Constants.showNativeAd(jobsVH.ad_small_template, context)
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 
                             jobKeyPointsData = jobDetailResponseAll!!.jobKeyPoints!!
@@ -304,7 +308,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                                 logException(e)
                                             }
                                         } else {
-                                            checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                            showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                            //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                         }
                                     }
                                 }
@@ -700,7 +705,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     private fun sendEmail() {
-       context.email("complain@bdjobs.com", "", "")
+        context.email("complain@bdjobs.com", "", "")
     }
 
     private fun checkApplyEligibility(activity: Context, position: Int, gender: String, jobphotograph: String) {
@@ -750,6 +755,70 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     }
                 }
         )
+    }
+
+
+    private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_warning_popup)
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        var warningTitleTV = dialog.findViewById<TextView>(R.id.txt_warning_title)
+        var warningMessageTV = dialog.findViewById<TextView>(R.id.txt_warning_message)
+        val translateIV = dialog.findViewById<ImageView>(R.id.img_translate)
+        val cancelBtn = dialog.findViewById<Button>(R.id.btn_cancel)
+        val agreedBtn = dialog.findViewById<Button>(R.id.btn_agreed)
+        val agreedCheckBox = dialog.findViewById<CheckBox>(R.id.chk_bx_agreed)
+        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
+        Constants.showNativeAd(ad_small_template, context)
+
+        translateIV.setOnClickListener {
+            when(language) {
+                "bangla"-> {
+                    language = "english"
+                    translateIV.setImageResource(R.drawable.ic_translate_color)
+                    warningTitleTV.text = context.getString(R.string.warning_title)
+                    warningMessageTV.text = context.getString(R.string.warning_message)
+                    agreedCheckBox.text = context.getString(R.string.warning_message_agreement)
+                    agreedBtn.text = context.getString(R.string.warning_agree_button)
+                    cancelBtn.text = context.getString(R.string.warning_cancel_button)
+                }
+                "english" -> {
+                    language = "bangla"
+                    translateIV.setImageResource(R.drawable.ic_translate)
+                    warningTitleTV.text = context.getString(R.string.warning_title_bangla)
+                    warningMessageTV.text = context.getString(R.string.warning_message_bangla)
+                    agreedCheckBox.text = context.getString(R.string.warning_message_agreement_bangla)
+                    agreedBtn.text = context.getString(R.string.warning_agree_button_bangla)
+                    cancelBtn.text = context.getString(R.string.warning_cancel_button_bangla)
+                }
+            }
+        }
+        agreedCheckBox.setOnCheckedChangeListener{_, isChecked ->
+            if (isChecked) {
+                agreedBtn.isEnabled = true
+                agreedBtn.isClickable = true
+                agreedBtn.setTextColor(Color.parseColor("#1565C0"))
+            } else{
+                agreedBtn.isEnabled = false
+                agreedBtn.isClickable = false
+                agreedBtn.setTextColor(Color.parseColor("#9E9E9E"))
+            }
+
+        }
+        cancelBtn.setOnClickListener { dialog.dismiss() }
+        agreedBtn.setOnClickListener{
+            dialog.dismiss()
+            checkApplyEligibility(context, position, gender, jobphotograph)
+        }
+        dialog.show()
+
+//        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
+//        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
+//        val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
+//        val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
     }
 
 
@@ -1142,7 +1211,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
-    fun reportthisJob(position: Int){
+    fun reportthisJob(position: Int) {
         try {
             val jobid = jobList?.get(position)?.jobid
             context.startActivity<WebActivity>("url" to "https://jobs.bdjobs.com/reportthisjob.asp?id=$jobid", "from" to "reportJob")
@@ -1224,5 +1293,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             }
         }
     }
+
 
 }
