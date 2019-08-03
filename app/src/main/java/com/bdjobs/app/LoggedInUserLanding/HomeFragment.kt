@@ -31,6 +31,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -531,6 +532,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
                         val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
                         val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+
+                        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
+
+                        Constants.showNativeAd(ad_small_template, activity)
 
                         checkBox.setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {

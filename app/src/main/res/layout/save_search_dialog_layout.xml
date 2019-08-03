@@ -5,8 +5,8 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imageView16"
@@ -109,12 +109,26 @@
             android:maxLength="50" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/ad_small_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveBTN"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_medium"
@@ -123,7 +137,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/ad_small_template"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton

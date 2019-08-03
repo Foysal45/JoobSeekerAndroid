@@ -26,6 +26,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -645,6 +646,8 @@ class JoblistFragment : Fragment() {
                 val filterNameET = saveSearchDialog.findViewById(R.id.filterNameET) as EditText
                 val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
                 val updateCG = saveSearchDialog.findViewById(R.id.updateCG) as ChipGroup
+                val ad_small_template = saveSearchDialog.findViewById<TemplateView>(R.id.ad_small_template)
+                Constants.showNativeAd(ad_small_template, activity)
 
                 Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
