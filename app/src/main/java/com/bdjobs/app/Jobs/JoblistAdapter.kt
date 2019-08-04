@@ -539,7 +539,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
 
-    fun addAllTest(moveResults: List<JobListModelData>) {
+    fun addAll(moveResults: List<JobListModelData>) {
         for (result in moveResults) {
             add(result)
         }

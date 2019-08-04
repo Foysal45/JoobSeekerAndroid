@@ -63,6 +63,6 @@ class WCSocialInfoFragment : Fragment() {
     }
 
     private fun initialization(){
-        registrationCommunicator = activity as RegistrationCommunicator
+         registrationCommunicator = activity as RegistrationCommunicator
     }
 }

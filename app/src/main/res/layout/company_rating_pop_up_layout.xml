@@ -70,6 +70,7 @@
         app:backgroundTint="#43A047"
         android:id="@+id/submitTV"
         android:textAllCaps="false"
+        android:letterSpacing="0"
         android:text="Submit"
         android:layout_marginTop="15dp"
         android:layout_below="@id/otherReasonET"

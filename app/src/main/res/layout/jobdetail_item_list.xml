@@ -77,9 +77,10 @@
                     android:id="@+id/positionName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:layout_marginEnd="24dp"
+
                     android:textColor="#ffffff"
+                    android:textIsSelectable="true"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toStartOf="@+id/company_icon"
                     app:layout_constraintHorizontal_bias="0.375"
@@ -112,6 +113,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="80dp"
                     android:textColor="#ffffff"
+                    android:textIsSelectable="true"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.062"
@@ -144,6 +146,7 @@
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
+                    android:textIsSelectable="true"
                     app:layout_constraintEnd_toStartOf="@+id/deadlineValue"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +169,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/companyName" />
 
                 <TextView
-
                     android:id="@+id/deadlineValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -175,6 +177,7 @@
                     android:layout_marginEnd="32dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
+                    android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/deadlineText"
@@ -205,9 +208,9 @@
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
+                    android:textIsSelectable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/salaryValue"
-
                     app:layout_constraintStart_toStartOf="@+id/locationText"
                     app:layout_constraintTop_toBottomOf="@+id/locationText"
                     tools:text="Dhaka" />
@@ -234,6 +237,7 @@
                     android:layout_marginEnd="32dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
+                    android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@id/salaryText"
@@ -266,6 +270,7 @@
                 android:paddingEnd="20dp"
                 android:text="Job Key Points"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/jobInfo" />
 
@@ -278,6 +283,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/keyPoints"
                 tools:text="Big Data" />
@@ -292,6 +298,7 @@
                 android:paddingEnd="20dp"
                 android:text="Job Context"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/keyPointsTv" />
 
@@ -304,6 +311,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobContext"
                 tools:text="Division Enablars" />
@@ -342,6 +350,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/responsibility"
                 tools:text="Software solution development following agile development methodology which includes requirement analysis, system architecture design " />
@@ -360,7 +369,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/responsibilityTV" />
 
             <TextView
-
                 android:id="@+id/jobNatureTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -369,6 +377,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobNature"
                 tools:text="Contractual" />
@@ -383,6 +392,7 @@
                 android:paddingEnd="20dp"
                 android:text="Requirements"
                 android:textColor="#2F64A3"
+                android:textIsSelectable="true"
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobNatureTv" />
 
@@ -408,6 +418,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/education"
                 tools:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled Service" />
@@ -433,6 +444,7 @@
                 android:fontFamily="@font/roboto"
                 android:paddingStart="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/Experience"
                 tools:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled ServiceThe applicants should have experience in the following business area (s): Software Company, IT Enabled Service" />
@@ -459,6 +471,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobRequirements"
                 tools:text="Only [males/females] are allowed to apply./ Others (except male  female) are allowed to apply. / Both males and females are allowed to apply." />
@@ -521,6 +534,7 @@
                 android:paddingEnd="20dp"
                 android:text="Tk. 20000-40000"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/salaryRange" />
 
@@ -547,6 +561,7 @@
                 android:paddingEnd="20dp"
                 android:text="Weekly 2 holidays"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/otherBenefits" />
 
@@ -561,7 +576,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/otherBenefitsTV" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/JobSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -572,10 +586,10 @@
                 android:text="Job Source"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/horizontalViewfour" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/jobSourceTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -588,7 +602,9 @@
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:textColor="#000000"
+                android:textIsSelectable="true"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/JobSource"
                 tools:text="Bdjobs.com Online Job Posting" />
 
@@ -633,6 +649,7 @@
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -666,6 +683,7 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -712,6 +730,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:paddingTop="10dp"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/followTV"
                     app:layout_constraintStart_toStartOf="parent"
@@ -727,6 +746,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="Address:"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/companyAddressNameTV" />
@@ -739,6 +759,7 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -754,6 +775,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/roboto"
+                    android:letterSpacing="0"
                     android:text="Follow"
                     android:textAllCaps="false"
                     android:textColor="#13A10E"
@@ -773,6 +795,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="Website:"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintStart_toStartOf="@+id/companyAddressTV"
                     app:layout_constraintTop_toBottomOf="@+id/companyAddressTV" />
@@ -785,6 +808,7 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -800,6 +824,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="Business:"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintStart_toStartOf="@+id/websiteTV"
                     app:layout_constraintTop_toBottomOf="@+id/websiteTV" />
@@ -812,6 +837,7 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="#000000"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -852,6 +878,7 @@
                     android:gravity="left"
                     android:text="View all jobs of this Company (10)"
                     android:textColor="#2F64A3"
+                    android:textIsSelectable="true"
                     android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imageView6"
@@ -884,6 +911,7 @@
                 android:fontFamily="@font/roboto"
                 android:text="Applied"
                 android:textColor="#13A10E"
+                android:textIsSelectable="true"
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/jobInfo"
@@ -906,11 +934,11 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <LinearLayout
-                android:layout_marginTop="16dp"
                 android:id="@+id/linearLayout8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:orientation="vertical"
@@ -941,6 +969,7 @@
         android:backgroundTint="#FFCDD2"
         android:fontFamily="@font/roboto"
         android:gravity="center"
+        android:letterSpacing="0"
         android:lineSpacingExtra="0sp"
         android:text="Application deadline is over"
         android:textAllCaps="false"
@@ -970,6 +999,7 @@
         android:backgroundTint="#13A10E"
         android:fontFamily="@font/roboto"
         android:gravity="center_horizontal"
+        android:letterSpacing="0"
         android:paddingTop="10dp"
         android:text="Apply Now"
         android:textAllCaps="false"

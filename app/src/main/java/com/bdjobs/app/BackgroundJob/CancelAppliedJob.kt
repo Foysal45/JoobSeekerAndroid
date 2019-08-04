@@ -4,12 +4,14 @@ import android.content.Context
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CancelAppliedJobs
+import com.bdjobs.app.Databases.Internal.AppliedJobDao
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -74,10 +76,11 @@ class CancelAppliedJob(private val appContext: Context) : Job() {
                     if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
                         // Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
                         appContext.toast("${response.body()?.message}")
-
+                    }
+                    doAsync {
+                        bdjobsDB.appliedJobDao().deleteAppliedJobsByJobID(jobid)
                     }
                 }
-
             })
 
             Log.d("werywirye", "Hello: $userid")

@@ -74,6 +74,7 @@
             android:layout_height="wrap_content"
             android:text="@string/unfollow"
             android:textAllCaps="false"
+            android:letterSpacing="0"
             android:fontFamily="@font/roboto"
             android:textColor="#979797"
             android:textSize="14sp"

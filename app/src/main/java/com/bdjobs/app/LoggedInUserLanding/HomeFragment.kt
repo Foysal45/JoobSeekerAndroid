@@ -31,6 +31,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -445,22 +446,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
 
-    private fun showPop() {
+    private fun showInterviewInvitationPop() {
         val interviewInvitationDialog = Dialog(activity)
-        interviewInvitationDialog.setContentView(R.layout.interview_invitation_popup)
-        interviewInvitationDialog.setCancelable(true)
-        interviewInvitationDialog.show()
-        val InterviewTVCount = interviewInvitationDialog.findViewById<TextView>(R.id.interview_invitation_count_tv)
-        val cancelBTN = interviewInvitationDialog.findViewById(R.id.cancel) as ImageView
-        val interviewList_MBTN = interviewInvitationDialog.findViewById(R.id.viewList_MBTN) as MaterialButton
+        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
+        interviewInvitationDialog?.setCancelable(true)
+        interviewInvitationDialog?.show()
+        val InterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv)
+        val cancelBTN = interviewInvitationDialog?.findViewById(R.id.cancel) as ImageView
+        val interviewList_MBTN = interviewInvitationDialog?.findViewById(R.id.viewList_MBTN) as MaterialButton
 
-        InterviewTVCount.text = inviteInterviview
+        InterviewTVCount?.text = inviteInterviview
 
-        cancelBTN.setOnClickListener {
-            interviewInvitationDialog.dismiss()
+        cancelBTN?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
         }
-        interviewList_MBTN.setOnClickListener {
-            interviewInvitationDialog.dismiss()
+        interviewList_MBTN?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
         }
     }
@@ -480,7 +481,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     Log.d("google", "google = $inviteInterviview")
 
                     if (inviteInterviview?.toInt()!! > 0) {
-                        showPop()
+                        showInterviewInvitationPop()
                     }
 
                     try {
@@ -522,17 +523,21 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
                         val dialog = Dialog(activity)
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        dialog.setCancelable(true)
-                        dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
-                        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog?.setCancelable(true)
+                        dialog?.setContentView(R.layout.layout_shortlistedjob_pop_up)
+                        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
-                        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
-                        val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
-                        val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+                        val showButton = dialog?.findViewById<Button>(R.id.bcYesTV)
+                        val cancelIV = dialog?.findViewById<ImageView>(R.id.deleteIV)
+                        val jobCountTV = dialog?.findViewById<TextView>(R.id.textView49)
+                        val checkBox = dialog?.findViewById<CheckBox>(R.id.checkBox2)
 
-                        checkBox.setOnCheckedChangeListener { _, isChecked ->
+                        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+
+                        Constants.showNativeAd(ad_small_template, activity)
+
+                        checkBox?.setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {
                                 val c = Calendar.getInstance().time
                                 val df = SimpleDateFormat("dd-MMM-yyyy")
@@ -554,12 +559,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             dialog.dismiss()
                         }
 
-                        showButton.setOnClickListener {
+                        showButton?.setOnClickListener {
                             homeCommunicator.setShortListFilter("Next 2 days")
                             homeCommunicator.goToShortListedFragment(2)
                             dialog.dismiss()
                         }
-                        dialog.show()
+                        dialog?.show()
                     }
                 } catch (e: Exception) {
                     logException(e)

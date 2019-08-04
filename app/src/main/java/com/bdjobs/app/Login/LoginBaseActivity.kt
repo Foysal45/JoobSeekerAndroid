@@ -45,7 +45,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         transitFragment(loginUserNameFragment, R.id.loginFragmentHolderFL)
         intent?.extras?.getBoolean(key_go_to_home)?.let { goHome ->
             goToHome = goHome
-            Log.d("goToHome","goToHome: ${goToHome}")
+            Log.d("goToHome", "goToHome: ${goToHome}")
         }
     }
 
@@ -54,7 +54,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     }
 
     override fun goToWebActivity(url: String, from: String) {
-        startActivity<WebActivity>("url" to url ,"from" to from)
+        startActivity<WebActivity>("url" to url, "from" to from)
     }
 
 
@@ -69,13 +69,12 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
 
     override fun goToHomePage() {
         DatabaseUpdateJob.runJobImmediately()
-        if(goToHome) {
+        if (goToHome) {
             val intent = Intent(this@LoginBaseActivity, MainLandingActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finishAffinity()
-        }
-        else{
+        } else {
             finish()
         }
     }

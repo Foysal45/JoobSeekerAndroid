@@ -5,27 +5,31 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background">
 
-    <ImageView
-        android:id="@+id/imageView18"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imageView16"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_save_search"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/heart"
+        app:lottie_repeatCount="2" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="35dp"
         android:focusableInTouchMode="true"
         android:fontFamily="@font/roboto_medium"
@@ -34,7 +38,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView16" />
 
 
     <com.google.android.material.chip.ChipGroup
@@ -53,12 +57,12 @@
 
         <com.google.android.material.chip.Chip
 
+            android:id="@+id/updateChip"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:id="@+id/updateChip"
             android:text="Update"
             android:textColor="@drawable/bg_chip_text_state_list"
             app:chipBackgroundColor="@drawable/bg_chip_state_list"
@@ -67,11 +71,11 @@
             app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/saveChip"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
-            android:id="@+id/saveChip"
             android:paddingBottom="12dp"
             android:text="Save as new"
             android:textColor="@drawable/bg_chip_text_state_list"
@@ -98,27 +102,42 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/filterNameET"
             android:layout_width="match_parent"
-            android:importantForAutofill="noExcludeDescendants"
-            android:maxLength="50"
             android:layout_height="wrap_content"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
-            android:hint="Name of your favorite search filter" />
+            android:hint="Name of your favorite search filter"
+            android:importantForAutofill="noExcludeDescendants"
+            android:maxLength="50" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/ad_small_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveBTN"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_medium"
+        android:letterSpacing="0"
         android:text="SAVE"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/ad_small_template"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton
@@ -129,6 +148,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="5dp"
         android:fontFamily="@font/roboto_medium"
+        android:letterSpacing="0"
         android:text="CANCEL"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/saveBTN"

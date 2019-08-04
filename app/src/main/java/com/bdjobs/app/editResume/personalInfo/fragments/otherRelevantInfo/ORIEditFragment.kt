@@ -10,10 +10,7 @@ import android.text.InputFilter
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -47,6 +44,7 @@ class ORIEditFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_oriedit, container, false)
     }

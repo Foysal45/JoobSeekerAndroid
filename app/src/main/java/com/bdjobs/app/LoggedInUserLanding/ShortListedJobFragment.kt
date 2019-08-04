@@ -193,7 +193,7 @@ ShortListedJobFragment : Fragment() {
                         val results = response.body()?.data
 
                         if (!results.isNullOrEmpty()) {
-                            joblistAdapter.addAllTest(results)
+                            joblistAdapter.addAll(results)
                         }
 
                         if (currentPage >= TOTAL_PAGES!!) {
@@ -255,7 +255,7 @@ ShortListedJobFragment : Fragment() {
                             isLoadings = false
 
                             val results = response.body()?.data
-                            joblistAdapter.addAllTest(results as List<JobListModelData>)
+                            joblistAdapter.addAll(results as List<JobListModelData>)
 
                             if (currentPage >= TOTAL_PAGES!!) {
                                 isLastPages = true

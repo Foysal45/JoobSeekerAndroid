@@ -328,6 +328,8 @@ class BCNewExperienceFragment : Fragment() {
         saveButton?.setOnClickListener {
 
 
+
+
             val item = AddExpModel(workExp, workSource, NTVQF)
             item.expSource?.forEach {
                 if (it.toInt() > 0) {
@@ -715,10 +717,6 @@ class BCNewExperienceFragment : Fragment() {
         val declineButton = categoryEdit.findViewById<MaterialButton>(R.id.declineButton)
         val saveButton = categoryEdit.findViewById<MaterialButton>(R.id.saveButton)
 
-        skillTIET.setText(categoryTV.text)
-
-
-
         skillTIET?.setOnClickListener {
 
 
@@ -749,6 +747,11 @@ class BCNewExperienceFragment : Fragment() {
             categoryEdit.dismiss()
 
 
+            //added by Rakib
+            category = categoryTV.text.toString()
+            bcCategoryId = dataStorage.getCategoryIDByBanglaName(category)!!
+            debug(" category id {$bcCategoryId}")
+            registrationCommunicator.bcCategorySelected(category,bcCategoryId.toInt())
         }
 
         categoryEdit.show()
