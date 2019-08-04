@@ -60,11 +60,14 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_email_black_24dp" />
+                            <entry key="height" value="18" />
+                            <entry key="outputName" value="ic_translate_color" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\RUBAY\Desktop\edit_resume_header_bg.svg" />
+                            <entry key="sourceFile" value="C:\Users\Rakib\Downloads\translate-color.svg" />
+                            <entry key="width" value="18" />
                           </map>
                         </option>
                       </PersistentState>
