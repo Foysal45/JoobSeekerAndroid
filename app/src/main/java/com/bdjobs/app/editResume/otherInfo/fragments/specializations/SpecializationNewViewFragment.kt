@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -242,6 +243,7 @@ class SpecializationNewViewFragment : Fragment() {
 
     fun showEditDialog(item: Skill?) {
 
+        Log.d("rakib", "came here")
         val workSource = java.util.ArrayList<String>()
         workSource.add(0, "-1")
         workSource.add(1, "-2")
@@ -416,12 +418,29 @@ class SpecializationNewViewFragment : Fragment() {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
-
+                        saveButton.isEnabled = true
 
                     } else {
 
                         activity?.toast("No skill found!")
+                        saveButton.isEnabled = false
                         refnameATCTV?.clearText()
+                        whereSkillText?.hide()
+                        firstCheckbox?.hide()
+                        secondCheckBox?.hide()
+                        thirdCheckBox?.hide()
+                        fourthCheckBox?.hide()
+                        fifthCheckBox?.hide()
+                        experienceLevelTIET?.hide()
+                        experienceLevelTIL?.hide()
+
+                        firstCheckbox?.isChecked = false
+                        secondCheckBox?.isChecked = false
+                        thirdCheckBox?.isChecked = false
+                        fourthCheckBox?.isChecked = false
+                        fifthCheckBox?.isChecked = false
+                        ntvqfStatus = false
+
                     }
 
                 }
@@ -561,6 +580,7 @@ class SpecializationNewViewFragment : Fragment() {
     }
 
     private fun showDialog(activity: Activity) {
+        Log.d("rakib", "came here")
         val workSource = java.util.ArrayList<String>()
         workSource.add(0, "-1")
         workSource.add(1, "-2")
@@ -569,22 +589,23 @@ class SpecializationNewViewFragment : Fragment() {
         workSource.add(4, "-5")
 
         dialog = Dialog(activity)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.specialization_add_skill_dialog_layout)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(true)
+        dialog?.setContentView(R.layout.specialization_add_skill_dialog_layout)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val whereSkillText = dialog.findViewById<TextView>(R.id.whereSkillText)
-        val firstCheckbox = dialog.findViewById<CheckBox>(R.id.firstCheckbox)
-        val secondCheckBox = dialog.findViewById<CheckBox>(R.id.secondCheckBox)
-        val thirdCheckBox = dialog.findViewById<CheckBox>(R.id.thirdCheckBox)
-        val fourthCheckBox = dialog.findViewById<CheckBox>(R.id.fourthCheckBox)
-        val fifthCheckBox = dialog.findViewById<CheckBox>(R.id.fifthCheckBox)
-        val refnameATCTV = dialog.findViewById<AutoCompleteTextView>(R.id.newRefnameATCTV)
-        val experienceLevelTIET = dialog.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
-        val experienceLevelTIL = dialog.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
-        val declineButton = dialog.findViewById<MaterialButton>(R.id.declineButton)
-        val saveButton = dialog.findViewById<MaterialButton>(R.id.saveButton)
+        val whereSkillText = dialog?.findViewById<TextView>(R.id.whereSkillText)
+        val firstCheckbox = dialog?.findViewById<CheckBox>(R.id.firstCheckbox)
+        val secondCheckBox = dialog?.findViewById<CheckBox>(R.id.secondCheckBox)
+        val thirdCheckBox = dialog?.findViewById<CheckBox>(R.id.thirdCheckBox)
+        val fourthCheckBox = dialog?.findViewById<CheckBox>(R.id.fourthCheckBox)
+        val fifthCheckBox = dialog?.findViewById<CheckBox>(R.id.fifthCheckBox)
+        val refnameATCTV = dialog?.findViewById<AutoCompleteTextView>(R.id.newRefnameATCTV)
+        val experienceLevelTIET = dialog?.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
+        val experienceLevelTIL = dialog?.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
+        val declineButton = dialog?.findViewById<MaterialButton>(R.id.declineButton)
+        val saveButton = dialog?.findViewById<MaterialButton>(R.id.saveButton)
+        saveButton?.isEnabled = false
 
 
         val skillList: Array<String> = dataStorage.allSkills
@@ -631,12 +652,27 @@ class SpecializationNewViewFragment : Fragment() {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
-
+                        saveButton.isEnabled = true
 
                     } else {
-
+                        saveButton.isEnabled = false
                         activity?.toast("No skill found!")
                         refnameATCTV?.clearText()
+                        whereSkillText?.hide()
+                        firstCheckbox?.hide()
+                        secondCheckBox?.hide()
+                        thirdCheckBox?.hide()
+                        fourthCheckBox?.hide()
+                        fifthCheckBox?.hide()
+                        experienceLevelTIET?.hide()
+                        experienceLevelTIL?.hide()
+
+                        firstCheckbox?.isChecked = false
+                        secondCheckBox?.isChecked = false
+                        thirdCheckBox?.isChecked = false
+                        fourthCheckBox?.isChecked = false
+                        fifthCheckBox?.isChecked = false
+                        ntvqfStatus = false
                     }
 
                 }
