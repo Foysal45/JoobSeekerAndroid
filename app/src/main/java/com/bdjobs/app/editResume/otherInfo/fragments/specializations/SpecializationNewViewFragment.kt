@@ -418,12 +418,12 @@ class SpecializationNewViewFragment : Fragment() {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
-                        saveButton.isEnabled = true
+                        saveButton?.isEnabled = true
 
                     } else {
 
                         activity?.toast("No skill found!")
-                        saveButton.isEnabled = false
+                        saveButton?.isEnabled = false
                         refnameATCTV?.clearText()
                         whereSkillText?.hide()
                         firstCheckbox?.hide()
@@ -652,10 +652,10 @@ class SpecializationNewViewFragment : Fragment() {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
-                        saveButton.isEnabled = true
+                        saveButton?.isEnabled = true
 
                     } else {
-                        saveButton.isEnabled = false
+                        saveButton?.isEnabled = false
                         activity?.toast("No skill found!")
                         refnameATCTV?.clearText()
                         whereSkillText?.hide()
