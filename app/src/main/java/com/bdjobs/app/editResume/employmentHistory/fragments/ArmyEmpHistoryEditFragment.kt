@@ -60,7 +60,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_army_emp_history, container, false)
         return v

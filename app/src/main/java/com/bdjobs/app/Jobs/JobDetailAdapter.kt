@@ -760,60 +760,60 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String) {
         val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.layout_warning_popup)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(true)
+        dialog?.setContentView(R.layout.layout_warning_popup)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        var warningTitleTV = dialog.findViewById<TextView>(R.id.txt_warning_title)
-        var warningMessageTV = dialog.findViewById<TextView>(R.id.txt_warning_message)
-        val translateIV = dialog.findViewById<ImageView>(R.id.img_translate)
-        val cancelBtn = dialog.findViewById<Button>(R.id.btn_cancel)
-        val agreedBtn = dialog.findViewById<Button>(R.id.btn_agreed)
-        val agreedCheckBox = dialog.findViewById<CheckBox>(R.id.chk_bx_agreed)
-        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
+        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
+        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
+        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
+        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
+        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+        val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
+        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
         Constants.showNativeAd(ad_small_template, context)
 
-        translateIV.setOnClickListener {
+        translateIV?.setOnClickListener {
             when(language) {
                 "bangla"-> {
                     language = "english"
                     translateIV.setImageResource(R.drawable.ic_translate_color)
-                    warningTitleTV.text = context.getString(R.string.warning_title)
-                    warningMessageTV.text = context.getString(R.string.warning_message)
-                    agreedCheckBox.text = context.getString(R.string.warning_message_agreement)
-                    agreedBtn.text = context.getString(R.string.warning_agree_button)
-                    cancelBtn.text = context.getString(R.string.warning_cancel_button)
+                    warningTitleTV?.text = context.getString(R.string.warning_title)
+                    warningMessageTV?.text = context.getString(R.string.warning_message)
+                    agreedCheckBox?.text = context.getString(R.string.warning_message_agreement)
+                    agreedBtn?.text = context.getString(R.string.warning_agree_button)
+                    cancelBtn?.text = context.getString(R.string.warning_cancel_button)
                 }
                 "english" -> {
                     language = "bangla"
                     translateIV.setImageResource(R.drawable.ic_translate)
-                    warningTitleTV.text = context.getString(R.string.warning_title_bangla)
-                    warningMessageTV.text = context.getString(R.string.warning_message_bangla)
-                    agreedCheckBox.text = context.getString(R.string.warning_message_agreement_bangla)
-                    agreedBtn.text = context.getString(R.string.warning_agree_button_bangla)
-                    cancelBtn.text = context.getString(R.string.warning_cancel_button_bangla)
+                    warningTitleTV?.text = context.getString(R.string.warning_title_bangla)
+                    warningMessageTV?.text = context.getString(R.string.warning_message_bangla)
+                    agreedCheckBox?.text = context.getString(R.string.warning_message_agreement_bangla)
+                    agreedBtn?.text = context.getString(R.string.warning_agree_button_bangla)
+                    cancelBtn?.text = context.getString(R.string.warning_cancel_button_bangla)
                 }
             }
         }
-        agreedCheckBox.setOnCheckedChangeListener{_, isChecked ->
+        agreedCheckBox?.setOnCheckedChangeListener{_, isChecked ->
             if (isChecked) {
-                agreedBtn.isEnabled = true
-                agreedBtn.isClickable = true
-                agreedBtn.setTextColor(Color.parseColor("#1565C0"))
+                agreedBtn?.isEnabled = true
+                agreedBtn?.isClickable = true
+                agreedBtn?.setTextColor(Color.parseColor("#1565C0"))
             } else{
-                agreedBtn.isEnabled = false
-                agreedBtn.isClickable = false
-                agreedBtn.setTextColor(Color.parseColor("#9E9E9E"))
+                agreedBtn?.isEnabled = false
+                agreedBtn?.isClickable = false
+                agreedBtn?.setTextColor(Color.parseColor("#9E9E9E"))
             }
 
         }
-        cancelBtn.setOnClickListener { dialog.dismiss() }
-        agreedBtn.setOnClickListener{
-            dialog.dismiss()
+        cancelBtn?.setOnClickListener { dialog.dismiss() }
+        agreedBtn?.setOnClickListener{
+            dialog?.dismiss()
             checkApplyEligibility(context, position, gender, jobphotograph)
         }
-        dialog.show()
+        dialog?.show()
 
 //        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
 //        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
@@ -824,28 +824,28 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String) {
         dialog = Dialog(activity)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.online_apply_dialog_layout)
-        val cancelButton = dialog.findViewById<Button>(R.id.onlineApplyCancelBTN)
-        val okButton = dialog.findViewById<Button>(R.id.onlineApplyOkBTN)
-        val salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
-        val salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
-        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(true)
+        dialog?.setContentView(R.layout.online_apply_dialog_layout)
+        val cancelButton = dialog?.findViewById<Button>(R.id.onlineApplyCancelBTN)
+        val okButton = dialog?.findViewById<Button>(R.id.onlineApplyOkBTN)
+        val salaryTIET = dialog?.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
+        val salaryTIL = dialog?.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
+        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
 
         Constants.showNativeAd(ad_small_template, context)
 
 
-        salaryTIET.easyOnTextChangedListener { text ->
+        salaryTIET?.easyOnTextChangedListener { text ->
             validateFilterName(text.toString(), salaryTIL)
             okButton?.isEnabled = text.isNotEmpty()
         }
 
-        cancelButton.setOnClickListener {
-            dialog.dismiss()
+        cancelButton?.setOnClickListener {
+            dialog?.dismiss()
         }
 
-        okButton.setOnClickListener {
+        okButton?.setOnClickListener {
 
             d("applyTest in ok button $applyStatus")
 
@@ -858,7 +858,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
         }
-        dialog.show()
+        dialog?.show()
     }
 
 
@@ -876,14 +876,14 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
         val bdjobsUserSession = BdjobsUserSession(context)
         val loadingDialog = context.indeterminateProgressDialog("Applying")
-        loadingDialog.setCancelable(false)
-        loadingDialog.show()
+        loadingDialog?.setCancelable(false)
+        loadingDialog?.show()
         ApiServiceJobs.create().applyJob(bdjobsUserSession.userId, bdjobsUserSession.decodId, jobList?.get(position)?.jobid!!, salary, gender, jobphotograph, Constants.ENCODED_JOBS).enqueue(object : Callback<ApplyOnlineModel> {
             override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
 
                 Log.d("dlkgj", "respone ${t.message}")
-                loadingDialog.dismiss()
-                dialog.dismiss()
+                loadingDialog?.dismiss()
+                dialog?.dismiss()
                 applyStatus = false
                 d("applyTest onFailure ")
 
@@ -895,8 +895,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 try {
 
                     d("applyTest onResponse ")
-                    dialog.dismiss()
-                    loadingDialog.dismiss()
+                    dialog?.dismiss()
+                    loadingDialog?.dismiss()
                     context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
                         bdjobsUserSession.incrementJobsApplied()
