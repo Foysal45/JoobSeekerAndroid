@@ -56,6 +56,7 @@ class LoginUserNameFragment : Fragment() {
     private var callbackManager: CallbackManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         rootView = inflater.inflate(R.layout.fragment_login_username, container, false)!!
         return rootView
     }
