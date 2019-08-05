@@ -50,6 +50,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/hint.father_name"
                 android:textColor="#393939"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -88,6 +89,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/hint.father_name"
                 android:textColor="#393939"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

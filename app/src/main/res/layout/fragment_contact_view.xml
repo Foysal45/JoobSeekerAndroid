@@ -48,6 +48,7 @@
                 android:layout_marginTop="4dp"
                 android:maxLines="10"
                 android:textColor="#393939"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -88,6 +89,7 @@
                 android:layout_marginTop="4dp"
                 android:maxLines="10"
                 android:textColor="#393939"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -127,6 +129,7 @@
                 android:layout_marginStart="43dp"
                 android:layout_marginTop="4dp"
                 android:textColor="#393939"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -165,6 +168,7 @@
                 android:layout_marginStart="43dp"
                 android:layout_marginTop="4dp"
                 android:textColor="#393939"
+                android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

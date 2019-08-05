@@ -41,6 +41,7 @@
                 android:text="@string/hint.location" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tvAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                 android:text="@string/title_company_business" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tv_comBus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,6 +104,7 @@
                 android:text="@string/title_department" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tv_cDept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,6 +135,7 @@
                 android:text="@string/title_area_of_exps" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tv_area_exps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -162,6 +166,7 @@
                 android:text="@string/title_respos" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tv_respons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

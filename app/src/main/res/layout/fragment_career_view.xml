@@ -68,6 +68,7 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tvObjectives"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

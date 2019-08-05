@@ -57,6 +57,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tvDes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,6 +67,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tvCom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,6 +78,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
