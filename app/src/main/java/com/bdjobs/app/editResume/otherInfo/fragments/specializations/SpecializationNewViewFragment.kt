@@ -63,6 +63,9 @@ class SpecializationNewViewFragment : Fragment() {
     var isEdit: Boolean = false
     private lateinit var eduCB: OtherInfo
     var updateNewSkilledBy = ""
+
+    var currentDialogValue: String? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -283,6 +286,13 @@ class SpecializationNewViewFragment : Fragment() {
 
         //set View start
         refnameATCTV?.setText(item?.skillName)
+
+        if (item != null) {
+            currentDialogValue = item.skillName?.slice(0 until item.skillName.length - 1)
+
+            Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+        }
+
         refnameATCTV?.setSelection(refnameATCTV.getString().length)
         whereSkillText?.text = "Skill you learned from"
         val list = item?.skillBy!!
@@ -329,6 +339,9 @@ class SpecializationNewViewFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
 
             refnameATCTV?.setText(refnameATCTV?.getString())
+
+            currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
+
             refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV.getString()
             whereSkillText?.show()
@@ -407,9 +420,11 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
+                Log.d("rakib", "${refnameATCTV.isPopupShowing}")
+
                 Log.d("rakib", "called after text changed")
 
-                if (s.toString().length == 2){
+                if (s.toString().length == 2) {
                     refnameATCTV.hideKeyboard()
 
                 }
@@ -438,16 +453,26 @@ class SpecializationNewViewFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                Log.d("rakib", "called on text change")
 
                 if (s.toString().length > 2) {
+
+
+                    Log.d("rakib", "called on text change: ${s}")
+                    Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
                         //saveButton?.isEnabled = true
 
                         //toast("opened")
                     } else {
-                        toast("No skill found!")
+                        if (s.toString() != currentDialogValue)
+                        {
+                            toast("No skill found!")
+                            currentDialogValue = ""
+                        }
+
+
                         saveButton?.isEnabled = false
                         refnameATCTV?.clearText()
                         whereSkillText?.hide()
@@ -642,6 +667,11 @@ class SpecializationNewViewFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
 
             refnameATCTV.setText(refnameATCTV.getString())
+
+            currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
+
+            Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+
             refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV?.getString()
             whereSkillText?.show()
@@ -680,8 +710,13 @@ class SpecializationNewViewFragment : Fragment() {
 
                     } else {
                         saveButton?.isEnabled = false
-                        if (!s.toString().isEmpty())
-                            activity?.toast("No skill found!")
+
+                        if (s.toString() != currentDialogValue)
+                        {
+                            toast("No skill found!")
+                            currentDialogValue = ""
+                        }
+
                         refnameATCTV?.clearText()
                         whereSkillText?.hide()
                         firstCheckbox?.hide()
