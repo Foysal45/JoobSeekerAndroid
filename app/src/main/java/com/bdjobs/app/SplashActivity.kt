@@ -1,16 +1,24 @@
 package com.bdjobs.app
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Base64
 import android.util.Log
+import android.view.Window
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.bdjobs.app.API.ApiServiceJobs
@@ -27,8 +35,13 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.fondesa.kpermissions.builder.PermissionRequestBuilder
 import com.fondesa.kpermissions.extension.listeners
+import com.fondesa.kpermissions.extension.onDenied
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.request.PermissionRequest
+import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
 import com.google.android.material.snackbar.Snackbar
@@ -57,6 +70,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private lateinit var dataStorage: DataStorage
     private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
     private val APP_UPDATE_REQUEST_CODE = 156
+    private lateinit var dialog: Dialog
+    lateinit var request : PermissionRequest
+    lateinit var nonce : PermissionNonce
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +96,69 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         super.onResume()
         pref = getSharedPreferences(name_sharedPref, Context.MODE_PRIVATE)
         ConnectivityReceiver.connectivityReceiverListener = this
+
+    }
+
+    private fun showExplanationFirstTimePopup(isConnected: Boolean) {
+        val dialog = Dialog(this)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(false)
+        dialog?.setContentView(R.layout.layout_explanation_first_time_pop_up)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
+        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
+        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
+        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
+        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+        Constants.showNativeAd(ad_small_template, this)
+        translateIV?.setOnClickListener {
+
+        }
+
+        cancelBtn?.setOnClickListener { finish() }
+        agreedBtn?.setOnClickListener{
+            dialog.dismiss()
+            request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
+            request.send()
+
+            request.listeners {
+
+                onAccepted { permissions ->
+                    // Notified when the permissions are accepted.
+                    Log.d("rakib", "on accepted")
+                    doWork(isConnected)
+                }
+
+                onDenied { permissions ->
+                    // Notified when the permissions are denied.
+                    //showExplanationFirstTimePopup()
+                    Log.d("rakib", "denied")
+                }
+
+                onPermanentlyDenied { permissions ->
+                    // Notified when the permissions are permanently denied.
+                    Log.d("rakib","permanently denied")
+
+                }
+
+                onShouldShowRationale { permissions, nonce ->
+                    // Notified when the permissions should show a rationale.
+                    // The nonce can be used to request the permissions again.
+                    //nonce.use()
+                    showExplanationPopup(nonce)
+                }
+            }
+
+            request.onDenied {
+                Log.d("rakib", "denied")
+            }
+
+
+        }
+        dialog?.show()
     }
 
     private fun takeDecisions(isConnected: Boolean) {
@@ -87,35 +166,41 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         ) {
-            val request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
 
-            request.send()
-
-            request.listeners {
-
-                onAccepted { permissions ->
-                    // Notified when the permissions are accepted.
-                    doWork(isConnected)
-                }
-
-                onDenied { permissions ->
-                    // Notified when the permissions are denied.
-                }
-
-                onPermanentlyDenied { permissions ->
-                    // Notified when the permissions are permanently denied.
-                }
-
-                onShouldShowRationale { permissions, nonce ->
-                    // Notified when the permissions should show a rationale.
-                    // The nonce can be used to request the permissions again.
-                    nonce.use()
-                }
-            }
+            showExplanationFirstTimePopup(isConnected)
         } else {
+            Log.d("rakib", "below else")
             doWork(isConnected)
         }
 
+    }
+
+    private fun showExplanationPopup(nonce: PermissionNonce) {
+        val dialog = Dialog(this)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(false)
+        dialog?.setContentView(R.layout.layout_explanation_popup)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
+        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
+        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
+        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
+        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+        Constants.showNativeAd(ad_small_template, this)
+        translateIV?.setOnClickListener {
+
+        }
+
+        cancelBtn?.setOnClickListener { finish() }
+        agreedBtn?.setOnClickListener{
+            dialog.dismiss()
+            nonce.use()
+
+        }
+        dialog?.show()
     }
 
     private fun doWork(connected: Boolean) {
@@ -236,8 +321,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                  checkUpdate()
              }
          }*/
-        checkUpdate()
-//        goToNextActivity()
+//        checkUpdate()
+        goToNextActivity()
     }
 
     private fun goToNextActivity() {
