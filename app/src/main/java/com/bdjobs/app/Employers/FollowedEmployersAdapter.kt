@@ -171,7 +171,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 Log.d("werywirye", "companyid = $companyid companyname = $companyName")
                 followedEmployerList?.removeAt(position)
                 notifyItemRemoved(position)
-                //notifyItemRangeRemoved(position, followedEmployerList?.size!!)
+                notifyItemRangeRemoved(position, followedEmployerList?.size!!)
 
                 try {
                     val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
