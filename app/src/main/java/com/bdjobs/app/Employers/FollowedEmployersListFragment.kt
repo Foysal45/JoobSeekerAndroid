@@ -75,6 +75,7 @@ class FollowedEmployersListFragment : Fragment() {
                 loadData(1)
             } else {
                 try {
+                    followedEmployersAdapter?.removeAll()
                     followedEmployersAdapter?.addAll(employersCommunicator.getFollowedEmployerList()!!)
                     currentPage = employersCommunicator.getCurrentPage()!!
                     TOTAL_PAGES = employersCommunicator.getTotalPage()!!
@@ -98,22 +99,26 @@ class FollowedEmployersListFragment : Fragment() {
             }
 
 
-            followedRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager as LinearLayoutManager) {
+            followedRV?.addOnScrollListener(object : PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
 
                 override val totalPageCount: Int
                     get() = TOTAL_PAGES!!
                 override val isLastPage: Boolean
                     get() = isLastPages
-                override var isLoading: Boolean = false
+                override val isLoading: Boolean
                     get() = isLoadings
 
-                override fun loadMoreItems() {
-                    isLoading = true
-                    currentPage += 1
-                    loadData(currentPage);
 
+                override fun loadMoreItems() {
+                    Log.d("rakib", "called")
+                    isLoadings = true
+                    currentPage += 1
+                    //loadData(currentPage);
+
+                    loadNextPage()
                 }
             })
+
 
         } catch (e: Exception) {
             logException(e)
@@ -122,8 +127,54 @@ class FollowedEmployersListFragment : Fragment() {
 
     }
 
+    private fun loadNextPage() {
+
+        Log.d("rakib", "load more $currentPage")
+
+        if (currentPage <= TOTAL_PAGES?:0){
+            try {
+                ApiServiceJobs.create().getFollowEmployerListLazy(
+                        pg = currentPage.toString(),
+                        isActivityDate = isActivityDate,
+                        userID = bdjobsUserSession.userId,
+                        decodeId = bdjobsUserSession.decodId,
+                        encoded = Constants.ENCODED_JOBS
+
+
+                ).enqueue(object : Callback<FollowEmployerListModelClass> {
+                    override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
+                        Log.d("getFEmployerListLazy", t.message)
+                    }
+
+                    override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
+
+                        try {
+                            TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
+                            followedEmployersAdapter?.removeLoadingFooter()
+                            isLoadings = false
+                            followedEmployersAdapter?.addAll(response?.body()?.data as List<FollowEmployerListData>)
+                            if (currentPage != TOTAL_PAGES)
+                                followedEmployersAdapter?.addLoadingFooter()
+                            else
+                                isLastPages = true
+                        } catch (e: java.lang.Exception) {
+                            logException(e)
+                        }
+
+                    }
+
+                })
+
+            } catch (e : java.lang.Exception){
+                logException(e)
+            }
+        }
+
+    }
+
     private fun loadData(currentPage: Int) {
 
+        Log.d("rakib", "load data")
 
         ApiServiceJobs.create().getFollowEmployerListLazy(
                 pg = currentPage.toString(),
@@ -148,7 +199,9 @@ class FollowedEmployersListFragment : Fragment() {
                     followedEmployersAdapter?.addAll(followedEmployerList!!)
 
                     TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                    if (currentPage >= TOTAL_PAGES!!) {
+                    if (currentPage <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                        followedEmployersAdapter?.addLoadingFooter()
+                    } else {
                         isLastPages = true
                     }
                 } catch (e: Exception) {
