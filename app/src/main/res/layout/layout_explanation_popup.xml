@@ -39,7 +39,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:letterSpacing="0"
-            android:text="@string/warning_agree_button"
+            android:text="Allow"
             android:textAllCaps="false"
             android:textColor="#1565C0"
             android:textSize="14sp"
@@ -48,34 +48,23 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
 
-        <ImageView
-            android:id="@+id/img_translate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="14dp"
-            android:backgroundTint="#000000"
-            android:padding="5dp"
-            android:src="@drawable/ic_translate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/txt_warning_message"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
-            android:text="@string/accept_kor"
-            android:textSize="16sp"
+            android:text="If you don't allow permission you wont be able to use the app\nAllow permission?"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="#212121"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_warning_title" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_warning_title"  />
 
 
         <com.google.android.ads.nativetemplates.TemplateView

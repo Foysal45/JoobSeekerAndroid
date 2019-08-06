@@ -3,8 +3,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@drawable/dialog_background">
 
@@ -22,56 +22,25 @@
             android:layout_marginTop="18dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/noto_sans"
-            android:text="@string/warning_title"
+            android:text="Attention"
             android:textAlignment="center"
             android:textColor="#212121"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/img_translate"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_agreed"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:letterSpacing="0"
-            android:text="@string/warning_agree_button"
-            android:textAllCaps="false"
-            android:textColor="#1565C0"
-            android:textSize="14sp"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-
-        <ImageView
-            android:id="@+id/img_translate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="14dp"
-            android:backgroundTint="#000000"
-            android:padding="5dp"
-            android:src="@drawable/ic_close_ash"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_warning_message"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
-            android:text="@string/accept_kor"
-            android:textSize="16sp"
+            android:text="Permission ei ei karone accept kora lagbe"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="#212121"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,24 +61,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_warning_message" />
 
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_cancel"
+            android:id="@+id/btn_agreed"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:letterSpacing="0"
-            android:text="@string/warning_cancel_button"
+            android:text="Understood"
             android:textAllCaps="false"
             android:textColor="#1565C0"
             android:textSize="14sp"
+            app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_agreed"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ad_small_template" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ad_small_template"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

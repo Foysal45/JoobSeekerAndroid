@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Base64
@@ -51,6 +52,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.no_internet.*
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,6 +75,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private lateinit var dialog: Dialog
     lateinit var request : PermissionRequest
     lateinit var nonce : PermissionNonce
+    private  var connectionStatus = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,11 +99,12 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         super.onResume()
         pref = getSharedPreferences(name_sharedPref, Context.MODE_PRIVATE)
         ConnectivityReceiver.connectivityReceiverListener = this
+        Log.d("rakib", "check for permission")
 
     }
 
     private fun showExplanationFirstTimePopup(isConnected: Boolean) {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setCancelable(false)
         dialog?.setContentView(R.layout.layout_explanation_first_time_pop_up)
@@ -120,9 +124,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
         cancelBtn?.setOnClickListener { finish() }
         agreedBtn?.setOnClickListener{
-            dialog.dismiss()
+
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
+
+            dialog.dismiss()
 
             request.listeners {
 
@@ -141,6 +147,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 onPermanentlyDenied { permissions ->
                     // Notified when the permissions are permanently denied.
                     Log.d("rakib","permanently denied")
+                    showPermanentlyDeniedPopup()
 
                 }
 
@@ -175,26 +182,39 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     }
 
+    private fun showPermanentlyDeniedPopup() {
+        val dialog = Dialog(this)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(false)
+        dialog?.setContentView(R.layout.layout_permanently_denied_popup)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+
+        agreedBtn?.setOnClickListener{
+            dialog?.dismiss()
+            val intent = createAppSettingsIntent()
+            startActivity(intent)
+        }
+        dialog?.show()
+    }
+
+
     private fun showExplanationPopup(nonce: PermissionNonce) {
+
         val dialog = Dialog(this)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setCancelable(false)
         dialog?.setContentView(R.layout.layout_explanation_popup)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-
-        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
-        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
-        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
         val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
-        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template, this)
-        translateIV?.setOnClickListener {
 
+        cancelBtn?.setOnClickListener {
+            toast("Goodbye")
+            finish()
         }
-
-        cancelBtn?.setOnClickListener { finish() }
         agreedBtn?.setOnClickListener{
             dialog.dismiss()
             nonce.use()
@@ -380,6 +400,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         Log.d("Rakib", "on network changed $isConnected ${i++}")
         takeDecisions(isConnected)
         Log.d("splash", "called")
+        connectionStatus = isConnected
     }
 
     private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
@@ -451,6 +472,17 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(internetBroadCastReceiver)
+    }
+
+    private fun createAppSettingsIntent() = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", packageName, null)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("rakib", "called on restart")
+        takeDecisions(connectionStatus)
     }
 }
 
