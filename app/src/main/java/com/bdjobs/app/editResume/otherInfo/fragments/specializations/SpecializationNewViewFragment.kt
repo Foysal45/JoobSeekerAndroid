@@ -342,6 +342,8 @@ class SpecializationNewViewFragment : Fragment() {
 
             currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
 
+            saveButton.isEnabled = true
+
             refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV.getString()
             whereSkillText?.show()
@@ -694,7 +696,10 @@ class SpecializationNewViewFragment : Fragment() {
 
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                if (s.toString().length == 2) {
+                    refnameATCTV.hideKeyboard()
 
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
