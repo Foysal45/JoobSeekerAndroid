@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
-    tools:ignore="HardcodedText"
-    android:padding="5dp">
+    android:padding="5dp"
+    tools:ignore="HardcodedText">
 
     <TextView
         android:id="@+id/tvBaNo"
@@ -15,6 +15,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/app_name"
         android:textColor="#393939"
+        android:textIsSelectable="true"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvType"
@@ -72,6 +73,7 @@
         android:layout_marginTop="10dp"
         android:text="BA"
         android:textColor="#393939"
+        android:textIsSelectable="true"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView36"
