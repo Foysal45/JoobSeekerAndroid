@@ -84,6 +84,12 @@ interface OtherInfo {
     fun getExtraCuri():String?
     fun confirmationPopup(deleteItem:String)
 
+    //added by rakib
+    fun getLanguageList():ArrayList<LanguageDataModel>?
+    fun setLanguageList(lan : ArrayList<LanguageDataModel>)
+
+    fun getReferenceList():ArrayList<ReferenceDataModel>?
+    fun setReferenceList(ref: ArrayList<ReferenceDataModel>)
 
 
 }

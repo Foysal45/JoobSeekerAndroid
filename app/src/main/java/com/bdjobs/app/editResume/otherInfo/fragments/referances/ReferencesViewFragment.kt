@@ -41,23 +41,31 @@ class ReferencesViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
-        doWork()
+        eduCB.setDeleteButton(false)
+        if (eduCB.getBackFrom() == "") {
+            if (eduCB.getReferenceList() != null) setupRV(eduCB.getReferenceList()!!) // add message if needed in the else part
+            //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+        } else {
+            //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+            doWork()
+        }
+        eduCB.setTitle(resources.getString(R.string.title_reference))
+
+        fab_reference_add?.setOnClickListener {
+            eduCB.goToEditInfo("addReference")
+        }
     }
 
     private fun doWork() {
+        shimmerStart()
         populateData()
-        /*   rv_lang_view.behaveYourself(fab_language_add)*/
-        eduCB.setDeleteButton(false)
-        eduCB.setTitle("References")
-
-        fab_reference_add?.setOnClickListener {
-
-            eduCB.goToEditInfo("addReference")
-
-        }
-
+        eduCB.setBackFrom("")
     }
 
     private fun shimmerStart() {
@@ -92,7 +100,6 @@ class ReferencesViewFragment : Fragment() {
 
     private fun populateData() {
         rv_reference_view?.hide()
-        shimmerStart()
         val call = ApiServiceMyBdjobs.create().getReferenceInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<ReferenceModel> {
             override fun onFailure(call: Call<ReferenceModel>, t: Throwable) {
@@ -117,6 +124,7 @@ class ReferencesViewFragment : Fragment() {
 
                         arr = respo?.data as ArrayList<ReferenceDataModel>
 
+                        eduCB.setReferenceList(arr!!)
 
                         if (arr!!.size == 2) {
 
@@ -137,6 +145,7 @@ class ReferencesViewFragment : Fragment() {
                         //activity.toast("${response.body()?.message}")
                         logException(e)
                         activity?.error("++${e.message}")
+                        fab_reference_add?.show()
                     }
                 }
                 adapter?.notifyDataSetChanged()
