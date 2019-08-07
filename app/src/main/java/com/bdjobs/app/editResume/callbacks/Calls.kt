@@ -91,6 +91,15 @@ interface OtherInfo {
     fun getReferenceList():ArrayList<ReferenceDataModel>?
     fun setReferenceList(ref: ArrayList<ReferenceDataModel>)
 
+    fun setExtraCurricularActivity(extra : String)
+    fun getExtraCurricularActivity():String?
+
+    fun setSkillDescription(desc : String)
+    fun getSkillDescription() : String?
+
+    fun setSkills(skills : ArrayList<Skill?>)
+    fun getSkills() : ArrayList<Skill?>?
+
 
 }
 

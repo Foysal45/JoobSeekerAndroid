@@ -76,28 +76,35 @@ class SpecializationNewViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initializaion()
         onClick()
-
     }
 
-
-    private fun initializaion() {
-
+    override fun onResume() {
+        super.onResume()
         eduCB = activity as OtherInfo
         eduCB.setTitle("Specialization")
         eduCB.setEditButton(false)
         levelList = arrayOf(
-                "Pre-Voc Level 1", "Pre-Voc Level 2", "NTVQF Level 1",
-                "NTVQF Level 2", "NTVQF Level 3", "NTVQF Level 4", "NTVQF Level 5", "NTVQF Level 6"
+            "Pre-Voc Level 1", "Pre-Voc Level 2", "NTVQF Level 1",
+            "NTVQF Level 2", "NTVQF Level 3", "NTVQF Level 4", "NTVQF Level 5", "NTVQF Level 6"
         )
         session = BdjobsUserSession(activity)
         dataStorage = DataStorage(activity!!)
 
+        if(eduCB.getBackFrom() == ""){
+            setData(eduCB.getSkills()!!, eduCB.getSkillDes()!!, eduCB.getExtraCuri()!!, eduCB.getSpecializationData())
+        } else {
+            doWork()
+        }
 
+
+
+    }
+
+    private fun doWork(){
+        shimmerStart()
         populateData()
-
-
+        eduCB.setBackFrom("")
     }
 
 
@@ -121,7 +128,15 @@ class SpecializationNewViewFragment : Fragment() {
                         shimmerStop()
 
                         val respo = response.body()
+//                        Log.d("rakib", respo?.data)
                         arr = respo?.data!![0]?.skills as ArrayList<Skill?>
+
+                        eduCB.setSkills(arr!!)
+                        eduCB.setSkillDescription(respo.data[0]?.description!!)
+                        eduCB.setExtraCurricularActivity(respo.data[0]?.extracurricular!!)
+                        eduCB.passSpecializationData(respo.data[0]!!)
+
+
                         setData(arr!!, respo.data[0]?.description!!, respo.data[0]?.extracurricular!!, respo.data[0]!!)
 
 

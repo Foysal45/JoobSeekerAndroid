@@ -31,6 +31,30 @@ import kotlinx.android.synthetic.main.activity_other_info_base.*
 
 class OtherInfoBaseActivity : Activity(), OtherInfo,
     ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun setExtraCurricularActivity(extra: String) {
+        extraCuri = extra
+    }
+
+    override fun getExtraCurricularActivity(): String? {
+        return extraCuri
+    }
+
+    override fun setSkillDescription(desc: String) {
+        skillDescription = desc
+    }
+
+    override fun getSkillDescription(): String? {
+        return  skillDescription
+    }
+
+    override fun setSkills(skills: ArrayList<Skill?>) {
+        this.skills = skills
+    }
+
+    override fun getSkills(): ArrayList<Skill?>? {
+        return skills
+    }
+
     override fun getReferenceList(): ArrayList<ReferenceDataModel>? {
         return this.referenceList
     }
@@ -47,6 +71,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo,
         return this.languageList
     }
 
+
+    private var skills = ArrayList<Skill?>()
 
     private var skillList = ArrayList<AddExpModel>()
     private var skillDescription = ""
@@ -110,6 +136,9 @@ class OtherInfoBaseActivity : Activity(), OtherInfo,
 
     private var languageList: ArrayList<LanguageDataModel>? = null
     private var referenceList: ArrayList<ReferenceDataModel>? = null
+
+//    private lateinit var extraCuricularActivity : String
+//    private lateinit var skillDescription : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
