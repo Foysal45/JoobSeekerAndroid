@@ -36,6 +36,7 @@ class BCMobileNumberFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         returnView = inflater.inflate(R.layout.fragment_bc_mobile_number, container, false)
         return returnView
     }

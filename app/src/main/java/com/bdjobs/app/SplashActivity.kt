@@ -341,8 +341,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                  checkUpdate()
              }
          }*/
-//        checkUpdate()
-        goToNextActivity()
+        checkUpdate()
+//        goToNextActivity()
     }
 
     private fun goToNextActivity() {
