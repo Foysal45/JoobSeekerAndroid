@@ -281,23 +281,23 @@ class LoginUserNameFragment : Fragment() {
             loginCommunicator.goToRegistrationActivity()
         }
 
-        rootView.viewTreeObserver.addOnGlobalLayoutListener {
-            try {
-                val r = Rect()
-                rootView.getWindowVisibleDisplayFrame(r)
-                val heightDiff = rootView.rootView.height - (r.bottom - r.top)
-
-                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
-                    footerIMGV?.hide()
-                } else {
-                    //ok now we know the keyboard is down...
-                    footerIMGV?.show()
-
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
+//        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+//            try {
+//                val r = Rect()
+//                rootView.getWindowVisibleDisplayFrame(r)
+//                val heightDiff = rootView.rootView.height - (r.bottom - r.top)
+//
+//                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
+//                    footerIMGV?.hide()
+//                } else {
+//                    //ok now we know the keyboard is down...
+//                    footerIMGV?.show()
+//
+//                }
+//            } catch (e: Exception) {
+//                logException(e)
+//            }
+//        }
     }
 
 
