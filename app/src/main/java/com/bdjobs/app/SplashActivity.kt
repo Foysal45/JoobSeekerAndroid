@@ -79,7 +79,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("Rakib", "on create ${i++}")
+        Log.d("Rakib", "on create ${i++} rakib")
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
@@ -114,21 +114,19 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
         var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
         val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
-        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
-        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
-        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template, this)
+        val helpBtn = dialog?.findViewById<Button>(R.id.btn_help)
+        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
         translateIV?.setOnClickListener {
 
         }
 
-        cancelBtn?.setOnClickListener { finish() }
+        //cancelBtn?.setOnClickListener { finish() }
         agreedBtn?.setOnClickListener{
 
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
 
-            dialog.dismiss()
+            //dialog.dismiss()
 
             request.listeners {
 
@@ -155,7 +153,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     // Notified when the permissions should show a rationale.
                     // The nonce can be used to request the permissions again.
                     //nonce.use()
-                    showExplanationPopup(nonce)
+                    showPermanentlyDeniedPopup()
                 }
             }
 
@@ -183,13 +181,13 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     private fun showPermanentlyDeniedPopup() {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setCancelable(false)
         dialog?.setContentView(R.layout.layout_permanently_denied_popup)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
 
         agreedBtn?.setOnClickListener{
             dialog?.dismiss()
@@ -341,8 +339,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                  checkUpdate()
              }
          }*/
-        checkUpdate()
-//        goToNextActivity()
+//        checkUpdate()
+        goToNextActivity()
     }
 
     private fun goToNextActivity() {

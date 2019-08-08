@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,77 +8,100 @@
     android:layout_gravity="center"
     android:background="@drawable/dialog_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView26"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="100dp"
+        android:src="@drawable/ic_cloud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+
+        android:id="@+id/txt_warning_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="111dp"
+        android:fontFamily="@font/noto_sans"
+        android:gravity="center"
+        android:text="Storage access"
+        android:textAlignment="center"
+        android:textColor="#212121"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView26" />
+
+    <TextView
+        android:id="@+id/txt_warning_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="31dp"
+        android:gravity="center"
+        android:text="Storage permission is needed because we
+use phone's internal storage to store
+your personalized data to give you
+a faster and reliable app performance."
+        android:textAlignment="center"
+        android:textColor="#767676"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_warning_title" />
 
 
-        <TextView
-
-            android:id="@+id/txt_warning_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/noto_sans"
-            android:text="Attention"
-            android:textAlignment="center"
-            android:textColor="#212121"
-            android:textSize="20sp"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/txt_warning_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="24dp"
-            android:text="Permission ei ei karone accept kora lagbe"
-            android:textSize="18sp"
-            android:textAlignment="center"
-            android:textColor="#212121"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_warning_title" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_help"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginBottom="24dp"
+        android:letterSpacing="0"
+        android:paddingLeft="29dp"
+        android:paddingTop="8dp"
+        android:paddingRight="29dp"
+        android:paddingBottom="8dp"
+        android:text="Help"
+        android:textAllCaps="false"
+        android:textColor="#1565C0"
+        android:textSize="14sp"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_agreed"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-        <com.google.android.ads.nativetemplates.TemplateView
-            android:id="@+id/ad_small_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"
-            app:gnt_template_type="@layout/gnt_small_template_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_warning_message" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#1565C0"
+        android:letterSpacing="0"
+        android:paddingLeft="29dp"
+        android:paddingTop="4dp"
+        android:paddingRight="29dp"
+        android:paddingBottom="4dp"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_agreed"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:letterSpacing="0"
-            android:text="Understood"
-            android:textAllCaps="false"
-            android:textColor="#1565C0"
-            android:textSize="14sp"
-            app:cornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ad_small_template"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
