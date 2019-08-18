@@ -110,17 +110,13 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         dialog?.setContentView(R.layout.layout_explanation_first_time_pop_up)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-
-        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
-        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
-        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
         val helpBtn = dialog?.findViewById<Button>(R.id.btn_help)
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
-        translateIV?.setOnClickListener {
 
+        helpBtn?.setOnClickListener {
+            //
         }
 
-        //cancelBtn?.setOnClickListener { finish() }
         agreedBtn?.setOnClickListener{
 
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
@@ -132,6 +128,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 onAccepted { permissions ->
                     // Notified when the permissions are accepted.
+                    dialog?.dismiss()
                     Log.d("rakib", "on accepted")
                     doWork(isConnected)
                 }
@@ -145,7 +142,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 onPermanentlyDenied { permissions ->
                     // Notified when the permissions are permanently denied.
                     Log.d("rakib","permanently denied")
-                    showPermanentlyDeniedPopup()
+                    //dialog.dismiss()
+                    showPermanentlyDeniedPopup(dialog)
 
                 }
 
@@ -153,14 +151,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     // Notified when the permissions should show a rationale.
                     // The nonce can be used to request the permissions again.
                     //nonce.use()
-                    showPermanentlyDeniedPopup()
+                    //showPermanentlyDeniedPopup()
                 }
             }
-
-            request.onDenied {
-                Log.d("rakib", "denied")
-            }
-
 
         }
         dialog?.show()
@@ -180,8 +173,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     }
 
-    private fun showPermanentlyDeniedPopup() {
-        val dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+    private fun showPermanentlyDeniedPopup(firstDialog:Dialog) {
+        dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setCancelable(false)
         dialog?.setContentView(R.layout.layout_permanently_denied_popup)
@@ -190,9 +183,12 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
 
         agreedBtn?.setOnClickListener{
-            dialog?.dismiss()
+            firstDialog.dismiss()
+
+            //dialog?.dismiss()
             val intent = createAppSettingsIntent()
             startActivity(intent)
+            //dialog.dismiss()
         }
         dialog?.show()
     }
@@ -339,8 +335,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                  checkUpdate()
              }
          }*/
-//        checkUpdate()
-        goToNextActivity()
+        checkUpdate()
+//        goToNextActivity()
     }
 
     private fun goToNextActivity() {
@@ -480,6 +476,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     override fun onRestart() {
         super.onRestart()
         Log.d("rakib", "called on restart")
+        dialog?.dismiss()
         takeDecisions(connectionStatus)
     }
 }
