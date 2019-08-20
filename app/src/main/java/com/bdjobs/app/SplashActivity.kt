@@ -17,9 +17,6 @@ import android.util.Base64
 import android.util.Log
 import android.view.Window
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.bdjobs.app.API.ApiServiceJobs
@@ -36,15 +33,14 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
-import com.fondesa.kpermissions.builder.PermissionRequestBuilder
 import com.fondesa.kpermissions.extension.listeners
-import com.fondesa.kpermissions.extension.onDenied
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.PermissionRequest
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
-import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -62,7 +58,7 @@ import java.security.MessageDigest
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
-    companion object{
+    companion object {
         var i = 1
     }
 
@@ -72,10 +68,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private lateinit var dataStorage: DataStorage
     private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
     private val APP_UPDATE_REQUEST_CODE = 156
-    private lateinit var dialog: Dialog
-    lateinit var request : PermissionRequest
-    lateinit var nonce : PermissionNonce
-    private  var connectionStatus = false
+    private var dialog: Dialog? = null
+    private var firstDialog: Dialog? = null
+    lateinit var request: PermissionRequest
+    lateinit var nonce: PermissionNonce
+    private var connectionStatus = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,20 +101,20 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     private fun showExplanationFirstTimePopup(isConnected: Boolean) {
-        val dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(false)
-        dialog?.setContentView(R.layout.layout_explanation_first_time_pop_up)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        firstDialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        firstDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        firstDialog?.setCancelable(false)
+        firstDialog?.setContentView(R.layout.layout_explanation_first_time_pop_up)
+        firstDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val helpBtn = dialog?.findViewById<Button>(R.id.btn_help)
-        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
+        val helpBtn = firstDialog?.findViewById<Button>(R.id.btn_help)
+        val agreedBtn = firstDialog?.findViewById<Button>(R.id.btn_next)
 
         helpBtn?.setOnClickListener {
-            //
+            openUrlInBrowser("https://www.bdjobs.com/tos.asp")
         }
 
-        agreedBtn?.setOnClickListener{
+        agreedBtn?.setOnClickListener {
 
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
@@ -128,7 +125,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 onAccepted { permissions ->
                     // Notified when the permissions are accepted.
-                    dialog?.dismiss()
+                    firstDialog?.dismiss()
                     Log.d("rakib", "on accepted")
                     doWork(isConnected)
                 }
@@ -141,9 +138,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 onPermanentlyDenied { permissions ->
                     // Notified when the permissions are permanently denied.
-                    Log.d("rakib","permanently denied")
+                    Log.d("rakib", "permanently denied")
                     //dialog.dismiss()
-                    showPermanentlyDeniedPopup(dialog)
+                    showPermanentlyDeniedPopup(firstDialog as Dialog)
 
                 }
 
@@ -156,7 +153,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             }
 
         }
-        dialog?.show()
+        firstDialog?.show()
     }
 
     private fun takeDecisions(isConnected: Boolean) {
@@ -173,8 +170,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     }
 
-    private fun showPermanentlyDeniedPopup(firstDialog:Dialog) {
-        dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+    private fun showPermanentlyDeniedPopup(firstDialog: Dialog) {
+        dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setCancelable(false)
         dialog?.setContentView(R.layout.layout_permanently_denied_popup)
@@ -182,13 +179,10 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
 
-        agreedBtn?.setOnClickListener{
+        agreedBtn?.setOnClickListener {
             firstDialog.dismiss()
-
-            //dialog?.dismiss()
             val intent = createAppSettingsIntent()
             startActivity(intent)
-            //dialog.dismiss()
         }
         dialog?.show()
     }
@@ -209,7 +203,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             toast("Goodbye")
             finish()
         }
-        agreedBtn?.setOnClickListener{
+        agreedBtn?.setOnClickListener {
             dialog.dismiss()
             nonce.use()
 
@@ -335,8 +329,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                  checkUpdate()
              }
          }*/
-        checkUpdate()
-//        goToNextActivity()
+//        checkUpdate()
+        //goToNextActivity()
+        checkPlaySevices()
     }
 
     private fun goToNextActivity() {
@@ -374,7 +369,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                         AppUpdateType.IMMEDIATE,
                         this@SplashActivity,
                         APP_UPDATE_REQUEST_CODE)
-            } else {    
+            } else {
                 Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
                 goToNextActivity()
             }
@@ -476,8 +471,19 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     override fun onRestart() {
         super.onRestart()
         Log.d("rakib", "called on restart")
+        // if (flag == 1)
         dialog?.dismiss()
         takeDecisions(connectionStatus)
+    }
+
+    private fun checkPlaySevices(){
+        val googleAPi : GoogleApiAvailability = GoogleApiAvailability.getInstance()
+        val result = googleAPi.isGooglePlayServicesAvailable(this)
+        if (result != ConnectionResult.SUCCESS) {
+            toast("Play service not installed")
+        } else {
+            toast("Play service installed")
+        }
     }
 }
 
