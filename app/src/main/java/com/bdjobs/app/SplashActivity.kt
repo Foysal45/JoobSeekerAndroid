@@ -41,6 +41,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -330,8 +331,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
              }
          }*/
 //        checkUpdate()
-        //goToNextActivity()
+//        goToNextActivity()
         checkPlaySevices()
+        checkPlayStore()
     }
 
     private fun goToNextActivity() {
@@ -477,13 +479,31 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     private fun checkPlaySevices(){
-        val googleAPi : GoogleApiAvailability = GoogleApiAvailability.getInstance()
-        val result = googleAPi.isGooglePlayServicesAvailable(this)
+        val googleApi : GoogleApiAvailability = GoogleApiAvailability.getInstance()
+        val result = googleApi.isGooglePlayServicesAvailable(this)
+
+
         if (result != ConnectionResult.SUCCESS) {
+//            val PLAY_SERVICES_RESOLUTION_REQUEST = 1000
+//            if(googleApi.isUserResolvableError(result)){
+//                googleApi.getErrorDialog(this, result,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show()
+//            }
             toast("Play service not installed")
         } else {
             toast("Play service installed")
         }
+    }
+    private fun checkPlayStore() : Boolean{
+        var found = false
+        try {
+            packageManager.getPackageInfo(GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE, 0)
+            found = true
+            toast("Play store installed")
+        } catch (e : PackageManager.NameNotFoundException){
+            toast("Play store not installed")
+        }
+        return found
     }
 }
 
