@@ -34,6 +34,7 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.facebook.internal.WebDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.PermissionRequest
@@ -333,7 +334,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                  checkUpdate()
              }
          }*/
-//        checkUpdate()
+        checkUpdate()
 //        goToNextActivity()
         checkPlaySevices()
         if (checkPlayStore()){
@@ -369,17 +370,41 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        appUpdateInfoTask.addOnSuccessListener { it ->
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                    it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                Log.d("UpdateCheck", "UPDATE_AVAILABLE")
-                appUpdateManager.startUpdateFlowForResult(
-                        it,
-                        AppUpdateType.IMMEDIATE,
-                        this@SplashActivity,
-                        APP_UPDATE_REQUEST_CODE)
+        Log.d("UpdateCheck", "khao khao khao");
+
+//        appUpdateInfoTask.addOnSuccessListener {
+//            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+//                    it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+//                Log.d("UpdateCheck", "UPDATE_AVAILABLE")
+//                appUpdateManager.startUpdateFlowForResult(
+//                        it,
+//                        AppUpdateType.IMMEDIATE,
+//                        this@SplashActivity,
+//                        APP_UPDATE_REQUEST_CODE)
+//            } else {
+//                Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
+//                goToNextActivity()
+//            }
+//        }
+
+        appUpdateInfoTask.addOnCompleteListener {
+            if(it.isSuccessful) {
+                if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                        it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    Log.d("UpdateCheck", "UPDATE_AVAILABLE")
+                    appUpdateManager.startUpdateFlowForResult(
+                            it.result,
+                            AppUpdateType.IMMEDIATE,
+                            this@SplashActivity,
+                            APP_UPDATE_REQUEST_CODE)
+                } else {
+                    Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
+                    goToNextActivity()
+                }
             } else {
-                Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
+
+                Log.d("UpdateCheck", "Jore khao")
+
                 goToNextActivity()
             }
         }
@@ -390,7 +415,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK) {
             Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")
             //checkUpdate()
-            //goToNextActivity()
+            goToNextActivity()
         } else {
             toast("jhamela")
         }
