@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -61,6 +62,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     companion object {
         var i = 1
+        val GooglePlayStorePackageNameOld = "com.google.market"
+        val GooglePlayStorePackageNameNew = "com.android.vending"
     }
 
     lateinit var pref: SharedPreferences
@@ -333,7 +336,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 //        checkUpdate()
 //        goToNextActivity()
         checkPlaySevices()
-        checkPlayStore()
+        if (checkPlayStore()){
+            toast("Play Store installed")
+        } else{
+            toast("Play Store not installed")
+        }
     }
 
     private fun goToNextActivity() {
@@ -383,7 +390,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK) {
             Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")
             //checkUpdate()
-            goToNextActivity()
+            //goToNextActivity()
+        } else {
+            toast("jhamela")
         }
     }
 
@@ -478,8 +487,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         takeDecisions(connectionStatus)
     }
 
-    private fun checkPlaySevices(){
-        val googleApi : GoogleApiAvailability = GoogleApiAvailability.getInstance()
+    private fun checkPlaySevices() {
+        val googleApi: GoogleApiAvailability = GoogleApiAvailability.getInstance()
         val result = googleApi.isGooglePlayServicesAvailable(this)
 
 
@@ -494,16 +503,27 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             toast("Play service installed")
         }
     }
-    private fun checkPlayStore() : Boolean{
-        var found = false
-        try {
-            packageManager.getPackageInfo(GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE, 0)
-            found = true
-            toast("Play store installed")
-        } catch (e : PackageManager.NameNotFoundException){
-            toast("Play store not installed")
+
+    private fun checkPlayStore(): Boolean {
+
+        var packages: List<PackageInfo> = packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+        for (i in 0..packages.size) {
+            if (packages[i].packageName.equals(GooglePlayStorePackageNameOld) || packages[i].packageName.equals(GooglePlayStorePackageNameNew)){
+                //toast("Play store installed")
+                return true
+            }
         }
-        return found
+        return false
+
+//        var found = false
+//        try {
+//            packageManager.getPackageInfo(GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE, 0)
+//            found = true
+//            toast("Play store installed")
+//        } catch (e: PackageManager.NameNotFoundException) {
+//            toast("Play store not installed")
+//        }
+//        return found
     }
 }
 
