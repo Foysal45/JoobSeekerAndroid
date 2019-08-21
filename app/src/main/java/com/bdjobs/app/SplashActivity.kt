@@ -336,12 +336,12 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
          }*/
         checkUpdate()
 //        goToNextActivity()
-        checkPlaySevices()
-        if (checkPlayStore()){
-            toast("Play Store installed")
-        } else{
-            toast("Play Store not installed")
-        }
+        //checkPlaySevices()
+//        if (checkPlayStore()){
+//            toast("Play Store installed")
+//        } else{
+//            toast("Play Store not installed")
+//        }
     }
 
     private fun goToNextActivity() {
@@ -370,7 +370,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        Log.d("UpdateCheck", "khao khao khao");
 
 //        appUpdateInfoTask.addOnSuccessListener {
 //            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
@@ -402,9 +401,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     goToNextActivity()
                 }
             } else {
-
-                Log.d("UpdateCheck", "Jore khao")
-
+                Log.d("UpdateCheck", "came here else")
                 goToNextActivity()
             }
         }
