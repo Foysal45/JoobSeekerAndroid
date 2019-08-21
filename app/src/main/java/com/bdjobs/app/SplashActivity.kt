@@ -61,12 +61,6 @@ import java.security.MessageDigest
 
 class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
-    companion object {
-        var i = 1
-        val GooglePlayStorePackageNameOld = "com.google.market"
-        val GooglePlayStorePackageNameNew = "com.android.vending"
-    }
-
     lateinit var pref: SharedPreferences
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -76,12 +70,10 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private var dialog: Dialog? = null
     private var firstDialog: Dialog? = null
     lateinit var request: PermissionRequest
-    lateinit var nonce: PermissionNonce
     private var connectionStatus = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("Rakib", "on create ${i++} rakib")
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
@@ -97,11 +89,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
 
     override fun onResume() {
-        Log.d("Rakib", "on resume ${i++}")
         super.onResume()
         pref = getSharedPreferences(name_sharedPref, Context.MODE_PRIVATE)
         ConnectivityReceiver.connectivityReceiverListener = this
-        Log.d("rakib", "check for permission")
+        //Log.d("rakib", "check for permission")
+        Log.d("rakib", "called onresume")
 
     }
 
@@ -123,9 +115,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
-
-            //dialog.dismiss()
-
             request.listeners {
 
                 onAccepted { permissions ->
@@ -137,14 +126,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 onDenied { permissions ->
                     // Notified when the permissions are denied.
-                    //showExplanationFirstTimePopup()
-                    Log.d("rakib", "denied")
                 }
 
                 onPermanentlyDenied { permissions ->
                     // Notified when the permissions are permanently denied.
                     Log.d("rakib", "permanently denied")
-                    //dialog.dismiss()
                     showPermanentlyDeniedPopup(firstDialog as Dialog)
 
                 }
@@ -152,8 +138,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                 onShouldShowRationale { permissions, nonce ->
                     // Notified when the permissions should show a rationale.
                     // The nonce can be used to request the permissions again.
-                    //nonce.use()
-                    //showPermanentlyDeniedPopup()
                 }
             }
 
@@ -163,15 +147,21 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private fun takeDecisions(isConnected: Boolean) {
 
-        if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-        ) {
+        Log.d("rakib", "take decisions called")
 
-            showExplanationFirstTimePopup(isConnected)
+        if (isConnected){
+            if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            ) {
+                showExplanationFirstTimePopup(isConnected)
+            } else {
+                Log.d("rakib", "below else")
+                doWork(isConnected)
+            }
         } else {
-            Log.d("rakib", "below else")
             doWork(isConnected)
         }
+
 
     }
 
@@ -185,33 +175,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
 
         agreedBtn?.setOnClickListener {
-            firstDialog.dismiss()
+            firstDialog?.dismiss()
             val intent = createAppSettingsIntent()
             startActivity(intent)
-        }
-        dialog?.show()
-    }
-
-
-    private fun showExplanationPopup(nonce: PermissionNonce) {
-
-        val dialog = Dialog(this)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(false)
-        dialog?.setContentView(R.layout.layout_explanation_popup)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
-        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
-
-        cancelBtn?.setOnClickListener {
-            toast("Goodbye")
-            finish()
-        }
-        agreedBtn?.setOnClickListener {
-            dialog.dismiss()
-            nonce.use()
-
         }
         dialog?.show()
     }
@@ -232,6 +198,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             }
 
         } else {
+            Log.d("rakib", "do work else")
             if (bdjobsUserSession.isLoggedIn!!) {
                 DatabaseUpdateJob.runJobImmediately()
             }
@@ -311,37 +278,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     fun showAdAndGoToNextActivity() {
-        /* mPublisherInterstitialAd.adListener = object : AdListener() {
-             override fun onAdLoaded() {
-                 // Code to be executed when an ad finishes loading.
-                 mPublisherInterstitialAd.show()
-             }
-
-             override fun onAdFailedToLoad(errorCode: Int) {
-                 checkUpdate()
-             }
-
-             override fun onAdOpened() {
-                 // Code to be executed when the ad is displayed.
-             }
-
-             override fun onAdLeftApplication() {
-                 // Code to be executed when the user has left the app.
-
-             }
-
-             override fun onAdClosed() {
-                 checkUpdate()
-             }
-         }*/
         checkUpdate()
-//        goToNextActivity()
-        //checkPlaySevices()
-//        if (checkPlayStore()){
-//            toast("Play Store installed")
-//        } else{
-//            toast("Play Store not installed")
-//        }
     }
 
     private fun goToNextActivity() {
@@ -366,28 +303,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     }
 
     private fun checkUpdate() {
-        //goToNextActivity()
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-
-//        appUpdateInfoTask.addOnSuccessListener {
-//            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-//                    it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-//                Log.d("UpdateCheck", "UPDATE_AVAILABLE")
-//                appUpdateManager.startUpdateFlowForResult(
-//                        it,
-//                        AppUpdateType.IMMEDIATE,
-//                        this@SplashActivity,
-//                        APP_UPDATE_REQUEST_CODE)
-//            } else {
-//                Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
-//                goToNextActivity()
-//            }
-//        }
-
         appUpdateInfoTask.addOnCompleteListener {
-            if(it.isSuccessful) {
+            if (it.isSuccessful) {
                 if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                         it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                     Log.d("UpdateCheck", "UPDATE_AVAILABLE")
@@ -413,16 +333,13 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")
             //checkUpdate()
             goToNextActivity()
-        } else {
-            toast("jhamela")
         }
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        Log.d("Rakib", "on network changed $isConnected ${i++}")
-        takeDecisions(isConnected)
-        Log.d("splash", "called")
         connectionStatus = isConnected
+        takeDecisions(connectionStatus)
+        Log.d("splash", "called")
     }
 
     private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
@@ -504,48 +421,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     override fun onRestart() {
         super.onRestart()
         Log.d("rakib", "called on restart")
-        // if (flag == 1)
         dialog?.dismiss()
+        firstDialog?.dismiss()
         takeDecisions(connectionStatus)
-    }
-
-    private fun checkPlaySevices() {
-        val googleApi: GoogleApiAvailability = GoogleApiAvailability.getInstance()
-        val result = googleApi.isGooglePlayServicesAvailable(this)
-
-
-        if (result != ConnectionResult.SUCCESS) {
-//            val PLAY_SERVICES_RESOLUTION_REQUEST = 1000
-//            if(googleApi.isUserResolvableError(result)){
-//                googleApi.getErrorDialog(this, result,
-//                        PLAY_SERVICES_RESOLUTION_REQUEST).show()
-//            }
-            toast("Play service not installed")
-        } else {
-            toast("Play service installed")
-        }
-    }
-
-    private fun checkPlayStore(): Boolean {
-
-        var packages: List<PackageInfo> = packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES)
-        for (i in 0..packages.size) {
-            if (packages[i].packageName.equals(GooglePlayStorePackageNameOld) || packages[i].packageName.equals(GooglePlayStorePackageNameNew)){
-                //toast("Play store installed")
-                return true
-            }
-        }
-        return false
-
-//        var found = false
-//        try {
-//            packageManager.getPackageInfo(GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE, 0)
-//            found = true
-//            toast("Play store installed")
-//        } catch (e: PackageManager.NameNotFoundException) {
-//            toast("Play store not installed")
-//        }
-//        return found
     }
 }
 
