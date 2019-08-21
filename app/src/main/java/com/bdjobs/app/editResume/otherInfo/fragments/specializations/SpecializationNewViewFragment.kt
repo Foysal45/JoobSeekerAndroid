@@ -4,18 +4,18 @@ package com.bdjobs.app.editResume.otherInfo.fragments.specializations
 import android.app.Activity
 import android.app.Dialog
 import android.app.Fragment
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -63,37 +63,48 @@ class SpecializationNewViewFragment : Fragment() {
     var isEdit: Boolean = false
     private lateinit var eduCB: OtherInfo
     var updateNewSkilledBy = ""
+
+    var currentDialogValue: String? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return inflater.inflate(R.layout.fragment_specialization_new_view, container, false)
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initializaion()
         onClick()
-
     }
 
-
-    private fun initializaion() {
-
+    override fun onResume() {
+        super.onResume()
         eduCB = activity as OtherInfo
         eduCB.setTitle("Specialization")
         eduCB.setEditButton(false)
         levelList = arrayOf(
-                "Pre-Voc Level 1", "Pre-Voc Level 2", "NTVQF Level 1",
-                "NTVQF Level 2", "NTVQF Level 3", "NTVQF Level 4", "NTVQF Level 5", "NTVQF Level 6"
+            "Pre-Voc Level 1", "Pre-Voc Level 2", "NTVQF Level 1",
+            "NTVQF Level 2", "NTVQF Level 3", "NTVQF Level 4", "NTVQF Level 5", "NTVQF Level 6"
         )
         session = BdjobsUserSession(activity)
         dataStorage = DataStorage(activity!!)
 
+        if(eduCB.getBackFrom() == ""){
+            setData(eduCB.getSkills()!!, eduCB.getSkillDes()!!, eduCB.getExtraCuri()!!, eduCB.getSpecializationData())
+        } else {
+            doWork()
+        }
 
+
+
+    }
+
+    private fun doWork(){
+        shimmerStart()
         populateData()
-
-
+        eduCB.setBackFrom("")
     }
 
 
@@ -117,13 +128,21 @@ class SpecializationNewViewFragment : Fragment() {
                         shimmerStop()
 
                         val respo = response.body()
+//                        Log.d("rakib", respo?.data)
                         arr = respo?.data!![0]?.skills as ArrayList<Skill?>
+
+                        eduCB.setSkills(arr!!)
+                        eduCB.setSkillDescription(respo.data[0]?.description!!)
+                        eduCB.setExtraCurricularActivity(respo.data[0]?.extracurricular!!)
+                        eduCB.passSpecializationData(respo.data[0]!!)
+
+
                         setData(arr!!, respo.data[0]?.description!!, respo.data[0]?.extracurricular!!, respo.data[0]!!)
 
 
                     }
                 } catch (e: Exception) {
-                      shimmerStop()
+                    shimmerStop()
                     if (activity != null) {
                         //activity.toast("${response.body()?.message}")
                         logException(e)
@@ -243,7 +262,7 @@ class SpecializationNewViewFragment : Fragment() {
 
     fun showEditDialog(item: Skill?) {
 
-        Log.d("rakib", "came here")
+        //Log.d("rakib", "came here")
         val workSource = java.util.ArrayList<String>()
         workSource.add(0, "-1")
         workSource.add(1, "-2")
@@ -281,8 +300,14 @@ class SpecializationNewViewFragment : Fragment() {
         fifthCheckBox?.show()
 
         //set View start
-
         refnameATCTV?.setText(item?.skillName)
+
+        if (item != null) {
+            currentDialogValue = item.skillName?.slice(0 until item.skillName.length - 1)
+
+            Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+        }
+
         refnameATCTV?.setSelection(refnameATCTV.getString().length)
         whereSkillText?.text = "Skill you learned from"
         val list = item?.skillBy!!
@@ -329,6 +354,11 @@ class SpecializationNewViewFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
 
             refnameATCTV?.setText(refnameATCTV?.getString())
+
+            currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
+
+            saveButton.isEnabled = true
+
             refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV.getString()
             whereSkillText?.show()
@@ -407,6 +437,31 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
+                Log.d("rakib", "${refnameATCTV.isPopupShowing}")
+
+                Log.d("rakib", "called after text changed")
+
+                if (s.toString().length == 2) {
+                    refnameATCTV.hideKeyboard()
+
+                }
+
+                if (s.toString().length > 2 && !refnameATCTV.isPopupShowing) {
+                    Log.d("rakib", "not permitted")
+                    saveButton.isEnabled = true
+                }
+//                if (!s.toString().isEmpty() && s.toString().length > 2)
+//                {
+//                    Log.d("rakib", "called")
+//                    if (!refnameATCTV.isPopupShowing){
+//                        Log.d("rakib", "popup showing")
+//                        toast("No skill found!")
+//                        saveButton?.isEnabled = false
+//                    } else {
+//                        saveButton.isEnabled = true
+//                    }
+//                }
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -414,16 +469,28 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+
                 if (s.toString().length > 2) {
+
+
+                    Log.d("rakib", "called on text change: ${s}")
+                    Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
-                        saveButton.isEnabled = true
+                        //saveButton?.isEnabled = true
 
+                        //toast("opened")
                     } else {
+                        if (s.toString() != currentDialogValue)
+                        {
+                            toast("No skill found!")
+                            currentDialogValue = ""
+                        }
 
-                        activity?.toast("No skill found!")
-                        saveButton.isEnabled = false
+
+                        saveButton?.isEnabled = false
                         refnameATCTV?.clearText()
                         whereSkillText?.hide()
                         firstCheckbox?.hide()
@@ -444,6 +511,8 @@ class SpecializationNewViewFragment : Fragment() {
                     }
 
                 }
+
+
             }
         })
 
@@ -561,9 +630,6 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
 
-
-
-
         }
 
         dialogEdit.show()
@@ -618,6 +684,11 @@ class SpecializationNewViewFragment : Fragment() {
             workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
 
             refnameATCTV.setText(refnameATCTV.getString())
+
+            currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
+
+            Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+
             refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV?.getString()
             whereSkillText?.show()
@@ -640,7 +711,10 @@ class SpecializationNewViewFragment : Fragment() {
 
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                if (s.toString().length == 2) {
+                    refnameATCTV.hideKeyboard()
 
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -652,11 +726,17 @@ class SpecializationNewViewFragment : Fragment() {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
-                        saveButton.isEnabled = true
+                        saveButton?.isEnabled = true
 
                     } else {
-                        saveButton.isEnabled = false
-                        activity?.toast("No skill found!")
+                        saveButton?.isEnabled = false
+
+                        if (s.toString() != currentDialogValue)
+                        {
+                            toast("No skill found!")
+                            currentDialogValue = ""
+                        }
+
                         refnameATCTV?.clearText()
                         whereSkillText?.hide()
                         firstCheckbox?.hide()
@@ -842,10 +922,6 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
 
-
-
-
-
         }
         dialog.show()
 
@@ -1024,5 +1100,11 @@ class SpecializationNewViewFragment : Fragment() {
 
         return ntvqflevel
     }
+
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
 
 }

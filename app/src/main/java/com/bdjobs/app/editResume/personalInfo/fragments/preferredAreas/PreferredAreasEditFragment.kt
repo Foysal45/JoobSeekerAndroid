@@ -289,6 +289,7 @@ class PreferredAreasEditFragment : Fragment() {
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acBCJobCat.setAdapter(expsAdapter)
                 acBCJobCat.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acBCJobCat.showDropDown()
                 acBCJobCat.setOnItemClickListener { _, _, position, id ->
                     d("Selected : ${acList[position + 1]} and gotStr : ${acBCJobCat.text}")
                     val inputId = ds.getCategoryIDByBanglaName(acBCJobCat.text.toString())!!
@@ -303,6 +304,8 @@ class PreferredAreasEditFragment : Fragment() {
                         else {
                             acBCJobCat.closeKeyboard(activity)
                             activity?.toast("ক্যাটাগরি ইতিমধ্যে যোগ করা হয়েছে")
+                            acBCJobCat.setText("")
+                            acBCJobCat.clearFocus()
                         }
                         tilBCJobCat.hideError()
                     } else {
@@ -311,6 +314,7 @@ class PreferredAreasEditFragment : Fragment() {
                         acBCJobCat.setText("")
                         acBCJobCat.clearFocus()
                     }
+                    acBCJobCat.clearFocus()
                 }
             }
         }

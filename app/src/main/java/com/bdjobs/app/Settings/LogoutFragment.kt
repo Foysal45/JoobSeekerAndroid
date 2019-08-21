@@ -17,8 +17,7 @@ import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.isBlueCollarUser
 import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_logout.*
-import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +46,19 @@ class LogoutFragment : Fragment() {
         communicator = activity as SettingsCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
         signOutBTN.setOnClickListener {
-            logout()
+            try {
+                alert("Are you sure you want to Sign out?") {
+                    yesButton {
+                        logout()
+                    }
+                    noButton { dialog ->
+                        dialog.dismiss()
+                    }
+                }.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
+
         }
         backIV.setOnClickListener {
             communicator.backButtonPressed()
@@ -74,6 +85,7 @@ class LogoutFragment : Fragment() {
         val loadingDialog = indeterminateProgressDialog("Logging out")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
+        loadingDialog.setCancelable(false)
         ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
                 error("onFailure", t)

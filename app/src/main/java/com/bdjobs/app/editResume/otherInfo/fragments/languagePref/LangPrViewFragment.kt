@@ -39,10 +39,30 @@ class LangPrViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
+
+        //doWork()
+    }
+
+    override fun onResume() {
+        super.onResume()
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        eduCB.setDeleteButton(false)
+        if (eduCB.getBackFrom() == "") {
+            if (eduCB.getLanguageList() != null) setupRV(eduCB.getLanguageList()!!) // add message if needed in the else part
+            //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+        } else {
+            //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+            doWork()
+        }
+        eduCB.setTitle(resources.getString(R.string.title_language))
 
-        doWork()
+        fab_language_add?.setOnClickListener {
+            eduCB.goToEditInfo("addLanguage")
+        }
+
     }
 
 
@@ -68,14 +88,9 @@ class LangPrViewFragment : Fragment() {
 
 
     private fun doWork() {
+        shimmerStart()
         populateData()
-        eduCB.setDeleteButton(false)
-        eduCB.setTitle(resources.getString(R.string.title_language))
-
-        fab_language_add?.setOnClickListener {
-            eduCB.goToEditInfo("addLanguage")
-        }
-
+        eduCB.setBackFrom("")
     }
 
     private fun setupRV(items: ArrayList<LanguageDataModel>) {
@@ -89,7 +104,6 @@ class LangPrViewFragment : Fragment() {
 
     private fun populateData() {
         rv_lang_view?.hide()
-        shimmerStart()
         val call = ApiServiceMyBdjobs.create().getLanguageInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<LanguageModel> {
             override fun onFailure(call: Call<LanguageModel>, t: Throwable) {
@@ -113,11 +127,13 @@ class LangPrViewFragment : Fragment() {
 
                         arr = respo?.data as ArrayList<LanguageDataModel>
 
-                        if (arr!!.size < 3) {
-                            fab_language_add?.show()
-                            rv_lang_view.behaveYourself(fab_language_add)
-                            //activity.toast("else : ${arr?.size}")
-                        }
+                        eduCB.setLanguageList(arr!!)
+
+//                        if (arr!!.size < 3) {
+//                            fab_language_add?.show()
+//                            rv_lang_view.behaveYourself(fab_language_add)
+//                            //activity.toast("else : ${arr?.size}")
+//                        }
 
 
                         //activity.toast("${arr?.size}")

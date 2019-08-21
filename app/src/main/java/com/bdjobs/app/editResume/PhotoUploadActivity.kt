@@ -18,6 +18,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -33,6 +35,7 @@ import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdRequest
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
@@ -189,6 +192,7 @@ class PhotoUploadActivity : Activity() {
     private fun uploadPhoto() {
         progressDialog.setMessage("Uploading Photo..")
         progressDialog.show()
+        progressDialog.setCancelable(false)
         ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
             override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
                 error("onFailure", t)
@@ -237,6 +241,7 @@ class PhotoUploadActivity : Activity() {
         builder.setPositiveButton("Confirm") { dialog, which ->
             progressDialog.setMessage("Deleting Photo.....")
             progressDialog.show()
+            progressDialog.setCancelable(false)
             ApiServiceMyBdjobs.create()
                     .getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId)
                     .enqueue(object : Callback<PhotoInfoModel> {
@@ -568,11 +573,14 @@ class PhotoUploadActivity : Activity() {
         dialog?.setCancelable(true)
         dialog?.setContentView(R.layout.edit_res_photo_diaolg_layout)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
+        //dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        //window.setGravity(Gravity.CENTER);
         val deleteImageView = dialog?.findViewById<ImageView>(R.id.deleteIV)
         val photoUploadTV = dialog?.findViewById<TextView>(R.id.photoUploadTV)
         val cameraButton = dialog?.findViewById<Button>(R.id.camera_button)
         val galleryButton = dialog?.findViewById<TextView>(R.id.gallery_button)
+        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+        Constants.showNativeAd(ad_small_template!!, this@PhotoUploadActivity)
 
 
         deleteImageView?.setOnClickListener {

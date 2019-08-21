@@ -125,6 +125,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
             if (appliedJobsLists?.get(position)?.viewedByEmployer == "No") {
                 // holder?.cancelBTN?.visibility = View.VISIBLE
+                holder?.employerViewIcon.visibility = View.GONE
                 try {
                     val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
                     val todaysDate = Date()
@@ -162,14 +163,16 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             }
 
             if (appliedJobsLists?.get(position)?.status == "1") {
-                holder?.employerViewIcon?.visibility = View.VISIBLE
-                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
+                holder?.employerInteractionIcon?.visibility = View.VISIBLE
+                holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
             } else if (appliedJobsLists?.get(position)?.status == "2") {
-                holder?.employerViewIcon?.visibility = View.VISIBLE
-                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
+                holder?.employerInteractionIcon?.visibility = View.VISIBLE
+                holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
             } else if (appliedJobsLists?.get(position)?.status == "3") {
-                holder?.employerViewIcon?.visibility = View.VISIBLE
-                holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
+                holder?.employerInteractionIcon?.visibility = View.VISIBLE
+                holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
+            } else{
+                holder?.employerInteractionIcon?.visibility = View.GONE
             }
 
 
@@ -418,6 +421,7 @@ class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val PositionName = view?.findViewById(R.id.textViewPositionName) as TextView
     val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
     val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
+    val employerInteractionIcon = view?.findViewById(R.id.employerInteraction_icon) as ImageView
     val interactionBTN = view?.findViewById(R.id.interactionBTN) as MaterialButton
     val interviewBTN = view?.findViewById(R.id.interviewInvitationBTN) as MaterialButton
     val cancelBTN = view?.findViewById(R.id.CancelBTN) as MaterialButton

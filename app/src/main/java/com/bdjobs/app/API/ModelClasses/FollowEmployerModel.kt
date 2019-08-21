@@ -29,12 +29,12 @@ data class Common(
 
 data class FollowEmployerListData(
         @SerializedName("CompanyID")
-        val companyID: String?,
+        val companyID: String?="",
         @SerializedName("CompanyName")
-        val companyName: String?,
+        val companyName: String?="",
         @SerializedName("FollowedOn")
-        val followedOn: String?,
+        val followedOn: String?="",
         @SerializedName("JobCount")
-        val jobCount: String?
+        val jobCount: String?=""
 
 )

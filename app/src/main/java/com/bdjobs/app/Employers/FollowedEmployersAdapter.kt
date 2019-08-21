@@ -7,6 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +27,7 @@ import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
 
-class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val activity = context as Activity
     val dataStorage = DataStorage(context)
@@ -35,8 +38,31 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
     private var undoButtonPressed: Boolean = false
     private val employersCommunicator = activity as EmployersCommunicator
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.followed_employers, parent, false))
+    private var isLoadingAdded = false
+    private var retryPageLoad = false
+    private var errorMsg: String? = null
+
+    companion object{
+        private val ITEM = 0
+        private val LOADING = 1
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
+        val inflater = LayoutInflater.from(parent.context)
+
+        when(viewType){
+            ITEM -> {
+                val viewItem = inflater.inflate(R.layout.followed_employers, parent, false)
+                viewHolder = FollowedEmployerViewHolder(viewItem)
+            }
+            LOADING->{
+                val viewLoading = inflater.inflate(R.layout.item_progress_1, parent, false)
+                viewHolder = FollowedEmployerLoadingViewHolder(viewLoading)
+            }
+
+        }
+        return viewHolder!!
     }
 
     override fun getItemCount(): Int {
@@ -44,7 +70,33 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        when(getItemViewType(position)){
+            ITEM->{
+                val itemHolder = holder as FollowedEmployerViewHolder
+                bindViews(itemHolder,position)
+            }
+            LOADING->{
+                val itemHolder = holder as FollowedEmployerLoadingViewHolder
+                if (retryPageLoad) {
+                    itemHolder?.mErrorLayout?.visibility = View.VISIBLE
+                    itemHolder?.mProgressBar?.visibility = View.GONE
+                    itemHolder?.mErrorTxt?.text = if (errorMsg != null)
+                        errorMsg
+                    else
+                        context?.getString(R.string.error_msg_unknown)
+
+                } else {
+                    itemHolder?.mErrorLayout?.visibility = View.GONE
+                    itemHolder?.mProgressBar?.visibility = View.VISIBLE
+                }
+            }
+        }
+
+    }
+
+    private fun bindViews(holder: FollowedEmployerViewHolder, position: Int){
         try {
             holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
             holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
@@ -99,7 +151,14 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             logException(e)
         }
 
+    }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (position == followedEmployerList!!.size - 1 && isLoadingAdded) LOADING else ITEM
+    }
+
+    private fun getItem(position: Int) : FollowEmployerListData?{
+        return followedEmployerList!![position]
     }
 
     fun removeItem(position: Int) {
@@ -113,6 +172,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 followedEmployerList?.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeRemoved(position, followedEmployerList?.size!!)
+
                 try {
                     val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
                     bdjobsUserSession?.deccrementFollowedEmployer()
@@ -164,14 +224,59 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         }
     }
 
+    fun addLoadingFooter(){
+        isLoadingAdded = true
+        add(FollowEmployerListData())
+
+    }
+
+    fun removeAll() {
+        followedEmployerList?.clear()
+        notifyDataSetChanged()
+    }
+
+    fun removeLoadingFooter() {
+        isLoadingAdded = false
+
+        val position = followedEmployerList!!.size - 1
+        val result = getItem(position)
+        notifyItemRemoved(position)
+
+        if (result != null) {
+            followedEmployerList!!.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
 }
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class FollowedEmployerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
     val employerCompany = view?.findViewById(R.id.employers_company_TV) as TextView
     val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
     val followUunfollow = view?.findViewById(R.id.follow_unfollow_BTN) as MaterialButton
     val followemployersCard = view?.findViewById(R.id.follwEmp_cardview) as CardView
+}
 
+class FollowedEmployerLoadingViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
+    init {
+
+        mRetryBtn?.setOnClickListener(this)
+        mErrorLayout?.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.loadmore_retry, R.id.loadmore_errorlayout -> {
+                /*  adapter?.showRetry(false, null)
+                  mCallback?.retryPageLoad()*/
+            }
+        }
+    }
 }

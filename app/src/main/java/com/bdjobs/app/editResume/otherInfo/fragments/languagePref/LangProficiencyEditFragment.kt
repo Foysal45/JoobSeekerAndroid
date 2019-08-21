@@ -13,6 +13,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.langUpdate
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.google.android.material.chip.Chip
@@ -96,6 +97,7 @@ class LangProficiencyEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.setBackFrom(langUpdate)
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -168,7 +170,9 @@ class LangProficiencyEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            eduCB.setBackFrom(langUpdate)
                             eduCB.goBack()
+
                         }
                     }
                 } catch (e: Exception) {

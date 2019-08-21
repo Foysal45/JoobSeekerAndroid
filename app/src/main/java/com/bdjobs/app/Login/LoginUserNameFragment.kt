@@ -56,6 +56,7 @@ class LoginUserNameFragment : Fragment() {
     private var callbackManager: CallbackManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         rootView = inflater.inflate(R.layout.fragment_login_username, container, false)!!
         return rootView
     }
@@ -280,23 +281,23 @@ class LoginUserNameFragment : Fragment() {
             loginCommunicator.goToRegistrationActivity()
         }
 
-        rootView.viewTreeObserver.addOnGlobalLayoutListener {
-            try {
-                val r = Rect()
-                rootView.getWindowVisibleDisplayFrame(r)
-                val heightDiff = rootView.rootView.height - (r.bottom - r.top)
-
-                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
-                    footerIMGV?.hide()
-                } else {
-                    //ok now we know the keyboard is down...
-                    footerIMGV?.show()
-
-                }
-            } catch (e: Exception) {
-                logException(e)
-            }
-        }
+//        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+//            try {
+//                val r = Rect()
+//                rootView.getWindowVisibleDisplayFrame(r)
+//                val heightDiff = rootView.rootView.height - (r.bottom - r.top)
+//
+//                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
+//                    footerIMGV?.hide()
+//                } else {
+//                    //ok now we know the keyboard is down...
+//                    footerIMGV?.show()
+//
+//                }
+//            } catch (e: Exception) {
+//                logException(e)
+//            }
+//        }
     }
 
 

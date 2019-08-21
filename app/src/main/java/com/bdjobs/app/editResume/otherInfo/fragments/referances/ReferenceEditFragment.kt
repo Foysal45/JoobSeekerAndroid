@@ -13,6 +13,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.referUpdate
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.google.android.material.chip.Chip
@@ -134,6 +135,7 @@ class ReferenceEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.setBackFrom(referUpdate)
                         eduCB.goBack()
                     }
                 } catch (e: Exception) {
@@ -246,6 +248,7 @@ class ReferenceEditFragment : Fragment() {
                         Log.d("fklfh", "$resp")
 
                         if (resp?.statuscode == "4") {
+                            eduCB.setBackFrom(referUpdate)
                             eduCB.goBack()
                         }
                     }

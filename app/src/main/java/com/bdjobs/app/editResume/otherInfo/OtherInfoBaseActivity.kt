@@ -29,14 +29,60 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 
-class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+class OtherInfoBaseActivity : Activity(), OtherInfo,
+    ConnectivityReceiver.ConnectivityReceiverListener {
+    override fun setExtraCurricularActivity(extra: String) {
+        extraCuri = extra
+    }
 
+    override fun getExtraCurricularActivity(): String? {
+        return extraCuri
+    }
+
+    override fun setSkillDescription(desc: String) {
+        skillDescription = desc
+    }
+
+    override fun getSkillDescription(): String? {
+        return  skillDescription
+    }
+
+    override fun setSkills(skills: ArrayList<Skill?>) {
+        this.skills = skills
+    }
+
+    override fun getSkills(): ArrayList<Skill?>? {
+        return skills
+    }
+
+    override fun getReferenceList(): ArrayList<ReferenceDataModel>? {
+        return this.referenceList
+    }
+
+    override fun setReferenceList(ref: ArrayList<ReferenceDataModel>) {
+        this.referenceList = ref
+    }
+
+    override fun setLanguageList(lan: ArrayList<LanguageDataModel>) {
+        this.languageList = lan
+    }
+
+    override fun getLanguageList(): ArrayList<LanguageDataModel>? {
+        return this.languageList
+    }
+
+
+    private var skills = ArrayList<Skill?>()
 
     private var skillList = ArrayList<AddExpModel>()
-    private var skillDescription =""
-    private var extraCuri =""
+    private var skillDescription = ""
+    private var extraCuri = ""
 
-    override fun passSpecializationDataNew(data: ArrayList<AddExpModel>?, SkillDes: String, extraCuricular: String) {
+    override fun passSpecializationDataNew(
+        data: ArrayList<AddExpModel>?,
+        SkillDes: String,
+        extraCuricular: String
+    ) {
         skillList = data!!
         skillDescription = SkillDes
         extraCuri = extraCuricular
@@ -49,7 +95,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
     override fun getSkillDes(): String? {
-       return skillDescription
+        return skillDescription
     }
 
     override fun getExtraCuri(): String? {
@@ -73,21 +119,26 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     private val refernceEditFragment = ReferenceEditFragment()
     private val referenceViewFrgament = ReferencesViewFragment()
 
-  /*  private val specializationEditFragment = SpecializationEditFragment()
-    private val specializationViewFragment = SpecializationViewFragment()*/
+    /*  private val specializationEditFragment = SpecializationEditFragment()
+      private val specializationViewFragment = SpecializationViewFragment()*/
 
     private val specializationNewEditFragment = SpecializationNewEditFragment()
     private val specializationNewViewFragment = SpecializationNewViewFragment()
 
-    private  var dataReference: ReferenceDataModel = ReferenceDataModel()
-    private  var dataLanguage: LanguageDataModel = LanguageDataModel()
-    private  var dataSpecialization: SpecializationDataModel = SpecializationDataModel()
+    private var dataReference: ReferenceDataModel = ReferenceDataModel()
+    private var dataLanguage: LanguageDataModel = LanguageDataModel()
+    private var dataSpecialization: SpecializationDataModel = SpecializationDataModel()
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddOtherInfo: String
 
     private var clickPosition = -1
 
+    private var languageList: ArrayList<LanguageDataModel>? = null
+    private var referenceList: ArrayList<ReferenceDataModel>? = null
+
+//    private lateinit var extraCuricularActivity : String
+//    private lateinit var skillDescription : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +153,10 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     override fun onPostResume() {
         super.onPostResume()
-        registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(
+            internetBroadCastReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
         ConnectivityReceiver.connectivityReceiverListener = this
     }
 
@@ -114,11 +168,15 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         if (!isConnected) {
             mSnackBar = Snackbar
-                    .make(cl_otherInfo_base, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.turn_on_wifi)) {
-                        startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-                    }
-                    .setActionTextColor(resources.getColor(R.color.colorWhite))
+                .make(
+                    cl_otherInfo_base,
+                    getString(R.string.alert_no_internet),
+                    Snackbar.LENGTH_INDEFINITE
+                )
+                .setAction(getString(R.string.turn_on_wifi)) {
+                    startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                }
+                .setActionTextColor(resources.getColor(R.color.colorWhite))
             mSnackBar?.show()
         } else {
             mSnackBar?.dismiss()
@@ -128,7 +186,11 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
 
     private fun gotToFragment(name: String) {
         when (name) {
-            "specialization" -> transitFragment(specializationNewViewFragment, R.id.other_info_container, false)
+            "specialization" -> transitFragment(
+                specializationNewViewFragment,
+                R.id.other_info_container,
+                false
+            )
             "language" -> {
                 iv_OI_delete_data.hide()
                 transitFragment(languageViewFragment, R.id.other_info_container, false)
@@ -216,7 +278,7 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
                 "addLanguage" -> {
                     languageEditFrgamnet.isEdit = false
                     transitFragment(languageEditFrgamnet, R.id.other_info_container, true)
-                     
+
                 }
                 "editLanguage" -> {
                     languageEditFrgamnet.isEdit = true
@@ -287,10 +349,10 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
     override fun goBack() {
-        onBackPressed()
+
         if (Constants.isDirectCall) finish()
         cl_otherInfo_base.closeKeyboard(this@OtherInfoBaseActivity)
-
+        onBackPressed()
     }
 
     override fun passLanguageData(data: LanguageDataModel) {
@@ -310,14 +372,12 @@ class OtherInfoBaseActivity : Activity(), OtherInfo, ConnectivityReceiver.Connec
     }
 
 
-
-
     override fun setItemClick(position: Int) {
-       clickPosition = position
+        clickPosition = position
     }
 
     override fun getItemClick(): Int {
-       return clickPosition
+        return clickPosition
     }
 
     override fun showEditDialog(item: Skill?) {
