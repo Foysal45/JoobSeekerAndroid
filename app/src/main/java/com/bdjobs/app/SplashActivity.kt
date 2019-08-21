@@ -121,7 +121,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     // Notified when the permissions are accepted.
                     firstDialog?.dismiss()
                     Log.d("rakib", "on accepted")
-                    doWork(isConnected)
+                    doWork(connectionStatus)
                 }
 
                 onDenied { permissions ->
@@ -184,6 +184,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private fun doWork(connected: Boolean) {
         var mSnackBar: Snackbar? = null
+        Log.d("rakib", "connection in doWork $connected")
         if (!connected) {
             try {
                 setContentView(R.layout.no_internet)
@@ -338,7 +339,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         connectionStatus = isConnected
-        takeDecisions(connectionStatus)
+        Log.d("rakib", "connection $isConnected")
+        takeDecisions(isConnected)
         Log.d("splash", "called")
     }
 
