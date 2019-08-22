@@ -7,17 +7,17 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
-
-    override fun onMessageReceived(message: RemoteMessage?) {
-        info("message --> ${message?.data?.get("body")}")
-
-    }
-
-    override fun onNewToken(token: String?) {
-        super.onNewToken(token)
-        info( "Refreshed token --> $token")
+    override fun onNewToken(p0: String) {
+        super.onNewToken(p0)
+        info( "Refreshed token --> $p0")
         if(BdjobsUserSession(applicationContext).isLoggedIn!!) {
-            Constants.sendDeviceInformation(token, applicationContext)
+            Constants.sendDeviceInformation(p0, applicationContext)
         }
     }
+
+    override fun onMessageReceived(p0: RemoteMessage) {
+        super.onMessageReceived(p0)
+        info("message --> ${p0?.data?.get("body")}")
+    }
+
 }
