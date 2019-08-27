@@ -37,7 +37,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //----androidx for design and others
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3' //Please Don't upgrade  this library
+//    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3' //Please Don't upgrade  this library
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3' //Please Don't upgrade  this library
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation "com.google.android.material:material:1.0.0"
@@ -93,8 +94,8 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
 
     //----navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //-----google maps
     implementation "com.google.android.gms:play-services-maps:17.0.0"
@@ -105,6 +106,7 @@ dependencies {
 
     //-----google play core for app update
     implementation 'com.google.android.play:core:1.6.1'
+
 
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 

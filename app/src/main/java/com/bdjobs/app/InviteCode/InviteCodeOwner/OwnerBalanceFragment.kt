@@ -1,6 +1,10 @@
 package com.bdjobs.app.InviteCode.InviteCodeOwner
 
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeBalanceModel
 import com.bdjobs.app.API.ModelClasses.InviteCodePaymentMethodModel
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -20,18 +25,28 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.invite_code_owner_balance_fragment.*
+import kotlinx.android.synthetic.main.no_internet.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
+class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceiver.ConnectivityReceiverListener {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private var inviteCodeCommunicator: InviteCodeCommunicator? = null
     var  paymentType =""
     var accountNumber=""
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+    var mSnackBar: Snackbar? = null
+    var connectionStatus = false
+
+    companion object{
+        var i = 1
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d("rakib", "onCreateView $i++")
         return inflater.inflate(R.layout.invite_code_owner_balance_fragment, container, false)
     }
 
@@ -44,6 +59,12 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
         mapView.onResume()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("rakib", "onCreate $i++")
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onPause() {
         super.onPause()
         mapView.onPause()
@@ -52,6 +73,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
     override fun onDestroy() {
         super.onDestroy()
         mapView?.onDestroy()
+        activity!!.unregisterReceiver(internetBroadCastReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -65,8 +87,12 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onResume() {
+        Log.d("rakib", "onResumed $i++")
         super.onResume()
         mapView?.onResume()
+        ConnectivityReceiver.connectivityReceiverListener = this
+        activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
     }
 
 
@@ -78,10 +104,11 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
         bdjobsUserSession = BdjobsUserSession(activity!!)
         inviteCodeCommunicator = activity as InviteCodeCommunicator
 
-        getBalanceInfo(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())
-        getPaymentMethodType(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodeUserType())
+        Log.d("rakib", "onActivityCreated $i++")
 
-        onClicks()
+        //doWork()
+
+
     }
 
     private fun onClicks() {
@@ -191,6 +218,51 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback {
                 }
         )
 
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+
+        Log.d("rakib", "onNetworkChanged $i++")
+
+        connectionStatus = isConnected
+        Log.d("rakib", "connection $isConnected")
+
+        doWork()
+
+//        if (!isConnected) {
+//            try {
+//                mSnackBar = Snackbar
+//                        .make(owner_balance, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+//                        .setAction(getString(R.string.turn_on_wifi)) {
+//                            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+//                        }
+//                        .setActionTextColor(resources.getColor(R.color.colorWhite))
+//                mSnackBar?.show()
+//            } catch (e: Exception) {
+//            }
+//        } else{
+//
+//        }
+    }
+
+    private fun doWork(){
+        if (!connectionStatus) {
+            try {
+                mSnackBar = Snackbar
+                        .make(owner_balance, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.turn_on_wifi)) {
+                            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                        }
+                        .setActionTextColor(resources.getColor(R.color.colorWhite))
+                mSnackBar?.show()
+            } catch (e: Exception) {
+            }
+        } else{
+            mSnackBar?.dismiss()
+            getBalanceInfo(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())
+            getPaymentMethodType(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodeUserType())
+            onClicks()
+        }
     }
 
 

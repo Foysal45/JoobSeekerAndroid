@@ -6,6 +6,7 @@
     android:id="@+id/invite_code_owner_navigation">
 
     <fragment
+
         android:id="@+id/navigation_owner_invite_code"
         android:name="com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerInviteCodeFragment"
         android:label="invite_code"

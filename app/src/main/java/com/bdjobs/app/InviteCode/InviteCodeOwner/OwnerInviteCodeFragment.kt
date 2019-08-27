@@ -2,8 +2,12 @@ package com.bdjobs.app.InviteCode.InviteCodeOwner
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +19,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeCategoryAmountModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeCategoryAmountModelData
 import com.bdjobs.app.API.ModelClasses.OwnerInviteCodeModel
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
@@ -23,18 +28,24 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.getBlueCollarUserId
 import com.bdjobs.app.Utilities.logException
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.invite_code_owner_balance_fragment.*
 import kotlinx.android.synthetic.main.invite_code_owner_invite_code_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class OwnerInviteCodeFragment : Fragment() {
+class OwnerInviteCodeFragment : Fragment() , ConnectivityReceiver.ConnectivityReceiverListener{
+
+
     private var dataStorage: DataStorage? = null
     private var promoCode = "------"
     private var bdjobsUserSession: BdjobsUserSession? = null
     private var inviteCodeCommunicator: InviteCodeCommunicator? = null
     private var categoryAmountList = ArrayList<InviteCodeCategoryAmountModelData>()
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+    private var mSnackBar: Snackbar? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,12 +58,14 @@ class OwnerInviteCodeFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity!!)
         inviteCodeCommunicator = activity as InviteCodeCommunicator
         setupData()
-        getInformation(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())
+//        getInformation(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())
         onClicks()
 
     }
 
     private fun getInformation(userId: String?, decodId: String?, inviteCodepcOwnerID: String?) {
+
+        Log.d("rakib", "$userId $decodId $inviteCodepcOwnerID")
 
         ApiServiceMyBdjobs.create().getOwnerInviteCode(
                 userID = userId,
@@ -152,4 +165,42 @@ class OwnerInviteCodeFragment : Fragment() {
         shareIMGV.isEnabled = false
         categoryRL.isEnabled = false
     }
+
+    override fun onResume() {
+        super.onResume()
+        ConnectivityReceiver.connectivityReceiverListener = this
+        activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (!isConnected) {
+            try {
+                mSnackBar = Snackbar
+                        .make(owner_invite_code, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.turn_on_wifi)) {
+                            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                        }
+                        .setActionTextColor(resources.getColor(R.color.colorWhite))
+                mSnackBar?.show()
+            } catch (e: Exception) {
+            }
+        } else{
+            mSnackBar?.dismiss()
+            //setupData()
+            getInformation(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())
+            //onClicks()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mSnackBar?.dismiss()
+    }
+
+
 }
