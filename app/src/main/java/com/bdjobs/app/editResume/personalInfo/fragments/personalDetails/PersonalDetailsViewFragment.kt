@@ -64,7 +64,7 @@ class PersonalDetailsViewFragment : Fragment() {
     }
 
     private fun populateData() {
-        nsView.hide()
+        clPrefAreaView.hide()
         val call = ApiServiceMyBdjobs.create().getPersonalInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetPersInfo> {
             override fun onFailure(call: Call<GetPersInfo>, t: Throwable) {
@@ -80,7 +80,7 @@ class PersonalDetailsViewFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmerStop()
-                        nsView.show()
+                        clPrefAreaView.show()
                         val respo = response.body()
                         personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
                         setupViews(respo.data?.get(0)!!)

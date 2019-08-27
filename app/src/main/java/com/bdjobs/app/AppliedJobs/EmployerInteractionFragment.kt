@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AppliedJobModel
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
@@ -317,9 +318,13 @@ class EmployerInteractionFragment : Fragment() {
     }
 
     private fun contracted() {
-        contractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
-        contractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
-        contractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorWhite))
+//        contractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorWhite)
+//        contractedBTN.backgroundTintList = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
+//        contractedBTN.setTextColor(resources.getColor(com.bdjobs.app.R.color.colorWhite))
+
+        contractedBTN.iconTint = (ContextCompat.getColorStateList(activity,com.bdjobs.app.R.color.colorWhite))
+        contractedBTN.backgroundTintList = (ContextCompat.getColorStateList(activity,com.bdjobs.app.R.color.colorPrimary))
+        contractedBTN.setTextColor(ContextCompat.getColor(activity, com.bdjobs.app.R.color.colorWhite))
 
 
         notContractedBTN.iconTint = resources.getColorStateList(com.bdjobs.app.R.color.colorPrimary)
