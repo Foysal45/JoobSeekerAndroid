@@ -68,12 +68,13 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
     override fun onPause() {
         super.onPause()
         mapView.onPause()
+        activity!!.unregisterReceiver(internetBroadCastReceiver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mapView?.onDestroy()
-        activity!!.unregisterReceiver(internetBroadCastReceiver)
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

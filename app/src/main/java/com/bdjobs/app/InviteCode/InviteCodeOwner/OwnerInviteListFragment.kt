@@ -199,6 +199,8 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
     override fun onResume() {
         super.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this
+        activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
 
 
         Log.d("status_code", state.toString())
@@ -346,7 +348,6 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSnackBar?.dismiss()
-        activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
     override fun onDestroy() {
@@ -379,6 +380,12 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                 pendingSelected()
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity!!.unregisterReceiver(internetBroadCastReceiver)
+
     }
 
 

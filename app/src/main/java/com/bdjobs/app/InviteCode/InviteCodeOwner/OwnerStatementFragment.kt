@@ -179,9 +179,15 @@ class OwnerStatementFragment :Fragment(), ConnectivityReceiver.ConnectivityRecei
 
     }
 
+
     override fun onResume() {
         super.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity!!.unregisterReceiver(internetBroadCastReceiver)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

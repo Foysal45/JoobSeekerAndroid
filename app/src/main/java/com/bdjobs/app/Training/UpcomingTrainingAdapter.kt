@@ -24,7 +24,7 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
         holder.itemView.setOnClickListener {
             try {
 
-                val url = "http://bdjobstraining.com/trainingdetails.asp?" + trainingList?.get(position)?.detailurl
+                val url = "https://bdjobstraining.com/trainingdetails.asp?" + trainingList?.get(position)?.detailurl
                 println("my page $url")
 
                 context.startActivity<WebActivity>(
