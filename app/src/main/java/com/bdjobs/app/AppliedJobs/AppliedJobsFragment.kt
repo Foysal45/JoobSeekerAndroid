@@ -122,6 +122,7 @@ class AppliedJobsFragment : Fragment() {
         try {
             appliedJobsRV?.hide()
             favCountTV?.hide()
+
             shimmer_view_container_appliedJobList?.show()
             shimmer_view_container_appliedJobList?.startShimmerAnimation()
 
@@ -172,7 +173,7 @@ class AppliedJobsFragment : Fragment() {
 
 
                         if (!response?.body()?.data.isNullOrEmpty()) {
-                            appliedJobsRV!!.visibility = View.VISIBLE
+                            appliedJobsRV?.show()
                             var value = response.body()?.data
                             appliedJobsAdapter?.removeAll()
                             appliedJobsAdapter?.addAll(value as List<AppliedJobModelData>)

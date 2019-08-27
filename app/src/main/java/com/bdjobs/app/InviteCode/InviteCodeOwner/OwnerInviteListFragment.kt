@@ -1,8 +1,12 @@
 package com.bdjobs.app.InviteCode.InviteCodeOwner
 
 import android.app.Dialog
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +21,14 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.OwnerInviteListModel
 import com.bdjobs.app.API.ModelClasses.OwnerInviteListModelData
+import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.invite_code_owner_invite_code_fragment.*
 import kotlinx.android.synthetic.main.invite_code_owner_invite_list_fragment.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import retrofit2.Call
@@ -29,7 +36,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class OwnerInviteListFragment : Fragment() {
+class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener  {
 
     private var topBottomPadding: Int = 0
     private var leftRightPadding: Int = 0
@@ -37,6 +44,9 @@ class OwnerInviteListFragment : Fragment() {
     private var verifyStatus = "1"
     private var bdjobsUserSession: BdjobsUserSession? = null
     private var inviteCodeCommunicator: InviteCodeCommunicator? = null
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+    private var mSnackBar: Snackbar? = null
+
 
     private var dataArray : ArrayList<OwnerInviteListModelData>?=null
 
@@ -54,6 +64,8 @@ class OwnerInviteListFragment : Fragment() {
         val scale = resources.displayMetrics.density
         topBottomPadding = (8 * scale + 0.5f).toInt()
         leftRightPadding = (16 * scale + 0.5f).toInt()
+
+        //successSelected()
 
     }
 
@@ -91,6 +103,7 @@ class OwnerInviteListFragment : Fragment() {
         pendingTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
         state = 1
         verifyStatus = "0"
+        successTV.isClickable = false
         getInviteList(bdjobsUserSession?.userId!!, bdjobsUserSession?.decodId!!, inviteCodeCommunicator?.getInviteCodepcOwnerID()!!, verifyStatus)
     }
 
@@ -159,6 +172,8 @@ class OwnerInviteListFragment : Fragment() {
 
                                 }
                             }
+                            pendingTV.isClickable = true
+                            successTV.isClickable = true
                         }
                     } catch (e: Exception) {
                         logException(e)
@@ -177,12 +192,16 @@ class OwnerInviteListFragment : Fragment() {
         pendingTV.setPadding(leftRightPadding, topBottomPadding, leftRightPadding, topBottomPadding)
         state = 0
         verifyStatus = "1"
-
+        pendingTV.isClickable = false
         getInviteList(bdjobsUserSession?.userId!!, bdjobsUserSession?.decodId!!, inviteCodeCommunicator?.getInviteCodepcOwnerID()!!, verifyStatus)
     }
 
     override fun onResume() {
         super.onResume()
+        ConnectivityReceiver.connectivityReceiverListener = this
+        activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
+
 
         Log.d("status_code", state.toString())
 
@@ -325,5 +344,49 @@ class OwnerInviteListFragment : Fragment() {
             }
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mSnackBar?.dismiss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mSnackBar?.dismiss()
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (!isConnected) {
+            successTV.isClickable = false
+            pendingTV.isClickable = false
+            try {
+                mSnackBar = Snackbar
+                        .make(owner_invite_list, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.turn_on_wifi)) {
+                            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+                        }
+                        .setActionTextColor(resources.getColor(R.color.colorWhite))
+                mSnackBar?.show()
+            } catch (e: Exception) {
+            }
+        } else{
+            //successTV.isClickable = true
+            //pendingTV.isClickable = true
+            mSnackBar?.dismiss()
+            if (state == 0) {
+                successSelected()
+            }
+            if (state == 1) {
+                pendingSelected()
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity!!.unregisterReceiver(internetBroadCastReceiver)
+
+    }
+
 
 }

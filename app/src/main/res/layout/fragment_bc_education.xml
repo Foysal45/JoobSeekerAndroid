@@ -7,6 +7,7 @@
     tools:context=".Registration.blue_collar_registration.BCEducationFragment">
 
    <ScrollView
+       android:id="@+id/scrollview"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
@@ -255,7 +256,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="30dp"
         android:background="#13A10E"
         android:src="@drawable/ic_arrow_floating_white"
         app:backgroundTint="#13A10E"

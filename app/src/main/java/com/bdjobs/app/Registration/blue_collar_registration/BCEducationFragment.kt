@@ -2,6 +2,7 @@ package com.bdjobs.app.Registration.blue_collar_registration
 
 import android.app.AlertDialog
 import android.app.Fragment
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import com.bdjobs.app.Databases.External.DataStorage
@@ -40,7 +42,7 @@ class BCEducationFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         returnView = inflater.inflate(R.layout.fragment_bc_education, container, false)
         return returnView
     }
@@ -82,6 +84,7 @@ class BCEducationFragment : Fragment() {
                 registrationCommunicator.bcEducationSelected("0", eduDegree, instituteName, "0", "0")
                 registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
             } else {
+                bcEducationFAButton.hideKeyboard()
                 checkValidity()
                 Log.d("ConditionCheck", " validateCondition ${validateCondition()} 2nd ${validateConditionTwo()}")
                 if (validateCondition() || validateConditionTwo()) {
@@ -185,7 +188,7 @@ class BCEducationFragment : Fragment() {
 
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
-            activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
     }
 
@@ -243,6 +246,8 @@ class BCEducationFragment : Fragment() {
         }
         if (TextUtils.isEmpty(bcPassingYearTIET.getString())) {
             bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
+            requestFocus(bcPassingYearTIET)
+            //scrollview.scrollTo(0, bcPassingYearTIET.bottom)
 
         }else {
             bcPassingYearTIL?.isErrorEnabled = false
@@ -329,5 +334,9 @@ class BCEducationFragment : Fragment() {
         }
     }
 
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
 
 }

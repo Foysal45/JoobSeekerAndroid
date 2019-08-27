@@ -41,6 +41,9 @@ import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import com.loopj.android.http.RequestParams
+import com.squareup.picasso.LruCache
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.PicassoTools
 import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
 import droidninja.filepicker.FilePickerConst
@@ -161,6 +164,7 @@ class PhotoUploadActivity : Activity() {
 
                     if (ic_edit_photo.isVisible) {
 
+                        PicassoTools().clearCache(Picasso.get())
                         toast("Photo has been updated successfully")
 
                     } else {
@@ -312,6 +316,8 @@ class PhotoUploadActivity : Activity() {
                     Log.d("Deltete", " response ${response}")
 
 
+                    Log.d("rakib", "photo deleted")
+
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
 
@@ -325,8 +331,7 @@ class PhotoUploadActivity : Activity() {
                     photoDeleteButton?.hide()
                     editResPhotoUploadImageView?.setImageResource(R.drawable.ic_photo_upload)
                     bdjobsUserSession.updateUserPicUrl("")
-
-
+                    PicassoTools().clearCache(Picasso.get())
                     toast(photoUploadModel.message.toString())
 
                     Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")

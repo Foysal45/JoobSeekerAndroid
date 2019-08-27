@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -66,6 +67,7 @@ class PreferredAreasViewFragment : Fragment() {
 
 
     private fun populateData() {
+        Log.d("rakib", "came here")
         clPrefAreaView.hide()
         val call = ApiServiceMyBdjobs.create().getPreferredAreaInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetPreferredAreas> {
@@ -96,24 +98,31 @@ class PreferredAreasViewFragment : Fragment() {
     }
 
     private fun setupView(data: PreferredAreasData) {
+        Log.d("rakib", "came here testing")
         val preferredJobCategories = data.preferredJobCategories
         val preferredBlueCategories = data.preferredBlueCategories
         val preferredOrgTypes = data.preferredOrganizationType
         val preferredInsideBDLocs = data.inside
         val preferredOutsideBDLocs = data.outside
         //for ((i, value) in areaOfexps?.withIndex()!!)
+        Log.d("rakib", "Preffered job categories ${preferredJobCategories!!.size}")
+        removeChips(cg_functional_pref)
         preferredJobCategories?.forEach {
             addChip(it?.prefCatName!!, cg_functional_pref)
         }
+        removeChips(cg_skilled_pref)
         preferredBlueCategories?.forEach {
             addChip(it?.prefBlueCatName!!, cg_skilled_pref)
         }
+        removeChips(cg_org_type)
         preferredOrgTypes?.forEach {
             addChip(it?.prefOrgName!!, cg_org_type)
         }
+        removeChips(cg_org_pref_locs)
         preferredInsideBDLocs?.forEach {
             addChip(it?.districtName!!, cg_org_pref_locs)
         }
+        removeChips(cg_org_pref_out_locs)
         if (preferredOutsideBDLocs != null) {
             textView51.show()
             preferredOutsideBDLocs.forEach {
@@ -126,7 +135,12 @@ class PreferredAreasViewFragment : Fragment() {
     private fun addChip(input: String, cg: ChipGroup) {
         val c1 = getChip(input, R.xml.chip_highlighted)
         cg.addView(c1)
+
         //LL_ORI_Keyword?.closeKeyboard(activity)
+    }
+
+    private fun removeChips(cg:ChipGroup){
+        cg.removeAllViews()
     }
 
     private fun getChip(text: String, item: Int): Chip {

@@ -1047,7 +1047,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val allJobsButtonLayout: ConstraintLayout = viewItem?.findViewById(R.id.buttonLayout) as ConstraintLayout
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
-        val applyButton: Button = viewItem?.findViewById(R.id.applyButton) as Button
+        val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
 
         val wbsiteHeadingTV: TextView = viewItem?.findViewById(R.id.wbsiteHeadingTV) as TextView
         val websiteTV: TextView = viewItem?.findViewById(R.id.websiteTV) as TextView

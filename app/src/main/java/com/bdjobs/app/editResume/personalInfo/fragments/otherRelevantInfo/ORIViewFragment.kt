@@ -17,6 +17,7 @@ import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_ori_view.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -94,6 +95,7 @@ class ORIViewFragment : Fragment() {
         tvORISpecialQualificaiton.text = data?.specialQualifications
         val keywords = data?.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
+        removeChips()
         keyArray?.forEach {
             if (it.isNotBlank())
                 addChip(it)
@@ -106,6 +108,10 @@ class ORIViewFragment : Fragment() {
         val c1 = getChip(input, R.xml.chip_highlighted)
         entry_chip_group.addView(c1)
         LL_ORI_Keyword?.closeKeyboard(activity)
+    }
+
+    private fun removeChips(){
+       entry_chip_group.removeAllViews()
     }
 
     private fun getChip(text: String, item: Int): Chip {

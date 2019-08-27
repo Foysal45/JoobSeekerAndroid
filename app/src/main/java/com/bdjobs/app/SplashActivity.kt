@@ -48,6 +48,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.no_internet.*
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
@@ -85,6 +87,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
          mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
          mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
+        PicassoTools().clearCache(Picasso.get())
     }
 
 
