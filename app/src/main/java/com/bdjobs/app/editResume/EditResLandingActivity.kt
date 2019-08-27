@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.d
@@ -33,9 +34,14 @@ class EditResLandingActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("rakib", "called onResume")
         session = BdjobsUserSession(this@EditResLandingActivity)
         if (!session.userPicUrl.isNullOrEmpty()) {
+            Log.d("rakib", "${session.userPicUrl}")
             ivProfileImage?.loadCircularImageFromUrl(session.userPicUrl)
+        } else{
+            Log.d("rakib", "called onresume else")
+            ivProfileImage?.setImageResource(R.drawable.ic_user_thumb_small)
         }
         d("editResLanding photo:" + session.userPicUrl)
         d("editResLanding name:" + session.fullName)
@@ -207,6 +213,11 @@ class EditResLandingActivity : Activity() {
             this.setRippleColorResource(R.color.colorAccent)
             this.setTextColor(Color.parseColor("#212121"))
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("rakib", "called onRestart")
     }
 
 }
