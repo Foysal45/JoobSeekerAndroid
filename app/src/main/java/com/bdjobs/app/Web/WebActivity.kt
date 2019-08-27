@@ -73,7 +73,7 @@ class WebActivity : Activity() {
             logException(e)
         }
 
-        Log.d("bdjobsWeb", "Url: $url \nfrom: $from")
+        //Log.d("bdjobsWeb", "Url: $url \nfrom: $from")
 
         when (from) {
             "forgotuserid" -> {
