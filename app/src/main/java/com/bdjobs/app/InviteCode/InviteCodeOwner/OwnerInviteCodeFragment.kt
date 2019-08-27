@@ -200,7 +200,12 @@ class OwnerInviteCodeFragment : Fragment() , ConnectivityReceiver.ConnectivityRe
     override fun onDestroy() {
         super.onDestroy()
         mSnackBar?.dismiss()
+
     }
 
+    override fun onPause() {
+        super.onPause()
+        activity!!.unregisterReceiver(internetBroadCastReceiver)
+    }
 
 }
