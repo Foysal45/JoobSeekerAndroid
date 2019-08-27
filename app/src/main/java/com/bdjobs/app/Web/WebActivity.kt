@@ -1,10 +1,12 @@
 package com.bdjobs.app.Web
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
+import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
@@ -40,6 +42,22 @@ class WebActivity : Activity() {
         cookieManager = CookieManager.getInstance()
         cookieManager?.setAcceptCookie(true)
         cookieManager?.removeSessionCookie()
+
+    }
+
+    private fun onClick() {
+        shareIMGV.show()
+        shareIMGV.setOnClickListener {
+            shareHotJob(url)
+        }
+    }
+
+    private fun shareHotJob(url: String?) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        //sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "${jobList!!.get(position).jobTitle}")
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url)
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun getIntentData() {
@@ -69,10 +87,12 @@ class WebActivity : Activity() {
             "training" -> {
                 suggestiveSearchET.text = "Training"
                 loadUrlWithCookie(url)
+                onClick()
             }
             "hotjobs" -> {
                 suggestiveSearchET.text = "Hot Jobs"
                 loadUrlWithCookie(url)
+                onClick()
             }
             "cvview" -> {
                 suggestiveSearchET.text = "View Resume"
@@ -94,7 +114,6 @@ class WebActivity : Activity() {
         }
 
     }
-
 
     private fun loadUrlWithoutCookie(url: String?) {
         bdjobsWeb?.settings?.javaScriptEnabled = true
