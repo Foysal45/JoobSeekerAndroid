@@ -55,16 +55,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ic_home_card">
 
-                <ProgressBar
-                    android:id="@+id/lastPrgrs"
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/BdjobsCircularProgress"
-                    app:layout_constraintBottom_toBottomOf="@+id/lastSearchcounterTV"
-                    app:layout_constraintEnd_toEndOf="@+id/lastSearchcounterTV"
-                    app:layout_constraintStart_toStartOf="@+id/lastSearchcounterTV"
-                    app:layout_constraintTop_toTopOf="@+id/lastSearchcounterTV" />
 
                 <TextView
                     android:id="@+id/searchFilterTV"
@@ -155,7 +145,19 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="10" />
+                    />
+
+                <ProgressBar
+                    android:theme="@style/BdjobsCircularProgress"
+                    android:id="@+id/lastPrgrs"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/lastSearchcounterTV"
+                    app:layout_constraintEnd_toEndOf="@+id/lastSearchcounterTV"
+                    app:layout_constraintStart_toStartOf="@+id/lastSearchcounterTV"
+                    app:layout_constraintTop_toTopOf="@+id/lastSearchcounterTV" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
