@@ -291,7 +291,7 @@ class PreferredAreasEditFragment : Fragment() {
                 acBCJobCat.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acBCJobCat.showDropDown()
                 acBCJobCat.setOnItemClickListener { _, _, position, id ->
-                    d("Selected : ${acList[position + 1]} and gotStr : ${acBCJobCat.text}")
+                    //d("Selected : ${acList[position + 1]} and gotStr : ${acBCJobCat.text}")
                     val inputId = ds.getCategoryIDByBanglaName(acBCJobCat.text.toString())!!
                     if (idBCArr.size in 0..2) {
                         acBCJobCat.isEnabled = true
@@ -326,7 +326,7 @@ class PreferredAreasEditFragment : Fragment() {
                 acOrgType.setAdapter(expsAdapter)
                 acOrgType.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acOrgType.setOnItemClickListener { _, _, position, id ->
-                    d("Selected : ${acList[position + 1]} and gotStr : ${acOrgType.text}")
+                    //d("Selected : ${acList[position + 1]} and gotStr : ${acOrgType.text}")
                     val inputId = ds.getOrgIDByOrgName(acOrgType.text.toString())
                     if (idOrgArr.size in 0..11) {
                         acOrgType.isEnabled = true
@@ -366,7 +366,7 @@ class PreferredAreasEditFragment : Fragment() {
                 acInsideBD.setAdapter(expsAdapter)
                 acInsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acInsideBD.setOnItemClickListener { _, _, position, id ->
-                    d("Selected : ${acList[position + 1]} and gotStr : ${acInsideBD.text}")
+                    //d("Selected : ${acList[position + 1]} and gotStr : ${acInsideBD.text}")
                     val inputId = ds.getLocationIDByName(acInsideBD.text.toString())
                     if (idInBDArr.size in 0..14) {
                         if (!idInBDArr.contains(inputId)) {
@@ -399,7 +399,7 @@ class PreferredAreasEditFragment : Fragment() {
                 acOutsideBD.setAdapter(expsAdapter)
                 acOutsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acOutsideBD.setOnItemClickListener { _, _, position, id ->
-                    d("Selected : ${acList[position + 1]} and gotStr : ${acOutsideBD.text}")
+                    //d("Selected : ${acList[position + 1]} and gotStr : ${acOutsideBD.text}")
                     val inputId = ds.getLocationIDByName(acOutsideBD.text.toString())
                     //idOutBDArr.add(inputId!!)
                     //Log.d("acWCjobCat", "Countryarr2: idOutBDArr")
