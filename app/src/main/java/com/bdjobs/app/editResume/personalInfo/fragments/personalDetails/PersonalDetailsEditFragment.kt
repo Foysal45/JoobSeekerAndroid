@@ -98,16 +98,15 @@ class PersonalDetailsEditFragment : Fragment() {
         preloadedData()
         cbPerIsBd.setOnCheckedChangeListener { _, isChecked ->
             isNotBangladeshi = if (!isChecked) {
-                nidTIL.hide()
+                //nidTIL.hide()
                 etPerNationality.clear()
                 nationalityTIL.show()
-                etPerNationality.clear()
                 true
             } else {
-                //etPerNationality.clear()
-                etPerNationality.setText(getString(R.string.hint_bangladesh))
-                nidTIL.show()
+                etPerNationality.clear()
                 nationalityTIL.hide()
+                etPerNationality.setText(getString(R.string.hint_bangladesh))
+                //nidTIL.show()
                 false
             }
         }
@@ -215,14 +214,14 @@ class PersonalDetailsEditFragment : Fragment() {
         if (data.nationality == "Bangladeshi") {
             isNotBangladeshi = true
             cbPerIsBd.isChecked = true
-            nidTIL.show()
+            //nidTIL.show()
             nationalityTIL.hide()
         } else {
             isNotBangladeshi = false
             cbPerIsBd.isChecked = false
             //etPerNationality.clear()
-            nidTIL.hide()
-            nationalityTIL.show()
+            //nidTIL.hide()
+            //nationalityTIL.show()
         }
 
     }

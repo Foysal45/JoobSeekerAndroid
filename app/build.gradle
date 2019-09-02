@@ -59,6 +59,7 @@ dependencies {
     //------permission related
     implementation 'com.github.fondesa:kpermissions:1.0.0'
 
+
     //-----network communicator and json parsing
     implementation "com.google.code.gson:gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
