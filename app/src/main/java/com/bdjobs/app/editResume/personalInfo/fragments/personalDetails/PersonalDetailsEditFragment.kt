@@ -121,6 +121,7 @@ class PersonalDetailsEditFragment : Fragment() {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
             }
 
+            Log.d("rakib", "gender $gender marital $marital")
             if (gender.isEmpty()) activity?.toast("Please select Gender") else validation += 1
             if (marital?.isEmpty()!!) activity?.toast("Please select Marital Status") else validation += 1
             ClPersonalLayout.clearFocus()
@@ -303,6 +304,7 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
+        Log.d("rakib", data)
         val count = chipGroup.childCount
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip
@@ -310,8 +312,26 @@ class PersonalDetailsEditFragment : Fragment() {
             if (data.equalIgnoreCase(chipText)) {
                 Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
+
             }
         }
+        when (chipGroup.id) {
+            R.id.cgGender -> {
+                val chips = when (data) {
+                    "Male" -> "M"
+                    "Female" -> "F"
+                    else -> "O"
+                }
+                debug("value : $chips")
+                gender = chips
+            }
+            R.id.cgMarital -> {
+                val chips = dataStorage.getMaritalIDByMaritalStatus(data)
+                marital = chips
+                debug("value : $chips")
+            }
+        }
+
     }
 
 }
