@@ -136,6 +136,9 @@
     <string name="hint.alter_email">Alternate Email</string>
     <string name="hint.objective">Objective *</string>
     <string name="special_chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 $#@!&amp;*^%`~</string>
+    <string name="chars_special">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .\'-</string>
+    <string name="chars_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
+    <string name="chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
     <string name="hint.objective_v">Objective</string>
     <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
     <string name="hint.present_salary_tk_month_v">Present Salary</string>
