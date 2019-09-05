@@ -256,6 +256,7 @@ class PreferredAreasEditFragment : Fragment() {
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acWCjobCat.setAdapter(expsAdapter)
                 acWCjobCat.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acWCjobCat.showDropDown()
                 acWCjobCat.setOnItemClickListener { _, _, position, id ->
                     d("acWCjobCat : ${acList[position + 1]} and gotStr : ${acWCjobCat.text} and $idWCArr")
                     val inputId = ds.getCategoryIDByName(acWCjobCat.text.toString())!!
@@ -271,6 +272,8 @@ class PreferredAreasEditFragment : Fragment() {
                         else {
                             acWCjobCat.closeKeyboard(activity)
                             activity?.toast("Category already added")
+                            acWCjobCat.setText("")
+                            acWCjobCat.clearFocus()
                         }
                         tilWCjobCat.hideError()
                     } else {
@@ -279,6 +282,7 @@ class PreferredAreasEditFragment : Fragment() {
                         acWCjobCat.setText("")
                         acWCjobCat.clearFocus()
                     }
+                    acWCjobCat.clearFocus()
                 }
             }
         }
@@ -325,6 +329,7 @@ class PreferredAreasEditFragment : Fragment() {
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acOrgType.setAdapter(expsAdapter)
                 acOrgType.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acOrgType.showDropDown()
                 acOrgType.setOnItemClickListener { _, _, position, id ->
                     //d("Selected : ${acList[position + 1]} and gotStr : ${acOrgType.text}")
                     val inputId = ds.getOrgIDByOrgName(acOrgType.text.toString())
@@ -339,6 +344,8 @@ class PreferredAreasEditFragment : Fragment() {
                         else {
                             acOrgType.closeKeyboard(activity)
                             activity?.toast("Organization type already added")
+                            acOrgType.setText("")
+                            acOrgType.clearFocus()
                         }
                         tilOrgType.hideError()
                     } else {
@@ -347,6 +354,7 @@ class PreferredAreasEditFragment : Fragment() {
                         acOrgType.setText("")
                         acOrgType.clearFocus()
                     }
+                    acOrgType.clearFocus()
                 }
             }
         }
@@ -365,6 +373,7 @@ class PreferredAreasEditFragment : Fragment() {
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acInsideBD.setAdapter(expsAdapter)
                 acInsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acInsideBD.showDropDown()
                 acInsideBD.setOnItemClickListener { _, _, position, id ->
                     //d("Selected : ${acList[position + 1]} and gotStr : ${acInsideBD.text}")
                     val inputId = ds.getLocationIDByName(acInsideBD.text.toString())
@@ -379,6 +388,8 @@ class PreferredAreasEditFragment : Fragment() {
                         else {
                             acInsideBD.closeKeyboard(activity)
                             activity?.toast("District already added")
+                            acInsideBD.setText("")
+                            acInsideBD.clearFocus()
                         }
                         tilInsideBD.hideError()
                     } else {
@@ -387,6 +398,7 @@ class PreferredAreasEditFragment : Fragment() {
                         acInsideBD.setText("")
                         acInsideBD.clearFocus()
                     }
+                    acInsideBD.clearFocus()
                 }
             }
         }
@@ -398,6 +410,7 @@ class PreferredAreasEditFragment : Fragment() {
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acOutsideBD.setAdapter(expsAdapter)
                 acOutsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+                acOutsideBD.showDropDown()
                 acOutsideBD.setOnItemClickListener { _, _, position, id ->
                     //d("Selected : ${acList[position + 1]} and gotStr : ${acOutsideBD.text}")
                     val inputId = ds.getLocationIDByName(acOutsideBD.text.toString())
@@ -414,6 +427,8 @@ class PreferredAreasEditFragment : Fragment() {
                         else {
                             acOutsideBD.closeKeyboard(activity)
                             activity?.toast("Country already added")
+                            acOutsideBD.setText("")
+                            acOutsideBD.clearFocus()
                         }
                         tilOutsideBD.hideError()
                     } else {
@@ -422,6 +437,7 @@ class PreferredAreasEditFragment : Fragment() {
                         acOutsideBD.setText("")
                         acOutsideBD.clearFocus()
                     }
+                    acOutsideBD.clearFocus()
                 }
             }
         }
@@ -590,4 +606,6 @@ class PreferredAreasEditFragment : Fragment() {
         //prefWcIds = TextUtils.join(",", idWCArr)
         d("selected rmv: $idArr")
     }
+
+
 }
