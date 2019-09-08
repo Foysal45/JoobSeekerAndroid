@@ -36,7 +36,7 @@ class LangProficiencyEditFragment : Fragment() {
     private var speakingLevel = ""
     private var writingLevel = ""
     var found = false
-
+    lateinit var language : String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -228,6 +228,7 @@ class LangProficiencyEditFragment : Fragment() {
         getDataFromChipGroup(cgSpeaking)
 
         val data = eduCB.getLanguageData()
+        language = data.language!!
         hID = data.lnId.toString()
         languageTIET?.setText(data.language)
 
@@ -337,10 +338,10 @@ class LangProficiencyEditFragment : Fragment() {
 
         } else {
             if (isEdit) {
-                Log.d("rakib", "edit")
+                Log.d("rakib", "edit $language")
                 for (i in 0 until eduCB.getLanguageList()!!.size) {
                     d("rakib ${eduCB.getLanguageList()!![i].language} ${languageTIET.text} \n")
-                    if (languageTIET.text.toString().equalIgnoreCase(eduCB.getLanguageList()!!.get(i).language!!) ) {
+                    if (languageTIET.text.toString().trim().equalIgnoreCase(eduCB.getLanguageList()!!.get(i).language!!) && !languageTIET.text.toString().trim().equalIgnoreCase(language)) {
                         found = true
                         break
                     } else {
@@ -357,7 +358,7 @@ class LangProficiencyEditFragment : Fragment() {
             } else {
                 for (i in 0 until eduCB.getLanguageList()!!.size) {
                     d("rakib ${eduCB.getLanguageList()!![i].language} ${languageTIET.text} \n")
-                    if (languageTIET.text.toString().equalIgnoreCase(eduCB.getLanguageList()!![i].language!!)) {
+                    if (languageTIET.text.toString().trim().equalIgnoreCase(eduCB.getLanguageList()!![i].language!!)) {
                         found = true
                         break
                     } else {
@@ -368,11 +369,10 @@ class LangProficiencyEditFragment : Fragment() {
                     activity.toast("Language already added")
                     false
                 } else {
+                    languageTIET?.requestFocus()
                     true
                 }
             }
-            languageTIET?.requestFocus()
-            return true
         }
 
 
