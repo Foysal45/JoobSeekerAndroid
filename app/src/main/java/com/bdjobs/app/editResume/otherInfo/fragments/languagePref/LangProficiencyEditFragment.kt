@@ -35,6 +35,7 @@ class LangProficiencyEditFragment : Fragment() {
     private var readingLevel = ""
     private var speakingLevel = ""
     private var writingLevel = ""
+    var found = false
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,16 +53,16 @@ class LangProficiencyEditFragment : Fragment() {
         eduCB.setTitle(getString(R.string.title_language))
         initialization()
         doWork()
-        if (!isEdit) {
-            eduCB.setDeleteButton(false)
-            hID = "-2"
-            clearEditText()
-            hLanguageID = ""
-            d("hid val $isEdit: $hID")
-            readingLevel = ""
-            speakingLevel = ""
-            writingLevel = ""
-        }
+//        if (!isEdit) {
+//            eduCB.setDeleteButton(false)
+//            hID = "-2"
+//            clearEditText()
+//            hLanguageID = ""
+//            d("hid val $isEdit: $hID")
+//            readingLevel = ""
+//            speakingLevel = ""
+//            writingLevel = ""
+//        }
 
 
     }
@@ -134,9 +135,9 @@ class LangProficiencyEditFragment : Fragment() {
 
             if (languageValidity()) {
 
-                d("dnjhgbdjgb ${languageValidity()} and ${languageLevelValidity()}")
+//                d("dnjhgbdjgb ${languageValidity()} and ${languageLevelValidity()}")
 
-                d("dnjhgbdjgb in first condition ${languageValidity()}}")
+//                d("dnjhgbdjgb in first condition ${languageValidity()}}")
 
                 if (languageLevelValidity()) {
                     updateData()
@@ -208,6 +209,7 @@ class LangProficiencyEditFragment : Fragment() {
             writingLevel = ""
 
             d("hid val $isEdit: $hID")
+            d("rakib ${eduCB.getLanguageList()!!.size}")
         }
     }
 
@@ -327,12 +329,48 @@ class LangProficiencyEditFragment : Fragment() {
 
     private fun languageValidity(): Boolean {
 
+
         if (TextUtils.isEmpty(languageTIET?.getString())) {
             languageTIL?.showError("This Field can not be empty")
             activity.requestFocus(languageTIET)
             return false
 
         } else {
+            if (isEdit) {
+                Log.d("rakib", "edit")
+                for (i in 0 until eduCB.getLanguageList()!!.size) {
+                    d("rakib ${eduCB.getLanguageList()!![i].language} ${languageTIET.text} \n")
+                    if (languageTIET.text.toString().equalIgnoreCase(eduCB.getLanguageList()!!.get(i).language!!) ) {
+                        found = true
+                        break
+                    } else {
+                        found = false
+                    }
+                }
+                return if (found) {
+                    activity.toast("Language already added")
+                    false
+                } else {
+                    true
+                }
+
+            } else {
+                for (i in 0 until eduCB.getLanguageList()!!.size) {
+                    d("rakib ${eduCB.getLanguageList()!![i].language} ${languageTIET.text} \n")
+                    if (languageTIET.text.toString().equalIgnoreCase(eduCB.getLanguageList()!![i].language!!)) {
+                        found = true
+                        break
+                    } else {
+                        found = false
+                    }
+                }
+                return if (found) {
+                    activity.toast("Language already added")
+                    false
+                } else {
+                    true
+                }
+            }
             languageTIET?.requestFocus()
             return true
         }
