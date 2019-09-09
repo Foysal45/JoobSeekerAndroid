@@ -213,7 +213,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             try {
                 mSnackBar?.dismiss()
                 setContentView(R.layout.activity_splash)
-                version_name_tv.text = "v${getAppVersion()} (${getAppVersionCode()})"
+                version_name_tv?.text = "v${getAppVersion()} (${getAppVersionCode()})"
             } catch (e: Exception) {
             }
 
