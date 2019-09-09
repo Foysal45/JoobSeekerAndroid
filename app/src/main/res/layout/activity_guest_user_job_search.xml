@@ -158,6 +158,8 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/guestSearchBTN"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -194,5 +196,18 @@
             android:background="@drawable/ic_welcome_bg"
             android:scaleType="centerCrop" />
     </LinearLayout>
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/version_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="12345"
+        android:textColor="#717171"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.105" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

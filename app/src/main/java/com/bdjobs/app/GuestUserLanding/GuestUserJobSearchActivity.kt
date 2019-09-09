@@ -17,6 +17,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
 import com.bdjobs.app.Utilities.Constants.Companion.key_categoryET
 import com.bdjobs.app.Utilities.Constants.Companion.key_from
@@ -24,11 +25,10 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Utilities.Constants.Companion.key_jobtitleET
 import com.bdjobs.app.Utilities.Constants.Companion.key_loacationET
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
-import com.bdjobs.app.Utilities.clearTextOnDrawableRightClick
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.getString
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
+import kotlinx.android.synthetic.main.activity_guest_user_job_search.version_name_tv
+import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 
@@ -41,10 +41,13 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_user_job_search)
-
+        version_name_tv.text = "v${getAppVersion()} (${getAppVersionCode()})"
         dataStorage = DataStorage(applicationContext)
         initialization()
         onClicks()
+        textView?.setOnClickListener {
+           version_name_tv?.show()
+        }
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
@@ -166,5 +169,10 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
             editText.clearTextOnDrawableRightClick()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        version_name_tv?.hide()
     }
 }
