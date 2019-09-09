@@ -1,5 +1,6 @@
 package com.bdjobs.app.editResume.educationInfo
 
+import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -26,8 +27,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_academic_base.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 
-class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
+class AcademicBaseActivity : Activity(), EduInfo, ConnectivityReceiver.ConnectivityReceiverListener {
     override fun saveButtonClickStatus(value: Boolean) {
 
     }
@@ -81,9 +85,9 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     private val trainingViewFragment = TrainingViewFragment()
     private val professionalQLEditFragment = ProfessionalQLEditFragment()
     private val professionalQLViewFragment = ProfessionalQLViewFragment()
-    private  var datait: AcaDataItem = AcaDataItem()
-    private  var dataTr: Tr_DataItem = Tr_DataItem()
-    private  var dataPrq: ProfessionalDataModel  = ProfessionalDataModel()
+    private var datait: AcaDataItem = AcaDataItem()
+    private var dataTr: Tr_DataItem = Tr_DataItem()
+    private var dataPrq: ProfessionalDataModel = ProfessionalDataModel()
     private lateinit var dataStorage: DataStorage
     lateinit var name: String
     lateinit var gotToAddEmployment: String
@@ -118,13 +122,24 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
             iv_delete_data?.show()
             iv_delete_data?.setOnClickListener {
                 if (acaEditFragment.isEdit) {
-                    acaEditFragment.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton { acaEditFragment.dataDelete() }
+                        noButton {}
+                    }.show()
                 }
                 if (trainingEditFragment.isEdit) {
-                    trainingEditFragment.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton { trainingEditFragment.dataDelete() }
+                        noButton {}
+                    }.show()
+
                 }
                 if (professionalQLEditFragment.isEdit) {
-                    professionalQLEditFragment.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton { professionalQLEditFragment.dataDelete() }
+                        noButton {}
+                    }.show()
+
                 }
             }
         } else {
@@ -265,7 +280,6 @@ class AcademicBaseActivity : AppCompatActivity(), EduInfo, ConnectivityReceiver.
     override fun getProfessionalData(): ProfessionalDataModel {
         return dataPrq
     }
-
 
 
 }
