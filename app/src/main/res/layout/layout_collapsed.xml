@@ -57,6 +57,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:layout_marginRight="10dp"
                 android:textIsSelectable="true"
                 android:id="@+id/tvDes"
                 android:layout_width="wrap_content"
