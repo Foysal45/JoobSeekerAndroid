@@ -1044,7 +1044,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val tvCompanyAddress: TextView = viewItem?.findViewById(R.id.companyAddressTV) as TextView
         val keyPonits: TextView = viewItem?.findViewById(R.id.keyPoints) as TextView
         val companyLogo: ImageView = viewItem?.findViewById(R.id.company_icon) as ImageView
-        val allJobsButtonLayout: ConstraintLayout = viewItem?.findViewById(R.id.buttonLayout) as ConstraintLayout
+        val allJobsButtonLayout: RelativeLayout = viewItem?.findViewById(R.id.buttonLayout) as RelativeLayout
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
         val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
