@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 650 //658 //74
-        versionName "2.0.0.12"  //600.3.1 internal test // 2.0.0.06
+        versionCode 660 //660 //77
+        versionName "2.0.0.13"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,7 +44,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.0.2" // google sign in activity get crash without this library
 
     //----firebase
-    implementation 'com.google.firebase:firebase-core:17.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation "com.google.firebase:firebase-messaging:20.0.0"
     implementation 'com.google.firebase:firebase-perf:19.0.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
@@ -101,7 +101,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:17.0.0"
 
     //----ad manager
-    implementation 'com.google.android.gms:play-services-ads:18.1.1'
+    implementation 'com.google.android.gms:play-services-ads:18.2.0'
     implementation project(':NativeTemplatesAndroid-1.0.0')
 
     //-----google play core for app update
