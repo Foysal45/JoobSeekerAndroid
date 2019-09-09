@@ -28,6 +28,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 
 class OtherInfoBaseActivity : Activity(), OtherInfo,
     ConnectivityReceiver.ConnectivityReceiverListener {
@@ -234,10 +238,17 @@ class OtherInfoBaseActivity : Activity(), OtherInfo,
             iv_OI_delete_data?.show()
             iv_OI_delete_data?.setOnClickListener {
                 if (languageEditFrgamnet.isEdit) {
-                    languageEditFrgamnet.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton { languageEditFrgamnet.dataDelete()}
+                        noButton {}
+                    }.show()
+
                 }
                 if (refernceEditFragment.isEdit) {
-                    refernceEditFragment.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton {  refernceEditFragment.dataDelete()}
+                        noButton {}
+                    }.show()
                 }
             }
         } else {

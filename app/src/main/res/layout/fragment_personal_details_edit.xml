@@ -8,6 +8,7 @@
     tools:context=".editResume.personalInfo.fragments.personalDetails.PersonalDetailsEditFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/edit_resume_nsv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
@@ -45,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.first_name"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
+                        android:digits="@string/chars_special"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -66,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.last_name"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
+                        android:digits="@string/chars_special"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -86,8 +87,8 @@
                     android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
                     android:hint="@string/hint.father_name"
+                    android:digits="@string/chars_special"
                     android:maxLength="50"
                     android:inputType="text|textMultiLine"
                     android:textColor="#212121" />
@@ -105,8 +106,8 @@
                     android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-'"
                     android:hint="@string/hint.mother_name"
+                    android:digits="@string/chars_special"
                     android:maxLength="50"
                     android:inputType="text|textMultiLine"
                     android:textColor="#212121" />
@@ -156,7 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.religion"
-                        android:digits="@string/special_chars"
+                        android:digits="@string/chars"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -314,6 +315,26 @@
                 android:text="@string/hint.bangladeshi" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nationalityTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#757575"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPerNationality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint.nationality"
+                    android:digits="@string/chars"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nidTIL"
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
@@ -332,24 +353,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nationalityTIL"
-                style="@style/EHTextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="#757575"
-                android:visibility="gone">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPerNationality"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint.nationality"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:textColor="#212121" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 

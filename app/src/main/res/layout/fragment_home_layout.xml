@@ -8,7 +8,7 @@
     android:background="#F2F2F2"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="138dp"
@@ -26,15 +26,11 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/ic_user_thumb_small"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:clickable="true" />
 
         <TextView
             android:id="@+id/nameTV"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
@@ -42,25 +38,24 @@
             android:singleLine="true"
             android:text="TextView"
             android:textColor="#FFFFFF"
+            android:layout_toEndOf="@+id/profilePicIMGV"
+            android:layout_toStartOf="@+id/searchIMGV"
+            android:layout_marginTop="40dp"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/profilePicIMGV"
-            app:layout_constraintTop_toTopOf="@+id/profilePicIMGV"
             tools:text="John Doe" />
 
         <TextView
             android:id="@+id/emailTV"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginStart="10dp"
             android:singleLine="true"
             android:text="TextView"
+            android:layout_below="@+id/nameTV"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/profilePicIMGV"
-            app:layout_constraintEnd_toEndOf="@+id/nameTV"
-            app:layout_constraintStart_toStartOf="@+id/nameTV"
-            app:layout_constraintTop_toBottomOf="@+id/nameTV"
+            android:layout_toEndOf="@+id/profilePicIMGV"
             tools:text="username@email.com  " />
 
         <ImageView
@@ -74,11 +69,7 @@
             android:clickable="true"
             android:padding="5dp"
             android:src="@drawable/ic_search_white_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/notificationIMGV"
-            app:layout_constraintEnd_toStartOf="@+id/notificationIMGV"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/notificationIMGV" />
+            android:layout_alignParentEnd="true" />
 
         <ImageView
             android:id="@+id/notificationIMGV"
@@ -95,7 +86,7 @@
             app:layout_constraintBottom_toTopOf="@+id/nameTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="0dp"

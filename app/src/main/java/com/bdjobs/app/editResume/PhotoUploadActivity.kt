@@ -181,7 +181,7 @@ class PhotoUploadActivity : Activity() {
 
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseBody: ByteArray, error: Throwable) {
                 try {
                     Log.e("photoAPI", error.message)
                 } catch (e: Exception) {

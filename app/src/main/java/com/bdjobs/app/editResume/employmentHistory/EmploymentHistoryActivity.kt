@@ -23,6 +23,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 
 class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, EmpHisCB {
 
@@ -80,9 +83,16 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
             iv_delete_data.show()
             iv_delete_data.setOnClickListener {
                 if (editFragment.isEdit) {
-                    editFragment.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton { editFragment.dataDelete()}
+                        noButton {}
+                    }.show()
+
                 } else if (armyEditFragment.isEdit) {
-                    armyEditFragment.dataDelete()
+                    alert("Are you sure you want to delete?", "Delete") {
+                        yesButton { armyEditFragment.dataDelete()}
+                        noButton {}
+                    }.show()
                 }
             }
         } else {
