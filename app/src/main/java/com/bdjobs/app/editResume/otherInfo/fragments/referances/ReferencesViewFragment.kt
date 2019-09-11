@@ -52,10 +52,14 @@ class ReferencesViewFragment : Fragment() {
             if (eduCB.getReferenceList() != null) setupRV(eduCB.getReferenceList()!!) // add message if needed in the else part
             //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
             Log.d("rakib", "came if")
-            if(eduCB.getReferenceList()!!.size == 2)
-                fab_reference_add.hide()
-            else
-                fab_reference_add.show()
+            try {
+                if(eduCB.getReferenceList()!!.size == 2)
+                    fab_reference_add?.hide()
+                else
+                    fab_reference_add?.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
 
         } else {
             //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")

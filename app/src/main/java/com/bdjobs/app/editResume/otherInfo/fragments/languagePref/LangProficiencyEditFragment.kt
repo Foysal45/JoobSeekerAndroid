@@ -208,8 +208,8 @@ class LangProficiencyEditFragment : Fragment() {
             speakingLevel = ""
             writingLevel = ""
 
-            d("hid val $isEdit: $hID")
-            d("rakib ${eduCB.getLanguageList()!!.size}")
+          /*  d("hid val $isEdit: $hID")
+            d("rakib ${eduCB.getLanguageList()!!.size}")*/
         }
     }
 
