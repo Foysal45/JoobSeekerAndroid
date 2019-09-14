@@ -147,6 +147,25 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            empHisCB.getArmyData()?.let {
+//                                for (item in it) {
+//                                    if (item.expId!!.equalIgnoreCase(hExpID!!)) {
+//                                        empHisCB.getExpsArray()?.remove(item)
+//                                    }
+//                                }
+                                empHisCB.getArmyData().baNo1 = null
+                                empHisCB.getArmyData().baNo2 = null
+                                empHisCB.getArmyData().armId = null
+                                empHisCB.getArmyData().course = null
+                                empHisCB.getArmyData().dateOfCommission = null
+                                empHisCB.getArmyData().dateOfRetirement = null
+                                empHisCB.getArmyData().messageType = null
+                                empHisCB.getArmyData().rank = null
+                                empHisCB.getArmyData().verified = null
+                                empHisCB.getArmyData().trade = null
+                                empHisCB.getArmyData().arms = null
+                                empHisCB.getArmyData().type = null
+                            }
                             empHisCB.setBackFrom(armyEmpHistoryList)
                             empHisCB.goBack()
                         }

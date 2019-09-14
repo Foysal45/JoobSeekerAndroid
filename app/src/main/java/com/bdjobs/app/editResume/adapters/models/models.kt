@@ -80,40 +80,40 @@ data class GetArmyEmpHis(
 data class ArmydataItem(
 
         @field:SerializedName("Trade")
-        val trade: String? = null,
+        var trade: String? = null,
 
         @field:SerializedName("arm_id")
-        val armId: String? = null,
+        var armId: String? = null,
 
         @field:SerializedName("Type")
-        val type: String? = null,
+        var type: String? = null,
 
         @field:SerializedName("Verified")
-        val verified: String? = null,
+        var verified: String? = null,
 
         @field:SerializedName("messageType")
-        val messageType: String? = null,
+        var messageType: String? = null,
 
         @field:SerializedName("DateOfRetirement")
-        val dateOfRetirement: String? = null,
+        var dateOfRetirement: String? = null,
 
         @field:SerializedName("DateOfCommission")
-        val dateOfCommission: String? = null,
+        var dateOfCommission: String? = null,
 
         @field:SerializedName("Arms")
-        val arms: String? = null,
+        var arms: String? = null,
 
         @field:SerializedName("Rank")
-        val rank: String? = null,
+        var rank: String? = null,
 
         @field:SerializedName("Course")
-        val course: String? = null,
+        var course: String? = null,
 
         @field:SerializedName("ba_no1")
-        val baNo1: String? = null,
+        var baNo1: String? = null,
 
         @field:SerializedName("ba_no2")
-        val baNo2: String? = null
+        var baNo2: String? = null
 )
 
 data class AddorUpdateModel(

@@ -135,6 +135,13 @@ class ReferenceEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.getReferenceList()?.let {
+                            for (item in it) {
+                                if (item.refId!!.equalIgnoreCase(hReferenceID)) {
+                                    eduCB.getReferenceList()!!.remove(item)
+                                }
+                            }
+                        }
                         eduCB.setBackFrom(referUpdate)
                         eduCB.goBack()
                     }

@@ -36,26 +36,32 @@ class EditResLandingActivity : Activity() {
         super.onResume()
         Log.d("rakib", "called onResume")
         session = BdjobsUserSession(this@EditResLandingActivity)
-        if (!session.userPicUrl.isNullOrEmpty()) {
-            Log.d("rakib", "${session.userPicUrl}")
-            ivProfileImage?.loadCircularImageFromUrl(session.userPicUrl)
-        } else{
-            Log.d("rakib", "called onresume else")
-            ivProfileImage?.setImageResource(R.drawable.ic_user_thumb_small)
+        try {
+            if (!session.userPicUrl.isNullOrEmpty()) {
+                Log.d("rakib", "${session.userPicUrl}")
+                ivProfileImage?.loadCircularImageFromUrl(session.userPicUrl)
+            } else{
+                Log.d("rakib", "called onresume else")
+                ivProfileImage?.setImageResource(R.drawable.ic_user_thumb_small)
+            }
+        } catch (e: Exception) {
         }
         d("editResLanding photo:" + session.userPicUrl)
         d("editResLanding name:" + session.fullName)
         tvname.text = session.fullName
         tvEmail.text = session.email
 
-        if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
-            disableAll()
-            btnPerItem1?.setOnClickListener {
-                goToFragment("personal", "P")
-            }
+        try {
+            if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
+                disableAll()
+                btnPerItem1?.setOnClickListener {
+                    goToFragment("personal", "P")
+                }
 
-        } else {
-            doWork()
+            } else {
+                doWork()
+            }
+        } catch (e: Exception) {
         }
 
         icBackEr?.setOnClickListener {

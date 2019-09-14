@@ -966,6 +966,13 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.getAcademicList()?.let {
+                            for (item in it) {
+                                if (item.acId!!.equalIgnoreCase(hacaID)) {
+                                    eduCB.getAcademicList()!!.remove(item)
+                                }
+                            }
+                        }
                         eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
                     }
