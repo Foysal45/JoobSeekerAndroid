@@ -71,7 +71,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_user_thumb_small" />
+                android:src="@drawable/ic_account_circle_white" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
