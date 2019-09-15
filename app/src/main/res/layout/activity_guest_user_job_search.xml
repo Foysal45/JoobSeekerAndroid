@@ -173,11 +173,32 @@
         android:textSize="18sp"
         android:typeface="normal"
         app:backgroundTint="#13A10E"
+        app:icon="@drawable/ic_search_black_24dp"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/categoryTIL" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/guestHotJobsSearchBTN"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0"
+        android:padding="10dp"
+        android:text="Hot Jobs"
+        app:icon="@drawable/ic_hotjob"
+        app:strokeColor="#CCC"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:backgroundTint="#00000000"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/guestSearchBTN" />
 
     <LinearLayout
         android:id="@+id/googleSignInIMGV"
@@ -187,8 +208,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guestSearchBTN">
+        app:layout_constraintTop_toBottomOf="@+id/guestSearchBTN"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:layout_width="match_parent"

@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bdjobs.app">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".BackgroundJob.App"
         android:allowBackup="false"
@@ -17,69 +12,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup,android:supportsRtl"
-        >
-
-        <meta-data
-            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true" />
+        tools:replace="android:allowBackup,android:supportsRtl">
+        <activity android:name=".GuestUserLanding.HotJobsActivity"></activity>
 
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
             android:name=".Training.TrainingListAcitivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDecIbjBWc-XRZdwSgFTRWshTBugdI9cE8" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
 
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
             android:name=".ManageResume.ManageResumeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <activity
             android:name=".InviteCode.InviteCodeBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="false"
-            android:name=".Web.WebActivity"
-            android:screenOrientation="portrait" />
-
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1" /> <!-- facebook login related data start -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="true"
+            android:name=".Web.WebActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:exported="true"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:name="com.facebook.CustomTabActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -88,13 +58,13 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-        </activity> <!-- facebook login related data end -->
+        </activity>
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:name=".SplashActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,29 +72,122 @@
             </intent-filter>
         </activity>
         <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
             android:name=".GuestUserLanding.GuestUserJobSearchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <activity
             android:name=".Login.LoginBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- facebook login related data start -->
+        <activity
             android:name=".SuggestiveSearch.SuggestiveSearchActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".LoggedInUserLanding.MainLandingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main_landing"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
-        <service
-            android:name=".Notification.BdjobsFirebaseMessagingService"
-            android:stopWithTask="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <activity
+            android:name=".Jobs.JobBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".Registration.RegistrationBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- facebook login related data end -->
+        <activity
+            android:name=".FavouriteSearch.FavouriteSearchBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".Employers.EmployersBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
+        <activity
+            android:name=".editResume.EditResLandingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <activity
+            android:name=".editResume.employmentHistory.EmploymentHistoryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <activity
+            android:name=".editResume.personalInfo.PersonalInfoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".editResume.otherInfo.OtherInfoBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".editResume.educationInfo.AcademicBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".editResume.PhotoUploadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".AppliedJobs.AppliedJobsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <activity
+            android:name=".Settings.SettingBaseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDecIbjBWc-XRZdwSgFTRWshTBugdI9cE8" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
         <receiver
             android:name=".BroadCastReceivers.ConnectivityReceiver"
             android:enabled="true">
@@ -132,35 +195,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".LoggedInUserLanding.MainLandingActivity"
-            android:label="@string/title_activity_main_landing"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".Jobs.JobBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".Registration.RegistrationBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".FavouriteSearch.FavouriteSearchBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <receiver
             android:name=".BroadCastReceivers.BackgroundJobBroadcastReceiver"
             android:enabled="true"
@@ -169,57 +203,21 @@
                 <action android:name="com.bdjobs.dataBaseUpdateJob.jobComplete" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".Employers.EmployersBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:exported="false"
-            android:name=".editResume.EditResLandingActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity
-            android:exported="false"
-            android:name=".editResume.employmentHistory.EmploymentHistoryActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity
-            android:exported="false"
-            android:name=".editResume.personalInfo.PersonalInfoActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity
-            android:exported="false"
-            android:name=".editResume.otherInfo.OtherInfoBaseActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity
-            android:exported="false"
-            android:name=".editResume.educationInfo.AcademicBaseActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".editResume.PhotoUploadActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".AppliedJobs.AppliedJobsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:exported="false"
-            android:name=".Settings.SettingBaseActivity"
-            android:screenOrientation="portrait" />
+        <service
+            android:name=".Notification.BdjobsFirebaseMessagingService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

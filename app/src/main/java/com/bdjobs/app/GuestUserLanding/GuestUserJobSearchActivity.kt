@@ -123,6 +123,10 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
                     "from" to "guestuser"
             )
         }
+
+        guestHotJobsSearchBTN?.setOnClickListener {
+            startActivity<HotJobsActivity>()
+        }
     }
 
 
