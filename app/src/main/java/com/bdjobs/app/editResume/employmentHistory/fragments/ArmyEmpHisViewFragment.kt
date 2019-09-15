@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -101,6 +102,8 @@ class ArmyEmpHisViewFragment : Fragment() {
                             empHisCB.passArmyData(dModel)
                             setupViews(dModel)
                         } else {
+                            empHisCB?.passArmyData(null)
+                            armyMainCl?.hide()
                             noData = true
                             nsArmyEmp.hide()
                             tv_no_data.text = respo?.message.toString()

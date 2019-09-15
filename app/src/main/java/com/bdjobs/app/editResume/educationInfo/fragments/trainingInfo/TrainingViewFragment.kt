@@ -48,7 +48,10 @@ class TrainingViewFragment : Fragment() {
         }
 
         if (eduCB.getBackFrom() == "") {
-            if (eduCB.getTrainingList() != null) setupRV(eduCB.getTrainingList()!!) // add message if needed in the else part
+            if (eduCB.getTrainingList() != null){
+                Log.d("rakib", "back button")
+                setupRV(eduCB.getTrainingList()!!)
+            } // add message if needed in the else part
             Log.d("training", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getTrainingList()?.size}|")
         } else {
             Log.d("training1", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getTrainingList()?.size}|")
@@ -73,6 +76,7 @@ class TrainingViewFragment : Fragment() {
     }
 
     private fun populateData() {
+        Log.d("rakib", "first time add or delete")
         rv_tr_view.hide()
         shimmerStart()
         val call = ApiServiceMyBdjobs.create().getTrainingInfoList(session.userId, session.decodId)
@@ -90,9 +94,11 @@ class TrainingViewFragment : Fragment() {
             override fun onResponse(call: Call<GetTrainingInfo>, response: Response<GetTrainingInfo>) {
                 try {
                     if (response.isSuccessful) {
+                        Log.d("rakib", "add delete first time on response")
                         shimmerStop()
                         rv_tr_view?.show()
                         val respo = response.body()
+                        arr?.clear()
                         arr = respo?.data as ArrayList<Tr_DataItem>
                         eduCB.setTrainingList(arr!!)
                         //activity.toast("${arr?.size}")

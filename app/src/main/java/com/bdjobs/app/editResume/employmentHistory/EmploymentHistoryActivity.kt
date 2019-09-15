@@ -121,7 +121,7 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         this.datait = data
     }
 
-    override fun passArmyData(data: ArmydataItem) {
+    override fun passArmyData(data: ArmydataItem?) {
         this.dataitArmy = data
     }
 

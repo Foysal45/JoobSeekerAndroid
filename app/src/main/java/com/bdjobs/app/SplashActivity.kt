@@ -313,14 +313,14 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private fun checkUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
 
-        appUpdateInfoTask.addOnCompleteListener {
+        appUpdateInfoTask?.addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                         it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                     Log.d("UpdateCheck", "UPDATE_AVAILABLE")
-                    appUpdateManager.startUpdateFlowForResult(
+                    appUpdateManager?.startUpdateFlowForResult(
                             it.result,
                             AppUpdateType.IMMEDIATE,
                             this@SplashActivity,

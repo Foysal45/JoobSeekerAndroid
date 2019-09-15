@@ -52,13 +52,16 @@ class LangPrViewFragment : Fragment() {
         eduCB.setDeleteButton(false)
         try {
             if (eduCB.getBackFrom() == "") {
-                if (eduCB.getLanguageList() != null) setupRV(eduCB.getLanguageList()!!) // add message if needed in the else part
-                //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
-                if (eduCB.getLanguageList()!!.size > 2){
-                    fab_language_add?.hide()
-                } else {
-                    fab_language_add?.show()
+                if (eduCB.getLanguageList() != null) {
+                    setupRV(eduCB.getLanguageList()!!) // add message if needed in the else part
+                    if (eduCB.getLanguageList()!!.size > 2){
+                        fab_language_add?.hide()
+                    } else {
+                        fab_language_add?.show()
+                    }
                 }
+                //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+
             } else {
                 //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
                 doWork()

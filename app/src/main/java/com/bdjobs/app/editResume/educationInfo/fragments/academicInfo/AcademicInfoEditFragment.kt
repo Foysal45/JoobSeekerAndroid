@@ -47,7 +47,7 @@ class AcademicInfoEditFragment : Fragment() {
     private var yearList = ArrayList<String>()
     var validation = 0
     private var examdegree = ""
-    private var instSuggession = false
+    private var instSuggession = true
     private var gradeOrMarks = "0"
     private var scaleORCgpa = ""
 
