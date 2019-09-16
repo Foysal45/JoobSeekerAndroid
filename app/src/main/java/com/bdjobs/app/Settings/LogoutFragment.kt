@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.CookieManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
@@ -34,6 +35,7 @@ private const val ARG_PARAM2 = "param2"
 class LogoutFragment : Fragment() {
     private lateinit var communicator: SettingsCommunicator
     lateinit var bdjobsUserSession: BdjobsUserSession
+    val cookieManager : CookieManager = CookieManager.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -98,9 +100,11 @@ class LogoutFragment : Fragment() {
                     loadingDialog.dismiss()
                     bdjobsUserSession.logoutUser()
                     toast(response.body()?.message!!)
+                    cookieManager?.removeAllCookies(null)
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()
+                    cookieManager?.removeAllCookies(null)
                 }
             }
         })

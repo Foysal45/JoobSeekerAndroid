@@ -47,6 +47,7 @@ class ReferencesViewFragment : Fragment() {
         super.onResume()
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
+        Log.d("rakib", "${eduCB.getReferenceList()?.size}")
         eduCB.setDeleteButton(false)
         if (eduCB.getBackFrom() == "") {
             if (eduCB.getReferenceList() != null) setupRV(eduCB.getReferenceList()!!) // add message if needed in the else part

@@ -47,7 +47,7 @@ class AcademicInfoEditFragment : Fragment() {
     private var yearList = ArrayList<String>()
     var validation = 0
     private var examdegree = ""
-    private var instSuggession = false
+    private var instSuggession = true
     private var gradeOrMarks = "0"
     private var scaleORCgpa = ""
 
@@ -966,6 +966,16 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.getAcademicList()?.let {
+                            for (item in it) {
+                                try {
+                                    if (item.acId!!.equalIgnoreCase(hacaID)) {
+                                        eduCB.getAcademicList()!!.remove(item)
+                                    }
+                                } catch (e: Exception) {
+                                }
+                            }
+                        }
                         eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
                     }

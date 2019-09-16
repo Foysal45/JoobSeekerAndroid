@@ -300,6 +300,16 @@ class ProfessionalQLEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         clearEditText()
+                        eduCB.getProfessionalList()?.let {
+                            for (item in it) {
+                                try {
+                                    if (item.prId!!.equalIgnoreCase(hPqualificationID)) {
+                                        eduCB.getProfessionalList()!!.remove(item)
+                                    }
+                                } catch (e: Exception) {
+                                }
+                            }
+                        }
                         eduCB.setBackFrom(Constants.profUpdate)
                         eduCB.goBack()
                     }

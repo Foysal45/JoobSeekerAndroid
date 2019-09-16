@@ -140,7 +140,7 @@ class PhotoUploadActivity : Activity() {
 
         val client = AsyncHttpClient()
         client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
+            override fun onSuccess(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray) {
 
                 try {
                     val response = String(responseBody)
@@ -181,9 +181,9 @@ class PhotoUploadActivity : Activity() {
 
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseBody: ByteArray, error: Throwable) {
+            override fun onFailure(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray?, error: Throwable?) {
                 try {
-                    Log.e("photoAPI", error.message)
+                    Log.e("photoAPI", error?.message)
                 } catch (e: Exception) {
                     logException(e)
                 }

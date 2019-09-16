@@ -169,6 +169,16 @@ class TrainingEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         if (resp?.statuscode == "4") {
+                            eduCB.getTrainingList()?.let {
+                                for (item in it) {
+                                    try {
+                                        if (item.trId!!.equalIgnoreCase(hID)) {
+                                            eduCB.getTrainingList()!!.remove(item)
+                                        }
+                                    } catch (e: Exception) {
+                                    }
+                                }
+                            }
                             eduCB.setBackFrom(trUpdate)
                             eduCB.goBack()
                         }

@@ -91,7 +91,15 @@ class WebActivity : Activity() {
             }
             "hotjobs" -> {
                 suggestiveSearchET.text = "Hot Jobs"
-                loadUrlWithCookie(url)
+                try {
+                    if (!BdjobsUserSession(context = this).isLoggedIn!!){
+                        loadUrlWithoutCookie(url)
+                    }else {
+                        loadUrlWithCookie(url)
+
+                    }
+                } catch (e: Exception) {
+                }
                 onClick()
             }
             "cvview" -> {
@@ -156,6 +164,8 @@ class WebActivity : Activity() {
 
     private fun loadUrlWithCookie(url: String?) {
 
+
+        Log.d("rakib","came here")
 
         bdjobsWeb?.hide()
         shimmer_view_container_JobList?.show()

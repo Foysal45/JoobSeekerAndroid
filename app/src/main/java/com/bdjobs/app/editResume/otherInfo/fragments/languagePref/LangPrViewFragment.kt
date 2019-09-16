@@ -50,12 +50,23 @@ class LangPrViewFragment : Fragment() {
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
         eduCB.setDeleteButton(false)
-        if (eduCB.getBackFrom() == "") {
-            if (eduCB.getLanguageList() != null) setupRV(eduCB.getLanguageList()!!) // add message if needed in the else part
-            //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
-        } else {
-            //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
-            doWork()
+        try {
+            if (eduCB.getBackFrom() == "") {
+                if (eduCB.getLanguageList() != null) {
+                    setupRV(eduCB.getLanguageList()!!) // add message if needed in the else part
+                    if (eduCB.getLanguageList()!!.size > 2){
+                        fab_language_add?.hide()
+                    } else {
+                        fab_language_add?.show()
+                    }
+                }
+                //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+
+            } else {
+                //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+                doWork()
+            }
+        } catch (e: Exception) {
         }
         eduCB.setTitle(resources.getString(R.string.title_language))
 
@@ -127,13 +138,19 @@ class LangPrViewFragment : Fragment() {
 
                         arr = respo?.data as ArrayList<LanguageDataModel>
 
-                        eduCB.setLanguageList(arr!!)
+                        arr?.let {
+                            eduCB.getLanguageList()?.clear()
+                            eduCB.setLanguageList(arr!!)
+                        }
 
-//                        if (arr!!.size < 3) {
-//                            fab_language_add?.show()
-//                            rv_lang_view.behaveYourself(fab_language_add)
-//                            //activity.toast("else : ${arr?.size}")
-//                        }
+                        try {
+                            if (arr!!.size < 3) {
+                                fab_language_add?.show()
+                            } else{
+                                fab_language_add?.hide()
+                            }
+                        } catch (e: Exception) {
+                        }
 
 
                         //activity.toast("${arr?.size}")

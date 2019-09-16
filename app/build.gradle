@@ -11,7 +11,7 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 79 //661 //77
+        versionCode 75 //661 //77
         versionName "2.0.0.13"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -41,7 +41,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation "com.google.android.material:material:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.1.0" // google sign in activity get crash without this library
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    // google sign in activity get crash without this library
 
     //----firebase
     implementation 'com.google.firebase:firebase-core:17.2.0'
@@ -105,11 +106,10 @@ dependencies {
     implementation project(':NativeTemplatesAndroid-1.0.0')
 
     //-----google play core for app update
-    implementation 'com.google.android.play:core:1.6.2'
+    implementation 'com.google.android.play:core:1.6.3'
 
 
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
-
 
 
 }

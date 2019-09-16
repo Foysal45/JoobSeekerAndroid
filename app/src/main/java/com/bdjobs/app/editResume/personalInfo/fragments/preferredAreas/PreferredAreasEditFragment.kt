@@ -258,7 +258,7 @@ class PreferredAreasEditFragment : Fragment() {
                 acWCjobCat.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acWCjobCat.showDropDown()
                 acWCjobCat.setOnItemClickListener { _, _, position, id ->
-                    d("acWCjobCat : ${acList[position + 1]} and gotStr : ${acWCjobCat.text} and $idWCArr")
+//                    d("acWCjobCat : ${acList[position + 1]} and gotStr : ${acWCjobCat.text} and $idWCArr")
                     val inputId = ds.getCategoryIDByName(acWCjobCat.text.toString())!!
 
                     if (idWCArr.size in 0..2) {
