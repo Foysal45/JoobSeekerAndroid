@@ -240,23 +240,32 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     }
 
     override fun onBackPressed() {
-        try {
-            alert("Are you sure you want to exit?") {
-                yesButton {
-                    if (mInterstitialAd.isLoaded) {
-                        mInterstitialAd.show()
-                    } else {
-                        Log.d("TAG", "The interstitial wasn't loaded yet.")
-                        super.onBackPressed()
-                    }
+
+        val exitDialog = Dialog(this@MainLandingActivity)
+        exitDialog?.setContentView(R.layout.dialog_exit_layout)
+        exitDialog?.setCancelable(true)
+        exitDialog?.show()
+        val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
+        val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
+        val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
+        Constants.showNativeAd(ad_small_template, this)
+
+        yesBtn?.setOnClickListener {
+            try {
+                if (mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.")
+                    super.onBackPressed()
                 }
-                noButton { dialog ->
-                    dialog.dismiss()
-                }
-            }.show()
-        } catch (e: Exception) {
-            logException(e)
+            } catch (e: Exception) {
+            }
         }
+
+        noBtn?.setOnClickListener {
+            exitDialog?.dismiss()
+        }
+
     }
 
 
