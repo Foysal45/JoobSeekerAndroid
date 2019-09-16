@@ -100,11 +100,11 @@ class LogoutFragment : Fragment() {
                     loadingDialog.dismiss()
                     bdjobsUserSession.logoutUser()
                     toast(response.body()?.message!!)
-                    cookieManager.removeAllCookies(null)
+                    cookieManager?.removeAllCookies(null)
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()
-                    cookieManager.removeAllCookies(null)
+                    cookieManager?.removeAllCookies(null)
                 }
             }
         })
