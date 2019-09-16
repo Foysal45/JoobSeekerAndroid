@@ -968,8 +968,11 @@ class AcademicInfoEditFragment : Fragment() {
                         clearEditText()
                         eduCB.getAcademicList()?.let {
                             for (item in it) {
-                                if (item.acId!!.equalIgnoreCase(hacaID)) {
-                                    eduCB.getAcademicList()!!.remove(item)
+                                try {
+                                    if (item.acId!!.equalIgnoreCase(hacaID)) {
+                                        eduCB.getAcademicList()!!.remove(item)
+                                    }
+                                } catch (e: Exception) {
                                 }
                             }
                         }

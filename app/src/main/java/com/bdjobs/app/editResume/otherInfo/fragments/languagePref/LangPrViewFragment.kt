@@ -143,12 +143,13 @@ class LangPrViewFragment : Fragment() {
                             eduCB.setLanguageList(arr!!)
                         }
 
-                        if (arr!!.size < 3) {
-                            fab_language_add?.show()
-//                            rv_lang_view.behaveYourself(fab_language_add)
-                            //activity.toast("else : ${arr?.size}")
-                        } else{
-                            fab_language_add?.hide()
+                        try {
+                            if (arr!!.size < 3) {
+                                fab_language_add?.show()
+                            } else{
+                                fab_language_add?.hide()
+                            }
+                        } catch (e: Exception) {
                         }
 
 

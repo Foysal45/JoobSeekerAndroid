@@ -137,8 +137,11 @@ class ReferenceEditFragment : Fragment() {
                         clearEditText()
                         eduCB.getReferenceList()?.let {
                             for (item in it) {
-                                if (item.refId!!.equalIgnoreCase(hReferenceID)) {
-                                    eduCB.getReferenceList()!!.remove(item)
+                                try {
+                                    if (item.refId!!.equalIgnoreCase(hReferenceID)) {
+                                        eduCB.getReferenceList()!!.remove(item)
+                                    }
+                                } catch (e: Exception) {
                                 }
                             }
                         }

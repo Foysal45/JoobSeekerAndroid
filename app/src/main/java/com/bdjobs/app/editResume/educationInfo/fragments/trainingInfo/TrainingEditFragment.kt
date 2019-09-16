@@ -171,8 +171,11 @@ class TrainingEditFragment : Fragment() {
                         if (resp?.statuscode == "4") {
                             eduCB.getTrainingList()?.let {
                                 for (item in it) {
-                                    if (item.trId!!.equalIgnoreCase(hID)) {
-                                        eduCB.getTrainingList()!!.remove(item)
+                                    try {
+                                        if (item.trId!!.equalIgnoreCase(hID)) {
+                                            eduCB.getTrainingList()!!.remove(item)
+                                        }
+                                    } catch (e: Exception) {
                                     }
                                 }
                             }

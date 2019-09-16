@@ -365,7 +365,7 @@ class LangProficiencyEditFragment : Fragment() {
                     }
 
                     return if (found) {
-                        activity.toast("Language already added")
+                        activity?.toast("Language already added")
                         false
                     } else {
                         true
@@ -382,7 +382,7 @@ class LangProficiencyEditFragment : Fragment() {
                     }
 
                     return if (found) {
-                        activity.toast("Language already added")
+                        activity?.toast("Language already added")
                         false
                     } else {
                         languageTIET?.requestFocus()

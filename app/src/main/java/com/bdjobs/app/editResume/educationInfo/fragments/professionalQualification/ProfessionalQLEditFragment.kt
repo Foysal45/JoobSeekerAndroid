@@ -302,8 +302,11 @@ class ProfessionalQLEditFragment : Fragment() {
                         clearEditText()
                         eduCB.getProfessionalList()?.let {
                             for (item in it) {
-                                if (item.prId!!.equalIgnoreCase(hPqualificationID)) {
-                                    eduCB.getProfessionalList()!!.remove(item)
+                                try {
+                                    if (item.prId!!.equalIgnoreCase(hPqualificationID)) {
+                                        eduCB.getProfessionalList()!!.remove(item)
+                                    }
+                                } catch (e: Exception) {
                                 }
                             }
                         }

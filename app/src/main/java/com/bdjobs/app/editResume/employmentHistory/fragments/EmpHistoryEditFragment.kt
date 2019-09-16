@@ -464,8 +464,11 @@ class EmpHistoryEditFragment: Fragment() {
                         val resp = response.body()
                         empHisCB.getExpsArray()?.let {
                             for (item in it) {
-                                if (item.expId!!.equalIgnoreCase(hExpID!!)) {
-                                    empHisCB.getExpsArray()?.remove(item)
+                                try {
+                                    if (item.expId!!.equalIgnoreCase(hExpID!!)) {
+                                        empHisCB.getExpsArray()?.remove(item)
+                                    }
+                                } catch (e: Exception) {
                                 }
                             }
                         }
