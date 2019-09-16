@@ -358,8 +358,11 @@ class LangProficiencyEditFragment : Fragment() {
 
                     eduCB.getLanguageList()?.let {
                         for (item in it) {
-                            if (languageTIET.text.toString().trim().equalIgnoreCase(item.language!!) && !languageTIET.text.toString().trim().equalIgnoreCase(language)) {
-                                found = true
+                            try {
+                                if (languageTIET.text.toString().trim().equalIgnoreCase(item.language!!) && !languageTIET.text.toString().trim().equalIgnoreCase(language)) {
+                                    found = true
+                                }
+                            } catch (e: Exception) {
                             }
                         }
                     }
@@ -375,8 +378,11 @@ class LangProficiencyEditFragment : Fragment() {
 
                     eduCB.getLanguageList()?.let {
                         for (item in it) {
-                            if (languageTIET.text.toString().trim().equalIgnoreCase(item.language!!)) {
-                                found = true
+                            try {
+                                if (languageTIET.text.toString().trim().equalIgnoreCase(item.language!!)) {
+                                    found = true
+                                }
+                            } catch (e: Exception) {
                             }
                         }
                     }
