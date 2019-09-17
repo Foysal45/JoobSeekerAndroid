@@ -249,7 +249,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:elevation="16dp"
-        app:srcCompat="@drawable/ic_search"
+        app:srcCompat="@drawable/ic_search_white_24dp"
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="auto"
