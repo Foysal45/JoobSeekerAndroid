@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
+import com.bdjobs.app.API.ModelClasses.MessageDataModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
@@ -33,6 +34,25 @@ import com.bdjobs.app.Utilities.transitFragment
  +-----------------------------------------------------------------------------
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
+
+    var records: Int? = null
+
+    override fun getTotalRecords(): Int? {
+        return records
+    }
+
+    override fun setTotalRecords(value: Int?) {
+         this.records = value
+    }
+
+    override fun setEmployerMessageList(employerMessageList: ArrayList<MessageDataModel>?) {
+        this.employerMessageList = employerMessageList
+    }
+
+    override fun getEmployerMessageList(): ArrayList<MessageDataModel>? {
+        return employerMessageList
+    }
+
     override fun setFollowedListSize(value: Int?) {
         if (value != null) {
             followedListSize = value
@@ -40,7 +60,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     }
 
     override fun getFollowedListSize(): Int? {
-       return  followedListSize
+        return followedListSize
     }
 
     override fun setCurrentPage(value: Int?) {
@@ -91,7 +111,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
 
     private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
-
+    private var employerMessageList: ArrayList<MessageDataModel>? = ArrayList()
 
     override fun setFollowedEmployerList(empList: ArrayList<FollowEmployerListData>?) {
         followedEmployerList = empList

@@ -1,6 +1,7 @@
 package com.bdjobs.app.Employers
 
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
+import com.bdjobs.app.API.ModelClasses.MessageDataModel
 
 interface EmployersCommunicator {
     fun backButtonPressed()
@@ -31,6 +32,11 @@ interface EmployersCommunicator {
     fun getIsLastPage():Boolean?
     fun getFollowedListSize():Int?
 
+    //Added by Rakib
+    fun getEmployerMessageList() : ArrayList<MessageDataModel>?
+    fun setEmployerMessageList(employerMessageList : ArrayList<MessageDataModel>?)
+    fun getTotalRecords(): Int?
+    fun setTotalRecords(value:Int?)
 
 
 }
