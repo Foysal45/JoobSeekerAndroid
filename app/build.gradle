@@ -11,11 +11,10 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 80 //663 //80
-        versionName "2.0.0.13"  //600.3.1 internal test // 2.0.0.06
+        versionCode 664 //664 //82
+        versionName "2.0.0.15"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
