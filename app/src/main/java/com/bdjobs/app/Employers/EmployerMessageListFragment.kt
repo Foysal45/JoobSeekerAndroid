@@ -19,6 +19,8 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_message_list.*
+import kotlinx.android.synthetic.main.fragment_employer_message_list.adView
+import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -32,11 +34,14 @@ class EmployerMessageListFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var employersCommunicator: EmployersCommunicator
     private var employerMessageListAdapter: EmployerMessageListAdapter? = null
+    private var employerMessageList: ArrayList<MessageDataModel>? = null
+
     private var PAGE_START = 1
     private var TOTAL_PAGES: Int? = null
     private var pgNo: Int = PAGE_START
     private var isLastPages = false
     private var isLoadings = false
+    var messagelistSize = 0
     var activityDate = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -75,9 +80,8 @@ class EmployerMessageListFragment : Fragment() {
 
             override fun onResponse(call: Call<EmployerMessageModel>, response: Response<EmployerMessageModel>) {
                 try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
-                    Log.d("callAppliURl", response.body()?.data.toString())
 
+//                    Log.d("rakib", "total ${employerMessageListAdapter?.itemCount}")
                     val resp_jobs = response.body()
                     val results = response.body()?.data
                     TOTAL_PAGES = resp_jobs?.common?.totalpages
@@ -86,7 +90,12 @@ class EmployerMessageListFragment : Fragment() {
                     employerMessageListAdapter?.removeLoadingFooter()
                     isLoadings = false
 
-                    employerMessageListAdapter?.addAll((results as List<MessageDataModel>?)!!)
+                    employerMessageListAdapter?.addAll((results as ArrayList<MessageDataModel>?)!!)
+
+                    employerMessageList?.addAll(results!!.filterNotNull())
+
+                    Log.d("rakib", "load more ${employerMessageList?.size}")
+
 
                     if (pgNo == TOTAL_PAGES!!) {
                         isLastPages = true
@@ -116,27 +125,75 @@ class EmployerMessageListFragment : Fragment() {
             "0"
         }
 
-        employerMessageRV?.adapter = employerMessageListAdapter
-        employerMessageRV?.setHasFixedSize(true)
-        employerMessageRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        employerMessageRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-        employerMessageRV?.addOnScrollListener(object : PaginationScrollListener((employerMessageRV?.layoutManager as LinearLayoutManager?)!!) {
-            override val isLoading: Boolean
-                get() = isLoadings
-            override val totalPageCount: Int
-                get() = TOTAL_PAGES!!
-            override val isLastPage: Boolean
-                get() = isLastPages
+        backIMV?.setOnClickListener {
+            employersCommunicator?.backButtonPressed()
+        }
 
-            override fun loadMoreItems() {
-                isLoadings = true
-                pgNo += 1
-                loadNextPage(activityDate)
+
+        try {
+            employerMessageListAdapter = EmployerMessageListAdapter(activity)
+            employerMessageRV?.adapter = employerMessageListAdapter
+            employerMessageRV?.setHasFixedSize(true)
+            employerMessageRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            employerMessageRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+
+
+            if (employersCommunicator?.getEmployerMessageList().isNullOrEmpty()) {
+                shimmer_view_container_employerMessage?.show()
+                shimmer_view_container_employerMessage?.startShimmerAnimation()
+                Log.d("rakib", "came here first page")
+                loadFirstPage(activityDate)
+            } else {
+                try {
+                    Log.d("rakib", "came here not first page ${messagelistSize}")
+                    if (employersCommunicator.getTotalRecords()!! > 1) {
+                        val styledText = "<b><font color='#13A10E'>${employersCommunicator?.getTotalRecords().toString()}</font></b> Messages from Employer(s)"
+                        messageCountTV?.text = Html.fromHtml(styledText)
+                    } else if (employersCommunicator?.getTotalRecords()?.toInt()!! <= 1 || employersCommunicator?.getTotalRecords()?.toInt()!! == null || employersCommunicator?.getTotalRecords().toString() == "0") {
+                        val styledText = "<b><font color='#13A10E'>${employersCommunicator?.getTotalRecords().toString()}</font></b> Message from Employer(s)"
+                        messageCountTV?.text = Html.fromHtml(styledText)
+                    }
+                    employerMessageListAdapter?.removeAll()
+                    employerMessageListAdapter?.addAll(employersCommunicator?.getEmployerMessageList()!!)
+                    employerMessageRV?.layoutManager?.scrollToPosition(employersCommunicator?.getPositionClicked()!!)
+                    pgNo = employersCommunicator?.getCurrentPage()!!
+//                    TOTAL_PAGES = employersCommunicator?.getTotalPage()!!
+//                    isLoadings = employersCommunicator.getIsloading()!!
+//                    isLastPages = employersCommunicator.getIsLastPage()!!
+//                    messagelistSize = employersCommunicator?.getEmployerMessageList()!!.size
+                } catch (e: Exception) {
+                }
+//                try {
+//                    if (messagelistSize > 1) {
+//                        val styledText = "<b><font color='#13A10E'>$messagelistSize</font></b> Messages from Employer(s)"
+//                        messageCountTV?.text = Html.fromHtml(styledText)
+//                    } else if (messagelistSize?.toInt()!! <= 1 || messagelistSize!! == null || messagelistSize.toString() == "0") {
+//                        val styledText = "<b><font color='#13A10E'>$messagelistSize</font></b> Message from Employer(s)"
+//                        messageCountTV?.text = Html.fromHtml(styledText)
+//                    }
+//                } catch (e: Exception) {
+//                    logException(e)
+//                }
             }
-        })
 
-        loadFirstPage(activityDate)
+            employerMessageRV?.addOnScrollListener(object : PaginationScrollListener((employerMessageRV?.layoutManager as LinearLayoutManager?)!!) {
+                override val isLoading: Boolean
+                    get() = isLoadings
+                override val totalPageCount: Int
+                    get() = TOTAL_PAGES!!
+                override val isLastPage: Boolean
+                    get() = isLastPages
 
+                override fun loadMoreItems() {
+                    isLoadings = true
+                    pgNo += 1
+                    loadNextPage(activityDate)
+                }
+            })
+
+        } catch (e: Exception) {
+            logException(e)
+        }
 
     }
 
@@ -145,21 +202,24 @@ class EmployerMessageListFragment : Fragment() {
         super.onResume()
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
+        Log.d("rakib", "${employersCommunicator?.getPositionClicked()}")
+
+
     }
 
     private fun loadFirstPage(activityDate: String) {
 
-        PAGE_START = 1
-        TOTAL_PAGES = null
-        pgNo = PAGE_START
-        isLastPages = false
-        isLoadings = false
+//        PAGE_START = 1
+//        TOTAL_PAGES = null
+//        pgNo = PAGE_START
+//        isLastPages = false
+//        isLoadings = false
 
         try {
-            employerMessageRV?.hide()
-            messageCountTV?.hide()
-            shimmer_view_container_employerMessage?.show()
-            shimmer_view_container_employerMessage?.startShimmerAnimation()
+//            employerMessageRV?.hide()
+//            messageCountTV?.hide()
+//            shimmer_view_container_employerMessage?.show()
+//            shimmer_view_container_employerMessage?.startShimmerAnimation()
 
 
             ApiServiceMyBdjobs.create().getEmployerMessageList(
@@ -184,16 +244,13 @@ class EmployerMessageListFragment : Fragment() {
                         d("fdjkghfjkg onResponse called")
                         shimmer_view_container_employerMessage?.hide()
                         shimmer_view_container_employerMessage?.stopShimmerAnimation()
+
+                        employerMessageList = response?.body()?.data as ArrayList<MessageDataModel>
                         var totalRecords = response.body()?.common?.totalMessage.toString()
-                        Log.d("totalrecords", "totalrecords  = $totalRecords")
-
-
-                      /*  val styledText1 = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employers"
-                        messageCountTV?.text = Html.fromHtml(styledText1)
-                        messageCountTV?.show()*/
-
-                        Log.d("callAppliURl", "url: ${call?.request()} and ")
+                        messagelistSize = response?.body()?.common?.totalpages?.toInt()!!
                         TOTAL_PAGES = response.body()?.common?.totalpages
+
+                        employersCommunicator?.setTotalRecords(totalRecords.toInt())
 
                         if (!response.body()?.data.isNullOrEmpty()) {
 
@@ -202,7 +259,9 @@ class EmployerMessageListFragment : Fragment() {
 
                             val value = response.body()?.data
                             try {
-                                employerMessageListAdapter?.addAll(value as List<MessageDataModel>)
+
+                                employerMessageListAdapter?.addAll(employerMessageList!!)
+                                Log.d("rakib", "total ${employerMessageList?.size!!}")
                             } catch (e: Exception) {
 
                             }
@@ -219,14 +278,14 @@ class EmployerMessageListFragment : Fragment() {
                             totalRecords = "0"
                         }
 
-                        Log.d("tot", "total = $totalRecords")
-                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employer(s)"
-                        messageCountTV.text = Html.fromHtml(styledText)
+//                        Log.d("tot", "total = $totalRecords")
+//                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employer(s)"
+//                        messageCountTV.text = Html.fromHtml(styledText)
 
                         if (totalRecords?.toInt() > 1) {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employer(s)"
                             messageCountTV?.text = Html.fromHtml(styledText)
-                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords == "0") {
+                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords.toString() == "0") {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Message from Employer(s)"
                             messageCountTV?.text = Html.fromHtml(styledText)
                         }
@@ -245,6 +304,16 @@ class EmployerMessageListFragment : Fragment() {
         } catch (e: Exception) {
             logException(e)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        employersCommunicator.setEmployerMessageList(employerMessageList)
+        employersCommunicator.setCurrentPage(pgNo)
+        employersCommunicator.setTotalPage(TOTAL_PAGES)
+        employersCommunicator.setIsloading(isLoadings)
+        employersCommunicator.setIsLastPage(isLastPages)
+        Log.d("rakib", "${employersCommunicator.getPositionClicked()}")
     }
 
 

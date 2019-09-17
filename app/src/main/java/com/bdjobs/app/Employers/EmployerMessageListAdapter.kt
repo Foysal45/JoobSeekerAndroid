@@ -114,6 +114,7 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
 
                     employersCommunicator?.setMessageId(employerMessageList?.get(position)?.messageId!!)
                     employersCommunicator?.gotoMessageDetail()
+                    employersCommunicator?.positionClicked(position)
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -144,6 +145,10 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
         }
     }
 
+    fun removeAll(){
+        employerMessageList?.clear()
+        notifyDataSetChanged()
+    }
 
     fun addLoadingFooter() {
         isLoadingAdded = true
