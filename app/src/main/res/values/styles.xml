@@ -9,6 +9,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="android:windowFullscreen">true</item>
@@ -19,6 +20,7 @@
         <item name="colorAccent">@color/colorBdjobsMajenta</item>
         <item name="android:progressBackgroundTint">#b7b7b7</item>
     </style>
+
     <style name="BdjobsCircularProgress" parent="Theme.MaterialComponents.Light">
         <item name="colorAccent">@color/colorWhite</item>
         <item name="android:progressBackgroundTint">#b7b7b7</item>
@@ -64,6 +66,7 @@
         <item name="iconSize">24dp</item>
         <item name="iconTint">#666</item>
     </style>
+
     <style name="EHTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_marginTop">25dp</item>
         <item name="android:textColorHint">#757575</item>
@@ -111,7 +114,6 @@
     </style>
 
 
-
     <style name="PickerTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabBackground">@color/colorPrimary</item>
         <item name="tabGravity">fill</item>
@@ -136,4 +138,13 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -388,5 +388,8 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="warning_agree_button">Agree</string>
     <string name="warning_agree_button_bangla">আবেদন</string>
     <string name="accept_kor">Please accept kor accept kor accept kor accept kor accept kor accept kor accept kor</string>
+    <string name="title_activity_login2_base">Login2BaseActivity</string>
+
+    <string name="pass">bXliZGpvYnM=</string>
 
 </resources>
