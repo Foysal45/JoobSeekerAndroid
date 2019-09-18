@@ -1,5 +1,6 @@
 package com.bdjobs.app.GuestUserLanding
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -25,7 +26,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HotJobsActivity : AppCompatActivity() {
+class HotJobsActivity : Activity() {
 
     private var hotjobsAdapterNew: HotjobsAdapterNew? = null
 
