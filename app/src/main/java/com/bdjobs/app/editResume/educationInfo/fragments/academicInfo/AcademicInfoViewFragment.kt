@@ -93,6 +93,7 @@ class AcademicInfoViewFragment : Fragment() {
                         shimmerStop()
                         rv_aca_view.show()
                         val respo = response.body()
+                        arr!!.clear()
                         arr = respo?.data as ArrayList<AcaDataItem>
                         eduCB.setAcademicList(arr!!)
                         //activity.toast("${arr?.size}")

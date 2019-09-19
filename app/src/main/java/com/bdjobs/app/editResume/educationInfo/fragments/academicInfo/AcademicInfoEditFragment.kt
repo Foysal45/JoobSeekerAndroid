@@ -298,7 +298,6 @@ class AcademicInfoEditFragment : Fragment() {
                                 if (cbResHide.isVisible) {
 
                                     d("Validation check 7 ")
-
                                     if (!cbResHide.isChecked) {
 
 
@@ -966,18 +965,19 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
-                        eduCB.getAcademicList()?.let {
-                            for (item in it) {
-                                try {
-                                    if (item.acId!!.equalIgnoreCase(hacaID)) {
-                                        eduCB.getAcademicList()!!.remove(item)
-                                    }
-                                } catch (e: Exception) {
-                                }
-                            }
-                        }
+//                        eduCB.getAcademicList()?.let {
+//                            for (item in it) {
+//                                try {
+//                                    if (item.acId!!.equalIgnoreCase(hacaID)) {
+//                                        eduCB.getAcademicList()!!.remove(item)
+//                                    }
+//                                } catch (e: Exception) {
+//                                }
+//                            }
+//                        }
                         eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
+                        Log.d("rakib", "go back")
                     }
                 } catch (e: Exception) {
                     //activity.stopProgressBar(loadingProgressBar)

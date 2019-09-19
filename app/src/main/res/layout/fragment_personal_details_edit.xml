@@ -38,7 +38,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColorHint="#757575">
+                    android:textColorHint="#757575"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerFirstName"
@@ -59,7 +61,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColorHint="#757575">
+                    android:textColorHint="#757575"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerLastName"
@@ -80,7 +84,9 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#757575">
+                android:textColorHint="#757575"
+                app:counterEnabled="true"
+                app:counterMaxLength="50">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerFName"
@@ -99,7 +105,9 @@
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#757575">
+                android:textColorHint="#757575"
+                app:counterEnabled="true"
+                app:counterMaxLength="50">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerMName"
@@ -110,7 +118,8 @@
                     android:digits="@string/chars_special"
                     android:maxLength="50"
                     android:inputType="text|textMultiLine"
-                    android:textColor="#212121" />
+                    android:textColor="#212121"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
