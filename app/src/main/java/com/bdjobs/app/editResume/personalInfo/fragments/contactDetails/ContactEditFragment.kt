@@ -5,6 +5,7 @@ import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,8 +84,34 @@ class ContactEditFragment : Fragment() {
         districtList?.forEach { dt ->
             districtNameList.add(dt.locationName)
         }
-        setDialog("Please Select your district", prContactDistrictTIET, districtNameList.toTypedArray())
-        setDialog("Please Select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
+
+        thanaList = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(1)?.locationId!!)
+        val thanaNameList = arrayListOf<String>()
+        thanaList?.forEach { dt ->
+            thanaNameList.add(dt.locationName)
+        }
+
+        var thanaId = thanaList?.get(1)?.locationId!!
+        contactInfo.setThana(thanaId)
+
+        postOfficeList = dataStorage.getDependentEnglishLocationByParentId(thanaList?.get(0)?.locationId!!)
+
+        val pstOfficeNameList = arrayListOf<String>()
+        if (pstOfficeNameList.isNullOrEmpty()) {
+            val otherLocation = LocationModel("Other", "-2")
+            postOfficeList?.add(otherLocation)
+        }
+        postOfficeList?.forEach { dt ->
+            pstOfficeNameList.add(dt.locationName)
+        }
+
+
+
+        setDialog("Please select your district", prContactDistrictTIET, districtNameList.toTypedArray())
+        setDialog("Please select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
+        setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
+        setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
+
     }
 
     private fun initViews() {
@@ -121,10 +148,16 @@ class ContactEditFragment : Fragment() {
             if (it.trimmedLength() >= 2)
                 contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
         }
-        contactEmailAddressTIET.easyOnTextChangedListener {
-            if (it.trimmedLength() >= 2)
-                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+//        contactEmailAddressTIET.easyOnTextChangedListener {
+//            if (it.trimmedLength() >= 2)
+//                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+//        }
+
+        contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
+            emailValidityCheck(charSequence.toString())
         }
+
+
 
         if (pmContactAddressTIETPRM.getString().isNotEmpty() || permanentInOutBD != "") {
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
@@ -408,6 +441,7 @@ class ContactEditFragment : Fragment() {
         cgPresent.clearCheck()
         try {
             data = contactInfo.getContactData()
+            Log.d("rakib",data.presentThana + " " + data.presentPostOffice)
         } catch (e: Exception) {
             logException(e)
             d("++${e.message}")
@@ -473,8 +507,12 @@ class ContactEditFragment : Fragment() {
 
         if (data.mobile.isNullOrEmpty())
             contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
-        if (data.email.isNullOrEmpty())
-            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+//        if (data.email.isNullOrEmpty())
+//            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+
+        contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
+            emailValidityCheck(charSequence.toString())
+        }
 
         if (!homePhone?.isEmpty()!!) {
             contactMobileNumber2TIET?.setText(data.homePhone)
@@ -608,7 +646,7 @@ class ContactEditFragment : Fragment() {
         presentContactCountryTIET.setOnClickListener {
 
 
-            val countryList: Array<String> = dataStorage.allCountries
+            val countryList: Array<String> = dataStorage.allCountriesWithOutBangladesh
 
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
 
@@ -617,7 +655,7 @@ class ContactEditFragment : Fragment() {
             }
         }
         permanentContactCountryTIETP.setOnClickListener {
-            val countryList: Array<String> = dataStorage.allCountries
+            val countryList: Array<String> = dataStorage.allCountriesWithOutBangladesh
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
                 permanentContactCountryTILP.requestFocus()
@@ -737,7 +775,7 @@ class ContactEditFragment : Fragment() {
                             thanaList?.forEach { dt ->
                                 thanaNameList.add(dt.locationName)
                             }
-                            setDialog("Please Select your post office", prContactThanaTIET, thanaNameList.toTypedArray())
+                            setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
                         }
                         if (editText.id == R.id.prContactThanaTIET) {
                             prContactPostOfficeTIET1?.clear()
@@ -756,7 +794,7 @@ class ContactEditFragment : Fragment() {
                             postOfficeList?.forEach { dt ->
                                 pstOfficeNameList.add(dt.locationName)
                             }
-                            setDialog("Please Select your police station", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
+                            setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
 
                         }
                         if (editText.id == R.id.prContactPostOfficeTIET1) {
@@ -783,7 +821,7 @@ class ContactEditFragment : Fragment() {
                             thanaListPm?.forEach { dt ->
                                 thanaNameList.add(dt.locationName)
                             }
-                            setDialog("Please Select your post office", pmContactThanaTIETP, thanaNameList.toTypedArray())
+                            setDialog("Please select your thana", pmContactThanaTIETP, thanaNameList.toTypedArray())
                         }
                         if (editText.id == R.id.pmContactThanaTIETP) {
                             pmContactPostOfficeTIET?.clear()
@@ -800,7 +838,7 @@ class ContactEditFragment : Fragment() {
                             postOfficeListPm?.forEach { dt ->
                                 pstOfficeNameList.add(dt.locationName)
                             }
-                            setDialog("Please Select your police station", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
+                            setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
                         }
                         if (editText.id == R.id.pmContactPostOfficeTIET) {
 
@@ -816,6 +854,57 @@ class ContactEditFragment : Fragment() {
                     }
             val dialog = builder.create()
             dialog.show()
+        }
+    }
+
+    private fun emailValidityCheck(email: String): Boolean {
+        if (true) {
+            when {
+                TextUtils.isEmpty(email) -> {
+                    contactEmailAddressTIL?.showError(getString(R.string.field_empty_error_message_common))
+                    try {
+                        requestFocus(contactEmailAddressTIET)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    return false
+                }
+                isValidEmail(email) == false -> {
+                    contactEmailAddressTIL?.showError("Email Address not valid")
+                    try {
+                        requestFocus(contactEmailAddressTIET)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    return false
+                }
+                else -> contactEmailAddressTIL?.hideError()
+            }
+            return true
+        }
+
+        return true
+    }
+
+    private fun isValidEmail(target: CharSequence): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
+    }
+
+    private fun requestFocus(view: View?) {
+        try {
+            if (view != null) {
+                try {
+                    if (view.requestFocus()) {
+                        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+        } catch (e: Exception) {
+            logException(e)
+
         }
     }
 }
