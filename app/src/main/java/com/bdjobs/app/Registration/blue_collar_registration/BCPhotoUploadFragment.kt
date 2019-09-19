@@ -184,10 +184,10 @@ class BCPhotoUploadFragment : Fragment() {
 
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
+            override fun onFailure(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray?, error: Throwable?) {
                 try {
                     try {
-                        Log.e("photoAPI", error.message)
+                        Log.e("photoAPI", error?.message)
                     } catch (e: Exception) {
                         logException(e)
                     }
