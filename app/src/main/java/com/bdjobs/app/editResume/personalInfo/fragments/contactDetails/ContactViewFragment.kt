@@ -4,6 +4,7 @@ package com.bdjobs.app.editResume.personalInfo.fragments.contactDetails
 import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,6 +94,8 @@ class ContactViewFragment : Fragment() {
         contactCB.setPostOffice(info?.presentPostOffice)
         contactCB.setPmThana(info?.permanentThana)
         contactCB.setPmPostOffice(info?.permanentPostOffice)
+        contactCB?.setPresentDistrict(info?.presentDistrict)
+        contactCB?.setPermanentDistrict(info?.permanentDistrict)
 
         var presentAddress = if (info?.presentDistrict.equals("")) "" else info?.presentVillage +
                 ", " + dataStorage.getLocationNameByID(info?.presentThana) +

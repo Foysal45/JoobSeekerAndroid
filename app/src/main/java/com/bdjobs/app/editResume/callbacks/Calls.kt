@@ -134,6 +134,10 @@ interface PersonalInfo {
     fun goBack()
     fun getBackFrom(): String?
     fun setBackFrom(from: String?)
+    fun setPresentDistrict(district : String?)
+    fun getPresentDistrict() : String?
+    fun setPermanentDistrict(district: String?)
+    fun getPermanentDistrict() : String?
 }
 
 interface TitleChange {

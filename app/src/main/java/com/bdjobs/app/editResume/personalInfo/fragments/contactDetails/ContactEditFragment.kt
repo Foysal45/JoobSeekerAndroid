@@ -85,17 +85,14 @@ class ContactEditFragment : Fragment() {
             districtNameList.add(dt.locationName)
         }
 
-        thanaList = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(1)?.locationId!!)
+        thanaList = dataStorage.getDependentEnglishLocationByParentId(contactInfo.getPresentDistrict()!!)
         val thanaNameList = arrayListOf<String>()
         thanaList?.forEach { dt ->
             thanaNameList.add(dt.locationName)
         }
 
-        var thanaId = thanaList?.get(1)?.locationId!!
-        contactInfo.setThana(thanaId)
 
-        postOfficeList = dataStorage.getDependentEnglishLocationByParentId(thanaList?.get(0)?.locationId!!)
-
+        postOfficeList = dataStorage.getDependentEnglishLocationByParentId(contactInfo.getThana()!!)
         val pstOfficeNameList = arrayListOf<String>()
         if (pstOfficeNameList.isNullOrEmpty()) {
             val otherLocation = LocationModel("Other", "-2")
@@ -106,12 +103,38 @@ class ContactEditFragment : Fragment() {
         }
 
 
+        postOfficeListPm = dataStorage.getDependentEnglishLocationByParentId(contactInfo.getPmThana()!!)
+        val permanentPostOfficeList = arrayListOf<String>()
+        if (permanentPostOfficeList.isNullOrEmpty()) {
+            val otherLocation = LocationModel("Other", "-2")
+            postOfficeListPm?.add(otherLocation)
+        }
+        postOfficeListPm?.forEach { dt ->
+            permanentPostOfficeList.add(dt.locationName)
+        }
+
+
+        pmContactPostOfficeTIET?.clear()
+        pmContactPostOfficeTIET?.setOnClickListener(null)
+
+
+        thanaListPm = dataStorage.getDependentEnglishLocationByParentId(contactInfo?.getPermanentDistrict()!!)
+        val permanentThanaList = arrayListOf<String>()
+        if (permanentThanaList.isNullOrEmpty()) {
+            val otherLocation = LocationModel("Other", "-2")
+            thanaListPm?.add(otherLocation)
+        }
+        thanaListPm?.forEach { dt ->
+            permanentThanaList.add(dt.locationName)
+        }
+
 
         setDialog("Please select your district", prContactDistrictTIET, districtNameList.toTypedArray())
         setDialog("Please select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
         setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
+        setDialog("Please select your thana", pmContactThanaTIETP, permanentThanaList.toTypedArray())
         setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
-
+        setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
     }
 
     private fun initViews() {
@@ -157,8 +180,6 @@ class ContactEditFragment : Fragment() {
             emailValidityCheck(charSequence.toString())
         }
 
-
-
         if (pmContactAddressTIETPRM.getString().isNotEmpty() || permanentInOutBD != "") {
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
             addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
@@ -171,7 +192,8 @@ class ContactEditFragment : Fragment() {
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
-            if (permanentInOutBD != "1" || permanentContactCountryTIETP.getString().isNotEmpty()) permanentContactCountryTILP.hideError()
+            if (permanentInOutBD != "1" || permanentContactCountryTIETP.getString().isNotEmpty())
+                permanentContactCountryTILP.hideError()
         }
 
         if (contactMobileNumberTIET.getString().isNotEmpty())
@@ -441,7 +463,7 @@ class ContactEditFragment : Fragment() {
         cgPresent.clearCheck()
         try {
             data = contactInfo.getContactData()
-            Log.d("rakib",data.presentThana + " " + data.presentPostOffice)
+            Log.d("rakib", data.presentThana + " " + data.presentPostOffice)
         } catch (e: Exception) {
             logException(e)
             d("++${e.message}")
@@ -755,105 +777,121 @@ class ContactEditFragment : Fragment() {
 
     private fun setDialog(title: String, editText: TextInputEditText, data: Array<String>) {
         editText.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(title)
-                    .setItems(data
-                    ) { dialog, which ->
-                        editText.setText(data[which])
 
-                        var thanaId = ""
-                        var postOfficeId = ""
 
-                        if (editText.id == R.id.prContactDistrictTIET) {
-                            prContactThanaTIET?.clear()
-                            prContactPostOfficeTIET1?.clear()
-                            prContactThanaTIET?.setOnClickListener(null)
-                            prContactPostOfficeTIET1?.setOnClickListener(null)
+            if (editText.id == R.id.prContactThanaTIET && prContactDistrictTIET.text.toString().isNullOrEmpty()) {
+                toast("Select your district first")
+            } else if (editText.id == R.id.prContactPostOfficeTIET1 && prContactThanaTIET.text.toString().isNullOrEmpty()) {
+                toast("Select your thana first")
+            } else {
+                val builder = AlertDialog.Builder(activity)
+                builder.setTitle(title)
+                        .setItems(data
+                        ) { dialog, which ->
+                            editText.setText(data[which])
 
-                            thanaList = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(which)?.locationId!!)
-                            val thanaNameList = arrayListOf<String>()
-                            thanaList?.forEach { dt ->
-                                thanaNameList.add(dt.locationName)
+                            var thanaId = contactInfo?.getPresentDistrict()!!
+                            var postOfficeId = ""
+
+                            if (editText.id == R.id.prContactDistrictTIET) {
+                                prContactThanaTIET?.clear()
+                                prContactPostOfficeTIET1?.clear()
+                                prContactThanaTIET?.setOnClickListener(null)
+                                prContactPostOfficeTIET1?.setOnClickListener(null)
+
+                                Log.d("rakib district", districtList?.get(which)?.locationId)
+
+                                contactInfo.setPresentDistrict(districtList?.get(which)?.locationId)
+                                thanaList = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(which)?.locationId!!)
+                                val thanaNameList = arrayListOf<String>()
+                                thanaList?.forEach { dt ->
+                                    thanaNameList.add(dt.locationName)
+                                }
+
+                                setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
                             }
-                            setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
+                            if (editText.id == R.id.prContactThanaTIET) {
+                                if (prContactDistrictTIET?.text.toString().isNullOrEmpty()) {
+                                    toast("Select a district first")
+                                } else {
+                                    prContactPostOfficeTIET1?.clear()
+                                    prContactPostOfficeTIET1?.setOnClickListener(null)
+
+                                    thanaId = thanaList?.get(which)?.locationId!!
+                                    contactInfo.setThana(thanaId)
+
+                                    postOfficeList = dataStorage.getDependentEnglishLocationByParentId(thanaList?.get(which)?.locationId!!)
+
+                                    val pstOfficeNameList = arrayListOf<String>()
+                                    if (pstOfficeNameList.isNullOrEmpty()) {
+                                        val otherLocation = LocationModel("Other", "-2")
+                                        postOfficeList?.add(otherLocation)
+                                    }
+                                    postOfficeList?.forEach { dt ->
+                                        pstOfficeNameList.add(dt.locationName)
+                                    }
+                                    setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
+
+                                }
+                            }
+                            if (editText.id == R.id.prContactPostOfficeTIET1) {
+
+                                postOfficeId = postOfficeList?.get(which)?.locationId!!
+                                contactInfo.setPostOffice(postOfficeId)
+                                postOffice = prContactPostOfficeTIET1.getString()
+                                locationID = if (postOffice.equals("Other", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
+                                    thanaId
+                                } else {
+                                    postOfficeId
+                                }
+                            }
+
+                            if (editText.id == R.id.pmContactDistrictTIET) {
+                                pmContactThanaTIETP?.clear()
+                                pmContactPostOfficeTIET?.clear()
+                                pmContactThanaTIETP?.setOnClickListener(null)
+                                pmContactPostOfficeTIET?.setOnClickListener(null)
+
+                                thanaListPm = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(which)?.locationId!!)
+                                val thanaNameList = arrayListOf<String>()
+
+                                thanaListPm?.forEach { dt ->
+                                    thanaNameList.add(dt.locationName)
+                                }
+                                setDialog("Please select your thana", pmContactThanaTIETP, thanaNameList.toTypedArray())
+                            }
+                            if (editText.id == R.id.pmContactThanaTIETP) {
+                                pmContactPostOfficeTIET?.clear()
+                                pmContactPostOfficeTIET?.setOnClickListener(null)
+
+                                thanaId = thanaListPm?.get(which)?.locationId!!
+                                contactInfo.setPmThana(thanaId)
+                                postOfficeListPm = dataStorage.getDependentEnglishLocationByParentId(thanaListPm?.get(which)?.locationId!!)
+                                val pstOfficeNameList = arrayListOf<String>()
+                                if (pstOfficeNameList.isNullOrEmpty()) {
+                                    val otherLocation = LocationModel("Other", "-2")
+                                    postOfficeListPm?.add(otherLocation)
+                                }
+                                postOfficeListPm?.forEach { dt ->
+                                    pstOfficeNameList.add(dt.locationName)
+                                }
+                                setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
+                            }
+                            if (editText.id == R.id.pmContactPostOfficeTIET) {
+
+                                postOfficeId = postOfficeListPm?.get(which)?.locationId!!
+                                contactInfo.setPmPostOffice(postOfficeId)
+                                postOffice = pmContactPostOfficeTIET.getString()
+                                locationID = if (postOffice.equals("Other", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
+                                    thanaId
+                                } else {
+                                    postOfficeId
+                                }
+                            }
                         }
-                        if (editText.id == R.id.prContactThanaTIET) {
-                            prContactPostOfficeTIET1?.clear()
-                            prContactPostOfficeTIET1?.setOnClickListener(null)
-
-                            thanaId = thanaList?.get(which)?.locationId!!
-                            contactInfo.setThana(thanaId)
-
-                            postOfficeList = dataStorage.getDependentEnglishLocationByParentId(thanaList?.get(which)?.locationId!!)
-
-                            val pstOfficeNameList = arrayListOf<String>()
-                            if (pstOfficeNameList.isNullOrEmpty()) {
-                                val otherLocation = LocationModel("Other", "-2")
-                                postOfficeList?.add(otherLocation)
-                            }
-                            postOfficeList?.forEach { dt ->
-                                pstOfficeNameList.add(dt.locationName)
-                            }
-                            setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
-
-                        }
-                        if (editText.id == R.id.prContactPostOfficeTIET1) {
-
-                            postOfficeId = postOfficeList?.get(which)?.locationId!!
-                            contactInfo.setPostOffice(postOfficeId)
-                            postOffice = prContactPostOfficeTIET1.getString()
-                            locationID = if (postOffice.equals("Other", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
-                                thanaId
-                            } else {
-                                postOfficeId
-                            }
-                        }
-
-                        if (editText.id == R.id.pmContactDistrictTIET) {
-                            pmContactThanaTIETP?.clear()
-                            pmContactPostOfficeTIET?.clear()
-                            pmContactThanaTIETP?.setOnClickListener(null)
-                            pmContactPostOfficeTIET?.setOnClickListener(null)
-
-                            thanaListPm = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(which)?.locationId!!)
-                            val thanaNameList = arrayListOf<String>()
-
-                            thanaListPm?.forEach { dt ->
-                                thanaNameList.add(dt.locationName)
-                            }
-                            setDialog("Please select your thana", pmContactThanaTIETP, thanaNameList.toTypedArray())
-                        }
-                        if (editText.id == R.id.pmContactThanaTIETP) {
-                            pmContactPostOfficeTIET?.clear()
-                            pmContactPostOfficeTIET?.setOnClickListener(null)
-
-                            thanaId = thanaListPm?.get(which)?.locationId!!
-                            contactInfo.setPmThana(thanaId)
-                            postOfficeListPm = dataStorage.getDependentEnglishLocationByParentId(thanaListPm?.get(which)?.locationId!!)
-                            val pstOfficeNameList = arrayListOf<String>()
-                            if (pstOfficeNameList.isNullOrEmpty()) {
-                                val otherLocation = LocationModel("Other", "-2")
-                                postOfficeListPm?.add(otherLocation)
-                            }
-                            postOfficeListPm?.forEach { dt ->
-                                pstOfficeNameList.add(dt.locationName)
-                            }
-                            setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
-                        }
-                        if (editText.id == R.id.pmContactPostOfficeTIET) {
-
-                            postOfficeId = postOfficeListPm?.get(which)?.locationId!!
-                            contactInfo.setPmPostOffice(postOfficeId)
-                            postOffice = pmContactPostOfficeTIET.getString()
-                            locationID = if (postOffice.equals("Other", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
-                                thanaId
-                            } else {
-                                postOfficeId
-                            }
-                        }
-                    }
-            val dialog = builder.create()
-            dialog.show()
+                val dialog = builder.create()
+                dialog.show()
+            }
         }
     }
 
