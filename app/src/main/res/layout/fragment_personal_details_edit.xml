@@ -166,7 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.religion"
-                        android:digits="@string/chars"
+                        android:digits="@string/charsWithSpace"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
                         android:textColor="#212121" />
@@ -336,7 +336,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.nationality"
-                    android:digits="@string/chars"
+                    android:digits="@string/special_chars"
                     android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />
