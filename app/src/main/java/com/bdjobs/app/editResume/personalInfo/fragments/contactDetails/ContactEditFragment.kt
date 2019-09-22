@@ -162,25 +162,42 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
         //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
+
+//        if (contactEmailAddressTIET?.text.toString().isNullOrEmpty()){
+//            Log.d("rakib", "email ${contactEmailAddressTIET.text.toString()}")
         addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
+//        }
+//
+//        if (contactMobileNumberTIET?.text.toString().isNullOrEmpty()){
+//            Log.d("rakib", "mobile ${contactMobileNumberTIET.text.toString()}")
+        addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
+//        }
+
+
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
+
         addTextChangedListener(presentContactCountryTIET, presentContactCountryTIL)
-        addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
+
+        addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
+        addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
+        addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
+        addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
 
         contactMobileNumberTIET.easyOnTextChangedListener {
             if (it.trimmedLength() >= 2)
                 contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
         }
-//        contactEmailAddressTIET.easyOnTextChangedListener {
-//            if (it.trimmedLength() >= 2)
-//                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
-//        }
+        contactEmailAddressTIET.easyOnTextChangedListener {
+            if (it.trimmedLength() >= 2)
+                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+        }
 
         contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
             emailValidityCheck(charSequence.toString())
         }
 
-        if (pmContactAddressTIETPRM.getString().isNotEmpty() || permanentInOutBD != "") {
+        if (pmContactAddressTIETPRM.getString().isNotEmpty()) {
+            Log.d("rakib", "ulta palta if")
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
             addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
             //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
@@ -189,6 +206,7 @@ class ContactEditFragment : Fragment() {
             addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
             addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
         } else {
+            Log.d("rakib", "ulta palta else")
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
@@ -234,67 +252,111 @@ class ContactEditFragment : Fragment() {
             d("InOutBD : $presentInOutBD and $permanentInOutBD")
             clContactEdit.closeKeyboard(activity!!)
 
-            var validation = 0
-            when (presentInOutBD) {
-                "0" -> {
-                    validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
-                    validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
-                    validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
-                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
-                    Log.d("CValidaiton", "(out 1.1) value : $validation")
+            var validationErrors = 0
+
+//            if (presentInOutBD == "0" && permanentInOutBD == "0") {
+//                if (prContactAddressTIETPR.text.toString().isNullOrEmpty() || pmContactAddressTIETPRM.text.toString().isNullOrEmpty()){
+//                    validationErrors++
+//                    toast("House No / Road / Village cannot be empty can not be empty")
+//                    if (prContactAddressTIETPR.text.toString().isNullOrEmpty())
+//                        requestFocus(prContactAddressTIETPR)
+//                    else
+//                        requestFocus(pmContactAddressTIETPRM)
+//
+//                }
+//                if (prContactDistrictTIET.text.toString().isNullOrEmpty() || pmContactDistrictTIET.text.toString().isNullOrEmpty()){
+//                    validationErrors++
+//                    toast("Please select District")
+//                    if (prContactDistrictTIET.text.toString().isNullOrEmpty())
+//                        requestFocus(prContactDistrictTIET)
+//                    else
+//                        requestFocus(pmContactDistrictTIET)
+//                }
+//
+//                if (prContactThanaTIET.text.toString().isNullOrEmpty() || pmContactThanaTIETP.text.toString().isNullOrEmpty()){
+//                    validationErrors++
+//                    toast("Please select Thana")
+//                    if (prContactThanaTIET.text.toString().isNullOrEmpty())
+//                        requestFocus(prContactThanaTIET)
+//                    else
+//                        requestFocus(pmContactThanaTIETP)
+//                }
+//            } else if (presentInOutBD == "1" && permanentInOutBD == "1") {
+//                if (presentContactCountryTIET.text.toString().isNullOrEmpty()){
+//                    validationErrors++
+//                    toast("Please select present Country")
+//                    requestFocus(presentContactCountryTIET)
+//                } else if (permanentContactCountryTIETP.text.toString().isNullOrEmpty()) {
+//                    validationErrors++
+//                    toast("Please select permanent Country")
+//                    requestFocus(permanentContactCountryTIETP)
+//                }
+//            }
+
+            if (validationErrors == 0) {
+                var validation = 0
+                when (presentInOutBD) {
+                    "0" -> {
+//                        validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
+                        validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
+                        validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+                        validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                        Log.d("CValidaiton", "(out 1.1) value : $validation")
+                    }
+                    "1" -> {
+                        validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
+                        validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                        Log.d("CValidaiton", "(out 1.2) value : $validation")
+                    }
                 }
-                "1" -> {
+
+                when (permanentInOutBD) {
+                    "1" -> {
+                        validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                        validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                        Log.d("CValidaiton", "(out 2.2) value : $validation")
+                    }
+                    "0" -> {
+                        validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
+                        validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
+                        validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
+                        validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                        Log.d("CValidaiton", "(out 2.1) value : $validation")
+                    }
+                }
+
+                if (contactEmailAddressTIET.getString().trim() == "") {
+                    validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+                }
+                if (contactMobileNumberTIET.getString().trim() == "") {
+                    validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+                }
+                if (presentInOutBD == "1") {
                     validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
-                    Log.d("CValidaiton", "(out 1.2) value : $validation")
                 }
-            }
-
-            when (permanentInOutBD) {
-                "1" -> {
+                if (permanentInOutBD == "1") {
                     validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-                    validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                    Log.d("CValidaiton", "(out 2.2) value : $validation")
                 }
-                "0" -> {
-                    validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
-                    validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
-                    validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
-                    validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                    Log.d("CValidaiton", "(out 2.1) value : $validation")
+                if (presentInOutBD == "") {
+                    activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
                 }
+                if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
+                    //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+                    activity?.stopProgressBar(loadingProgressBar)
+                }
+                if (pmContactAddressTIETPRM.getString().isEmpty() && (permanentInOutBD == "1" || permanentInOutBD == "0")) {
+                    if (pmContactAddressTIETPRM.getString().trimmedLength() < 2)
+                        contactAddressTILPRM.setError()
+                    else
+                        contactAddressTILPRM.hideError()
+                }
+
+                clContactEdit.clearFocus()
+                clContactEdit.closeKeyboard(activity)
+                Log.d("checkValid", " val : $validation ")
+                if (validation >= 6) updateData()
             }
 
-            if (contactEmailAddressTIET.getString().trim() == "") {
-                validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
-            }
-            if (contactMobileNumberTIET.getString().trim() == "") {
-                validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
-            }
-            if (presentInOutBD == "1") {
-                validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-            }
-            if (permanentInOutBD == "1") {
-                validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-            }
-            if (presentInOutBD == "") {
-                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
-            }
-            if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
-                //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
-                activity?.stopProgressBar(loadingProgressBar)
-            }
-            if (pmContactAddressTIETPRM.getString().isEmpty() && (permanentInOutBD == "1" || permanentInOutBD == "0")) {
-                if (pmContactAddressTIETPRM.getString().trimmedLength() < 2)
-                    contactAddressTILPRM.setError()
-                else
-                    contactAddressTILPRM.hideError()
-            }
-
-            clContactEdit.clearFocus()
-            clContactEdit.closeKeyboard(activity)
-            Log.d("checkValid", " val : $validation ")
-            if (validation >= 3) updateData()
             //if ()
         }
         contactAddMobileButton?.setOnClickListener {
@@ -620,25 +682,34 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun hideAllError() {
-        if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
-            contactDistrictTIL.hideError()
-            contactThanaTIL.hideError()
-            contactAddressTILPRM.hideError()
-            permanentContactCountryTILP.hideError()
-        } else {
-            contactDistrictTIL.setError()
-            contactThanaTIL.setError()
-            contactAddressTILPRM.setError()
-            permanentContactCountryTILP.setError()
-        }
+        Log.d("rakib error", "called main")
+
+//        if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
+//            contactDistrictTIL.hideError()
+//            contactThanaTIL.hideError()
+//            Log.d("rakib error", "called if")
+//            contactAddressTILPRM.hideError()
+//            permanentContactCountryTILP.hideError()
+//        } else {
+//            contactDistrictTIL.setError()
+//            contactThanaTIL.setError()
+//            contactAddressTILPRM.setError()
+//            Log.d("rakib error", "called else ")
+//
+//            permanentContactCountryTILP.setError()
+//        }
         if (permanentInOutBD == "0" && pmContactDistrictTIET.getString().isNotEmpty() && pmContactThanaTIETP.getString().isNotEmpty() && pmContactAddressTIETPRM.getString().isNotEmpty()) {
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
+            Log.d("rakib error", "called 2nd if")
+
         }
         if (permanentInOutBD == "1" && permanentContactCountryTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
             permanentContactCountryTILP.hideError()
             contactAddressTILPRM.hideError()
+            Log.d("rakib error", "called 3rd if")
+
         }
     }
 
@@ -779,10 +850,10 @@ class ContactEditFragment : Fragment() {
         editText.setOnClickListener {
 
 
-            if (editText.id == R.id.prContactThanaTIET && prContactDistrictTIET.text.toString().isNullOrEmpty()) {
-                toast("Select your district first")
-            } else if (editText.id == R.id.prContactPostOfficeTIET1 && prContactThanaTIET.text.toString().isNullOrEmpty()) {
-                toast("Select your thana first")
+            if ((editText?.id == R.id.prContactThanaTIET && prContactDistrictTIET?.text.toString().isNullOrEmpty()) || (editText.id == R.id.pmContactThanaTIETP && pmContactDistrictTIET?.text.toString().isNullOrEmpty())) {
+                toast("Please select District")
+            } else if ((editText?.id == R.id.prContactPostOfficeTIET1 && prContactThanaTIET?.text.toString().isNullOrEmpty()) || (editText.id == R.id.pmContactPostOfficeTIET && pmContactThanaTIETP?.text.toString().isNullOrEmpty())) {
+                toast("Please select Thana")
             } else {
                 val builder = AlertDialog.Builder(activity)
                 builder.setTitle(title)
@@ -896,32 +967,32 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun emailValidityCheck(email: String): Boolean {
-        if (true) {
-            when {
-                TextUtils.isEmpty(email) -> {
-                    contactEmailAddressTIL?.showError(getString(R.string.field_empty_error_message_common))
-                    try {
-                        requestFocus(contactEmailAddressTIET)
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                    return false
+//        if (true) {
+        when {
+            TextUtils.isEmpty(email) -> {
+                contactEmailAddressTIL?.showError(getString(R.string.field_empty_error_message_common))
+                try {
+                    requestFocus(contactEmailAddressTIET)
+                } catch (e: Exception) {
+                    logException(e)
                 }
-                isValidEmail(email) == false -> {
-                    contactEmailAddressTIL?.showError("Email Address not valid")
-                    try {
-                        requestFocus(contactEmailAddressTIET)
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                    return false
-                }
-                else -> contactEmailAddressTIL?.hideError()
+                return false
             }
-            return true
+            isValidEmail(email) == false -> {
+                contactEmailAddressTIL?.showError("Email Address not valid")
+                try {
+                    requestFocus(contactEmailAddressTIET)
+                } catch (e: Exception) {
+                    logException(e)
+                }
+                return false
+            }
+            else -> contactEmailAddressTIL?.hideError()
         }
-
         return true
+//        }
+
+//        return true
     }
 
     private fun isValidEmail(target: CharSequence): Boolean {
