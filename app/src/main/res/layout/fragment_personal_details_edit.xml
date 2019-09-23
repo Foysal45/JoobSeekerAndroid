@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:textColorHint="#757575"
                     app:counterEnabled="true"
-                    app:counterMaxLength="50">
+                    app:counterMaxLength="49">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerLastName"
