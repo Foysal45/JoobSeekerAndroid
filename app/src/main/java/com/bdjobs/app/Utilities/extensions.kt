@@ -239,6 +239,7 @@ fun pickDate(c: Context, now: Calendar, listener: DatePickerDialog.OnDateSetList
             now.get(Calendar.YEAR),
             now.get(Calendar.MONTH),
             now.get(Calendar.DAY_OF_MONTH))
+    dpd.datePicker.maxDate = Date().time
     dpd.show()
 }
 
