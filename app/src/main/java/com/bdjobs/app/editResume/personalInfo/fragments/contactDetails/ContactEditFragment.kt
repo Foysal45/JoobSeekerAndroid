@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.text.trimmedLength
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.External.LocationModel
@@ -68,7 +69,7 @@ class ContactEditFragment : Fragment() {
         doWork()
 
         hideAllError()
-          }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -141,7 +142,6 @@ class ContactEditFragment : Fragment() {
         setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
 
 
-
     }
 
     private fun initViews() {
@@ -193,7 +193,7 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
         addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
 
-        addTextChangedListener(contactMobileNumber1TIET,contactEmailAddressTIL1)
+        //addTextChangedListener(contactMobileNumber1TIET, contactEmailAddressTIL1)
 
         contactMobileNumberTIET.easyOnTextChangedListener {
             mobileNumberValidityCheck(it.toString())
@@ -203,15 +203,20 @@ class ContactEditFragment : Fragment() {
                 contactEmailAddressTIL.isErrorEnabled = true
         }
         contactEmailAddressTIET.easyOnTextChangedListener {
-            emailValidityCheck(it.toString())
+            emailValidityCheck(it.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
             if (it.trimmedLength() >= 2)
                 contactMobileNumberTIL.hideError()
             else
                 contactMobileNumberTIL.isErrorEnabled = true
         }
 
-        contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
-            emailValidityCheck(charSequence.toString())
+//        contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
+//            emailValidityCheck(charSequence.toString())
+//        }
+
+        contactEmailAddressTIET1.addTextChangedListener {
+            emailValidityCheck(it.toString(), contactEmailAddressTIET1, contactEmailAddressTIL1)
+
         }
 
         if (pmContactAddressTIETPRM.getString().isNotEmpty()) {
@@ -251,7 +256,7 @@ class ContactEditFragment : Fragment() {
             sameAddress = if (isChecked) "on" else "off"
             if (isChecked) {
                 //cgPermanent.clearCheck()
-                llPermenantPortion.hide()
+                //llPermenantPortion.hide()
                 cgPermanent.hide()
                 // hideAllError()
                 pmContactDivTIET1.enableOrdisableEdit(false)
@@ -266,7 +271,7 @@ class ContactEditFragment : Fragment() {
                 pmContactAddressTIETPRM.clear()
                 permanentContactCountryTIETP.clear()*/
             } else {
-                llPermenantPortion.show()
+                //llPermenantPortion.show()
                 cgPermanent.show()
                 hideAllError()
                 //pmContactDivTIET1.enableOrdisableEdit(true)
@@ -568,10 +573,10 @@ class ContactEditFragment : Fragment() {
 
         if (addressType == "3") {
             cgPermanent.hide()
-            llPermenantPortion.hide()
+            //llPermenantPortion.hide()
         } else {
             cgPermanent.show()
-            llPermenantPortion.show()
+            //llPermenantPortion.show()
         }
 
         if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
@@ -623,7 +628,7 @@ class ContactEditFragment : Fragment() {
             contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
 
         contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
-            emailValidityCheck(charSequence.toString())
+            emailValidityCheck(charSequence.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
         }
 
         if (!homePhone?.isEmpty()!!) {
@@ -994,34 +999,41 @@ class ContactEditFragment : Fragment() {
         }
     }
 
-    private fun emailValidityCheck(email: String): Boolean {
+    private fun emailValidityCheck(email: String, emailTextInputEditText: TextInputEditText, emailTextInputLayout: TextInputLayout): Boolean {
 //        if (true) {
         when {
             TextUtils.isEmpty(email) -> {
-                Log.d("rakib", "email empty true")
-                contactEmailAddressTIL?.showError(getString(R.string.field_empty_error_message_common))
+                if (emailTextInputEditText.id != R.id.contactEmailAddressTIET1){
+                    emailTextInputLayout?.showError(getString(R.string.field_empty_error_message_common))
+                    try {
+//                        requestFocus(emailTextInputEditText)
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                    if (!contactMobileNumberTIET.text.toString().isNullOrEmpty()){
+                        emailTextInputLayout?.hideError()
+                    }
+
+                } else {
+                    emailTextInputLayout?.hideError()
+                }
+                return false
+            }
+            !isValidEmail(email) -> {
+                emailTextInputLayout?.showError("Email Address not valid")
                 try {
-                    requestFocus(contactEmailAddressTIET)
+                    requestFocus(emailTextInputEditText)
                 } catch (e: Exception) {
                     logException(e)
                 }
                 return false
             }
-            isValidEmail(email) == false -> {
-                contactEmailAddressTIL?.showError("Email Address not valid")
-                try {
-                    requestFocus(contactEmailAddressTIET)
-                } catch (e: Exception) {
-                    logException(e)
-                }
-                return false
-            }
-            else -> {contactEmailAddressTIL?.hideError()
+            else -> {
+                emailTextInputLayout?.hideError()
                 Log.d("rakib", "email valid true")
             }
         }
         return true
-
 
 
     }
