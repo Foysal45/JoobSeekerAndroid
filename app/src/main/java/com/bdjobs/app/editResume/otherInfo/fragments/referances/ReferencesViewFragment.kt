@@ -133,6 +133,7 @@ class ReferencesViewFragment : Fragment() {
                         rv_reference_view.show()
                         val respo = response.body()
 
+                        arr?.clear()
 
                         Log.d("dsfklhgjfd;h", "$respo")
 

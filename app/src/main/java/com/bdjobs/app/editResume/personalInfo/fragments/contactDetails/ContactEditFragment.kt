@@ -65,15 +65,19 @@ class ContactEditFragment : Fragment() {
         contactInfo.setTitle(getString(R.string.title_contact))
         contactInfo.setEditButton(false, "dd")
         initViews()
-    }
+        doWork()
+
+        hideAllError()
+          }
 
     override fun onResume() {
         super.onResume()
         d("onResume")
-        doWork()
+
         updateViewsData()
-        hideAllError()
         preloadedData()
+
+
     }
 
     private fun updateViewsData() {
@@ -135,6 +139,9 @@ class ContactEditFragment : Fragment() {
         setDialog("Please select your thana", pmContactThanaTIETP, permanentThanaList.toTypedArray())
         setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
         setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
+
+
+
     }
 
     private fun initViews() {
@@ -156,22 +163,25 @@ class ContactEditFragment : Fragment() {
         contactMobileNumber2TIET.addTextChangedListener(TW.CrossIconBehave(contactMobileNumber2TIET))
         contactEmailAddressTIET.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET))
         contactEmailAddressTIET1.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET1))
+
+        countryCodeTIET?.setOnClickListener {
+            val countryList: Array<String> = dataStorage.allCountryAndCountryCode
+            activity.selector("Select your country", countryList.toList()) { dialogInterface, i ->
+                countryCodeTIET?.setText(countryList[i])
+                mobileNumberValidityCheck(contactMobileNumberTIET.text.toString())
+                val countryCode: String
+                val countryNameAndCountryCode = countryList[i]
+                val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                countryCode = inputData[inputData.size - 1].trim({ it <= ' ' })
+            }
+        }
+
     }
 
     private fun doWork() {
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
         //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
-
-//        if (contactEmailAddressTIET?.text.toString().isNullOrEmpty()){
-//            Log.d("rakib", "email ${contactEmailAddressTIET.text.toString()}")
-        addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
-//        }
-//
-//        if (contactMobileNumberTIET?.text.toString().isNullOrEmpty()){
-//            Log.d("rakib", "mobile ${contactMobileNumberTIET.text.toString()}")
-        addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
-//        }
 
 
         addTextChangedListener(prContactAddressTIETPR, prContactAddressTILPR)
@@ -183,13 +193,21 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
         addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
 
+        addTextChangedListener(contactMobileNumber1TIET,contactEmailAddressTIL1)
+
         contactMobileNumberTIET.easyOnTextChangedListener {
+            mobileNumberValidityCheck(it.toString())
             if (it.trimmedLength() >= 2)
-                contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
+                contactEmailAddressTIL.hideError()
+            else
+                contactEmailAddressTIL.isErrorEnabled = true
         }
         contactEmailAddressTIET.easyOnTextChangedListener {
+            emailValidityCheck(it.toString())
             if (it.trimmedLength() >= 2)
-                contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+                contactMobileNumberTIL.hideError()
+            else
+                contactMobileNumberTIL.isErrorEnabled = true
         }
 
         contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
@@ -203,8 +221,8 @@ class ContactEditFragment : Fragment() {
             //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
             addMobileValidation(pmContactAddressTIETPRM, contactAddressTILPRM)
             addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
-            addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
-            addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
+//            addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
+//            addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
         } else {
             Log.d("rakib", "ulta palta else")
             contactDistrictTIL.hideError()
@@ -214,10 +232,20 @@ class ContactEditFragment : Fragment() {
                 permanentContactCountryTILP.hideError()
         }
 
-        if (contactMobileNumberTIET.getString().isNotEmpty())
-            contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
-        if (contactEmailAddressTIET.getString().isNotEmpty())
-            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+        if (contactMobileNumberTIET.getString().isNotEmpty()) {
+            Log.d("rakib", "mobile not empty")
+            contactEmailAddressTIL.hideError()
+        } else {
+            Log.d("rakib", "mobile empty")
+            contactEmailAddressTIL.isErrorEnabled = true
+        }
+        if (contactEmailAddressTIET.getString().isNotEmpty()) {
+            Log.d("rakib", "email not empty")
+            contactMobileNumberTIL.hideError()
+        } else {
+            Log.d("rakib", "email empty")
+            contactMobileNumberTIL.isErrorEnabled = true
+        }
 
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
@@ -591,8 +619,8 @@ class ContactEditFragment : Fragment() {
 
         if (data.mobile.isNullOrEmpty())
             contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
-//        if (data.email.isNullOrEmpty())
-//            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
+        if (data.email.isNullOrEmpty())
+            contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
 
         contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
             emailValidityCheck(charSequence.toString())
@@ -970,6 +998,7 @@ class ContactEditFragment : Fragment() {
 //        if (true) {
         when {
             TextUtils.isEmpty(email) -> {
+                Log.d("rakib", "email empty true")
                 contactEmailAddressTIL?.showError(getString(R.string.field_empty_error_message_common))
                 try {
                     requestFocus(contactEmailAddressTIET)
@@ -987,16 +1016,35 @@ class ContactEditFragment : Fragment() {
                 }
                 return false
             }
-            else -> contactEmailAddressTIL?.hideError()
+            else -> {contactEmailAddressTIL?.hideError()
+                Log.d("rakib", "email valid true")
+            }
         }
         return true
-//        }
 
-//        return true
+
+
     }
 
     private fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
+    }
+
+    private fun mobileNumberValidityCheck(mobileNumber: String): Boolean {
+        when {
+            TextUtils.isEmpty(mobileNumber) -> {
+                contactMobileNumberTIL?.showError("Primary Mobile No can not be empty")
+                requestFocus(contactMobileNumberTIET)
+                return false
+            }
+            !validateMobileNumber() -> {
+                contactMobileNumberTIL?.showError("Primary Mobile No is not valid")
+                requestFocus(contactMobileNumberTIET)
+                return false
+            }
+            else -> contactMobileNumberTIL?.hideError()
+        }
+        return true
     }
 
     private fun requestFocus(view: View?) {
@@ -1016,4 +1064,28 @@ class ContactEditFragment : Fragment() {
 
         }
     }
+
+
+    private fun validateMobileNumber(): Boolean {
+        Log.d("rakib", "country code ${countryCodeTIET.text.toString()}")
+        if (!TextUtils.isEmpty(countryCodeTIET?.text.toString()) && !TextUtils.isEmpty(contactMobileNumberTIET?.text.toString())) {
+            if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
+                if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length == 11) {
+                    Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+                    return true
+                } else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
+                    Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+                    return true
+                }
+            }
+        }
+        Log.d("rakib", "validate number function false")
+        return false
+    }
+
+    private fun getCountryCode(): String {
+        val inputData = countryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        return inputData[inputData.size - 1].trim({ it <= ' ' })
+    }
+
 }

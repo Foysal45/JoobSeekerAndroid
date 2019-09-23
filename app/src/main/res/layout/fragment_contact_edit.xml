@@ -328,6 +328,7 @@
 
 
             <LinearLayout
+                android:paddingBottom="10dp"
                 android:id="@+id/llPermenantPortion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -505,6 +506,32 @@
 
             </LinearLayout>
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/countryCodeTIL"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:focusable="false"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/countryCodeTIET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:text="Bangladesh (88)"
+                    android:hint="Country Code"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:typeface="normal"
+                    app:fontFamily="@font/roboto" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contactMobileNumberTIL"
                 style="@style/EHTextInputLayout"
@@ -521,7 +548,10 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.contactMobileNumber"
                     android:inputType="number"
-                    android:maxLength="50"
+                    android:fontFamily="@font/roboto"
+                    android:singleLine="true"
+                    android:maxLength="14"
+                    android:typeface="normal"
                     android:textColor="#212121" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -582,6 +612,7 @@
                 android:id="@+id/contactEmailAddressTIL"
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
+                app:errorEnabled="false"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp">
 
