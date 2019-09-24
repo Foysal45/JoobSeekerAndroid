@@ -165,7 +165,7 @@ class PhotoUploadActivity : Activity() {
                     if (ic_edit_photo.isVisible) {
 
                         PicassoTools().clearCache(Picasso.get())
-                        toast("Photo has been updated successfully")
+                        toast("Photo has been updated successfully.")
 
                     } else {
 

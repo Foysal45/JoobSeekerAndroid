@@ -102,7 +102,7 @@
     <string name="hint.last_name">Last Name</string>
     <string name="hint.gender">Gender *</string>
     <string name="hint.reading">Reading *</string>
-    <string name="hint.ref_relation">Relation</string>
+    <string name="hint.ref_relation">Relation*</string>
     <string name="hint.ref_relative">Relative</string>
     <string name="hint.writing">Writing *</string>
     <string name="hint.speaking">Speaking *</string>
