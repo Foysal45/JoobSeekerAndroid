@@ -51,6 +51,8 @@ class ContactEditFragment : Fragment() {
     var postOfficeListPm: ArrayList<LocationModel>? = null
     var locationID = ""
 
+    var countryNameAndCode = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -164,8 +166,24 @@ class ContactEditFragment : Fragment() {
         contactEmailAddressTIET.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET))
         contactEmailAddressTIET1.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET1))
 
+        val countryList: Array<String> = dataStorage.allCountryAndCountryCode
+
+        try {
+            countryList?.let {
+                for (item in it) {
+                    if (item.substringAfter("(").substringBefore(")") == contactInfo.getContactData().countryCode) {
+                        countryNameAndCode = item
+                        break
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            logException(e)
+        }
+
         countryCodeTIET?.setOnClickListener {
-            val countryList: Array<String> = dataStorage.allCountryAndCountryCode
+
+            Log.d("rakb", contactInfo.getContactData().countryCode)
             activity.selector("Select your country", countryList.toList()) { dialogInterface, i ->
                 countryCodeTIET?.setText(countryList[i])
                 mobileNumberValidityCheck(contactMobileNumberTIET.text.toString())
@@ -360,9 +378,14 @@ class ContactEditFragment : Fragment() {
 
                 if (contactEmailAddressTIET.getString().trim() == "") {
                     validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+                    Log.d("rakib", "email validation $validation")
                 }
-                if (contactMobileNumberTIET.getString().trim() == "") {
-                    validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+                if (contactMobileNumberTIET.getString().trim() != "") {
+                    Log.d("checkValid", "came here 1 ${validateMobileNumber()}")
+                    if (validateMobileNumber()) {
+                        Log.d("checkValid", "came here")
+                        validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+                    }
                 }
                 if (presentInOutBD == "1") {
                     validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
@@ -387,7 +410,7 @@ class ContactEditFragment : Fragment() {
                 clContactEdit.clearFocus()
                 clContactEdit.closeKeyboard(activity)
                 Log.d("checkValid", " val : $validation ")
-                if (validation >= 6) updateData()
+                if (validation >= 7) updateData()
             }
 
             //if ()
@@ -449,34 +472,64 @@ class ContactEditFragment : Fragment() {
 
         val presentAddressID = data.presentAddressID
         val permanentAddressID = data.permanentAddressID
-        Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
-                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
-                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} " + "\n" +
-                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")}" + "\n" +
-                " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
-                " country present : ${presentContactCountryTIET.getString()}" + "\n" +
-                " presentInOutBD : $presentInOutBD" + "\n" +
-                " permanentInOutBD : $permanentInOutBD" + "\n" +
-                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm")}" + "\n" +
-                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm")}" + "\n" +
-                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm")}" + "\n" +
-                " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
-                " parmamnt country parmanent : ${permanentContactCountryTIETP.getString()}" + "\n" +
-                " same address : $sameAddress" + "\n" +
-                " permanentAddressID : $permanentAddressID " + "\n" +
-                " presentAddressID :  $presentAddressID" + "\n" +
-                " mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
-                " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
-                " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
-                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
-                " email address another: ${contactEmailAddressTIET1.getString()}")
+//        Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
+//                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
+//                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} " + "\n" +
+//                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")}" + "\n" +
+//                " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
+//                " country present : ${presentContactCountryTIET.getString()}" + "\n" +
+//                " presentInOutBD : $presentInOutBD" + "\n" +
+//                " permanentInOutBD : $permanentInOutBD" + "\n" +
+//                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm")}" + "\n" +
+//                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm")}" + "\n" +
+//                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm")}" + "\n" +
+//                " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
+//                " parmamnt country parmanent : ${permanentContactCountryTIETP.getString()}" + "\n" +
+//                " same address : $sameAddress" + "\n" +
+//                " permanentAddressID : $permanentAddressID " + "\n" +
+//                " presentAddressID :  $presentAddressID" + "\n" +
+//                " countryCode : ${countryCodeTIET.text.toString().substringAfter("(").substringBefore(")")} " + "\n" +
+//                " mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
+//                " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
+//                " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
+//                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
+//                " email address another: ${contactEmailAddressTIET1.getString()}")
+
+        Log.d("contactDetails", "\n" +
+                "userid:${session.userId} \n" +
+                "decodeid:${session.decodId} \n" +
+                "isResumeUpdate:${session.IsResumeUpdate} \n" +
+                "inOut:$presentInOutBD \n" +
+                "present_district:${getIdByName(prContactDistrictTIET.getString(), districtList, "d")} \n" +
+                "present_thana:${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} \n" +
+                "present_p_office:${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")} \n"+
+                "present_Village:${prContactAddressTIETPR.getString()} \n" +
+                "present_country_list:${getIdByCountryName(presentContactCountryTIET.getString())} \n" +
+                "permInOut:${permanentInOutBD} \n" +
+                "permanent_district:${getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm")} \n" +
+                "permanent_thana:${getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm")} \n" +
+                "permanent_p_office:${getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm")} \n" +
+                "permanent_Village:${pmContactAddressTIETPRM.getString()} \n" +
+                "permanent_country_list:${getIdByCountryName(permanentContactCountryTIETP.getString())} \n" +
+                "same_address:${sameAddress} \n" +
+                "permanent_adrsID:${permanentAddressID} \n" +
+                "present_adrsID:${presentAddressID} \n" +
+                "officePhone: ${contactMobileNumber1TIET.getString()} \n" +
+                "mobile:${contactMobileNumberTIET.getString()} \n" +
+                "countryCode:${countryCodeTIET.text.toString().substringAfter("(").substringBefore(")")} \n" +
+                "homePhone:${contactMobileNumber2TIET.getString()} \n" +
+                "email:${contactEmailAddressTIET.getString()} \n" +
+                "alternativeEmail:${contactEmailAddressTIET1.getString()}"
+
+        )
+
         val call = ApiServiceMyBdjobs.create().updateContactData(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
                 inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString(), districtList, "d"), present_thana = getIdByName(prContactThanaTIET.getString(), thanaList, "t"),
                 present_p_office = getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p"), present_Village = prContactAddressTIETPR.getString(),
                 present_country_list = getIdByCountryName(presentContactCountryTIET.getString()), permInOut = permanentInOutBD, permanent_district = getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm"),
                 permanent_thana = getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm"), permanent_p_office = getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm"), permanent_Village = pmContactAddressTIETPRM.getString(),
                 permanent_country_list = getIdByCountryName(permanentContactCountryTIETP.getString()), same_address = sameAddress, permanent_adrsID = permanentAddressID, present_adrsID = presentAddressID,
-                officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), homePhone = contactMobileNumber2TIET.getString(),
+                officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), countryCode = countryCodeTIET.text.toString().substringAfter("(").substringBefore(")"), homePhone = contactMobileNumber2TIET.getString(),
                 email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -710,6 +763,8 @@ class ContactEditFragment : Fragment() {
         } else {
             cgPermanent.clearCheck()
         }
+
+        countryCodeTIET?.setText(countryNameAndCode)
 
         //hideAllError()
     }
@@ -1003,14 +1058,14 @@ class ContactEditFragment : Fragment() {
 //        if (true) {
         when {
             TextUtils.isEmpty(email) -> {
-                if (emailTextInputEditText.id != R.id.contactEmailAddressTIET1){
+                if (emailTextInputEditText.id != R.id.contactEmailAddressTIET1) {
                     emailTextInputLayout?.showError(getString(R.string.field_empty_error_message_common))
                     try {
 //                        requestFocus(emailTextInputEditText)
                     } catch (e: Exception) {
                         logException(e)
                     }
-                    if (!contactMobileNumberTIET.text.toString().isNullOrEmpty()){
+                    if (!contactMobileNumberTIET.text.toString().isNullOrEmpty()) {
                         emailTextInputLayout?.hideError()
                     }
 
