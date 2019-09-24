@@ -42,6 +42,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
     private var typeID: String = ""
     private var armsID: String = ""
     private lateinit var v: View
+    private var date: Date? = null
 
     private val commissionDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -107,8 +108,47 @@ class ArmyEmpHistoryEditFragment : Fragment() {
         et_type.setOnClickListener { setData(editText = et_type, arrayResource = R.array.army_type, heading = "Select TYPE", tag = "type") }
         et_arms.setOnClickListener { setData(editText = et_arms, arrayResource = R.array.army_arms, heading = "Select ARMS", tag = "arms") }
 
-        et_commission.setOnClickListener { pickDate(activity, now, commissionDateSetListener) }
-        et_retire.setOnClickListener { pickDate(activity, now, retireDateSetListener) }
+
+        et_commission.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+            if (isEdit) {
+                date = formatter.parse(et_commission.text.toString())
+                cal?.time = date
+                pickDate(activity, cal, commissionDateSetListener)
+            } else {
+                if (et_commission.text.isNullOrEmpty())
+                    pickDate(activity, now, commissionDateSetListener)
+                else {
+                    date = formatter.parse(et_commission.text.toString())
+                    cal.time = date
+                    pickDate(activity, cal, commissionDateSetListener)
+                }
+            }
+
+        }
+        et_retire.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+            if (isEdit) {
+                date = formatter.parse(et_retire.text.toString())
+                cal?.time = date
+                pickDate(activity, cal, retireDateSetListener)
+            } else {
+                if (et_retire.text.toString().isNullOrEmpty()){
+                    Log.d("rakib", "is edit false et empty")
+                    pickDate(activity, now, retireDateSetListener)
+                }
+                else {
+                    Log.d("rakib", "is edit false et not empty")
+                    date = formatter.parse(et_retire.text.toString())
+                    cal.time = date
+                    pickDate(activity, cal, retireDateSetListener)
+                }
+            }
+
+        }
+
         fab_eh_army.setOnClickListener {
             clArmyEmpHistory.closeKeyboard(activity)
             var validation = 0
