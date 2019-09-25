@@ -27,6 +27,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
+import kotlinx.android.synthetic.main.jobdetail_item_list.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -273,8 +274,8 @@ class ContactEditFragment : Fragment() {
         addressCheckbox.setOnCheckedChangeListener { _, isChecked ->
             sameAddress = if (isChecked) "on" else "off"
             if (isChecked) {
-                //cgPermanent.clearCheck()
-                //llPermenantPortion.hide()
+//                cgPermanent.clearCheck()
+                llPermenantPortion.hide()
                 cgPermanent.hide()
                 // hideAllError()
                 pmContactDivTIET1.enableOrdisableEdit(false)
@@ -289,7 +290,8 @@ class ContactEditFragment : Fragment() {
                 pmContactAddressTIETPRM.clear()
                 permanentContactCountryTIETP.clear()*/
             } else {
-                //llPermenantPortion.show()
+                cgPermanent.check(R.id.insideP)
+                llPermenantPortion.show()
                 cgPermanent.show()
                 hideAllError()
                 //pmContactDivTIET1.enableOrdisableEdit(true)
@@ -363,28 +365,37 @@ class ContactEditFragment : Fragment() {
 
                 when (permanentInOutBD) {
                     "1" -> {
-                        validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-                        validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                        Log.d("CValidaiton", "(out 2.2) value : $validation")
+                        if (!addressCheckbox.isChecked) {
+                            validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                            validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                            Log.d("CValidaiton", "(out 2.2) value : $validation")
+                        }
                     }
                     "0" -> {
-                        validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
-                        validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
-                        validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
-                        validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                        Log.d("CValidaiton", "(out 2.1) value : $validation")
+                        if (!addressCheckbox.isChecked) {
+                            validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
+                            validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
+                            validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
+                            validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                            Log.d("CValidaiton", "(out 2.1) value : $validation")
+                        }
                     }
                 }
 
                 if (contactEmailAddressTIET.getString().trim() == "") {
                     validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
-                    Log.d("rakib", "email validation $validation")
+                    Log.d("CValidaiton", "email empty $validation")
                 }
+
+
+                if (contactMobileNumberTIET.text.toString().isNullOrEmpty()) {
+                    validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
+                    Log.d("CValidaiton", "mobile empty $validation")
+                }
+
                 if (contactMobileNumberTIET.getString().trim() != "") {
-                    Log.d("checkValid", "came here 1 ${validateMobileNumber()}")
                     if (validateMobileNumber()) {
-                        Log.d("checkValid", "came here")
-                        validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, true, validation)
+                        validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, false, validation)
                     }
                 }
                 if (presentInOutBD == "1") {
@@ -410,7 +421,49 @@ class ContactEditFragment : Fragment() {
                 clContactEdit.clearFocus()
                 clContactEdit.closeKeyboard(activity)
                 Log.d("checkValid", " val : $validation ")
-                if (validation >= 7) updateData()
+//                if (addressCheckbox.isChecked) {
+//                    if (validation >= 3) {
+//                        updateData()
+//                    }
+//                } else {
+//                    if (validation >= 7)
+//                        updateData()
+//                    else if (contactMobileNumberTIET.text.toString().isNullOrEmpty() || contactEmailAddressTIET.text.toString().isNullOrEmpty()) {
+//                        if (validation >= 4)
+//                            updateData()
+//                    }
+//                }
+
+                if ((contactMobileNumberTIET?.text.toString().isNullOrEmpty() || contactEmailAddressTIET?.text.toString().isNullOrEmpty())) {
+
+
+                    var valid = false
+
+                    if (contactEmailAddressTIET.text.toString().isNullOrEmpty()){
+                       valid = mobileNumberValidityCheck(contactMobileNumberTIET?.text.toString())
+                    }
+
+                    if(contactMobileNumberTIET.text.toString().isNullOrEmpty()){
+                        valid = emailValidityCheck(contactEmailAddressTIET.text.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
+                    }
+
+
+                    if (valid) {
+                        if (addressCheckbox.isChecked) {
+                            if (validation >= 4) {
+                                Log.d("rakib", "came 4")
+                                updateData()
+                            }
+                        } else {
+                            if (validation >= 7) {
+                                Log.d("rakib", "came 7")
+                                updateData()
+                            }
+                        }
+                    }
+
+                }
+
             }
 
             //if ()
@@ -502,7 +555,7 @@ class ContactEditFragment : Fragment() {
                 "inOut:$presentInOutBD \n" +
                 "present_district:${getIdByName(prContactDistrictTIET.getString(), districtList, "d")} \n" +
                 "present_thana:${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} \n" +
-                "present_p_office:${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")} \n"+
+                "present_p_office:${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")} \n" +
                 "present_Village:${prContactAddressTIETPR.getString()} \n" +
                 "present_country_list:${getIdByCountryName(presentContactCountryTIET.getString())} \n" +
                 "permInOut:${permanentInOutBD} \n" +
@@ -626,10 +679,10 @@ class ContactEditFragment : Fragment() {
 
         if (addressType == "3") {
             cgPermanent.hide()
-            //llPermenantPortion.hide()
+            llPermenantPortion.hide()
         } else {
             cgPermanent.show()
-            //llPermenantPortion.show()
+            llPermenantPortion.show()
         }
 
         if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
