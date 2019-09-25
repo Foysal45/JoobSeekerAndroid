@@ -374,6 +374,8 @@ class PreferredAreasEditFragment : Fragment() {
                 acInsideBD.setAdapter(expsAdapter)
                 acInsideBD.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acInsideBD.showDropDown()
+//                acInsideBD.clearFocus()
+
                 acInsideBD.setOnItemClickListener { _, _, position, id ->
                     //d("Selected : ${acList[position + 1]} and gotStr : ${acInsideBD.text}")
                     val inputId = ds.getLocationIDByName(acInsideBD.text.toString())
@@ -405,7 +407,7 @@ class PreferredAreasEditFragment : Fragment() {
 
         acOutsideBD.onFocusChange { _, hasFocus ->
             if (hasFocus) {
-                val acList: Array<String> = ds.allCountries
+                val acList: Array<String> = ds.allCountriesWithOutBangladesh
                 val expsAdapter = ArrayAdapter<String>(activity,
                         android.R.layout.simple_dropdown_item_1line, acList)
                 acOutsideBD.setAdapter(expsAdapter)
