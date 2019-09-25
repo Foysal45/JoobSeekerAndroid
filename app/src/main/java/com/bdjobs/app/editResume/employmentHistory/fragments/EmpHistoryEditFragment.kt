@@ -329,7 +329,7 @@ class EmpHistoryEditFragment : Fragment() {
                     pickDate(activity, cal, endDateSetListener)
                 }
             } else {
-                if (!et_end_date.text.toString().isNullOrEmpty()){
+                if (!et_end_date.text.toString().isNullOrEmpty()) {
                     date = formatter.parse(et_end_date.text.toString())
                     cal.time = date
                     pickDate(activity, cal, endDateSetListener)
@@ -408,42 +408,49 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        activity?.showProgressBar(loadingProgressBar)
-        val exps = TextUtils.join(",", idArr)
+        if (!experiencesMACTV.text.toString().isNullOrEmpty()){
+            toast("Area of Experience is not available ")
+            experiencesMACTV?.requestFocus()
+        }
 
-        Log.d("*+*+allValuesExp", exps.toString())
-        //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
-        val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
-                companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
-                departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
-                currentlyWorking, ",$exps,", hExpID, hID)
-        call.enqueue(object : Callback<AddorUpdateModel> {
-            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                activity?.toast(R.string.message_common_error)
-            }
+        else {
+            activity?.showProgressBar(loadingProgressBar)
+            val exps = TextUtils.join(",", idArr)
 
-            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                try {
-                    if (response.isSuccessful) {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        val resp = response.body()
-                        activity?.toast(resp?.message.toString())
-                        if (resp?.statuscode == "4") {
-                            empHisCB.setBackFrom(Constants.empHistoryList)
-                            empHisCB.goBack()
-                        } else if (resp?.message == "Please select End Date") {
-                            endDateTIL.isErrorEnabled = true
-                            endDateTIL?.showError("This field can not be empty")
-                        }
-                    } else {
-                        activity?.stopProgressBar(loadingProgressBar)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            Log.d("*+*+allValuesExp", exps.toString())
+            //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
+            val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
+                    companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
+                    departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
+                    currentlyWorking, ",$exps,", hExpID, hID)
+            call.enqueue(object : Callback<AddorUpdateModel> {
+                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
                 }
-            }
-        })
+
+                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                    try {
+                        if (response.isSuccessful) {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            val resp = response.body()
+                            activity?.toast(resp?.message.toString())
+                            if (resp?.statuscode == "4") {
+                                empHisCB.setBackFrom(Constants.empHistoryList)
+                                empHisCB.goBack()
+                            } else if (resp?.message == "Please select End Date") {
+                                endDateTIL.isErrorEnabled = true
+                                endDateTIL?.showError("This field can not be empty")
+                            }
+                        } else {
+                            activity?.stopProgressBar(loadingProgressBar)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+        }
     }
 
     private fun addAsString(expID: String) {
