@@ -23,12 +23,15 @@ import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_academic_info_edit.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AcademicInfoEditFragment : Fragment() {
@@ -590,15 +593,39 @@ class AcademicInfoEditFragment : Fragment() {
 
 
         etPassignYear?.setOnClickListener {
+            //            for (item in 1964..2024) {
+//                yearList.add(item.toString())
+//            }
+//            activity.selector("Select Year of Passing", yearList.toList()) { _, i ->
+//                etPassignYear?.setText(yearList[i])
+//                acaPassingYearTIL?.requestFocus()
+//            }
 
+            try {
+                var chosenYear = Calendar.getInstance().get(Calendar.YEAR)
+                if (isEdit) {
+                    chosenYear = if (!etPassignYear?.text.toString().isNullOrEmpty())
+                        etPassignYear?.text.toString().toInt()
+                    else
+                        eduCB.getData().yearofPAssing!!.toInt()
+                } else {
+                    if (!etPassignYear?.text.toString().isNullOrEmpty()) {
+                        chosenYear = etPassignYear?.text.toString().toInt()
+                    }
+                }
+                val builder = MonthPickerDialog.Builder(activity, MonthPickerDialog.OnDateSetListener { selectedMonth, selectedYear ->
+                    chosenYear = selectedYear
+                    etPassignYear?.setText(chosenYear.toString())
+                }, chosenYear, 0)
 
-            for (item in 1964..2024) {
-                yearList.add(item.toString())
+                builder.showYearOnly()
+                        .setYearRange(1963, 2024)
+                        .build()
+                        .show()
+            } catch (e: Exception) {
+
             }
-            activity.selector("Select Year of Passing", yearList.toList()) { _, i ->
-                etPassignYear?.setText(yearList[i])
-                acaPassingYearTIL?.requestFocus()
-            }
+
         }
 
 
