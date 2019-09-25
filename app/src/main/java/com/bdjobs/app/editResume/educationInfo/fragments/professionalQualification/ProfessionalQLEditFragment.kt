@@ -36,7 +36,8 @@ class ProfessionalQLEditFragment : Fragment() {
     private lateinit var hPqualificationID: String
     private lateinit var hID: String
     lateinit var datePickerDialog: DatePickerDialog
-    private var calendar: Calendar? = null
+    private lateinit var calendar: Calendar
+    private var date: Date? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -83,6 +84,32 @@ class ProfessionalQLEditFragment : Fragment() {
 
     }
 
+    private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, monthOfYear)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        updateDateInView(0)
+    }
+    private val endDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+        calendar?.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, monthOfYear)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        updateDateInView(1)
+    }
+
+    private fun updateDateInView(c: Int) {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        if (c == 0) {
+
+            etPqStartDate.setText(sdf.format(calendar.time))
+        } else {
+            etPqEndDate.setText(sdf.format(calendar.time))
+        }
+    }
+
 
     private fun doWork() {
 
@@ -110,38 +137,98 @@ class ProfessionalQLEditFragment : Fragment() {
 
         etPqStartDate?.setOnClickListener {
 
-            val mYear = calendar!!.get(Calendar.YEAR)
-            val mMonth = calendar!!.get(Calendar.MONTH)
-            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
-            datePickerDialog = DatePickerDialog(activity,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            val cal = Calendar.getInstance()
+            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
 
-                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
-                        Log.d("Test", " date default ${date} ")
-                        etPqStartDate.setText(date)
+            if (isEdit) {
+                try {
+                    date = formatter.parse(etPqStartDate.text.toString())
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
+                date?.let {
+                    cal.time = date
+                    pickDate(activity, cal, startDateSetListener)
+                }
+            } else {
+                if (etPqStartDate.text.toString().isNullOrEmpty())
+                    pickDate(activity, cal, startDateSetListener)
+                else {
+                    date = formatter.parse(etPqStartDate.text.toString())
+                    cal.time = date
+                    pickDate(activity, cal, startDateSetListener)
+                }
+            }
 
-
-                    }, mYear, mMonth, mDay)
-
-            datePickerDialog.show()
+//            val mYear = calendar!!.get(Calendar.YEAR)
+//            val mMonth = calendar!!.get(Calendar.MONTH)
+//            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
+//            datePickerDialog = DatePickerDialog(activity,
+//                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//
+//                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
+//                        Log.d("Test", " date default ${date} ")
+//                        etPqStartDate.setText(date)
+//
+//
+//                    }, mYear, mMonth, mDay)
+//
+//            datePickerDialog.show()
 
 
         }
         etPqEndDate?.setOnClickListener {
-            val mYear = calendar!!.get(Calendar.YEAR)
-            val mMonth = calendar!!.get(Calendar.MONTH)
-            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
-            // date picker dialog
-            datePickerDialog = DatePickerDialog(activity,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
-                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
-                        Log.d("Test", " date default ${date} ")
-                        etPqEndDate.setText(date)
+            val cal = Calendar.getInstance()
+            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
 
-                    }, mYear, mMonth, mDay)
+            if (isEdit) {
+                try {
+                    date = if (eduCB?.getProfessionalData().to == "Continuing") {
+                        if (!etPqEndDate.text.toString().isNullOrEmpty()) {
+                            formatter.parse(etPqEndDate.text.toString())
+                        } else {
+                            Date()
+                        }
+                    } else {
+                        formatter.parse(etPqEndDate.text.toString())
+                    }
+                    date?.let {
+                        cal.time = date
+                        pickDate(activity, cal, endDateSetListener)
+                    }
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
 
-            datePickerDialog.show()
+            } else {
+                try {
+                    if (!etPqEndDate.text.toString().isNullOrEmpty()){
+                        date = formatter.parse(etPqEndDate.text.toString())
+                        cal.time = date
+                        pickDate(activity, cal, endDateSetListener)
+                    } else {
+                        pickDate(activity, cal, endDateSetListener)
+                    }
+                } catch (e: Exception) {
+                }
+
+            }
+
+//            val mYear = calendar!!.get(Calendar.YEAR)
+//            val mMonth = calendar!!.get(Calendar.MONTH)
+//            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
+//            // date picker dialog
+//            datePickerDialog = DatePickerDialog(activity,
+//                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//
+//                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
+//                        Log.d("Test", " date default ${date} ")
+//                        etPqEndDate.setText(date)
+//
+//                    }, mYear, mMonth, mDay)
+//
+//            datePickerDialog.show()
 
 
         }
@@ -300,16 +387,16 @@ class ProfessionalQLEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
                         clearEditText()
-                        eduCB.getProfessionalList()?.let {
-                            for (item in it) {
-                                try {
-                                    if (item.prId!!.equalIgnoreCase(hPqualificationID)) {
-                                        eduCB.getProfessionalList()!!.remove(item)
-                                    }
-                                } catch (e: Exception) {
-                                }
-                            }
-                        }
+//                        eduCB.getProfessionalList()?.let {
+//                            for (item in it) {
+//                                try {
+//                                    if (item.prId!!.equalIgnoreCase(hPqualificationID)) {
+//                                        eduCB.getProfessionalList()!!.remove(item)
+//                                    }
+//                                } catch (e: Exception) {
+//                                }
+//                            }
+//                        }
                         eduCB.setBackFrom(Constants.profUpdate)
                         eduCB.goBack()
                     }
