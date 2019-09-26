@@ -102,7 +102,7 @@
     <string name="hint.last_name">Last Name</string>
     <string name="hint.gender">Gender *</string>
     <string name="hint.reading">Reading *</string>
-    <string name="hint.ref_relation">Relation</string>
+    <string name="hint.ref_relation">Relation*</string>
     <string name="hint.ref_relative">Relative</string>
     <string name="hint.writing">Writing *</string>
     <string name="hint.speaking">Speaking *</string>
@@ -139,6 +139,7 @@
     <string name="chars_special">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .\'-</string>
     <string name="chars_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
     <string name="chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
+    <string name="charsWithSpace">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz</string>
     <string name="hint.objective_v">Objective</string>
     <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
     <string name="hint.present_salary_tk_month_v">Present Salary</string>
@@ -224,14 +225,14 @@
     <string name="alert.exam_result">Select Your Result Title</string>
     <string name="insideBangladesh">Inside Bangladesh</string>
     <string name="outSideBangladesh">Outside Bangladesh</string>
-    <string name="hint.contactDistrict">District</string>
-    <string name="hint.contactThana">Thana</string>
+    <string name="hint.contactDistrict">District*</string>
+    <string name="hint.contactThana">Thana*</string>
     <string name="hint.contactPost">P.O</string>
-    <string name="hint.contactAddress">House No/ Road / Village</string>
+    <string name="hint.contactAddress">House No/ Road / Village*</string>
     <string name="hint.contactMobileNumber">Primary Mobile No</string>
     <string name="hint.addMobileNumber">ADD MOBILE NO</string>
-    <string name="hint.contactEmailadress">Primary Email</string>
-    <string name="hint.contactEmailButton">ADD EMAIL</string>
+    <string name="hint.contactEmailadress">Primary Email Address</string>
+    <string name="hint.contactEmailButton">ADD Email Address</string>
     <string name="hint.addressCheckbox">Same as Present Address</string>
     <string name="bangladesh_technical_education_board">Bangladesh Technical Education Board</string>
     <string name="currently_offering_jobs">Currently offering jobs</string>
@@ -253,14 +254,14 @@
     <string name="marital.unmarried">Unmarried</string>
     <string name="marital.single">Single</string>
     <string name="hint.bangladeshi">I am Bangladeshi</string>
-    <string name="hint.addEmailaddress">ADD EMAIL</string>
+    <string name="hint.addEmailaddress">ADD Email Address</string>
     <string name="title.education_training">Education / Training</string>
     <string name="title.photograph">Photograph</string>
     <string name="hint.upload_photo">Upload Photo</string>
     <string name="subtit.personal_detail">Personal Details</string>
     <string name="subtit.contact_detail">Contact Details</string>
     <string name="subtit.career_and_application_information">Career and Application Information</string>
-    <string name="hint.alternet_email_address">Alternet Email Address</string>
+    <string name="hint.alternet_email_address">Alternate Email Address</string>
     <string name="toast.marks.blank.texts">Please enter Marks</string>
     <string name="toast.invalide.cgpa.texts">Please enter valid CGPA</string>
     <string name="toast.invalide.grade.texts">Please enter valid Scale</string>
@@ -269,7 +270,7 @@
     <string name="toast.scale.blank.texts">Please enter Scale </string>
     <string name="toast.scale.grade.blank.texts">Please enter CGPA and Scale </string>
     <string name="toast.exam.degree.title.other.blank">Exam/Degree Title can not be empty</string>
-    <string name="hint.addEmail">ADD EMAIL</string>
+    <string name="hint.addEmail">ADD EMAIL Address</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
     <string name="title_pref_areas">Preferred Areas</string>
@@ -388,5 +389,8 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="warning_agree_button">Agree</string>
     <string name="warning_agree_button_bangla">আবেদন</string>
     <string name="accept_kor">Please accept kor accept kor accept kor accept kor accept kor accept kor accept kor</string>
+    <string name="title_activity_login2_base">Login2BaseActivity</string>
+
+    <string name="pass">bXliZGpvYnM=</string>
 
 </resources>

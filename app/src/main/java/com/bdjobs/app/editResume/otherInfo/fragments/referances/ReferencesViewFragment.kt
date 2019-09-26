@@ -47,14 +47,14 @@ class ReferencesViewFragment : Fragment() {
         super.onResume()
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
-        Log.d("rakib", "${eduCB.getReferenceList()?.size}")
+        Log.d("rakib", "size ${eduCB.getReferenceList()?.size}")
         eduCB.setDeleteButton(false)
         if (eduCB.getBackFrom() == "") {
             if (eduCB.getReferenceList() != null) setupRV(eduCB.getReferenceList()!!) // add message if needed in the else part
             //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
             Log.d("rakib", "came if")
             try {
-                if(eduCB.getReferenceList()!!.size == 2)
+                if(eduCB.getReferenceList()?.size == 2)
                     fab_reference_add?.hide()
                 else
                     fab_reference_add?.show()
@@ -133,6 +133,7 @@ class ReferencesViewFragment : Fragment() {
                         rv_reference_view.show()
                         val respo = response.body()
 
+                        arr?.clear()
 
                         Log.d("dsfklhgjfd;h", "$respo")
 

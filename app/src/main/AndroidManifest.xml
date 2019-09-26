@@ -13,26 +13,25 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".GuestUserLanding.HotJobsActivity"></activity>
-
+        <activity
+            android:name=".Login2.Login2BaseActivity"
+            android:label="@string/title_activity_login2_base"/>
+        <activity android:name=".GuestUserLanding.HotJobsActivity" />
         <activity
             android:name=".Training.TrainingListAcitivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
-
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".ManageResume.ManageResumeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".InviteCode.InviteCodeBaseActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".Web.WebActivity"
             android:exported="false"
@@ -44,7 +43,6 @@
             android:exported="true"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true"
@@ -76,7 +74,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".Login.LoginBaseActivity"
             android:exported="false"
@@ -93,7 +90,6 @@
             android:label="@string/title_activity_main_landing"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".Jobs.JobBaseActivity"
             android:exported="false"
@@ -125,19 +121,16 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".editResume.EditResLandingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".editResume.employmentHistory.EmploymentHistoryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".editResume.personalInfo.PersonalInfoActivity"
             android:exported="false"
@@ -163,7 +156,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-
         <activity
             android:name=".Settings.SettingBaseActivity"
             android:exported="false"
@@ -188,6 +180,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <receiver
             android:name=".BroadCastReceivers.ConnectivityReceiver"
             android:enabled="true">
@@ -203,6 +196,7 @@
                 <action android:name="com.bdjobs.dataBaseUpdateJob.jobComplete" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".Notification.BdjobsFirebaseMessagingService"
             android:stopWithTask="false">
@@ -210,14 +204,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

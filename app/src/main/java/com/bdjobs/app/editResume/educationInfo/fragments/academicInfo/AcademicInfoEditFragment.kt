@@ -23,12 +23,15 @@ import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_academic_info_edit.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AcademicInfoEditFragment : Fragment() {
@@ -298,7 +301,6 @@ class AcademicInfoEditFragment : Fragment() {
                                 if (cbResHide.isVisible) {
 
                                     d("Validation check 7 ")
-
                                     if (!cbResHide.isChecked) {
 
 
@@ -591,15 +593,40 @@ class AcademicInfoEditFragment : Fragment() {
 
 
         etPassignYear?.setOnClickListener {
+            //            for (item in 1964..2024) {
+//                yearList.add(item.toString())
+//            }
+//            activity.selector("Select Year of Passing", yearList.toList()) { _, i ->
+//                etPassignYear?.setText(yearList[i])
+//                acaPassingYearTIL?.requestFocus()
+//            }
 
+            try {
+                var chosenYear = Calendar.getInstance().get(Calendar.YEAR)
+                var currentYear = chosenYear
+                if (isEdit) {
+                    chosenYear = if (!etPassignYear?.text.toString().isNullOrEmpty())
+                        etPassignYear?.text.toString().toInt()
+                    else
+                        eduCB.getData().yearofPAssing!!.toInt()
+                } else {
+                    if (!etPassignYear?.text.toString().isNullOrEmpty()) {
+                        chosenYear = etPassignYear?.text.toString().toInt()
+                    }
+                }
+                val builder = MonthPickerDialog.Builder(activity, MonthPickerDialog.OnDateSetListener { selectedMonth, selectedYear ->
+                    chosenYear = selectedYear
+                    etPassignYear?.setText(chosenYear.toString())
+                }, chosenYear, 0)
 
-            for (item in 1964..2024) {
-                yearList.add(item.toString())
+                builder.showYearOnly()
+                        .setYearRange(currentYear - 55, currentYear + 5)
+                        .build()
+                        .show()
+            } catch (e: Exception) {
+
             }
-            activity.selector("Select Year of Passing", yearList.toList()) { _, i ->
-                etPassignYear?.setText(yearList[i])
-                acaPassingYearTIL?.requestFocus()
-            }
+
         }
 
 
@@ -966,18 +993,19 @@ class AcademicInfoEditFragment : Fragment() {
                         val resp = response.body()
                         activity?.toast(resp?.message.toString())
                         clearEditText()
-                        eduCB.getAcademicList()?.let {
-                            for (item in it) {
-                                try {
-                                    if (item.acId!!.equalIgnoreCase(hacaID)) {
-                                        eduCB.getAcademicList()!!.remove(item)
-                                    }
-                                } catch (e: Exception) {
-                                }
-                            }
-                        }
+//                        eduCB.getAcademicList()?.let {
+//                            for (item in it) {
+//                                try {
+//                                    if (item.acId!!.equalIgnoreCase(hacaID)) {
+//                                        eduCB.getAcademicList()!!.remove(item)
+//                                    }
+//                                } catch (e: Exception) {
+//                                }
+//                            }
+//                        }
                         eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
+                        Log.d("rakib", "go back")
                     }
                 } catch (e: Exception) {
                     //activity.stopProgressBar(loadingProgressBar)

@@ -2,6 +2,7 @@ package com.bdjobs.app.GuestUserLanding
 
 import android.app.Activity
 import android.app.ActivityOptions
+import android.app.Dialog
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -10,11 +11,14 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
+import android.widget.Button
 import android.widget.EditText
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity
+import com.bdjobs.app.Login2.Login2BaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
@@ -31,12 +35,15 @@ import kotlinx.android.synthetic.main.activity_guest_user_job_search.version_nam
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
     private lateinit var dataStorage: DataStorage
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +53,15 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         initialization()
         onClicks()
         textView?.setOnClickListener {
-           version_name_tv?.show()
+            version_name_tv?.show()
         }
+//        secretTV?.isEnabled = true
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
@@ -127,6 +141,49 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         guestHotJobsSearchBTN?.setOnClickListener {
             startActivity<HotJobsActivity>()
         }
+
+//        secretTV?.setOnClickListener {
+//            var time: Long = System.currentTimeMillis()
+//
+//
+//            //if it is the first time, or if it has been more than 3 seconds since the first tap ( so it is like a new try), we reset everything
+//            if (startMillis.toInt() == 0 || (time - startMillis > 3000)) {
+//                startMillis = time
+//                count = 1
+//                Log.d("rakib", "secret if")
+//            }
+//            //it is not the first, and it has been  less than 3 seconds since the first
+//            else { //  time-startMillis< 3000
+//                count++
+//                Log.d("rakib", "secret else $count")
+//            }
+//
+//            if (count == 10) {
+//                secretTV?.isEnabled = false
+//                openDialog()
+//            }
+//        }
+    }
+
+    private fun openDialog() {
+        val dialog = Dialog(this)
+        dialog?.setContentView(R.layout.dialog_pass)
+        dialog?.setCancelable(false)
+        dialog?.show()
+        val passET = dialog?.findViewById<EditText>(R.id.pass_et)
+        val okBtn = dialog?.findViewById<Button>(R.id.ok_btn)
+
+        okBtn.setOnClickListener {
+            passET?.let {
+                if (passET.text.toString() == "secret") {
+                    dialog?.dismiss()
+                    startActivity(intentFor<Login2BaseActivity>(key_go_to_home to true))
+                } else {
+                    dialog?.dismiss()
+                }
+            }
+
+        }
     }
 
 
@@ -179,4 +236,8 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
         super.onPause()
         version_name_tv?.hide()
     }
+
+
 }
+
+

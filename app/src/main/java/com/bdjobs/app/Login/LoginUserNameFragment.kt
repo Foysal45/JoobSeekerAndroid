@@ -1,5 +1,6 @@
 package com.bdjobs.app.Login
 
+import android.app.Dialog
 import android.app.Fragment
 import android.content.Intent
 import android.graphics.Rect
@@ -10,10 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.EditText
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
+import com.bdjobs.app.Login2.Login2BaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -34,20 +38,25 @@ import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.android.synthetic.main.fragment_login_username.*
+import kotlinx.android.synthetic.main.fragment_login_username.view.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import java.util.regex.Pattern
-
+import android.util.Base64
 
 class LoginUserNameFragment : Fragment() {
 
     private lateinit var loginCommunicator: LoginCommunicator
     private lateinit var symbol: String
     private lateinit var rootView: View
+
+    private var count = 0
+    private var startMillis: Long = 0
 
     //for google sign in
     private var mGoogleSignInClient: GoogleApiClient? = null
@@ -58,7 +67,9 @@ class LoginUserNameFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         rootView = inflater.inflate(R.layout.fragment_login_username, container, false)!!
+        rootView.view.isEnabled = true
         return rootView
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -281,6 +292,27 @@ class LoginUserNameFragment : Fragment() {
             loginCommunicator.goToRegistrationActivity()
         }
 
+
+        rootView.view.setOnClickListener {
+            var time: Long = System.currentTimeMillis()
+
+
+            //if it is the first time, or if it has been more than 3 seconds since the first tap ( so it is like a new try), we reset everything
+            if (startMillis.toInt() == 0 || (time - startMillis > 3000)) {
+                startMillis = time
+                count = 1
+            }
+            //it is not the first, and it has been  less than 3 seconds since the first
+            else { //  time-startMillis< 3000
+                count++
+            }
+
+            if (count == 7) {
+                rootView?.view?.isEnabled = false
+                openDialog()
+            }
+        }
+
 //        rootView.viewTreeObserver.addOnGlobalLayoutListener {
 //            try {
 //                val r = Rect()
@@ -436,6 +468,29 @@ class LoginUserNameFragment : Fragment() {
             }
         } catch (e: Exception) {
             logException(e)
+        }
+    }
+
+    private fun openDialog() {
+        val dialog = Dialog(activity)
+        dialog?.setContentView(R.layout.dialog_pass)
+        dialog?.setCancelable(false)
+        dialog?.show()
+        val passET = dialog?.findViewById<EditText>(R.id.pass_et)
+        val okBtn = dialog?.findViewById<Button>(R.id.ok_btn)
+
+        okBtn.setOnClickListener {
+            passET?.let {
+                Log.d("rakib", "${Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP)} ${R.string.pass}")
+                if (Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP) == getString(R.string.pass)) {
+                    dialog?.dismiss()
+                    startActivity(intentFor<Login2BaseActivity>(Constants.key_go_to_home to true))
+                } else {
+                    dialog?.dismiss()
+                }
+                dialog?.dismiss()
+            }
+
         }
     }
 

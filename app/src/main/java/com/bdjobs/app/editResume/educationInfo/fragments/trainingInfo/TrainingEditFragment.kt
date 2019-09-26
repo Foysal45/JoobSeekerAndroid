@@ -17,6 +17,7 @@ import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_training_edit.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
@@ -106,6 +107,7 @@ class TrainingEditFragment : Fragment() {
         disableError()
         d("values : ${data.country}")
     }
+
     private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
         editText.easyOnTextChangedListener { charSequence ->
             eduCB.validateField(charSequence.toString(), editText, inputLayout)
@@ -120,17 +122,44 @@ class TrainingEditFragment : Fragment() {
         addTextChangedListener(etTrDuration, trainingTitleTIL)
 
         etTrTrainingYear?.setOnClickListener {
-            for (item in 1964..2024) {
-                yearList.add(item.toString())
+            //            for (item in 1964..2024) {
+//                yearList.add(item.toString())
+//            }
+//            activity?.selector("Training Year", yearList.toList()) { _, i ->
+//
+//                etTrTrainingYear?.setText(yearList[i])
+//                trTrainingYearTIL?.requestFocus()
+//
+//            }
+
+            try {
+                var chosenYear = Calendar.getInstance().get(Calendar.YEAR)
+                var currentYear = chosenYear
+                if (isEdit) {
+                    chosenYear = if (!etTrTrainingYear?.text.toString().isNullOrEmpty())
+                        etTrTrainingYear?.text.toString().toInt()
+                    else
+                        eduCB.getTrainingData().year!!.toInt()
+                } else {
+                    if (!etTrTrainingYear?.text.toString().isNullOrEmpty()) {
+                        chosenYear = etTrTrainingYear?.text.toString().toInt()
+                    }
+                }
+                val builder = MonthPickerDialog.Builder(activity, MonthPickerDialog.OnDateSetListener { selectedMonth, selectedYear ->
+                    chosenYear = selectedYear
+                    etTrTrainingYear?.setText(chosenYear.toString())
+                }, chosenYear, 0)
+
+                builder.showYearOnly()
+                        .setYearRange(currentYear - 55, currentYear + 5)
+                        .build()
+                        .show()
+            } catch (e: Exception) {
+
             }
-            activity?.selector("Training Year", yearList.toList()) { _, i ->
-
-                etTrTrainingYear?.setText(yearList[i])
-                trTrainingYearTIL?.requestFocus()
-
-            }
-
         }
+
+
         fab_tr_update?.setOnClickListener {
             clTrainingEdit.closeKeyboard(activity)
             var validation = 0

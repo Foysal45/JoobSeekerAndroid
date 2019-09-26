@@ -232,13 +232,14 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
             })
 }
 
-fun pickDate(c: Context, now: Calendar, listener: DatePickerDialog.OnDateSetListener) {
+fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener) {
     val dpd = DatePickerDialog(c,
             listener,
             // set DatePickerDialog to point to today's date when it loads up
-            now.get(Calendar.YEAR),
-            now.get(Calendar.MONTH),
-            now.get(Calendar.DAY_OF_MONTH))
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH))
+    dpd.datePicker.maxDate = Date().time
     dpd.show()
 }
 

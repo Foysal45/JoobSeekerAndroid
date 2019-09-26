@@ -30,6 +30,22 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_personal_info.*
 
 class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, PersonalInfo {
+    override fun setPermanentDistrict(district: String?) {
+        permanentDistrict = district
+    }
+
+    override fun getPermanentDistrict(): String? {
+        return  permanentDistrict
+    }
+
+    override fun setPresentDistrict(district: String?) {
+        presentDistrict = district
+    }
+
+    override fun getPresentDistrict(): String? {
+        return  presentDistrict
+    }
+
     override fun getBackFrom(): String? {
         return this.fragmentFrom
     }
@@ -81,11 +97,11 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private val oriEditFragment = ORIEditFragment()
     private val prefViewFragment = PreferredAreasViewFragment()
     private val prefEditFragment = PreferredAreasEditFragment()
-    private  var dataCa: Ca_DataItem = Ca_DataItem()
-    private  var dataCon: C_DataItem = C_DataItem()
-    private  var dataPer: P_DataItem = P_DataItem()
-    private  var dataOri: ORIdataItem = ORIdataItem()
-    private  var dataAreas: PreferredAreasData = PreferredAreasData()
+    private var dataCa: Ca_DataItem = Ca_DataItem()
+    private var dataCon: C_DataItem = C_DataItem()
+    private var dataPer: P_DataItem = P_DataItem()
+    private var dataOri: ORIdataItem = ORIdataItem()
+    private var dataAreas: PreferredAreasData = PreferredAreasData()
     private lateinit var name: String
     private lateinit var gotToAddEmployment: String
     private var prThana: String? = ""
@@ -95,6 +111,8 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private var fragmentFrom: String? = "first"
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private var mSnackBar: Snackbar? = null
+    private var presentDistrict: String? = ""
+    private var permanentDistrict: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -112,49 +112,64 @@ class EditResLandingActivity : Activity() {
         enableAll()
 
         btnPerItem1?.setOnClickListener {
+            btnPerItem1?.isClickable = false
             goToFragment("personal", "P")
         }
         btnPerItem2?.setOnClickListener {
+            btnPerItem2?.isClickable = false
             goToFragment("contact", "P")
         }
         btnPerItem3?.setOnClickListener {
+            btnPerItem3?.isClickable = false
             goToFragment("career", "P")
         }
         btnPerItem4?.setOnClickListener {
+            btnPerItem4?.isClickable = false
             goToFragment("ori", "P")
         }
         btnPerItem5?.setOnClickListener {
+            btnPerItem5?.isClickable = false
             goToFragment("prefAreas", "P")
         }
         btnEduItem1?.setOnClickListener {
+            btnEduItem1?.isClickable = false
             goToFragment("academic", "E")
         }
         btnEduItem2?.setOnClickListener {
+            btnEduItem2?.isClickable = false
             goToFragment("training", "E")
         }
         btnEmpItem1?.setOnClickListener {
+            btnEmpItem1?.isClickable = false
             goToFragment("employ", "Emp")
         }
         btnEmpItem2?.setOnClickListener {
+            btnEmpItem2?.isClickable = false
             goToFragment("army", "Emp")
         }
         btnUploadPhoto?.setOnClickListener {
+            btnUploadPhoto?.isClickable = false
             startActivity(Intent(this@EditResLandingActivity, PhotoUploadActivity::class.java))
         }
         btnSpecilaization?.setOnClickListener {
+            btnSpecilaization?.isClickable = false
             goToFragment("specialization", "Other")
         }
         btnLanguage?.setOnClickListener {
+            btnLanguage?.isClickable = false
             goToFragment("language", "Other")
         }
         btnReferences?.setOnClickListener {
+            btnReferences?.isClickable = false
             goToFragment("reference", "Other")
         }
         btnProfessional?.setOnClickListener {
+            btnProfessional?.isClickable = false
             goToFragment("professional", "E")
         }
 
         ivProfileImage?.onClick {
+            ivProfileImage?.isClickable = false
             startActivity<PhotoUploadActivity>()
 
         }

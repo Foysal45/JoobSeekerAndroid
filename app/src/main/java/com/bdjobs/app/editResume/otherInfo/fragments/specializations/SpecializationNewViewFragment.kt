@@ -442,7 +442,7 @@ class SpecializationNewViewFragment : Fragment() {
                 Log.d("rakib", "called after text changed")
 
                 if (s.toString().length == 2) {
-                    refnameATCTV.hideKeyboard()
+//                    refnameATCTV.hideKeyboard()
 
                 }
 
@@ -712,7 +712,7 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().length == 2) {
-                    refnameATCTV.hideKeyboard()
+//                    refnameATCTV.hideKeyboard()
 
                 }
             }
@@ -1003,7 +1003,9 @@ class SpecializationNewViewFragment : Fragment() {
     }
 
     private fun addOrUpdateItem(skills: String, s_id: String, skilledBy: String, ntvqfLevel: String, insertOrUpdate: String) {
-
+        Log.d("nbnnn", skilledBy)
+        Log.d("nbnnn", skills)
+        Log.d("nbnnn", s_id)
         d("nbnnn  ${session.userId} ${session.decodId} ${session.IsResumeUpdate} $skills  $s_id  $skilledBy $ntvqfLevel  $insertOrUpdate")
 
         activity?.showProgressBar(newSpecializationLoadingProgressBar)

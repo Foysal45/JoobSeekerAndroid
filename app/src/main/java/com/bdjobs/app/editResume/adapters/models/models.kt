@@ -338,6 +338,8 @@ data class C_DataItem(
         val homePhone: String?="",
         @SerializedName("messageType")
         val messageType: String?="",
+        @SerializedName("countryCode")
+        val countryCode: String? = "",
         @SerializedName("primaryMobileNo")
         val mobile: String?="",
         @SerializedName("mobileNo2")

@@ -26,17 +26,19 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
+import org.jetbrains.anko.act
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class EmpHistoryEditFragment: Fragment() {
+class EmpHistoryEditFragment : Fragment() {
 
     private lateinit var empHisCB: EmpHisCB
     private lateinit var now: Calendar
@@ -50,6 +52,7 @@ class EmpHistoryEditFragment: Fragment() {
     var isEdit = false
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
+    private var date: Date? = null
 
     private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -229,6 +232,8 @@ class EmpHistoryEditFragment: Fragment() {
                         if (idArr.contains(workExperienceID)) {
                             experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
+                            experiencesMACTV.setText("")
+                            experiencesMACTV.clearFocus()
                         } else {
                             addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
                         }
@@ -276,10 +281,63 @@ class EmpHistoryEditFragment: Fragment() {
         //addTextChangedListener(etTrTrainingYear, trTrainingYearTIL)
 
         estartDateET?.setOnClickListener {
-            pickDate(activity, now, startDateSetListener)
+
+            val cal = Calendar.getInstance()
+            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+
+            if (isEdit) {
+                try {
+                    date = formatter.parse(estartDateET.text.toString())
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
+                date?.let {
+                    cal.time = date
+                    pickDate(activity, cal, startDateSetListener)
+                }
+            } else {
+                if (estartDateET.text.toString().isNullOrEmpty())
+                    pickDate(activity, cal, startDateSetListener)
+                else {
+                    date = formatter.parse(estartDateET.text.toString())
+                    cal.time = date
+                    pickDate(activity, cal, startDateSetListener)
+                }
+            }
         }
         et_end_date?.setOnClickListener {
-            pickDate(activity, now, endDateSetListener)
+
+            val cal = Calendar.getInstance()
+            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+
+            if (isEdit) {
+                try {
+                    date = if (empHisCB?.getData().to == "Continuing") {
+                        if (!et_end_date.text.toString().isNullOrEmpty()) {
+                            formatter.parse(et_end_date.text.toString())
+                        } else {
+                            Date()
+                        }
+                    } else {
+                        formatter.parse(et_end_date.text.toString())
+                    }
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
+                date?.let {
+                    cal.time = date
+                    pickDate(activity, cal, endDateSetListener)
+                }
+            } else {
+                if (!et_end_date.text.toString().isNullOrEmpty()) {
+                    date = formatter.parse(et_end_date.text.toString())
+                    cal.time = date
+                    pickDate(activity, cal, endDateSetListener)
+                } else {
+                    pickDate(activity, cal, endDateSetListener)
+                }
+
+            }
         }
         companyBusinessACTV.onFocusChange { _, hasFocus ->
             val organizationList: ArrayList<String> = dataStorage.allOrgTypes
@@ -350,42 +408,49 @@ class EmpHistoryEditFragment: Fragment() {
     }
 
     private fun updateData() {
-        activity?.showProgressBar(loadingProgressBar)
-        val exps = TextUtils.join(",", idArr)
+        if (!experiencesMACTV.text.toString().isNullOrEmpty()){
+            toast("Area of Experience is not available ")
+            experiencesMACTV?.requestFocus()
+        }
 
-        Log.d("*+*+allValuesExp", exps.toString())
-        //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
-        val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
-                companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
-                departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
-                currentlyWorking, ",$exps,", hExpID, hID)
-        call.enqueue(object : Callback<AddorUpdateModel> {
-            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                activity?.stopProgressBar(loadingProgressBar)
-                activity?.toast(R.string.message_common_error)
-            }
+        else {
+            activity?.showProgressBar(loadingProgressBar)
+            val exps = TextUtils.join(",", idArr)
 
-            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                try {
-                    if (response.isSuccessful) {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        val resp = response.body()
-                        activity?.toast(resp?.message.toString())
-                        if (resp?.statuscode == "4") {
-                            empHisCB.setBackFrom(Constants.empHistoryList)
-                            empHisCB.goBack()
-                        } else if (resp?.message == "Please select End Date") {
-                            endDateTIL.isErrorEnabled = true
-                            endDateTIL?.showError("This field can not be empty")
-                        }
-                    } else {
-                        activity?.stopProgressBar(loadingProgressBar)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            Log.d("*+*+allValuesExp", exps.toString())
+            //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
+            val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
+                    companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),
+                    departmentET.getString(), responsibilitiesET.getString(), estartDateET.getString(), et_end_date.getString(),
+                    currentlyWorking, ",$exps,", hExpID, hID)
+            call.enqueue(object : Callback<AddorUpdateModel> {
+                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast(R.string.message_common_error)
                 }
-            }
-        })
+
+                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                    try {
+                        if (response.isSuccessful) {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            val resp = response.body()
+                            activity?.toast(resp?.message.toString())
+                            if (resp?.statuscode == "4") {
+                                empHisCB.setBackFrom(Constants.empHistoryList)
+                                empHisCB.goBack()
+                            } else if (resp?.message == "Please select End Date") {
+                                endDateTIL.isErrorEnabled = true
+                                endDateTIL?.showError("This field can not be empty")
+                            }
+                        } else {
+                            activity?.stopProgressBar(loadingProgressBar)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+        }
     }
 
     private fun addAsString(expID: String) {
@@ -436,6 +501,7 @@ class EmpHistoryEditFragment: Fragment() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         if (c == 0) {
+
             estartDateET.setText(sdf.format(now.time))
         } else {
             et_end_date.setText(sdf.format(now.time))
@@ -462,16 +528,16 @@ class EmpHistoryEditFragment: Fragment() {
                     if (response.isSuccessful) {
                         activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        empHisCB.getExpsArray()?.let {
-                            for (item in it) {
-                                try {
-                                    if (item.expId!!.equalIgnoreCase(hExpID!!)) {
-                                        empHisCB.getExpsArray()?.remove(item)
-                                    }
-                                } catch (e: Exception) {
-                                }
-                            }
-                        }
+//                        empHisCB.getExpsArray()?.let {
+//                            for (item in it) {
+//                                try {
+//                                    if (item.expId!!.equalIgnoreCase(hExpID!!)) {
+//                                        empHisCB.getExpsArray()?.remove(item)
+//                                    }
+//                                } catch (e: Exception) {
+//                                }
+//                            }
+//                        }
                         activity?.toast(resp?.message.toString())
                         empHisCB.setBackFrom(Constants.empHistoryList)
                         empHisCB.goBack()

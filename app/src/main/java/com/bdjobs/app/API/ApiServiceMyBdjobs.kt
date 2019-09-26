@@ -163,7 +163,8 @@ interface ApiServiceMyBdjobs {
     ): Call<GetPersInfo>
 
     @FormUrlEncoded
-    @POST("apps_step_01_view_con.asp")
+//    @POST("apps_step_01_view_con.asp")
+    @POST("apps_step_01_view_con_test_f.asp")
     fun getContactInfo(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
@@ -227,7 +228,8 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
-    @POST("apps_step_01_update_con.asp")
+    @POST("apps_step_01_update_con_test_f.asp")
+//    @POST("apps_step_01_update_con.asp")
     fun updateContactData(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
@@ -249,6 +251,7 @@ interface ApiServiceMyBdjobs {
             @Field("present_adrsID") present_adrsID: String? = "",
             @Field("homePhone") homePhone: String? = "",
             @Field("mobile") mobile: String? = "",
+            @Field("countryCode") countryCode: String? = "",
             @Field("officePhone") officePhone: String? = "",
             @Field("email") email: String? = "",
             @Field("alternativeEmail") alternativeEmail: String? = "",
