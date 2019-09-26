@@ -442,7 +442,7 @@ class SpecializationNewViewFragment : Fragment() {
                 Log.d("rakib", "called after text changed")
 
                 if (s.toString().length == 2) {
-                    refnameATCTV.hideKeyboard()
+//                    refnameATCTV.hideKeyboard()
 
                 }
 
@@ -712,7 +712,7 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().length == 2) {
-                    refnameATCTV.hideKeyboard()
+//                    refnameATCTV.hideKeyboard()
 
                 }
             }

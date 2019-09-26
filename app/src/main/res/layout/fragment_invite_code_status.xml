@@ -58,7 +58,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_home_top_bg"
+            android:background="@drawable/ic_home_top_new"
             android:paddingBottom="24dp">
 
             <ImageView

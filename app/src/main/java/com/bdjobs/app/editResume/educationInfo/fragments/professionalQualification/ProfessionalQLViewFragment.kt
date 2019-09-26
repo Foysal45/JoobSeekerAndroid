@@ -74,7 +74,6 @@ class ProfessionalQLViewFragment : Fragment() {
     private fun populateData() {
         rv_professional_view?.hide()
         shimmerStart()
-        arr?.clear()
         val call = ApiServiceMyBdjobs.create().getProfessionalInfoList(session.userId, session.decodId)
         call.enqueue(object : Callback<ProfessionalModel> {
             override fun onFailure(call: Call<ProfessionalModel>, t: Throwable) {

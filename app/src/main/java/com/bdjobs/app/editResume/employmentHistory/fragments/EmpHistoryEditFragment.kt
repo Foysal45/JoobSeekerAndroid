@@ -528,16 +528,16 @@ class EmpHistoryEditFragment : Fragment() {
                     if (response.isSuccessful) {
                         activity?.stopProgressBar(loadingProgressBar)
                         val resp = response.body()
-                        empHisCB.getExpsArray()?.let {
-                            for (item in it) {
-                                try {
-                                    if (item.expId!!.equalIgnoreCase(hExpID!!)) {
-                                        empHisCB.getExpsArray()?.remove(item)
-                                    }
-                                } catch (e: Exception) {
-                                }
-                            }
-                        }
+//                        empHisCB.getExpsArray()?.let {
+//                            for (item in it) {
+//                                try {
+//                                    if (item.expId!!.equalIgnoreCase(hExpID!!)) {
+//                                        empHisCB.getExpsArray()?.remove(item)
+//                                    }
+//                                } catch (e: Exception) {
+//                                }
+//                            }
+//                        }
                         activity?.toast(resp?.message.toString())
                         empHisCB.setBackFrom(Constants.empHistoryList)
                         empHisCB.goBack()

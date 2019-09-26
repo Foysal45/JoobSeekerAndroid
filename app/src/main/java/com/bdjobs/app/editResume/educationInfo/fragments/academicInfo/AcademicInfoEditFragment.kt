@@ -603,6 +603,7 @@ class AcademicInfoEditFragment : Fragment() {
 
             try {
                 var chosenYear = Calendar.getInstance().get(Calendar.YEAR)
+                var currentYear = chosenYear
                 if (isEdit) {
                     chosenYear = if (!etPassignYear?.text.toString().isNullOrEmpty())
                         etPassignYear?.text.toString().toInt()
@@ -619,7 +620,7 @@ class AcademicInfoEditFragment : Fragment() {
                 }, chosenYear, 0)
 
                 builder.showYearOnly()
-                        .setYearRange(1963, 2024)
+                        .setYearRange(currentYear - 55, currentYear + 5)
                         .build()
                         .show()
             } catch (e: Exception) {

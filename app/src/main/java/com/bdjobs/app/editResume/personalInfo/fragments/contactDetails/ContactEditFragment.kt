@@ -69,9 +69,10 @@ class ContactEditFragment : Fragment() {
         contactInfo.setTitle(getString(R.string.title_contact))
         contactInfo.setEditButton(false, "dd")
         initViews()
+        hideAllError()
         doWork()
 
-        hideAllError()
+
     }
 
     override fun onResume() {
@@ -305,7 +306,6 @@ class ContactEditFragment : Fragment() {
             d("InOutBD : $presentInOutBD and $permanentInOutBD")
             clContactEdit.closeKeyboard(activity!!)
 
-            var validationErrors = 0
 
 //            if (presentInOutBD == "0" && permanentInOutBD == "0") {
 //                if (prContactAddressTIETPR.text.toString().isNullOrEmpty() || pmContactAddressTIETPRM.text.toString().isNullOrEmpty()){
@@ -345,82 +345,91 @@ class ContactEditFragment : Fragment() {
 //                    requestFocus(permanentContactCountryTIETP)
 //                }
 //            }
-
-            if (validationErrors == 0) {
-                var validation = 0
-                when (presentInOutBD) {
-                    "0" -> {
+            var validation = 0
+            when (presentInOutBD) {
+                "0" -> {
 //                        validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
-                        validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
-                        validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
-                        validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
-                        Log.d("CValidaiton", "(out 1.1) value : $validation")
-                    }
-                    "1" -> {
-                        validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
-                        validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
-                        Log.d("CValidaiton", "(out 1.2) value : $validation")
-                    }
+                    validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
+                    validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("CValidaiton", "(out 1.1) value : $validation")
                 }
-
-                when (permanentInOutBD) {
-                    "1" -> {
-                        if (!addressCheckbox.isChecked) {
-                            validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-                            validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                            Log.d("CValidaiton", "(out 2.2) value : $validation")
-                        }
-                    }
-                    "0" -> {
-                        if (!addressCheckbox.isChecked) {
-                            validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
-                            validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
-                            validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
-                            validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                            Log.d("CValidaiton", "(out 2.1) value : $validation")
-                        }
-                    }
-                }
-
-                if (contactEmailAddressTIET.getString().trim() == "") {
-                    validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
-                    Log.d("CValidaiton", "email empty $validation")
-                }
-
-
-                if (contactMobileNumberTIET.text.toString().isNullOrEmpty()) {
-                    validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
-                    Log.d("CValidaiton", "mobile empty $validation")
-                }
-
-                if (contactMobileNumberTIET.getString().trim() != "") {
-                    if (validateMobileNumber()) {
-                        validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, false, validation)
-                    }
-                }
-                if (presentInOutBD == "1") {
+                "1" -> {
                     validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
+                    validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("CValidaiton", "(out 1.2) value : $validation")
                 }
-                if (permanentInOutBD == "1") {
-                    validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
-                }
-                if (presentInOutBD == "") {
-                    activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
-                }
-                if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
-                    //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
-                    activity?.stopProgressBar(loadingProgressBar)
-                }
-                if (pmContactAddressTIETPRM.getString().isEmpty() && (permanentInOutBD == "1" || permanentInOutBD == "0")) {
-                    if (pmContactAddressTIETPRM.getString().trimmedLength() < 2)
-                        contactAddressTILPRM.setError()
-                    else
-                        contactAddressTILPRM.hideError()
-                }
+            }
 
-                clContactEdit.clearFocus()
-                clContactEdit.closeKeyboard(activity)
-                Log.d("checkValid", " val : $validation ")
+            when (permanentInOutBD) {
+                "1" -> {
+                    if (!addressCheckbox.isChecked) {
+                        validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+                        validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                        Log.d("CValidaiton", "(out 2.2) value : $validation")
+                    }
+                }
+                "0" -> {
+                    if (!addressCheckbox.isChecked) {
+                        validation = isValidate(pmContactDivTIET1, contactDivTIL1, pmContactDivTIET1, true, validation)
+                        validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
+                        validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
+                        validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
+                        Log.d("CValidaiton", "(out 2.1) value : $validation")
+                    }
+                }
+            }
+
+            if (contactEmailAddressTIET.getString().trim() == "") {
+                validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+                Log.d("CValidaiton", "email empty $validation")
+            }
+
+
+            if (contactMobileNumberTIET.getString().trim() == "") {
+                validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
+                Log.d("CValidaiton", "mobile empty $validation")
+            }
+
+            if (contactMobileNumberTIET.getString().trim() != "") {
+                if (mobileNumberValidityCheck(contactMobileNumberTIET.text.toString())) {
+//                        validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, false, validation)
+                    validation++
+                }
+                Log.d("CValidaiton", "mobile not empty $validation")
+            }
+
+            if (contactEmailAddressTIET.getString().trim() != "") {
+                if (emailValidityCheck(contactEmailAddressTIET.text.toString(), contactEmailAddressTIET, contactEmailAddressTIL)) {
+//                        validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, false, validation)
+                    validation++
+                }
+                Log.d("CValidaiton", "email not empty $validation")
+            }
+
+            if (presentInOutBD == "1") {
+                validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
+            }
+            if (permanentInOutBD == "1") {
+                validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
+            }
+            if (presentInOutBD == "") {
+                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+            }
+            if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
+                //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+                activity?.stopProgressBar(loadingProgressBar)
+            }
+            if (pmContactAddressTIETPRM.getString().isEmpty() && (permanentInOutBD == "1" || permanentInOutBD == "0")) {
+                if (pmContactAddressTIETPRM.getString().trimmedLength() < 2)
+                    contactAddressTILPRM.setError()
+                else
+                    contactAddressTILPRM.hideError()
+            }
+
+            clContactEdit.clearFocus()
+            clContactEdit.closeKeyboard(activity)
+            Log.d("checkValid", " val : $validation ")
 //                if (addressCheckbox.isChecked) {
 //                    if (validation >= 3) {
 //                        updateData()
@@ -434,37 +443,59 @@ class ContactEditFragment : Fragment() {
 //                    }
 //                }
 
-                if ((contactMobileNumberTIET?.text.toString().isNullOrEmpty() || contactEmailAddressTIET?.text.toString().isNullOrEmpty())) {
+            if ((contactMobileNumberTIET?.text.toString().isNullOrEmpty() || contactEmailAddressTIET?.text.toString().isNullOrEmpty()) || (!contactMobileNumberTIET?.text.toString().isNullOrEmpty() && !contactEmailAddressTIET?.text.toString().isNullOrEmpty())) {
+                var valid: Boolean
+                var numberOfValidations = 0
+
+                Log.d("check", "entered")
 
 
-                    var valid = false
 
-                    if (contactEmailAddressTIET.text.toString().isNullOrEmpty()){
-                       valid = mobileNumberValidityCheck(contactMobileNumberTIET?.text.toString())
-                    }
+                if (contactEmailAddressTIET?.text.toString().isNullOrEmpty() && contactMobileNumberTIET.getString().trim() != "") {
+                    valid = mobileNumberValidityCheck(contactMobileNumberTIET?.text.toString())
+                    if (valid) numberOfValidations++
+                }
 
-                    if(contactMobileNumberTIET.text.toString().isNullOrEmpty()){
-                        valid = emailValidityCheck(contactEmailAddressTIET.text.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
-                    }
+                if (contactMobileNumberTIET?.text.toString().isNullOrEmpty() && contactEmailAddressTIET.getString().trim() != "") {
+                    valid = emailValidityCheck(contactEmailAddressTIET.text.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
+                    if (valid) numberOfValidations++
+                }
 
 
-                    if (valid) {
-                        if (addressCheckbox.isChecked) {
-                            if (validation >= 4) {
-                                Log.d("rakib", "came 4")
-                                updateData()
-                            }
-                        } else {
-                            if (validation >= 7) {
-                                Log.d("rakib", "came 7")
-                                updateData()
-                            }
-                        }
-                    }
+
+                if (contactMobileNumberTIET.getString().trim() != "") {
+                    valid = mobileNumberValidityCheck(contactMobileNumberTIET?.text.toString())
+                    if (valid) numberOfValidations++
 
                 }
 
+                if (contactEmailAddressTIET.getString().trim() != "" && contactEmailAddressTIET1.getString().trim() == ""){
+                    valid = emailValidityCheck(contactEmailAddressTIET.text.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
+                    if (valid) numberOfValidations++
+                }
+
+                if (!contactEmailAddressTIET1.text.toString().isNullOrEmpty()) {
+                    valid = emailValidityCheck(contactEmailAddressTIET1.text.toString(), contactEmailAddressTIET1, contactEmailAddressTIL1)
+                    if (valid) numberOfValidations++
+                }
+
+                if (numberOfValidations > 1) {
+                    Log.d("check", "valid")
+                    if (addressCheckbox.isChecked) {
+                        if (validation >= 4) {
+                            Log.d("rakib", "came 4")
+                            updateData()
+                        }
+                    } else {
+                        if (validation >= 7) {
+                            Log.d("rakib", "came 7")
+                            updateData()
+                        }
+                    }
+                }
+
             }
+
 
             //if ()
         }
@@ -864,6 +895,7 @@ class ContactEditFragment : Fragment() {
 
                 presentContactCountryTIET.setText(countryList[i])
                 presentContactCountryTIL.requestFocus()
+                //presentContactCountryTIL.hideError()
 
             }
 
@@ -875,6 +907,7 @@ class ContactEditFragment : Fragment() {
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
                 permanentContactCountryTILP.requestFocus()
+               // permanentContactCountryTILP.hideError()
             }
         }
         presentContactCountryTIET.setOnClickListener {
@@ -886,6 +919,7 @@ class ContactEditFragment : Fragment() {
 
                 presentContactCountryTIET.setText(countryList[i])
                 presentContactCountryTIL.requestFocus()
+                //presentContactCountryTIL.hideError()
             }
         }
         permanentContactCountryTIETP.setOnClickListener {
@@ -893,6 +927,7 @@ class ContactEditFragment : Fragment() {
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
                 permanentContactCountryTILP.requestFocus()
+                //permanentContactCountryTILP.hideError()
             }
         }
     }

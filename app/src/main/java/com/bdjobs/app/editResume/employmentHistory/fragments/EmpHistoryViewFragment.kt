@@ -94,6 +94,7 @@ class EmpHistoryViewFragment : Fragment() {
                         //activity.toast("${respo?.message}")
                         //activity.toast("${arr?.size}")
                         //if (arr != null) {
+                        arr?.clear()
                         if (respo?.data?.size == 0 || respo?.data != null) {
                             arr = respo.data as ArrayList<DataItem>
                             rv_eh_view.show()

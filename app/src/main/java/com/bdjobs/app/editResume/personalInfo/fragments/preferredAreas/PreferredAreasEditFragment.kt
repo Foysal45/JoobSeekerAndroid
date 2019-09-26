@@ -129,8 +129,7 @@ class PreferredAreasEditFragment : Fragment() {
                     addChip(ds.getLocationNameByID(it?.id!!).toString(), "in", acInsideBD)
                     acInsideBD.isEnabled = idInBDArr.size <= 15
                     addAsString(it.id, idInBDArr)
-                }
-                else {
+                } else {
                     anywhereinBD = true
                     changeBtnBackground(anywhereinBD)
                 }
@@ -258,7 +257,7 @@ class PreferredAreasEditFragment : Fragment() {
                 acWCjobCat.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 acWCjobCat.showDropDown()
                 acWCjobCat.setOnItemClickListener { _, _, position, id ->
-//                    d("acWCjobCat : ${acList[position + 1]} and gotStr : ${acWCjobCat.text} and $idWCArr")
+                    //                    d("acWCjobCat : ${acList[position + 1]} and gotStr : ${acWCjobCat.text} and $idWCArr")
                     val inputId = ds.getCategoryIDByName(acWCjobCat.text.toString())!!
 
                     if (idWCArr.size in 0..2) {
@@ -268,8 +267,7 @@ class PreferredAreasEditFragment : Fragment() {
                             addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
                             addAsString(inputId, idWCArr)
                             Log.d("acWCjobCat", "arr2: $idWCArr")
-                        }
-                        else {
+                        } else {
                             acWCjobCat.closeKeyboard(activity)
                             activity?.toast("Category already added")
                             acWCjobCat.setText("")
@@ -304,8 +302,7 @@ class PreferredAreasEditFragment : Fragment() {
                             addChip(ds.getCategoryBanglaNameByID(inputId), "bc", acBCJobCat)
                             addAsString(inputId, idBCArr)
                             Log.d("acWCjobCat", "arr2: $idBCArr")
-                        }
-                        else {
+                        } else {
                             acBCJobCat.closeKeyboard(activity)
                             activity?.toast("ক্যাটাগরি ইতিমধ্যে যোগ করা হয়েছে")
                             acBCJobCat.setText("")
@@ -340,8 +337,7 @@ class PreferredAreasEditFragment : Fragment() {
                             addChip(ds.getOrgNameByID(inputId), "orgs", acOrgType)
                             addAsString(inputId, idOrgArr)
                             Log.d("acWCjobCat", "arr2: $idOrgArr")
-                        }
-                        else {
+                        } else {
                             acOrgType.closeKeyboard(activity)
                             activity?.toast("Organization type already added")
                             acOrgType.setText("")
@@ -386,8 +382,7 @@ class PreferredAreasEditFragment : Fragment() {
                             addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
                             addAsString(inputId.toString(), idInBDArr)
                             Log.d("acWCjobCat", "arr2: $idInBDArr")
-                        }
-                        else {
+                        } else {
                             acInsideBD.closeKeyboard(activity)
                             activity?.toast("District already added")
                             acInsideBD.setText("")
@@ -425,8 +420,7 @@ class PreferredAreasEditFragment : Fragment() {
                             addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
                             addAsString(inputId.toString(), idOutBDArr)
                             Log.d("acWCjobCat", "arr2: $idOutBDArr")
-                        }
-                        else {
+                        } else {
                             acOutsideBD.closeKeyboard(activity)
                             activity?.toast("Country already added")
                             acOutsideBD.setText("")
@@ -487,7 +481,8 @@ class PreferredAreasEditFragment : Fragment() {
             "out" -> {
                 maxItems = 10
                 pref_countries_entry_chip_group
-            } else -> org_entry_chip_group
+            }
+            else -> org_entry_chip_group
         }
 
         when {
@@ -556,46 +551,59 @@ class PreferredAreasEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        if (anywhereinBD) prefDistrictIds = "-1" else {
-            prefDistrictIds = ""
-            if (idInBDArr.contains("-1"))
-                idInBDArr.remove("-1")
-            prefDistrictIds = TextUtils.join(",", idInBDArr)
-        }
-        activity?.showProgressBar(loadingProgressBar)
-        val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
-                prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
-        Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
-        call.enqueue(object : Callback<AddorUpdateModel> {
-            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                try {
-                    activity?.stopProgressBar(loadingProgressBar)
-                    activity?.toast("Can not connect to the server! Try again")
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            }
 
-            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                try {
-                    if (response.isSuccessful) {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        response.body()?.message?.let { activity.toast(it) }
-                        if (response.body()?.statuscode == "4") {
-                            prefCallBack.setBackFrom(Constants.prefAreasUpdate)
-                            prefCallBack.goBack()
-                            //onDestroy()
-                        }
-                    } else {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        response.body()?.message?.let { activity.toast(it) }
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    logException(e)
-                }
+        if (!acWCjobCat.text.toString().isNullOrEmpty()) {
+            toast("Functional job category is not available")
+        } else if (!acBCJobCat.text.toString().isNullOrEmpty()) {
+            toast("Special skilled job category is not available")
+        } else if (!acOrgType.text.toString().isNullOrEmpty()) {
+            toast("Organization type is not available")
+        } else if (!acInsideBD?.text.toString().isNullOrEmpty()) {
+            toast("District is not available")
+        } else if (!acOutsideBD.text.toString().isNullOrEmpty()){
+            toast("Country is not available")
+        } else {
+            if (anywhereinBD) prefDistrictIds = "-1" else {
+                prefDistrictIds = ""
+                if (idInBDArr.contains("-1"))
+                    idInBDArr.remove("-1")
+                prefDistrictIds = TextUtils.join(",", idInBDArr)
             }
-        })
+            activity?.showProgressBar(loadingProgressBar)
+            val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
+                    prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
+            Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
+            call.enqueue(object : Callback<AddorUpdateModel> {
+                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                    try {
+                        activity?.stopProgressBar(loadingProgressBar)
+                        activity?.toast("Can not connect to the server! Try again")
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+
+                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                    try {
+                        if (response.isSuccessful) {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            response.body()?.message?.let { activity.toast(it) }
+                            if (response.body()?.statuscode == "4") {
+                                prefCallBack.setBackFrom(Constants.prefAreasUpdate)
+                                prefCallBack.goBack()
+                                //onDestroy()
+                            }
+                        } else {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            response.body()?.message?.let { activity.toast(it) }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        logException(e)
+                    }
+                }
+            })
+        }
     }
 
     private fun removeId(id: String?, idArr: ArrayList<String>, range: Int, acTv: AutoCompleteTextView) {

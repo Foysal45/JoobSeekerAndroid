@@ -301,12 +301,10 @@ class LoginUserNameFragment : Fragment() {
             if (startMillis.toInt() == 0 || (time - startMillis > 3000)) {
                 startMillis = time
                 count = 1
-                Log.d("rakib", "secret if")
             }
             //it is not the first, and it has been  less than 3 seconds since the first
             else { //  time-startMillis< 3000
                 count++
-                toast("$count")
             }
 
             if (count == 7) {

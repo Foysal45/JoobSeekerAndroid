@@ -134,6 +134,7 @@ class TrainingEditFragment : Fragment() {
 
             try {
                 var chosenYear = Calendar.getInstance().get(Calendar.YEAR)
+                var currentYear = chosenYear
                 if (isEdit) {
                     chosenYear = if (!etTrTrainingYear?.text.toString().isNullOrEmpty())
                         etTrTrainingYear?.text.toString().toInt()
@@ -150,7 +151,7 @@ class TrainingEditFragment : Fragment() {
                 }, chosenYear, 0)
 
                 builder.showYearOnly()
-                        .setYearRange(1963, 2024)
+                        .setYearRange(currentYear - 55, currentYear + 5)
                         .build()
                         .show()
             } catch (e: Exception) {
