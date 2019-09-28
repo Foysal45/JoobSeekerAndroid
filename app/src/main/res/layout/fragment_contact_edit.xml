@@ -42,7 +42,8 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"
                 app:chipSpacing="10dp"
-                app:singleSelection="true">
+                app:singleSelection="true"
+                app:checkedChip="@id/insidePre">
 
 
                 <com.google.android.material.chip.Chip

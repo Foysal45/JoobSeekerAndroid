@@ -178,64 +178,78 @@ class PreferredAreasEditFragment : Fragment() {
     private fun onClicks() {
         changeBtnBackground(anywhereinBD)
         fab_prefAreas_update.setOnClickListener {
-            var valid = 0
-            prefWcIds = TextUtils.join(",", idWCArr)
-            prefBcIds = TextUtils.join(",", idBCArr)
-            prefOrgIds = TextUtils.join(",", idOrgArr)
-            prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
-            prefCountryIds = TextUtils.join(",", idOutBDArr)
 
-            if (idInBDArr.isEmpty() && idOutBDArr.isEmpty()) {
-                tilInsideBD.isErrorEnabled = true
-                tilInsideBD.error = "This field can not be empty"
-                Log.d("valid1", "valid: $valid")
-                /*tilOutsideBD.isErrorEnabled = true
-                        tilOutsideBD.error = "This field can not be empty"*/
-            }
-            if (idWCArr.isEmpty() && idBCArr.isEmpty()) {
-                //tilWCjobCat.hideError()
-                tilWCjobCat.isErrorEnabled = true
-                tilWCjobCat.error = "This field can not be empty"
-                //tilBCJobCat.hideError()
-                tilBCJobCat.isErrorEnabled = true
-                tilBCJobCat.error = "This field can not be empty"
-                Log.d("valid2", "valid: $valid")
-            }
-            if (idBCArr.isNotEmpty() || idWCArr.isNotEmpty()) {
-                valid += 1
-                tilBCJobCat.hideError()
-                tilWCjobCat.hideError()
-                Log.d("valid3", "valid: $valid")
-            }
-            if (idInBDArr.isNotEmpty()) {
-                valid += 1
-                tilInsideBD.hideError()
-                Log.d("valid4", "valid: $valid")
-            }
-            if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && idInBDArr.isNotEmpty()) {
-                valid += 1
-                tilWCjobCat.hideError()
-                tilBCJobCat.hideError()
-                tilInsideBD.hideError()
-                Log.d("valid5", "valid: $valid")
-            }
-
-            if (idInBDArr.isEmpty() && !anywhereinBD) {
-                tilInsideBD.isErrorEnabled = true
-                tilInsideBD.error = "This field can not be empty"
-            }
-
-            if (valid >= 2) {
-                Log.d("ppppppp", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid  ")
-                updateData()
-            } else if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && anywhereinBD) {
-                updateData()
-                Log.d("ppppppp2", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
+            if (!acWCjobCat.text.toString().isNullOrEmpty()) {
+                toast("Functional job category is not available")
+            } else if (!acBCJobCat.text.toString().isNullOrEmpty()) {
+                toast("Special skilled job category is not available")
+            } else if (!acOrgType.text.toString().isNullOrEmpty()) {
+                toast("Organization type is not available")
+            } else if (!acInsideBD?.text.toString().isNullOrEmpty()) {
+                toast("District is not available")
+            } else if (!acOutsideBD.text.toString().isNullOrEmpty()) {
+                toast("Country is not available")
             } else {
-                Log.d("ppppppp3", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
-            }
 
-            Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
+                var valid = 0
+                prefWcIds = TextUtils.join(",", idWCArr)
+                prefBcIds = TextUtils.join(",", idBCArr)
+                prefOrgIds = TextUtils.join(",", idOrgArr)
+                prefDistrictIds = if (!anywhereinBD) TextUtils.join(",", idInBDArr) else "-1"
+                prefCountryIds = TextUtils.join(",", idOutBDArr)
+
+                if (idInBDArr.isEmpty() && idOutBDArr.isEmpty()) {
+                    tilInsideBD.isErrorEnabled = true
+                    tilInsideBD.error = "This field can not be empty"
+                    Log.d("valid1", "valid: $valid")
+                    /*tilOutsideBD.isErrorEnabled = true
+                        tilOutsideBD.error = "This field can not be empty"*/
+                }
+                if (idWCArr.isEmpty() && idBCArr.isEmpty()) {
+                    //tilWCjobCat.hideError()
+                    tilWCjobCat.isErrorEnabled = true
+                    tilWCjobCat.error = "This field can not be empty"
+                    //tilBCJobCat.hideError()
+                    tilBCJobCat.isErrorEnabled = true
+                    tilBCJobCat.error = "This field can not be empty"
+                    Log.d("valid2", "valid: $valid")
+                }
+                if (idBCArr.isNotEmpty() || idWCArr.isNotEmpty()) {
+                    valid += 1
+                    tilBCJobCat.hideError()
+                    tilWCjobCat.hideError()
+                    Log.d("valid3", "valid: $valid")
+                }
+                if (idInBDArr.isNotEmpty()) {
+                    valid += 1
+                    tilInsideBD.hideError()
+                    Log.d("valid4", "valid: $valid")
+                }
+                if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && idInBDArr.isNotEmpty()) {
+                    valid += 1
+                    tilWCjobCat.hideError()
+                    tilBCJobCat.hideError()
+                    tilInsideBD.hideError()
+                    Log.d("valid5", "valid: $valid")
+                }
+
+                if (idInBDArr.isEmpty() && !anywhereinBD) {
+                    tilInsideBD.isErrorEnabled = true
+                    tilInsideBD.error = "This field can not be empty"
+                }
+
+                if (valid >= 2) {
+                    Log.d("ppppppp", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid  ")
+                    updateData()
+                } else if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && anywhereinBD) {
+                    updateData()
+                    Log.d("ppppppp2", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
+                } else {
+                    Log.d("ppppppp3", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
+                }
+
+                Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
+            }
         }
 
         btnAnywhereInBD.setOnClickListener {
@@ -552,58 +566,48 @@ class PreferredAreasEditFragment : Fragment() {
 
     private fun updateData() {
 
-        if (!acWCjobCat.text.toString().isNullOrEmpty()) {
-            toast("Functional job category is not available")
-        } else if (!acBCJobCat.text.toString().isNullOrEmpty()) {
-            toast("Special skilled job category is not available")
-        } else if (!acOrgType.text.toString().isNullOrEmpty()) {
-            toast("Organization type is not available")
-        } else if (!acInsideBD?.text.toString().isNullOrEmpty()) {
-            toast("District is not available")
-        } else if (!acOutsideBD.text.toString().isNullOrEmpty()){
-            toast("Country is not available")
-        } else {
-            if (anywhereinBD) prefDistrictIds = "-1" else {
-                prefDistrictIds = ""
-                if (idInBDArr.contains("-1"))
-                    idInBDArr.remove("-1")
-                prefDistrictIds = TextUtils.join(",", idInBDArr)
-            }
-            activity?.showProgressBar(loadingProgressBar)
-            val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
-                    prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
-            Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
-            call.enqueue(object : Callback<AddorUpdateModel> {
-                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                    try {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        activity?.toast("Can not connect to the server! Try again")
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                }
-
-                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-                    try {
-                        if (response.isSuccessful) {
-                            activity?.stopProgressBar(loadingProgressBar)
-                            response.body()?.message?.let { activity.toast(it) }
-                            if (response.body()?.statuscode == "4") {
-                                prefCallBack.setBackFrom(Constants.prefAreasUpdate)
-                                prefCallBack.goBack()
-                                //onDestroy()
-                            }
-                        } else {
-                            activity?.stopProgressBar(loadingProgressBar)
-                            response.body()?.message?.let { activity.toast(it) }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        logException(e)
-                    }
-                }
-            })
+//         else {
+        if (anywhereinBD) prefDistrictIds = "-1" else {
+            prefDistrictIds = ""
+            if (idInBDArr.contains("-1"))
+                idInBDArr.remove("-1")
+            prefDistrictIds = TextUtils.join(",", idInBDArr)
         }
+        activity?.showProgressBar(loadingProgressBar)
+        val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
+                prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
+        Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
+        call.enqueue(object : Callback<AddorUpdateModel> {
+            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                try {
+                    activity?.stopProgressBar(loadingProgressBar)
+                    activity?.toast("Can not connect to the server! Try again")
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+
+            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        activity?.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity.toast(it) }
+                        if (response.body()?.statuscode == "4") {
+                            prefCallBack.setBackFrom(Constants.prefAreasUpdate)
+                            prefCallBack.goBack()
+                            //onDestroy()
+                        }
+                    } else {
+                        activity?.stopProgressBar(loadingProgressBar)
+                        response.body()?.message?.let { activity.toast(it) }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    logException(e)
+                }
+            }
+        })
+//        }
     }
 
     private fun removeId(id: String?, idArr: ArrayList<String>, range: Int, acTv: AutoCompleteTextView) {
