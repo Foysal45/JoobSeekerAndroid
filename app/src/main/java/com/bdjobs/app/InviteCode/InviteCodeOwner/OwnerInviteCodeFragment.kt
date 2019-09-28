@@ -36,7 +36,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class OwnerInviteCodeFragment : Fragment() , ConnectivityReceiver.ConnectivityReceiverListener{
+class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener {
 
 
     private var dataStorage: DataStorage? = null
@@ -105,9 +105,9 @@ class OwnerInviteCodeFragment : Fragment() , ConnectivityReceiver.ConnectivityRe
                     if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
                         categoryAmountList.clear()
                         response.body()?.data?.let { dt ->
-                            dt.forEach { dtt->
-                                 categoryAmountList.add(dtt)
-                             }
+                            dt.forEach { dtt ->
+                                categoryAmountList.add(dtt)
+                            }
                         }
                         categoryRL.isEnabled = true
                     }
@@ -121,22 +121,24 @@ class OwnerInviteCodeFragment : Fragment() , ConnectivityReceiver.ConnectivityRe
 
     private fun showCategoryDialog() {
 
-        val dialog = Dialog(activity)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.invite_category_dialog_layout)
+        activity?.let {
+            val dialog = Dialog(it)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.invite_category_dialog_layout)
 
-        val categoryLV = dialog.findViewById(R.id.categoryLV) as ListView
-        val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
-        val invitecodeCategoryListAdapter = InvitecodeCategoryListAdapter(activity, categoryAmountList)
-        categoryLV.setAdapter(invitecodeCategoryListAdapter)
+            val categoryLV = dialog.findViewById(R.id.categoryLV) as ListView
+            val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
+            val invitecodeCategoryListAdapter = InvitecodeCategoryListAdapter(activity, categoryAmountList)
+            categoryLV.setAdapter(invitecodeCategoryListAdapter)
 
-        dialog.setCancelable(true)
-        dialog.show()
-        cancelIconImgv.setOnClickListener {
-            try {
-                dialog.dismiss()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            dialog.setCancelable(true)
+            dialog.show()
+            cancelIconImgv.setOnClickListener {
+                try {
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
@@ -189,7 +191,7 @@ class OwnerInviteCodeFragment : Fragment() , ConnectivityReceiver.ConnectivityRe
                 mSnackBar?.show()
             } catch (e: Exception) {
             }
-        } else{
+        } else {
             mSnackBar?.dismiss()
             //setupData()
             getInformation(bdjobsUserSession?.userId, bdjobsUserSession?.decodId, inviteCodeCommunicator?.getInviteCodepcOwnerID())

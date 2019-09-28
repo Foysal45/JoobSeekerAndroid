@@ -278,7 +278,7 @@ class SpecializationNewViewFragment : Fragment() {
         dialogEdit.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogEdit.setCancelable(true)
         dialogEdit.setContentView(R.layout.specialization_add_skill_dialog_layout)
-        dialogEdit.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogEdit.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val whereSkillText = dialogEdit.findViewById<TextView>(R.id.whereSkillText)
         val firstCheckbox = dialogEdit.findViewById<CheckBox>(R.id.firstCheckbox)

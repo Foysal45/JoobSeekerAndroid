@@ -149,7 +149,11 @@ class InterviewInvitationDetailsFragment : Fragment() {
             } else {
                 ratingInputRL.visibility = View.GONE
                 ratingShowRL.visibility = View.VISIBLE
-                val rating = java.lang.Float.parseFloat(companyRating)
+                var rating : Float = 0f
+                try {
+                    rating = java.lang.Float.parseFloat(companyRating!!)
+                } catch (e: Exception) {
+                }
                 companyRatingBar.rating = rating
                 ratingMsgTV.text = ratingMessage
                 ratingDateTV.text = ratingDate

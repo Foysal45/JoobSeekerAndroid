@@ -6,11 +6,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 664 //664 //82
         versionName "2.0.0.15"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
