@@ -117,6 +117,12 @@ class PersonalDetailsEditFragment : Fragment() {
             var validation = 0
             validation = isValidate(etPerFirstName, firstNameTIL, etPerFirstName, true, validation)
             validation = isValidate(etPerDob, dobTIL, etPerDob, true, validation)
+            if (etPerNationality?.text?.trim().isNullOrEmpty()){
+                etPerNationality?.error = "This field can not be empty"
+                etPerNationality?.requestFocus()
+            } else{
+                validation++
+            }
             if (!isNotBangladeshi) {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
             }
@@ -126,7 +132,7 @@ class PersonalDetailsEditFragment : Fragment() {
             if (marital?.isEmpty()!!) activity?.toast("Please select Marital Status") else validation += 1
             ClPersonalLayout.clearFocus()
             ClPersonalLayout.closeKeyboard(activity)
-            if (isNotBangladeshi && validation >= 4) {
+            if (isNotBangladeshi && validation >= 5) {
                 updateData()
             }
             if (!isNotBangladeshi && validation >= 5) {

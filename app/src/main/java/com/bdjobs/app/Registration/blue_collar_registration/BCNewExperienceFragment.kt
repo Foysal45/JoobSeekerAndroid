@@ -213,7 +213,7 @@ class BCNewExperienceFragment : Fragment() {
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setCancelable(true)
         dialog?.setContentView(R.layout.add_skill_dialog_layout)
-        dialog?.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val addExperienceTIET = dialog?.findViewById<TextInputEditText>(R.id.addExperienceTIET)
         val whereSkillText = dialog?.findViewById<TextView>(R.id.whereSkillText)
         val firstCheckbox = dialog?.findViewById<CheckBox>(R.id.firstCheckbox)
@@ -452,7 +452,7 @@ class BCNewExperienceFragment : Fragment() {
         dialogEdit?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogEdit?.setCancelable(true)
         dialogEdit?.setContentView(R.layout.add_skill_dialog_layout)
-        dialogEdit?.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogEdit?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val addExperienceTIET = dialogEdit?.findViewById<TextInputEditText>(R.id.addExperienceTIET)
 
 

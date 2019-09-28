@@ -36,7 +36,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener  {
+class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener {
 
     private var topBottomPadding: Int = 0
     private var leftRightPadding: Int = 0
@@ -48,7 +48,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
     private var mSnackBar: Snackbar? = null
 
 
-    private var dataArray : ArrayList<OwnerInviteListModelData>?=null
+    private var dataArray: ArrayList<OwnerInviteListModelData>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.invite_code_owner_invite_list_fragment, container, false)
@@ -84,12 +84,12 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
 
         accountLV.onItemClickListener = AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
 
-             val invitedUserId = dataArray?.get(position)?.userID
-             Log.d("SendingData",
-                     "invitedUserId " + invitedUserId +
-                     "\n position " + position
-             )
-             getUserStatus(bdjobsUserSession?.userId!!, bdjobsUserSession?.decodId!!, invitedUserId!!)
+            val invitedUserId = dataArray?.get(position)?.userID
+            Log.d("SendingData",
+                    "invitedUserId " + invitedUserId +
+                            "\n position " + position
+            )
+            getUserStatus(bdjobsUserSession?.userId!!, bdjobsUserSession?.decodId!!, invitedUserId!!)
         }
 
     }
@@ -214,7 +214,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
     }
 
 
-    private fun getUserStatus(userId:String,decodeId:String,invitedUserId:String){
+    private fun getUserStatus(userId: String, decodeId: String, invitedUserId: String) {
         val loadingDialog = activity?.indeterminateProgressDialog("তথ্য আনা হচ্ছে")
         loadingDialog?.setCancelable(false)
         loadingDialog?.show()
@@ -223,9 +223,9 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                 decodeID = decodeId,
                 invited_user_id = invitedUserId
         ).enqueue(
-                object :Callback<InviteCodeUserStatusModel>{
+                object : Callback<InviteCodeUserStatusModel> {
                     override fun onFailure(call: Call<InviteCodeUserStatusModel>, t: Throwable) {
-                        error("onFailure",t)
+                        error("onFailure", t)
                         loadingDialog?.dismiss()
                     }
 
@@ -255,92 +255,93 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
         )
 
 
-
     }
 
-    private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String,skillInfo:String) {
+    private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String, skillInfo: String) {
 
-        Log.d("showCategoryDialog","" +
+        Log.d("showCategoryDialog", "" +
                 "educationInfo: $educationInfo" +
                 "personalInfo: $personalInfo" +
                 "photoInfo:$photoInfo" +
                 "name: $name")
 
-        val dialog = Dialog(activity)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.invite_user_details_layout)
+        activity?.let {
+            val dialog = Dialog(it)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.invite_user_details_layout)
 
 
-        val nameTV = dialog.findViewById(R.id.nameTV) as TextView
-        val categoryTv = dialog.findViewById(R.id.categoryTv) as TextView
-        val categoryDateTv = dialog.findViewById(R.id.categoryDateTv) as TextView
-        val profilePicIV = dialog.findViewById(R.id.profilePicIMGV) as ImageView
-        val personalImageView = dialog.findViewById(R.id.personalIMGV) as ImageView
-        val educationaImageView = dialog.findViewById(R.id.educationIMGV) as ImageView
-        val skillIMGV = dialog.findViewById(R.id.skillIMGV) as ImageView
-        val photInfoImageView = dialog.findViewById(R.id.pictureIMGV) as ImageView
-
-
-
-        nameTV.text = name
-        categoryTv.text = category
-        categoryDateTv.text = createdDate.toBanglaDigit()
-
-
-        profilePicIV.loadCircularImageFromUrl(photoUrl)
-
-
-        if (personalInfo.equals("True", ignoreCase = true)) {
-
-            personalImageView.setBackgroundResource(R.drawable.acount_right_icon)
-
-        } else {
-
-            personalImageView.setBackgroundResource(R.drawable.account_cross_icon)
-        }
-
-        if (educationInfo.equals("True", ignoreCase = true)) {
-
-            educationaImageView.setBackgroundResource(R.drawable.acount_right_icon)
-
-        } else {
-
-            educationaImageView.setBackgroundResource(R.drawable.account_cross_icon)
-
-        }
-
-        if (photoInfo.equals("True", ignoreCase = true)) {
-
-            photInfoImageView.setBackgroundResource(R.drawable.acount_right_icon)
-
-        } else {
-
-            photInfoImageView.setBackgroundResource(R.drawable.account_cross_icon)
-
-        }
-
-        if (skillInfo.equals("True", ignoreCase = true)) {
-
-            skillIMGV.setBackgroundResource(R.drawable.acount_right_icon)
-
-        } else {
-
-            skillIMGV.setBackgroundResource(R.drawable.account_cross_icon)
-
-        }
-
-        val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
-
-        dialog.setCancelable(true)
-        dialog.show()
+            val nameTV = dialog.findViewById(R.id.nameTV) as TextView
+            val categoryTv = dialog.findViewById(R.id.categoryTv) as TextView
+            val categoryDateTv = dialog.findViewById(R.id.categoryDateTv) as TextView
+            val profilePicIV = dialog.findViewById(R.id.profilePicIMGV) as ImageView
+            val personalImageView = dialog.findViewById(R.id.personalIMGV) as ImageView
+            val educationaImageView = dialog.findViewById(R.id.educationIMGV) as ImageView
+            val skillIMGV = dialog.findViewById(R.id.skillIMGV) as ImageView
+            val photInfoImageView = dialog.findViewById(R.id.pictureIMGV) as ImageView
 
 
 
-        cancelIconImgv.setOnClickListener {
-            try {
-                dialog.dismiss()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            nameTV.text = name
+            categoryTv.text = category
+            categoryDateTv.text = createdDate.toBanglaDigit()
+
+
+            profilePicIV.loadCircularImageFromUrl(photoUrl)
+
+
+            if (personalInfo.equals("True", ignoreCase = true)) {
+
+                personalImageView.setBackgroundResource(R.drawable.acount_right_icon)
+
+            } else {
+
+                personalImageView.setBackgroundResource(R.drawable.account_cross_icon)
+            }
+
+            if (educationInfo.equals("True", ignoreCase = true)) {
+
+                educationaImageView.setBackgroundResource(R.drawable.acount_right_icon)
+
+            } else {
+
+                educationaImageView.setBackgroundResource(R.drawable.account_cross_icon)
+
+            }
+
+            if (photoInfo.equals("True", ignoreCase = true)) {
+
+                photInfoImageView.setBackgroundResource(R.drawable.acount_right_icon)
+
+            } else {
+
+                photInfoImageView.setBackgroundResource(R.drawable.account_cross_icon)
+
+            }
+
+            if (skillInfo.equals("True", ignoreCase = true)) {
+
+                skillIMGV.setBackgroundResource(R.drawable.acount_right_icon)
+
+            } else {
+
+                skillIMGV.setBackgroundResource(R.drawable.account_cross_icon)
+
+            }
+
+            val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
+
+            dialog.setCancelable(true)
+            dialog.show()
+
+
+
+            cancelIconImgv.setOnClickListener {
+                try {
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
@@ -369,7 +370,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                 mSnackBar?.show()
             } catch (e: Exception) {
             }
-        } else{
+        } else {
             //successTV.isClickable = true
             //pendingTV.isClickable = true
             mSnackBar?.dismiss()

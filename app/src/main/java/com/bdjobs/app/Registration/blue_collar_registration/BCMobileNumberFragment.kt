@@ -85,7 +85,7 @@ class BCMobileNumberFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_verify_number_layout)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val yesButton = dialog.findViewById<TextView>(R.id.bcYesTV)
         val noButton = dialog.findViewById<TextView>(R.id.bcNoTV)
         val mobileNumberTV = dialog.findViewById<TextView>(R.id.mobileNumberTV)

@@ -13,7 +13,7 @@
     <string name="app_name">Bdjobs</string>
     <string name="hint_keyword">Job title, Keyword</string>
     <string name="hint.location">Location</string>
-    <string name="hint.rf_phone_office">Phone(Office)</string>
+    <string name="hint.rf_phone_office">Phone No (Office)</string>
     <string name="hint.Category">Category</string>
     <string name="field_empty_error_message_common">This field can not be empty!</string>
     <string name="title_activity_main_landing">MainLandingActivity</string>
@@ -52,7 +52,7 @@
     <string name="hint.passing_year">Passing Year</string>
     <string name="hint.duration">Duration</string>
     <string name="hint.duration_tr">Duration *</string>
-    <string name="hint.ref_email">Email</string>
+    <string name="hint.ref_email">Email Address</string>
     <string name="hint.achievement">Achievement</string>
     <string name="hint.save">Save</string>
     <string name="heading.toolbar.addProfessionalQualification">Add Professional Qualification</string>
@@ -73,8 +73,8 @@
     <string name="hint.reference_organization">Organization *</string>
     <string name="hint.year">Year *</string>
     <string name="hint.training_year">Training Year *</string>
-    <string name="hint.ref_phone_res">Phone (Res)</string>
-    <string name="hint.ref_mobile">Mobile</string>
+    <string name="hint.ref_phone_res">Phone No (Res)</string>
+    <string name="hint.ref_mobile">Mobile No</string>
     <string name="err_msg_experience">You can  not add more than 3 work discipline!</string>
     <string name="hint.company_name">Company Name *</string>
     <string name="hint.company_business">Company Business *</string>

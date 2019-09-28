@@ -79,7 +79,11 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
 
         holder.tvDegree?.text = dModel.examDegreeTitle
 
-        holder.tvUniName?.text = dModel.instituteName
+        if (dModel?.instituteType == "1")
+            holder?.tvUniName?.text = dModel.instituteName + " (Foreign Institute)"
+        else
+            holder.tvUniName?.text = dModel.instituteName
+
         if (dModel.acievement == "") {
             holder.moreActionDetails?.hide()
             holder.imageViewExpand?.hide()

@@ -96,7 +96,7 @@ class CareerEditFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.ori_example_dialog_layout)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val okButton = dialog.findViewById<TextView>(R.id.ok_button)
         val headingText = dialog.findViewById<TextView>(R.id.textView53)

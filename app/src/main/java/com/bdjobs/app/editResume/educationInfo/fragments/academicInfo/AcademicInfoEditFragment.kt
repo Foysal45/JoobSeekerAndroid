@@ -106,6 +106,9 @@ class AcademicInfoEditFragment : Fragment() {
 
     private fun preloadedData() {
         data = eduCB.getData()
+
+        cbForInstitute.isChecked = data.instituteType == "1"
+
         val resID = data.resultId!!
         hacaID = data.acId.toString()
 
@@ -921,6 +924,7 @@ class AcademicInfoEditFragment : Fragment() {
 
 
         hideRes = if (cbResHide.isChecked) "1" else "0"
+        foreignInstitute = if (cbForInstitute.isChecked) "1" else "0"
         if (cbResHide.isChecked) {
             gradeOrMarks = "0"
             scaleORCgpa = "0"

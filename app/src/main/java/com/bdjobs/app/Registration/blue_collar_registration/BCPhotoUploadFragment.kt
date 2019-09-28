@@ -217,9 +217,7 @@ class BCPhotoUploadFragment : Fragment() {
                 /*  Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")*/
                 if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && resultData != null) {
                     var fileUri: Uri? = null
-
                     val selectedImageUri = resultData.data
-                    val tempPath = getPathCloud(selectedImageUri, activity)
                     val url = resultData.data!!.toString()
                     if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
 

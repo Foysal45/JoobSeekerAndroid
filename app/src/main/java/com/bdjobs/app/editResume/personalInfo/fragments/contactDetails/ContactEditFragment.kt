@@ -172,12 +172,17 @@ class ContactEditFragment : Fragment() {
 
         try {
             countryList?.let {
-                for (item in it) {
-                    if (item.substringAfter("(").substringBefore(")") == contactInfo.getContactData().countryCode) {
-                        countryNameAndCode = item
-                        break
+                if (contactInfo.getContactData().countryCode == "225"){
+                    countryNameAndCode = "Cote d'Ivoire (Ivory Coast) (225)"
+                } else {
+                    for (item in it) {
+                        if (item.substringAfter("(").substringBefore(")") == contactInfo.getContactData().countryCode) {
+                            countryNameAndCode = item
+                            break
+                        }
                     }
                 }
+
             }
         } catch (e: Exception) {
             logException(e)
@@ -199,6 +204,13 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun doWork() {
+
+//        cgPermanent.check(R.id.insideP)
+//        cgPresent.check(R.id.insidePre)
+//
+//        selectChip(cgPermanent, "Inside Bangladesh")
+//        selectChip(cgPresent, "Inside Bangladesh")
+
         addTextChangedListener(prContactDistrictTIET, contactDistrictTIL1)
         addTextChangedListener(prContactThanaTIET, contactThanaTIL1)
         //addTextChangedListener(prContactPostOfficeTIET1, contactPostOfficeTIL1)
@@ -469,7 +481,7 @@ class ContactEditFragment : Fragment() {
 
                 }
 
-                if (contactEmailAddressTIET.getString().trim() != "" && contactEmailAddressTIET1.getString().trim() == ""){
+                if (contactEmailAddressTIET.getString().trim() != "" && contactEmailAddressTIET1.getString().trim() == "") {
                     valid = emailValidityCheck(contactEmailAddressTIET.text.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
                     if (valid) numberOfValidations++
                 }
@@ -481,15 +493,22 @@ class ContactEditFragment : Fragment() {
 
                 if (numberOfValidations > 1) {
                     Log.d("check", "valid")
+
                     if (addressCheckbox.isChecked) {
                         if (validation >= 4) {
                             Log.d("rakib", "came 4")
                             updateData()
                         }
                     } else {
-                        if (validation >= 7) {
-                            Log.d("rakib", "came 7")
-                            updateData()
+                        val selectedChip = cgPermanent.checkedChipId
+                        if (selectedChip == R.id.insideP || selectedChip == R.id.outSideP){
+                            if (validation >= 7) {
+                                Log.d("rakib", "came 7")
+                                updateData()
+                            }
+                        }
+                        else{
+                            toast("Please select inside Bangladesh or outside Bangladesh")
                         }
                     }
                 }
@@ -613,7 +632,7 @@ class ContactEditFragment : Fragment() {
                 present_country_list = getIdByCountryName(presentContactCountryTIET.getString()), permInOut = permanentInOutBD, permanent_district = getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm"),
                 permanent_thana = getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm"), permanent_p_office = getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm"), permanent_Village = pmContactAddressTIETPRM.getString(),
                 permanent_country_list = getIdByCountryName(permanentContactCountryTIETP.getString()), same_address = sameAddress, permanent_adrsID = permanentAddressID, present_adrsID = presentAddressID,
-                officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), countryCode = countryCodeTIET.text.toString().substringAfter("(").substringBefore(")"), homePhone = contactMobileNumber2TIET.getString(),
+                officePhone = contactMobileNumber1TIET.getString(), mobile = contactMobileNumberTIET.getString(), countryCode = getCountryCode(), homePhone = contactMobileNumber2TIET.getString(),
                 email = contactEmailAddressTIET.getString(), alternativeEmail = contactEmailAddressTIET1.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -691,8 +710,10 @@ class ContactEditFragment : Fragment() {
         clContactEdit.clearFocus()
         permanentInOutBD = ""
         cgPermanent.clearCheck()
+//        selectChip(cgPresent, "Inside Bangladesh")
         presentInOutBD = ""
         cgPresent.clearCheck()
+//        selectChip(cgPermanent, "Inside Bangladesh")
         try {
             data = contactInfo.getContactData()
             Log.d("rakib", data.presentThana + " " + data.presentPostOffice)
@@ -814,7 +835,7 @@ class ContactEditFragment : Fragment() {
                 presentInsideBangladeshLayout1.hide()
                 presentOutsideBangladeshLayout.show()
             }
-            else -> cgPresent.clearCheck()
+            //else -> cgPresent.clearCheck()
         }
 
         if (data.permanentInsideOutsideBD == "False") {
@@ -845,7 +866,7 @@ class ContactEditFragment : Fragment() {
                     contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
             }
         } else {
-            cgPermanent.clearCheck()
+            //cgPermanent.clearCheck()
         }
 
         countryCodeTIET?.setText(countryNameAndCode)
@@ -907,7 +928,7 @@ class ContactEditFragment : Fragment() {
             activity?.selector("Please select your country ", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
                 permanentContactCountryTILP.requestFocus()
-               // permanentContactCountryTILP.hideError()
+                // permanentContactCountryTILP.hideError()
             }
         }
         presentContactCountryTIET.setOnClickListener {
@@ -1009,6 +1030,7 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
+        Log.d("rakib", "came here")
         val count = chipGroup.childCount
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip

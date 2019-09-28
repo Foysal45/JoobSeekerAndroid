@@ -449,7 +449,6 @@ class PhotoUploadActivity : Activity() {
 
                     var fileUri: Uri? = null
                     val selectedImageUri = data.data
-                    val tempPath = getPathCloud(selectedImageUri, this@PhotoUploadActivity)
                     val url = data.data!!.toString()
                     if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
 
