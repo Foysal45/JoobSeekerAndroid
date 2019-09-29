@@ -98,7 +98,7 @@ class Login2PasswordFragment : android.app.Fragment() {
             return
         } else {
             activity?.showProgressBar(progressBar)
-            ApiServiceMyBdjobs.create().doLogin(username = login2Communicator.getUserName(), password = password, userId = login2Communicator.getUserId(), fullName = login2Communicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
+            ApiServiceMyBdjobs.create().doLogin2(username = login2Communicator.getUserName(), password = password, userId = login2Communicator.getUserId(), fullName = login2Communicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
                 override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
                     activity?.stopProgressBar(progressBar)
                     error("onFailure", t)

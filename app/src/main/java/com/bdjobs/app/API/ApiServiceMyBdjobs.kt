@@ -29,6 +29,28 @@ interface ApiServiceMyBdjobs {
     ): Call<LoginUserModel>
 
     @FormUrlEncoded
+    @POST("https://my.bdjobs.com/apps/mybdjobs/v1/apps-own-signinprocess.asp")
+    fun getLogin2UserDetails(@Field("username") username: String? = "",
+                             @Field("appId") appId: String? = Constants.APP_ID): Call<Login2UserModel>
+
+    @FormUrlEncoded
+    @POST("https://my.bdjobs.com/apps/mybdjobs/v1/apps-own-agen-log.asp")
+    fun doLogin2(@Field("username") username: String? = "",
+                @Field("password") password: String? = "",
+                @Field("userId") userId: String? = "",
+                @Field("decodId") decodId: String? = "",
+                @Field("susername") susername: String? = "",
+                @Field("fullName") fullName: String? = "",
+                @Field("socialMediaId") socialMediaId: String? = "",
+                @Field("socialMediaName") socialMediaName: String? = "",
+                @Field("isMap") isMap: String? = "",
+                @Field("email") email: String? = "",
+                @Field("otpCode") otpCode: String? = "",
+                @Field("smId") smId: String? = "",
+                @Field("appId") appId: String? = Constants.APP_ID
+    ): Call<LoginSessionModel>
+
+    @FormUrlEncoded
     @POST(api_mybdjobs_app_agent_log)
     fun doLogin(@Field("username") username: String? = "",
                 @Field("password") password: String? = "",
@@ -126,22 +148,22 @@ interface ApiServiceMyBdjobs {
 
     ////////////PreviousOne
 
-  /*  @FormUrlEncoded
-    @POST("apps_step_04_view_spe.asp")
-    fun getSpecializationInfo(
-            @Field("userId") userId: String? = "",
-            @Field("decodeId") decodeId: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
-    ): Call<SpecialzationModel>*/
+    /*  @FormUrlEncoded
+      @POST("apps_step_04_view_spe.asp")
+      fun getSpecializationInfo(
+              @Field("userId") userId: String? = "",
+              @Field("decodeId") decodeId: String? = "",
+              @Field("appId") appId: String? = Constants.APP_ID
+      ): Call<SpecialzationModel>*/
 
 
     ///////////////////New Test One
 
-  @FormUrlEncoded
+    @FormUrlEncoded
     @POST("apps_step_04_view_spe_newP.asp")
     fun getSpecializationInfo(
-            @Field("userId") userId: String?="",
-            @Field("decodeId") decodeId: String?="",
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<SpecialzationModel>
 
@@ -403,7 +425,6 @@ interface ApiServiceMyBdjobs {
             @Field("extracurricular") extracurricular: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
-
 
 
     ///-------------updateSpcializationTest

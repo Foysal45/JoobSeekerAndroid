@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.Login2UserModel
 import com.bdjobs.app.API.ModelClasses.LoginUserModel
 
 import com.bdjobs.app.R
@@ -77,26 +78,28 @@ class Login2UserNameFragment : android.app.Fragment() {
 
     private fun checkUserHasAccount(userName: String?) {
         activity?.showProgressBar(loadingProgressBar)
-        ApiServiceMyBdjobs.create().getLoginUserDetails(userName).enqueue(object : Callback<LoginUserModel> {
+        ApiServiceMyBdjobs.create().getLogin2UserDetails(userName).enqueue(object : Callback<Login2UserModel> {
 
-            override fun onFailure(call: Call<LoginUserModel>?, t: Throwable) {
+            override fun onFailure(call: Call<Login2UserModel>?, t: Throwable) {
                 activity?.stopProgressBar(loadingProgressBar)
                 error("onFailure", t)
             }
 
-            override fun onResponse(call: Call<LoginUserModel>?, response: Response<LoginUserModel>?) {
+            override fun onResponse(call: Call<Login2UserModel>?, response: Response<Login2UserModel>?) {
                 try {
                     activity?.stopProgressBar(loadingProgressBar)
-                    if (response?.body()?.statuscode == api_request_result_code_ok) {
+                    if (response?.body()?.messageType == "1") {
                         useNameTIL.hideError()
-                        if (response.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
-                            login2Communicator.goToOtpFragment(userName, response.body()?.data?.get(0)?.userId, response.body()?.data?.get(0)?.userFullName, response.body()?.data?.get(0)?.imageurl)
-                        } else if (response.body()?.data?.get(0)?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
-                            login2Communicator.goToPasswordFragment(userName, response.body()?.data?.get(0)?.userId, response.body()?.data?.get(0)?.userFullName, response.body()?.data?.get(0)?.imageurl)
+                        if (response.body()?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
+                            login2Communicator.goToOtpFragment(userName, response.body()?.userId, response?.body()?.userFullName, response.body()?.imageUrl)
+                        } else if (response.body()?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
+                            login2Communicator.goToPasswordFragment(userName, response.body()?.userId, response.body()?.userFullName, response.body()?.imageUrl)
                         }
 
+
+
                     } else {
-                        useNameTIL.showError(response?.body()?.message)
+                        useNameTIL.showError("Couldn't find your  Bdjobs account!")
                         //requestFocus(usernameTIET)
                     }
                 } catch (e: Exception) {
