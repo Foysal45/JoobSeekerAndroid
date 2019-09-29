@@ -33,7 +33,7 @@ class Login2OTPFragment : android.app.Fragment() {
     private lateinit var counter: CountDownTimer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater?.inflate(R.layout.fragment_login_otp, container, false)!!
+        rootView = inflater?.inflate(R.layout.fragment_login2_otp, container, false)!!
         return rootView
     }
 
@@ -112,7 +112,7 @@ class Login2OTPFragment : android.app.Fragment() {
         val otpCode = otpTIET.getString()
         if (validateOtpCode(otpCode)) {
             activity?.showProgressBar(progressBar)
-            ApiServiceMyBdjobs.create().doLogin(username = login2Communicator.getUserName(), otpCode = otpCode, userId = login2Communicator.getUserId(), fullName = login2Communicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
+            ApiServiceMyBdjobs.create().doLogin2(password = otpCode, username = login2Communicator.getUserName(), userId = login2Communicator.getUserId(), fullName = login2Communicator.getFullName()).enqueue(object : Callback<LoginSessionModel> {
                 override fun onFailure(call: Call<LoginSessionModel>, t: Throwable) {
                     activity?.stopProgressBar(progressBar)
                     error("onFailure", t)
