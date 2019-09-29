@@ -53,11 +53,8 @@
             android:id="@+id/otpTIET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Type Code"
+            android:hint="Type Pass"
             android:importantForAutofill="noExcludeDescendants"
-            android:inputType="numberSigned"
-            android:maxLength="6"
-            android:singleLine="true"
             android:typeface="normal"
             app:fontFamily="@font/roboto" />
     </com.google.android.material.textfield.TextInputLayout>
