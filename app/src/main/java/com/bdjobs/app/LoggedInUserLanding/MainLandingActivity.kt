@@ -252,6 +252,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
 
         yesBtn?.setOnClickListener {
             try {
+                exitDialog?.dismiss()
                 if (mInterstitialAd.isLoaded) {
                     mInterstitialAd.show()
                 } else {
