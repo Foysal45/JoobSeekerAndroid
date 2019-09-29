@@ -180,11 +180,11 @@ class PreferredAreasEditFragment : Fragment() {
         fab_prefAreas_update.setOnClickListener {
 
             if (!acWCjobCat.text.toString().isNullOrEmpty()) {
-                toast("Functional job category is not available")
+                toast("Functional Job Category is not available")
             } else if (!acBCJobCat.text.toString().isNullOrEmpty()) {
-                toast("Special skilled job category is not available")
+                toast("Special Skilled Job Category is not available")
             } else if (!acOrgType.text.toString().isNullOrEmpty()) {
-                toast("Organization type is not available")
+                toast("Organization Type is not available")
             } else if (!acInsideBD?.text.toString().isNullOrEmpty()) {
                 toast("District is not available")
             } else if (!acOutsideBD.text.toString().isNullOrEmpty()) {
