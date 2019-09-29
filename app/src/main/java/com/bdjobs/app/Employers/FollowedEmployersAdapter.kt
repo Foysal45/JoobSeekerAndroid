@@ -18,7 +18,9 @@ import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.alert
@@ -42,23 +44,28 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
     private var retryPageLoad = false
     private var errorMsg: String? = null
 
-    companion object{
+    companion object {
         private val ITEM = 0
         private val LOADING = 1
+        private val ITEM_WITH_AD = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
 
-        when(viewType){
+        when (viewType) {
             ITEM -> {
                 val viewItem = inflater.inflate(R.layout.followed_employers, parent, false)
                 viewHolder = FollowedEmployerViewHolder(viewItem)
             }
-            LOADING->{
+            LOADING -> {
                 val viewLoading = inflater.inflate(R.layout.item_progress_1, parent, false)
                 viewHolder = FollowedEmployerLoadingViewHolder(viewLoading)
+            }
+            ITEM_WITH_AD -> {
+                val viewItem = inflater.inflate(R.layout.followed_employers_ad, parent, false)
+                viewHolder = FollowedEmployerViewHolderWithAd(viewItem)
             }
 
         }
@@ -72,12 +79,12 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(getItemViewType(position)){
-            ITEM->{
+        when (getItemViewType(position)) {
+            ITEM -> {
                 val itemHolder = holder as FollowedEmployerViewHolder
-                bindViews(itemHolder,position)
+                bindViews(itemHolder, position)
             }
-            LOADING->{
+            LOADING -> {
                 val itemHolder = holder as FollowedEmployerLoadingViewHolder
                 if (retryPageLoad) {
                     itemHolder?.mErrorLayout?.visibility = View.VISIBLE
@@ -92,72 +99,144 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     itemHolder?.mProgressBar?.visibility = View.VISIBLE
                 }
             }
+            ITEM_WITH_AD -> {
+                val itemHolder = holder as FollowedEmployerViewHolderWithAd
+                Constants.showNativeAd(holder.ad_small_template, context)
+                bindViews(itemHolder, position)
+            }
         }
 
     }
 
-    private fun bindViews(holder: FollowedEmployerViewHolder, position: Int){
-        try {
-            holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
-            holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
-            company_name = followedEmployerList?.get(position)?.companyName!!
-            company_ID = followedEmployerList?.get(position)?.companyID!!
-            holder.followUunfollow?.setOnClickListener {
+    private fun bindViews(viewHolder: RecyclerView.ViewHolder, position: Int) {
 
+        when (getItemViewType(position)) {
+            ITEM -> {
+                val holder = viewHolder as FollowedEmployerViewHolder
                 try {
-                    activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
-                        yesButton {
-                            undoButtonPressed = false
-                            removeItem(holder.adapterPosition)
+                    holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
+                    holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
+                    company_name = followedEmployerList?.get(position)?.companyName!!
+                    company_ID = followedEmployerList?.get(position)?.companyID!!
+                    holder.followUunfollow?.setOnClickListener {
 
+                        try {
+                            activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
+                                yesButton {
+                                    undoButtonPressed = false
+                                    removeItem(holder.adapterPosition)
+
+                                }
+                                noButton { dialog ->
+                                    dialog.dismiss()
+                                }
+                            }.show()
+
+                        } catch (e: Exception) {
+                            logException(e)
                         }
-                        noButton { dialog ->
-                            dialog.dismiss()
+                    }
+
+                    var jobCount = followedEmployerList?.get(position)?.jobCount
+                    if (jobCount == null) {
+                        jobCount = "0"
+                    }
+                    var jobCountint = jobCount?.toInt()
+                    //      Log.d("crash", "crash $jobCount")
+
+
+                    holder?.itemView?.setOnClickListener {
+                        if (jobCountint > 0) {
+                            try {
+                                if (position < followedEmployerList?.size!!) {
+                                    Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
+                                    var company_name_1 = followedEmployerList?.get(position)?.companyName!!
+                                    var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
+                                    employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+                                    employersCommunicator?.positionClicked(position)
+                                    Log.d("companyid", company_ID_1)
+                                    Log.d("companyid", company_name_1)
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
                         }
-                    }.show()
+                    }
 
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
 
-            var jobCount = followedEmployerList?.get(position)?.jobCount
-            if (jobCount == null) {
-                jobCount = "0"
-            }
-            var jobCountint = jobCount?.toInt()
-            //      Log.d("crash", "crash $jobCount")
+            ITEM_WITH_AD -> {
+                val holder = viewHolder as FollowedEmployerViewHolderWithAd
+                try {
+                    holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
+                    holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
+                    company_name = followedEmployerList?.get(position)?.companyName!!
+                    company_ID = followedEmployerList?.get(position)?.companyID!!
+                    holder.followUunfollow?.setOnClickListener {
 
+                        try {
+                            activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
+                                yesButton {
+                                    undoButtonPressed = false
+                                    removeItem(holder.adapterPosition)
 
-            holder?.itemView?.setOnClickListener {
-                if (jobCountint > 0) {
-                    try {
-                        if (position < followedEmployerList?.size!!) {
-                            Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
-                            var company_name_1 = followedEmployerList?.get(position)?.companyName!!
-                            var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
-                            employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
-                            employersCommunicator?.positionClicked(position)
-                            Log.d("companyid", company_ID_1)
-                            Log.d("companyid", company_name_1)
+                                }
+                                noButton { dialog ->
+                                    dialog.dismiss()
+                                }
+                            }.show()
+
+                        } catch (e: Exception) {
+                            logException(e)
                         }
-                    } catch (e: Exception) {
-                        logException(e)
                     }
+
+                    var jobCount = followedEmployerList?.get(position)?.jobCount
+                    if (jobCount == null) {
+                        jobCount = "0"
+                    }
+                    var jobCountint = jobCount?.toInt()
+                    //      Log.d("crash", "crash $jobCount")
+
+
+                    holder?.itemView?.setOnClickListener {
+                        if (jobCountint > 0) {
+                            try {
+                                if (position < followedEmployerList?.size!!) {
+                                    Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
+                                    var company_name_1 = followedEmployerList?.get(position)?.companyName!!
+                                    var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
+                                    employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+                                    employersCommunicator?.positionClicked(position)
+                                    Log.d("companyid", company_ID_1)
+                                    Log.d("companyid", company_name_1)
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+                        }
+                    }
+
+                } catch (e: Exception) {
+                    logException(e)
                 }
             }
-
-        } catch (e: Exception) {
-            logException(e)
         }
+
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == followedEmployerList!!.size - 1 && isLoadingAdded) LOADING else ITEM
+        return if (position % 3 == 0 && position !=0)
+            ITEM_WITH_AD
+        else
+            if (position == followedEmployerList!!.size - 1 && isLoadingAdded) LOADING else ITEM
     }
 
-    private fun getItem(position: Int) : FollowEmployerListData?{
+    private fun getItem(position: Int): FollowEmployerListData? {
         return followedEmployerList!![position]
     }
 
@@ -224,7 +303,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         }
     }
 
-    fun addLoadingFooter(){
+    fun addLoadingFooter() {
         isLoadingAdded = true
         add(FollowEmployerListData())
 
@@ -256,6 +335,15 @@ class FollowedEmployerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
     val followUunfollow = view?.findViewById(R.id.follow_unfollow_BTN) as MaterialButton
     val followemployersCard = view?.findViewById(R.id.follwEmp_cardview) as CardView
+}
+
+class FollowedEmployerViewHolderWithAd(view: View) : RecyclerView.ViewHolder(view) {
+    // Holds the TextView that will add each animal to
+    val employerCompany = view?.findViewById(R.id.employers_company_TV) as TextView
+    val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
+    val followUunfollow = view?.findViewById(R.id.follow_unfollow_BTN) as MaterialButton
+    val followemployersCard = view?.findViewById(R.id.follwEmp_cardview) as CardView
+    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
 }
 
 class FollowedEmployerLoadingViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
