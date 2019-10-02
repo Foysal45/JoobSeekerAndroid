@@ -358,12 +358,17 @@ class ContactEditFragment : Fragment() {
 //                }
 //            }
             var validation = 0
+            Log.d("valid", "fab clicked $validation")
             when (presentInOutBD) {
                 "0" -> {
 //                        validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
                     validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
+                    Log.d("valid", "present district $validation")
                     validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
+                    Log.d("valid", "present thana $validation")
                     validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
+                    Log.d("valid", "present address $validation")
+
                     Log.d("CValidaiton", "(out 1.1) value : $validation")
                 }
                 "1" -> {
@@ -495,14 +500,14 @@ class ContactEditFragment : Fragment() {
                     Log.d("check", "valid")
 
                     if (addressCheckbox.isChecked) {
-                        if (validation >= 4) {
+                        if (validation > 4) {
                             Log.d("rakib", "came 4")
                             updateData()
                         }
                     } else {
                         val selectedChip = cgPermanent.checkedChipId
                         if (selectedChip == R.id.insideP || selectedChip == R.id.outSideP){
-                            if (validation >= 7) {
+                            if (validation > 7) {
                                 Log.d("rakib", "came 7")
                                 updateData()
                             }
@@ -844,10 +849,10 @@ class ContactEditFragment : Fragment() {
             permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.show()
             presentOutsideBangladeshLayoutP.hide()
-            pmContactAddressTIETPRM.easyOnTextChangedListener {
-                if (it.trimmedLength() >= 2)
-                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-            }
+//            pmContactAddressTIETPRM.easyOnTextChangedListener {
+//                if (it.trimmedLength() >= 2)
+//                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+//            }
         } else if (data.permanentInsideOutsideBD == "True") {
             selectChip(cgPermanent, "Outside Bangladesh")
             permanentInOutBD = "1"
@@ -857,14 +862,14 @@ class ContactEditFragment : Fragment() {
             //permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.hide()
             presentOutsideBangladeshLayoutP.show()
-            permanentContactCountryTIETP.easyOnTextChangedListener {
-                if (it.trimmedLength() >= 2)
-                    permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
-            }
-            pmContactAddressTIETPRM.easyOnTextChangedListener {
-                if (it.trimmedLength() >= 2)
-                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-            }
+//            permanentContactCountryTIETP.easyOnTextChangedListener {
+//                if (it.trimmedLength() >= 2)
+//                    permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
+//            }
+//            pmContactAddressTIETPRM.easyOnTextChangedListener {
+//                if (it.trimmedLength() >= 2)
+//                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+//            }
         } else {
             //cgPermanent.clearCheck()
         }
@@ -986,23 +991,23 @@ class ContactEditFragment : Fragment() {
                             "Inside Bangladesh" -> {
                                 presentInsideBangladeshLayout.show()
                                 presentOutsideBangladeshLayoutP.hide()
-                                pmContactAddressTIETPRM.easyOnTextChangedListener {
-                                    if (it.trimmedLength() >= 2)
-                                        contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-                                }
+//                                pmContactAddressTIETPRM.easyOnTextChangedListener {
+//                                    if (it.trimmedLength() >= 2)
+//                                        contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+//                                }
                                 "0"
                             }
                             "Outside Bangladesh" -> {
                                 presentInsideBangladeshLayout.hide()
                                 presentOutsideBangladeshLayoutP.show()
-                                permanentContactCountryTIETP.easyOnTextChangedListener {
-                                    if (it.trimmedLength() >= 2)
-                                        permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
-                                }
-                                pmContactAddressTIETPRM.easyOnTextChangedListener {
-                                    if (it.trimmedLength() >= 2)
-                                        contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-                                }
+//                                permanentContactCountryTIETP.easyOnTextChangedListener {
+//                                    if (it.trimmedLength() >= 2)
+//                                        permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
+//                                }
+//                                pmContactAddressTIETPRM.easyOnTextChangedListener {
+//                                    if (it.trimmedLength() >= 2)
+//                                        contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
+//                                }
                                 "1"
                             }
                             else -> ""

@@ -270,7 +270,7 @@
     <string name="toast.scale.blank.texts">Please enter Scale </string>
     <string name="toast.scale.grade.blank.texts">Please enter CGPA and Scale </string>
     <string name="toast.exam.degree.title.other.blank">Exam/Degree Title can not be empty</string>
-    <string name="hint.addEmail">ADD EMAIL Address</string>
+    <string name="hint.addEmail">ADD EMAIL ADDRESS</string>
     <string name="error.fill_up_personal">Please fill up Personal Details at first.</string>
     <string name="resend_message">কোডটি পুনঃরায় পাঠান</string>
     <string name="title_pref_areas">Preferred Areas</string>

@@ -118,13 +118,13 @@ class PersonalDetailsEditFragment : Fragment() {
             validation = isValidate(etPerFirstName, firstNameTIL, etPerFirstName, true, validation)
             validation = isValidate(etPerDob, dobTIL, etPerDob, true, validation)
             if (etPerNationality?.text?.trim().isNullOrEmpty()){
-                etPerNationality?.error = "This field can not be empty"
+//                etPerNationality?.error = "This field can not be empty"
                 etPerNationality?.requestFocus()
             } else{
                 validation++
             }
             if (!isNotBangladeshi) {
-                validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, true, validation)
+                validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, false, validation)
             }
 
             Log.d("rakib", "gender $gender marital $marital")

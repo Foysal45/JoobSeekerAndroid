@@ -38,9 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColorHint="#757575"
-
-                    app:counterMaxLength="50">
+                    android:textColorHint="#757575">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPerFirstName"
@@ -330,6 +328,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPerNationality"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.nationality"
