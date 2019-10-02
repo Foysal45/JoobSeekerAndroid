@@ -91,12 +91,18 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 viewHolder = StandOutListVH(viewLoading)
             }
 
-            FEATURED ->{
+            FEATURED -> {
                 val viewLoading = inflater.inflate(R.layout.featured_joblist_item, parent, false)
-                viewHolder = FeaturedtListVH(viewLoading)
+                viewHolder = FeaturedListVH(viewLoading)
             }
 
-    //------------------------------------------------------------------------------------------------------------------------------//
+            //------------------------------------------------------------------------------------------------------------------------------//
+
+            FEATURED_AD -> {
+                val viewLoading = inflater.inflate(R.layout.featured_joblist_item_ad, parent, false)
+                viewHolder = FeaturedAdListVH(viewLoading)
+            }
+
             STANDOUT_AD -> {
                 val viewLoading = inflater.inflate(R.layout.standout_add_raw_item_layout, parent, false)
                 viewHolder = StandOutAdJobListVH(viewLoading)
@@ -253,7 +259,72 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
             FEATURED -> {
 
-                val jobsVH = holder as FeaturedtListVH
+                val jobsVH = holder as FeaturedListVH
+                jobsVH.tvPosName.text = result?.jobTitle
+                jobsVH.tvComName.text = result?.companyName
+                jobsVH.tvDeadline.text = result?.deadline
+                jobsVH.tvEducation.text = result?.eduRec
+                jobsVH.tvExperience.text = result?.experience
+
+
+                jobsVH.linearLayout.setOnClickListener {
+                    jobCommunicator?.onItemClicked(position)
+                    val jobids = ArrayList<String>()
+                    val lns = ArrayList<String>()
+                    val deadline = ArrayList<String>()
+                    jobids.add(jobList?.get(position)?.jobid!!)
+                    lns.add(jobList?.get(position)?.lantype!!)
+                    deadline.add(jobList?.get(position)?.deadlineDB!!)
+                    homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
+                }
+
+
+                jobsVH.ivDropArrow.setOnClickListener {
+                    jobsVH.ivDropArrow.visibility = View.GONE
+                    jobsVH.clHiddenLayout.visibility = View.VISIBLE
+//                    ExpandAndCollapseViewUtil.expand(jobsVH.clHiddenLayout, 300)
+                }
+
+                jobsVH.shortListIconIV.setOnClickListener {
+                    shorlistAndUnshortlistJob(position)
+
+                }
+                if (result?.logo != null) {
+                    jobsVH.logoImageView.visibility = View.VISIBLE
+                    Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
+
+                }
+
+                doAsync {
+                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    uiThread {
+
+                        if (homeCommunicator == null) {
+                            if (shortListed) {
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                            } else {
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                            }
+                        } else {
+                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                        }
+
+                        if (appliedJobs.isEmpty()) {
+                            //jobsVH.appliedBadge.hide()
+                        } else {
+                            //jobsVH.appliedBadge.show()
+                        }
+                    }
+                }
+
+
+            }
+
+            FEATURED_AD -> {
+
+                val jobsVH = holder as FeaturedAdListVH
+                Constants.showNativeAd(jobsVH.ad_small_template, context)
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
                 jobsVH.tvDeadline.text = result?.deadline
@@ -320,7 +391,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 val jobsVH = holder as StandOutAdJobListVH
 
-                Constants.showNativeAd(jobsVH.ad_small_template,context)
+                Constants.showNativeAd(jobsVH.ad_small_template, context)
 
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
@@ -381,7 +452,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 val jobsVH = holder as BasicAdobListVH
 
-                Constants.showNativeAd(jobsVH.ad_small_template,context)
+                Constants.showNativeAd(jobsVH.ad_small_template, context)
 
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
@@ -574,14 +645,18 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     override fun getItemViewType(position: Int): Int {
 
-        if (showAD && (position % 3 == 0) && position!=0 && position<21) {
+        if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
             if (position == this.jobList!!.size - 1 && isLoadingAdded) {
 
                 return LOADING
 
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
+
+                return FEATURED_AD
+
             } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
 
-                return FEATURED
+                return STANDOUT_AD
 
             } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
@@ -592,13 +667,17 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 return LOADING
 
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
 
                 return FEATURED
 
+            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
+
+                return STANDOUT
+
             } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
-                    return BASIC
+                return BASIC
             }
         }
         return LOADING
@@ -716,7 +795,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     }
 
-    private class FeaturedtListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
+    private class FeaturedListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
         val tvPosName: TextView = viewItem?.findViewById(R.id.textViewPositionNameFeatured) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.textViewCompanyNameStandOut) as TextView
         val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDateStandOut) as TextView
@@ -727,6 +806,21 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         var ivDropArrow: ImageView = viewItem?.findViewById(R.id.img_drop_arrow) as ImageView
         var clHiddenLayout: ConstraintLayout = viewItem?.findViewById(R.id.hidden_cl) as ConstraintLayout
         var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+
+    }
+
+    private class FeaturedAdListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
+        val tvPosName: TextView = viewItem?.findViewById(R.id.textViewPositionNameFeatured) as TextView
+        val tvComName: TextView = viewItem?.findViewById(R.id.textViewCompanyNameStandOut) as TextView
+        val tvDeadline: TextView = viewItem?.findViewById(R.id.textViewDeadlineDateStandOut) as TextView
+        val tvExperience: TextView = viewItem?.findViewById(R.id.textViewExperienceYearStandOut) as TextView
+        val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationNameStandOut) as TextView
+        val logoImageView: ImageView = viewItem?.findViewById(R.id.imageViewCompanyLogoStandOut) as ImageView
+        var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
+        var ivDropArrow: ImageView = viewItem?.findViewById(R.id.img_drop_arrow) as ImageView
+        var clHiddenLayout: ConstraintLayout = viewItem?.findViewById(R.id.hidden_cl) as ConstraintLayout
+        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+        val ad_small_template: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
 
     }
 
