@@ -1,12 +1,18 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.app.Dialog
 import android.app.Fragment
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageButton
+import android.widget.ImageView
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
@@ -24,6 +30,7 @@ class MoreFragment : Fragment() {
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
     var cvUploadMore: String = ""
+    private var dialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_more_layout, container, false)!!
@@ -133,6 +140,26 @@ class MoreFragment : Fragment() {
                     "from" to "uploadResume"
             )
         }
+
+        jobApplicationStatus_MBTN.setOnClickListener {
+            showJobApplicationStatusDialog()
+        }
+    }
+
+    private fun showJobApplicationStatusDialog() {
+        dialog = Dialog(activity, android.R.style.Theme_Light_NoTitleBar)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(false)
+        dialog?.setContentView(R.layout.job_application_guideline)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val backImageView = dialog?.findViewById<ImageButton>(R.id.job_application_guideline_back_arrow)
+
+        backImageView?.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        dialog?.show()
     }
 
     private fun clearAddPopulateData() {
