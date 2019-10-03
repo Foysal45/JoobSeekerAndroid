@@ -24,6 +24,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.ads.nativetemplates.TemplateView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
@@ -267,7 +268,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvExperience.text = result?.experience
 
 
-                jobsVH.linearLayout.setOnClickListener {
+                jobsVH.cardView.setOnClickListener {
                     jobCommunicator?.onItemClicked(position)
                     val jobids = ArrayList<String>()
                     val lns = ArrayList<String>()
@@ -332,7 +333,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 jobsVH.tvExperience.text = result?.experience
 
 
-                jobsVH.linearLayout.setOnClickListener {
+                jobsVH.cardView.setOnClickListener {
                     jobCommunicator?.onItemClicked(position)
                     val jobids = ArrayList<String>()
                     val lns = ArrayList<String>()
@@ -805,7 +806,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
         var ivDropArrow: ImageView = viewItem?.findViewById(R.id.img_drop_arrow) as ImageView
         var clHiddenLayout: ConstraintLayout = viewItem?.findViewById(R.id.hidden_cl) as ConstraintLayout
-        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+//        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+        var cardView : MaterialCardView = viewItem?.findViewById(R.id.cardViewFeatured) as MaterialCardView
 
     }
 
@@ -819,8 +821,10 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
         var ivDropArrow: ImageView = viewItem?.findViewById(R.id.img_drop_arrow) as ImageView
         var clHiddenLayout: ConstraintLayout = viewItem?.findViewById(R.id.hidden_cl) as ConstraintLayout
-        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
+//        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
         val ad_small_template: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
+        var cardView : MaterialCardView = viewItem?.findViewById(R.id.cardViewFeatured) as MaterialCardView
+
 
     }
 
