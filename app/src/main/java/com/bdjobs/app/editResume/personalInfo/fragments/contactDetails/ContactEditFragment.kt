@@ -168,11 +168,18 @@ class ContactEditFragment : Fragment() {
         contactEmailAddressTIET.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET))
         contactEmailAddressTIET1.addTextChangedListener(TW.CrossIconBehave(contactEmailAddressTIET1))
 
-        val countryList: Array<String> = dataStorage.allCountryAndCountryCode
+        val countryList: MutableList<String> = dataStorage.allCountryAndCountryCode.toMutableList()
+
+        try {
+            countryList?.removeAll { ""  ==  it.substringAfter("(").substringBefore(")") }
+        } catch (e: Exception){
+            logException(e)
+        }
+
 
         try {
             countryList?.let {
-                if (contactInfo.getContactData().countryCode == "225"){
+                if (contactInfo.getContactData().countryCode == "225") {
                     countryNameAndCode = "Cote d'Ivoire (Ivory Coast) (225)"
                 } else {
                     for (item in it) {
@@ -506,13 +513,12 @@ class ContactEditFragment : Fragment() {
                         }
                     } else {
                         val selectedChip = cgPermanent.checkedChipId
-                        if (selectedChip == R.id.insideP || selectedChip == R.id.outSideP){
+                        if (selectedChip == R.id.insideP || selectedChip == R.id.outSideP) {
                             if (validation > 7) {
                                 Log.d("rakib", "came 7")
                                 updateData()
                             }
-                        }
-                        else{
+                        } else {
                             toast("Please select inside Bangladesh or outside Bangladesh")
                         }
                     }
