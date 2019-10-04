@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+    android:id="@+id/scroll_view"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,23 +123,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:padding="8dp"
-                android:background="?android:selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:id="@+id/job_application_guideline_back_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back_white_24dp" />
-
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:paddingLeft="32dp"
-                android:text="@string/job_application_guideline_toolbar_text"
-                android:textColor="#FFF"
-                android:textSize="18sp" />
+                android:layout_height="?actionBarSize"
+                android:background="@android:color/transparent">
+
+                <ImageView
+                    android:id="@+id/job_application_guideline_back_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:paddingLeft="32dp"
+                    android:text="@string/job_application_guideline_toolbar_text"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@id/job_application_guideline_back_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

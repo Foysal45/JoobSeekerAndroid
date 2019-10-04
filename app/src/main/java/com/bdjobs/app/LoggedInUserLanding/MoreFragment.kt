@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ScrollView
+import android.widget.TextView
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
@@ -23,6 +25,7 @@ import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MoreFragment : Fragment() {
 
@@ -142,25 +145,11 @@ class MoreFragment : Fragment() {
         }
 
         jobApplicationStatus_MBTN.setOnClickListener {
-            showJobApplicationStatusDialog()
+            activity?.showJobApplicationDialog()
         }
     }
 
-    private fun showJobApplicationStatusDialog() {
-        dialog = Dialog(activity, android.R.style.Theme_Light_NoTitleBar)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(false)
-        dialog?.setContentView(R.layout.job_application_guideline)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val backImageView = dialog?.findViewById<ImageButton>(R.id.job_application_guideline_back_arrow)
-
-        backImageView?.setOnClickListener {
-            dialog?.dismiss()
-        }
-
-        dialog?.show()
-    }
 
     private fun clearAddPopulateData() {
         /*this  function deletes duplicates data lists  */
@@ -201,5 +190,7 @@ class MoreFragment : Fragment() {
         Log.d("initPag", "called")
 
     }
+
+
 
 }

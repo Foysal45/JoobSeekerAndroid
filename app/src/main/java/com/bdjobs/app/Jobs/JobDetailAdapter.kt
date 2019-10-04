@@ -256,6 +256,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
+                            jobsVH.whyIAmSeeingThisTV.setOnClickListener {
+                                context.showJobApplicationDialog()
+                            }
+
                             jobsVH.applyButton.hide()
                             jobsVH.appliedBadge.hide()
 
@@ -675,6 +679,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH.tvReadBefApply.hide()
                                 jobsVH.tvReadBefApplyData.hide()
 
+
+
                             }
                         } catch (e: Exception) {
                             logException(e)
@@ -1064,6 +1070,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val reportBTN: Button = viewItem?.findViewById(R.id.reportBTN) as Button
         val callBTN: Button = viewItem?.findViewById(R.id.callBTN) as Button
         val emailBTN: Button = viewItem?.findViewById(R.id.emailBTN) as Button
+
+        val whyIAmSeeingThisTV : TextView = viewItem?.findViewById(R.id.why_i_am_seeing_this_text) as TextView
+
     }
 
 
