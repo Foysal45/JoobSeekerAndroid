@@ -387,6 +387,7 @@ class JobDetailsFragment : Fragment() {
         shortListIMGV?.visibility = View.INVISIBLE
     }
 
+
     override fun onPause() {
         try {
             communicator.setTotalJob(totalRecordsFound)

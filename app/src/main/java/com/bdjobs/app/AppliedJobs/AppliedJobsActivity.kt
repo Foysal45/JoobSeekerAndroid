@@ -91,7 +91,10 @@ class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
 
     override fun decrementCounter() {
         appliedJobsFragment.decrementCounter()
+    }
 
+    override fun incrementAvailableJobCounter() {
+        appliedJobsFragment.incrementAvailableJobCount()
     }
 
     private val appliedJobsFragment = AppliedJobsFragment()

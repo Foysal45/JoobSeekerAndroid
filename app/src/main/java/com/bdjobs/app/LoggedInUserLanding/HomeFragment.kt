@@ -494,6 +494,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateUserName(response.body()?.data?.get(0)?.userName!!)
                         bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
                         bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
+                        bdjobsUserSession.updateJobApplyCount(response.body()?.data?.get(0)?.jobApplyCount)
                         Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)

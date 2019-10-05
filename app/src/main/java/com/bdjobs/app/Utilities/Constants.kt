@@ -179,6 +179,8 @@ class Constants {
         const val api_jobs_db_update = "dbupdate.asp"
         const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
         const val session_key_cvuploadstatus = "cvuploadstatus"
+        const val session_key_job_apply_count = "jobApplyCount"
+        const val session_key_available_job_count = "availableJobCount"
 
 
 

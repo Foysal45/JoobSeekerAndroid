@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -97,10 +98,10 @@ class BdjobsUserSession(val context: Context) {
     val trainingId = pref?.getString(Constants.session_key_trainingId, null)
     val userPicUrl = pref?.getString(Constants.session_key_userPicUrl, null)
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
-
     val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
-
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
+    val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
+    val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"50")
 
 
     fun logoutUser() {
@@ -230,6 +231,13 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
+    fun updateJobApplyCount(count : String?){
+        pref?.edit {
+            putString(Constants.session_key_job_apply_count, count)
+            putString(Constants.session_key_available_job_count, (50-count!!.toInt()).toString())
+        }
+    }
+
 
     fun insertMybdjobsLastMonthCountData(
             jobsApplied: String?,
@@ -289,6 +297,7 @@ class BdjobsUserSession(val context: Context) {
         try {
             val value = pref?.getString(key, "0")
             val count = (value?.toInt()!!+1).toString()
+            Log.d("rakib", "$key -> $count")
             pref?.edit {
                 putString(key, count)
             }
@@ -302,6 +311,7 @@ class BdjobsUserSession(val context: Context) {
             val value = pref?.getString(key, "0")
             if(value?.toInt()!!>0) {
                 val count = (value.toInt() - 1).toString()
+                Log.d("rakib", "$key -> $count")
                 pref?.edit {
                     putString(key, count)
                 }
@@ -314,13 +324,22 @@ class BdjobsUserSession(val context: Context) {
     fun incrementJobsApplied(){
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
+
     }
 
     fun decrementJobsApplied(){
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
+
     }
 
+    fun incrementAvailableJobs(){
+        incrementCount(Constants.session_key_available_job_count)
+    }
+
+    fun decrementAvailableJobs(){
+        decrementCount(Constants.session_key_available_job_count)
+    }
 
     fun incrementTimesEmailedRessume(){
         incrementCount(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth)

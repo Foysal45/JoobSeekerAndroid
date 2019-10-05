@@ -44,5 +44,8 @@ data class LastUpdateModelData(
     @SerializedName("changePassword_Eligibility")
     val changePassword_Eligibility: String?,
     @SerializedName("isCVPosted")
-    val isCVPosted: String?
+    val isCVPosted: String?,
+
+    @SerializedName("jobApplyCount")
+    val jobApplyCount: String?
 )

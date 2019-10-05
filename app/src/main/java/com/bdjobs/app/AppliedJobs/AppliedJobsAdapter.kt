@@ -258,8 +258,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
-                                    removeItem(position, holder?.cancelBTN)
                                     session?.decrementJobsApplied()
+                                    session?.incrementAvailableJobs()
+                                    removeItem(position, holder?.cancelBTN)
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
@@ -452,8 +453,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
-                                    removeItem(position, holder?.cancelBTN)
                                     session?.decrementJobsApplied()
+                                    session?.incrementAvailableJobs()
+                                    removeItem(position, holder?.cancelBTN)
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
@@ -525,6 +527,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
                     // undoRemove(view, deletedItem, position, deleteJobID)
                     communicator.decrementCounter()
+                    communicator.incrementAvailableJobCounter()
                 } catch (e: Exception) {
 
                 }
