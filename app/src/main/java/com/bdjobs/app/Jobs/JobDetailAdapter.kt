@@ -906,6 +906,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
                         bdjobsUserSession.incrementJobsApplied()
+                        bdjobsUserSession.decrementAvailableJobs()
                         applyStatus = true
                         doAsync {
                             val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
@@ -1072,6 +1073,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val emailBTN: Button = viewItem?.findViewById(R.id.emailBTN) as Button
 
         val whyIAmSeeingThisTV : TextView = viewItem?.findViewById(R.id.why_i_am_seeing_this_text) as TextView
+
+        val jobApplicationStatusTitle : TextView = viewItem?.findViewById(R.id.job_detail_job_application_status_title) as TextView
+        val jobApplicationStatusCard : ConstraintLayout = viewItem?.findViewById(R.id.job_detail_job_application_status_card) as ConstraintLayout
+
 
     }
 
