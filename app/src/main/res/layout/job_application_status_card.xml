@@ -44,14 +44,13 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView61"
+                android:id="@+id/job_detail_job_application_count_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="10dp"
-                android:text="You have already applied to 20 Job Application current month"
                 android:textColor="#000"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,17 +61,17 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
+                android:id="@+id/job_detail_job_application_remaining_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
-                android:text="Only 30 Available"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView61" />
+                app:layout_constraintTop_toBottomOf="@+id/job_detail_job_application_count_tv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -764,7 +764,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
 }
 
 
-fun Context.showJobApplicationDialog() {
+fun Context.showJobApplicationGuidelineDialog() {
 
     val dialog = Dialog(this, android.R.style.Theme_Light_NoTitleBar)
     dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -101,7 +101,7 @@ class BdjobsUserSession(val context: Context) {
     val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
     val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
-    val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"50")
+    val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
 
 
     fun logoutUser() {
@@ -298,7 +298,7 @@ class BdjobsUserSession(val context: Context) {
             val value = pref?.getString(key, "0")
             val count = (value?.toInt()!!+1).toString()
             Log.d("rakib", "$key -> $count")
-            pref?.edit {
+            pref?.edit() {
                 putString(key, count)
             }
         } catch (e: Exception) {
@@ -312,7 +312,7 @@ class BdjobsUserSession(val context: Context) {
             if(value?.toInt()!!>0) {
                 val count = (value.toInt() - 1).toString()
                 Log.d("rakib", "$key -> $count")
-                pref?.edit {
+                pref?.edit() {
                     putString(key, count)
                 }
             }
@@ -324,12 +324,14 @@ class BdjobsUserSession(val context: Context) {
     fun incrementJobsApplied(){
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
+        incrementCount(Constants.session_key_job_apply_count)
 
     }
 
     fun decrementJobsApplied(){
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
+        decrementCount(Constants.session_key_job_apply_count)
 
     }
 
