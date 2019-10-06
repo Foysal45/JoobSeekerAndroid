@@ -261,6 +261,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                     session?.decrementJobsApplied()
                                     session?.incrementAvailableJobs()
                                     removeItem(position, holder?.cancelBTN)
+                                    Constants.appliedJobsCount--
 
                                 } catch (e: Exception) {
                                     logException(e)
@@ -457,6 +458,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                     session?.decrementJobsApplied()
                                     session?.incrementAvailableJobs()
                                     removeItem(position, holder?.cancelBTN)
+                                    Constants.appliedJobsCount--
                                 } catch (e: Exception) {
                                     logException(e)
                                 }

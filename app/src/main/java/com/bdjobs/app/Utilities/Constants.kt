@@ -102,6 +102,8 @@ class Constants {
         var followedEmployerSynced = false
         var isDirectCall = false
 
+        var appliedJobsCount = 0
+
         // set and get from fragment
         //personal
         val personalUpdate = "personalUpdate"
