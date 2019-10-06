@@ -1,149 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-
     android:background="@drawable/dialog_background">
 
-
-    <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Online Application"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginTop="17dp"
-        android:id="@+id/job_application_status_cl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView32"
-        app:layout_constraintTop_toBottomOf="@id/textView30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/job_application_status_card"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <TextView
+            android:id="@+id/textView30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Online Application"
+            android:textColor="#000000"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="Enter your expected salary"
+            android:textColor="#767676"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/job_application_status_cl" />
 
 
-
-
-    <TextView
-        android:id="@+id/textView32"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/roboto"
-        android:text="Enter your expected salary"
-        android:textColor="#767676"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/job_application_status_cl" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/salaryAmountTIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="24dp"
-        android:focusableInTouchMode="true"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView32">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/salaryAmountTIET"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/job_application_status_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView30">
+
+            <include
+                layout="@layout/job_application_status_card"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/ad_small_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="visible"
+            app:gnt_template_type="@layout/gnt_small_template_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/salaryAmountTIL" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/onlineApplyCancelBTN"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="CANCEL"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/onlineApplyOkBTN"
+            app:layout_constraintEnd_toStartOf="@+id/onlineApplyOkBTN"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/saveBTN"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/onlineApplyOkBTN"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:fontFamily="@font/roboto_medium"
+            android:text="OK"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ad_small_template" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/salaryAmountTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
             android:focusableInTouchMode="true"
-            android:fontFamily="@font/roboto"
-            android:hint="BDT/Month"
-            android:importantForAutofill="noExcludeDescendants"
-            android:inputType="number"
-            android:maxLength="8"
-            android:singleLine="true"
-            android:typeface="normal"
-            app:fontFamily="@font/roboto" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView32">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/salaryAmountTIET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/roboto"
+                android:hint="BDT/Month"
+                android:importantForAutofill="noExcludeDescendants"
+                android:inputType="number"
+                android:maxLength="8"
+                android:singleLine="true"
+                android:typeface="normal"
+                app:fontFamily="@font/roboto" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/onlineApplyOkBTN"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:enabled="false"
-        android:fontFamily="@font/roboto_medium"
-        android:text="OK"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ad_small_template" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/onlineApplyCancelBTN"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="5dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="CANCEL"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/onlineApplyOkBTN"
-        app:layout_constraintEnd_toStartOf="@+id/onlineApplyOkBTN"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/saveBTN"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <com.google.android.ads.nativetemplates.TemplateView
-        android:id="@+id/ad_small_template"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="visible"
-        app:gnt_template_type="@layout/gnt_small_template_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salaryAmountTIL" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

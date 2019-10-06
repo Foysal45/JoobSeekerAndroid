@@ -137,7 +137,8 @@ class MoreFragment : Fragment() {
         }
 
         jobApplicationStatus_MBTN.setOnClickListener {
-            activity?.showJobApplicationGuidelineDialog()
+//            activity?.showJobApplicationGuidelineDialog()
+            Constants.showJobApplicationGuidelineDialog(activity)
         }
     }
 

@@ -87,4 +87,7 @@ interface JobCommunicator {
     fun showUnShortListedIcon()
 
 
+    fun setTotalAppliedJobs(appliedJobsCount: Int)
+    fun getTotalAppliedJobs() : Int
+
 }

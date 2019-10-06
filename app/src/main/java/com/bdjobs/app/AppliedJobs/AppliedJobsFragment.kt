@@ -49,7 +49,8 @@ class AppliedJobsFragment : Fragment() {
     private var time: String = ""
     var jobsAppliedSize = 0
     var daysAvailable = 30
-    var availableJobs = 0
+    var jobApplyLimit = 30
+    var availableJobs = 30
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,9 +108,9 @@ class AppliedJobsFragment : Fragment() {
             }
         })
 
-        availableJobs = bdjobsUsersession.availableJobsCount!!.toInt()
+        jobApplyLimit = bdjobsUsersession.jobApplyLimit!!.toInt()
 
-        Log.d("rakib" ,"onres ${bdjobsUsersession.availableJobsCount}")
+//        Log.d("rakib" ,"onres ${bdjobsUsersession.availableJobsCount}")
 
         loadFirstPage(time)
 
@@ -191,8 +192,10 @@ class AppliedJobsFragment : Fragment() {
                                     daysRemainingCountTV?.text = HtmlCompat.fromHtml(text,HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 }
 
-                                val availableJobs : Int = bdjobsUsersession.availableJobsCount!!.toInt()
-                                Log.d("rakib", "load ${availableJobs}")
+                                availableJobs = jobApplyLimit - totalRecords.toInt()
+//                                Log.d("rakib", "load ${availableJobs}")
+
+
                                 if (availableJobs > 1 ) {
                                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
                                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -273,8 +276,11 @@ class AppliedJobsFragment : Fragment() {
                             }
 
 
-                            Log.d("rakib", "load $availableJobs")
+//                            Log.d("rakib", "load $availableJobs")
                             availableJobsCountTV?.show()
+
+                            availableJobs = jobApplyLimit - totalRecords.toInt()
+
                             if (availableJobs > 1 ) {
                                 val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
                                 availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -396,7 +402,7 @@ class AppliedJobsFragment : Fragment() {
     }
 
     fun incrementAvailableJobCount(){
-        availableJobs++
+        availableJobs = jobApplyLimit - jobsAppliedSize
         if (appliedJobsCommunicator.getTime() == "1"){
             if (availableJobs > 1 ) {
                 val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"

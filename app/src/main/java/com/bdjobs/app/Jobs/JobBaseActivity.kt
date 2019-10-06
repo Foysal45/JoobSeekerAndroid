@@ -26,6 +26,14 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+    override fun setTotalAppliedJobs(appliedJobsCount: Int) {
+        this.appliedJobsCount = appliedJobsCount
+    }
+
+    override fun getTotalAppliedJobs(): Int {
+        return appliedJobsCount
+    }
+
     override fun setTotalPage(pages: Int?) {
         this.totalPages = pages
     }
@@ -83,7 +91,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     var totalPages: Int? = 0
     var isLastPage: Boolean = false
     var isLoading: Boolean = false
-
+    var appliedJobsCount: Int = 0
 
     private var keyword: String? = ""
     private var location: String? = ""
@@ -708,4 +716,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     }
 
 
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("rakib"," came restart")
+        jobDetailsFragment.jobDetailAdapter?.notifyDataSetChanged()
+
+    }
 }

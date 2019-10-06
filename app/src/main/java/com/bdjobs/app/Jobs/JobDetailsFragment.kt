@@ -27,7 +27,7 @@ import retrofit2.Response
 class JobDetailsFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var jobDetailAdapter: JobDetailAdapter? = null
+    var jobDetailAdapter: JobDetailAdapter? = null
     private var currentPage = 1
     private lateinit var communicator: JobCommunicator
     private var snapHelper: SnapHelper? = null

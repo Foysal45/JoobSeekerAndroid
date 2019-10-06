@@ -100,8 +100,9 @@ class BdjobsUserSession(val context: Context) {
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
     val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
-    val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
-    val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
+    //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
+    //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
+    val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"30")
 
 
     fun logoutUser() {
@@ -231,10 +232,16 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    fun updateJobApplyCount(count : String?){
+//    fun updateJobApplyCount(count : String?){
+//        pref?.edit {
+//            putString(Constants.session_key_job_apply_count, count)
+//            putString(Constants.session_key_available_job_count, (50-count!!.toInt()).toString())
+//        }
+//    }
+
+    fun updateJobApplyLimit(count: String?){
         pref?.edit {
-            putString(Constants.session_key_job_apply_count, count)
-            putString(Constants.session_key_available_job_count, (50-count!!.toInt()).toString())
+            putString(Constants.session_job_apply_limit, count)
         }
     }
 
@@ -324,23 +331,23 @@ class BdjobsUserSession(val context: Context) {
     fun incrementJobsApplied(){
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
-        incrementCount(Constants.session_key_job_apply_count)
+        //incrementCount(Constants.session_key_job_apply_count)
 
     }
 
     fun decrementJobsApplied(){
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
-        decrementCount(Constants.session_key_job_apply_count)
+        //decrementCount(Constants.session_key_job_apply_count)
 
     }
 
     fun incrementAvailableJobs(){
-        incrementCount(Constants.session_key_available_job_count)
+        //incrementCount(Constants.session_key_available_job_count)
     }
 
     fun decrementAvailableJobs(){
-        decrementCount(Constants.session_key_available_job_count)
+        //decrementCount(Constants.session_key_available_job_count)
     }
 
     fun incrementTimesEmailedRessume(){

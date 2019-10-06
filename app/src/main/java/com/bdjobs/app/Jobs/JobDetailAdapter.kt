@@ -14,10 +14,12 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.Databases.Internal.AppliedJobs
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
@@ -51,6 +53,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         private val BASIC = 0
         private val LOADING = 1
         private var appliedJobsCount = 0
+        private var jobApplyLimit = 0
 
     }
 
@@ -90,7 +93,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         jobCommunicator = context as JobCommunicator
         language = "bangla"
         Log.d("JobDetailFragment", "${jobList?.size}")
-        appliedJobsCount = bdjobsUserSession.applyJobCount!!.toInt()
+        appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+        jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
+        jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
     }
 
 
@@ -191,7 +196,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH.jobApplicationStatusTitle.show()
                                 jobsVH.jobApplicationStatusCard.show()
                                 jobsVH.jobApplicationCountTV.text = "You have already applied to ${appliedJobsCount} Job Application current month"
-                                jobsVH.jobApplicationRemainingTV.text = "Only ${50 - appliedJobsCount} remaining"
+                                jobsVH.jobApplicationRemainingTV.text = "Only ${jobApplyLimit - appliedJobsCount} remaining"
                             } else {
                                 jobsVH.jobApplicationStatusTitle.hide()
                                 jobsVH.jobApplicationStatusCard.hide()
@@ -268,7 +273,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
                             jobsVH.whyIAmSeeingThisTV.setOnClickListener {
-                                context.showJobApplicationGuidelineDialog()
+                                Constants.showJobApplicationGuidelineDialog(context)
                             }
 
                             jobsVH.applyButton.hide()
@@ -301,7 +306,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
-                                jobsVH.applyButton.visibility = View.VISIBLE
+                                Log.d("rakib", "load ${appliedJobsCount}" + " ${jobCommunicator?.getTotalAppliedJobs()}")
+                                var appliedJobsCountWhenBackFromAppliedJobsPage =
+                                if (jobCommunicator?.getTotalAppliedJobs() == appliedJobsCount && appliedJobsCount >= jobApplyLimit){
+                                    jobsVH.applyLimitOverButton.visibility = View.VISIBLE
+                                    jobsVH.applyLimitOverButton.setOnClickListener {
+                                        showApplyLimitOverPopup(context,position)
+                                    }
+                                }else{
+                                    jobsVH.applyButton.visibility = View.VISIBLE
+                                }
+
                                 jobsVH.applyButton.setOnClickListener {
                                     val bdjobsUserSession = BdjobsUserSession(context)
                                     if (!bdjobsUserSession.isLoggedIn!!) {
@@ -773,6 +788,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         )
     }
 
+    private fun showApplyLimitOverPopup(context: Context, position: Int){
+        val dialog = Dialog(context)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setCancelable(true)
+        dialog?.setContentView(R.layout.layout_warning_popup)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
+        cancelBtn.setOnClickListener {
+            dialog?.dismiss()
+            jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
+            context.startActivity<AppliedJobsActivity>("time" to "1")
+        }
+
+        dialog?.show()
+    }
 
     private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String) {
         val dialog = Dialog(context)
@@ -859,9 +890,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         if (appliedJobsCount >= 5) {
             jobApplicationStatusCard.show()
             appliedJobsCountTV.text = "You have already applied to ${appliedJobsCount} Job Application current month"
-            remainingJobsCountTV.text = "Only ${50 - appliedJobsCount} remaining"
+            remainingJobsCountTV.text = "Only ${jobApplyLimit - appliedJobsCount} remaining"
             whyIAmSeeingThisTV.setOnClickListener {
-                context.showJobApplicationGuidelineDialog()
+                Constants.showJobApplicationGuidelineDialog(context)
             }
         }
 
@@ -940,6 +971,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             }
                         }
                         appliedJobsCount++
+                        jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
+                        Log.d("rakib", "applied jobs $appliedJobsCount")
                         d("applyTest success $applyStatus")
                     } else {
                         applyStatus = false
@@ -1079,6 +1112,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
         val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
+        val applyLimitOverButton: MaterialButton = viewItem?.findViewById(R.id.applyLimitBtn) as MaterialButton
 
         val wbsiteHeadingTV: TextView = viewItem?.findViewById(R.id.wbsiteHeadingTV) as TextView
         val websiteTV: TextView = viewItem?.findViewById(R.id.websiteTV) as TextView

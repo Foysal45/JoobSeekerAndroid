@@ -882,6 +882,9 @@ class ContactEditFragment : Fragment() {
 
         countryCodeTIET?.setText(countryNameAndCode)
 
+        if (data?.countryCode == "")
+            countryCodeTIET?.setText("Bangladesh (88)")
+
         //hideAllError()
     }
 

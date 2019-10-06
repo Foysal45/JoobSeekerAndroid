@@ -764,27 +764,27 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
 }
 
 
-fun Context.showJobApplicationGuidelineDialog() {
-
-    val dialog = Dialog(this, android.R.style.Theme_Light_NoTitleBar)
-    dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-    dialog?.setCancelable(true)
-    dialog?.setContentView(R.layout.job_application_guideline)
-    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-    val backImageView = dialog?.findViewById<ImageView>(R.id.job_application_guideline_back_arrow)
-    val dropArrowImageView = dialog?.findViewById<ImageView>(R.id.job_application_guideline_drop_arrow)
-    val scrollView = dialog?.findViewById<ScrollView>(R.id.scroll_view)
-    val titleView = dialog?.findViewById<TextView>(R.id.job_application_guideline_how_it_works_title)
-
-    dropArrowImageView?.setOnClickListener {
-        scrollView?.post { scrollView.smoothScrollTo(0, titleView!!.bottom) }
-    }
-
-    backImageView?.setOnClickListener {
-        dialog?.dismiss()
-    }
-
-    dialog?.show()
-}
+//fun Context.showJobApplicationGuidelineDialog() {
+//
+//    val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+//    dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//    dialog?.setCancelable(true)
+//    dialog?.setContentView(R.layout.job_application_guideline)
+//    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//
+//    val backImageView = dialog?.findViewById<ImageView>(R.id.job_application_guideline_back_arrow)
+//    val dropArrowImageView = dialog?.findViewById<ImageView>(R.id.job_application_guideline_drop_arrow)
+//    val scrollView = dialog?.findViewById<ScrollView>(R.id.scroll_view)
+//    val titleView = dialog?.findViewById<TextView>(R.id.job_application_guideline_how_it_works_title)
+//
+//    dropArrowImageView?.setOnClickListener {
+//        scrollView?.post { scrollView.smoothScrollTo(0, titleView!!.bottom) }
+//    }
+//
+//    backImageView?.setOnClickListener {
+//        dialog?.dismiss()
+//    }
+//
+//    dialog?.show()
+//}
 
