@@ -1,6 +1,7 @@
 package com.bdjobs.app.Login
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -8,23 +9,30 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.ProgressBar
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
+import com.bdjobs.app.API.ModelClasses.StatsModelClass
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
+import com.bdjobs.app.Jobs.JobDetailsFragment
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.Web.WebActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_base.*
 import org.jetbrains.anko.startActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.ConnectivityReceiverListener {
 
-
+    private val jobDetailsFragment = JobDetailsFragment()
     private val loginUserNameFragment = LoginUserNameFragment()
     private val loginPasswordFragment = LoginPasswordFragment()
     private val loginOTPFragment = LoginOTPFragment()
@@ -75,7 +83,8 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
             startActivity(intent)
             finishAffinity()
         } else {
-            finish()
+            getLastUpdateFromServer(this@LoginBaseActivity)
+            getMybdjobsCountData("1",this@LoginBaseActivity)
         }
     }
 
@@ -149,4 +158,115 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         super.onDestroy()
         unregisterReceiver(internetBroadCastReceiver)
     }
+
+    private fun getLastUpdateFromServer(context: Context) {
+        val bdjobsUserSession = BdjobsUserSession(context)
+        ApiServiceMyBdjobs.create().getLastUpdate(
+                userId = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId
+        ).enqueue(object : Callback<LastUpdateModel> {
+            override fun onFailure(call: Call<LastUpdateModel>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
+                try {
+                    Constants.changePassword_Eligibility = response.body()?.data?.get(0)?.changePassword_Eligibility!!
+                    bdjobsUserSession.updateIsResumeUpdate(response.body()?.data?.get(0)?.isResumeUpdate!!)
+                    bdjobsUserSession.updateIsCvPosted(response.body()?.data?.get(0)?.isCVPosted!!)
+                    bdjobsUserSession.updateTrainingId(response.body()?.data?.get(0)?.trainingId!!)
+                    bdjobsUserSession.updateEmail(response.body()?.data?.get(0)?.email!!)
+                    bdjobsUserSession.updateFullName(response.body()?.data?.get(0)?.name!!)
+                    bdjobsUserSession.updateUserName(response.body()?.data?.get(0)?.userName!!)
+                    bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
+                    bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
+                    bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
+                    try {
+                        Constants.appliedJobLimit = response.body()?.data?.get(0)?.jobApplyLimit!!.toInt()
+                    } catch (e: Exception) {
+                    }
+                    Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
+                    Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
+                    Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
+                    finish()
+                } catch (e: Exception) {
+                    logException(e)
+                    finish()
+                }
+            }
+
+        })
+    }
+
+    private fun getMybdjobsCountData(activityDate: String,context: Context) {
+        val bdjobsUserSession = BdjobsUserSession(context)
+        ApiServiceMyBdjobs.create().mybdjobStats(
+                userId = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId,
+                isActivityDate = activityDate,
+                trainingId = bdjobsUserSession.trainingId,
+                isResumeUpdate = bdjobsUserSession.IsResumeUpdate
+        ).enqueue(object : Callback<StatsModelClass> {
+            override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
+
+                try {
+                    var jobsApplied:String?=""
+                    var emailResume:String?=""
+                    var viewdResume:String?=""
+                    var followedEmployers:String?=""
+                    var interviewInvitation:String?=""
+                    var employerMessage:String?=""
+
+                    response?.body()?.data?.forEach {itt ->
+                        when(itt?.title){
+                            Constants.session_key_mybdjobscount_jobs_applied->{jobsApplied = itt?.count}
+                            Constants.session_key_mybdjobscount_times_emailed_resume->{emailResume = itt?.count}
+                            Constants.session_key_mybdjobscount_employers_viwed_resume->{viewdResume = itt?.count}
+                            Constants.session_key_mybdjobscount_employers_followed->{followedEmployers = itt?.count}
+                            Constants.session_key_mybdjobscount_interview_invitation->{interviewInvitation = itt?.count}
+                            Constants.session_key_mybdjobscount_message_by_employers->{employerMessage = itt?.count}
+                        }
+
+                    }
+
+                    if (activityDate == "0") {
+                        //alltime
+                        bdjobsUserSession.insertMybdjobsAlltimeCountData(
+                                jobsApplied =jobsApplied,
+                                emailResume = emailResume,
+                                employerViewdResume = viewdResume,
+                                followedEmployers = followedEmployers,
+                                interviewInvitation = interviewInvitation,
+                                messageByEmployers = employerMessage
+                        )
+                    } else if (activityDate == "1") {
+                        //last_moth
+                        try {
+                            Constants.appliedJobsCount = jobsApplied!!.toInt()
+                        } catch (e: Exception) {
+                        }
+                        bdjobsUserSession.insertMybdjobsLastMonthCountData(
+                                jobsApplied =jobsApplied,
+                                emailResume = emailResume,
+                                employerViewdResume = viewdResume,
+                                followedEmployers = followedEmployers,
+                                interviewInvitation = interviewInvitation,
+                                messageByEmployers = employerMessage
+                        )
+                    }
+
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+
+        })
+    }
+
+
+
 }

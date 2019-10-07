@@ -98,6 +98,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
+    fun reload(){
+
+        try {
+//            Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+            jobApplyLimit = Constants.appliedJobLimit
+        } catch (e: Exception) {}
+        notifyDataSetChanged()
+        Log.d("reload" , "${Constants.appliedJobsCount} $jobApplyLimit")
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var viewHolder: RecyclerView.ViewHolder? = null
