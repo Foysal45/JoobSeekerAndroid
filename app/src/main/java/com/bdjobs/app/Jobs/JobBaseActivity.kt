@@ -719,7 +719,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     override fun onRestart() {
         super.onRestart()
         Log.d("rakib"," came restart")
-        jobDetailsFragment.jobDetailAdapter?.notifyDataSetChanged()
+        jobDetailsFragment.jobDetailAdapter?.reload()
 
     }
 }

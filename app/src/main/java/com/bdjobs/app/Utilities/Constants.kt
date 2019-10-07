@@ -105,6 +105,7 @@ class Constants {
         var isDirectCall = false
         var appliedJobsCount = 0
         var appliedJobsThreshold = 25
+        var appliedJobLimit = 0
 
         var calendar = Calendar.getInstance()
         var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
