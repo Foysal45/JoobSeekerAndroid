@@ -8,6 +8,7 @@ interface AppliedJobsCommunicator {
     fun getTime(): String
     fun scrollToUndoPosition(position:Int)
     fun decrementCounter()
+    fun incrementAvailableJobCounter()
     fun gotoInterviewInvitationDetails(from: String, jobID: String, companyName: String, jobTitle: String)
     fun gotoEmployerInteractionFragment()
     fun getjobID() : String

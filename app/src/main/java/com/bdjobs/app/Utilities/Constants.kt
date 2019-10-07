@@ -1,9 +1,15 @@
 package com.bdjobs.app.Utilities
 
+import android.R
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
+import android.view.Window
+import android.widget.ImageView
+import android.widget.ScrollView
+import android.widget.TextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.HotJobsData
@@ -20,6 +26,8 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Constants {
     companion object {
@@ -95,6 +103,13 @@ class Constants {
         var certificationSynced = false
         var followedEmployerSynced = false
         var isDirectCall = false
+        var appliedJobsCount = 0
+        var appliedJobsThreshold = 25
+
+        var calendar = Calendar.getInstance()
+        var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
+
+        var applyRestrictionStatus = false
 
         // set and get from fragment
         //personal
@@ -179,6 +194,9 @@ class Constants {
         const val api_jobs_db_update = "dbupdate.asp"
         const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
         const val session_key_cvuploadstatus = "cvuploadstatus"
+        //const val session_key_job_apply_count = "jobApplyCount"
+        //const val session_key_available_job_count = "availableJobCount"
+        const val session_job_apply_limit = "jobApplyLimit"
 
 
 
@@ -289,6 +307,36 @@ class Constants {
                         }
                     }
             )
+        }
+
+        fun showJobApplicationGuidelineDialog(context: Context) {
+
+            val dialog = Dialog(context, R.style.Theme_Translucent_NoTitleBar)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog?.setCancelable(true)
+            dialog?.setContentView(com.bdjobs.app.R.layout.job_application_guideline)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val backImageView = dialog?.findViewById<ImageView>(com.bdjobs.app.R.id.job_application_guideline_back_arrow)
+            val dropArrowImageView = dialog?.findViewById<ImageView>(com.bdjobs.app.R.id.job_application_guideline_drop_arrow)
+            val scrollView = dialog?.findViewById<ScrollView>(com.bdjobs.app.R.id.scroll_view)
+            val titleView = dialog?.findViewById<TextView>(com.bdjobs.app.R.id.job_application_guideline_how_it_works_title)
+            val howItWorksMessageView = dialog?.findViewById<TextView>(com.bdjobs.app.R.id.job_application_guideline_how_it_works_message)
+
+            val bdjobsUserSession = BdjobsUserSession(context)
+
+            howItWorksMessageView.text = "• Job seekers of Bdjobs can apply for a limited number of circulars every month.\n• Validity period of application limit is ${bdjobsUserSession.jobApplyLimit} jobs per month.\n• It is set to be renewed every month.\n• Unused “Application Volume” will not be carried forward to the next month."
+
+
+            dropArrowImageView?.setOnClickListener {
+                scrollView?.post { scrollView.smoothScrollTo(0, titleView!!.bottom) }
+            }
+
+            backImageView?.setOnClickListener {
+                dialog?.dismiss()
+            }
+
+            dialog?.show()
         }
 
     }

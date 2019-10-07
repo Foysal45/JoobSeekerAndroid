@@ -1,15 +1,14 @@
 package com.bdjobs.app.Utilities
 
 
-import android.app.Activity
-import android.app.ActivityManager
-import android.app.DatePickerDialog
-import android.app.Fragment
+import android.app.*
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.net.wifi.WifiManager
@@ -24,6 +23,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -60,7 +60,7 @@ fun Activity.callHelpLine() {
     startActivity(intent)
 }
 
-fun String.toBanglaDigit():String{
+fun String.toBanglaDigit(): String {
     val banglaDigits = charArrayOf('০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯')
 
     if (this == null)
@@ -86,7 +86,7 @@ fun String.toBanglaDigit():String{
     return builder.toString()
 }
 
-fun Context.getDeviceID():String{
+fun Context.getDeviceID(): String {
     return try {
         Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
     } catch (e: Exception) {
@@ -496,7 +496,7 @@ fun ImageView.loadCircularImageFromUrlWithoutCach(url: String?) {
         Picasso.get()
                 .load(url?.trim())
                 .transform(CircleTransform())
-                . networkPolicy(NetworkPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(this)
     } catch (e: Exception) {
@@ -666,17 +666,17 @@ fun AutoCompleteTextView.easyOnTextChangedListener(listener: (e: CharSequence) -
     }
 })
 
-fun Activity.getAppVersion():String{
-    val pinfo = packageManager.getPackageInfo(packageName,0)
+fun Activity.getAppVersion(): String {
+    val pinfo = packageManager.getPackageInfo(packageName, 0)
     return pinfo.versionName
 }
 
-fun Activity.getAppVersionCode():Int{
-    val pinfo = packageManager.getPackageInfo(packageName,0)
+fun Activity.getAppVersionCode(): Int {
+    val pinfo = packageManager.getPackageInfo(packageName, 0)
     return pinfo.versionCode
 }
 
-fun Context.getDeviceInformation():HashMap<String,String>{
+fun Context.getDeviceInformation(): HashMap<String, String> {
 
     var percentAvail: Long = 0
     var totalRAM: Long = 0
@@ -721,9 +721,9 @@ fun Context.getDeviceInformation():HashMap<String,String>{
 
     val c = Calendar.getInstance()
     val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val currentDateAndTime =  df.format(c.time)
+    val currentDateAndTime = df.format(c.time)
 
-    var screenInches: Double=0.0
+    var screenInches: Double = 0.0
     try {
         val dm = DisplayMetrics()
         (this as Activity).windowManager.defaultDisplay.getMetrics(dm)
@@ -762,4 +762,29 @@ fun Context.getDeviceInformation():HashMap<String,String>{
 
     return deviceInfo
 }
+
+
+//fun Context.showJobApplicationGuidelineDialog() {
+//
+//    val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+//    dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//    dialog?.setCancelable(true)
+//    dialog?.setContentView(R.layout.job_application_guideline)
+//    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//
+//    val backImageView = dialog?.findViewById<ImageView>(R.id.job_application_guideline_back_arrow)
+//    val dropArrowImageView = dialog?.findViewById<ImageView>(R.id.job_application_guideline_drop_arrow)
+//    val scrollView = dialog?.findViewById<ScrollView>(R.id.scroll_view)
+//    val titleView = dialog?.findViewById<TextView>(R.id.job_application_guideline_how_it_works_title)
+//
+//    dropArrowImageView?.setOnClickListener {
+//        scrollView?.post { scrollView.smoothScrollTo(0, titleView!!.bottom) }
+//    }
+//
+//    backImageView?.setOnClickListener {
+//        dialog?.dismiss()
+//    }
+//
+//    dialog?.show()
+//}
 

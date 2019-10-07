@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.app.Dialog
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,7 @@ class MoreFragment : Fragment() {
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
     var cvUploadMore: String = ""
+    private var dialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_more_layout, container, false)!!
@@ -133,7 +135,14 @@ class MoreFragment : Fragment() {
                     "from" to "uploadResume"
             )
         }
+
+        jobApplicationStatus_MBTN.setOnClickListener {
+//            activity?.showJobApplicationGuidelineDialog()
+            Constants.showJobApplicationGuidelineDialog(activity)
+        }
     }
+
+
 
     private fun clearAddPopulateData() {
         /*this  function deletes duplicates data lists  */
@@ -174,5 +183,7 @@ class MoreFragment : Fragment() {
         Log.d("initPag", "called")
 
     }
+
+
 
 }

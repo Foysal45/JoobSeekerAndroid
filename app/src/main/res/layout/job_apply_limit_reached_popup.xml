@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="30dp"
+            android:id="@+id/job_apply_limit_reached_header_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/job_apply_limit_reached_header_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/job_apply_limit_reached_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:paddingLeft="39dp"
+            android:textColor="#000000"
+            android:paddingRight="39dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_apply_limit_reached_header_img"
+            tools:text="Job Seekers can apply for a 30 job every month" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="15dp"
+            android:id="@+id/job_apply_limit_reached_applied_jobs_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Applied Jobs"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/job_apply_limit_reached_ok_button"
+            app:layout_constraintTop_toBottomOf="@id/job_apply_limit_reached_day_remaining_cv" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="15dp"
+            android:id="@+id/job_apply_limit_reached_ok_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            app:layout_constraintBottom_toBottomOf="@+id/job_apply_limit_reached_applied_jobs_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/job_apply_limit_reached_day_remaining_cv"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            app:cardBackgroundColor="#E3F2FD"
+            app:strokeWidth="1dp"
+            app:strokeColor="#90CAF9"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="5dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toEndOf="@id/job_apply_limit_reached_apply_count_cv"
+            app:layout_constraintTop_toBottomOf="@id/job_apply_limit_reached_title_tv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#1565C0"
+                    android:text="Renewal After"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:id="@+id/remaining_days_tv"
+                    android:paddingBottom="9dp"
+                    android:textSize="20sp"
+                    android:textColor="#1565C0"
+                    tools:text="6 days" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/job_apply_limit_reached_apply_count_cv"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            app:cardBackgroundColor="#FFEBEE"
+            android:layout_marginRight="5dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#FFCDD2"
+            app:layout_constraintEnd_toStartOf="@id/job_apply_limit_reached_day_remaining_cv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_apply_limit_reached_title_tv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#C62828"
+                    android:textSize="14sp"
+                    android:text="Applied" />
+
+                <TextView
+                    android:paddingBottom="9dp"
+                    android:id="@+id/apply_count_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#C62828"
+                    tools:text="30"
+                    />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

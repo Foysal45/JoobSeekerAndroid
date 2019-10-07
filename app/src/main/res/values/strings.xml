@@ -392,5 +392,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="title_activity_login2_base">Login2BaseActivity</string>
 
     <string name="pass">bXliZGpvYnM=</string>
+    <string name="job_application_guideline_message">Here you can get a guideline of job\n application. How to apply effectively to\n increase your chance to get noticed by your\n desired Employer.</string>
+    <string name="job_application_guideline_toolbar_text">Job Application Guideline</string>
 
 </resources>

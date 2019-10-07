@@ -81,10 +81,25 @@
                 app:iconTint="@color/colorWhite"
                 app:iconPadding="0dp" />
 
+
         </LinearLayout>
 
-
     </LinearLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/job_detail_job_application_status_title"
+        android:layout_marginLeft="5dp"
+        android:textColor="#2F64A3"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="18sp"
+        android:layout_marginTop="25dp"
+        android:text="Job application status"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/job_application_status_card"/>
 
     <com.google.android.ads.nativetemplates.TemplateView
         android:id="@+id/ad_small_template"

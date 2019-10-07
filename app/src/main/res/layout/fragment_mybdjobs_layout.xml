@@ -142,7 +142,7 @@
             android:background="@drawable/left_rounded_background"
             android:gravity="center_horizontal|center_vertical"
             android:lineSpacingExtra="0sp"
-            android:text="Last 30 days"
+            android:text="This Month"
             android:textAllCaps="false"
             android:textSize="12sp" />
 

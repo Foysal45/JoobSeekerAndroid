@@ -193,10 +193,19 @@
                 android:visibility="visible" />
 
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/jobApplicationStatus_MBTN"
+                android:layout_marginTop="20dp"
+                style="@style/more.button"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Job Application Guideline"
+                app:icon="@drawable/ic_job_application_status_image" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/emailResume_MBTN"
-                android:layout_marginTop="20dp"
                 style="@style/more.button"
                 android:visibility="visible"
                 android:layout_width="match_parent"

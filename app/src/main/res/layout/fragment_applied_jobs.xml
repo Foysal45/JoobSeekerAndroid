@@ -7,6 +7,102 @@
     android:layout_height="match_parent"
     android:background="#F2F2F2">
 
+    <LinearLayout
+        android:id="@+id/job_status_ll"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/favCountTV"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:textColor="#767676"
+            android:textSize="12sp"
+            android:typeface="normal"
+            tools:text="8 Jobs applied" />
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/availableJobsCountTV"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#767676"
+            android:typeface="normal"/>
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/daysRemainingCountTV"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:textColor="#767676"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/appliedJobsNoDataLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appliedJobsRV"
+        app:layout_constraintVertical_bias="0.0">
+
+        <include
+            layout="@layout/layout_no_data_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LL1"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:background="#FFF6E2"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_done_view_resume" />
+
+        <TextView
+            android:id="@+id/summary_resume_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Resume viewed"
+            android:textColor="#767676"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
@@ -26,6 +122,18 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             tools:layout_editor_absoluteX="16dp">
+
+            <ImageView
+                android:id="@+id/backIMV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/suggestiveSearchET"
@@ -48,21 +156,19 @@
                 app:layout_constraintStart_toEndOf="@+id/backIMV"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/backIMV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appliedJobsRV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/LL1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_status_ll" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container_appliedJobList"
@@ -105,85 +211,6 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <TextView
-        android:id="@+id/favCountTV"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:fontFamily="@font/roboto"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:textColor="#767676"
-        android:textSize="14sp"
-        android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        tools:text="150 favorite search filters" />
-
-
-    <LinearLayout
-        android:id="@+id/appliedJobsNoDataLL"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appliedJobsRV"
-        app:layout_constraintVertical_bias="0.0">
-
-        <include
-            layout="@layout/layout_no_data_found"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/appliedJobsRV"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/LL1"
-        app:layout_constraintEnd_toEndOf="parent"
-
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favCountTV" />
-
-    <LinearLayout
-        android:id="@+id/LL1"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:background="#FFF6E2"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_done_view_resume" />
-
-        <TextView
-            android:id="@+id/summary_resume_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Resume viewed"
-            android:textColor="#767676"
-            android:textSize="12sp" />
-
-
-    </LinearLayout>
-
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -197,7 +224,7 @@
         ads:adUnitId="@string/banner_ad_unit_id"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"/>
+        ads:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

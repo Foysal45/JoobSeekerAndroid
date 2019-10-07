@@ -662,6 +662,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
                 return BASIC_AD
+            } else{
+                return BASIC_AD
             }
         } else {
             if (position == this.jobList!!.size - 1 && isLoadingAdded) {
@@ -678,6 +680,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
             } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
+                return BASIC
+            } else{
                 return BASIC
             }
         }

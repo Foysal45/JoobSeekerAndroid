@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.provider.CalendarContract
 import android.text.Html
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.Databases.Internal.AppliedJobs
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
@@ -51,6 +51,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         // View Types
         private val BASIC = 0
         private val LOADING = 1
+        private var jobApplyLimit = 0
 
     }
 
@@ -84,19 +85,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     private var language = ""
 
+
     init {
         jobList = java.util.ArrayList()
         jobCommunicator = context as JobCommunicator
         language = "bangla"
         Log.d("JobDetailFragment", "${jobList?.size}")
+        try {
+            Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+            jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
+        } catch (e: Exception) {
+        }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var viewHolder: RecyclerView.ViewHolder? = null
         var inflater = LayoutInflater.from(parent.context)
-
-
 
         call = context as JobCommunicator
         when (viewType) {
@@ -116,6 +121,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
 
         applyStatus = false
 
@@ -186,6 +192,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
+                            if (Constants.applyRestrictionStatus) {
+                                if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
+                                    jobsVH.jobApplicationStatusTitle.show()
+                                    jobsVH.jobApplicationStatusCard.show()
+                                    jobsVH.jobApplicationCountTV.text = "You have already applied to ${Constants.appliedJobsCount} Job Application current month"
+                                    var availableJobs = jobApplyLimit - Constants.appliedJobsCount
+                                    jobsVH.jobApplicationRemainingTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
+                                } else {
+                                    jobsVH.jobApplicationStatusTitle.hide()
+                                    jobsVH.jobApplicationStatusCard.hide()
+
+                                }
+                            } else {
+                                jobsVH.jobApplicationStatusTitle.hide()
+                                jobsVH.jobApplicationStatusCard.hide()
+                            }
 
                             try {
                                 val date = Date()
@@ -256,6 +278,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
+                            jobsVH.whyIAmSeeingThisTV.setOnClickListener {
+                                Constants.showJobApplicationGuidelineDialog(context)
+                            }
+
                             jobsVH.applyButton.hide()
                             jobsVH.appliedBadge.hide()
 
@@ -286,7 +312,24 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
-                                jobsVH.applyButton.visibility = View.VISIBLE
+                                Log.d("rakib", "load ${Constants.appliedJobsCount}" + " ${jobCommunicator?.getTotalAppliedJobs()}")
+                                        if (Constants.applyRestrictionStatus) {
+                                            if (Constants.appliedJobsCount >= jobApplyLimit) {
+                                                jobsVH.applyLimitOverButton.visibility = View.VISIBLE
+                                                jobsVH.applyButton.visibility = View.GONE
+                                                jobsVH.applyLimitOverButton.setOnClickListener {
+                                                    showApplyLimitOverPopup(context, position)
+                                                }
+                                            } else {
+                                                jobsVH.applyButton.visibility = View.VISIBLE
+                                                jobsVH.applyLimitOverButton.visibility = View.GONE
+
+                                            }
+                                        } else {
+                                            jobsVH.applyButton.visibility = View.VISIBLE
+                                            jobsVH.applyLimitOverButton.visibility = View.GONE
+                                        }
+
                                 jobsVH.applyButton.setOnClickListener {
                                     val bdjobsUserSession = BdjobsUserSession(context)
                                     if (!bdjobsUserSession.isLoggedIn!!) {
@@ -675,6 +718,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH.tvReadBefApply.hide()
                                 jobsVH.tvReadBefApplyData.hide()
 
+
                             }
                         } catch (e: Exception) {
                             logException(e)
@@ -757,63 +801,99 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         )
     }
 
+    private fun showApplyLimitOverPopup(context: Context, position: Int) {
+
+        try {
+            val dialog = Dialog(context)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog?.setCancelable(true)
+            dialog?.setContentView(R.layout.job_apply_limit_reached_popup)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val titleTV = dialog?.findViewById<TextView>(R.id.job_apply_limit_reached_title_tv)
+            titleTV.text = "Job seekers can apply for a ${jobApplyLimit} job every month"
+
+            val applyCountTV = dialog?.findViewById<TextView>(R.id.apply_count_tv)
+            applyCountTV.text = "${Constants.appliedJobsCount}"
+
+            val remainingDaysTV = dialog?.findViewById<TextView>(R.id.remaining_days_tv)
+            remainingDaysTV.text = "${Constants.daysAvailable} days"
+
+            val okBtn = dialog?.findViewById<MaterialButton>(R.id.job_apply_limit_reached_ok_button)
+            okBtn.setOnClickListener {
+                dialog?.dismiss()
+            }
+
+            val appliedJobsBtn = dialog?.findViewById<MaterialButton>(R.id.job_apply_limit_reached_applied_jobs_button)
+            appliedJobsBtn.setOnClickListener {
+                dialog?.dismiss()
+                context.startActivity<AppliedJobsActivity>("time" to "1")
+            }
+
+            dialog?.show()
+        } catch (e: Exception) {
+        }
+    }
 
     private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String) {
-        val dialog = Dialog(context)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.layout_warning_popup)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        try {
+            val dialog = Dialog(context)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog?.setCancelable(true)
+            dialog?.setContentView(R.layout.layout_warning_popup)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
-        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
-        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
-        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
-        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
-        val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
-        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template, context)
+            var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
+            var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
+            val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
+            val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
+            val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+            val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
+            val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+            Constants.showNativeAd(ad_small_template, context)
 
-        translateIV?.setOnClickListener {
-            when(language) {
-                "bangla"-> {
-                    language = "english"
-                    translateIV.setImageResource(R.drawable.ic_translate_color)
-                    warningTitleTV?.text = context.getString(R.string.warning_title)
-                    warningMessageTV?.text = context.getString(R.string.warning_message)
-                    agreedCheckBox?.text = context.getString(R.string.warning_message_agreement)
-                    agreedBtn?.text = context.getString(R.string.warning_agree_button)
-                    cancelBtn?.text = context.getString(R.string.warning_cancel_button)
-                }
-                "english" -> {
-                    language = "bangla"
-                    translateIV.setImageResource(R.drawable.ic_translate)
-                    warningTitleTV?.text = context.getString(R.string.warning_title_bangla)
-                    warningMessageTV?.text = context.getString(R.string.warning_message_bangla)
-                    agreedCheckBox?.text = context.getString(R.string.warning_message_agreement_bangla)
-                    agreedBtn?.text = context.getString(R.string.warning_agree_button_bangla)
-                    cancelBtn?.text = context.getString(R.string.warning_cancel_button_bangla)
+            translateIV?.setOnClickListener {
+                when (language) {
+                    "bangla" -> {
+                        language = "english"
+                        translateIV.setImageResource(R.drawable.ic_translate_color)
+                        warningTitleTV?.text = context.getString(R.string.warning_title)
+                        warningMessageTV?.text = context.getString(R.string.warning_message)
+                        agreedCheckBox?.text = context.getString(R.string.warning_message_agreement)
+                        agreedBtn?.text = context.getString(R.string.warning_agree_button)
+                        cancelBtn?.text = context.getString(R.string.warning_cancel_button)
+                    }
+                    "english" -> {
+                        language = "bangla"
+                        translateIV.setImageResource(R.drawable.ic_translate)
+                        warningTitleTV?.text = context.getString(R.string.warning_title_bangla)
+                        warningMessageTV?.text = context.getString(R.string.warning_message_bangla)
+                        agreedCheckBox?.text = context.getString(R.string.warning_message_agreement_bangla)
+                        agreedBtn?.text = context.getString(R.string.warning_agree_button_bangla)
+                        cancelBtn?.text = context.getString(R.string.warning_cancel_button_bangla)
+                    }
                 }
             }
-        }
-        agreedCheckBox?.setOnCheckedChangeListener{_, isChecked ->
-            if (isChecked) {
-                agreedBtn?.isEnabled = true
-                agreedBtn?.isClickable = true
-                agreedBtn?.setTextColor(Color.parseColor("#1565C0"))
-            } else{
-                agreedBtn?.isEnabled = false
-                agreedBtn?.isClickable = false
-                agreedBtn?.setTextColor(Color.parseColor("#9E9E9E"))
-            }
+            agreedCheckBox?.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    agreedBtn?.isEnabled = true
+                    agreedBtn?.isClickable = true
+                    agreedBtn?.setTextColor(Color.parseColor("#1565C0"))
+                } else {
+                    agreedBtn?.isEnabled = false
+                    agreedBtn?.isClickable = false
+                    agreedBtn?.setTextColor(Color.parseColor("#9E9E9E"))
+                }
 
+            }
+            cancelBtn?.setOnClickListener { dialog.dismiss() }
+            agreedBtn?.setOnClickListener {
+                dialog?.dismiss()
+                checkApplyEligibility(context, position, gender, jobphotograph)
+            }
+            dialog?.show()
+        } catch (e: Exception) {
         }
-        cancelBtn?.setOnClickListener { dialog.dismiss() }
-        agreedBtn?.setOnClickListener{
-            dialog?.dismiss()
-            checkApplyEligibility(context, position, gender, jobphotograph)
-        }
-        dialog?.show()
 
 //        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
 //        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
@@ -833,7 +913,25 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val salaryTIL = dialog?.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
 
+        val jobApplicationStatusCard = dialog?.findViewById<ConstraintLayout>(R.id.job_detail_job_application_status_card)
+        val appliedJobsCountTV = dialog?.findViewById<TextView>(R.id.job_detail_job_application_count_tv)
+        val remainingJobsCountTV = dialog?.findViewById<TextView>(R.id.job_detail_job_application_remaining_tv)
+        val whyIAmSeeingThisTV = dialog?.findViewById<TextView>(R.id.why_i_am_seeing_this_text)
+
         Constants.showNativeAd(ad_small_template, context)
+
+        if (Constants.applyRestrictionStatus) {
+            if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
+                jobApplicationStatusCard.show()
+                appliedJobsCountTV.text = "You have already applied to ${Constants.appliedJobsCount} Job Application current month"
+                var availableJobs = jobApplyLimit - Constants.appliedJobsCount
+                remainingJobsCountTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
+                whyIAmSeeingThisTV.setOnClickListener {
+                    Constants.showJobApplicationGuidelineDialog(context)
+                }
+            }
+        }
+
 
 
         salaryTIET?.easyOnTextChangedListener { text ->
@@ -900,6 +998,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
                         bdjobsUserSession.incrementJobsApplied()
+                        bdjobsUserSession.decrementAvailableJobs()
                         applyStatus = true
                         doAsync {
                             val appliedJobs = AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
@@ -908,7 +1007,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 notifyDataSetChanged()
                             }
                         }
-
+                        Constants.appliedJobsCount++
+                        //jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
+                        //Log.d("rakib", "applied jobs $appliedJobsCount")
                         d("applyTest success $applyStatus")
                     } else {
                         applyStatus = false
@@ -1048,6 +1149,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
         val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
+        val applyLimitOverButton: MaterialButton = viewItem?.findViewById(R.id.applyLimitBtn) as MaterialButton
 
         val wbsiteHeadingTV: TextView = viewItem?.findViewById(R.id.wbsiteHeadingTV) as TextView
         val websiteTV: TextView = viewItem?.findViewById(R.id.websiteTV) as TextView
@@ -1064,6 +1166,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val reportBTN: Button = viewItem?.findViewById(R.id.reportBTN) as Button
         val callBTN: Button = viewItem?.findViewById(R.id.callBTN) as Button
         val emailBTN: Button = viewItem?.findViewById(R.id.emailBTN) as Button
+
+        val whyIAmSeeingThisTV: TextView = viewItem?.findViewById(R.id.why_i_am_seeing_this_text) as TextView
+
+        val jobApplicationStatusTitle: TextView = viewItem?.findViewById(R.id.job_detail_job_application_status_title) as TextView
+        val jobApplicationStatusCard: ConstraintLayout = viewItem?.findViewById(R.id.job_detail_job_application_status_card) as ConstraintLayout
+        val jobApplicationCountTV: TextView = viewItem?.findViewById(R.id.job_detail_job_application_count_tv) as TextView
+        val jobApplicationRemainingTV: TextView = viewItem?.findViewById(R.id.job_detail_job_application_remaining_tv) as TextView
+
+
     }
 
 

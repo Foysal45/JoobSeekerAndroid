@@ -89,7 +89,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showAd() {
         val adLoader = AdLoader.Builder(activity, "ca-app-pub-3940256099942544/2247696110")
-                .forUnifiedNativeAd { ad : UnifiedNativeAd ->
+                .forUnifiedNativeAd { ad: UnifiedNativeAd ->
                     // Show the ad.
                     val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
                     home_small_template?.setStyles(styles)
@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 .withAdListener(object : AdListener() {
                     override fun onAdFailedToLoad(errorCode: Int) {
                         // Handle the failure by logging, altering the UI, and so on.
-                        Log.d("adLoader","error code: $errorCode")
+                        Log.d("adLoader", "error code: $errorCode")
                     }
                 })
                 .withNativeAdOptions(NativeAdOptions.Builder()
@@ -494,6 +494,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateUserName(response.body()?.data?.get(0)?.userName!!)
                         bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
                         bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
+                        bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
+                        Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
+                        Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
                         Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)
