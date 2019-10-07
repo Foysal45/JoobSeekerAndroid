@@ -19,7 +19,7 @@ interface ApiServiceJobs {
                   @Query("appId") appId :String? = Constants.APP_ID
                   ): Call<DatabaseUpdateModel>
 
-    @GET("joblist_StndPre.asp")
+    @GET("joblist.asp")
     fun getJobList(
             @Query("jobLevel") jobLevel: String? = "",
             @Query("Newspaper") Newspaper: String? = "",
