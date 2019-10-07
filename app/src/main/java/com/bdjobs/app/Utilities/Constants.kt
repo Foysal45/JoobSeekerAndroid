@@ -26,6 +26,8 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Constants {
     companion object {
@@ -101,8 +103,13 @@ class Constants {
         var certificationSynced = false
         var followedEmployerSynced = false
         var isDirectCall = false
-
         var appliedJobsCount = 0
+        var appliedJobsThreshold = 25
+
+        var calendar = Calendar.getInstance()
+        var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
+
+        var applyRestrictionStatus = false
 
         // set and get from fragment
         //personal

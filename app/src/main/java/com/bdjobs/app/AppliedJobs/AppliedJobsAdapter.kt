@@ -258,11 +258,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
-                                    session?.decrementJobsApplied()
-                                    session?.incrementAvailableJobs()
                                     removeItem(position, holder?.cancelBTN)
                                     Constants.appliedJobsCount--
-
+                                    session?.decrementJobsApplied()
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
@@ -455,10 +453,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
-                                    session?.decrementJobsApplied()
-                                    session?.incrementAvailableJobs()
                                     removeItem(position, holder?.cancelBTN)
                                     Constants.appliedJobsCount--
+                                    session?.decrementJobsApplied()
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
@@ -526,6 +523,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 Log.d("werywirye", "jobid = $jobid companyname = $companyName")
                 appliedJobsLists?.removeAt(position)
                 notifyItemRemoved(position)
+                notifyDataSetChanged()
                 try {
                     val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
                     // undoRemove(view, deletedItem, position, deleteJobID)

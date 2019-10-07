@@ -14,7 +14,6 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -92,9 +91,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         jobCommunicator = context as JobCommunicator
         language = "bangla"
         Log.d("JobDetailFragment", "${jobList?.size}")
-        Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
-        jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
-//        jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
+        try {
+            Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+            jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
+        } catch (e: Exception) {
+        }
     }
 
 
@@ -191,15 +192,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
-                            if (Constants.appliedJobsCount >= 5) {
-                                jobsVH.jobApplicationStatusTitle.show()
-                                jobsVH.jobApplicationStatusCard.show()
-                                jobsVH.jobApplicationCountTV.text = "You have already applied to ${Constants.appliedJobsCount} Job Application current month"
-                                jobsVH.jobApplicationRemainingTV.text = "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
+                            if (Constants.applyRestrictionStatus) {
+                                if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
+                                    jobsVH.jobApplicationStatusTitle.show()
+                                    jobsVH.jobApplicationStatusCard.show()
+                                    jobsVH.jobApplicationCountTV.text = "You have already applied to ${Constants.appliedJobsCount} Job Application current month"
+                                    var availableJobs = jobApplyLimit - Constants.appliedJobsCount
+                                    jobsVH.jobApplicationRemainingTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
+                                } else {
+                                    jobsVH.jobApplicationStatusTitle.hide()
+                                    jobsVH.jobApplicationStatusCard.hide()
+
+                                }
                             } else {
                                 jobsVH.jobApplicationStatusTitle.hide()
                                 jobsVH.jobApplicationStatusCard.hide()
-
                             }
 
                             try {
@@ -306,19 +313,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
                                 Log.d("rakib", "load ${Constants.appliedJobsCount}" + " ${jobCommunicator?.getTotalAppliedJobs()}")
-                                var appliedJobsCountWhenBackFromAppliedJobsPage =
-//                                if (jobCommunicator?.getTotalAppliedJobs() == appliedJobsCount && appliedJobsCount >= jobApplyLimit){
-                                if (Constants.appliedJobsCount >= jobApplyLimit){
-                                    jobsVH.applyLimitOverButton.visibility = View.VISIBLE
-                                    jobsVH.applyButton.visibility = View.INVISIBLE
-                                    jobsVH.applyLimitOverButton.setOnClickListener {
-                                        showApplyLimitOverPopup(context,position)
-                                    }
-                                }else{
-                                    jobsVH.applyButton.visibility = View.VISIBLE
-                                    jobsVH.applyLimitOverButton.visibility = View.INVISIBLE
+                                        if (Constants.applyRestrictionStatus) {
+                                            if (Constants.appliedJobsCount >= jobApplyLimit) {
+                                                jobsVH.applyLimitOverButton.visibility = View.VISIBLE
+                                                jobsVH.applyButton.visibility = View.GONE
+                                                jobsVH.applyLimitOverButton.setOnClickListener {
+                                                    showApplyLimitOverPopup(context, position)
+                                                }
+                                            } else {
+                                                jobsVH.applyButton.visibility = View.VISIBLE
+                                                jobsVH.applyLimitOverButton.visibility = View.GONE
 
-                                }
+                                            }
+                                        } else {
+                                            jobsVH.applyButton.visibility = View.VISIBLE
+                                            jobsVH.applyLimitOverButton.visibility = View.GONE
+                                        }
 
                                 jobsVH.applyButton.setOnClickListener {
                                     val bdjobsUserSession = BdjobsUserSession(context)
@@ -791,79 +801,99 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         )
     }
 
-    private fun showApplyLimitOverPopup(context: Context, position: Int){
-        val dialog = Dialog(context)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.layout_warning_popup)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    private fun showApplyLimitOverPopup(context: Context, position: Int) {
 
-        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
-        cancelBtn.setOnClickListener {
-            dialog?.dismiss()
-//            jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
-            context.startActivity<AppliedJobsActivity>("time" to "1")
+        try {
+            val dialog = Dialog(context)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog?.setCancelable(true)
+            dialog?.setContentView(R.layout.job_apply_limit_reached_popup)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val titleTV = dialog?.findViewById<TextView>(R.id.job_apply_limit_reached_title_tv)
+            titleTV.text = "Job seekers can apply for a ${jobApplyLimit} job every month"
+
+            val applyCountTV = dialog?.findViewById<TextView>(R.id.apply_count_tv)
+            applyCountTV.text = "${Constants.appliedJobsCount}"
+
+            val remainingDaysTV = dialog?.findViewById<TextView>(R.id.remaining_days_tv)
+            remainingDaysTV.text = "${Constants.daysAvailable} days"
+
+            val okBtn = dialog?.findViewById<MaterialButton>(R.id.job_apply_limit_reached_ok_button)
+            okBtn.setOnClickListener {
+                dialog?.dismiss()
+            }
+
+            val appliedJobsBtn = dialog?.findViewById<MaterialButton>(R.id.job_apply_limit_reached_applied_jobs_button)
+            appliedJobsBtn.setOnClickListener {
+                dialog?.dismiss()
+                context.startActivity<AppliedJobsActivity>("time" to "1")
+            }
+
+            dialog?.show()
+        } catch (e: Exception) {
         }
-
-        dialog?.show()
     }
 
     private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String) {
-        val dialog = Dialog(context)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.layout_warning_popup)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        try {
+            val dialog = Dialog(context)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog?.setCancelable(true)
+            dialog?.setContentView(R.layout.layout_warning_popup)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
-        var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
-        val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
-        val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
-        val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
-        val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
-        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template, context)
+            var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
+            var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
+            val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
+            val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
+            val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
+            val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
+            val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+            Constants.showNativeAd(ad_small_template, context)
 
-        translateIV?.setOnClickListener {
-            when (language) {
-                "bangla" -> {
-                    language = "english"
-                    translateIV.setImageResource(R.drawable.ic_translate_color)
-                    warningTitleTV?.text = context.getString(R.string.warning_title)
-                    warningMessageTV?.text = context.getString(R.string.warning_message)
-                    agreedCheckBox?.text = context.getString(R.string.warning_message_agreement)
-                    agreedBtn?.text = context.getString(R.string.warning_agree_button)
-                    cancelBtn?.text = context.getString(R.string.warning_cancel_button)
-                }
-                "english" -> {
-                    language = "bangla"
-                    translateIV.setImageResource(R.drawable.ic_translate)
-                    warningTitleTV?.text = context.getString(R.string.warning_title_bangla)
-                    warningMessageTV?.text = context.getString(R.string.warning_message_bangla)
-                    agreedCheckBox?.text = context.getString(R.string.warning_message_agreement_bangla)
-                    agreedBtn?.text = context.getString(R.string.warning_agree_button_bangla)
-                    cancelBtn?.text = context.getString(R.string.warning_cancel_button_bangla)
+            translateIV?.setOnClickListener {
+                when (language) {
+                    "bangla" -> {
+                        language = "english"
+                        translateIV.setImageResource(R.drawable.ic_translate_color)
+                        warningTitleTV?.text = context.getString(R.string.warning_title)
+                        warningMessageTV?.text = context.getString(R.string.warning_message)
+                        agreedCheckBox?.text = context.getString(R.string.warning_message_agreement)
+                        agreedBtn?.text = context.getString(R.string.warning_agree_button)
+                        cancelBtn?.text = context.getString(R.string.warning_cancel_button)
+                    }
+                    "english" -> {
+                        language = "bangla"
+                        translateIV.setImageResource(R.drawable.ic_translate)
+                        warningTitleTV?.text = context.getString(R.string.warning_title_bangla)
+                        warningMessageTV?.text = context.getString(R.string.warning_message_bangla)
+                        agreedCheckBox?.text = context.getString(R.string.warning_message_agreement_bangla)
+                        agreedBtn?.text = context.getString(R.string.warning_agree_button_bangla)
+                        cancelBtn?.text = context.getString(R.string.warning_cancel_button_bangla)
+                    }
                 }
             }
-        }
-        agreedCheckBox?.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                agreedBtn?.isEnabled = true
-                agreedBtn?.isClickable = true
-                agreedBtn?.setTextColor(Color.parseColor("#1565C0"))
-            } else {
-                agreedBtn?.isEnabled = false
-                agreedBtn?.isClickable = false
-                agreedBtn?.setTextColor(Color.parseColor("#9E9E9E"))
-            }
+            agreedCheckBox?.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    agreedBtn?.isEnabled = true
+                    agreedBtn?.isClickable = true
+                    agreedBtn?.setTextColor(Color.parseColor("#1565C0"))
+                } else {
+                    agreedBtn?.isEnabled = false
+                    agreedBtn?.isClickable = false
+                    agreedBtn?.setTextColor(Color.parseColor("#9E9E9E"))
+                }
 
+            }
+            cancelBtn?.setOnClickListener { dialog.dismiss() }
+            agreedBtn?.setOnClickListener {
+                dialog?.dismiss()
+                checkApplyEligibility(context, position, gender, jobphotograph)
+            }
+            dialog?.show()
+        } catch (e: Exception) {
         }
-        cancelBtn?.setOnClickListener { dialog.dismiss() }
-        agreedBtn?.setOnClickListener {
-            dialog?.dismiss()
-            checkApplyEligibility(context, position, gender, jobphotograph)
-        }
-        dialog?.show()
 
 //        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
 //        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
@@ -890,14 +920,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
         Constants.showNativeAd(ad_small_template, context)
 
-        if (Constants.appliedJobsCount >= 5) {
-            jobApplicationStatusCard.show()
-            appliedJobsCountTV.text = "You have already applied to ${Constants.appliedJobsCount} Job Application current month"
-            remainingJobsCountTV.text = "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
-            whyIAmSeeingThisTV.setOnClickListener {
-                Constants.showJobApplicationGuidelineDialog(context)
+        if (Constants.applyRestrictionStatus) {
+            if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
+                jobApplicationStatusCard.show()
+                appliedJobsCountTV.text = "You have already applied to ${Constants.appliedJobsCount} Job Application current month"
+                var availableJobs = jobApplyLimit - Constants.appliedJobsCount
+                remainingJobsCountTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
+                whyIAmSeeingThisTV.setOnClickListener {
+                    Constants.showJobApplicationGuidelineDialog(context)
+                }
             }
         }
+
 
 
         salaryTIET?.easyOnTextChangedListener { text ->

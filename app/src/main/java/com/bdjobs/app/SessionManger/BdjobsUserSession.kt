@@ -102,7 +102,7 @@ class BdjobsUserSession(val context: Context) {
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
-    val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"30")
+    val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"50")
 
 
     fun logoutUser() {

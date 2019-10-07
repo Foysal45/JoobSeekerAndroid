@@ -19,10 +19,7 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_applied_jobs.*
 import org.jetbrains.anko.toast
@@ -120,7 +117,7 @@ class AppliedJobsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if(appliedJobsCommunicator.getFrom().equalIgnoreCase("employerInteraction")){
+        if (appliedJobsCommunicator.getFrom().equalIgnoreCase("employerInteraction")) {
             bdjobsUsersession = BdjobsUserSession(activity)
 
             time = appliedJobsCommunicator.getTime()
@@ -173,7 +170,7 @@ class AppliedJobsFragment : Fragment() {
                             //   toast("came")
                         } else {
 
-                               toast("came1")
+                            toast("came1")
                             totalRecords = "0"
                             favCountTV?.show()
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
@@ -184,19 +181,19 @@ class AppliedJobsFragment : Fragment() {
 
                                 daysRemainingCountTV?.show()
 
-                                if (daysAvailable > 1){
+                                if (daysAvailable > 1) {
                                     val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Days remaining"
-                                    daysRemainingCountTV?.text = HtmlCompat.fromHtml(text,HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                    daysRemainingCountTV?.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 } else {
                                     val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Day remaining"
-                                    daysRemainingCountTV?.text = HtmlCompat.fromHtml(text,HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                    daysRemainingCountTV?.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 }
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
 //                                Log.d("rakib", "load ${availableJobs}")
 
 
-                                if (availableJobs > 1 ) {
+                                if (availableJobs > 1) {
                                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
                                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 } else {
@@ -240,16 +237,13 @@ class AppliedJobsFragment : Fragment() {
                             }
 
 
-
-
-
                         } else {
                             //toast("came here")
                             totalRecords = "0"
 
-                                appliedJobsNoDataLL?.show()
-                                appliedJobsRV?.hide()
-                                Log.d("totalJobs", "zero")
+                            appliedJobsNoDataLL?.show()
+                            appliedJobsRV?.hide()
+                            Log.d("totalJobs", "zero")
 
                         }
 
@@ -260,37 +254,43 @@ class AppliedJobsFragment : Fragment() {
                         if (totalRecords?.toInt()!! > 1) {
                             val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs applied"
                             favCountTV?.text = Html.fromHtml(styledText)
-                        } else  {
+                        } else {
                             val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Job applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         }
 
-                        if (appliedJobsCommunicator.getTime() == "1") {
-                            daysRemainingCountTV?.show()
-                            if (daysAvailable > 1){
-                                val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Days remaining"
-                                daysRemainingCountTV?.text = HtmlCompat.fromHtml(text,HtmlCompat.FROM_HTML_MODE_LEGACY)
+                        try {
+                            if (appliedJobsCommunicator.getTime() == "1" && Constants.applyRestrictionStatus) {
+                                daysRemainingCountTV?.show()
+                                if (daysAvailable > 1) {
+                                    val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Days remaining"
+                                    daysRemainingCountTV?.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                } else {
+                                    val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Day remaining"
+                                    daysRemainingCountTV?.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                }
+
+
+                                //                            Log.d("rakib", "load $availableJobs")
+                                availableJobsCountTV?.show()
+
+                                availableJobs = jobApplyLimit - totalRecords.toInt()
+
+                                if (availableJobs > 1) {
+                                    val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
+                                    availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                } else if (availableJobs < 0) {
+                                    val availableJobsText = "<b><font color='#B740AD'>0</font></b> Available job"
+                                    availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                } else {
+                                    val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available job"
+                                    availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                }
                             } else {
-                                val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Day remaining"
-                                daysRemainingCountTV?.text = HtmlCompat.fromHtml(text,HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                daysRemainingCountTV?.hide()
+                                availableJobsCountTV?.hide()
                             }
-
-
-//                            Log.d("rakib", "load $availableJobs")
-                            availableJobsCountTV?.show()
-
-                            availableJobs = jobApplyLimit - totalRecords.toInt()
-
-                            if (availableJobs > 1 ) {
-                                val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
-                                availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                            } else {
-                                val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available job"
-                                availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                            }
-                        } else {
-                            daysRemainingCountTV?.hide()
-                            availableJobsCountTV?.hide()
+                        } catch (e: Exception) {
                         }
 
 
@@ -356,11 +356,11 @@ class AppliedJobsFragment : Fragment() {
                         else {
                             isLastPages = true
                         }
-                   /*     if (pgNo == TOTAL_PAGES!!) {
-                            isLastPages = true
-                        } else {
-                            appliedJobsAdapter?.addLoadingFooter()
-                        }*/
+                        /*     if (pgNo == TOTAL_PAGES!!) {
+                                 isLastPages = true
+                             } else {
+                                 appliedJobsAdapter?.addLoadingFooter()
+                             }*/
 
                     } catch (e: Exception) {
                         logException(e)
@@ -374,11 +374,11 @@ class AppliedJobsFragment : Fragment() {
         }
     }
 
-    fun scrollToUndoPosition(position:Int){
+    fun scrollToUndoPosition(position: Int) {
         appliedJobsRV?.scrollToPosition(position)
         jobsAppliedSize++
         Log.d("jobiiii", "scrollToUndoPosition = ${jobsAppliedSize}")
-        if (jobsAppliedSize> 1) {
+        if (jobsAppliedSize > 1) {
             val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
             favCountTV?.text = Html.fromHtml(styledText)
         } else {
@@ -389,10 +389,10 @@ class AppliedJobsFragment : Fragment() {
 
     }
 
-    fun decrementCounter(){
+    fun decrementCounter() {
         jobsAppliedSize--
         Log.d("jobiiii", "decrementCounter = ${jobsAppliedSize}")
-        if (jobsAppliedSize> 1) {
+        if (jobsAppliedSize > 1) {
             val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
             favCountTV?.text = Html.fromHtml(styledText)
         } else {
@@ -401,16 +401,24 @@ class AppliedJobsFragment : Fragment() {
         }
     }
 
-    fun incrementAvailableJobCount(){
-        availableJobs = jobApplyLimit - jobsAppliedSize
-        if (appliedJobsCommunicator.getTime() == "1"){
-            if (availableJobs > 1 ) {
-                val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
-                availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            } else {
-                val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available job"
-                availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    fun incrementAvailableJobCount() {
+        try {
+            availableJobs = jobApplyLimit - jobsAppliedSize
+            if (appliedJobsCommunicator.getTime() == "1") {
+                if (availableJobs > 1) {
+                    val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
+                    availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                } else {
+                    if (availableJobs == 1) {
+                        val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
+                        availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    } else {
+                        val availableJobsText = "<b><font color='#B740AD'>0</font></b> Available job"
+                        availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    }
+                }
             }
+        } catch (e: Exception) {
         }
 
     }
