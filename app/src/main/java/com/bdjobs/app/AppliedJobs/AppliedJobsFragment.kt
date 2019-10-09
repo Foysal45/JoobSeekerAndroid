@@ -26,6 +26,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -49,6 +50,8 @@ class AppliedJobsFragment : Fragment() {
     var jobApplyLimit = 30
     var availableJobs = 30
 
+    lateinit var messageValidDate: Date
+    lateinit var currentDate: Date
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +67,11 @@ class AppliedJobsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        messageValidDate = dateFormat.parse(Constants.warningmsgThrsldDate)
+
+        currentDate = Calendar.getInstance().getTime()
+
         bdjobsUsersession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         time = appliedJobsCommunicator.getTime()
@@ -260,7 +268,7 @@ class AppliedJobsFragment : Fragment() {
                         }
 
                         try {
-                            if (appliedJobsCommunicator.getTime() == "1" && Constants.applyRestrictionStatus) {
+                            if (appliedJobsCommunicator.getTime() == "1" && Constants.applyRestrictionStatus && currentDate > messageValidDate) {
                                 daysRemainingCountTV?.show()
                                 if (daysAvailable > 1) {
                                     val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Days remaining"

@@ -109,7 +109,7 @@ class Constants {
 
         var calendar = Calendar.getInstance()
         var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
-
+        val warningmsgThrsldDate = "10/10/2019"
         var applyRestrictionStatus = false
 
         // set and get from fragment

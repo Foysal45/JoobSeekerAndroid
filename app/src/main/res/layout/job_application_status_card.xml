@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/job_detail_job_application_status_card"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/job_detail_job_application_status_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    >
+    android:layout_height="130dp"
+    android:layout_marginBottom="16dp"
+    android:visibility="visible">
+
     <TextView
         android:id="@+id/why_i_am_seeing_this_text"
-        android:padding="4dp"
-        android:drawablePadding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:drawableEnd="@drawable/ic_help_outine"
+        android:drawablePadding="5dp"
         android:fontFamily="@font/roboto"
+        android:padding="4dp"
         android:text="Why I am seeing this"
         android:textColor="#000"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cardViewFeatured"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewFeatured" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cardViewFeatured" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardViewFeatured"
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         app:cardBackgroundColor="#E3F2FD"
         app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/why_i_am_seeing_this_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:strokeColor="#BBDEFB"
         app:strokeWidth="1dp">
 
@@ -45,7 +46,7 @@
 
             <TextView
                 android:id="@+id/job_detail_job_application_count_tv"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:paddingStart="15dp"
@@ -53,12 +54,11 @@
                 android:paddingEnd="10dp"
                 android:textColor="#000"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/job_detail_job_application_remaining_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/job_detail_job_application_remaining_tv"
@@ -71,7 +71,8 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/job_detail_job_application_count_tv" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

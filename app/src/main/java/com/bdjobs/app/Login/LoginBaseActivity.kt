@@ -84,7 +84,6 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
             finishAffinity()
         } else {
             getLastUpdateFromServer(this@LoginBaseActivity)
-            getMybdjobsCountData("1",this@LoginBaseActivity)
         }
     }
 
@@ -167,6 +166,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         ).enqueue(object : Callback<LastUpdateModel> {
             override fun onFailure(call: Call<LastUpdateModel>, t: Throwable) {
                 error("onFailure", t)
+                getMybdjobsCountData("1",this@LoginBaseActivity)
             }
 
             override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
@@ -187,11 +187,11 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
                     }
                     Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
                     Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
-                    Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
-                    finish()
+                    getMybdjobsCountData("1",this@LoginBaseActivity)
+                    //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                 } catch (e: Exception) {
                     logException(e)
-                    finish()
+                    getMybdjobsCountData("1",this@LoginBaseActivity)
                 }
             }
 
@@ -208,7 +208,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
                 isResumeUpdate = bdjobsUserSession.IsResumeUpdate
         ).enqueue(object : Callback<StatsModelClass> {
             override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
-
+finish()
             }
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
@@ -258,9 +258,10 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
                                 messageByEmployers = employerMessage
                         )
                     }
-
+                    finish()
                 } catch (e: Exception) {
                     logException(e)
+                    finish()
                 }
             }
 
