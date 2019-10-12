@@ -105,11 +105,11 @@ class Constants {
         var isDirectCall = false
         var appliedJobsCount = 0
         var appliedJobsThreshold = 25
-        var appliedJobLimit = 0
+        var appliedJobLimit = 50
 
         var calendar = Calendar.getInstance()
         var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
-        val warningmsgThrsldDate = "10/10/2019"
+        val warningmsgThrsldDate = "31/10/2019"
         var applyRestrictionStatus = false
 
         // set and get from fragment

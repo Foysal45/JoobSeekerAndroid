@@ -47,7 +47,7 @@ class AppliedJobsFragment : Fragment() {
     private var time: String = ""
     var jobsAppliedSize = 0
     var daysAvailable = 30
-    var jobApplyLimit = 30
+    var jobApplyLimit = 50
     var availableJobs = 30
 
     lateinit var messageValidDate: Date
@@ -67,10 +67,20 @@ class AppliedJobsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
+
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         messageValidDate = dateFormat.parse(Constants.warningmsgThrsldDate)
 
-        currentDate = Calendar.getInstance().getTime()
+
+        val calendar = Calendar.getInstance()
+        val strDate = dateFormat.format(calendar.time)
+        currentDate = dateFormat.parse(strDate)
+
+
+
+
 
         bdjobsUsersession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator

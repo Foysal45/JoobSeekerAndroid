@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.text.Html
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -40,6 +41,7 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -56,7 +58,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     private val bdjobsDB = BdjobsDB.getInstance(context)
-    private val bdjobsUserSession = BdjobsUserSession(context)
+    private var bdjobsUserSession = BdjobsUserSession(context)
     private var jobCommunicator: JobCommunicator? = null
     private var jobList: MutableList<JobListModelData>? = null
     var call: JobCommunicator? = null
@@ -86,7 +88,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     var messageValidDate: Date
     var currentDate: Date
-    val waringMsgThrsld =6
+    val waringMsgThrsld: Int = 40
 
 
     init {
@@ -104,13 +106,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         messageValidDate = dateFormat.parse(Constants.warningmsgThrsldDate)
 
-        currentDate = Calendar.getInstance().getTime()
+
+        val calendar = Calendar.getInstance()
+        val strDate = dateFormat.format(calendar.time)
+        currentDate = dateFormat.parse(strDate)
+
     }
 
     fun reload() {
 
         try {
-//            Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+//            Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt(
             jobApplyLimit = Constants.appliedJobLimit
         } catch (e: Exception) {
         }
@@ -212,16 +218,19 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
 
-                            if (currentDate <= messageValidDate && applyOnline.equalIgnoreCase("True")  && Constants.appliedJobsCount>waringMsgThrsld) {
+                            if (currentDate <= messageValidDate && applyOnline.equalIgnoreCase("True") && Constants.appliedJobsCount >= waringMsgThrsld) {
                                 jobsVH.jobApplicationStatusTitle.show()
                                 jobsVH.jobApplicationStatusCard.show()
                                 jobsVH.jobApplicationCountTV.text = "আগামী নভেম্বর মাস থেকে চাকরিপ্রার্থীরা প্রতি মাসে সর্বোচ্চ ৫০টি চাকরির আবেদন করতে পারবেন।"
                                 //remainingJobsCountTV.text = "You can not apply more than ${jobApplyLimit} jobs/month from next month"
                                 jobsVH.whyIAmSeeingThisTV.setOnClickListener {
-                                    Constants.showJobApplicationGuidelineDialog(context)
+                                    val url = "https://jobs.bdjobs.com/JobOnlineApplyInstruction.asp"
+                                    val i = Intent(Intent.ACTION_VIEW);
+                                    i.data = Uri.parse(url)
+                                    context.startActivity(i)
                                 }
 
-                            } else if (applyOnline.equalIgnoreCase("True")  && currentDate > messageValidDate) {
+                            } else if (applyOnline.equalIgnoreCase("True") && currentDate > messageValidDate) {
                                 if (Constants.applyRestrictionStatus) {
                                     if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
                                         jobsVH.jobApplicationStatusTitle.show()
@@ -233,6 +242,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                         jobsVH.jobApplicationStatusTitle.hide()
                                         jobsVH.jobApplicationStatusCard.hide()
 
+                                    }
+                                    jobsVH.whyIAmSeeingThisTV.setOnClickListener {
+                                        Constants.showJobApplicationGuidelineDialog(context)
                                     }
                                 } else {
                                     jobsVH.jobApplicationStatusTitle.hide()
@@ -312,9 +324,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
-                            jobsVH.whyIAmSeeingThisTV.setOnClickListener {
-                                Constants.showJobApplicationGuidelineDialog(context)
-                            }
+
 
                             jobsVH.applyButton.hide()
                             jobsVH.appliedBadge.hide()
@@ -346,53 +356,61 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
-                            //    Log.d("rakib", "load ${Constants.appliedJobsCount}" + " ${jobCommunicator?.getTotalAppliedJobs()}")
-                                if (currentDate > messageValidDate) {
-                                    if (Constants.applyRestrictionStatus) {
-                                        if (Constants.appliedJobsCount >= jobApplyLimit) {
-                                            jobsVH.applyLimitOverButton.visibility = View.VISIBLE
-                                            jobsVH.applyButton.visibility = View.GONE
-                                            jobsVH.applyLimitOverButton.setOnClickListener {
-                                                showApplyLimitOverPopup(context, position)
+                                //    Log.d("rakib", "load ${Constants.appliedJobsCount}" + " ${jobCommunicator?.getTotalAppliedJobs()}")
+                                bdjobsUserSession = BdjobsUserSession(context)
+
+                                if (bdjobsUserSession.isLoggedIn!!) {
+                                    if (currentDate > messageValidDate) {
+                                        if (Constants.applyRestrictionStatus) {
+                                            if (Constants.appliedJobsCount >= jobApplyLimit) {
+                                                jobsVH.applyLimitOverButton.visibility = View.VISIBLE
+                                                jobsVH.applyButton.visibility = View.GONE
+                                                jobsVH.applyLimitOverButton.setOnClickListener {
+                                                    showApplyLimitOverPopup(context, position)
+                                                }
+                                            } else {
+                                                jobsVH.applyButton.visibility = View.VISIBLE
+                                                jobsVH.applyLimitOverButton.visibility = View.GONE
                                             }
-                                        } else {
-                                            jobsVH.applyButton.visibility = View.VISIBLE
-                                            jobsVH.applyLimitOverButton.visibility = View.GONE
                                         }
+                                    } else {
+                                        jobsVH.applyButton.visibility = View.VISIBLE
+                                        jobsVH.applyLimitOverButton.visibility = View.GONE
                                     }
+
                                 } else {
                                     jobsVH.applyButton.visibility = View.VISIBLE
-                                    jobsVH.applyLimitOverButton.visibility = View.GONE
-                                }
-
-                                jobsVH.applyButton.setOnClickListener {
-                                    val bdjobsUserSession = BdjobsUserSession(context)
-                                    if (!bdjobsUserSession.isLoggedIn!!) {
-                                        jobCommunicator?.setBackFrom("jobdetail")
-                                        jobCommunicator?.goToLoginPage()
-                                    } else {
-                                        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
-                                            try {
-                                                val alertd = context.alert("To Access this feature please post your resume") {
-                                                    title = "Your resume is not posted!"
-                                                    positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
-                                                    negativeButton("Cancel") { dd ->
-                                                        dd.dismiss()
-                                                    }
-                                                }
-                                                alertd.isCancelable = false
-                                                alertd.show()
-                                            } catch (e: Exception) {
-                                                logException(e)
-                                            }
-                                        } else {
-                                            showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-                                            //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-                                        }
-                                    }
                                 }
                             } else {
                                 jobsVH.applyButton.visibility = View.GONE
+                            }
+
+
+                            jobsVH.applyButton.setOnClickListener {
+                                val bdjobsUserSession = BdjobsUserSession(context)
+                                if (!bdjobsUserSession.isLoggedIn!!) {
+                                    jobCommunicator?.setBackFrom("jobdetail")
+                                    jobCommunicator?.goToLoginPage()
+                                } else {
+                                    if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+                                        try {
+                                            val alertd = context.alert("To Access this feature please post your resume") {
+                                                title = "Your resume is not posted!"
+                                                positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+                                                negativeButton("Cancel") { dd ->
+                                                    dd.dismiss()
+                                                }
+                                            }
+                                            alertd.isCancelable = false
+                                            alertd.show()
+                                        } catch (e: Exception) {
+                                            logException(e)
+                                        }
+                                    } else {
+                                        showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                        //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                    }
+                                }
                             }
 
 
@@ -955,15 +973,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
         Constants.showNativeAd(ad_small_template, context)
 
-        if (currentDate <= messageValidDate && Constants.appliedJobsCount >waringMsgThrsld) {
+        if (currentDate <= messageValidDate && Constants.appliedJobsCount >= waringMsgThrsld) {
             jobApplicationStatusCard.show()
             appliedJobsCountTV.text = "আগামী নভেম্বর মাস থেকে চাকরিপ্রার্থীরা প্রতি মাসে সর্বোচ্চ ৫০টি চাকরির আবেদন করতে পারবেন।"
             //remainingJobsCountTV.text = "You can not apply more than ${jobApplyLimit} jobs/month from next month"
             whyIAmSeeingThisTV.setOnClickListener {
-                Constants.showJobApplicationGuidelineDialog(context)
+                val url = "https://jobs.bdjobs.com/JobOnlineApplyInstruction.asp"
+                val i = Intent(Intent.ACTION_VIEW);
+                i.data = Uri.parse(url)
+                context.startActivity(i)
             }
 
-        } else if (currentDate > messageValidDate){
+        } else if (currentDate > messageValidDate) {
             if (Constants.applyRestrictionStatus) {
                 if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
                     jobApplicationStatusCard.show()
@@ -973,9 +994,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     whyIAmSeeingThisTV.setOnClickListener {
                         Constants.showJobApplicationGuidelineDialog(context)
                     }
+                } else {
+                    jobApplicationStatusCard?.hide()
                 }
             }
-        }else{
+        } else {
             jobApplicationStatusCard?.hide()
         }
 
