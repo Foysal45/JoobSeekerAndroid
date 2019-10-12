@@ -422,7 +422,7 @@ class AppliedJobsFragment : Fragment() {
     fun incrementAvailableJobCount() {
         try {
             availableJobs = jobApplyLimit - jobsAppliedSize
-            if (appliedJobsCommunicator.getTime() == "1") {
+            if (appliedJobsCommunicator.getTime() == "1" && currentDate >= messageValidDate) {
                 if (availableJobs > 1) {
                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
