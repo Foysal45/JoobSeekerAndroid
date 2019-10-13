@@ -11,7 +11,7 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 675 //664 //82
+        versionCode 677 //676 //83
         versionName "2.0.0.16"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -88,7 +88,7 @@ dependencies {
 
     //----facebook
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
-    implementation 'com.facebook.android:facebook-login:4.38.1'
+    implementation 'com.facebook.android:facebook-login:5.8.0'
 
     //-----background service
     implementation 'com.evernote:android-job:1.3.0-rc1'
