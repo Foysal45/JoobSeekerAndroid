@@ -824,106 +824,109 @@ class SpecializationNewViewFragment : Fragment() {
             dialog.dismiss()
         }
 
-        saveButton?.setOnClickListener {
+        try {
+            saveButton?.setOnClickListener {
 
-            var skill = ""
-            var ntvqf = ""
-            updateNewSkilledBy = ""
-            var skilledBy = ""
+                var skill = ""
+                var ntvqf = ""
+                updateNewSkilledBy = ""
+                var skilledBy = ""
 
-            workExp = refnameATCTV.getString()
+                workExp = refnameATCTV.getString()
 
-            val item = AddExpModel(workExp, workSource, NTVQF)
+                val item = AddExpModel(workExp, workSource, NTVQF)
 
-            item.expSource?.forEach {
-                if (it.toInt() > 0) {
-                    skillSourceNotEmptyStatus = true
-                }
-
-            }
-
-            arr!!.forEach {
-                if (it?.skillName!!.equalIgnoreCase(item.workExp!!)) {
-                    skillDuplicateStatus = true
-                }
-            }
-
-
-            item.expSource?.forEach {
-
-                if (it.toInt() > 0) {
-                    skilledBy += "$it,"
+                item.expSource?.forEach {
+                    if (it.toInt() > 0) {
+                        skillSourceNotEmptyStatus = true
+                    }
 
                 }
-            }
 
-            updateNewSkilledBy = skilledBy.removeSuffix(",")
+                arr?.forEach {
+                    if (it?.skillName!!.equalIgnoreCase(item.workExp!!)) {
+                        skillDuplicateStatus = true
+                    }
+                }
 
-            skill = dataStorage.getSkillIDBySkillType(item.workExp.toString()).toString()
-            ntvqf = getNtvqfLevel(NTVQF)
+
+                item.expSource?.forEach {
+
+                    if (it.toInt() > 0) {
+                        skilledBy += "$it,"
+
+                    }
+                }
+
+                updateNewSkilledBy = skilledBy.removeSuffix(",")
+
+                skill = dataStorage.getSkillIDBySkillType(item.workExp.toString()).toString()
+                ntvqf = getNtvqfLevel(NTVQF)
 
 
-            if (skill.isEmpty() && refnameATCTV.getString().length == 2) {
+                if (skill.isEmpty() && refnameATCTV.getString().length == 2) {
 
-                activity?.toast("Please type valid skill")
+                    activity?.toast("Please type valid skill")
 
-            } else {
-
-                if (skillDuplicateStatus) {
-                    activity.toast("The skill is already exists!")
-                    skillDuplicateStatus = false
-                    skillSourceNotEmptyStatus = false
                 } else {
-                    if (addExpList!!.size == 10) {
-                        activity?.toast("Skill maximum 10")
-                        skillSourceNotEmptyStatus = false
-                        dialog.dismiss()
-                    } else {
-                        if (!item.workExp.isNullOrEmpty()) {
-                            if (skillSourceNotEmptyStatus) {
-                                if (ntvqfStatus) {
 
-                                    if (item.NTVQF.isNullOrEmpty()) {
-                                        activity.toast("Please select NTVQF level")
-                                        skillSourceNotEmptyStatus = false
+                    if (skillDuplicateStatus) {
+                        activity.toast("The skill is already exists!")
+                        skillDuplicateStatus = false
+                        skillSourceNotEmptyStatus = false
+                    } else {
+                        if (addExpList!!.size == 10) {
+                            activity?.toast("Skill maximum 10")
+                            skillSourceNotEmptyStatus = false
+                            dialog.dismiss()
+                        } else {
+                            if (!item.workExp.isNullOrEmpty()) {
+                                if (skillSourceNotEmptyStatus) {
+                                    if (ntvqfStatus) {
+
+                                        if (item.NTVQF.isNullOrEmpty()) {
+                                            activity.toast("Please select NTVQF level")
+                                            skillSourceNotEmptyStatus = false
+                                        } else {
+                                            NTVQF = ""
+                                            addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
+                                            skillDuplicateStatus = false
+                                            skillSourceNotEmptyStatus = false
+                                            ntvqfStatus = false
+
+                                        }
+
                                     } else {
                                         NTVQF = ""
                                         addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
                                         skillDuplicateStatus = false
                                         skillSourceNotEmptyStatus = false
-                                        ntvqfStatus = false
-
                                     }
 
                                 } else {
-                                    NTVQF = ""
-                                    addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
-                                    skillDuplicateStatus = false
+
                                     skillSourceNotEmptyStatus = false
+                                    activity?.toast("Please select how you have learned the skill")
+
                                 }
-
                             } else {
-
+                                activity?.toast("Please type your Skill")
                                 skillSourceNotEmptyStatus = false
-                                activity?.toast("Please select how you have learned the skill")
 
                             }
-                        } else {
-                            activity?.toast("Please type your Skill")
-                            skillSourceNotEmptyStatus = false
+
 
                         }
-
 
                     }
 
                 }
 
+
             }
-
-
+        } catch (e: Exception) {
         }
-        dialog.show()
+        dialog?.show()
 
     }
 
