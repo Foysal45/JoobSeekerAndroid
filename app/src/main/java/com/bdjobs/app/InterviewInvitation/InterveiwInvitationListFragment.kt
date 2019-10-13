@@ -51,6 +51,8 @@ class InterveiwInvitationListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+
+
         if (interviewInvitationCommunicator.getFrom().equalIgnoreCase("popup")) {
             followedRV?.hide()
             favCountTV?.hide()
@@ -121,9 +123,11 @@ class InterveiwInvitationListFragment : Fragment() {
                     bdjobsDB.jobInvitationDao().getAllJobInvitation()
                 } else {
                     val calendar = Calendar.getInstance()
-                    calendar.add(Calendar.DAY_OF_YEAR, -30)
-                    val lastmonth = calendar.time
-                    bdjobsDB.jobInvitationDao().getALLJobInvitationByDate(lastmonth)
+//                    calendar.add(Calendar.DAY_OF_YEAR, - 30)
+//                    val lastmonth = calendar.time
+                    calendar.set(Calendar.DAY_OF_MONTH, 1)
+                    val firstDateOfMonth = calendar.time
+                    bdjobsDB.jobInvitationDao().getALLJobInvitationByDate(firstDateOfMonth)
                 }
 
             } else {
