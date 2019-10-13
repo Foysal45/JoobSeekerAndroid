@@ -4,6 +4,7 @@
     package="com.bdjobs.app">
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:name=".BackgroundJob.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
