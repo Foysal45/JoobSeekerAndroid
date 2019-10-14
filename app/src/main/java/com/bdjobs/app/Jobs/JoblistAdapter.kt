@@ -685,8 +685,6 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 return BASIC
             }
         }
-        return LOADING
-
     }
 
 

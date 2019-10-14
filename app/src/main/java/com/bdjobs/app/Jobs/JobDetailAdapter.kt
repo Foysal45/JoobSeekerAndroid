@@ -1109,12 +1109,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
         if (position == jobList!!.size - 1 && isLoadingAdded) {
             return LOADING
-        } else if (jobList!![position].standout.equals("1")) {
-            return BASIC
         } else if (jobList!![position].standout.equals("0")) {
             return BASIC
+        } else if (jobList!![position].standout.equals("1")) {
+            return BASIC
+        } else if (jobList!![position].standout.equals("2")) {
+            return BASIC
+        } else {
+            return BASIC
         }
-        return LOADING
     }
 
 
