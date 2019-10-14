@@ -96,7 +96,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_RV">
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_RV"
+        android:scrollbars="none">
 
         <LinearLayout
             android:paddingLeft="16dp"
