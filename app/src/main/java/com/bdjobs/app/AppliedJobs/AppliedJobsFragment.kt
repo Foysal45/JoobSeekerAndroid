@@ -187,8 +187,6 @@ class AppliedJobsFragment : Fragment() {
                         if (totalRecords != null) {
                             //   toast("came")
                         } else {
-
-                            toast("came1")
                             totalRecords = "0"
                             favCountTV?.show()
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
