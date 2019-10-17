@@ -23,6 +23,7 @@ import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.Notification.NotificationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
@@ -288,6 +289,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
 
+
         loadAd()
 
 
@@ -418,6 +420,10 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         intent.putExtra(key_typedData, "")
         window.exitTransition = null
         startActivityForResult(intent, BdjobsUserRequestCode)
+    }
+
+    override fun goToNotifications() {
+        startActivity<NotificationBaseActivity>()
     }
 
     override fun goToFavSearchFilters() {

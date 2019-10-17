@@ -229,3 +229,18 @@ data class InviteCodeInfo(@ColumnInfo(name = "userId")
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }
+
+@Entity(tableName = "Notification")
+data class Notification(@ColumnInfo(name = "type")
+                        val type: String?,
+                        @ColumnInfo(name = "seen")
+                        val seen: Boolean?,
+                        @ColumnInfo(name = "arrival_time")
+                        val arrivalTime: Date?,
+                        @ColumnInfo(name = "seen_time")
+                        val seenTime: Date?,
+                        @ColumnInfo(name = "payload")
+                        val payload: String?) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

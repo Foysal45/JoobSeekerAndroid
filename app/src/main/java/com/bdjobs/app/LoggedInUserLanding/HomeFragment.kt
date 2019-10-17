@@ -155,6 +155,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         newSearchBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
+        notificationIMGV?.setOnClickListener {
+            homeCommunicator.goToNotifications()
+        }
     }
 
     private fun showData() {
