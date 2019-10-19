@@ -41,6 +41,7 @@ class NotificationListFragment : Fragment() {
         super.onResume()
         notificationCommunicator = activity as NotificationCommunicatior
         bdjobsDB = BdjobsDB.getInstance(activity)
+        bdjobsUserSession = BdjobsUserSession(activity)
         linearLayoutManager = LinearLayoutManager(activity)
 
         showDataFromDB()
@@ -96,9 +97,11 @@ class NotificationListFragment : Fragment() {
 
     private fun deleteNotificationFromDB(notification: Notification) {
         doAsync {
+            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
             bdjobsDB.notificationDao().deleteNotification(notification)
             uiThread {
                 toast("Notification deleted successfully")
+
             }
         }
 

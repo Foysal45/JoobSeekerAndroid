@@ -24,6 +24,7 @@ import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.Notification.NotificationBaseActivity
+import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
@@ -43,6 +44,7 @@ import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main_landing.*
@@ -53,8 +55,8 @@ import retrofit2.Response
 import java.util.*
 
 class MainLandingActivity : Activity(), HomeCommunicator {
-    private lateinit var mInterstitialAd: InterstitialAd
 
+    private lateinit var mInterstitialAd: InterstitialAd
 
     override fun showManageResumePopup() {
         val dialog = Dialog(this@MainLandingActivity)
@@ -191,6 +193,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private var pcOwnerID: String? = null
     private var inviteCodeStatus: String? = null
     var cvUpload: String = "" // if this value = 0 or 4 then cv file is uploaded else not uploaded
+    private lateinit var mNotificationHelper: NotificationHelper
 
 
     override fun isGetCvUploaded(): String {
@@ -283,12 +286,28 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
         bdjobsDB = BdjobsDB.getInstance(this@MainLandingActivity)
+        mNotificationHelper = NotificationHelper(this)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
 
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        return@OnCompleteListener
+                    }
+
+                    // Get new Instance ID token
+                    val token = task.result?.token
+
+                    // Log and toast
+                   Log.d("rakib", token)
+                })
+
+
+//        sendNotification(NOTIFICATION_BDJOBS)
 
         loadAd()
 
@@ -454,6 +473,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
+                //sendNotification(NOTIFICATION_BDJOBS)
                 transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
                 return@OnNavigationItemSelectedListener true
             }
@@ -664,5 +684,13 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                 "time" to time
         )
     }
+
+//    private fun sendNotification(id: Int) {
+//        when (id) {
+//            NOTIFICATION_BDJOBS -> mNotificationHelper.notify(id, mNotificationHelper.getNotification(
+//                    "Test","body"))
+//        }
+//
+//    }
 
 }

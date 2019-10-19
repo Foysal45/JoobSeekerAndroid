@@ -14,23 +14,26 @@ interface NotificationDao {
     @Query("SELECT * FROM Notification WHERE type = :type ORDER BY id DESC")
     fun getNotificationsByType(type: String): List<Notification>
 
-    @Query("SELECT * FROM Notification WHERE type = :type")
+    @Query("SELECT * FROM Notification WHERE type = :type ORDER BY id DESC")
     fun getMessages(type: String): List<Notification>
 
-    @Query("SELECT * FROM Notification WHERE type != :type")
+    @Query("SELECT * FROM Notification WHERE type != :type ORDER BY id DESC")
     fun getNotifications(type: String): List<Notification>
 
     @Query("DELETE FROM Notification")
     fun deleteAllNotifications()
 
     @Query("SELECT * FROM Notification WHERE id = :id")
-    fun getSingleNotificaiton(id: Int): Notification
+    fun getSingleNotification(id: Int): Notification
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNotification(notification: Notification)
 
     @Delete
     fun deleteNotification(notification: Notification)
+
+    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND type != :type")
+    fun getNotificationsCount(type: String) : Int
 
     @Transaction
     fun getMessage(): List<Notification> {
@@ -40,6 +43,11 @@ interface NotificationDao {
     @Transaction
     fun getNotification(): List<Notification> {
         return getNotifications("m")
+    }
+
+    @Transaction
+    fun getNotificationCount() : Int {
+        return getNotificationsCount("m")
     }
 
 

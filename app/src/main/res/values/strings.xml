@@ -395,4 +395,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="job_application_guideline_message">Here you can get a guideline of job\n application. How to apply effectively to\n increase your chance to get noticed by your\n desired Employer.</string>
     <string name="job_application_guideline_toolbar_text">Job Application Guideline</string>
 
+    <string name="notification_channel_bdjobs">Bdjobs Notification Channel</string>
+
 </resources>

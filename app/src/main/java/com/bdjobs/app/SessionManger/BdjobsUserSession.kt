@@ -103,6 +103,7 @@ class BdjobsUserSession(val context: Context) {
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
     val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"50")
+    var notificationCount = pref?.getInt(Constants.notification_count,0)
 
 
     fun logoutUser() {
@@ -245,6 +246,11 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
+    fun updateNotificationCount(count: Int?){
+        pref?.edit {
+            putInt(Constants.notification_count, count!!)
+        }
+    }
 
     fun insertMybdjobsLastMonthCountData(
             jobsApplied: String?,

@@ -81,6 +81,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
         nameTV?.text = bdjobsUserSession.fullName
         emailTV?.text = bdjobsUserSession.email
+
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
@@ -172,12 +173,27 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showFollowedEmployers()
 
         showLastSearch()
+
+    }
+
+    private fun showNotificationCount() {
+        try {
+            bdjobsUserSession = BdjobsUserSession(activity)
+            if (bdjobsUserSession.notificationCount!! <= 0){
+                notificationCountTV?.hide()
+            } else {
+                notificationCountTV?.show()
+                notificationCountTV?.text = bdjobsUserSession?.notificationCount?.toString()
+            }
+        } catch (e: Exception) {
+        }
     }
 
     override fun onResume() {
         super.onResume()
         activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
+        showNotificationCount()
         showData()
         alertAboutShortlistedJobs()
 

@@ -198,7 +198,7 @@ class Constants {
         //const val session_key_job_apply_count = "jobApplyCount"
         //const val session_key_available_job_count = "availableJobCount"
         const val session_job_apply_limit = "jobApplyLimit"
-
+        const val notification_count = "notificationCount"
 
 
         const val session_key_mybdjobscount_jobs_applied_lastmonth = "jobs_applied_lastmonth"
@@ -222,6 +222,7 @@ class Constants {
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
 
 
+        const val BDJOBS_SAMPLE_NOTIFICATION = 1100
 
 
 
