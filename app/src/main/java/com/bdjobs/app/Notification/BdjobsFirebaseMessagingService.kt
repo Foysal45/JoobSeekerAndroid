@@ -61,7 +61,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
             val date: Date? = Date()
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = interviewInvitaionModel.type, seen = false, arrivalTime = date, seenTime = date, payload = data))
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = interviewInvitaionModel.type, serverId = interviewInvitaionModel.jobid , seen = false, arrivalTime = date, seenTime = date, payload = data))
                 bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
             }
 
@@ -74,7 +74,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         val notification = Gson().fromJson(payload,InterviewInvitationNotificationModel::class.java)
 
         mNotificationHelper.notify(Constants.BDJOBS_SAMPLE_NOTIFICATION, mNotificationHelper.getInterviewInvitationNotification(
-                notification.title!!, notification.body!!,notification.jobid!!,notification.companyName!!,notification.jobTitle!!))
+                notification.title!!, notification.body!!,notification.jobid!!,notification.companyName!!,notification.jobTitle!!,notification.type!!))
 
 
     }

@@ -27,7 +27,7 @@ interface NotificationDao {
     @Query("SELECT * FROM Notification WHERE id = :id")
     fun getSingleNotification(id: Int): Notification
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNotification(notification: Notification)
 
     @Delete
@@ -53,6 +53,9 @@ interface NotificationDao {
 
     @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE id = :id")
     fun updateNotification(seenTime: Date, seen: Boolean, id: Int)
+
+    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE server_id = :id AND type = :type")
+    fun updateNotificationTableByClickingNotification(seenTime: Date, seen: Boolean, id: String,type: String)
 
 
 }

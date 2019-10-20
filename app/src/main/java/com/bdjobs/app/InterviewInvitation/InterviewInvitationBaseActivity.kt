@@ -4,13 +4,19 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import java.util.*
 
 class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
 
+    lateinit var bdjobsDB: BdjobsDB
+    lateinit var bdjobsUserSession: BdjobsUserSession
 
     override fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String) {
         Log.d("rakib interface", "$from $jobTitle $jobID $companyName")
@@ -32,6 +38,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     private var lan = ""
     private var time = ""
     private var value = ""
+    private var type = ""
 
     private val interveiwInvitationListFragment = InterveiwInvitationListFragment()
     private val interviewInvitationDetailsFragment = InterviewInvitationDetailsFragment()
@@ -49,6 +56,8 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         setContentView(R.layout.activity_interview_invitation_base)
         Log.d("rakib", "onCreate")
 
+        bdjobsDB = BdjobsDB.getInstance(applicationContext)
+        bdjobsUserSession = BdjobsUserSession(applicationContext)
     }
 
 
@@ -92,12 +101,22 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
             logException(e)
         }
 
+        try {
+            type = intent.getStringExtra("type")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
 
         Log.d("utuytujtjtgdju56u", "$from $jobTitle $jobID $companyName")
 
 
         when {
             from?.equals("notification") -> {
+                doAsync {
+                    bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobID, type)
+                    bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+                }
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }
             from?.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)

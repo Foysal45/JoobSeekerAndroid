@@ -43,7 +43,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         }
     }
 
-    fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String): NotificationCompat.Builder {
+    fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type : String): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
@@ -52,6 +52,8 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
             putExtra("jobid", jobid)
             putExtra("companyname", companyName)
             putExtra("jobtitle", jobTitle)
+            putExtra("type", type)
+
         }
         val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 

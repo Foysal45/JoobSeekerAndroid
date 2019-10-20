@@ -69,17 +69,17 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
     }
 
 
-    private fun insertNotifications() {
-//        val date: Date? =  SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse("10/17/2019 3:30:00 PM")
-        val date: Date? = Date()
-        doAsync {
-            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "n", seen = false, arrivalTime = date, seenTime = date, payload = " payload 1"))
-            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
-            //val notification = bdjobsInternalDB.notificationDao().getSingleNotificaiton(12)
-            //Log.d("rakib" , "${notification.arrivalTime.toString()}")
-        }
-
-    }
+//    private fun insertNotifications() {
+////        val date: Date? =  SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse("10/17/2019 3:30:00 PM")
+//        val date: Date? = Date()
+//        doAsync {
+//            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "n", seen = false, arrivalTime = date, seenTime = date, payload = " payload 1"))
+//            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+//            //val notification = bdjobsInternalDB.notificationDao().getSingleNotificaiton(12)
+//            //Log.d("rakib" , "${notification.arrivalTime.toString()}")
+//        }
+//
+//    }
 
     private fun getMybdjobsCountData(activityDate: String) {
         ApiServiceMyBdjobs.create().mybdjobStats(

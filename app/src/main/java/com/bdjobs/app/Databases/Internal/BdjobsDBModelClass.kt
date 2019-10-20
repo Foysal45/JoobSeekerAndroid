@@ -233,6 +233,8 @@ data class InviteCodeInfo(@ColumnInfo(name = "userId")
 @Entity(tableName = "Notification")
 data class Notification(@ColumnInfo(name = "type")
                         val type: String?,
+                        @ColumnInfo(name = "server_id")
+                        val serverId : String?,
                         @ColumnInfo(name = "seen")
                         val seen: Boolean?,
                         @ColumnInfo(name = "arrival_time")
