@@ -41,8 +41,8 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:background="@drawable/notification_count_circle"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_marginTop="5dp"
                 android:text="20"
                 android:textColor="#FFF" />

@@ -1,6 +1,7 @@
 package com.bdjobs.app.Databases.Internal
 
 import androidx.room.*
+import java.util.*
 
 @Dao
 interface NotificationDao {
@@ -26,14 +27,14 @@ interface NotificationDao {
     @Query("SELECT * FROM Notification WHERE id = :id")
     fun getSingleNotification(id: Int): Notification
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertNotification(notification: Notification)
 
     @Delete
     fun deleteNotification(notification: Notification)
 
     @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND type != :type")
-    fun getNotificationsCount(type: String) : Int
+    fun getNotificationsCount(type: String): Int
 
     @Transaction
     fun getMessage(): List<Notification> {
@@ -46,9 +47,12 @@ interface NotificationDao {
     }
 
     @Transaction
-    fun getNotificationCount() : Int {
+    fun getNotificationCount(): Int {
         return getNotificationsCount("m")
     }
+
+    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE id = :id")
+    fun updateNotification(seenTime: Date, seen: Boolean, id: Int)
 
 
 }

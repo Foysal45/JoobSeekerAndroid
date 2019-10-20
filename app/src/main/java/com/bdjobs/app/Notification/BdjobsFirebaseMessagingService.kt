@@ -3,11 +3,13 @@ package com.bdjobs.app.Notification
 import android.util.Log
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
+import com.bdjobs.app.Notification.Models.InterviewInvitationNotificationModel
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.info
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import java.util.*
 
@@ -17,6 +19,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     private lateinit var mNotificationHelper: NotificationHelper
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var bdjobsInternalDB: BdjobsDB
+    private lateinit var interviewInvitaionModel : InterviewInvitationNotificationModel
 
 
     override fun onNewToken(p0: String) {
@@ -31,11 +34,17 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
 
 
+        val gson = Gson()
+
         // Check if message contains a data payload.
-        remoteMessage.data.isNotEmpty()?.let {
-            //Log.d("rakib", "Message data payload: " + remoteMessage.data.toString())
-            insertNotificationInToDatabase(remoteMessage.data.toString())
-            showNotification(remoteMessage.data["body"])
+        remoteMessage?.let {
+
+            val payload = gson.toJson(it.data).toString()
+            interviewInvitaionModel = gson.fromJson(payload,InterviewInvitationNotificationModel::class.java)
+
+            insertNotificationInToDatabase(payload)
+
+            showNotification(payload)
 
         }
 
@@ -52,17 +61,20 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
             val date: Date? = Date()
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "n", seen = false, arrivalTime = date, seenTime = date, payload = data))
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = interviewInvitaionModel.type, seen = false, arrivalTime = date, seenTime = date, payload = data))
                 bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
             }
 
 
     }
 
-    private fun showNotification(body : String?) {
+    private fun showNotification(payload : String?) {
         mNotificationHelper = NotificationHelper(applicationContext)
-        mNotificationHelper.notify(Constants.BDJOBS_SAMPLE_NOTIFICATION, mNotificationHelper.getExpandableNotification(
-                "Bdjobs", body!!))
+
+        val notification = Gson().fromJson(payload,InterviewInvitationNotificationModel::class.java)
+
+        mNotificationHelper.notify(Constants.BDJOBS_SAMPLE_NOTIFICATION, mNotificationHelper.getInterviewInvitationNotification(
+                notification.title!!, notification.body!!,notification.jobid!!,notification.companyName!!,notification.jobTitle!!))
 
 
     }

@@ -9,8 +9,10 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 
 class NotificationHelper(context: Context) : ContextWrapper(context) {
@@ -41,7 +43,24 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         }
     }
 
-    fun getExpandableNotification(title: String, body: String): NotificationCompat.Builder {
+    fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String): NotificationCompat.Builder {
+
+        Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
+
+        val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
+            putExtra("from", "notification")
+            putExtra("jobid", jobid)
+            putExtra("companyname", companyName)
+            putExtra("jobtitle", jobTitle)
+        }
+        val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val stackBuilder = TaskStackBuilder.create(this)
+        stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
+        stackBuilder.addNextIntent(intent)
+        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+
+
         return NotificationCompat.Builder(applicationContext, BDJOBS_CHANNEL)
                 .setContentTitle(title)
                 .setContentText(body)
@@ -49,7 +68,8 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                 .setAutoCancel(true)
                 .setStyle(NotificationCompat.BigTextStyle()
                         .bigText(body))
-                .setContentIntent(pendingIntent)
+                .setContentIntent(interviewInvitationPendingIntent)
+
     }
 
     fun getSimpleNotification(title: String, body: String): NotificationCompat.Builder {
@@ -62,15 +82,20 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
 
-
     private val pendingIntent: PendingIntent
         get() {
-            val intent = Intent(this,NotificationBaseActivity::class.java)
+            val intent = Intent(this, NotificationBaseActivity::class.java)
             val stackBuilder = TaskStackBuilder.create(this)
             stackBuilder.addParentStack(NotificationBaseActivity::class.java)
             stackBuilder.addNextIntent(intent)
-            return stackBuilder.getPendingIntent(0,PendingIntent.FLAG_ONE_SHOT)
+            return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
         }
+
+//    private val interviewInvitationPendingIntent: PendingIntent
+//        get() {
+//
+//        }
+
 
     fun notify(id: Int, notification: NotificationCompat.Builder) {
         mNotificationManager.notify(id, notification.build())
