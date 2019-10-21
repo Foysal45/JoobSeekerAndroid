@@ -83,7 +83,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         //generateKeyHash()
         getFCMtoken()
-        subscribeToFCMTopic("Kamol")
+        subscribeToFCMTopic("Global")
         MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
         /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
          mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"

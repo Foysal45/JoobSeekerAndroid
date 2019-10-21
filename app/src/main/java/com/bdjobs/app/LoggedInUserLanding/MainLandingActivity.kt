@@ -319,6 +319,7 @@ class MainLandingActivity : Activity(), HomeCommunicator {
             }
         }
 
+
         if (isBlueCollarUser()) {
             getInviteCodeInformation()
             getUserStatus(userId = session.userId!!, decodeId = session.decodId!!, invitedUserId = session.userId!!)

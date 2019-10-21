@@ -14,6 +14,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Utilities.logException
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import kotlin.system.exitProcess
 
 class BdjobsUserSession(val context: Context) {
     private var pref: SharedPreferences? = null
@@ -106,7 +107,7 @@ class BdjobsUserSession(val context: Context) {
     var notificationCount = pref?.getInt(Constants.notification_count,0)
 
 
-    fun logoutUser() {
+    fun logoutUser(exitApp : Boolean = false) {
 
         pref?.edit()?.clear()?.apply()
         val bdjobsDB = BdjobsDB.getInstance(context = context)
@@ -119,12 +120,20 @@ class BdjobsUserSession(val context: Context) {
             bdjobsDB.jobInvitationDao().deleteAllJobInvitation()
             bdjobsDB.lastSearchDao().deleteAllLastSearch()
             bdjobsDB.suggestionDAO().deleteAllSuggestion()
+            bdjobsDB.notificationDao().deleteAllNotifications()
+
             uiThread {
                 // loadingDialog.dismiss()
-                val intent = Intent(context, GuestUserJobSearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent)
-                (context as Activity).finishAffinity()
+                if (!exitApp){
+                    val intent = Intent(context, GuestUserJobSearchActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                    (context as Activity).finishAffinity()
+                } else {
+                    exitProcess(1)
+                }
+
+
             }
         }
     }

@@ -219,17 +219,26 @@ fun Activity.getFCMtoken() {
 
 fun Activity.subscribeToFCMTopic(topicName: String) {
 
-    FirebaseMessaging.getInstance().subscribeToTopic(topicName)
-            .addOnCompleteListener(object : OnCompleteListener<Void> {
-                override fun onComplete(@NonNull task: Task<Void>) {
-                    var msg = "Firebase topic subscription on : $topicName is Successful"
-                    if (!task.isSuccessful) {
-                        msg = "Firebase topic subscription on : $topicName is NOT Successful"
-                    }
-                    wtf(msg)
 
+    FirebaseMessaging.getInstance().subscribeToTopic(topicName)
+            .addOnCompleteListener { task ->
+                var msg = "Firebase topic subscription on : $topicName is Successful"
+                if (!task.isSuccessful) {
+                    msg = "Firebase topic subscription on : $topicName is NOT Successful"
                 }
-            })
+                wtf(msg)
+            }
+//    FirebaseMessaging.getInstance().subscribeToTopic(topicName)
+//            .addOnCompleteListener(object : OnCompleteListener<Void> {
+//                override fun onComplete(@NonNull task: Task<Void>) {
+//                    var msg = "Firebase topic subscription on : $topicName is Successful"
+//                    if (!task.isSuccessful) {
+//                        msg = "Firebase topic subscription on : $topicName is NOT Successful"
+//                    }
+//                    wtf(msg)
+//
+//                }
+//            })
 }
 
 fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener) {

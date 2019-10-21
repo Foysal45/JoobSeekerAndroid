@@ -1,17 +1,20 @@
 package com.bdjobs.app.Notification
 
 import android.util.Log
+import androidx.annotation.UiThread
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Notification.Models.InterviewInvitationNotificationModel
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.info
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import java.util.*
+import kotlin.system.exitProcess
 
 class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -42,9 +45,19 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             val payload = gson.toJson(it.data).toString()
             interviewInvitaionModel = gson.fromJson(payload,InterviewInvitationNotificationModel::class.java)
 
-            insertNotificationInToDatabase(payload)
+            if (interviewInvitaionModel.type!!.equalIgnoreCase("fl")){
+                try {
+                    bdjobsUserSession = BdjobsUserSession(applicationContext)
+                    bdjobsUserSession.logoutUser(exitApp = true)
+//                    exitProcess(1)
+                } catch (e: Exception) {
+                }
 
-            showNotification(payload)
+            } else {
+                insertNotificationInToDatabase(payload)
+                showNotification(payload)
+            }
+
 
         }
 
@@ -63,6 +76,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             doAsync {
                 bdjobsInternalDB.notificationDao().insertNotification(Notification(type = interviewInvitaionModel.type, serverId = interviewInvitaionModel.jobid , seen = false, arrivalTime = date, seenTime = date, payload = data))
                 bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+
             }
 
 

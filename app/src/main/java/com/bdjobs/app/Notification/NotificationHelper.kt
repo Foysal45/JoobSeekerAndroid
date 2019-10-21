@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
+import org.jetbrains.anko.startActivity
 
 class NotificationHelper(context: Context) : ContextWrapper(context) {
 
@@ -43,9 +44,17 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         }
     }
 
-    fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type : String): NotificationCompat.Builder {
+    fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
+
+        startActivity<InterviewInvitationBaseActivity>(
+                "from" to "notification",
+                "jobid" to jobid,
+                "companyname" to companyName,
+                "jobtitle" to jobTitle,
+                "type" to type
+        )
 
         val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
             putExtra("from", "notification")

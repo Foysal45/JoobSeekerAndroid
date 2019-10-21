@@ -496,6 +496,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
             override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
                 try {
+
+                    val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
+                    catIds?.let {
+                        for (item in it){
+                            if (item.isNotEmpty()){
+                                activity.subscribeToFCMTopic(item)
+                                Log.d("rakib",item)
+                            }
+                        }
+                    }
+                    Log.d("rakib cat id", "${catIds?.size}")
+
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
                     Log.d("google", "google = $inviteInterviview")
 
