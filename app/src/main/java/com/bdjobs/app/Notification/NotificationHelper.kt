@@ -19,7 +19,10 @@ import org.jetbrains.anko.startActivity
 class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     companion object {
-        const val BDJOBS_CHANNEL = "bdjobs"
+        const val GENERAL_CHANNEL = "general"
+        const val INTERVIEW_INVITATION_CHANNEL = "interview_invitation"
+        const val CV_VIEWED_CHANNEL = "cv_viewed"
+        const val MESSAGE_CHANNEL = "message"
     }
 
     private val mNotificationManager: NotificationManagerCompat by lazy {
@@ -28,33 +31,68 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     init {
 
-        // Create the channel object with the unique ID FOLLOWERS_CHANNEL
+        // Create general notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val followersChannel = NotificationChannel(
-                    BDJOBS_CHANNEL,
-                    getString(R.string.notification_channel_bdjobs),
+
+            val generalChannel = NotificationChannel(
+                    GENERAL_CHANNEL,
+                    getString(R.string.notification_channel_general),
                     NotificationManager.IMPORTANCE_HIGH)
 
             // Configure the channel's initial settings
-            followersChannel.lightColor = Color.GREEN
-            followersChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
 
             // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(followersChannel)
+            mNotificationManager.createNotificationChannel(generalChannel)
+
+            // Create interview invitation notification channel
+            val interviewInvitationChannel = NotificationChannel(
+                    INTERVIEW_INVITATION_CHANNEL,
+                    getString(R.string.notification_channel_interview_invitation),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(interviewInvitationChannel)
+
+            // Create cv viewed notification channel
+            val cvViewedChannel = NotificationChannel(
+                    CV_VIEWED_CHANNEL,
+                    getString(R.string.notification_channel_cv_viewed),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(cvViewedChannel)
+
+            // Create message notification channel
+            val messageChannel = NotificationChannel(
+                    MESSAGE_CHANNEL,
+                    getString(R.string.notification_channel_message),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(messageChannel)
+
         }
+
+
     }
 
     fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
-
-        startActivity<InterviewInvitationBaseActivity>(
-                "from" to "notification",
-                "jobid" to jobid,
-                "companyname" to companyName,
-                "jobtitle" to jobTitle,
-                "type" to type
-        )
 
         val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
             putExtra("from", "notification")
@@ -64,6 +102,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
             putExtra("type", type)
 
         }
+
         val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val stackBuilder = TaskStackBuilder.create(this)
@@ -71,8 +110,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         stackBuilder.addNextIntent(intent)
         stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
 
-
-        return NotificationCompat.Builder(applicationContext, BDJOBS_CHANNEL)
+        return NotificationCompat.Builder(applicationContext, INTERVIEW_INVITATION_CHANNEL)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(smallIcon)
@@ -83,14 +121,14 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     }
 
-    fun getSimpleNotification(title: String, body: String): NotificationCompat.Builder {
-        return NotificationCompat.Builder(applicationContext, BDJOBS_CHANNEL)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setSmallIcon(smallIcon)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-    }
+//    fun getSimpleNotification(title: String, body: String): NotificationCompat.Builder {
+//        return NotificationCompat.Builder(applicationContext, BDJOBS_CHANNEL)
+//                .setContentTitle(title)
+//                .setContentText(body)
+//                .setSmallIcon(smallIcon)
+//                .setAutoCancel(true)
+//                .setContentIntent(pendingIntent)
+//    }
 
 
     private val pendingIntent: PendingIntent

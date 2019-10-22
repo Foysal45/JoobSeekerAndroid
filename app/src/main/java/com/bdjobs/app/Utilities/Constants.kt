@@ -246,6 +246,11 @@ class Constants {
         const val KEY_SCREEN_SIZE = "screensize"
         const val APP_ID = "1"
 
+        const val NOTIFICATION_TYPE_INTERVIEW_INVITATION = "i"
+        const val NOTIFICATION_TYPE_CV_VIEWED = "c"
+        const val NOTIFICATION_TYPE_MESSAGE = "m"
+        const val NOTIFICATION_TYPE_FORCE_LOGOUT = "fl"
+
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)
 

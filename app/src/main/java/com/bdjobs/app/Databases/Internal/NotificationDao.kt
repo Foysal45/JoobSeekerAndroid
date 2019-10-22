@@ -1,6 +1,9 @@
 package com.bdjobs.app.Databases.Internal
 
+import android.app.Activity
+import android.content.Intent
 import androidx.room.*
+import com.bdjobs.app.Utilities.Constants
 import java.util.*
 
 @Dao
@@ -49,6 +52,14 @@ interface NotificationDao {
     @Transaction
     fun getNotificationCount(): Int {
         return getNotificationsCount("m")
+    }
+
+    @Transaction
+    fun notificationDelete(notification: Notification, activity: Activity){
+        deleteNotification(notification)
+        val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+        intent.putExtra("job", "insertNotifications")
+        activity.sendBroadcast(intent)
     }
 
     @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE id = :id")
