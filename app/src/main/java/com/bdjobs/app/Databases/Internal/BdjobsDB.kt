@@ -19,7 +19,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 3, exportSchema = false)
+    Notification::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -54,12 +54,26 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_3_4 = object : Migration(3,4){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Notification ADD COLUMN `img_link` TEXT")
+                database.execSQL("ALTER TABLE Notification ADD COLUMN `link` TEXT")
+                database.execSQL("ALTER TABLE Notification ADD COLUMN `is_deleted` TINYINT")
+            }
+        }
+
+        val MIGRATION_4_5 = object : Migration(4,5){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Notification ADD COLUMN `job_title` TEXT")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
+                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3,MIGRATION_3_4, MIGRATION_4_5).build()
     }
 }

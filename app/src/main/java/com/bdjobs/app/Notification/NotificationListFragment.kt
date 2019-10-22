@@ -2,6 +2,7 @@ package com.bdjobs.app.Notification
 
 import android.os.Bundle
 import android.app.Fragment
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.fragment_joblist_layout.backIV
@@ -97,15 +99,14 @@ class NotificationListFragment : Fragment() {
 
     private fun deleteNotificationFromDB(notification: Notification) {
         doAsync {
+            bdjobsDB.notificationDao().notificationDelete(notification,activity)
+            bdjobsUserSession = BdjobsUserSession(activity)
             bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
-            bdjobsDB.notificationDao().deleteNotification(notification)
             uiThread {
-                toast("Notification deleted successfully")
 
             }
         }
 
     }
-
 
 }
