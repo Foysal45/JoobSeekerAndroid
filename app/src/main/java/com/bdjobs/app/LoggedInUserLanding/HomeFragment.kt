@@ -11,10 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
@@ -54,6 +51,13 @@ import java.util.*
 
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
+    override fun onUpdateNotification() {
+        Log.d("rakib", "notification inserted")
+        notificationCountTV?.show()
+        bdjobsUserSession = BdjobsUserSession(activity)
+        notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+    }
 
 
     private lateinit var bdjobsUserSession: BdjobsUserSession

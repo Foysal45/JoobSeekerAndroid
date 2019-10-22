@@ -24,6 +24,9 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
                 if(job=="insertCertificationList"){
                     backgroundJobListener!!.certificationSyncComplete()
                 }
+                if (job == "insertNotifications"){
+                    backgroundJobListener!!.onUpdateNotification()
+                }
             }
         }
 
@@ -38,6 +41,7 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
         fun followedEmployerSyncComplete()
 
 
+        fun onUpdateNotification()
     }
 
     companion object {
