@@ -88,7 +88,7 @@
     </com.google.android.material.tabs.TabLayout>
 
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/notificationFragmentHolder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -98,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tabs"
         >
 
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

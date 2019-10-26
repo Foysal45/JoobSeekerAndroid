@@ -250,7 +250,13 @@ data class Notification(@ColumnInfo(name = "type")
                         @ColumnInfo(name = "payload")
                         val payload: String?,
                         @ColumnInfo(name = "job_title")
-                        val jobTitle: String?) {
+                        val jobTitle: String?,
+                        @ColumnInfo(name = "title")
+                        val title: String?,
+                        @ColumnInfo(name = "body")
+                        val body: String?,
+                        @ColumnInfo(name = "company_name")
+                        val companyName: String?) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }

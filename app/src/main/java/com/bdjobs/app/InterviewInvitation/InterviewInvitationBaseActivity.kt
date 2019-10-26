@@ -119,6 +119,11 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
                 }
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }
+
+            from?.equals("notificationList") ->{
+                goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+            }
+
             from?.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             else -> transitFragment(interveiwInvitationListFragment, R.id.interViewfragmentHolder)
         }

@@ -115,6 +115,7 @@ class InterveiwInvitationListFragment : Fragment() {
     }
 
     private fun showDataFromDB() {
+        Log.d("rakib","came here")
         doAsync {
             var interviewInvitations: List<JobInvitation>? = null
 
@@ -127,6 +128,7 @@ class InterveiwInvitationListFragment : Fragment() {
 //                    val lastmonth = calendar.time
                     calendar.set(Calendar.DAY_OF_MONTH, 1)
                     val firstDateOfMonth = calendar.time
+                    Log.d("rakib", firstDateOfMonth.toString())
                     bdjobsDB.jobInvitationDao().getALLJobInvitationByDate(firstDateOfMonth)
                 }
 
@@ -134,6 +136,8 @@ class InterveiwInvitationListFragment : Fragment() {
                 bdjobsDB.jobInvitationDao().getAllJobInvitation()
 
             }
+
+            Log.d("rakib",interviewInvitations.size.toString())
 
             uiThread {
                 try {

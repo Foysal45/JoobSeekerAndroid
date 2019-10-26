@@ -41,33 +41,61 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
+        Log.d("rakib received", remoteMessage.data.toString())
 
         val gson = Gson()
 
         // Check if message contains a data payload.
         remoteMessage?.let {
+            bdjobsUserSession = BdjobsUserSession(applicationContext)
+            if (bdjobsUserSession.isLoggedIn!!) {
+                val payload = gson.toJson(it.data).replace("\\n", "\n")
+                Log.d("rakib", payload)
+                commonNotificationModel = gson.fromJson(payload, CommonNotificationModel::class.java)
 
-            val payload = gson.toJson(it.data).toString()
-            Log.d("rakib",payload)
-            commonNotificationModel = gson.fromJson(payload, CommonNotificationModel::class.java)
+                when (commonNotificationModel.type) {
 
-            when(commonNotificationModel.type){
-                Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION->{
-                    insertNotificationInToDatabase(payload)
-                    showNotification(payload)
-                }
-                Constants.NOTIFICATION_TYPE_CV_VIEWED->{
-
-                }
-                Constants.NOTIFICATION_TYPE_FORCE_LOGOUT->{
-                    try {
-                        bdjobsUserSession = BdjobsUserSession(applicationContext)
-                        bdjobsUserSession.logoutUser(exitApp = true)
-                    } catch (e: Exception) {
-                        logException(e)
+                    Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
+                        insertNotificationInToDatabase(commonNotificationModel.toString())
+                        showNotification(commonNotificationModel)
                     }
-                }
-                else->{
+
+                    Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
+                        insertNotificationInToDatabase(payload)
+                        showNotification(commonNotificationModel)
+                    }
+
+                    Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
+
+                    }
+
+                    Constants.NOTIFICATION_TYPE_GENERAL -> {
+                        //insertNotificationInToDatabase(payload)
+                        //showNotification(commonNotificationModel)
+                    }
+
+                    Constants.NOTIFICATION_TYPE_REMOVE_NOTIFICATION -> {
+                            removeNotificationFromDatabase(commonNotificationModel)
+                    }
+
+                    Constants.NOTIFICATION_TYPE_REMOVE_MESSAGE -> {
+
+                    }
+
+                    Constants.NOTIFICATION_TYPE_FORCE_LOGOUT -> {
+                        try {
+                            bdjobsUserSession = BdjobsUserSession(applicationContext)
+                            bdjobsUserSession.logoutUser(exitApp = true)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+                    Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+                        insertNotificationInToDatabase(payload)
+                        showNotification(commonNotificationModel)
+                    }
+                    else -> {
+                    }
                 }
             }
         }
@@ -78,6 +106,14 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+    private fun removeNotificationFromDatabase(commonNotificationModel: CommonNotificationModel?) {
+        bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
+        bdjobsInternalDB.notificationDao().deleteNotificationBecauseServerToldMe(commonNotificationModel?.jobId!!, commonNotificationModel?.companyName!!)
+        bdjobsUserSession = BdjobsUserSession(applicationContext)
+        bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+
+    }
+
     private fun insertNotificationInToDatabase(data: String) {
 
         bdjobsUserSession = BdjobsUserSession(applicationContext)
@@ -85,11 +121,12 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
         val date: Date? = Date()
         doAsync {
-            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle))
-            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+            if (commonNotificationModel.type != "pm")
+                bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
             uiThread {
                 val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
-                intent.putExtra("job", "insertNotifications")
+                intent.putExtra("notification", "insertOrUpdateNotification")
                 applicationContext.sendBroadcast(intent)
             }
         }
@@ -97,13 +134,28 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
     }
 
-    private fun showNotification(payload: String?) {
+    private fun showNotification(commonNotificationModel: CommonNotificationModel) {
         mNotificationHelper = NotificationHelper(applicationContext)
 
 //        val commonNotificationModel = Gson().fromJson(payload, commonNotificationModel::class.java)
 
-        mNotificationHelper.notify(Constants.BDJOBS_SAMPLE_NOTIFICATION, mNotificationHelper.getInterviewInvitationNotification(
-                commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+        when (commonNotificationModel.type) {
+            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
+                mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
+                        commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+            }
+            Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
+                mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
+                        commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+            }
+            Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+                mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
+                        commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+            }
+            Constants.NOTIFICATION_TYPE_GENERAL->{
+
+            }
+        }
 
 
     }

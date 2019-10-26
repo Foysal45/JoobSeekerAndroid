@@ -56,9 +56,17 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         getIsCvUploaded()
 
 //        insertNotifications()
+//        deleteNotificationsOfLast30Days()
+
         getUnSeenNotificationsCount()
         return Result.SUCCESS
     }
+
+//    private fun deleteNotificationsOfLast30Days() {
+//        doAsync {
+//            bdjobsInternalDB.notificationDao().deleteNotificationsFromDatabaseOlderThanLast30Days()
+//        }
+//    }
 
     private fun getUnSeenNotificationsCount() {
         doAsync {

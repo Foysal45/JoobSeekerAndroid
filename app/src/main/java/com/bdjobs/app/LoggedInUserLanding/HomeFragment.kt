@@ -50,12 +50,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
+class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
     override fun onUpdateNotification() {
         Log.d("rakib", "notification inserted")
         notificationCountTV?.show()
         bdjobsUserSession = BdjobsUserSession(activity)
-        notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+        if (bdjobsUserSession.notificationCount!! > 99){
+            notificationCountTV?.text = "99+"
+
+        } else{
+            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+        }
 
     }
 
@@ -187,7 +193,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 notificationCountTV?.hide()
             } else {
                 notificationCountTV?.show()
-                notificationCountTV?.text = bdjobsUserSession?.notificationCount?.toString()
+                if (bdjobsUserSession.notificationCount!! > 99){
+                    notificationCountTV?.text = "99+"
+
+                } else{
+                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
             }
         } catch (e: Exception) {
         }
@@ -196,6 +208,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     override fun onResume() {
         super.onResume()
         activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
+        BackgroundJobBroadcastReceiver.notificationUpdateListener = this
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showNotificationCount()
         showData()

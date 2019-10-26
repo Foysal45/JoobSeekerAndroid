@@ -12,8 +12,11 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
+import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants
 import org.jetbrains.anko.startActivity
 
 class NotificationHelper(context: Context) : ContextWrapper(context) {
@@ -25,7 +28,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         const val MESSAGE_CHANNEL = "message"
     }
 
-    private val mNotificationManager: NotificationManagerCompat by lazy {
+    val mNotificationManager: NotificationManagerCompat by lazy {
         NotificationManagerCompat.from(context)
     }
 
@@ -90,34 +93,84 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     }
 
-    fun getInterviewInvitationNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
+    fun prepareNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
-        val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
-            putExtra("from", "notification")
-            putExtra("jobid", jobid)
-            putExtra("companyname", companyName)
-            putExtra("jobtitle", jobTitle)
-            putExtra("type", type)
+        when(type){
+            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION ->{
 
+                val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    putExtra("jobid", jobid)
+                    putExtra("companyname", companyName)
+                    putExtra("jobtitle", jobTitle)
+                    putExtra("type", type)
+                }
+
+                val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
+                stackBuilder.addNextIntent(intent)
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+
+                return NotificationCompat.Builder(applicationContext, INTERVIEW_INVITATION_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(interviewInvitationPendingIntent)
+            }
+
+            Constants.NOTIFICATION_TYPE_CV_VIEWED->{
+
+                val intent = Intent(this, EmployersBaseActivity::class.java)?.apply {
+                    putExtra("from", "vwdMyResume")
+                }
+
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
+                stackBuilder.addNextIntent(intent)
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+
+                return NotificationCompat.Builder(applicationContext, CV_VIEWED_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(pendingIntent)
+            }
+            else->{
+                val intent = Intent(this, MainLandingActivity::class.java)?.apply {
+//                    putExtra("from", "vwdMyResume")
+                }
+
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
+                stackBuilder.addNextIntent(intent)
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+
+                return NotificationCompat.Builder(applicationContext, GENERAL_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(pendingIntent)
+            }
         }
 
-        val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val stackBuilder = TaskStackBuilder.create(this)
-        stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
-        stackBuilder.addNextIntent(intent)
-        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
-
-        return NotificationCompat.Builder(applicationContext, INTERVIEW_INVITATION_CHANNEL)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setSmallIcon(smallIcon)
-                .setAutoCancel(true)
-                .setStyle(NotificationCompat.BigTextStyle()
-                        .bigText(body))
-                .setContentIntent(interviewInvitationPendingIntent)
 
     }
 

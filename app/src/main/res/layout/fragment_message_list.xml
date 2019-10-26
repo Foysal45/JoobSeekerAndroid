@@ -47,7 +47,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:clipToPadding="false"
-        android:paddingTop="15dp"
         android:id="@+id/notificationsRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
