@@ -427,8 +427,14 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                         response.body()?.data?.let { items ->
                             doAsync {
                                 for (item in items) {
+                                    var inviteDate : Date? = null
+                                    try {
+                                        inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
                                     val jobInvitation = JobInvitation(companyName = item?.companyName,
-                                            inviteDate = item?.inviteDate,
+                                            inviteDate = inviteDate,
                                             jobId = item?.jobId,
                                             jobTitle = item?.jobTitle,
                                             seen = item?.seen)

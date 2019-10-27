@@ -113,11 +113,11 @@ data class FavouriteSearch(
 }
 
 
-@Entity(tableName = "JobInvitation", indices = [(Index(value = ["jobId"], unique = true))])
+@Entity(tableName = "JobInvitation",indices = [(Index(value = ["jobId"], unique = true))])
 data class JobInvitation(@ColumnInfo(name = "companyName")
                          val companyName: String?,
                          @ColumnInfo(name = "inviteDate")
-                         val inviteDate: String?,
+                         val inviteDate: Date?,
                          @ColumnInfo(name = "jobId")
                          val jobId: String? = null,
                          @ColumnInfo(name = "jobTitle")
