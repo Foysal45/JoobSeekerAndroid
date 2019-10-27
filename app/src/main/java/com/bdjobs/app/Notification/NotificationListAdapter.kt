@@ -25,7 +25,11 @@ import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.Utilities.show
 import com.google.android.material.button.MaterialButton
+import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -46,7 +50,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
     private val notificationCommunicatior = context as NotificationCommunicatior
     var bdjobsDB: BdjobsDB
     var bdjobsUserSession: BdjobsUserSession
-    var notificationHelper : NotificationHelper
+    var notificationHelper: NotificationHelper
 
     init {
         bdjobsDB = BdjobsDB.getInstance(context)
@@ -68,7 +72,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 val view = inflater.inflate(R.layout.notification_item_cv_viewed, parent, false)
                 viewHolder = CVViewedViewHolder(view)
             }
-            TYPE_PROMOTIONAL_MESSAGE->{
+            TYPE_PROMOTIONAL_MESSAGE -> {
                 val view = inflater.inflate(R.layout.notification_item_msg, parent, false)
                 viewHolder = PromotionalMessageViewHolder(view)
             }
@@ -86,7 +90,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
         return when (items[position].type) {
             NOTIFICATION_TYPE_INTERVIEW_INVITATION -> TYPE_INTERVIEW_INVITATION
             NOTIFICATION_TYPE_CV_VIEWED -> TYPE_CV_VIEWED
-            NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE-> TYPE_PROMOTIONAL_MESSAGE
+            NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> TYPE_PROMOTIONAL_MESSAGE
             else -> TYPE_INTERVIEW_INVITATION
         }
 
@@ -199,7 +203,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 cvViewedViewHolder?.notificationCV?.setOnClickListener {
                     cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                    val intent = Intent(context.applicationContext,EmployersBaseActivity::class.java)
+                    val intent = Intent(context.applicationContext, EmployersBaseActivity::class.java)
                     intent.putExtra("from", "vwdMyResume")
                     context.startActivity(intent)
                     if (!items[position].seen!!) {
@@ -211,7 +215,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 }
             }
-            TYPE_PROMOTIONAL_MESSAGE->{
+            TYPE_PROMOTIONAL_MESSAGE -> {
                 val promotionalMessageViewHolder = holder as PromotionalMessageViewHolder
 
                 val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
@@ -243,12 +247,45 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
 
-                val str = Html.fromHtml(items[position].body)
-                promotionalMessageViewHolder.messageTitle.text = str
-                promotionalMessageViewHolder.messageButton.onClick {
-                    context.toast("Coming soon")
+                val title = Html.fromHtml(items[position].title)
+                if (!items[position].title.isNullOrEmpty()) {
+                    promotionalMessageViewHolder.messageTitle?.show()
+                    promotionalMessageViewHolder.messageTitle?.text = title
+                } else {
+                    promotionalMessageViewHolder.messageTitle?.hide()
                 }
 
+                val body = Html.fromHtml(items[position].body)
+                if (!items[position].body.isNullOrEmpty()) {
+                    promotionalMessageViewHolder.messageText?.show()
+                    promotionalMessageViewHolder.messageText?.text = body
+                } else {
+                    promotionalMessageViewHolder.messageText?.hide()
+                }
+
+                if (!items[position].link.isNullOrEmpty()) {
+                    promotionalMessageViewHolder?.messageButton?.show()
+                    promotionalMessageViewHolder?.messageButton?.onClick {
+                        try {
+                            context?.openUrlInBrowser(items[position].link)
+                        } catch (e: Exception) {
+                        }
+                    }
+                } else {
+                    promotionalMessageViewHolder?.messageButton?.hide()
+                }
+
+                if (!items[position].imageLink.isNullOrEmpty()) {
+                    promotionalMessageViewHolder?.card?.show()
+                    promotionalMessageViewHolder?.messageImage.show()
+                    try {
+                        Picasso.get().load(items[position].imageLink)
+                    } catch (e: Exception) {
+                    }
+                } else{
+                    promotionalMessageViewHolder?.card?.hide()
+                    promotionalMessageViewHolder?.messageImage.hide()
+                }
             }
         }
 
@@ -288,11 +325,12 @@ class CVViewedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val notificationCV = view?.findViewById(R.id.notification_cv_viewed_card_view) as CardView
 }
 
-class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view){
+class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val messageTitle = view?.findViewById(R.id.message_title) as TextView
     val messageText = view?.findViewById(R.id.message_text) as TextView
     val messageButton = view?.findViewById(R.id.message_btn) as MaterialButton
     val messageTime = view?.findViewById(R.id.message_time_text) as TextView
     val messageImage = view?.findViewById(R.id.message_image) as ImageView
+    val card = view?.findViewById(R.id.card) as CardView
 
 }

@@ -28,14 +28,15 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_base)
-
         setupClickListeners()
 
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tabs.selectedTabPosition == 0) {
+
                     goToNotificationListFragment()
                 } else {
+
                     goToMessageListFragment()
                 }
             }

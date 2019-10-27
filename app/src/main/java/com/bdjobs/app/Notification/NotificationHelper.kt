@@ -90,7 +90,6 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
         }
 
-
     }
 
     fun prepareNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
@@ -98,6 +97,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
         when(type){
+
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION ->{
 
                 val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
@@ -148,6 +148,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setContentIntent(pendingIntent)
             }
             else->{
+
                 val intent = Intent(this, MainLandingActivity::class.java)?.apply {
 //                    putExtra("from", "vwdMyResume")
                 }
@@ -174,16 +175,6 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     }
 
-//    fun getSimpleNotification(title: String, body: String): NotificationCompat.Builder {
-//        return NotificationCompat.Builder(applicationContext, BDJOBS_CHANNEL)
-//                .setContentTitle(title)
-//                .setContentText(body)
-//                .setSmallIcon(smallIcon)
-//                .setAutoCancel(true)
-//                .setContentIntent(pendingIntent)
-//    }
-
-
     private val pendingIntent: PendingIntent
         get() {
             val intent = Intent(this, NotificationBaseActivity::class.java)
@@ -192,12 +183,6 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
             stackBuilder.addNextIntent(intent)
             return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
         }
-
-//    private val interviewInvitationPendingIntent: PendingIntent
-//        get() {
-//
-//        }
-
 
     fun notify(id: Int, notification: NotificationCompat.Builder) {
         mNotificationManager.notify(id, notification.build())

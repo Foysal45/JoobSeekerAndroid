@@ -3,6 +3,7 @@ package com.bdjobs.app.Notification
 import android.content.Intent
 import android.util.Log
 import androidx.annotation.UiThread
+import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
@@ -49,20 +50,34 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         remoteMessage?.let {
             bdjobsUserSession = BdjobsUserSession(applicationContext)
             if (bdjobsUserSession.isLoggedIn!!) {
+
                 val payload = gson.toJson(it.data).replace("\\n", "\n")
                 Log.d("rakib", payload)
-                commonNotificationModel = gson.fromJson(payload, CommonNotificationModel::class.java)
+                try {
+                    commonNotificationModel = gson.fromJson(payload, CommonNotificationModel::class.java)
+                } catch (e: Exception) {
+                }
 
                 when (commonNotificationModel.type) {
 
                     Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
-                        insertNotificationInToDatabase(commonNotificationModel.toString())
-                        showNotification(commonNotificationModel)
+                        try {
+                            DatabaseUpdateJob.runJobImmediately()
+                            insertNotificationInToDatabase(commonNotificationModel.toString())
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
                     }
 
                     Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
-                        insertNotificationInToDatabase(payload)
-                        showNotification(commonNotificationModel)
+                        try {
+                            DatabaseUpdateJob.runJobImmediately()
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
                     }
 
                     Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
@@ -75,7 +90,10 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                     }
 
                     Constants.NOTIFICATION_TYPE_REMOVE_NOTIFICATION -> {
+                        try {
                             removeNotificationFromDatabase(commonNotificationModel)
+                        } catch (e: Exception) {
+                        }
                     }
 
                     Constants.NOTIFICATION_TYPE_REMOVE_MESSAGE -> {
@@ -91,8 +109,11 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                         }
                     }
                     Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
-                        insertNotificationInToDatabase(payload)
-                        showNotification(commonNotificationModel)
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                        }
                     }
                     else -> {
                     }
@@ -107,10 +128,17 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun removeNotificationFromDatabase(commonNotificationModel: CommonNotificationModel?) {
-        bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
-        bdjobsInternalDB.notificationDao().deleteNotificationBecauseServerToldMe(commonNotificationModel?.jobId!!, commonNotificationModel?.companyName!!)
-        bdjobsUserSession = BdjobsUserSession(applicationContext)
-        bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+
+        try {
+            bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
+            doAsync {
+                bdjobsInternalDB.notificationDao().deleteNotificationBecauseServerToldMe(commonNotificationModel?.jobId!!, commonNotificationModel?.companyName!!)
+            }
+
+            bdjobsUserSession = BdjobsUserSession(applicationContext)
+            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+        } catch (e: Exception) {
+        }
 
     }
 
@@ -120,6 +148,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
 
         val date: Date? = Date()
+
         doAsync {
             bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
             if (commonNotificationModel.type != "pm")
@@ -141,16 +170,25 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
         when (commonNotificationModel.type) {
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
-                mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
-                        commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+                try {
+                    mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+                } catch (e: Exception) {
+                }
             }
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
-                mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
-                        commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+                try {
+                    mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+                } catch (e: Exception) {
+                }
             }
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
-                mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
-                        commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+                try {
+                    mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+                } catch (e: Exception) {
+                }
             }
             Constants.NOTIFICATION_TYPE_GENERAL->{
 
