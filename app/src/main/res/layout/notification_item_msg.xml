@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_cv_viewed_cl"
+        android:layout_width="match_parent"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/message_header_img"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_notification_msg"
+            app:layout_constraintEnd_toStartOf="@+id/message_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/message_title"
+            android:fontFamily="@font/roboto"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:text="Message Title"
+            android:textColor="#000"
+            android:layout_marginTop="18dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/message_text"
+            app:layout_constraintEnd_toEndOf="@+id/message_text"
+            app:layout_constraintStart_toStartOf="@+id/message_text"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+
+            android:textColor="#000"
+            android:id="@+id/message_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/roboto"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="14sp"
+            android:text="Your resume has been viewed yesterday. Check to see the employer details."
+            app:layout_constraintBottom_toTopOf="@+id/card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/message_header_img"
+            app:layout_constraintTop_toBottomOf="@+id/message_title" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="5dp"
+            android:elevation="0dp"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintRight_toRightOf="@id/message_text"
+            app:layout_constraintLeft_toRightOf="@id/message_header_img"
+            app:layout_constraintLeft_toLeftOf="@id/message_text"
+            app:layout_constraintTop_toBottomOf="@id/message_text" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/message_image"
+                android:background="#767676"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/message_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Learn More"
+            android:textAllCaps="false"
+            android:backgroundTint="#F2F2F2"
+            android:textColor="#000"
+            style="@style/Widget.MaterialComponents.Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/card"
+            app:layout_constraintTop_toBottomOf="@id/card" />
+
+
+        <ImageView
+            android:id="@+id/notification_time_image"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:paddingTop="2dp"
+            android:src="@drawable/ic_notification_time"
+            app:layout_constraintRight_toLeftOf="@+id/message_time_text"
+            app:layout_constraintTop_toTopOf="@id/message_time_text" />
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="5dp"
+            android:id="@+id/message_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:drawablePadding="5dp"
+            android:drawableTint="#767676"
+            android:textColor="#767676"
+            android:text="6 days ago"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card"
+            app:layout_constraintVertical_bias="0.176" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+

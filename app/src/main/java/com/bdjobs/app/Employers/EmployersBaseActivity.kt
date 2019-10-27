@@ -189,6 +189,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
         try {
             value = intent.getStringExtra("from")
+
             //  value = "emplist"
         } catch (e: Exception) {
             logException(e)

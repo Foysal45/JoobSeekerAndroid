@@ -11,10 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
@@ -53,7 +50,20 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
+class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+    override fun onUpdateNotification() {
+        Log.d("rakib", "notification inserted")
+        notificationCountTV?.show()
+        bdjobsUserSession = BdjobsUserSession(activity)
+        if (bdjobsUserSession.notificationCount!! > 99){
+            notificationCountTV?.text = "99+"
+
+        } else{
+            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+        }
+
+    }
 
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -81,6 +91,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
         nameTV?.text = bdjobsUserSession.fullName
         emailTV?.text = bdjobsUserSession.email
+
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
@@ -155,6 +166,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         newSearchBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
+        notificationIMGV?.setOnClickListener {
+            homeCommunicator.goToNotifications()
+        }
     }
 
     private fun showData() {
@@ -169,12 +183,34 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showFollowedEmployers()
 
         showLastSearch()
+
+    }
+
+    private fun showNotificationCount() {
+        try {
+            bdjobsUserSession = BdjobsUserSession(activity)
+            if (bdjobsUserSession.notificationCount!! <= 0){
+                notificationCountTV?.hide()
+            } else {
+                notificationCountTV?.show()
+                if (bdjobsUserSession.notificationCount!! > 99){
+                    notificationCountTV?.text = "99+"
+
+                } else{
+                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
     }
 
     override fun onResume() {
         super.onResume()
         activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
+        BackgroundJobBroadcastReceiver.notificationUpdateListener = this
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
+        showNotificationCount()
         showData()
         alertAboutShortlistedJobs()
 
@@ -477,6 +513,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
             override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
                 try {
+
+                    val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
+                    catIds?.let {
+                        for (item in it){
+                            if (item.isNotEmpty()){
+                                activity.subscribeToFCMTopic(item)
+                                Log.d("rakib",item)
+                            }
+                        }
+                    }
+                    Log.d("rakib cat id", "${catIds?.size}")
+
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
                     Log.d("google", "google = $inviteInterviview")
 

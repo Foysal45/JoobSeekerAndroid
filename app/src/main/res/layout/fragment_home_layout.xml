@@ -18,6 +18,49 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <FrameLayout
+            android:layout_toLeftOf="@id/searchIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/notificationIMGV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_notifications_white_24dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/notificationCountTV"
+                android:visibility="invisible"
+                android:layout_gravity="right"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="@drawable/notification_count_circle"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="5dp"
+                android:text="20"
+                android:textColor="#FFF" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/searchIMGV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_search_white_24dp" />
+
         <ImageView
             android:id="@+id/profilePicIMGV"
             android:layout_width="40dp"
@@ -33,14 +76,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@+id/searchIMGV"
+            android:layout_toEndOf="@+id/profilePicIMGV"
             android:fontFamily="@font/roboto"
             android:singleLine="true"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:layout_toEndOf="@+id/profilePicIMGV"
-            android:layout_toStartOf="@+id/searchIMGV"
-            android:layout_marginTop="40dp"
             android:textSize="18sp"
             tools:text="John Doe" />
 
@@ -48,44 +91,16 @@
             android:id="@+id/emailTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_below="@+id/nameTV"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@+id/profilePicIMGV"
             android:singleLine="true"
             android:text="TextView"
-            android:layout_below="@+id/nameTV"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
-            android:layout_toEndOf="@+id/profilePicIMGV"
             tools:text="username@email.com  " />
 
-        <ImageView
-            android:id="@+id/searchIMGV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="?android:selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:padding="5dp"
-            android:src="@drawable/ic_search_white_24dp"
-            android:layout_alignParentEnd="true" />
-
-        <ImageView
-            android:id="@+id/notificationIMGV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="8dp"
-            android:background="?android:selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:padding="5dp"
-            android:src="@drawable/ic_notifications_white_24dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/nameTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </RelativeLayout>
 
     <ScrollView
@@ -99,6 +114,77 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/mainLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:id="@+id/home_small_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"
+                    app:gnt_template_type="@layout/gnt_small_template_view" />
+
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:id="@+id/home_medium_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="gone"
+                    app:gnt_template_type="@layout/gnt_medium_template_view" />
+
+                <include
+                    android:id="@+id/lastSearchView"
+                    layout="@layout/my_last_search_filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/favSearchView"
+                    layout="@layout/my_favourite_search_filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/jobInvitationView"
+                    layout="@layout/my_interview_invitation_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/assesmentView"
+                    layout="@layout/my_assessment_filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/followedEmployerView"
+                    layout="@layout/my_followed_employers_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/blankCL"
@@ -163,77 +249,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/mainLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <include
-                    android:id="@+id/lastSearchView"
-                    layout="@layout/my_last_search_filter_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:visibility="gone" />
-
-                <include
-                    android:id="@+id/favSearchView"
-                    layout="@layout/my_favourite_search_filter_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:visibility="gone" />
-
-                <include
-                    android:id="@+id/jobInvitationView"
-                    layout="@layout/my_interview_invitation_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
-
-                <include
-                    android:id="@+id/assesmentView"
-                    layout="@layout/my_assessment_filter_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
-
-                <include
-                    android:id="@+id/followedEmployerView"
-                    layout="@layout/my_followed_employers_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
-
-
-                <com.google.android.ads.nativetemplates.TemplateView
-                    android:visibility="gone"
-                    android:id="@+id/home_small_template"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="16dp"
-                    app:gnt_template_type="@layout/gnt_small_template_view" />
-
-                <com.google.android.ads.nativetemplates.TemplateView
-                    android:visibility="gone"
-                    android:id="@+id/home_medium_template"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="20dp"
-                    app:gnt_template_type="@layout/gnt_medium_template_view" />
-
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
@@ -249,7 +264,6 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:elevation="16dp"
-        app:srcCompat="@drawable/ic_search_white_24dp"
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="auto"
@@ -258,6 +272,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_search_white_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

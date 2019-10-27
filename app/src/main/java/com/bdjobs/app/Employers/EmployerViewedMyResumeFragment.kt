@@ -56,6 +56,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         employerCommunicator = activity as EmployersCommunicator
         isActivityDate = employerCommunicator.getTime()
+        if (isActivityDate == "")
+            isActivityDate = "1"
         Log.d("test", "test" + isActivityDate)
         Log.d("called", "onActivityCreated")
 
@@ -168,6 +170,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         logException(e)
                     }
                 }
+//                userId=241028&decodeId=T8B8Rx&pageNumber=1&itemsPerPage=10&isActivityDate=1&AppsDate=1&appId=1
+//                userId=241028&decodeId=T8B8Rx&pageNumber=1&itemsPerPage=10&isActivityDate=&AppsDate=1&appId=1
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
                     Log.d("popup", "popup-" + bdjobsUserSession.userId!! +

@@ -27,7 +27,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class Constants {
     companion object {
@@ -198,7 +200,7 @@ class Constants {
         //const val session_key_job_apply_count = "jobApplyCount"
         //const val session_key_available_job_count = "availableJobCount"
         const val session_job_apply_limit = "jobApplyLimit"
-
+        const val notification_count = "notificationCount"
 
 
         const val session_key_mybdjobscount_jobs_applied_lastmonth = "jobs_applied_lastmonth"
@@ -222,7 +224,9 @@ class Constants {
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
 
 
-
+        const val NOTIFICATION_INTERVIEW_INVITATTION = 100
+        const val NOTIFICATION_CV_VIEWED = 101
+        const val NOTIFICATION_PROMOTIONAL_MESSAGE = 102
 
 
         const val internal_database_name = "BdjobsInternal.db"
@@ -244,6 +248,15 @@ class Constants {
         const val KEY_APP_VERSION = "appVersion"
         const val KEY_SCREEN_SIZE = "screensize"
         const val APP_ID = "1"
+
+        const val NOTIFICATION_TYPE_INTERVIEW_INVITATION = "ii"
+        const val NOTIFICATION_TYPE_CV_VIEWED = "cv"
+        const val NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE = "pm"
+        const val NOTIFICATION_TYPE_MATCHED_JOB = "mj"
+        const val NOTIFICATION_TYPE_FORCE_LOGOUT = "fl"
+        const val NOTIFICATION_TYPE_GENERAL = "gn"
+        const val NOTIFICATION_TYPE_REMOVE_NOTIFICATION = "rn"
+        const val NOTIFICATION_TYPE_REMOVE_MESSAGE = "rm"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)
@@ -340,5 +353,34 @@ class Constants {
             dialog?.show()
         }
 
+        fun getDateTimeAsAgo(date: Date?) : HashMap<String,Long>{
+
+           val hashMap = HashMap<String,Long>()
+
+
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(Date().time - date!!.time)
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date!!.time)
+            val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date!!.time)
+            val days = TimeUnit.MILLISECONDS.toDays(Date().time - date!!.time)
+
+            when {
+                seconds < 60 -> {
+                    hashMap["seconds"] = seconds
+                    return  hashMap
+                }
+                minutes < 60 -> {
+                    hashMap["minutes"] = minutes
+                    return hashMap
+                }
+                hours < 24 -> {
+                    hashMap["hours"] = hours
+                    return hashMap
+                }
+                else -> {
+                    hashMap["days"] = days
+                    return hashMap
+                }
+            }
+        }
     }
 }

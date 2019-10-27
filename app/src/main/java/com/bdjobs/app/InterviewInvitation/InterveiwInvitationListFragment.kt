@@ -22,6 +22,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 
 class InterveiwInvitationListFragment : Fragment() {
@@ -92,8 +93,14 @@ class InterveiwInvitationListFragment : Fragment() {
                             response.body()?.data?.let { items ->
                                 doAsync {
                                     for (item in items) {
+                                        var inviteDate : Date? = null
+                                        try {
+                                            inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
                                         val jobInvitation = JobInvitation(companyName = item?.companyName,
-                                                inviteDate = item?.inviteDate,
+                                                inviteDate = inviteDate,
                                                 jobId = item?.jobId,
                                                 jobTitle = item?.jobTitle,
                                                 seen = item?.seen)
@@ -115,6 +122,7 @@ class InterveiwInvitationListFragment : Fragment() {
     }
 
     private fun showDataFromDB() {
+        Log.d("rakib","came here")
         doAsync {
             var interviewInvitations: List<JobInvitation>? = null
 
@@ -123,10 +131,10 @@ class InterveiwInvitationListFragment : Fragment() {
                     bdjobsDB.jobInvitationDao().getAllJobInvitation()
                 } else {
                     val calendar = Calendar.getInstance()
-//                    calendar.add(Calendar.DAY_OF_YEAR, - 30)
-//                    val lastmonth = calendar.time
+
                     calendar.set(Calendar.DAY_OF_MONTH, 1)
                     val firstDateOfMonth = calendar.time
+
                     bdjobsDB.jobInvitationDao().getALLJobInvitationByDate(firstDateOfMonth)
                 }
 
@@ -134,6 +142,8 @@ class InterveiwInvitationListFragment : Fragment() {
                 bdjobsDB.jobInvitationDao().getAllJobInvitation()
 
             }
+
+            Log.d("rakib",interviewInvitations.size.toString())
 
             uiThread {
                 try {

@@ -14,6 +14,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Utilities.logException
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import kotlin.system.exitProcess
 
 class BdjobsUserSession(val context: Context) {
     private var pref: SharedPreferences? = null
@@ -103,9 +104,10 @@ class BdjobsUserSession(val context: Context) {
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
     val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"50")
+    var notificationCount = pref?.getInt(Constants.notification_count,0)
 
 
-    fun logoutUser() {
+    fun logoutUser(exitApp : Boolean = false) {
 
         pref?.edit()?.clear()?.apply()
         val bdjobsDB = BdjobsDB.getInstance(context = context)
@@ -118,12 +120,20 @@ class BdjobsUserSession(val context: Context) {
             bdjobsDB.jobInvitationDao().deleteAllJobInvitation()
             bdjobsDB.lastSearchDao().deleteAllLastSearch()
             bdjobsDB.suggestionDAO().deleteAllSuggestion()
+            bdjobsDB.notificationDao().deleteAllNotifications()
+
             uiThread {
                 // loadingDialog.dismiss()
-                val intent = Intent(context, GuestUserJobSearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent)
-                (context as Activity).finishAffinity()
+                if (!exitApp){
+                    val intent = Intent(context, GuestUserJobSearchActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                    (context as Activity).finishAffinity()
+                } else {
+                    exitProcess(1)
+                }
+
+
             }
         }
     }
@@ -245,6 +255,11 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
+    fun updateNotificationCount(count: Int?){
+        pref?.edit {
+            putInt(Constants.notification_count, count!!)
+        }
+    }
 
     fun insertMybdjobsLastMonthCountData(
             jobsApplied: String?,

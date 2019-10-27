@@ -2,16 +2,28 @@ package com.bdjobs.app.InterviewInvitation
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
+import java.util.*
 
 class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
+
+    lateinit var bdjobsDB: BdjobsDB
+    lateinit var bdjobsUserSession: BdjobsUserSession
+
     override fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String) {
+        Log.d("rakib interface", "$from $jobTitle $jobID $companyName")
         this.jobID = jobID
         this.jobTitle = jobTitle
         this.companyName = companyName
-        transitFragment(interviewInvitationDetailsFragment,R.id.interViewfragmentHolder,false)
+        transitFragment(interviewInvitationDetailsFragment, R.id.interViewfragmentHolder, false)
     }
 
 
@@ -26,6 +38,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     private var lan = ""
     private var time = ""
     private var value = ""
+    private var type = ""
 
     private val interveiwInvitationListFragment = InterveiwInvitationListFragment()
     private val interviewInvitationDetailsFragment = InterviewInvitationDetailsFragment()
@@ -35,43 +48,86 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     }
 
     override fun getFrom(): String {
-        return  from
+        return from
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_interview_invitation_base)
-        try{
+        Log.d("rakib", "onCreate")
+
+        bdjobsDB = BdjobsDB.getInstance(applicationContext)
+        bdjobsUserSession = BdjobsUserSession(applicationContext)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("rakib", "onResume")
+        try {
             from = intent.getStringExtra("from")
-        }catch(e:Exception){
+        } catch (e: Exception) {
             logException(e)
         }
-        try{
+
+
+        try {
             time = intent.getStringExtra("time")
-        }catch(e:Exception){
+        } catch (e: Exception) {
             logException(e)
         }
-        try{
+
+
+
+        try {
             jobID = intent.getStringExtra("jobid")
-        }catch(e:Exception){
+        } catch (e: Exception) {
             logException(e)
         }
-        try{
+
+
+
+        try {
             companyName = intent.getStringExtra("companyname")
-        }catch(e:Exception){
+        } catch (e: Exception) {
             logException(e)
         }
-        try{
+
+
+
+        try {
             jobTitle = intent.getStringExtra("jobtitle")
-        }catch(e:Exception){
+        } catch (e: Exception) {
             logException(e)
         }
 
-        transitFragment(interveiwInvitationListFragment,R.id.interViewfragmentHolder)
-
-        if (from?.equals("appliedjobs")) {
-            goToInvitationDetailsForAppliedJobs(jobID,companyName,jobTitle)
+        try {
+            type = intent.getStringExtra("type")
+        } catch (e: Exception) {
+            logException(e)
         }
+
+
+        Log.d("utuytujtjtgdju56u", "$from $jobTitle $jobID $companyName")
+
+
+        when {
+            from?.equals("notification") -> {
+                doAsync {
+                    bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobID, type)
+                    bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+                }
+                goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+            }
+
+            from?.equals("notificationList") ->{
+                goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+            }
+
+            from?.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+            else -> transitFragment(interveiwInvitationListFragment, R.id.interViewfragmentHolder)
+        }
+
     }
 
 
@@ -83,7 +139,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         this.jobID = jobID
         this.jobTitle = jobTitle
         this.companyName = companyName
-        transitFragment(interviewInvitationDetailsFragment,R.id.interViewfragmentHolder,true)
+        transitFragment(interviewInvitationDetailsFragment, R.id.interViewfragmentHolder, true)
     }
 
     override fun goToVenueDirection(invitationDate: String, invitationTime: String, venue: String, lat: String, lan: String) {

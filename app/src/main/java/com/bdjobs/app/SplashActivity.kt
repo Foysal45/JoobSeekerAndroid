@@ -27,6 +27,7 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
 import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -68,6 +69,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private lateinit var dataStorage: DataStorage
+    private lateinit var internalDb : BdjobsDB
     private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
     private val APP_UPDATE_REQUEST_CODE = 156
     private var dialog: Dialog? = null
@@ -81,17 +83,15 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
         bdjobsUserSession = BdjobsUserSession(applicationContext)
+        internalDb = BdjobsDB.getInstance(this@SplashActivity)
         //generateKeyHash()
         getFCMtoken()
-        subscribeToFCMTopic("Kamol")
+        subscribeToFCMTopic("Global")
         MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
         /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
          mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
          mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
         PicassoTools().clearCache(Picasso.get())
-
-
-
     }
 
 

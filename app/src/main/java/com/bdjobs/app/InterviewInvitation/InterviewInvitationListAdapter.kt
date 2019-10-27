@@ -9,6 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.JobInvitation
 import com.bdjobs.app.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class InterviewInvitationListAdapter(private val context: Context, private val items: MutableList<JobInvitation>) : RecyclerView.Adapter<ViewHolder>() {
@@ -26,15 +28,22 @@ class InterviewInvitationListAdapter(private val context: Context, private val i
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if(items[position].seen=="1"){
+        if (items[position].seen == "1") {
             holder?.mainCL.background = context.getDrawable(R.drawable.ic_home_card)
-        }else{
+        } else {
             holder?.mainCL.background = context.getDrawable(R.drawable.interview_invitatiion_card_unseen)
         }
 
         holder?.jobtitleTV?.text = items[position].jobTitle
         holder?.companyNameTV?.text = items[position].companyName
-        holder?.appliedDateTV?.text = items[position].inviteDate?.split(" ")?.get(0)
+
+        try {
+            val formatter = SimpleDateFormat("M/dd/yyyy", Locale.ENGLISH)
+            val inviteDate = formatter.format(items[position].inviteDate!!)
+
+            holder?.appliedDateTV?.text = inviteDate
+        } catch (e: Exception) {
+        }
 
         holder?.itemView?.setOnClickListener {
             interviewInvitationCommunicator.goToInvitationDetails(

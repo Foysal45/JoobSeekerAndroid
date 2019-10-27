@@ -54,11 +54,40 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         getMybdjobsCountData("0")
         getMybdjobsCountData("1")
         getIsCvUploaded()
+
+//        insertNotifications()
+//        deleteNotificationsOfLast30Days()
+
+        getUnSeenNotificationsCount()
         return Result.SUCCESS
     }
 
+//    private fun deleteNotificationsOfLast30Days() {
+//        doAsync {
+//            bdjobsInternalDB.notificationDao().deleteNotificationsFromDatabaseOlderThanLast30Days()
+//        }
+//    }
+
+    private fun getUnSeenNotificationsCount() {
+        doAsync {
+            val count = bdjobsInternalDB.notificationDao().getNotificationCount()
+            Log.d("rakib" , "notification count $count")
+            bdjobsUserSession.updateNotificationCount(count)
+        }
+    }
 
 
+//    private fun insertNotifications() {
+////        val date: Date? =  SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse("10/17/2019 3:30:00 PM")
+//        val date: Date? = Date()
+//        doAsync {
+//            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "n", seen = false, arrivalTime = date, seenTime = date, payload = " payload 1"))
+//            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+//            //val notification = bdjobsInternalDB.notificationDao().getSingleNotificaiton(12)
+//            //Log.d("rakib" , "${notification.arrivalTime.toString()}")
+//        }
+//
+//    }
 
     private fun getMybdjobsCountData(activityDate: String) {
         ApiServiceMyBdjobs.create().mybdjobStats(
@@ -75,21 +104,33 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
 
                 try {
-                    var jobsApplied:String?=""
-                    var emailResume:String?=""
-                    var viewdResume:String?=""
-                    var followedEmployers:String?=""
-                    var interviewInvitation:String?=""
-                    var employerMessage:String?=""
+                    var jobsApplied: String? = ""
+                    var emailResume: String? = ""
+                    var viewdResume: String? = ""
+                    var followedEmployers: String? = ""
+                    var interviewInvitation: String? = ""
+                    var employerMessage: String? = ""
 
-                    response?.body()?.data?.forEach {itt ->
-                        when(itt?.title){
-                            Constants.session_key_mybdjobscount_jobs_applied->{jobsApplied = itt?.count}
-                            Constants.session_key_mybdjobscount_times_emailed_resume->{emailResume = itt?.count}
-                            Constants.session_key_mybdjobscount_employers_viwed_resume->{viewdResume = itt?.count}
-                            Constants.session_key_mybdjobscount_employers_followed->{followedEmployers = itt?.count}
-                            Constants.session_key_mybdjobscount_interview_invitation->{interviewInvitation = itt?.count}
-                            Constants.session_key_mybdjobscount_message_by_employers->{employerMessage = itt?.count}
+                    response?.body()?.data?.forEach { itt ->
+                        when (itt?.title) {
+                            Constants.session_key_mybdjobscount_jobs_applied -> {
+                                jobsApplied = itt?.count
+                            }
+                            Constants.session_key_mybdjobscount_times_emailed_resume -> {
+                                emailResume = itt?.count
+                            }
+                            Constants.session_key_mybdjobscount_employers_viwed_resume -> {
+                                viewdResume = itt?.count
+                            }
+                            Constants.session_key_mybdjobscount_employers_followed -> {
+                                followedEmployers = itt?.count
+                            }
+                            Constants.session_key_mybdjobscount_interview_invitation -> {
+                                interviewInvitation = itt?.count
+                            }
+                            Constants.session_key_mybdjobscount_message_by_employers -> {
+                                employerMessage = itt?.count
+                            }
                         }
 
                     }
@@ -97,7 +138,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                     if (activityDate == "0") {
                         //alltime
                         bdjobsUserSession.insertMybdjobsAlltimeCountData(
-                                jobsApplied =jobsApplied,
+                                jobsApplied = jobsApplied,
                                 emailResume = emailResume,
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
@@ -107,7 +148,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                     } else if (activityDate == "1") {
                         //last_moth
                         bdjobsUserSession.insertMybdjobsLastMonthCountData(
-                                jobsApplied =jobsApplied,
+                                jobsApplied = jobsApplied,
                                 emailResume = emailResume,
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
@@ -149,7 +190,6 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
     }
 
 
-
     private fun insertCertificationList() {
         Log.d("XZXfg", "insertCertificationList")
         ApiServiceMyBdjobs.create().getAssesmentCompleteList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<AssesmentCompleteModel> {
@@ -177,7 +217,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                                 }
                                 uiThread {
                                     val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                                    intent.putExtra("job","insertCertificationList")
+                                    intent.putExtra("job", "insertCertificationList")
                                     appContext.sendBroadcast(intent)
                                     certificationSynced = true
                                     Log.d("DatabaseUpdateJob", "insertCertificationList Finish : ${Calendar.getInstance().time}")
@@ -252,7 +292,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
                     uiThread {
                         val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                        intent.putExtra("job","insertFavouriteSearchFilter")
+                        intent.putExtra("job", "insertFavouriteSearchFilter")
                         appContext.sendBroadcast(intent)
                         favSearchFiltersSynced = true
                         Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
@@ -299,7 +339,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
                     uiThread {
                         val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                        intent.putExtra("job","insertFollowedEmployers")
+                        intent.putExtra("job", "insertFollowedEmployers")
                         appContext.sendBroadcast(intent)
                         followedEmployerSynced = true
                         Log.d("DatabaseUpdateJob", "insertFollowedEmployers Finish : ${Calendar.getInstance().time}")
@@ -361,7 +401,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
                     uiThread {
                         val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                        intent.putExtra("job","insertShortListedJobs")
+                        intent.putExtra("job", "insertShortListedJobs")
                         appContext.sendBroadcast(intent)
                         Log.d("DatabaseUpdateJob", "insertShortListedJobs Finish : ${Calendar.getInstance().time}")
                     }
@@ -387,8 +427,14 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                         response.body()?.data?.let { items ->
                             doAsync {
                                 for (item in items) {
+                                    var inviteDate : Date? = null
+                                    try {
+                                        inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
                                     val jobInvitation = JobInvitation(companyName = item?.companyName,
-                                            inviteDate = item?.inviteDate,
+                                            inviteDate = inviteDate,
                                             jobId = item?.jobId,
                                             jobTitle = item?.jobTitle,
                                             seen = item?.seen)
@@ -398,7 +444,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
                                 }
                                 uiThread {
                                     val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                                    intent.putExtra("job","insertJobInvitation")
+                                    intent.putExtra("job", "insertJobInvitation")
                                     appContext.sendBroadcast(intent)
                                     Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
                                     jobInvitationSynced = true

@@ -11,6 +11,7 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
         val action = intent?.action
         if (BROADCAST_DATABASE_UPDATE_JOB == action) {
             val job = intent?.getStringExtra("job")
+            val notification = intent?.getStringExtra("notification")
             if (backgroundJobListener != null) {
                 if(job=="insertFavouriteSearchFilter"){
                     backgroundJobListener!!.favSearchFilterSyncComplete()
@@ -24,6 +25,13 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
                 if(job=="insertCertificationList"){
                     backgroundJobListener!!.certificationSyncComplete()
                 }
+//                if (job == "insertNotifications"){
+//                    backgroundJobListener!!.onUpdateNotification()
+//                }
+            }
+            if (notificationUpdateListener != null){
+                if (notification == "insertOrUpdateNotification")
+                notificationUpdateListener!!.onUpdateNotification()
             }
         }
 
@@ -37,10 +45,14 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
         fun certificationSyncComplete()
         fun followedEmployerSyncComplete()
 
+    }
 
+    interface NotificationUpdateListener{
+        fun onUpdateNotification()
     }
 
     companion object {
         var backgroundJobListener: BackgroundJobListener? = null
+        var notificationUpdateListener : NotificationUpdateListener? = null
     }
 }
