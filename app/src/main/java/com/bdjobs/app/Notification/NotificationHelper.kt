@@ -106,14 +106,15 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                     putExtra("companyname", companyName)
                     putExtra("jobtitle", jobTitle)
                     putExtra("type", type)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
                 val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                val stackBuilder = TaskStackBuilder.create(this)
-                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
-                stackBuilder.addNextIntent(intent)
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+//                val stackBuilder = TaskStackBuilder.create(this)
+//                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
+//                stackBuilder.addNextIntent(intent)
+//                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
 
                 return NotificationCompat.Builder(applicationContext, INTERVIEW_INVITATION_CHANNEL)
                         .setContentTitle(title)
