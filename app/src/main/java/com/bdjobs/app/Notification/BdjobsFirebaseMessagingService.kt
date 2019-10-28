@@ -50,7 +50,6 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         remoteMessage?.let {
             bdjobsUserSession = BdjobsUserSession(applicationContext)
             if (bdjobsUserSession.isLoggedIn!!) {
-
                 val payload = gson.toJson(it.data).replace("\\n", "\n")
                 Log.d("rakib", payload)
                 try {
@@ -62,21 +61,30 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
                     Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
                         try {
-                            DatabaseUpdateJob.runJobImmediately()
                             insertNotificationInToDatabase(commonNotificationModel.toString())
                             showNotification(commonNotificationModel)
                         } catch (e: Exception) {
                             logException(e)
                         }
+
+
+                        try {
+                            DatabaseUpdateJob.runJobImmediately()
+                        } catch (e: Exception) {
+                        }
                     }
 
                     Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                         try {
-                            DatabaseUpdateJob.runJobImmediately()
                             insertNotificationInToDatabase(payload)
                             showNotification(commonNotificationModel)
                         } catch (e: Exception) {
                             logException(e)
+                        }
+
+                        try {
+                            DatabaseUpdateJob.runJobImmediately()
+                        } catch (e: Exception) {
                         }
                     }
 
