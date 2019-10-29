@@ -3,6 +3,7 @@ package com.bdjobs.app.LoggedInUserLanding
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,13 +17,17 @@ import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
+import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.InviteCodeInfo
+import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.Notification.BdjobsFirebaseMessagingService
+import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.Notification.NotificationBaseActivity
 import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
@@ -47,6 +52,7 @@ import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -54,7 +60,20 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class MainLandingActivity : Activity(), HomeCommunicator {
+class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+
+    override fun onUpdateNotification() {
+        Log.d("rakib", "in Main Landing Activity")
+        BdjobsUserSession(this@MainLandingActivity)?.let {
+            val count = it.notificationCount
+            homeFragment.updateNotificationView(count)
+            hotJobsFragmentnew.updateNotificationView(count)
+            shortListedJobFragment.updateNotificationView(count)
+            mybdjobsFragment.updateNotificationView(count)
+            moreFragment.updateNotificationView(count)
+        }
+
+    }
 
     private lateinit var mInterstitialAd: InterstitialAd
 
@@ -179,6 +198,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     }
 
     private lateinit var bdjobsDB: BdjobsDB
+    private lateinit var broadcastReceiver: BackgroundJobBroadcastReceiver
+    private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
 
     private val homeFragment = HomeFragment()
     private val hotJobsFragment = HotJobsFragment()
@@ -194,6 +215,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
     private var inviteCodeStatus: String? = null
     var cvUpload: String = "" // if this value = 0 or 4 then cv file is uploaded else not uploaded
     private lateinit var mNotificationHelper: NotificationHelper
+
+
 
 
     override fun isGetCvUploaded(): String {
@@ -286,6 +309,8 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_landing)
         bdjobsDB = BdjobsDB.getInstance(this@MainLandingActivity)
+
+        broadcastReceiver = BackgroundJobBroadcastReceiver()
         mNotificationHelper = NotificationHelper(this)
         session = BdjobsUserSession(applicationContext)
         Crashlytics.setUserIdentifier(session.userId)
@@ -303,16 +328,14 @@ class MainLandingActivity : Activity(), HomeCommunicator {
                     val token = task.result?.token
 
                     // Log and toast
-                   Log.d("rakib", token)
+                    Log.d("rakib", token)
                 })
-
-
-//        sendNotification(NOTIFICATION_BDJOBS)
 
         loadAd()
 
 
         if (!isDeviceInfromationSent) {
+            Log.d("rakib", "token sent from main ")
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
                 val token = instanceIdResult.token
                 sendDeviceInformation(token, this@MainLandingActivity)
@@ -434,6 +457,17 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(broadcastReceiver, intentFilter)
+        BackgroundJobBroadcastReceiver.notificationUpdateListener = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(broadcastReceiver)
+    }
+
     override fun goToKeywordSuggestion() {
         val intent = Intent(this@MainLandingActivity, SuggestiveSearchActivity::class.java)
         intent.putExtra(Constants.key_from, Constants.key_jobtitleET)
@@ -475,20 +509,40 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         when (item.itemId) {
             R.id.navigation_home -> {
                 //sendNotification(NOTIFICATION_BDJOBS)
+
                 transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_shortlisted_jobs -> {
+
                 transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
+
+
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"One company viewed your cv.\", \"type\" : \"cv\", \"jobId\" : \"795881\", \"title\" : \"CV viewed\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload,commonNotificationModel)
+//                showNotification(commonNotificationModel)
+
+
                 return@OnNavigationItemSelectedListener true
+
+
             }
             R.id.navigation_hotjobs -> {
+
                 transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
+
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload,commonNotificationModel)
+//                showNotification(commonNotificationModel)
+
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.navigation_mybdjobs -> {
                 transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
+
                 return@OnNavigationItemSelectedListener true
             }
 
@@ -686,11 +740,80 @@ class MainLandingActivity : Activity(), HomeCommunicator {
         )
     }
 
-//    private fun sendNotification(id: Int) {
-//        when (id) {
-//            NOTIFICATION_BDJOBS -> mNotificationHelper.notify(id, mNotificationHelper.getNotification(
-//                    "Test","body"))
+//    private fun insertNotificationInToDatabase(data: String, commonNotificationModel: CommonNotificationModel) {
+//
+//        session = BdjobsUserSession(applicationContext)
+//        bdjobsDB = BdjobsDB.getInstance(applicationContext)
+//
+//        val date: Date? = Date()
+//
+//        if (commonNotificationModel.type != "pm") {
+//            doAsync {
+//                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+//                session.updateNotificationCount(session.notificationCount!! + 1)
+//                uiThread {
+//                    Log.d("rakib", "FirebaseMessagingService")
+//                    val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+//                    intent.putExtra("notification", "insertOrUpdateNotification")
+//                    applicationContext.sendBroadcast(intent)
+//                }
+//            }
+//        } else if (commonNotificationModel.type == "pm"){
+//            doAsync {
+//                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+//                uiThread{
+//                    val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+//                    intent.putExtra("notification", "insertOrUpdateNotification")
+//                    applicationContext.sendBroadcast(intent)
+//                }
+//            }
 //        }
+//
+////        doAsync {
+////            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+////            if (commonNotificationModel.type != "pm")
+////                bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+////            uiThread {
+////                Log.d("rakib", "FirebaseMessagingService")
+////                val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+////                intent.putExtra("notification", "insertOrUpdateNotification")
+////                applicationContext.sendBroadcast(intent)
+////            }
+////        }
+//
+//
+//    }
+//
+//    private fun showNotification(commonNotificationModel: CommonNotificationModel) {
+//        mNotificationHelper = NotificationHelper(applicationContext)
+//
+//        when (commonNotificationModel.type) {
+//            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
+//                try {
+//                    mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
+//                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+//                } catch (e: Exception) {
+//                }
+//            }
+//            Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
+//                try {
+//                    mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
+//                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+//                } catch (e: Exception) {
+//                }
+//            }
+//            Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+//                try {
+//                    mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
+//                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!))
+//                } catch (e: Exception) {
+//                }
+//            }
+//            Constants.NOTIFICATION_TYPE_GENERAL -> {
+//
+//            }
+//        }
+//
 //
 //    }
 

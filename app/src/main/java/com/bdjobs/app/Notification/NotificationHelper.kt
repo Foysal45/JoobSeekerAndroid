@@ -22,6 +22,7 @@ import org.jetbrains.anko.startActivity
 class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     companion object {
+        const val TAG = "NotificationHelper"
         const val GENERAL_CHANNEL = "general"
         const val INTERVIEW_INVITATION_CHANNEL = "interview_invitation"
         const val CV_VIEWED_CHANNEL = "cv_viewed"
@@ -111,11 +112,6 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
                 val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-//                val stackBuilder = TaskStackBuilder.create(this)
-//                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
-//                stackBuilder.addNextIntent(intent)
-//                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
-
                 return NotificationCompat.Builder(applicationContext, INTERVIEW_INVITATION_CHANNEL)
                         .setContentTitle(title)
                         .setContentText(body)
@@ -129,15 +125,12 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
             Constants.NOTIFICATION_TYPE_CV_VIEWED->{
 
                 val intent = Intent(this, EmployersBaseActivity::class.java)?.apply {
-                    putExtra("from", "vwdMyResume")
+                    putExtra("from", "notification")
+                    putExtra("jobId", jobid)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-                val stackBuilder = TaskStackBuilder.create(this)
-                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
-                stackBuilder.addNextIntent(intent)
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
 
                 return NotificationCompat.Builder(applicationContext, CV_VIEWED_CHANNEL)
                         .setContentTitle(title)
@@ -148,10 +141,10 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
             }
+
             else->{
 
                 val intent = Intent(this, MainLandingActivity::class.java)?.apply {
-//                    putExtra("from", "vwdMyResume")
                 }
 
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

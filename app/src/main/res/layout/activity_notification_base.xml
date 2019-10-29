@@ -69,6 +69,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout
+        android:elevation="1dp"
         style="@style/Widget.MaterialComponents.TabLayout"
         android:id="@+id/tabs"
         android:layout_width="match_parent"

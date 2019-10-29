@@ -66,13 +66,37 @@ ShortListedJobFragment : Fragment() {
         crossBTN?.setOnClickListener {
             showShortListFIlterList("")
         }
+
+        notificationIMGV?.setOnClickListener {
+            homeCommunicator.goToNotifications()
+        }
+
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFIlterList(shortListFilter)
     }
 
     override fun onResume() {
         super.onResume()
+        showNotificationCount()
+    }
 
+    private fun showNotificationCount() {
+        try {
+            bdjobsUserSession = BdjobsUserSession(activity)
+            if (bdjobsUserSession.notificationCount!! <= 0) {
+                notificationCountTV?.hide()
+            } else {
+                notificationCountTV?.show()
+                if (bdjobsUserSession.notificationCount!! > 99) {
+                    notificationCountTV?.text = "99+"
+
+                } else {
+                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
     }
 
     private fun showShortListFIlterList(shortListFilter: String) {
@@ -319,4 +343,29 @@ ShortListedJobFragment : Fragment() {
             jobCountTV?.text = Html.fromHtml(styledText)
         }
     }
+
+
+    fun updateNotificationView(count: Int?) {
+        Log.d("rakib", "in shorlist fragment $count")
+        if (count!! > 0) {
+            notificationCountTV?.show()
+            if (count <= 99)
+                notificationCountTV?.text = "$count"
+            else
+                notificationCountTV?.text = "99+"
+        } else {
+            notificationCountTV?.hide()
+        }
+
+//        notificationCountTV?.show()
+//        bdjobsUserSession = BdjobsUserSession(activity)
+//        if (bdjobsUserSession.notificationCount!! > 99){
+//            notificationCountTV?.text = "99+"
+//
+//        } else{
+//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+//
+//        }
+    }
+
 }

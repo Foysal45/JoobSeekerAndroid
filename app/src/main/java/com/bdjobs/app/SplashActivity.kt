@@ -49,6 +49,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -208,6 +209,13 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         } else {
             Log.d("rakib", "do work else")
             if (bdjobsUserSession.isLoggedIn!!) {
+                if (!Constants.isDeviceInfromationSent) {
+                    Log.d("rakib", "token sent from splash")
+                    FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
+                        val token = instanceIdResult.token
+                        Constants.sendDeviceInformation(token, this@SplashActivity)
+                    }
+                }
                 DatabaseUpdateJob.runJobImmediately()
             }
             try {

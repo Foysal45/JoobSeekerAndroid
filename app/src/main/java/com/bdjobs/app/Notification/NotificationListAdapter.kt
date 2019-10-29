@@ -156,8 +156,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     if (!items[position].seen!!) {
                         notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].id!!)
-                            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].serverId!!, items[position].type!!)
+                            val count = bdjobsDB.notificationDao().getNotificationCount()
+                            bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
 
@@ -208,8 +209,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     context.startActivity(intent)
                     if (!items[position].seen!!) {
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].id!!)
-                            bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].serverId!!, items[position].type!!)
+                            val count = bdjobsDB.notificationDao().getNotificationCount()
+                            bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
 
@@ -279,10 +281,10 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     promotionalMessageViewHolder?.card?.show()
                     promotionalMessageViewHolder?.messageImage.show()
                     try {
-                        Picasso.get().load(items[position].imageLink)
+                        Picasso.get().load(items[position].imageLink).into(promotionalMessageViewHolder?.messageImage)
                     } catch (e: Exception) {
                     }
-                } else{
+                } else {
                     promotionalMessageViewHolder?.card?.hide()
                     promotionalMessageViewHolder?.messageImage.hide()
                 }

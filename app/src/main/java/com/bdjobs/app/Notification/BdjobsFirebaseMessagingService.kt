@@ -61,7 +61,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
                     Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
                         try {
-                            insertNotificationInToDatabase(commonNotificationModel.toString())
+                            insertNotificationInToDatabase(payload)
                             showNotification(commonNotificationModel)
                         } catch (e: Exception) {
                             logException(e)
@@ -157,18 +157,26 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
         val date: Date? = Date()
 
-        doAsync {
-            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
-            if (commonNotificationModel.type != "pm")
+        if (commonNotificationModel.type != "pm") {
+            doAsync {
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
                 bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
-            uiThread {
-                val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
-                intent.putExtra("notification", "insertOrUpdateNotification")
-                applicationContext.sendBroadcast(intent)
+                uiThread {
+                    val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+                    intent.putExtra("notification", "insertOrUpdateNotification")
+                    applicationContext.sendBroadcast(intent)
+                }
+            }
+        } else if (commonNotificationModel.type == "pm"){
+            doAsync {
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+                uiThread{
+                    val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+                    intent.putExtra("notification", "insertOrUpdateNotification")
+                    applicationContext.sendBroadcast(intent)
+                }
             }
         }
-
-
     }
 
     private fun showNotification(commonNotificationModel: CommonNotificationModel) {
@@ -198,7 +206,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 } catch (e: Exception) {
                 }
             }
-            Constants.NOTIFICATION_TYPE_GENERAL->{
+            Constants.NOTIFICATION_TYPE_GENERAL -> {
 
             }
         }
