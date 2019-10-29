@@ -14,12 +14,11 @@ import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
 
 class MyBdjobsFragment : Fragment() {
+    private lateinit var bdjobsUserSession : BdjobsUserSession
     private var mybdjobsAdapter: MybdjobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()
     private lateinit var communicator: HomeCommunicator
@@ -67,6 +66,7 @@ class MyBdjobsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as HomeCommunicator
+        bdjobsUserSession = BdjobsUserSession(activity)
 
     }
 
@@ -76,6 +76,26 @@ class MyBdjobsFragment : Fragment() {
         initializeViews()
         onClick()
         getCountData()
+        showNotificationCount()
+    }
+
+    private fun showNotificationCount() {
+        try {
+            bdjobsUserSession = BdjobsUserSession(activity)
+            if (bdjobsUserSession.notificationCount!! <= 0) {
+                notificationCountTV?.hide()
+            } else {
+                notificationCountTV?.show()
+                if (bdjobsUserSession.notificationCount!! > 99) {
+                    notificationCountTV?.text = "99+"
+
+                } else {
+                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
     }
 
     private fun getCountData() {
@@ -112,6 +132,10 @@ class MyBdjobsFragment : Fragment() {
 
         profilePicIMGV.setOnClickListener {
             communicator.gotoEditresume()
+        }
+
+        notificationIMGV?.setOnClickListener {
+            communicator.goToNotifications()
         }
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
@@ -243,5 +267,28 @@ class MyBdjobsFragment : Fragment() {
             }
 
         })*/
+    }
+
+    fun updateNotificationView(count: Int?) {
+        Log.d("rakib", "in mybdjobs fragment $count")
+        if (count!! > 0) {
+            notificationCountTV?.show()
+            if (count <= 99)
+                notificationCountTV?.text = "$count"
+            else
+                notificationCountTV?.text = "99+"
+        } else {
+            notificationCountTV?.hide()
+        }
+
+//        notificationCountTV?.show()
+//        bdjobsUserSession = BdjobsUserSession(activity)
+//        if (bdjobsUserSession.notificationCount!! > 99){
+//            notificationCountTV?.text = "99+"
+//
+//        } else{
+//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+//
+//        }
     }
 }

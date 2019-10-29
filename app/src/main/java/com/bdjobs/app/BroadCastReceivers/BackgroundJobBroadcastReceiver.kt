@@ -3,6 +3,7 @@ package com.bdjobs.app.BroadCastReceivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 
 
@@ -10,8 +11,15 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
         if (BROADCAST_DATABASE_UPDATE_JOB == action) {
+
+            Log.d("rakib", "Broadcast $action")
+
             val job = intent?.getStringExtra("job")
             val notification = intent?.getStringExtra("notification")
+
+            Log.d("rakib", "Broadcast $job $notification")
+
+
             if (backgroundJobListener != null) {
                 if(job=="insertFavouriteSearchFilter"){
                     backgroundJobListener!!.favSearchFilterSyncComplete()
@@ -29,9 +37,13 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
 //                    backgroundJobListener!!.onUpdateNotification()
 //                }
             }
+
             if (notificationUpdateListener != null){
-                if (notification == "insertOrUpdateNotification")
-                notificationUpdateListener!!.onUpdateNotification()
+                if (notification == "insertOrUpdateNotification"){
+                    Log.d("rakib", "inside broadcast")
+                    notificationUpdateListener!!.onUpdateNotification()
+                }
+
             }
         }
 

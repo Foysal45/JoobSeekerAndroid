@@ -50,19 +50,30 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
-    override fun onUpdateNotification() {
-        Log.d("rakib", "notification inserted")
-        notificationCountTV?.show()
-        bdjobsUserSession = BdjobsUserSession(activity)
-        if (bdjobsUserSession.notificationCount!! > 99){
-            notificationCountTV?.text = "99+"
+class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
 
-        } else{
-            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
 
+    fun updateNotificationView(count: Int?) {
+        Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            notificationCountTV?.show()
+            if (count <= 99)
+                notificationCountTV?.text = "$count"
+            else
+                notificationCountTV?.text = "99+"
+        } else {
+            notificationCountTV?.hide()
         }
 
+//        notificationCountTV?.show()
+//        bdjobsUserSession = BdjobsUserSession(activity)
+//        if (bdjobsUserSession.notificationCount!! > 99){
+//            notificationCountTV?.text = "99+"
+//
+//        } else{
+//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+//
+//        }
     }
 
 
@@ -189,14 +200,14 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private fun showNotificationCount() {
         try {
             bdjobsUserSession = BdjobsUserSession(activity)
-            if (bdjobsUserSession.notificationCount!! <= 0){
+            if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
                 notificationCountTV?.show()
-                if (bdjobsUserSession.notificationCount!! > 99){
+                if (bdjobsUserSession.notificationCount!! > 99) {
                     notificationCountTV?.text = "99+"
 
-                } else{
+                } else {
                     notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
 
                 }
@@ -207,8 +218,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun onResume() {
         super.onResume()
-        activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
-        BackgroundJobBroadcastReceiver.notificationUpdateListener = this
+//        activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
+        //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showNotificationCount()
         showData()
@@ -218,7 +229,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun onPause() {
         super.onPause()
-        activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
+//        activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
     }
 
     override fun jobInvitationSyncComplete() {
@@ -516,10 +527,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
                     catIds?.let {
-                        for (item in it){
-                            if (item.isNotEmpty()){
+                        for (item in it) {
+                            if (item.isNotEmpty()) {
                                 activity.subscribeToFCMTopic(item)
-                                Log.d("rakib",item)
+                                Log.d("rakib", item)
                             }
                         }
                     }

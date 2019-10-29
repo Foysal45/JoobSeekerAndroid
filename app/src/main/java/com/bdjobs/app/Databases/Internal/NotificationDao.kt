@@ -49,11 +49,14 @@ interface NotificationDao {
         return getNotifications(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
     }
 
-    @Query("SELECT * FROM Notification  WHERE seen = 0 AND type != :type ORDER BY id  DESC LIMIT 1")
-    fun singleNotification(type: String) : Notification
+    @Query("SELECT * FROM Notification  WHERE seen = 0 AND type != :type ORDER BY arrival_time  DESC LIMIT 1")
+    fun singleNotification(type: String): Notification
+
+    @Query("SELECT * FROM Notification  WHERE seen = 0  ORDER BY arrival_time  DESC LIMIT 1")
+    fun getSingleItem(): Notification
 
     @Transaction
-    fun getSingleNotification() : Notification{
+    fun getSingleNotification(): Notification {
         return singleNotification(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
     }
 
@@ -63,7 +66,7 @@ interface NotificationDao {
     }
 
     @Transaction
-    fun notificationDelete(notification: Notification, activity: Activity){
+    fun notificationDelete(notification: Notification, activity: Activity) {
         deleteNotification(notification)
         val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
         intent.putExtra("job", "insertNotifications")
@@ -71,11 +74,11 @@ interface NotificationDao {
     }
 
 
-    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE id = :id")
-    fun updateNotification(seenTime: Date, seen: Boolean, id: Int)
+    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE server_id = :id AND type =:type")
+    fun updateNotification(seenTime: Date, seen: Boolean, id: String, type: String)
 
     @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE server_id = :id AND type = :type")
-    fun updateNotificationTableByClickingNotification(seenTime: Date, seen: Boolean, id: String,type: String)
+    fun updateNotificationTableByClickingNotification(seenTime: Date, seen: Boolean, id: String, type: String)
 
     @Query("DELETE FROM Notification WHERE is_deleted = 1 AND arrival_time <= date('now','-30 day')")
     fun deleteNotificationsFromDatabaseOlderThanLast30Days()
@@ -84,6 +87,6 @@ interface NotificationDao {
     fun softDeleteNotification(id: Int)
 
     @Query("Delete FROM Notification WHERE server_id=:id AND company_name=:name")
-    fun deleteNotificationBecauseServerToldMe(id: String, name:String)
+    fun deleteNotificationBecauseServerToldMe(id: String, name: String)
 
 }

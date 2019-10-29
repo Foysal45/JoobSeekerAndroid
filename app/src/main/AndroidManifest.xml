@@ -117,11 +117,15 @@
             android:name=".Employers.EmployersBaseActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".InterviewInvitation.InterviewInvitationBaseActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".editResume.EditResLandingActivity"

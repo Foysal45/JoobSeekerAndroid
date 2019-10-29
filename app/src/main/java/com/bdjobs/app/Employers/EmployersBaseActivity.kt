@@ -5,9 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
+import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.InterviewInvitation.InterveiwInvitationListFragment
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationDetailsFragment
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import org.jetbrains.anko.doAsync
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /*=============================================================================
@@ -35,6 +43,9 @@ import com.bdjobs.app.Utilities.transitFragment
  */
 class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
+    lateinit var bdjobsDB: BdjobsDB
+    lateinit var bdjobsUserSession: BdjobsUserSession
+
     var records: Int? = null
 
     override fun getTotalRecords(): Int? {
@@ -42,7 +53,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     }
 
     override fun setTotalRecords(value: Int?) {
-         this.records = value
+        this.records = value
     }
 
     override fun setEmployerMessageList(employerMessageList: ArrayList<MessageDataModel>?) {
@@ -177,6 +188,9 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employers_base)
 
+        bdjobsDB = BdjobsDB.getInstance(applicationContext)
+        bdjobsUserSession = BdjobsUserSession(applicationContext)
+
         try {
             time = intent.getStringExtra("time")
         } catch (e: Exception) {
@@ -216,6 +230,15 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         } else if (value?.equals("joblist")) {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         } else if (value?.equals("vwdMyResume")) {
+            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+        } else if (value?.equals("notification")) {
+            doAsync {
+                bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobId, Constants.NOTIFICATION_TYPE_CV_VIEWED)
+                val count = bdjobsDB.notificationDao().getNotificationCount()
+                bdjobsUserSession = BdjobsUserSession(this@EmployersBaseActivity)
+                bdjobsUserSession.updateNotificationCount(count)
+                Log.d("rakib", "noti count $count $jobId")
+            }
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         } else if (value?.equals("employerMessageList")) {
             transitFragment(employerMessageListFragment, R.id.fragmentHolder)

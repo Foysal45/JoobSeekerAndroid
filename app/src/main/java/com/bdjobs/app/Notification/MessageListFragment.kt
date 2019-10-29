@@ -28,6 +28,7 @@ class MessageListFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var adapter : NotificationListAdapter
 
     var notificationList: List<Notification>? = null
 
@@ -49,11 +50,11 @@ class MessageListFragment : Fragment() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getMessage()
             uiThread {
-                val notificationListAdapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
+                adapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                 notificationsRV?.also {
                     it.setHasFixedSize(true)
                     it.itemAnimator = DefaultItemAnimator()
-                    it.adapter = notificationListAdapter
+                    it.adapter = adapter
                     it.layoutManager = linearLayoutManager
                 }
 
@@ -66,6 +67,11 @@ class MessageListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun updateView(item : Notification){
+        adapter?.addItem(item)
+        adapter?.notifyDataSetChanged()
     }
 
 }

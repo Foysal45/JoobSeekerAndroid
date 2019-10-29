@@ -15,12 +15,17 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.*
+import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.notificationIMGV
+import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.profilePicIMGV
+import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.searchIMGV
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class HotJobsFragmentNew : Fragment() {
+
+    private lateinit var bdjobsUserSession: BdjobsUserSession
     private var hotjobsAdapterNew: HotjobsAdapterNew? = null
     lateinit var homeCommunicator: HomeCommunicator
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +38,32 @@ class HotJobsFragmentNew : Fragment() {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
         hotjobsAdapterNew = HotjobsAdapterNew(activity!!)
+        bdjobsUserSession = BdjobsUserSession(activity)
         loadHotJobsData()
         onclick()
+    }
+
+    fun updateNotificationView(count: Int?) {
+        Log.d("rakib", "in hot jobs fragment $count")
+        if (count!! > 0) {
+            notificationCountTV?.show()
+            if (count <= 99)
+                notificationCountTV?.text = "$count"
+            else
+                notificationCountTV?.text = "99+"
+        } else {
+            notificationCountTV?.hide()
+        }
+
+//        notificationCountTV?.show()
+//        bdjobsUserSession = BdjobsUserSession(activity)
+//        if (bdjobsUserSession.notificationCount!! > 99){
+//            notificationCountTV?.text = "99+"
+//
+//        } else{
+//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+//
+//        }
     }
 
     private fun onclick() {
@@ -44,6 +73,10 @@ class HotJobsFragmentNew : Fragment() {
 
         profilePicIMGV.setOnClickListener {
             homeCommunicator.gotoEditresume()
+        }
+
+        notificationIMGV?.setOnClickListener {
+            homeCommunicator.goToNotifications()
         }
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
@@ -119,4 +152,27 @@ class HotJobsFragmentNew : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        showNotificationCount()
+    }
+
+    private fun showNotificationCount() {
+        try {
+            bdjobsUserSession = BdjobsUserSession(activity)
+            if (bdjobsUserSession.notificationCount!! <= 0) {
+                notificationCountTV?.hide()
+            } else {
+                notificationCountTV?.show()
+                if (bdjobsUserSession.notificationCount!! > 99) {
+                    notificationCountTV?.text = "99+"
+
+                } else {
+                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
 }

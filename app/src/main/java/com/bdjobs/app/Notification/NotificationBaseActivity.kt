@@ -1,15 +1,44 @@
 package com.bdjobs.app.Notification
 
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
+import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_notification_base.*
 import kotlinx.android.synthetic.main.activity_notification_base.backIV
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
-class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior {
+class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+
+    override fun onUpdateNotification() {
+        Log.d("rakib", "came in noti list")
+        doAsync {
+            val item = bdjobsDB.notificationDao().getSingleItem()
+
+            uiThread {
+                if (item.type == "pm"){
+                    messageListFragment.updateView(item)
+                } else{
+                    notificationListFragment.updateView(item)
+                }
+//                Log.d("rakib", "${noti.type}  ${noti.id}")
+//                notificationListAdapter.addItem(noti)
+//                notificationListAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+    private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
+
     override fun goToNotificationListFragment() {
         transitFragment(notificationListFragment, R.id.notificationFragmentHolder)
     }
@@ -20,6 +49,9 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior 
 
     val notificationListFragment = NotificationListFragment()
     val messageListFragment = MessageListFragment()
+    lateinit var bdjobsUserSession: BdjobsUserSession
+    lateinit var bdjobsDB: BdjobsDB
+
 
     override fun backButtonPressed() {
         onBackPressed()
@@ -28,6 +60,11 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_base)
+
+        backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
+        bdjobsDB = BdjobsDB.getInstance(this@NotificationBaseActivity)
+        bdjobsUserSession = BdjobsUserSession(this@NotificationBaseActivity)
+
         setupClickListeners()
 
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -69,6 +106,17 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior 
 
         goToNotificationListFragment()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
+        BackgroundJobBroadcastReceiver.notificationUpdateListener = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(backgroundJobBroadcastReceiver)
     }
 
     private fun setupClickListeners() {

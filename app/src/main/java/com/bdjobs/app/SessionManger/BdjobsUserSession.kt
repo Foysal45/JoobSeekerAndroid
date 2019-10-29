@@ -10,6 +10,7 @@ import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Utilities.logException
 import org.jetbrains.anko.doAsync
@@ -111,6 +112,7 @@ class BdjobsUserSession(val context: Context) {
 
         pref?.edit()?.clear()?.apply()
         val bdjobsDB = BdjobsDB.getInstance(context = context)
+        isDeviceInfromationSent = false
         doAsync {
             bdjobsDB.followedEmployerDao().deleteAllFollowedEmployer()
             bdjobsDB.shortListedJobDao().deleteAllShortListedJobs()

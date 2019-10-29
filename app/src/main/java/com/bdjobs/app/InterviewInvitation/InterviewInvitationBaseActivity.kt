@@ -81,6 +81,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
         try {
             jobID = intent.getStringExtra("jobid")
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -115,12 +116,15 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
             from?.equals("notification") -> {
                 doAsync {
                     bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobID, type)
-                    bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+                    val count = bdjobsDB.notificationDao().getNotificationCount()
+                    bdjobsUserSession = BdjobsUserSession(this@InterviewInvitationBaseActivity)
+                    bdjobsUserSession.updateNotificationCount(count)
                 }
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }
 
             from?.equals("notificationList") ->{
+
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }
 

@@ -24,6 +24,7 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Web.WebActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login_base.*
 import org.jetbrains.anko.startActivity
 import retrofit2.Call
@@ -84,6 +85,13 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
             finishAffinity()
         } else {
             getLastUpdateFromServer(this@LoginBaseActivity)
+            if (!Constants.isDeviceInfromationSent) {
+                Log.d("splashActivity", "token aaa")
+                FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
+                    val token = instanceIdResult.token
+                    Constants.sendDeviceInformation(token, this@LoginBaseActivity)
+                }
+            }
         }
     }
 

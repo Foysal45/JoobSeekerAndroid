@@ -31,19 +31,19 @@ import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 
-class NotificationListFragment : Fragment(), BackgroundJobBroadcastReceiver.NotificationUpdateListener {
-    override fun onUpdateNotification() {
-        Log.d("rakib", "came in noti list")
-        doAsync {
-            val noti = bdjobsDB.notificationDao().getSingleNotification()
-            Log.d("rakib", "${noti.type + noti.id}")
-            uiThread {
-                notificationListAdapter.addItem(noti)
-                notificationListAdapter.notifyDataSetChanged()
-            }
-        }
-
-    }
+class NotificationListFragment : Fragment() {
+//    override fun onUpdateNotification() {
+//        Log.d("rakib", "came in noti list")
+//        doAsync {
+//            val noti = bdjobsDB.notificationDao().getSingleNotification()
+//            Log.d("rakib", "${noti.type + noti.id}")
+//            uiThread {
+//                notificationListAdapter.addItem(noti)
+//                notificationListAdapter.notifyDataSetChanged()
+//            }
+//        }
+//
+//    }
 
 
     private lateinit var notificationCommunicator: NotificationCommunicatior
@@ -53,7 +53,7 @@ class NotificationListFragment : Fragment(), BackgroundJobBroadcastReceiver.Noti
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
     private lateinit var notificationListAdapter: NotificationListAdapter
     private lateinit var notificationHelper: NotificationHelper
-    private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+    //private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
 
 
     var notificationList: List<Notification>? = null
@@ -70,16 +70,16 @@ class NotificationListFragment : Fragment(), BackgroundJobBroadcastReceiver.Noti
         bdjobsUserSession = BdjobsUserSession(activity)
         linearLayoutManager = LinearLayoutManager(activity)
         notificationHelper = NotificationHelper(activity)
-        backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
-        activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
-        BackgroundJobBroadcastReceiver.notificationUpdateListener = this
+        //backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
+        //activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
+        //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
 
         showDataFromDB()
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
+        //activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
     }
 
     private fun showDataFromDB() {
@@ -173,7 +173,11 @@ class NotificationListFragment : Fragment(), BackgroundJobBroadcastReceiver.Noti
 
             }
         }
+    }
 
+    fun updateView(item : Notification){
+        notificationListAdapter?.addItem(item)
+        notificationListAdapter?.notifyDataSetChanged()
     }
 
 }

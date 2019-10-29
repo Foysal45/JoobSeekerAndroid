@@ -16,11 +16,17 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
+import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.fragment_more_layout.*
+import kotlinx.android.synthetic.main.fragment_more_layout.notificationCountTV
+import kotlinx.android.synthetic.main.fragment_more_layout.notificationIMGV
+import kotlinx.android.synthetic.main.fragment_more_layout.profilePicIMGV
+import kotlinx.android.synthetic.main.fragment_more_layout.searchIMGV
 import org.jetbrains.anko.startActivity
 
 class MoreFragment : Fragment() {
 
+    private lateinit var bdjobsUserSession : BdjobsUserSession
     private var horizontalAdapter: HorizontalAdapter? = null
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
@@ -34,6 +40,7 @@ class MoreFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
+        bdjobsUserSession = BdjobsUserSession(activity)
         initializeViews()
         clearAddPopulateData()
         getIfCVuploaded()
@@ -67,6 +74,10 @@ class MoreFragment : Fragment() {
 
         profilePicIMGV.setOnClickListener {
             homeCommunicator.gotoEditresume()
+        }
+
+        notificationIMGV?.setOnClickListener {
+            homeCommunicator.goToNotifications()
         }
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
@@ -182,6 +193,53 @@ class MoreFragment : Fragment() {
         horizontal_RV?.setHasFixedSize(true)
         Log.d("initPag", "called")
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showNotificationCount()
+    }
+
+    private fun showNotificationCount() {
+        try {
+            bdjobsUserSession = BdjobsUserSession(activity)
+            if (bdjobsUserSession.notificationCount!! <= 0) {
+                notificationCountTV?.hide()
+            } else {
+                notificationCountTV?.show()
+                if (bdjobsUserSession.notificationCount!! > 99) {
+                    notificationCountTV?.text = "99+"
+
+                } else {
+                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    fun updateNotificationView(count: Int?) {
+        Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            notificationCountTV?.show()
+            if (count <= 99)
+                notificationCountTV?.text = "$count"
+            else
+                notificationCountTV?.text = "99+"
+        } else {
+            notificationCountTV?.hide()
+        }
+
+//        notificationCountTV?.show()
+//        bdjobsUserSession = BdjobsUserSession(activity)
+//        if (bdjobsUserSession.notificationCount!! > 99){
+//            notificationCountTV?.text = "99+"
+//
+//        } else{
+//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+//
+//        }
     }
 
 
