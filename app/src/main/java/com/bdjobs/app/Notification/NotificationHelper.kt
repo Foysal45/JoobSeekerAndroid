@@ -93,6 +93,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     }
 
+
     fun prepareNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
