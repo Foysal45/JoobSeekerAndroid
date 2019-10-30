@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.app.Fragment
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -75,6 +76,8 @@ class NotificationListFragment : Fragment() {
         //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
 
         showDataFromDB()
+        Log.d("rakib", "${notificationCommunicator.getPositionClicked()}")
+
     }
 
     override fun onPause() {
@@ -92,6 +95,10 @@ class NotificationListFragment : Fragment() {
                     it.itemAnimator = DefaultItemAnimator()
                     it.adapter = notificationListAdapter
                     it.layoutManager = linearLayoutManager
+                    try {
+                        it.scrollToPosition(notificationCommunicator.getPositionClicked())
+                    } catch (e: Exception) {
+                    }
                 }
 
                 if (notificationList?.size!! > 0) {
@@ -144,12 +151,23 @@ class NotificationListFragment : Fragment() {
                                                     bdjobsUserSession = BdjobsUserSession(activity)
                                                     bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
                                                 }
+                                                if (notificationListAdapter.itemCount!! == 0){
+                                                    notificationNoDataLL?.show()
+                                                } else{
+                                                    notificationNoDataLL?.hide()
+                                                }
                                             }
                                         }
 
                                     }
                                     snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.undo))
                                     snackbar.show()
+
+                                    if (notificationListAdapter.itemCount!! == 0){
+                                        notificationNoDataLL?.show()
+                                    } else{
+                                        notificationNoDataLL?.hide()
+                                    }
                                 }
                             }
                         }

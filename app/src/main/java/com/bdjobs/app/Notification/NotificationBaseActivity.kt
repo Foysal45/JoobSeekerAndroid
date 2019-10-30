@@ -18,6 +18,22 @@ import org.jetbrains.anko.uiThread
 
 class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
+    override fun positionClickedMessage(item: Int) {
+        positionClickedMessage = item
+    }
+
+    override fun getPositionClickedMessage(): Int {
+        return positionClickedMessage
+    }
+
+    override fun positionClicked(item: Int) {
+        positionClicked = item
+    }
+
+    override fun getPositionClicked(): Int {
+        return positionClicked
+    }
+
     override fun onUpdateNotification() {
         Log.d("rakib", "came in noti list")
         doAsync {
@@ -29,9 +45,6 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
                 } else{
                     notificationListFragment.updateView(item)
                 }
-//                Log.d("rakib", "${noti.type}  ${noti.id}")
-//                notificationListAdapter.addItem(noti)
-//                notificationListAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -51,7 +64,9 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
     val messageListFragment = MessageListFragment()
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
-
+    private var positionClicked: Int = 0
+    private var positionClickedMessage : Int = 0
+    var from = ""
 
     override fun backButtonPressed() {
         onBackPressed()
@@ -66,6 +81,14 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
         bdjobsUserSession = BdjobsUserSession(this@NotificationBaseActivity)
 
         setupClickListeners()
+
+        try {
+            from = intent.getStringExtra("from")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+
 
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -104,8 +127,19 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
             logException(e)
         }
 
-        goToNotificationListFragment()
-
+        when{
+            from?.equals("notification")->{
+                try {
+                    val tab = tabs.getTabAt(1)
+                    tab!!.select()
+                    goToMessageListFragment()
+                } catch (e: Exception) {
+                }
+            }
+            else->{
+                goToNotificationListFragment()
+            }
+        }
     }
 
     override fun onResume() {
@@ -124,6 +158,5 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
             onBackPressed()
         }
     }
-
 
 }

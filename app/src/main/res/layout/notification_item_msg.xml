@@ -72,6 +72,7 @@
         app:layout_constraintTop_toBottomOf="@id/message_text">
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/message_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

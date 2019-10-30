@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.text.Html
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import com.amitshekhar.utils.Constants
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
@@ -33,9 +30,7 @@ import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class NotificationListAdapter(private val context: Context, private val items: MutableList<Notification>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -162,6 +157,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         }
                     }
 
+                    notificationCommunicatior.positionClicked(position)
+
                 }
             }
             TYPE_CV_VIEWED -> {
@@ -214,7 +211,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
-
+                notificationCommunicatior.positionClicked(position)
                 }
             }
             TYPE_PROMOTIONAL_MESSAGE -> {
@@ -272,6 +269,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             context?.openUrlInBrowser(items[position].link)
                         } catch (e: Exception) {
                         }
+                        notificationCommunicatior.positionClickedMessage(position)
                     }
                 } else {
                     promotionalMessageViewHolder?.messageButton?.hide()

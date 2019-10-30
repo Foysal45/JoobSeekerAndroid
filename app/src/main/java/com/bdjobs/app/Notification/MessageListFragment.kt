@@ -56,6 +56,10 @@ class MessageListFragment : Fragment() {
                     it.itemAnimator = DefaultItemAnimator()
                     it.adapter = adapter
                     it.layoutManager = linearLayoutManager
+                    try {
+                        it.scrollToPosition(notificationCommunicator.getPositionClickedMessage())
+                    } catch (e: Exception) {
+                    }
                 }
 
                 if (notificationList?.size!! > 0) {

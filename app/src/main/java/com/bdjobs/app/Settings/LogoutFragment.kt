@@ -16,11 +16,8 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.changePassword_Eligibility
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.isBlueCollarUser
-import com.bdjobs.app.Utilities.logException
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -111,7 +108,7 @@ class LogoutFragment : Fragment() {
         loadingDialog.setCancelable(false)
         loadingDialog.show()
         loadingDialog.setCancelable(false)
-        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<CookieModel> {
+        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId,deviceID = activity.getDeviceID()).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
                 error("onFailure", t)
                 loadingDialog.dismiss()

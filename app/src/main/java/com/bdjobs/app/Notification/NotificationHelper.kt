@@ -7,7 +7,9 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -17,7 +19,9 @@ import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
-import org.jetbrains.anko.startActivity
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import java.lang.Exception
 
 class NotificationHelper(context: Context) : ContextWrapper(context) {
 
@@ -94,13 +98,13 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
 
-    fun prepareNotification(title: String, body: String, jobid: String, companyName: String, jobTitle: String, type: String): NotificationCompat.Builder {
+    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
-        when(type){
+        when (type) {
 
-            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION ->{
+            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
 
                 val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
@@ -123,7 +127,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setContentIntent(interviewInvitationPendingIntent)
             }
 
-            Constants.NOTIFICATION_TYPE_CV_VIEWED->{
+            Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
 
                 val intent = Intent(this, EmployersBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
@@ -143,7 +147,49 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setContentIntent(pendingIntent)
             }
 
-            else->{
+            Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+
+                val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+
+
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+//                var imageBitmap: Bitmap? = null
+
+//                var target = object : Target {
+//                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+//                    }
+//
+//                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+//                    }
+//
+//                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+//                        imageBitmap = bitmap
+//                    }
+//
+//                }
+//
+//                Picasso.get().load(imageLink).into(target)
+
+
+                return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+//                        .setLargeIcon(imageBitmap)
+//                        .setStyle(NotificationCompat.BigPictureStyle()
+//                                .bigPicture(imageBitmap)
+//                                .bigLargeIcon(null))
+                        .setContentIntent(pendingIntent)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+            }
+
+            else -> {
 
                 val intent = Intent(this, MainLandingActivity::class.java)?.apply {
                 }
@@ -167,7 +213,6 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
         }
 
 
-
     }
 
     private val pendingIntent: PendingIntent
@@ -178,6 +223,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
             stackBuilder.addNextIntent(intent)
             return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
         }
+
 
     fun notify(id: Int, notification: NotificationCompat.Builder) {
         mNotificationManager.notify(id, notification.build())
