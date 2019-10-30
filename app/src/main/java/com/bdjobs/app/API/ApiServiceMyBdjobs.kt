@@ -679,7 +679,8 @@ interface ApiServiceMyBdjobs {
     fun logout(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("deviceId") deviceID: String? = ""
     ): Call<CookieModel>
 
 

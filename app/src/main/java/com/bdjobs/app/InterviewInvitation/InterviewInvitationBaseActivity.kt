@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.Notification.NotificationCommunicatior
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.logException
@@ -58,6 +59,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
+
     }
 
 

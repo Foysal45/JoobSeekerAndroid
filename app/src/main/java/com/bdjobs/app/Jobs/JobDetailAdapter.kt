@@ -988,7 +988,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             if (Constants.applyRestrictionStatus) {
                 if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
                     jobApplicationStatusCard.show()
-                    appliedJobsCountTV.text = "You have already applied for  ${Constants.appliedJobsCount} jobs in the current month."
+                    appliedJobsCountTV.text = "You have already applied for ${Constants.appliedJobsCount} jobs in the current month."
                     var availableJobs = jobApplyLimit - Constants.appliedJobsCount
                     remainingJobsCountTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
                     whyIAmSeeingThisTV.setOnClickListener {

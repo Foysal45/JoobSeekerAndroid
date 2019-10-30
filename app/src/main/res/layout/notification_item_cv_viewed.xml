@@ -47,13 +47,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:paddingBottom="2dp"
             android:id="@+id/notification_time_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
             android:src="@drawable/ic_notification_time"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/notification_cv_viewed_text" />
+            app:layout_constraintBottom_toBottomOf="@+id/notification_cv_viewed_time_text"
+            app:layout_constraintLeft_toLeftOf="@id/notification_cv_viewed_text"
+            app:layout_constraintTop_toTopOf="@+id/notification_cv_viewed_time_text" />
 
         <TextView
             android:layout_marginStart="5dp"

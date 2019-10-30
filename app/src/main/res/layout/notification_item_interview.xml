@@ -49,11 +49,10 @@
             android:id="@+id/notification_time_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
             android:src="@drawable/ic_notification_time"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/notification_interview_time_text"
             app:layout_constraintLeft_toLeftOf="@id/notification_interview_text"
-            app:layout_constraintTop_toBottomOf="@id/notification_interview_text" />
+            app:layout_constraintTop_toTopOf="@+id/notification_interview_time_text" />
 
         <TextView
             android:id="@+id/notification_interview_time_text"

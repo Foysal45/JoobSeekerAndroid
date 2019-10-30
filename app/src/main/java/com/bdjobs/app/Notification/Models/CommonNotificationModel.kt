@@ -15,8 +15,11 @@ data class CommonNotificationModel(
         val jobTitle: String? = "",
         @SerializedName("companyName")
         val companyName: String? = "",
-        @SerializedName("image_link")
+        @SerializedName("imageLink")
         val imageLink: String? = "",
         @SerializedName("link")
-        val link: String? = ""
+        val link: String? = "",
+        @SerializedName("deleteType")
+        val deleteType: String? = ""
+
 )

@@ -49,7 +49,7 @@ class SettingBaseActivity : Activity(), SettingsCommunicator {
         val loadingDialog = indeterminateProgressDialog("Logging out")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
-        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<CookieModel> {
+        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, deviceID = applicationContext.getDeviceID()).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
                 error("onFailure", t)
                 loadingDialog.dismiss()
