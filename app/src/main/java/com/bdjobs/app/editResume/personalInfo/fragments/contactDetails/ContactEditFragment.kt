@@ -143,9 +143,20 @@ class ContactEditFragment : Fragment() {
         setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
         setDialog("Please select your thana", pmContactThanaTIETP, permanentThanaList.toTypedArray())
         if (pstOfficeNameList!!.size != 0)
-            setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
-        if (permanentPostOfficeList!!.size != 0)
-            setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
+        {
+            try {
+                setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
+            } catch (e: Exception) {
+            }
+
+        }
+        if (permanentPostOfficeList!!.size != 0){
+            try {
+                setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
+            } catch (e: Exception) {
+            }
+
+        }
 
 
     }
@@ -1114,8 +1125,12 @@ class ContactEditFragment : Fragment() {
                                     postOfficeList?.forEach { dt ->
                                         pstOfficeNameList.add(dt.locationName)
                                     }
-                                    if (postOfficeList!!.size != 0)
-                                        setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
+                                    if (postOfficeList!!.size != 0){
+                                        try {
+                                            setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
+                                        } catch (e: Exception) {
+                                        }
+                                    }
 
                                 }
                             }
@@ -1160,8 +1175,12 @@ class ContactEditFragment : Fragment() {
                                 postOfficeListPm?.forEach { dt ->
                                     pstOfficeNameList.add(dt.locationName)
                                 }
-                                if (postOfficeListPm!!.size != 0)
-                                    setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
+                                if (postOfficeListPm!!.size != 0){
+                                    try {
+                                        setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
+                                    } catch (e: Exception) {
+                                    }
+                                }
                             }
                             if (editText.id == R.id.pmContactPostOfficeTIET) {
 
