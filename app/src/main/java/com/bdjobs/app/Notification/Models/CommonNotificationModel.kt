@@ -3,6 +3,8 @@ package com.bdjobs.app.Notification.Models
 import com.google.gson.annotations.SerializedName
 
 data class CommonNotificationModel(
+        @SerializedName("pId")
+        val pId : String = "",
         @SerializedName("title")
         val title: String? = "",
         @SerializedName("body")
