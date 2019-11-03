@@ -110,9 +110,10 @@ class LogoutFragment : Fragment() {
         loadingDialog.setCancelable(false)
         ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId,deviceID = activity.getDeviceID()).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
-                error("onFailure", t)
-                loadingDialog.dismiss()
-                bdjobsUserSession.logoutUser()
+//                error("onFailure", t)
+//                loadingDialog.dismiss()
+//                bdjobsUserSession.logoutUser()
+//                removeShortcut(activity)
             }
 
             override fun onResponse(call: Call<CookieModel>, response: Response<CookieModel>) {
@@ -121,10 +122,12 @@ class LogoutFragment : Fragment() {
                     bdjobsUserSession.logoutUser()
                     toast(response.body()?.message!!)
                     cookieManager?.removeAllCookies(null)
+                    removeShortcut(activity)
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()
                     cookieManager?.removeAllCookies(null)
+                    removeShortcut(activity)
                 }
             }
         })

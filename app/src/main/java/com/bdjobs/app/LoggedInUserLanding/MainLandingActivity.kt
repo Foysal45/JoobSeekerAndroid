@@ -315,6 +315,11 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
+        try {
+            createShortcut(this@MainLandingActivity)
+        } catch (e: Exception) {
+        }
+
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->

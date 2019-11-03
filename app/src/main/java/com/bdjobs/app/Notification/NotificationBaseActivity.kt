@@ -1,5 +1,7 @@
 package com.bdjobs.app.Notification
 
+import android.annotation.TargetApi
+import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +17,20 @@ import kotlinx.android.synthetic.main.activity_notification_base.*
 import kotlinx.android.synthetic.main.activity_notification_base.backIV
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.Arrays.asList
+import io.fabric.sdk.android.services.settings.IconRequest.build
+import android.content.Intent.ACTION_VIEW
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
+import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.net.Uri
+import android.os.Build
+import androidx.core.content.ContextCompat
+import java.util.*
+
 
 class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
@@ -75,6 +91,10 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_base)
+
+//        if (Build.VERSION.SDK_INT >= 25) {
+//            createShorcut()
+//        }
 
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
         bdjobsDB = BdjobsDB.getInstance(this@NotificationBaseActivity)
@@ -158,5 +178,21 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
             onBackPressed()
         }
     }
+
+//    @TargetApi(25)
+//    private fun createShortCut() {
+//        if (Build.VERSION.SDK_INT >= 25){
+//            val shortcutManager = getSystemService(ShortcutManager::class.java)
+//
+//            val shortcut = ShortcutInfo.Builder(context, "notifications")
+//                    .setShortLabel("Notifications")
+//                    .setLongLabel("Notifications")
+//                    .setIcon(Icon.createWithResource(context, R.drawable.ic_notifications_black_24dp))
+//                    .setIntent(Intent(context,NotificationBaseActivity::class.java))
+//                    .build()
+//
+//            shortcutManager!!.dynamicShortcuts = listOf(shortcut)
+//        }
+//    }
 
 }

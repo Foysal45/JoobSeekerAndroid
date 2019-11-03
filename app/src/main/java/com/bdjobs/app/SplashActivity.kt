@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Base64
@@ -309,6 +310,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     finish()
                 }
             } else {
+                if (Build.VERSION.SDK_INT >= 25){
+                    createShortcut(this@SplashActivity)
+                }
                 val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
