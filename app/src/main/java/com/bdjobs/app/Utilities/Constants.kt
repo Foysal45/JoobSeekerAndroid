@@ -111,8 +111,8 @@ class Constants {
 
         var calendar = Calendar.getInstance()
         var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
-        val warningmsgThrsldDate = "31/10/2019" //dd/mm/yyyy
-        var applyRestrictionStatus = false
+//        val warningmsgThrsldDate = "31/10/2019" //dd/mm/yyyy
+//        var applyRestrictionStatus = false
 
         // set and get from fragment
         //personal
@@ -200,6 +200,7 @@ class Constants {
         //const val session_key_job_apply_count = "jobApplyCount"
         //const val session_key_available_job_count = "availableJobCount"
         const val session_job_apply_limit = "jobApplyLimit"
+        const val session_job_apply_threshold = "jobApplyThreshold"
         const val notification_count = "notificationCount"
 
 

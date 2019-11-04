@@ -189,12 +189,13 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
                     bdjobsUserSession.updateCatagoryId(response.body()?.data?.get(0)?.catId!!)
                     bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
                     bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
-                    try {
-                        Constants.appliedJobLimit = response.body()?.data?.get(0)?.jobApplyLimit!!.toInt()
-                    } catch (e: Exception) {
-                    }
-                    Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
-                    Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
+                    bdjobsUserSession.updateJobApplyThreshold(response.body()?.data?.get(0)?.appliedJobsThreshold)
+//                    try {
+//                        Constants.appliedJobLimit = response.body()?.data?.get(0)?.jobApplyLimit!!.toInt()
+//                    } catch (e: Exception) {
+//                    }
+//                    Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
+//                    Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
                     getMybdjobsCountData("1",this@LoginBaseActivity)
                     //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                 } catch (e: Exception) {

@@ -105,6 +105,7 @@ class BdjobsUserSession(val context: Context) {
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
     val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"50")
+    val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold,"25")
     var notificationCount = pref?.getInt(Constants.notification_count,0)
 
 
@@ -254,6 +255,12 @@ class BdjobsUserSession(val context: Context) {
     fun updateJobApplyLimit(count: String?){
         pref?.edit {
             putString(Constants.session_job_apply_limit, count)
+        }
+    }
+
+    fun updateJobApplyThreshold(count: String?){
+        pref?.edit {
+            putString(Constants.session_job_apply_threshold, count)
         }
     }
 
