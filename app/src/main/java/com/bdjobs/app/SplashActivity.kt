@@ -83,7 +83,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-        dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
+
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         internalDb = BdjobsDB.getInstance(this@SplashActivity)
         //generateKeyHash()
@@ -128,6 +128,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 onAccepted { permissions ->
                     // Notified when the permissions are accepted.
+                    dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
                     firstDialog?.dismiss()
                     Log.d("rakib", "on accepted")
                     doWork(connectionStatus)
@@ -226,74 +227,77 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             } catch (e: Exception) {
             }
 
-            val dbUpdateDate = pref.getString(key_db_update, dfault_date_db_update)
+//            val dbUpdateDate = pref.getString(key_db_update, dfault_date_db_update)
             //debug("getDbInfo: Update_date = $dbUpdateDate")
 
-            ApiServiceJobs.create().getDbInfo(dbUpdateDate!!).enqueue(object : Callback<DatabaseUpdateModel> {
-                override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
-                    try {
-                        debug("getDbInfo: ${t?.message!!}")
-                        showAdAndGoToNextActivity()
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                }
 
-                override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {
+            showAdAndGoToNextActivity()
 
-                    try {
-                        if (response?.body()?.messageType == "1") {
-
-                            if (response.body()?.update == "1") {
-                                Log.d("Rakib", response.body()?.dblink)
-                                downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
-                            } else {
-                                showAdAndGoToNextActivity()
-                            }
-                        } else {
-                            showAdAndGoToNextActivity()
-                        }
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                }
-
-            })
+//            ApiServiceJobs.create().getDbInfo(dbUpdateDate!!).enqueue(object : Callback<DatabaseUpdateModel> {
+//                override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
+//                    try {
+//                        debug("getDbInfo: ${t?.message!!}")
+//                        showAdAndGoToNextActivity()
+//                    } catch (e: Exception) {
+//                        logException(e)
+//                    }
+//                }
+//
+//                override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {
+//
+//                    try {
+//                        if (response?.body()?.messageType == "1") {
+//
+//                            if (response.body()?.update == "1") {
+//                                Log.d("Rakib", response.body()?.dblink)
+//                                downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
+//                            } else {
+//                                showAdAndGoToNextActivity()
+//                            }
+//                        } else {
+//                            showAdAndGoToNextActivity()
+//                        }
+//                    } catch (e: Exception) {
+//                        logException(e)
+//                    }
+//                }
+//
+//            })
         }
     }
 
-    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
-
-        ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                showAdAndGoToNextActivity()
-            }
-
-            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                try {
-                    if (response?.isSuccessful!!) {
-                        //debug("getDbInfo: server contacted and has file")
-                        val writtenToDisk = writeResponseBodyToDisk(response.body()!!)
-                        // debug("getDbInfo: file download was a success? $writtenToDisk")
-
-                        if (writtenToDisk) {
-                            pref.edit {
-                                putString(key_db_update, updateDate)
-                            }
-                        }
-                        showAdAndGoToNextActivity()
-
-                    } else {
-                        debug("getDbInfo: server contact failed")
-                        showAdAndGoToNextActivity()
-                    }
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            }
-
-        })
-    }
+//    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
+//
+//        ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
+//            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+//                showAdAndGoToNextActivity()
+//            }
+//
+//            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+//                try {
+//                    if (response?.isSuccessful!!) {
+//                        //debug("getDbInfo: server contacted and has file")
+//                        val writtenToDisk = writeResponseBodyToDisk(response.body()!!)
+//                        // debug("getDbInfo: file download was a success? $writtenToDisk")
+//
+//                        if (writtenToDisk) {
+//                            pref.edit {
+//                                putString(key_db_update, updateDate)
+//                            }
+//                        }
+//                        showAdAndGoToNextActivity()
+//
+//                    } else {
+//                        debug("getDbInfo: server contact failed")
+//                        showAdAndGoToNextActivity()
+//                    }
+//                } catch (e: Exception) {
+//                    logException(e)
+//                }
+//            }
+//
+//        })
+//    }
 
     fun showAdAndGoToNextActivity() {
         checkUpdate()
@@ -364,57 +368,57 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         Log.d("splash", "called")
     }
 
-    private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
-        try {
-
-            val dbFile = File(DB_PATH + DB_NAME)
-
-            var inputStream: InputStream? = null
-            var outputStream: OutputStream? = null
-
-            try {
-                val fileReader = ByteArray(4096)
-
-                val fileSize = body.contentLength()
-                var fileSizeDownloaded: Long = 0
-
-                inputStream = body.byteStream()
-                outputStream = FileOutputStream(dbFile)
-
-                while (true) {
-                    val read = inputStream!!.read(fileReader)
-
-                    if (read == -1) {
-                        break
-                    }
-
-                    outputStream.write(fileReader, 0, read)
-
-                    fileSizeDownloaded += read.toLong()
-
-                    debug("dbFile download: $fileSizeDownloaded of $fileSize")
-                }
-
-                outputStream.flush()
-
-                return true
-            } catch (e: IOException) {
-                logException(e)
-                return false
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close()
-                }
-
-                if (outputStream != null) {
-                    outputStream.close()
-                }
-            }
-        } catch (e: IOException) {
-            logException(e)
-            return false
-        }
-    }
+//    private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
+//        try {
+//
+//            val dbFile = File(DB_PATH + DB_NAME)
+//
+//            var inputStream: InputStream? = null
+//            var outputStream: OutputStream? = null
+//
+//            try {
+//                val fileReader = ByteArray(4096)
+//
+//                val fileSize = body.contentLength()
+//                var fileSizeDownloaded: Long = 0
+//
+//                inputStream = body.byteStream()
+//                outputStream = FileOutputStream(dbFile)
+//
+//                while (true) {
+//                    val read = inputStream!!.read(fileReader)
+//
+//                    if (read == -1) {
+//                        break
+//                    }
+//
+//                    outputStream.write(fileReader, 0, read)
+//
+//                    fileSizeDownloaded += read.toLong()
+//
+//                    debug("dbFile download: $fileSizeDownloaded of $fileSize")
+//                }
+//
+//                outputStream.flush()
+//
+//                return true
+//            } catch (e: IOException) {
+//                logException(e)
+//                return false
+//            } finally {
+//                if (inputStream != null) {
+//                    inputStream.close()
+//                }
+//
+//                if (outputStream != null) {
+//                    outputStream.close()
+//                }
+//            }
+//        } catch (e: IOException) {
+//            logException(e)
+//            return false
+//        }
+//    }
 
     private fun generateKeyHash() {
         try {
