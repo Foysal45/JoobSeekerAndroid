@@ -2,10 +2,13 @@ package com.bdjobs.app.BackgroundJob
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.core.content.edit
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.Databases.External.DBHelper
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
@@ -15,15 +18,18 @@ import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
+import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,7 +37,8 @@ import java.util.*
 class DatabaseUpdateJob(private val appContext: Context) : Job() {
     private val bdjobsUserSession = BdjobsUserSession(appContext)
     val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(appContext)
-
+    var dbUpdateDate : String? = ""
+    lateinit var pref : SharedPreferences
 
     companion object {
         const val TAG = "database_update_job"
@@ -46,6 +53,8 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
     override fun onRunJob(params: Params): Result {
         Log.d("DatabaseUpdateJob", "DatabaseUpdateJob Start : ${Calendar.getInstance().time}")
+
+
         insertFavouriteSearchFilter()
         insertJobInvitation()
         //insertCertificationList()
@@ -54,6 +63,8 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         getMybdjobsCountData("0")
         getMybdjobsCountData("1")
         getIsCvUploaded()
+        updateExternalDatabase()
+
 
 //        insertNotifications()
 //        deleteNotificationsOfLast30Days()
@@ -62,11 +73,123 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         return Result.SUCCESS
     }
 
-//    private fun deleteNotificationsOfLast30Days() {
-//        doAsync {
-//            bdjobsInternalDB.notificationDao().deleteNotificationsFromDatabaseOlderThanLast30Days()
-//        }
-//    }
+    fun updateExternalDatabase(){
+
+        pref = context.getSharedPreferences(Constants.name_sharedPref, Context.MODE_PRIVATE)
+
+        dbUpdateDate = pref.getString(Constants.key_db_update, Constants.dfault_date_db_update)
+
+        ApiServiceJobs.create().getDbInfo(dbUpdateDate!!).enqueue(object : Callback<DatabaseUpdateModel> {
+            override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
+                try {
+                    debug("getDbInfo: ${t?.message!!}")
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+
+            override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {
+
+                try {
+                    if (response?.body()?.messageType == "1") {
+
+                        if (response.body()?.update == "1") {
+                            Log.d("Rakib", response.body()?.dblink)
+                            downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
+                        } else {
+                        }
+                    } else {
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+
+        })
+
+    }
+
+    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
+
+        ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+            }
+
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                try {
+                    if (response?.isSuccessful!!) {
+                        //debug("getDbInfo: server contacted and has file")
+                        val writtenToDisk = writeResponseBodyToDisk(response.body()!!)
+                        // debug("getDbInfo: file download was a success? $writtenToDisk")
+
+                        if (writtenToDisk) {
+                            pref.edit {
+                                putString(Constants.key_db_update, updateDate)
+                            }
+                        }
+                    } else {
+                        debug("getDbInfo: server contact failed")
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
+        })
+    }
+
+
+    private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
+        try {
+
+            val dbFile = File(DBHelper.DB_PATH + DBHelper.DB_NAME)
+
+            var inputStream: InputStream? = null
+            var outputStream: OutputStream? = null
+
+            try {
+                val fileReader = ByteArray(4096)
+
+                val fileSize = body.contentLength()
+                var fileSizeDownloaded: Long = 0
+
+                inputStream = body.byteStream()
+                outputStream = FileOutputStream(dbFile)
+
+                while (true) {
+                    val read = inputStream!!.read(fileReader)
+
+                    if (read == -1) {
+                        break
+                    }
+
+                    outputStream.write(fileReader, 0, read)
+
+                    fileSizeDownloaded += read.toLong()
+
+                    debug("dbFile download: $fileSizeDownloaded of $fileSize")
+                }
+
+                outputStream.flush()
+
+                return true
+            } catch (e: IOException) {
+                logException(e)
+                return false
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close()
+                }
+
+                if (outputStream != null) {
+                    outputStream.close()
+                }
+            }
+        } catch (e: IOException) {
+            logException(e)
+            return false
+        }
+    }
+
 
     private fun getUnSeenNotificationsCount() {
         doAsync {

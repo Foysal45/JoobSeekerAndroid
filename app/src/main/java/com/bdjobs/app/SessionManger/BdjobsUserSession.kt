@@ -105,6 +105,7 @@ class BdjobsUserSession(val context: Context) {
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
     val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"50")
+    val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold,"25")
     var notificationCount = pref?.getInt(Constants.notification_count,0)
 
 
@@ -257,6 +258,12 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
+    fun updateJobApplyThreshold(count: String?){
+        pref?.edit {
+            putString(Constants.session_job_apply_threshold, count)
+        }
+    }
+
     fun updateNotificationCount(count: Int?){
         pref?.edit {
             putInt(Constants.notification_count, count!!)
@@ -273,7 +280,7 @@ class BdjobsUserSession(val context: Context) {
     ) {
 
         pref?.edit {
-            putString(Constants.session_key_mybdjobscount_jobs_applied_lastmonth, jobsApplied)
+            putString(Constants.session_key_mybdjobscount_jobs_applied_thismonth, jobsApplied)
             putString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, emailResume)
             putString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, employerViewdResume)
             putString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, followedEmployers)
@@ -301,7 +308,7 @@ class BdjobsUserSession(val context: Context) {
 
     }
 
-    val mybdjobscount_jobs_applied_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_lastmonth, "0")
+    val mybdjobscount_jobs_applied_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_thismonth, "0")
     val mybdjobscount_times_emailed_resume_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, "0")
     val mybdjobscount_employers_viwed_resume_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, "0")
     val mybdjobscount_employers_followed_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, "0")
@@ -346,14 +353,14 @@ class BdjobsUserSession(val context: Context) {
     }
 
     fun incrementJobsApplied(){
-        incrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
+        incrementCount(Constants.session_key_mybdjobscount_jobs_applied_thismonth)
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
         //incrementCount(Constants.session_key_job_apply_count)
 
     }
 
     fun decrementJobsApplied(){
-        decrementCount(Constants.session_key_mybdjobscount_jobs_applied_lastmonth)
+        decrementCount(Constants.session_key_mybdjobscount_jobs_applied_thismonth)
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
         //decrementCount(Constants.session_key_job_apply_count)
 

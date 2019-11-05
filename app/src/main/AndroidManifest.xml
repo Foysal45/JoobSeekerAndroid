@@ -14,7 +14,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".Notification.NotificationBaseActivity"></activity>
+        <activity android:name=".Notification.NotificationBaseActivity">
+        </activity>
         <activity
             android:name=".Login2.Login2BaseActivity"
             android:label="@string/title_activity_login2_base" />
@@ -69,7 +70,10 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+
             </intent-filter>
+
         </activity>
         <activity
             android:name=".GuestUserLanding.GuestUserJobSearchActivity"

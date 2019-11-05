@@ -53,7 +53,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         // View Types
         private val BASIC = 0
         private val LOADING = 1
-        private var jobApplyLimit = 0
+
+        var appliedJobCount = 0
+        var jobApplyThreshold = 25
+        var jobApplyLimit = 50
+        var availableJobs = 0
 
     }
 
@@ -86,9 +90,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     private val applyonlinePostions = ArrayList<Int>()
     private var language = ""
 
-    var messageValidDate: Date
-    var currentDate: Date
-    val waringMsgThrsld: Int = 40
+//    var messageValidDate: Date
+//    var currentDate: Date
+//    val waringMsgThrsld: Int = 40
 
 
     init {
@@ -101,27 +105,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
         } catch (e: Exception) {
         }
-
-
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        messageValidDate = dateFormat.parse(Constants.warningmsgThrsldDate)
-
-
-        val calendar = Calendar.getInstance()
-        val strDate = dateFormat.format(calendar.time)
-        currentDate = dateFormat.parse(strDate)
-
     }
 
     fun reload() {
-
-        try {
-//            Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt(
-            jobApplyLimit = Constants.appliedJobLimit
-        } catch (e: Exception) {
-        }
         notifyDataSetChanged()
-        Log.d("reload", "${Constants.appliedJobsCount} $jobApplyLimit")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -218,42 +205,33 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
 
-                            if (currentDate <= messageValidDate && applyOnline.equalIgnoreCase("True") && Constants.appliedJobsCount >= waringMsgThrsld) {
-                                jobsVH.jobApplicationStatusTitle.show()
-                                jobsVH.jobApplicationStatusCard.show()
-                                jobsVH.jobApplicationCountTV.text = "আগামী নভেম্বর মাস থেকে চাকরিপ্রার্থীরা প্রতি মাসে সর্বোচ্চ ৫০টি চাকরির আবেদন করতে পারবেন।"
-                                //remainingJobsCountTV.text = "You can not apply more than ${jobApplyLimit} jobs/month from next month"
-                                jobsVH.whyIAmSeeingThisTV.setOnClickListener {
-                                    val url = "https://jobs.bdjobs.com/JobOnlineApplyInstruction.asp"
-                                    val i = Intent(Intent.ACTION_VIEW);
-                                    i.data = Uri.parse(url)
-                                    context.startActivity(i)
-                                }
+                            if (applyOnline.equalIgnoreCase("True")) {
 
-                            } else if (applyOnline.equalIgnoreCase("True") && currentDate > messageValidDate) {
-                                if (Constants.applyRestrictionStatus) {
-                                    if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
-                                        jobsVH.jobApplicationStatusTitle.show()
-                                        jobsVH.jobApplicationStatusCard.show()
-                                        jobsVH.jobApplicationCountTV.text = "You have already applied for ${Constants.appliedJobsCount} jobs in the current month."
-                                        var availableJobs = jobApplyLimit - Constants.appliedJobsCount
-                                        jobsVH.jobApplicationRemainingTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
-                                    } else {
-                                        jobsVH.jobApplicationStatusTitle.hide()
-                                        jobsVH.jobApplicationStatusCard.hide()
+                                bdjobsUserSession = BdjobsUserSession(context)
 
-                                    }
-                                    jobsVH.whyIAmSeeingThisTV.setOnClickListener {
-                                        Constants.showJobApplicationGuidelineDialog(context)
-                                    }
+                                appliedJobCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+                                jobApplyThreshold = bdjobsUserSession.jobApplyThreshold!!.toInt()
+                                jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
+                                availableJobs = jobApplyLimit - appliedJobCount
+
+                                if (appliedJobCount >= jobApplyThreshold) {
+                                    jobsVH.jobApplicationStatusTitle.show()
+                                    jobsVH.jobApplicationStatusCard.show()
+                                    jobsVH.jobApplicationCountTV.text = "You have already applied for $appliedJobCount jobs in the current month."
+                                    jobsVH.jobApplicationRemainingTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only $availableJobs remaining"
                                 } else {
                                     jobsVH.jobApplicationStatusTitle.hide()
                                     jobsVH.jobApplicationStatusCard.hide()
+
+                                }
+                                jobsVH.whyIAmSeeingThisTV.setOnClickListener {
+                                    Constants.showJobApplicationGuidelineDialog(context)
                                 }
                             } else {
                                 jobsVH.jobApplicationStatusTitle.hide()
                                 jobsVH.jobApplicationStatusCard.hide()
                             }
+
 
                             try {
                                 val date = Date()
@@ -356,27 +334,28 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
-                                //    Log.d("rakib", "load ${Constants.appliedJobsCount}" + " ${jobCommunicator?.getTotalAppliedJobs()}")
+
                                 bdjobsUserSession = BdjobsUserSession(context)
 
+                                appliedJobCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+                                jobApplyThreshold = bdjobsUserSession.jobApplyThreshold!!.toInt()
+                                jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
+                                availableJobs = jobApplyLimit - appliedJobCount
+
+
                                 if (bdjobsUserSession.isLoggedIn!!) {
-                                    if (currentDate > messageValidDate) {
-                                        if (Constants.applyRestrictionStatus) {
-                                            if (Constants.appliedJobsCount >= jobApplyLimit) {
-                                                jobsVH.applyLimitOverButton.visibility = View.VISIBLE
-                                                jobsVH.applyButton.visibility = View.GONE
-                                                jobsVH.applyLimitOverButton.setOnClickListener {
-                                                    showApplyLimitOverPopup(context, position)
-                                                }
-                                            } else {
-                                                jobsVH.applyButton.visibility = View.VISIBLE
-                                                jobsVH.applyLimitOverButton.visibility = View.GONE
-                                            }
+
+                                    if (appliedJobCount >= jobApplyLimit) {
+                                        jobsVH.applyLimitOverButton.visibility = View.VISIBLE
+                                        jobsVH.applyButton.visibility = View.GONE
+                                        jobsVH.applyLimitOverButton.setOnClickListener {
+                                            showApplyLimitOverPopup(context, position)
                                         }
                                     } else {
                                         jobsVH.applyButton.visibility = View.VISIBLE
                                         jobsVH.applyLimitOverButton.visibility = View.GONE
                                     }
+
 
                                 } else {
                                     jobsVH.applyButton.visibility = View.VISIBLE
@@ -384,6 +363,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             } else {
                                 jobsVH.applyButton.visibility = View.GONE
                             }
+
 
 
                             jobsVH.applyButton.setOnClickListener {
@@ -973,44 +953,27 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
         Constants.showNativeAd(ad_small_template, context)
 
-        if (currentDate <= messageValidDate && Constants.appliedJobsCount >= waringMsgThrsld) {
-            jobApplicationStatusCard.show()
-            appliedJobsCountTV.text = "আগামী নভেম্বর মাস থেকে চাকরিপ্রার্থীরা প্রতি মাসে সর্বোচ্চ ৫০টি চাকরির আবেদন করতে পারবেন।"
-            //remainingJobsCountTV.text = "You can not apply more than ${jobApplyLimit} jobs/month from next month"
-            whyIAmSeeingThisTV.setOnClickListener {
-                val url = "https://jobs.bdjobs.com/JobOnlineApplyInstruction.asp"
-                val i = Intent(Intent.ACTION_VIEW);
-                i.data = Uri.parse(url)
-                context.startActivity(i)
-            }
+        bdjobsUserSession = BdjobsUserSession(context)
 
-        } else if (currentDate > messageValidDate) {
-            if (Constants.applyRestrictionStatus) {
-                if (Constants.appliedJobsCount >= Constants.appliedJobsThreshold) {
-                    jobApplicationStatusCard.show()
-                    appliedJobsCountTV.text = "You have already applied for ${Constants.appliedJobsCount} jobs in the current month."
-                    var availableJobs = jobApplyLimit - Constants.appliedJobsCount
-                    remainingJobsCountTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only ${jobApplyLimit - Constants.appliedJobsCount} remaining"
-                    whyIAmSeeingThisTV.setOnClickListener {
-                        Constants.showJobApplicationGuidelineDialog(context)
-                    }
-                } else {
-                    jobApplicationStatusCard?.hide()
-                }
+        appliedJobCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
+        jobApplyThreshold = bdjobsUserSession.jobApplyThreshold!!.toInt()
+        jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
+        availableJobs = jobApplyLimit - appliedJobCount
+
+        if (appliedJobCount >= jobApplyThreshold) {
+
+            jobApplicationStatusCard.show()
+
+            appliedJobsCountTV.text = "You have already applied for $appliedJobCount jobs in the current month."
+
+            remainingJobsCountTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only $availableJobs remaining"
+
+            whyIAmSeeingThisTV.setOnClickListener {
+                Constants.showJobApplicationGuidelineDialog(context)
             }
         } else {
             jobApplicationStatusCard?.hide()
         }
-
-
-
-
-
-        Log.d("dateObj", "dateObj:$messageValidDate c:$currentDate")
-
-
-
-
 
 
 

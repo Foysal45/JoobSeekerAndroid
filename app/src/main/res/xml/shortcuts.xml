@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="25">
+    <shortcut
+        android:shortcutId="notification"
+        android:enabled="true"
+        android:icon="@drawable/ic_notifications_white_24dp"
+        android:shortcutShortLabel="@string/notification"
+        android:shortcutLongLabel="@string/notification"
+        android:shortcutDisabledMessage="@string/notification">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.bdjobs.app"
+            android:targetClass="com.bdjobs.app.Notification.NotificationBaseActivity" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>

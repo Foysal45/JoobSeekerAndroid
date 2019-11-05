@@ -32,6 +32,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
@@ -723,7 +724,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     var versionCode = "0"
     try {
         pInfo = packageManager.getPackageInfo(packageName, 0)
-        versionCode = pInfo!!.versionName
+        versionCode = pInfo!!.versionName + " (" +pInfo.versionCode+")"
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
     }

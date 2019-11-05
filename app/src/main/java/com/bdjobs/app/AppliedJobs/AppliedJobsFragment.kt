@@ -69,19 +69,6 @@ class AppliedJobsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
 
-
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        messageValidDate = dateFormat.parse(Constants.warningmsgThrsldDate)
-
-
-        val calendar = Calendar.getInstance()
-        val strDate = dateFormat.format(calendar.time)
-        currentDate = dateFormat.parse(strDate)
-
-
-
-
-
         bdjobsUsersession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         time = appliedJobsCommunicator.getTime()
@@ -276,7 +263,7 @@ class AppliedJobsFragment : Fragment() {
                         }
 
                         try {
-                            if (appliedJobsCommunicator.getTime() == "1" && Constants.applyRestrictionStatus && currentDate > messageValidDate) {
+                            if (appliedJobsCommunicator.getTime() == "1") {
                                 daysRemainingCountTV?.show()
                                 if (daysAvailable > 1) {
                                     val text = "<b><font color='#2F4858'>${daysAvailable}</font></b> Days remaining"
@@ -420,7 +407,7 @@ class AppliedJobsFragment : Fragment() {
     fun incrementAvailableJobCount() {
         try {
             availableJobs = jobApplyLimit - jobsAppliedSize
-            if (appliedJobsCommunicator.getTime() == "1" && currentDate > messageValidDate) {
+            if (appliedJobsCommunicator.getTime() == "1") {
                 if (availableJobs > 1) {
                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
