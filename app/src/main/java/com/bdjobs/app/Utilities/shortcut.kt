@@ -54,6 +54,10 @@ fun createShortcut(context: Context) {
 fun removeShortcut(context: Context) {
     if (Build.VERSION.SDK_INT >= 25) {
         val shortcutManager = context.getSystemService(ShortcutManager::class.java)
-        shortcutManager!!.removeAllDynamicShortcuts()
+        shortcutManager!!.apply {
+            removeAllDynamicShortcuts()
+            disableShortcuts(listOf("notifications","jobSearch","editResume"),"Please login to enable this shortcut")
+        }
+
     }
 }
