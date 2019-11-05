@@ -14,14 +14,12 @@ import com.bdjobs.app.editResume.EditResLandingActivity
 fun createShortcut(context: Context) {
 
     if (Build.VERSION.SDK_INT >= 25) {
-        val shortcutManager = context.getSystemService(ShortcutManager::class.java)
-
         val notificationIntent = Intent(context, NotificationBaseActivity::class.java)
         notificationIntent.action = Intent.ACTION_VIEW
 
         val jobSearchIntent = Intent(context, JobBaseActivity::class.java)
         jobSearchIntent.action = Intent.ACTION_VIEW
-        jobSearchIntent.putExtra("from","generalsearch")
+        jobSearchIntent.putExtra("from", "generalsearch")
 
         val editResumeIntent = Intent(context, EditResLandingActivity::class.java)
         editResumeIntent.action = Intent.ACTION_VIEW
@@ -46,17 +44,25 @@ fun createShortcut(context: Context) {
                 .setIcon(Icon.createWithResource(context, R.drawable.ic_person_shortcut))
                 .setIntent(editResumeIntent)
                 .build()
-
-        shortcutManager!!.dynamicShortcuts = listOf(jobSearchShortcut, editResumeShortcut,notificationShortcut)
+        try {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            shortcutManager!!.dynamicShortcuts = listOf(jobSearchShortcut, editResumeShortcut, notificationShortcut)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
 
 fun removeShortcut(context: Context) {
     if (Build.VERSION.SDK_INT >= 25) {
-        val shortcutManager = context.getSystemService(ShortcutManager::class.java)
-        shortcutManager!!.apply {
-            removeAllDynamicShortcuts()
-            disableShortcuts(listOf("notifications","jobSearch","editResume"),"Please login to enable this shortcut")
+        try {
+            val shortcutManager = context.getSystemService(ShortcutManager::class.java)
+            shortcutManager!!.apply {
+                removeAllDynamicShortcuts()
+                disableShortcuts(listOf("notifications", "jobSearch", "editResume"), "Please login to enable this shortcut")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
