@@ -34,8 +34,8 @@ fun createShortcut(context: Context) {
                 .build()
 
         val jobSearchShortcut = ShortcutInfo.Builder(context, "jobSearch")
-                .setShortLabel("Search Job")
-                .setLongLabel("Search Job")
+                .setShortLabel("Job Search")
+                .setLongLabel("Job Search")
                 .setIcon(Icon.createWithResource(context, R.drawable.ic_search_shortcut))
                 .setIntent(jobSearchIntent)
                 .build()
