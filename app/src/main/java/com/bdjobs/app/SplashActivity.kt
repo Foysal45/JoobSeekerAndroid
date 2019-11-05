@@ -300,7 +300,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 //    }
 
     fun showAdAndGoToNextActivity() {
-        checkUpdate()
+         checkUpdate()
     }
 
     private fun goToNextActivity() {
