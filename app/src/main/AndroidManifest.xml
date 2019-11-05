@@ -15,12 +15,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity android:name=".Notification.NotificationBaseActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--            <meta-data android:name="android.app.shortcuts"-->
-<!--                android:resource="@xml/shortcuts" />-->
         </activity>
         <activity
             android:name=".Login2.Login2BaseActivity"
@@ -79,8 +73,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
             </intent-filter>
-<!--            <meta-data android:name="android.app.shortcuts"-->
-<!--                android:resource="@xml/shortcuts" />-->
+
         </activity>
         <activity
             android:name=".GuestUserLanding.GuestUserJobSearchActivity"

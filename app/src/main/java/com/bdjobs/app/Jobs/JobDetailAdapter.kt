@@ -205,19 +205,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             applyOnline = jobDetailResponseAll.onlineApply!!
 
 
-//                            if (currentDate <= messageValidDate && applyOnline.equalIgnoreCase("True") && Constants.appliedJobsCount >= waringMsgThrsld) {
-//                                jobsVH.jobApplicationStatusTitle.show()
-//                                jobsVH.jobApplicationStatusCard.show()
-//                                jobsVH.jobApplicationCountTV.text = "আগামী নভেম্বর মাস থেকে চাকরিপ্রার্থীরা প্রতি মাসে সর্বোচ্চ ৫০টি চাকরির আবেদন করতে পারবেন।"
-//                                //remainingJobsCountTV.text = "You can not apply more than ${jobApplyLimit} jobs/month from next month"
-//                                jobsVH.whyIAmSeeingThisTV.setOnClickListener {
-//                                    val url = "https://jobs.bdjobs.com/JobOnlineApplyInstruction.asp"
-//                                    val i = Intent(Intent.ACTION_VIEW);
-//                                    i.data = Uri.parse(url)
-//                                    context.startActivity(i)
-//                                }
-//
-//                            } else
                             if (applyOnline.equalIgnoreCase("True")) {
 
                                 bdjobsUserSession = BdjobsUserSession(context)
