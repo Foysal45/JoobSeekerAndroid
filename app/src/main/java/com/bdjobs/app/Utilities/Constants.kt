@@ -204,7 +204,7 @@ class Constants {
         const val notification_count = "notificationCount"
 
 
-        const val session_key_mybdjobscount_jobs_applied_lastmonth = "jobs_applied_lastmonth"
+        const val session_key_mybdjobscount_jobs_applied_thismonth = "jobs_applied_thismonth"
         const val session_key_mybdjobscount_times_emailed_resume_lastmonth = "times_emailed_resume_lastmonth"
         const val session_key_mybdjobscount_employers_viwed_resume_lastmonth= "employers_viwed_resume_lastmonth"
         const val session_key_mybdjobscount_employers_followed_lastmonth = "employers_followed_lastmonth"
