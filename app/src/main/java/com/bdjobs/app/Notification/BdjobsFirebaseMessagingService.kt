@@ -29,6 +29,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     private lateinit var bdjobsInternalDB: BdjobsDB
     //    private lateinit var interviewInvitaionModel : InterviewInvitationNotificationModel
     private lateinit var commonNotificationModel: CommonNotificationModel
+    lateinit var arrivalTime : Date
 
 
     override fun onNewToken(p0: String) {
@@ -51,10 +52,13 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
             bdjobsUserSession = BdjobsUserSession(applicationContext)
 
+            arrivalTime = Date()
+
             val payload = gson.toJson(it.data).replace("\\n", "\n")
 
             try {
                 commonNotificationModel = gson.fromJson(payload, CommonNotificationModel::class.java)
+
             } catch (e: Exception) {
             }
 

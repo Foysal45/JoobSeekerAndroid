@@ -151,6 +151,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
                 val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
+                    putExtra("id",jobid)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 

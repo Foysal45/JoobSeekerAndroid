@@ -202,7 +202,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 cvViewedViewHolder?.notificationCV?.setOnClickListener {
                     cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     val intent = Intent(context.applicationContext, EmployersBaseActivity::class.java)
-                    intent.putExtra("from", "vwdMyResume")
+                    intent.putExtra("from", "notificationList")
                     context.startActivity(intent)
                     if (!items[position].seen!!) {
                         doAsync {

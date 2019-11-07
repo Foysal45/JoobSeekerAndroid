@@ -11,6 +11,7 @@ import com.bdjobs.app.InterviewInvitation.InterviewInvitationDetailsFragment
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.logDataForAnalytics
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 import org.jetbrains.anko.doAsync
@@ -231,7 +232,15 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         } else if (value?.equals("vwdMyResume")) {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+        } else if (value?.equals("notificationList")) {
+
+            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId)
+            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+
         } else if (value?.equals("notification")) {
+
+            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId)
+
             doAsync {
                 bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobId, Constants.NOTIFICATION_TYPE_CV_VIEWED)
                 val count = bdjobsDB.notificationDao().getNotificationCount()

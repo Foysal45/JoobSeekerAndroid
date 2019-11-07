@@ -8,8 +8,11 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Notification.NotificationCommunicatior
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.logDataForAnalytics
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import java.util.*
@@ -18,6 +21,8 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
 
     override fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String) {
         Log.d("rakib interface", "$from $jobTitle $jobID $companyName")
@@ -59,6 +64,8 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
 
     }
 
@@ -116,6 +123,9 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
         when {
             from?.equals("notification") -> {
+
+                logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID)
+
                 doAsync {
                     bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobID, type)
                     val count = bdjobsDB.notificationDao().getNotificationCount()
@@ -126,6 +136,8 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
             }
 
             from?.equals("notificationList") ->{
+
+                logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID)
 
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }

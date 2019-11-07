@@ -89,4 +89,7 @@ interface NotificationDao {
     @Query("Delete FROM Notification WHERE server_id=:id AND type=:type")
     fun deleteNotificationBecauseServerToldMe(id: String, type: String)
 
+    @Query("Select arrival_time FROM NOTIFICATION WHERE type = :type AND server_id =:id ORDER BY arrival_time DESC")
+    fun getNotificationArrivalTime(type: String, id: String) : Date
+
 }

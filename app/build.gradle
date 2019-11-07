@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:19.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.1'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
 
     //-----google sign in

@@ -97,6 +97,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 viewHolder = FeaturedListVH(viewLoading)
             }
 
+
+
             //------------------------------------------------------------------------------------------------------------------------------//
 
             FEATURED_AD -> {
