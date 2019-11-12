@@ -66,71 +66,71 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
                 Log.d("rakib", payload)
 
-                    when (commonNotificationModel.type) {
+                when (commonNotificationModel.type) {
 
-                        Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
-                            try {
-                                insertNotificationInToDatabase(payload)
-                                showNotification(commonNotificationModel)
-                            } catch (e: Exception) {
-                                logException(e)
-                            }
-                            try {
-                                DatabaseUpdateJob.runJobImmediately()
-                            } catch (e: Exception) {
-                            }
+                    Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
                         }
+                        try {
+                            DatabaseUpdateJob.runJobImmediately()
+                        } catch (e: Exception) {
+                        }
+                    }
 
-                        Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
-                            try {
-                                insertNotificationInToDatabase(payload)
-                                showNotification(commonNotificationModel)
-                            } catch (e: Exception) {
-                                logException(e)
-                            }
-                            try {
-                                DatabaseUpdateJob.runJobImmediately()
-                            } catch (e: Exception) {
-                            }
+                    Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
                         }
+                        try {
+                            DatabaseUpdateJob.runJobImmediately()
+                        } catch (e: Exception) {
+                        }
+                    }
 
-                        Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
+                    Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
 
-                        }
+                    }
 
-                        Constants.NOTIFICATION_TYPE_GENERAL -> {
-                            //insertNotificationInToDatabase(payload)
-                            //showNotification(commonNotificationModel)
-                        }
+                    Constants.NOTIFICATION_TYPE_GENERAL -> {
+                        //insertNotificationInToDatabase(payload)
+                        //showNotification(commonNotificationModel)
+                    }
 
-                        Constants.NOTIFICATION_TYPE_REMOVE_NOTIFICATION -> {
-                            try {
-                                removeNotificationFromDatabase(commonNotificationModel)
-                            } catch (e: Exception) {
-                            }
+                    Constants.NOTIFICATION_TYPE_REMOVE_NOTIFICATION -> {
+                        try {
+                            removeNotificationFromDatabase(commonNotificationModel)
+                        } catch (e: Exception) {
                         }
+                    }
 
-                        Constants.NOTIFICATION_TYPE_REMOVE_MESSAGE -> {
+                    Constants.NOTIFICATION_TYPE_REMOVE_MESSAGE -> {
 
-                        }
+                    }
 
-                        Constants.NOTIFICATION_TYPE_FORCE_LOGOUT -> {
-                            try {
-                                bdjobsUserSession = BdjobsUserSession(applicationContext)
-                                bdjobsUserSession.logoutUser(exitApp = true)
-                            } catch (e: Exception) {
-                                logException(e)
-                            }
+                    Constants.NOTIFICATION_TYPE_FORCE_LOGOUT -> {
+                        try {
+                            bdjobsUserSession = BdjobsUserSession(applicationContext)
+                            bdjobsUserSession.logoutUser(exitApp = true)
+                        } catch (e: Exception) {
+                            logException(e)
                         }
-                        Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
-                            try {
-                                insertNotificationInToDatabase(payload)
-                                showNotification(commonNotificationModel)
-                            } catch (e: Exception) {
-                            }
+                    }
+                    Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
                         }
-                        else -> {
-                        }
+                    }
+                    else -> {
+                    }
                 }
             }
         }
@@ -157,7 +157,6 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun insertNotificationInToDatabase(data: String) {
-
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
 
@@ -198,8 +197,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             }
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                 try {
-                    mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink))
+                    mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink))
                 } catch (e: Exception) {
                 }
             }

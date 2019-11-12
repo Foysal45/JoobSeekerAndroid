@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -126,6 +127,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         getData()
 
+        /*
         try {
             adView?.hide()
             val deviceInfo = getDeviceInformation()
@@ -140,7 +142,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             }
         } catch (e: Exception) {
             logException(e)
-        }
+        }*/
+
+
+        Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
     }
 
