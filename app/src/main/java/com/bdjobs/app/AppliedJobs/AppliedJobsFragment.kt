@@ -16,6 +16,7 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModel
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -78,8 +79,9 @@ class AppliedJobsFragment : Fragment() {
             appliedJobsCommunicator.backButtonPressed()
         }
 
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
+
     }
 
 

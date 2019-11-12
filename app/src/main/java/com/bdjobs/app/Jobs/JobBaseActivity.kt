@@ -18,7 +18,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.doAsync

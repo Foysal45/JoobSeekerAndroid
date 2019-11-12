@@ -32,6 +32,7 @@ import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -109,8 +110,11 @@ class PhotoUploadActivity : Activity() {
             photoDeleteButton?.hide()
         }
 
-        val adRequest = AdRequest.Builder().build()
-        adViewPhoto?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adViewPhoto?.loadAd(adRequest)
+
+        Ads.loadAdaptiveBanner(this@PhotoUploadActivity,adViewPhoto)
+
     }
 
     override fun onResume() {

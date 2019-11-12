@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListModelClass
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
@@ -20,7 +21,7 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
-import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,8 +54,10 @@ class FollowedEmployersListFragment : Fragment() {
         bdjobsDB = BdjobsDB.getInstance(activity)
         bdjobsUserSession = BdjobsUserSession(activity)
 
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
+//        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
+
 
         backIMV?.setOnClickListener {
             employersCommunicator?.backButtonPressed()

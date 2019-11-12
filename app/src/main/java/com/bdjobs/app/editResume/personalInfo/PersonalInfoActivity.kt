@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
@@ -119,8 +120,10 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
         getIntentValues()
         setContentView(R.layout.activity_personal_info)
         gotToFragment(name)
-        val adRequest = AdRequest.Builder().build()
-        adViewPersonalInfo?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adViewPersonalInfo?.loadAd(adRequest)
+        Ads.loadAdaptiveBanner(this@PersonalInfoActivity,adViewPersonalInfo)
+
     }
 
     private fun gotToFragment(name: String) {

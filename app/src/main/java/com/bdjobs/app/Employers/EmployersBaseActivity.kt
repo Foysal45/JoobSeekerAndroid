@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.InterviewInvitation.InterveiwInvitationListFragment
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationDetailsFragment
@@ -14,6 +15,7 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logDataForAnalytics
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import kotlinx.android.synthetic.main.activity_employers_base.*
 import org.jetbrains.anko.doAsync
 import java.util.*
 import kotlin.collections.ArrayList
@@ -153,6 +155,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private val employerMessageDetailFragment = EmployerMessageDetailFragment()
     private var jobId = ""
     private var time = ""
+    private var nId = ""
 
     private var messageId = ""
 
@@ -189,6 +192,9 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employers_base)
 
+        Ads.loadAdaptiveBanner(this@EmployersBaseActivity,adView)
+
+
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
@@ -222,6 +228,12 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
+        try {
+            nId = intent.getStringExtra("nid")
+        } catch (e: Exception) {
+            logException(e)
+        }
+
         //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
@@ -234,12 +246,12 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         } else if (value?.equals("notificationList")) {
 
-            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId)
+            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId,nId)
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
 
         } else if (value?.equals("notification")) {
 
-            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId)
+            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId,nId)
 
             doAsync {
                 bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobId, Constants.NOTIFICATION_TYPE_CV_VIEWED)
