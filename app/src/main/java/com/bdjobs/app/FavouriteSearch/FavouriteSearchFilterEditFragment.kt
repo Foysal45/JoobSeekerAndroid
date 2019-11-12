@@ -500,6 +500,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         Log.d("filterID", "filterID= $filterID")
         doAsync {
             val filterData = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterid = filterID)
+            val locationString = dataStorage.getLocationNameByID(filterData.location)
 
             uiThread {
                 try {
@@ -508,6 +509,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     createdOn = filterData.createdon
                     filterNameET?.setText(filterName)
                     keywordET?.setText(filterData.keyword)
+                    loacationET?.setText(locationString)
                     Log.d("catTest", "category : ${filterData.keyword}")
 
                     if (filterData.functionalCat?.isNotBlank()!!) {
@@ -529,13 +531,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
                     keyword = filterData.keyword!!
                     category = filterData.functionalCat
-                    location = filterData.location!!
+//                    location = filterData.location!!
                     industry = filterData.industrialCat!!
                     newspaper = filterData.newspaper!!
 
 
 
-                    loacationET?.setText(dataStorage.getLocationNameByID(filterData.location))
                     newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
                     industryET?.setText(dataStorage.getJobSearcIndustryNameByID(filterData.industrialCat))
                     selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(filterData.organization))
