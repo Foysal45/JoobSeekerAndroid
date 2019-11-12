@@ -113,7 +113,7 @@ data class FavouriteSearch(
 }
 
 
-@Entity(tableName = "JobInvitation",indices = [(Index(value = ["jobId"], unique = true))])
+@Entity(tableName = "JobInvitation", indices = [(Index(value = ["jobId"], unique = true))])
 data class JobInvitation(@ColumnInfo(name = "companyName")
                          val companyName: String?,
                          @ColumnInfo(name = "inviteDate")
@@ -256,7 +256,10 @@ data class Notification(@ColumnInfo(name = "type")
                         @ColumnInfo(name = "body")
                         val body: String?,
                         @ColumnInfo(name = "company_name")
-                        val companyName: String?) {
+                        val companyName: String?,
+                        @ColumnInfo(name = "notification_id")
+                        val notificationId: String?
+) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }

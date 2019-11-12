@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.text.Html
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,8 @@ import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import java.util.*
 
 
@@ -137,14 +140,10 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 notificationViewHolder?.notificationCV?.setOnClickListener {
 
-                    context.startActivity<InterviewInvitationBaseActivity>(
-                            "from" to "notificationList",
-                            "jobid" to items[position].serverId,
-                            "companyname" to items[position].companyName,
-                            "jobtitle" to items[position].jobTitle
-                    )
+                    context.toast("${items[position].seen}")
+//                    Log.d("rakib not" , "${items[position].seen}")
 
-//                    context.toast("test")
+                    //                    context.toast("test")
 
 //                    InterviewInvitationBaseActivity().goToInvitationDetailsForAppliedJobs(items[position].serverId!!,"Brain Station-23",items[position].jobTitle!!)
 
@@ -154,10 +153,21 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].serverId!!, items[position].type!!)
                             val count = bdjobsDB.notificationDao().getNotificationCount()
                             bdjobsUserSession.updateNotificationCount(count)
+                            uiThread {
+
+                            }
                         }
+
                     }
 
                     notificationCommunicatior.positionClicked(position)
+                    context.startActivity<InterviewInvitationBaseActivity>(
+                            "from" to "notificationList",
+                            "jobid" to items[position].serverId,
+                            "companyname" to items[position].companyName,
+                            "jobtitle" to items[position].jobTitle,
+                            "seen" to items[position].seen
+                    )
 
                 }
             }
@@ -211,7 +221,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
-                notificationCommunicatior.positionClicked(position)
+                    notificationCommunicatior.positionClicked(position)
                 }
             }
             TYPE_PROMOTIONAL_MESSAGE -> {

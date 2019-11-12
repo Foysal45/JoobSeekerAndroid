@@ -92,4 +92,6 @@ interface NotificationDao {
     @Query("Select arrival_time FROM NOTIFICATION WHERE type = :type AND server_id =:id ORDER BY arrival_time DESC")
     fun getNotificationArrivalTime(type: String, id: String) : Date
 
+    @Query("SELECT seen FROM NOTIFICATION WHERE notification_id = :id")
+    fun getNotificationSeenStatus(id: String) : Boolean
 }

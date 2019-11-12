@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CommonNotificationModel(
         @SerializedName("pId")
-        val pId : String = "",
+        val pId: String = "",
         @SerializedName("title")
         val title: String? = "",
         @SerializedName("body")
@@ -22,6 +22,8 @@ data class CommonNotificationModel(
         @SerializedName("link")
         val link: String? = "",
         @SerializedName("deleteType")
-        val deleteType: String? = ""
+        val deleteType: String? = "",
+        @SerializedName("notificationId")
+        val notificationId: String? = ""
 
 )

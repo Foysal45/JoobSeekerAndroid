@@ -127,16 +127,16 @@ class NotificationListFragment : Fragment() {
                                     val notification = notificationList!![position]
 
                                     try {
-                                        when(notificationList!![position].type){
-                                            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION->NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
-                                            Constants.NOTIFICATION_TYPE_CV_VIEWED->NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_CV_VIEWED)
+                                        when (notificationList!![position].type) {
+                                            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                                            Constants.NOTIFICATION_TYPE_CV_VIEWED -> NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_CV_VIEWED)
                                         }
                                     } catch (e: Exception) {
                                     }
                                     notificationListAdapter!!.removeItem(position)
                                     softDeleteNotificationFromDB(notification)
                                     val snackbar = Snackbar.make(
-                                            activity.window.decorView,
+                                            parentCL,
                                             " Notification removed!",
                                             Snackbar.LENGTH_LONG
                                     )
@@ -151,9 +151,9 @@ class NotificationListFragment : Fragment() {
                                                     bdjobsUserSession = BdjobsUserSession(activity)
                                                     bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
                                                 }
-                                                if (notificationListAdapter.itemCount!! == 0){
+                                                if (notificationListAdapter.itemCount!! == 0) {
                                                     notificationNoDataLL?.show()
-                                                } else{
+                                                } else {
                                                     notificationNoDataLL?.hide()
                                                 }
                                             }
@@ -163,9 +163,9 @@ class NotificationListFragment : Fragment() {
                                     snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.undo))
                                     snackbar.show()
 
-                                    if (notificationListAdapter.itemCount!! == 0){
+                                    if (notificationListAdapter.itemCount!! == 0) {
                                         notificationNoDataLL?.show()
-                                    } else{
+                                    } else {
                                         notificationNoDataLL?.hide()
                                     }
                                 }
@@ -193,7 +193,7 @@ class NotificationListFragment : Fragment() {
         }
     }
 
-    fun updateView(item : Notification){
+    fun updateView(item: Notification) {
         notificationListAdapter?.addItem(item)
         notificationListAdapter?.notifyDataSetChanged()
     }

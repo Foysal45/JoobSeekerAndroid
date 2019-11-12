@@ -84,6 +84,7 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
     private var positionClickedMessage : Int = 0
     var from = ""
     var id = ""
+    var nId = ""
 
     override fun backButtonPressed() {
         onBackPressed()
@@ -106,6 +107,7 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
         try {
             from = intent.getStringExtra("from")
             id = intent.getStringExtra("")
+            nId = intent.getStringExtra("nid")
 
         } catch (e: Exception) {
             logException(e)
@@ -152,7 +154,7 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
 
         when{
             from?.equals("notification")->{
-                logDataForAnalytics(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE, applicationContext, id)
+                logDataForAnalytics(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE, applicationContext, id,nId)
                 try {
                     val tab = tabs.getTabAt(1)
                     tab!!.select()
