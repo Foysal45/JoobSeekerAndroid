@@ -536,10 +536,12 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\"}"
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
 //                insertNotificationInToDatabase(payload, commonNotificationModel)
 //                showNotification(commonNotificationModel)
+//                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+//
 
                 return@OnNavigationItemSelectedListener true
             }
@@ -805,7 +807,9 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         when (commonNotificationModel.type) {
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
                 try {
-                    mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
+                    mNotificationHelper.notify(
+                            Constants.NOTIFICATION_INTERVIEW_INVITATTION,
+                            mNotificationHelper.prepareNotification(
                             commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
                 } catch (e: Exception) {
                 }

@@ -1020,6 +1020,7 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:visibility="gone"
         android:id="@+id/applyButton"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="0dp"
@@ -1042,5 +1043,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/jobDetailSCRLV"
         app:layout_constraintVertical_bias="1.0" />
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        style="@style/Widget.MaterialComponents.FloatingActionButton"-->
+<!--        app:srcCompat="@drawable/ic_touch_app"-->
+<!--        android:id="@+id/apply_now_fab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        app:backgroundTint="#13A10E"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/jobDetailSCRLV"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.95"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/jobDetailSCRLV"-->
+<!--        app:layout_constraintVertical_bias="1.0" />-->
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="Apply"
+        android:textAllCaps="false"
+        android:text="Apply Now"
+        app:iconTint="#FFF"
+        android:textColor="#FFF"
+        android:id="@+id/apply_now_fab"
+        app:backgroundTint="#13A10E"
+        app:icon="@drawable/ic_touch_app"
+        app:layout_constraintBottom_toBottomOf="@+id/jobDetailSCRLV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/jobDetailSCRLV"
+        app:layout_constraintVertical_bias="1.0"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

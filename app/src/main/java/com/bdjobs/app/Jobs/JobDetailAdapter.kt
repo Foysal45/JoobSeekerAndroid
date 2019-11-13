@@ -34,8 +34,11 @@ import com.bdjobs.app.editResume.EditResLandingActivity
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -89,6 +92,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
     private var language = ""
+    private lateinit var remoteConfig: FirebaseRemoteConfig
 
 //    var messageValidDate: Date
 //    var currentDate: Date
@@ -105,6 +109,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
         } catch (e: Exception) {
         }
+        remoteConfig = FirebaseRemoteConfig.getInstance()
     }
 
     fun reload() {
@@ -166,9 +171,17 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
                 jobsVH.shimmer_view_container.show()
-                jobsVH.applyButton.visibility = View.GONE
+
+                Log.d("remote rakib", "${remoteConfig.getBoolean("Apply_Button_Type")}")
+
+//                if (remoteConfig.getBoolean("Apply_Button_Type"))
+//                    jobsVH.applyButton.visibility = View.GONE
+//                else
+                    jobsVH.applyFab.hide()
+
                 jobsVH.shimmer_view_container.startShimmerAnimation()
                 jobCommunicator?.hideShortListIcon()
+
 
 
                 ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId, "EN").enqueue(object : Callback<JobDetailJsonModel> {
@@ -303,8 +316,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
 
 
+//                            if (remoteConfig.getBoolean("Apply_Button_Type"))
+//                                jobsVH.applyButton.hide()
+//                            else
+                                jobsVH.applyFab.hide()
 
-                            jobsVH.applyButton.hide()
                             jobsVH.appliedBadge.hide()
 
                             jobsVH.followTV.setOnClickListener {
@@ -347,52 +363,89 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                     if (appliedJobCount >= jobApplyLimit) {
                                         jobsVH.applyLimitOverButton.visibility = View.VISIBLE
-                                        jobsVH.applyButton.visibility = View.GONE
+
+//                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
+//                                            jobsVH.applyButton.visibility = View.GONE
+//                                        else
+                                            jobsVH.applyFab.hide()
+
                                         jobsVH.applyLimitOverButton.setOnClickListener {
                                             showApplyLimitOverPopup(context, position)
                                         }
                                     } else {
-                                        jobsVH.applyButton.visibility = View.VISIBLE
+//                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
+//                                            jobsVH.applyButton.visibility = View.VISIBLE
+//                                        else
+                                            jobsVH.applyFab.show()
                                         jobsVH.applyLimitOverButton.visibility = View.GONE
                                     }
 
 
                                 } else {
-                                    jobsVH.applyButton.visibility = View.VISIBLE
+//                                    if (remoteConfig.getBoolean("Apply_Button_Type"))
+//                                        jobsVH.applyButton.visibility = View.VISIBLE
+//                                    else
+                                        jobsVH.applyFab.show()
                                 }
                             } else {
-                                jobsVH.applyButton.visibility = View.GONE
+//                                jobsVH.applyButton.visibility = View.GONE
+                                jobsVH.applyFab.hide()
                             }
 
 
 
-                            jobsVH.applyButton.setOnClickListener {
-                                val bdjobsUserSession = BdjobsUserSession(context)
-                                if (!bdjobsUserSession.isLoggedIn!!) {
-                                    jobCommunicator?.setBackFrom("jobdetail")
-                                    jobCommunicator?.goToLoginPage()
-                                } else {
-                                    if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
-                                        try {
-                                            val alertd = context.alert("To Access this feature please post your resume") {
-                                                title = "Your resume is not posted!"
-                                                positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
-                                                negativeButton("Cancel") { dd ->
-                                                    dd.dismiss()
-                                                }
-                                            }
-                                            alertd.isCancelable = false
-                                            alertd.show()
-                                        } catch (e: Exception) {
-                                            logException(e)
-                                        }
+//                                jobsVH.applyButton.setOnClickListener {
+//                                    val bdjobsUserSession = BdjobsUserSession(context)
+//                                    if (!bdjobsUserSession.isLoggedIn!!) {
+//                                        jobCommunicator?.setBackFrom("jobdetail")
+//                                        jobCommunicator?.goToLoginPage()
+//                                    } else {
+//                                        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+//                                            try {
+//                                                val alertd = context.alert("To Access this feature please post your resume") {
+//                                                    title = "Your resume is not posted!"
+//                                                    positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+//                                                    negativeButton("Cancel") { dd ->
+//                                                        dd.dismiss()
+//                                                    }
+//                                                }
+//                                                alertd.isCancelable = false
+//                                                alertd.show()
+//                                            } catch (e: Exception) {
+//                                                logException(e)
+//                                            }
+//                                        } else {
+//                                            showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+//                                            //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+//                                        }
+//                                    }
+//                                }
+                                jobsVH.applyFab.setOnClickListener {
+                                    val bdjobsUserSession = BdjobsUserSession(context)
+                                    if (!bdjobsUserSession.isLoggedIn!!) {
+                                        jobCommunicator?.setBackFrom("jobdetail")
+                                        jobCommunicator?.goToLoginPage()
                                     } else {
-                                        showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-                                        //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+                                            try {
+                                                val alertd = context.alert("To Access this feature please post your resume") {
+                                                    title = "Your resume is not posted!"
+                                                    positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+                                                    negativeButton("Cancel") { dd ->
+                                                        dd.dismiss()
+                                                    }
+                                                }
+                                                alertd.isCancelable = false
+                                                alertd.show()
+                                            } catch (e: Exception) {
+                                                logException(e)
+                                            }
+                                        } else {
+                                            showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                            //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                        }
                                     }
                                 }
-                            }
-
 
                             doAsync {
                                 val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
@@ -403,7 +456,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                         jobsVH.appliedBadge.hide()
                                     } else {
                                         jobsVH.appliedBadge.show()
-                                        jobsVH.applyButton.visibility = View.GONE
+//                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
+//                                        jobsVH.applyButton.visibility = View.GONE
+//                                        else
+                                        jobsVH.applyFab.hide()
                                     }
 
                                     if (isItFollowed) {
@@ -1194,7 +1250,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val allJobsButtonLayout: RelativeLayout = viewItem?.findViewById(R.id.buttonLayout) as RelativeLayout
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
-        val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
+//        val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
         val applyLimitOverButton: MaterialButton = viewItem?.findViewById(R.id.applyLimitBtn) as MaterialButton
 
         val wbsiteHeadingTV: TextView = viewItem?.findViewById(R.id.wbsiteHeadingTV) as TextView
@@ -1219,6 +1275,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val jobApplicationStatusCard: ConstraintLayout = viewItem?.findViewById(R.id.job_detail_job_application_status_card) as ConstraintLayout
         val jobApplicationCountTV: TextView = viewItem?.findViewById(R.id.job_detail_job_application_count_tv) as TextView
         val jobApplicationRemainingTV: TextView = viewItem?.findViewById(R.id.job_detail_job_application_remaining_tv) as TextView
+
+        val applyFab: ExtendedFloatingActionButton = viewItem?.findViewById(R.id.apply_now_fab) as ExtendedFloatingActionButton
 
 
     }

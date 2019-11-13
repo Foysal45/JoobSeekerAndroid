@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 685 //682 //85
-        versionName "600.4.6"  //600.3.1 internal test // 2.0.0.06
+        versionCode 686 //682 //85
+        versionName "600.5.0"  //600.3.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,7 +47,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.1.0'
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:1.2.0-alpha01"
     implementation "androidx.appcompat:appcompat:1.1.0"
     // google sign in activity get crash without this library
 
@@ -123,7 +123,7 @@ dependencies {
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'
 
 
-//    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
 
 }

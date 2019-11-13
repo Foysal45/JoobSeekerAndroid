@@ -108,71 +108,74 @@ class NotificationListFragment : Fragment() {
                     notificationsRV?.hide()
                     notificationNoDataLL?.show()
                 }
-                val simpleItemTouchCallback =
-                        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                try {
+                    val simpleItemTouchCallback =
+                            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
-                            override fun onMove(
-                                    recyclerView: RecyclerView,
-                                    viewHolder: RecyclerView.ViewHolder,
-                                    target: RecyclerView.ViewHolder
-                            ): Boolean {
-                                return false
-                            }
+                                override fun onMove(
+                                        recyclerView: RecyclerView,
+                                        viewHolder: RecyclerView.ViewHolder,
+                                        target: RecyclerView.ViewHolder
+                                ): Boolean {
+                                    return false
+                                }
 
-                            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                                val position = viewHolder.adapterPosition
+                                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                                    val position = viewHolder.adapterPosition
 
 
-                                if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                                    val notification = notificationList!![position]
+                                    if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
+                                        val notification = notificationList!![position]
 
-                                    try {
-                                        when (notificationList!![position].type) {
-                                            Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
-                                            Constants.NOTIFICATION_TYPE_CV_VIEWED -> NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_CV_VIEWED)
+                                        try {
+                                            when (notificationList!![position].type) {
+                                                Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                                                Constants.NOTIFICATION_TYPE_CV_VIEWED -> NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_CV_VIEWED)
+                                            }
+                                        } catch (e: Exception) {
                                         }
-                                    } catch (e: Exception) {
-                                    }
-                                    notificationListAdapter!!.removeItem(position)
-                                    softDeleteNotificationFromDB(notification)
-                                    val snackbar = Snackbar.make(
-                                            parentCL,
-                                            " Notification removed!",
-                                            Snackbar.LENGTH_LONG
-                                    )
-                                    snackbar.setAction("UNDO") {
-                                        // undo is selected, restore the deleted item
-                                        doAsync {
-                                            bdjobsDB.notificationDao().insertNotification(notification)
-                                            uiThread {
-                                                notificationListAdapter!!.restoreItem(position, notification)
-                                                notificationsRV!!.scrollToPosition(position)
-                                                if (!notification.seen!!) {
-                                                    bdjobsUserSession = BdjobsUserSession(activity)
-                                                    bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
-                                                }
-                                                if (notificationListAdapter.itemCount!! == 0) {
-                                                    notificationNoDataLL?.show()
-                                                } else {
-                                                    notificationNoDataLL?.hide()
+                                        notificationListAdapter.removeItem(position)
+                                        softDeleteNotificationFromDB(notification)
+                                        val snackbar = Snackbar.make(
+                                                parentCL,
+                                                " Notification removed!",
+                                                Snackbar.LENGTH_LONG
+                                        )
+                                        snackbar.setAction("UNDO") {
+                                            // undo is selected, restore the deleted item
+                                            doAsync {
+                                                bdjobsDB.notificationDao().insertNotification(notification)
+                                                uiThread {
+                                                    notificationListAdapter.restoreItem(position, notification)
+                                                    notificationsRV!!.scrollToPosition(position)
+                                                    if (!notification.seen!!) {
+                                                        bdjobsUserSession = BdjobsUserSession(activity)
+                                                        bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
+                                                    }
+                                                    if (notificationListAdapter?.itemCount == 0) {
+                                                        notificationNoDataLL?.show()
+                                                    } else {
+                                                        notificationNoDataLL?.hide()
+                                                    }
                                                 }
                                             }
+
                                         }
+                                        snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.undo))
+                                        snackbar.show()
 
-                                    }
-                                    snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.undo))
-                                    snackbar.show()
-
-                                    if (notificationListAdapter.itemCount!! == 0) {
-                                        notificationNoDataLL?.show()
-                                    } else {
-                                        notificationNoDataLL?.hide()
+                                        if (notificationListAdapter?.itemCount == 0) {
+                                            notificationNoDataLL?.show()
+                                        } else {
+                                            notificationNoDataLL?.hide()
+                                        }
                                     }
                                 }
                             }
-                        }
-                val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-                itemTouchHelper.attachToRecyclerView(notificationsRV)
+                    val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+                    itemTouchHelper.attachToRecyclerView(notificationsRV)
+                } catch (e: Exception) {
+                }
             }
         }
     }

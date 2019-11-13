@@ -106,5 +106,9 @@
         <key>B2BHome_Bottom_ShowAd</key>
         <value>1</value>
     </entry>
+    <entry>
+        <key>Apply_Button_Type</key>
+        <value>0</value>
+    </entry>
 
 </defaultsMap>

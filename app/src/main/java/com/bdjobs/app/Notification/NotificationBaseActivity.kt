@@ -29,6 +29,7 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.ContextCompat
+import com.bdjobs.app.Ads.Ads
 import java.util.*
 
 
@@ -137,17 +138,18 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
 
 
         try {
-            adView_notifications?.hide()
-            val deviceInfo = getDeviceInformation()
-            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
-
-            screenSize?.let{it->
-                if(it.toFloat()>5.0){
-                    val adRequest = AdRequest.Builder().build()
-                    adView_notifications?.loadAd(adRequest)
-                    adView_notifications?.show()
-                }
-            }
+//            adView_notifications?.hide()
+//            val deviceInfo = getDeviceInformation()
+//            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
+//
+//            screenSize?.let{it->
+//                if(it.toFloat()>5.0){
+//                    val adRequest = AdRequest.Builder().build()
+//                    adView_notifications?.loadAd(adRequest)
+//                    adView_notifications?.show()
+//                }
+//            }
+            Ads.loadAdaptiveBanner(this@NotificationBaseActivity,adView_notifications)
         } catch (e: Exception) {
             logException(e)
         }

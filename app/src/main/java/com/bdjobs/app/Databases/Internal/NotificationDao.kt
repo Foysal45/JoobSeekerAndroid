@@ -74,10 +74,10 @@ interface NotificationDao {
     }
 
 
-    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE server_id = :id AND type =:type")
+    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE notification_id = :id AND type =:type")
     fun updateNotification(seenTime: Date, seen: Boolean, id: String, type: String)
 
-    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime  WHERE server_id = :id AND type = :type")
+    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime  WHERE notification_id = :id AND type = :type")
     fun updateNotificationTableByClickingNotification(seenTime: Date, seen: Boolean, id: String, type: String)
 
     @Query("DELETE FROM Notification WHERE is_deleted = 1 AND arrival_time <= date('now','-30 day')")

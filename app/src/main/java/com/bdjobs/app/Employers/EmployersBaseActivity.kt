@@ -254,7 +254,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId,nId)
 
             doAsync {
-                bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobId, Constants.NOTIFICATION_TYPE_CV_VIEWED)
+                bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, nId, Constants.NOTIFICATION_TYPE_CV_VIEWED)
                 val count = bdjobsDB.notificationDao().getNotificationCount()
                 bdjobsUserSession = BdjobsUserSession(this@EmployersBaseActivity)
                 bdjobsUserSession.updateNotificationCount(count)

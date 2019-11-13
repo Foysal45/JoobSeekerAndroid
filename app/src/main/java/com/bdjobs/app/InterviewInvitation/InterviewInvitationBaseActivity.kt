@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Notification.NotificationCommunicatior
@@ -15,8 +16,12 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_interview_invitation_base.*
+import kotlinx.android.synthetic.main.fragment_personal_details_edit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
@@ -143,17 +148,44 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         when {
             from?.equals("notification") -> {
 
-
-
                 doAsync {
-                    bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, jobID, type)
-                    val count = bdjobsDB.notificationDao().getNotificationCount()
-                    bdjobsUserSession = BdjobsUserSession(this@InterviewInvitationBaseActivity)
-                    bdjobsUserSession.updateNotificationCount(count)
-                    val seen = bdjobsDB.notificationDao().getNotificationSeenStatus(nId)
-                    Log.d("rakib","$seen")
+                    try {
+                        bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, nId, type)
+                        val count = bdjobsDB.notificationDao().getNotificationCount()
+                        bdjobsUserSession = BdjobsUserSession(this@InterviewInvitationBaseActivity)
+                        bdjobsUserSession.updateNotificationCount(count)
+                    } catch (e: Exception) {
+                    }
+//                    val seen = bdjobsDB.notificationDao().getNotificationSeenStatus(nId)
                     if (!seen){
-                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID,nId)
+
+                        try {
+                            logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID,nId)
+                        } catch (e: Exception) {
+                        }
+
+                        try {
+                            ApiServiceJobs.create().sendDataForAnalytics(
+                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                            ).enqueue(
+                                    object : Callback<String> {
+                                        override fun onFailure(call: Call<String>, t: Throwable) {
+
+                                        }
+
+                                        override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                            try {
+                                                if (response.isSuccessful) {
+                                                }
+                                            } catch (e: Exception) {
+                                                logException(e)
+                                            }
+                                        }
+                                    }
+                            )
+                        } catch (e: Exception) {
+                        }
                     }
                 }
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
@@ -162,13 +194,41 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
             from?.equals("notificationList") ->{
 
                 if (!seen){
-                    logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID,nId)
+
+                    try {
+                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID,nId)
+                    } catch (e: Exception) {
+                    }
+
+                    try {
+                        ApiServiceJobs.create().sendDataForAnalytics(
+                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                        ).enqueue(
+                                object : Callback<String> {
+                                    override fun onFailure(call: Call<String>, t: Throwable) {
+
+                                    }
+
+                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                        try {
+                                            if (response.isSuccessful) {
+                                            }
+                                        } catch (e: Exception) {
+                                            logException(e)
+                                        }
+                                    }
+                                }
+                        )
+                    } catch (e: Exception) {
+                    }
                 }
 
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }
 
             from?.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+
             else -> transitFragment(interveiwInvitationListFragment, R.id.interViewfragmentHolder)
         }
 

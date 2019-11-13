@@ -110,27 +110,6 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
 
-        fetchWelcome()
-    }
-
-    private fun fetchWelcome() {
-        // [START fetch_config_with_callback]
-        Log.d("remote config rakib", "came here")
-        remoteConfig.fetchAndActivate()
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Log.d("remote config", "updated")
-                    } else {
-                        Log.d("remote config", "not updated")
-                    }
-                }
-        // [END fetch_config_with_callback]
-        displayWelcomeMessage()
-    }
-
-    private fun displayWelcomeMessage() {
-        val value = remoteConfig.getString("Guest_JobSearch_interstitial_AdInterval")
-        Log.d("remote config ", value)
     }
 
     override fun onResume() {
