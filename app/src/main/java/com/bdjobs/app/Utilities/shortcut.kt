@@ -44,6 +44,7 @@ fun createShortcut(context: Context) {
                 .setIcon(Icon.createWithResource(context, R.drawable.ic_person_shortcut))
                 .setIntent(editResumeIntent)
                 .build()
+
         try {
             val shortcutManager = context.getSystemService(ShortcutManager::class.java)
             shortcutManager?.dynamicShortcuts = listOf(jobSearchShortcut, editResumeShortcut, notificationShortcut)
