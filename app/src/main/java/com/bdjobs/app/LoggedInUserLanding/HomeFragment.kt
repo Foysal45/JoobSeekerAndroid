@@ -16,6 +16,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
@@ -598,7 +599,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
 
-                        Constants.showNativeAd(ad_small_template, activity)
+                        Ads.showNativeAd(ad_small_template, activity)
 
                         checkBox?.setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {

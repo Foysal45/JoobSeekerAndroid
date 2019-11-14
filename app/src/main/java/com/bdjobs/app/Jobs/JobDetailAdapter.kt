@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.Databases.Internal.AppliedJobs
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -197,7 +198,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
                             jobsVH.shimmer_view_container.stopShimmerAnimation()
-                            Constants.showNativeAd(jobsVH.ad_small_template, context)
+                            Ads.showNativeAd(jobsVH.ad_small_template, context)
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 
                             jobKeyPointsData = jobDetailResponseAll!!.jobKeyPoints!!
@@ -939,7 +940,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
             val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
             val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-            Constants.showNativeAd(ad_small_template, context)
+            Ads.showNativeAd(ad_small_template, context)
 
             translateIV?.setOnClickListener {
                 when (language) {
@@ -1007,7 +1008,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val remainingJobsCountTV = dialog?.findViewById<TextView>(R.id.job_detail_job_application_remaining_tv)
         val whyIAmSeeingThisTV = dialog?.findViewById<TextView>(R.id.why_i_am_seeing_this_text)
 
-        Constants.showNativeAd(ad_small_template, context)
+        Ads.showNativeAd(ad_small_template, context)
 
         bdjobsUserSession = BdjobsUserSession(context)
 

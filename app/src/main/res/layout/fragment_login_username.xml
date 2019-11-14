@@ -265,6 +265,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:id="@+id/nextButtonFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -274,6 +275,7 @@
         android:layout_marginBottom="30dp"
         android:background="#13A10E"
         android:backgroundTint="#13A10E"
+        app:tint="#FFF"
         android:src="@drawable/ic_arrow_floating_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

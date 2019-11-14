@@ -121,7 +121,7 @@ class PhotoUploadActivity : Activity() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
         onClick()
-        Constants.showNativeAd(ad_small_template,this@PhotoUploadActivity)
+        Ads.showNativeAd(ad_small_template,this@PhotoUploadActivity)
     }
 
     private fun onClick() {
@@ -587,7 +587,7 @@ class PhotoUploadActivity : Activity() {
         val cameraButton = dialog?.findViewById<Button>(R.id.camera_button)
         val galleryButton = dialog?.findViewById<TextView>(R.id.gallery_button)
         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template!!, this@PhotoUploadActivity)
+        Ads.showNativeAd(ad_small_template!!, this@PhotoUploadActivity)
 
 
         deleteImageView?.setOnClickListener {

@@ -274,6 +274,8 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:tint="#FFF"
         android:id="@+id/EmpInteractionFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

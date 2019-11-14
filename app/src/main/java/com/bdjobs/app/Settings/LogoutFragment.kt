@@ -14,10 +14,12 @@ import android.view.ViewGroup
 import android.webkit.CookieManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.changePassword_Eligibility
+import com.google.android.gms.ads.AdListener
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -100,7 +102,7 @@ class LogoutFragment : Fragment() {
             changepass?.visibility = View.GONE
         }
 
-        Constants.showNativeAd(ad_small_template, activity)
+        Ads.showNativeAd(ad_small_template, activity)
     }
 
     private fun logout() {
@@ -108,7 +110,7 @@ class LogoutFragment : Fragment() {
         loadingDialog.setCancelable(false)
         loadingDialog.show()
         loadingDialog.setCancelable(false)
-        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId,deviceID = activity.getDeviceID()).enqueue(object : Callback<CookieModel> {
+        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, deviceID = activity.getDeviceID()).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
 //                error("onFailure", t)
 //                loadingDialog.dismiss()
@@ -119,10 +121,43 @@ class LogoutFragment : Fragment() {
             override fun onResponse(call: Call<CookieModel>, response: Response<CookieModel>) {
                 try {
                     loadingDialog.dismiss()
-                    bdjobsUserSession.logoutUser()
+                    if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
+                        Ads.mInterstitialAd!!.adListener = object : AdListener() {
+                            override fun onAdLoaded() {
+                                // Code to be executed when an ad finishes loading.
+                                Log.d("mInterstitialAd", "Ad Loaded")
+                            }
+
+                            override fun onAdFailedToLoad(errorCode: Int) {
+                                // Code to be executed when an ad request fails.
+                            }
+
+                            override fun onAdOpened() {
+                                // Code to be executed when the ad is displayed.
+                            }
+
+                            override fun onAdClicked() {
+                                // Code to be executed when the user clicks on an ad.
+                            }
+
+                            override fun onAdLeftApplication() {
+                                // Code to be executed when the user has left the app.
+                            }
+
+                            override fun onAdClosed() {
+                                bdjobsUserSession.logoutUser()
+
+                            }
+                        }
+                        Ads.mInterstitialAd?.show()
+                    } else {
+                        bdjobsUserSession.logoutUser()
+
+                    }
                     toast(response.body()?.message!!)
                     cookieManager?.removeAllCookies(null)
                     removeShortcut(activity)
+
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()

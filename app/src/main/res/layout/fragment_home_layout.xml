@@ -256,6 +256,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newSearchBTN"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:tint="#FFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -267,7 +268,6 @@
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="auto"
-        app:tint="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

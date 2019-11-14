@@ -22,7 +22,6 @@ import com.google.android.gms.ads.AdRequest
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import droidninja.filepicker.models.sort.SortingTypes
-import droidninja.filepicker.utils.Orientation
 import kotlinx.android.synthetic.main.fragment_upload_resume.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -78,8 +77,8 @@ class UploadResumeFragment : Fragment() {
                 .addFileSupport("MS WORD FILES", wordFileTypes, R.drawable.ic_microsoft_word)
                 .addFileSupport("PDF FILES", pdfFileTypes, R.drawable.ic_pdf)
                 .setActivityTheme(R.style.AppTheme)
-                .withOrientation(Orientation.UNSPECIFIED)
                 .pickFile(activity)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

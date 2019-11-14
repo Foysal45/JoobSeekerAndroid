@@ -138,17 +138,6 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
 
 
         try {
-//            adView_notifications?.hide()
-//            val deviceInfo = getDeviceInformation()
-//            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
-//
-//            screenSize?.let{it->
-//                if(it.toFloat()>5.0){
-//                    val adRequest = AdRequest.Builder().build()
-//                    adView_notifications?.loadAd(adRequest)
-//                    adView_notifications?.show()
-//                }
-//            }
             Ads.loadAdaptiveBanner(this@NotificationBaseActivity,adView_notifications)
         } catch (e: Exception) {
             logException(e)
@@ -186,21 +175,5 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
             onBackPressed()
         }
     }
-
-//    @TargetApi(25)
-//    private fun createShortCut() {
-//        if (Build.VERSION.SDK_INT >= 25){
-//            val shortcutManager = getSystemService(ShortcutManager::class.java)
-//
-//            val shortcut = ShortcutInfo.Builder(context, "notifications")
-//                    .setShortLabel("Notifications")
-//                    .setLongLabel("Notifications")
-//                    .setIcon(Icon.createWithResource(context, R.drawable.ic_notifications_black_24dp))
-//                    .setIntent(Intent(context,NotificationBaseActivity::class.java))
-//                    .build()
-//
-//            shortcutManager!!.dynamicShortcuts = listOf(shortcut)
-//        }
-//    }
 
 }

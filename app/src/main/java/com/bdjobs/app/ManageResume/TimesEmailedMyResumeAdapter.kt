@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
@@ -100,7 +101,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
             ITEM_WITH_AD -> {
                 val itemHolder = holder as TimesEmailedMyResumeWithAdViewHolder
-                Constants.showNativeAd(holder.ad_small_template, context)
+                Ads.showNativeAd(holder.ad_small_template, context)
                 bindViews(itemHolder, position)
             }
 
@@ -129,7 +130,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
             ITEM_JOB_ID_WITH_AD -> {
                 val itemHolderJobID = holder as TimesEmailedMyResumeWithAdVHJobID
-                Constants.showNativeAd(holder.ad_small_template, context)
+                Ads.showNativeAd(holder.ad_small_template, context)
                 bindViewsJOBID(itemHolderJobID, position)
             }
 

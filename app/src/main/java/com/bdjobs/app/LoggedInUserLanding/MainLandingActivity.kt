@@ -16,6 +16,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -26,7 +27,6 @@ import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
-import com.bdjobs.app.Notification.BdjobsFirebaseMessagingService
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.Notification.NotificationBaseActivity
 import com.bdjobs.app.Notification.NotificationHelper
@@ -53,9 +53,11 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,8 +78,6 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
     }
 
-    private lateinit var mInterstitialAd: InterstitialAd
-
     override fun showManageResumePopup() {
         val dialog = Dialog(this@MainLandingActivity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -92,7 +92,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
         val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
 
-        Constants.showNativeAd(ad_small_template, this@MainLandingActivity)
+        Ads.showNativeAd(ad_small_template, this@MainLandingActivity)
 
         editResume?.setOnClickListener {
             startActivity<EditResLandingActivity>()
@@ -274,13 +274,13 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
         val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
         val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template, this)
+        Ads.showNativeAd(ad_small_template, this)
 
         yesBtn?.setOnClickListener {
             try {
                 exitDialog?.dismiss()
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
+                if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
+                    Ads.mInterstitialAd?.show()
                 } else {
                     Log.d("TAG", "The interstitial wasn't loaded yet.")
                     super.onBackPressed()
@@ -363,34 +363,37 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
     }
 
     private fun loadAd() {
-        mInterstitialAd = InterstitialAd(this@MainLandingActivity)
-        mInterstitialAd.adUnitId = Constants.INTERSTITIAL_AD_UNIT_ID
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
-        mInterstitialAd.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                Log.d("mInterstitialAd", "Ad Loaded")
-            }
+        try {
+            Ads.mInterstitialAd = InterstitialAd(this@MainLandingActivity)
+            Ads.mInterstitialAd!!.adUnitId = Constants.INTERSTITIAL_AD_UNIT_ID
+            Ads.mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+            Ads.mInterstitialAd!!.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    // Code to be executed when an ad finishes loading.
+                    Log.d("mInterstitialAd", "Ad Loaded")
+                }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                // Code to be executed when an ad request fails.
-            }
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    // Code to be executed when an ad request fails.
+                }
 
-            override fun onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
+                override fun onAdOpened() {
+                    // Code to be executed when the ad is displayed.
+                }
 
-            override fun onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
+                override fun onAdClicked() {
+                    // Code to be executed when the user clicks on an ad.
+                }
 
-            override fun onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
+                override fun onAdLeftApplication() {
+                    // Code to be executed when the user has left the app.
+                }
 
-            override fun onAdClosed() {
-                finish()
+                override fun onAdClosed() {
+                    finish()
+                }
             }
+        } catch (e: Exception) {
         }
     }
 

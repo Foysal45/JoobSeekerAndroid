@@ -120,6 +120,8 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:tint="#FFF"
         app:backgroundTint="#13A10E"
         android:background="#13A10E"
         android:id="@+id/bcMobileNumberFAButton"
@@ -128,7 +130,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/ic_arrow_floating_white"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

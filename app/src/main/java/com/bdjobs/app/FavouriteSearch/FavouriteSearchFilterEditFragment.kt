@@ -130,7 +130,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             favCommunicator.backButtonPressed()
         }
 
-        updateBTN.setOnClickListener {
+        updateBTN_fab.setOnClickListener {
             if (validateFilterName(filterNameET.getString(), filterNameTIL)) {
                 doAsync {
                     val favSearch = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByName(filterNameET.getString().trim())

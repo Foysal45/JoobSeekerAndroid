@@ -112,6 +112,7 @@
         android:paddingRight="29dp"
         android:paddingBottom="4dp"
         android:text="Next"
+        android:textColor="#FFF"
         android:textAllCaps="false"
         android:textSize="14sp"
         app:cornerRadius="4dp"

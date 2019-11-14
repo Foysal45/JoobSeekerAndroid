@@ -79,6 +79,8 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:tint="#FFF"
         android:id="@+id/bcCategoryFAButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,7 +90,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
         android:background="#13A10E"
-        android:src="@drawable/ic_arrow_floating_white"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
         app:backgroundTint="#13A10E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

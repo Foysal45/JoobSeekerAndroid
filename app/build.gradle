@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 686 //682 //85
-        versionName "600.5.0"  //600.3.1 internal test // 2.0.0.06
+        versionCode 688 //687 //85
+        versionName "2.1.1.0"  //600.5.1 internal test // 2.0.0.06
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,10 +53,10 @@ dependencies {
 
     //----firebase
     implementation 'com.google.firebase:firebase-core:17.2.1'
-    implementation "com.google.firebase:firebase-messaging:20.0.0"
-    implementation 'com.google.firebase:firebase-perf:19.0.1'
+    implementation "com.google.firebase:firebase-messaging:20.0.1"
+    implementation 'com.google.firebase:firebase-perf:19.0.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.1'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.2'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
 
@@ -100,7 +100,7 @@ dependencies {
 //    implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.github.yalantis:ucrop:2.2.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.droidninja:filepicker:2.2.0'
+    implementation 'com.droidninja:filepicker:2.2.1'
 
     //custom browser
     implementation 'androidx.browser:browser:1.0.0'

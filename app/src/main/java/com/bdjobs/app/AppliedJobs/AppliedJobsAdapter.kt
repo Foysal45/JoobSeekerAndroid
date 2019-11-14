@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BackgroundJob.CancelAppliedJob
 import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -109,7 +110,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
             ITEM_WITH_AD->{
                 val itemHolder = holder as AppliedjobsAdViewHolder
-                Constants.showNativeAd(itemHolder.ad_small_template,context)
+                Ads.showNativeAd(itemHolder.ad_small_template,context)
                 bindViews(itemHolder,position)
             }
         }
