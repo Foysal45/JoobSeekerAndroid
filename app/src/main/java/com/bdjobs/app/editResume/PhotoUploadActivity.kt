@@ -47,7 +47,7 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-import droidninja.filepicker.FilePickerConst
+//import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.activity_photo_upload.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -422,7 +422,7 @@ class PhotoUploadActivity : Activity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), FilePickerConst.REQUEST_CODE_PHOTO)
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), FilePickerConst.REQUEST_CODE_PHOTO)
     }
 
 
@@ -448,54 +448,54 @@ class PhotoUploadActivity : Activity() {
         try {
             if (resultCode != RESULT_CANCELED) {
 
-                if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-
-                    var fileUri: Uri? = null
-                    val selectedImageUri = data.data
-                    val url = data.data!!.toString()
-                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
-
-                        try {
-                            val `is` = contentResolver.openInputStream(selectedImageUri!!)
-                            if (`is` != null) {
-                                deleteCache(applicationContext)
-                                bitmap = BitmapFactory.decodeStream(`is`)
-                                if (bitmap != null) {
-                                    val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
-                                    // CALL THIS METHOD TO GET THE ACTUAL PATHa
-                                    var finalFile: File? = null
-                                    try {
-                                        finalFile = File(getRealPathFromURI(tempUri))
-                                        fileUri = Uri.fromFile(finalFile)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
-                                } else {
-                                    Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
-                                }
-
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-
-                    val myDirectory = File("/sdcard/BDJOBS")
-                    if (!myDirectory.exists()) {
-                        myDirectory.mkdirs()
-                    }
-
-                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-                    if (file.exists()) {
-                        val deleted = file.delete()
-                    }
-                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-                    try {
-                        UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
-                    } catch (e: Exception) {
-                        logException(e)
-                    }
-                }
+//                if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+//
+//                    var fileUri: Uri? = null
+//                    val selectedImageUri = data.data
+//                    val url = data.data!!.toString()
+//                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+//
+//                        try {
+//                            val `is` = contentResolver.openInputStream(selectedImageUri!!)
+//                            if (`is` != null) {
+//                                deleteCache(applicationContext)
+//                                bitmap = BitmapFactory.decodeStream(`is`)
+//                                if (bitmap != null) {
+//                                    val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
+//                                    // CALL THIS METHOD TO GET THE ACTUAL PATHa
+//                                    var finalFile: File? = null
+//                                    try {
+//                                        finalFile = File(getRealPathFromURI(tempUri))
+//                                        fileUri = Uri.fromFile(finalFile)
+//                                    } catch (e: Exception) {
+//                                        e.printStackTrace()
+//                                    }
+//                                } else {
+//                                    Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
+//                                }
+//
+//                            }
+//                        } catch (e: Exception) {
+//                            e.printStackTrace()
+//                        }
+//                    }
+//
+//                    val myDirectory = File("/sdcard/BDJOBS")
+//                    if (!myDirectory.exists()) {
+//                        myDirectory.mkdirs()
+//                    }
+//
+//                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
+//                    if (file.exists()) {
+//                        val deleted = file.delete()
+//                    }
+//                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
+//                    try {
+//                        UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
+//                    } catch (e: Exception) {
+//                        logException(e)
+//                    }
+//                }
 
                 Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
                         "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)

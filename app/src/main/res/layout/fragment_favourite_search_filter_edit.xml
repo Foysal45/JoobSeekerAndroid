@@ -1044,6 +1044,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_search_white_24dp" />
+        app:srcCompat="@drawable/ic_done_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

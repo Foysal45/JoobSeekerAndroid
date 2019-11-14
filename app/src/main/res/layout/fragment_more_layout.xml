@@ -158,12 +158,13 @@
                 android:text="General Search"
                 android:textAllCaps="false"
                 android:textColor="#212121"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_search_black_more_24px" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/new_job_MBTN"
                 style="@style/more.button"
+                android:textSize="14sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="New Jobs (24 hrs)"
@@ -176,6 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Deadline Tomorrow"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_dead_line" />
 
             <com.google.android.material.button.MaterialButton
@@ -184,6 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Part Time Jobs"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_part_time" />
 
             <com.google.android.material.button.MaterialButton
@@ -192,6 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Contractual Jobs"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_contractual" />
 
             <com.google.android.material.button.MaterialButton
@@ -200,6 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Government Jobs"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_government" />
 
             <com.google.android.material.button.MaterialButton
@@ -209,6 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Overseas Jobs"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_overseas" />
 
             <com.google.android.material.button.MaterialButton
@@ -218,6 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Employer List"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_employer_list" />
 
 
@@ -236,6 +243,7 @@
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="Job Application Guideline"
                 app:icon="@drawable/ic_job_application_status_image" />
 
@@ -247,6 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Emailed Resume"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_email_resume" />
 
             <com.google.android.material.button.MaterialButton
@@ -256,6 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Employer Viewed Resume"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_view_resume" />
 
             <com.google.android.material.button.MaterialButton
@@ -264,6 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Interview Invitation"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_interview_invitation" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/training_MBTN"
@@ -271,6 +282,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Upcoming Training"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_dashboard_black_24dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -280,6 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Upload Resume"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_cloud_upload_black_24dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -288,6 +301,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Settings"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_settings" />
 
             <View
@@ -300,7 +314,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
                 android:text="About App"
                 android:textColor="#999999" />
@@ -312,6 +325,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="App Guides"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_app_guides" />
 
             <com.google.android.material.button.MaterialButton
@@ -319,6 +333,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="Rate Us on Google Play Store"
                 app:icon="@drawable/ic_rate_us_on_google" />
 
@@ -327,6 +342,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="Feedback and Support"
                 app:icon="@drawable/ic_feedback" />
 
@@ -335,6 +351,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="Privacy Policy"
                 app:icon="@drawable/ic_privacy_policy" />
 
@@ -343,6 +360,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="Terms and Policies"
                 app:icon="@drawable/ic_terms_and_policies" />
 

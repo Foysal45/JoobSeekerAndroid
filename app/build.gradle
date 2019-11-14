@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 688 //687 //85
-        versionName "2.1.1.0"  //600.5.1 internal test // 2.0.0.06
+        versionCode 688 //687 //86
+        versionName "600.5.2"  //600.5.1 internal test // 2.1.0.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +32,7 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
 
 }
 
@@ -100,7 +101,9 @@ dependencies {
 //    implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.github.yalantis:ucrop:2.2.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.droidninja:filepicker:2.2.1'
+//    implementation 'com.droidninja:filepicker:2.2.1'
+
+    implementation 'com.vincent.filepicker:MultiTypeFilePicker:1.0.8'
 
     //custom browser
     implementation 'androidx.browser:browser:1.0.0'
