@@ -9,14 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.JobInvitationListModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.JobInvitation
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
+//import kotlinx.android.synthetic.main.fragment_interview_invitation_list.adView
+import kotlinx.android.synthetic.main.fragment_interview_invitation_list.backIMV
+import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
@@ -45,8 +49,9 @@ class InterveiwInvitationListFragment : Fragment() {
         backIMV.setOnClickListener {
             interviewInvitationCommunicator.backButtonClicked()
         }
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
+
     }
 
     override fun onResume() {

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -207,7 +208,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
             ITEM_WITH_AD -> {
                 val holder = viewHolder as ViewHolderWithAd
-                Constants.showNativeAd(holder.ad_small_template, context)
+                Ads.showNativeAd(holder.ad_small_template, context)
 
                 holder.favTitle1TV.text = items[position].filtername
 

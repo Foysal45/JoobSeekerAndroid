@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -98,8 +99,10 @@ class AcademicBaseActivity : Activity(), EduInfo, ConnectivityReceiver.Connectiv
         getIntentValues()
         setContentView(R.layout.activity_academic_base)
         gotToFragment(name)
-        val adRequest = AdRequest.Builder().build()
-        adViewAcademicInfo?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adViewAcademicInfo?.loadAd(adRequest)
+        Ads.loadAdaptiveBanner(this@AcademicBaseActivity,adViewAcademicInfo)
+
         //jghgh
     }
 

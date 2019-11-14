@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.HotJobsJobTitle
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.google.android.ads.nativetemplates.TemplateView
@@ -123,7 +124,7 @@ class HotjobsAdapterNew(private val context: Context) : RecyclerView.Adapter<Rec
             ITEMWITHAD -> {
                 val holder = viewholder as HotJobsAdViewHolder
 
-                Constants.showNativeAd(holder.ad_small_template,context)
+                Ads.showNativeAd(holder.ad_small_template,context)
 
                 holder.companyTV.text = hotjoblists[position].companyName
                 try {

@@ -98,7 +98,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
 
-    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?): NotificationCompat.Builder {
+    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
@@ -112,6 +112,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                     putExtra("companyname", companyName)
                     putExtra("jobtitle", jobTitle)
                     putExtra("type", type)
+                    putExtra("nid", nId)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
@@ -132,6 +133,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                 val intent = Intent(this, EmployersBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
                     putExtra("jobId", jobid)
+                    putExtra("nid", nId)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
@@ -151,6 +153,8 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 
                 val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
+                    putExtra("id", jobid)
+                    putExtra("nid", nId)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 

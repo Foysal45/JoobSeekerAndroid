@@ -4,10 +4,12 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import kotlinx.android.synthetic.main.activity_applied_jobs.*
 import org.jetbrains.anko.startActivity
 
 class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
@@ -117,6 +119,10 @@ class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_applied_jobs)
+
+        Ads.loadAdaptiveBanner(this@AppliedJobsActivity,adView_container)
+
+
         try {
             time = intent.getStringExtra("time")
         } catch (e: Exception) {

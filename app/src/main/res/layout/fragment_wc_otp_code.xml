@@ -160,6 +160,9 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:tint="#FFF"
+        app:borderWidth="0dp"
         android:id="@+id/wcOTPFAButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -170,7 +173,7 @@
         android:layout_marginBottom="30dp"
         android:backgroundTint="#13A10E"
         android:background="#13A10E"
-        android:src="@drawable/ic_arrow_floating_white"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

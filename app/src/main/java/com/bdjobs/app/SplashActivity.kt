@@ -50,7 +50,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.inappmessaging.internal.injection.qualifiers.Analytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -71,13 +75,15 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private lateinit var dataStorage: DataStorage
-    private lateinit var internalDb : BdjobsDB
+    private lateinit var internalDb: BdjobsDB
     private lateinit var mPublisherInterstitialAd: PublisherInterstitialAd
     private val APP_UPDATE_REQUEST_CODE = 156
     private var dialog: Dialog? = null
     private var firstDialog: Dialog? = null
     lateinit var request: PermissionRequest
     private var connectionStatus = false
+    private lateinit var remoteConfig: FirebaseRemoteConfig
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,8 +100,17 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
          mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
          mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
         PicassoTools().clearCache(Picasso.get())
-    }
 
+        remoteConfig = FirebaseRemoteConfig.getInstance()
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.setUserId(bdjobsUserSession.userId)
+
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+                .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -159,7 +174,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
         Log.d("rakib", "take decisions called")
 
-        if (isConnected){
+        if (isConnected) {
             if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) {
@@ -300,7 +315,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 //    }
 
     fun showAdAndGoToNextActivity() {
-         checkUpdate()
+        checkUpdate()
     }
 
     private fun goToNextActivity() {
@@ -314,7 +329,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     finish()
                 }
             } else {
-                if (Build.VERSION.SDK_INT >= 25){
+                if (Build.VERSION.SDK_INT >= 25) {
                     createShortcut(this@SplashActivity)
                 }
                 val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)

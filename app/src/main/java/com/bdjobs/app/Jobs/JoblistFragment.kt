@@ -19,6 +19,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
 import com.bdjobs.app.Databases.Internal.LastSearch
@@ -647,7 +648,7 @@ class JoblistFragment : Fragment() {
                 val textInputLayout = saveSearchDialog.findViewById(R.id.textInputLayout) as TextInputLayout
                 val updateCG = saveSearchDialog.findViewById(R.id.updateCG) as ChipGroup
                 val ad_small_template = saveSearchDialog.findViewById<TemplateView>(R.id.ad_small_template)
-                Constants.showNativeAd(ad_small_template, activity)
+                Ads.showNativeAd(ad_small_template, activity)
 
                 Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 

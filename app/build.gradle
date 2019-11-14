@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 685 //682 //85
-        versionName "600.4.6"  //600.3.1 internal test // 2.0.0.06
+        versionCode 87 //688 //86
+        versionName "2.1.0.1"  //600.5.2 internal test // 2.1.0.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +33,7 @@ android {
         abortOnError false
     }
 
+
 }
 
 dependencies {
@@ -47,16 +48,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'androidx.core:core-ktx:1.1.0'
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:1.2.0-alpha01"
     implementation "androidx.appcompat:appcompat:1.1.0"
     // google sign in activity get crash without this library
 
     //----firebase
     implementation 'com.google.firebase:firebase-core:17.2.1'
-    implementation "com.google.firebase:firebase-messaging:20.0.0"
-    implementation 'com.google.firebase:firebase-perf:19.0.1'
+    implementation "com.google.firebase:firebase-messaging:20.0.1"
+    implementation 'com.google.firebase:firebase-perf:19.0.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.1'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.2'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
 
     //-----google sign in
@@ -99,7 +101,9 @@ dependencies {
 //    implementation 'com.yalantis:ucrop:2.2.0'
     implementation 'com.github.yalantis:ucrop:2.2.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.droidninja:filepicker:2.2.0'
+//    implementation 'com.droidninja:filepicker:2.2.1'
+
+    implementation 'com.vincent.filepicker:MultiTypeFilePicker:1.0.8'
 
     //custom browser
     implementation 'androidx.browser:browser:1.0.0'
@@ -122,7 +126,7 @@ dependencies {
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'
 
 
-//    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
 
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelData
 import com.bdjobs.app.API.ModelClasses.FollowUnfollowModelClass
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FollowedEmployer
 import com.bdjobs.app.R
@@ -70,7 +71,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
             }
             ITEM_WITH_AD -> {
                 val itemHolder = holder as EmployerListViewHolderWithAd
-                Constants.showNativeAd(itemHolder.ad_small_template, context)
+                Ads.showNativeAd(itemHolder.ad_small_template, context)
                 bindViews(itemHolder, position)
             }
         }

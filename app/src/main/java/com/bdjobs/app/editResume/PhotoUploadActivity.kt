@@ -32,6 +32,7 @@ import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -46,7 +47,7 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-import droidninja.filepicker.FilePickerConst
+//import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.activity_photo_upload.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -61,6 +62,7 @@ class PhotoUploadActivity : Activity() {
 
 
     private val REQ_CAMERA_IMAGE = 40
+    private val REQ_SELECT_IMAGE = 41
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private var bitmap: Bitmap? = null
     private var encodedString: String? = ""
@@ -109,15 +111,18 @@ class PhotoUploadActivity : Activity() {
             photoDeleteButton?.hide()
         }
 
-        val adRequest = AdRequest.Builder().build()
-        adViewPhoto?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adViewPhoto?.loadAd(adRequest)
+
+        Ads.loadAdaptiveBanner(this@PhotoUploadActivity,adViewPhoto)
+
     }
 
     override fun onResume() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
         onClick()
-        Constants.showNativeAd(ad_small_template,this@PhotoUploadActivity)
+        Ads.showNativeAd(ad_small_template,this@PhotoUploadActivity)
     }
 
     private fun onClick() {
@@ -418,7 +423,7 @@ class PhotoUploadActivity : Activity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), FilePickerConst.REQUEST_CODE_PHOTO)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQ_SELECT_IMAGE)
     }
 
 
@@ -444,7 +449,7 @@ class PhotoUploadActivity : Activity() {
         try {
             if (resultCode != RESULT_CANCELED) {
 
-                if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+                if (requestCode == REQ_SELECT_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
 
                     var fileUri: Uri? = null
                     val selectedImageUri = data.data
@@ -583,7 +588,7 @@ class PhotoUploadActivity : Activity() {
         val cameraButton = dialog?.findViewById<Button>(R.id.camera_button)
         val galleryButton = dialog?.findViewById<TextView>(R.id.gallery_button)
         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template!!, this@PhotoUploadActivity)
+        Ads.showNativeAd(ad_small_template!!, this@PhotoUploadActivity)
 
 
         deleteImageView?.setOnClickListener {

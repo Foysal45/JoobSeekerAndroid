@@ -29,6 +29,7 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.ContextCompat
+import com.bdjobs.app.Ads.Ads
 import java.util.*
 
 
@@ -83,6 +84,8 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
     private var positionClicked: Int = 0
     private var positionClickedMessage : Int = 0
     var from = ""
+    var id = ""
+    var nId = ""
 
     override fun backButtonPressed() {
         onBackPressed()
@@ -104,6 +107,9 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
 
         try {
             from = intent.getStringExtra("from")
+            id = intent.getStringExtra("")
+            nId = intent.getStringExtra("nid")
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -132,23 +138,14 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
 
 
         try {
-            adView_notifications?.hide()
-            val deviceInfo = getDeviceInformation()
-            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
-
-            screenSize?.let{it->
-                if(it.toFloat()>5.0){
-                    val adRequest = AdRequest.Builder().build()
-                    adView_notifications?.loadAd(adRequest)
-                    adView_notifications?.show()
-                }
-            }
+            Ads.loadAdaptiveBanner(this@NotificationBaseActivity,adView_notifications)
         } catch (e: Exception) {
             logException(e)
         }
 
         when{
             from?.equals("notification")->{
+                logDataForAnalytics(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE, applicationContext, id,nId)
                 try {
                     val tab = tabs.getTabAt(1)
                     tab!!.select()
@@ -178,21 +175,5 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
             onBackPressed()
         }
     }
-
-//    @TargetApi(25)
-//    private fun createShortCut() {
-//        if (Build.VERSION.SDK_INT >= 25){
-//            val shortcutManager = getSystemService(ShortcutManager::class.java)
-//
-//            val shortcut = ShortcutInfo.Builder(context, "notifications")
-//                    .setShortLabel("Notifications")
-//                    .setLongLabel("Notifications")
-//                    .setIcon(Icon.createWithResource(context, R.drawable.ic_notifications_black_24dp))
-//                    .setIntent(Intent(context,NotificationBaseActivity::class.java))
-//                    .build()
-//
-//            shortcutManager!!.dynamicShortcuts = listOf(shortcut)
-//        }
-//    }
 
 }

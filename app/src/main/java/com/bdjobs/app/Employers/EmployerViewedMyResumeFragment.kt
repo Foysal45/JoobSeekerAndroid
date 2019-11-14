@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.EmpVwdResume
 import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -19,7 +20,7 @@ import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
-import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_viewed_my_resume.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -72,8 +73,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initializeViews()
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
+//        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
+
         Log.d("called", "onResume")
 
     }

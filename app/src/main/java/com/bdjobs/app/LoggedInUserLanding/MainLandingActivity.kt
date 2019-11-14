@@ -16,6 +16,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -26,7 +27,6 @@ import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
-import com.bdjobs.app.Notification.BdjobsFirebaseMessagingService
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.Notification.NotificationBaseActivity
 import com.bdjobs.app.Notification.NotificationHelper
@@ -52,9 +52,12 @@ import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.gson.Gson
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.android.synthetic.main.activity_main_landing.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,8 +78,6 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
     }
 
-    private lateinit var mInterstitialAd: InterstitialAd
-
     override fun showManageResumePopup() {
         val dialog = Dialog(this@MainLandingActivity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -91,7 +92,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
         val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
 
-        Constants.showNativeAd(ad_small_template, this@MainLandingActivity)
+        Ads.showNativeAd(ad_small_template, this@MainLandingActivity)
 
         editResume?.setOnClickListener {
             startActivity<EditResLandingActivity>()
@@ -273,13 +274,13 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
         val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
         val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Constants.showNativeAd(ad_small_template, this)
+        Ads.showNativeAd(ad_small_template, this)
 
         yesBtn?.setOnClickListener {
             try {
                 exitDialog?.dismiss()
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
+                if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
+                    Ads.mInterstitialAd?.show()
                 } else {
                     Log.d("TAG", "The interstitial wasn't loaded yet.")
                     super.onBackPressed()
@@ -320,6 +321,8 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         } catch (e: Exception) {
         }
 
+        val value = FirebaseRemoteConfig.getInstance().getString("Guest_JobSearch_interstitial_AdInterval")
+        Log.d("remote config rakib", value)
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -360,34 +363,37 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
     }
 
     private fun loadAd() {
-        mInterstitialAd = InterstitialAd(this@MainLandingActivity)
-        mInterstitialAd.adUnitId = Constants.INTERSTITIAL_AD_UNIT_ID
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
-        mInterstitialAd.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                Log.d("mInterstitialAd", "Ad Loaded")
-            }
+        try {
+            Ads.mInterstitialAd = InterstitialAd(this@MainLandingActivity)
+            Ads.mInterstitialAd!!.adUnitId = Constants.INTERSTITIAL_AD_UNIT_ID
+            Ads.mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+            Ads.mInterstitialAd!!.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    // Code to be executed when an ad finishes loading.
+                    Log.d("mInterstitialAd", "Ad Loaded")
+                }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                // Code to be executed when an ad request fails.
-            }
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    // Code to be executed when an ad request fails.
+                }
 
-            override fun onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
+                override fun onAdOpened() {
+                    // Code to be executed when the ad is displayed.
+                }
 
-            override fun onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
+                override fun onAdClicked() {
+                    // Code to be executed when the user clicks on an ad.
+                }
 
-            override fun onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
+                override fun onAdLeftApplication() {
+                    // Code to be executed when the user has left the app.
+                }
 
-            override fun onAdClosed() {
-                finish()
+                override fun onAdClosed() {
+                    finish()
+                }
             }
+        } catch (e: Exception) {
         }
     }
 
@@ -533,10 +539,12 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\"}"
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
 //                insertNotificationInToDatabase(payload, commonNotificationModel)
 //                showNotification(commonNotificationModel)
+//                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+//
 
                 return@OnNavigationItemSelectedListener true
             }
@@ -760,7 +768,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
         if (commonNotificationModel.type != "pm") {
             doAsync {
-                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId))
                 session.updateNotificationCount(session.notificationCount!! + 1)
                 uiThread {
                     Log.d("rakib", "FirebaseMessagingService")
@@ -771,7 +779,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             }
         } else if (commonNotificationModel.type == "pm") {
             doAsync {
-                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName))
+                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId))
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
@@ -802,22 +810,24 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         when (commonNotificationModel.type) {
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
                 try {
-                    mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink))
+                    mNotificationHelper.notify(
+                            Constants.NOTIFICATION_INTERVIEW_INVITATTION,
+                            mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
                 } catch (e: Exception) {
                 }
             }
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
                 } catch (e: Exception) {
                 }
             }
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
                 } catch (e: Exception) {
                 }
             }

@@ -157,7 +157,6 @@
         app:backgroundTint="#FFFFFF"
         app:cornerRadius="2dp"
         app:icon="@drawable/ic_cloud_download"
-        app:iconGravity=""
         app:iconTint="#666666"
         app:layout_constraintEnd_toStartOf="@+id/submitTV1"
         app:layout_constraintHorizontal_bias="0.5"

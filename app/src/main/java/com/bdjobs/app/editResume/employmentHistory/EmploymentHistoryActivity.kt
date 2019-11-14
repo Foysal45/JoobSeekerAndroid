@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
@@ -22,7 +23,9 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_academic_base.*
 import kotlinx.android.synthetic.main.activity_emplyment_history.*
+import kotlinx.android.synthetic.main.activity_emplyment_history.iv_delete_data
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.yesButton
@@ -166,8 +169,11 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
         setContentView(R.layout.activity_emplyment_history)
         setupToolbar(getString(R.string.title_emp_his))
         gotToFragment(name)
-        val adRequest = AdRequest.Builder().build()
-        adViewEmploymentInfo?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adViewEmploymentInfo?.loadAd(adRequest)
+
+        Ads.loadAdaptiveBanner(this@EmploymentHistoryActivity,adViewEmploymentInfo)
+
     }
 
 

@@ -15,13 +15,6 @@ import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.ads.nativetemplates.TemplateView
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,39 +33,9 @@ class Constants {
         var nativeAdvertisement : UnifiedNativeAd? = null
 
 
-        fun showNativeAd(nativeAdTemplete :TemplateView, context:Context){
 
 
 
-            if(nativeAdvertisement!=null){
-                val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
-                nativeAdTemplete?.setStyles(styles)
-                nativeAdTemplete?.setNativeAd(nativeAdvertisement)
-            }else {
-                MobileAds.initialize(context, ADMOB_APP_ID)
-                val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
-                        .forUnifiedNativeAd { ad: UnifiedNativeAd ->
-                            // Show the ad.
-                            nativeAdvertisement = ad
-                            val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
-                            nativeAdTemplete?.setStyles(styles)
-                            nativeAdTemplete?.setNativeAd(ad)
-
-                        }
-                        .withAdListener(object : AdListener() {
-                            override fun onAdFailedToLoad(errorCode: Int) {
-                                // Handle the failure by logging, altering the UI, and so on.
-                                Log.d("adLoader", "error code: $errorCode")
-                            }
-                        })
-                        .withNativeAdOptions(NativeAdOptions.Builder()
-                                // Methods in the NativeAdOptions.Builder class can be
-                                // used here to specify individual options settings.
-                                .build())
-                        .build()
-                adLoader.loadAd(AdRequest.Builder().build())
-            }
-        }
 
 
         var hotjobs: List<HotJobsData?>? = listOf()

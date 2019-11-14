@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.text.Html
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
@@ -30,6 +33,8 @@ import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import java.util.*
 
 
@@ -96,10 +101,10 @@ class NotificationListAdapter(private val context: Context, private val items: M
         val time = items[position].arrivalTime
 
         when (getItemViewType(position)) {
+
             TYPE_INTERVIEW_INVITATION -> {
 
                 val notificationViewHolder = holder as NotificationViewHolder
-
                 val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
 
                 try {
@@ -127,41 +132,49 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 } catch (e: Exception) {
                 }
 
-
                 notificationViewHolder.notificationTitleTV.text = Html.fromHtml(items[position].body)
-                if (items[position].seen!!) {
-                    notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                } else
-                    notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
+
+                try {
+                    if (items[position].seen!!) {
+                        notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    } else
+                        notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                } catch (e: Exception) {
+                }
 
 
                 notificationViewHolder?.notificationCV?.setOnClickListener {
 
-                    context.startActivity<InterviewInvitationBaseActivity>(
-                            "from" to "notificationList",
-                            "jobid" to items[position].serverId,
-                            "companyname" to items[position].companyName,
-                            "jobtitle" to items[position].jobTitle
-                    )
-
-//                    context.toast("test")
-
-//                    InterviewInvitationBaseActivity().goToInvitationDetailsForAppliedJobs(items[position].serverId!!,"Brain Station-23",items[position].jobTitle!!)
-
                     if (!items[position].seen!!) {
                         notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].serverId!!, items[position].type!!)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
                             val count = bdjobsDB.notificationDao().getNotificationCount()
                             bdjobsUserSession.updateNotificationCount(count)
+                            uiThread {
+                            }
                         }
                     }
 
+                    NotificationManagerCompat.from(context).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
                     notificationCommunicatior.positionClicked(position)
+
+
+                    context?.startActivity<InterviewInvitationBaseActivity>(
+                            "from" to "notificationList",
+                            "jobid" to items[position].serverId,
+                            "companyname" to items[position].companyName,
+                            "jobtitle" to items[position].jobTitle,
+                            "seen" to items[position].seen,
+                            "nid" to items[position].notificationId
+
+                    )
 
                 }
             }
+
             TYPE_CV_VIEWED -> {
+
                 val cvViewedViewHolder = holder as CVViewedViewHolder
 
                 val str = Html.fromHtml(items[position].body)
@@ -202,16 +215,16 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 cvViewedViewHolder?.notificationCV?.setOnClickListener {
                     cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     val intent = Intent(context.applicationContext, EmployersBaseActivity::class.java)
-                    intent.putExtra("from", "vwdMyResume")
+                    intent.putExtra("from", "notificationList")
                     context.startActivity(intent)
                     if (!items[position].seen!!) {
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].serverId!!, items[position].type!!)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
                             val count = bdjobsDB.notificationDao().getNotificationCount()
                             bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
-                notificationCommunicatior.positionClicked(position)
+                    notificationCommunicatior.positionClicked(position)
                 }
             }
             TYPE_PROMOTIONAL_MESSAGE -> {

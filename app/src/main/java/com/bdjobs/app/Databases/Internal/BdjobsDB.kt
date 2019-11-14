@@ -19,7 +19,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 9, exportSchema = false)
+    Notification::class], version = 10, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -91,10 +91,12 @@ abstract class BdjobsDB : RoomDatabase() {
                 database.execSQL("DROP TABLE JobInvitation")
                 database.execSQL("CREATE TABLE JobInvitation (id INTEGER, companyName TEXT, inviteDate INTEGER, jobId TEXT, jobTitle TEXT, seen TEXT, PRIMARY KEY(id))")
                 database.execSQL("CREATE UNIQUE INDEX `index_JobInvitation_jobId` ON `JobInvitation` (`jobId`)")
+            }
+        }
 
-//                database.execSQL("INSERT INTO JobInvitation_new (id, companyName, inviteDate, jobId, jobTitle) SELECT id, companyName, inviteDate, jobId, jobTitle FROM JobInvitation")
-//
-//                database.execSQL("ALTER TABLE JobInvitation_new RENAME TO JobInvitation")
+        val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Notification ADD COLUMN notification_id TEXT")
             }
         }
 
@@ -104,6 +106,6 @@ abstract class BdjobsDB : RoomDatabase() {
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9).build()
+                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10).build()
     }
 }

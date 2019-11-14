@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
@@ -101,7 +102,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             }
             ITEM_WITH_AD -> {
                 val itemHolder = holder as FollowedEmployerViewHolderWithAd
-                Constants.showNativeAd(holder.ad_small_template, context)
+                Ads.showNativeAd(holder.ad_small_template, context)
                 bindViews(itemHolder, position)
             }
         }

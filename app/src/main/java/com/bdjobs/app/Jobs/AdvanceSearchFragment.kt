@@ -35,7 +35,7 @@ class AdvanceSearchFragment : Fragment() {
     }
 
     private fun onClicks() {
-        searchBTN?.setOnClickListener {
+        searchBTN_fab?.setOnClickListener {
             jobCommunicator.backButtonPressesd()
         }
 

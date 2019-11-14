@@ -59,6 +59,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
                 android:id="@+id/updateBTN"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="wrap_content"
@@ -1000,7 +1001,7 @@
                 android:id="@+id/armyCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="100dp"
                 app:chipSpacing="10dp"
                 app:singleSelection="true">
 
@@ -1021,5 +1022,28 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/updateBTN_fab"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:windowSoftInputMode="adjustResize"
+        app:backgroundTint="#13A10E"
+        app:fabSize="auto"
+        app:tint="#FFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_done_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

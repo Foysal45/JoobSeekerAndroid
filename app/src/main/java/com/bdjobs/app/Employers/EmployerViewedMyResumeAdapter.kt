@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
@@ -82,7 +83,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
             }
             ITEM_WITH_AD -> {
                 val itemHolder = holder as EmployerViewedMyResumeVHWithAd
-                Constants.showNativeAd(holder.ad_small_template, context)
+                Ads.showNativeAd(holder.ad_small_template, context)
                 bindViews(itemHolder, position)
             }
         }

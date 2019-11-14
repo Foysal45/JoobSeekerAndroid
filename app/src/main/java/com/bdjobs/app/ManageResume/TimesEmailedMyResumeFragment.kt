@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.TimesEmailed
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -57,8 +58,10 @@ class TimesEmailedMyResumeFragment : Fragment() {
         newEmaiResume.setOnClickListener {
             manageCommunicator.gotoEmailResumeFragment()
         }
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
+        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
+
 
 
 

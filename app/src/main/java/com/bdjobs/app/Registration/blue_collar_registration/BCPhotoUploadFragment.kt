@@ -42,7 +42,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-import droidninja.filepicker.FilePickerConst
+//import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
 import org.jetbrains.anko.doAsync
@@ -59,6 +59,7 @@ class BCPhotoUploadFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private lateinit var returnView: View
     private val REQ_CAMERA_IMAGE = 40
+    private val REQ_SELECT_IMAGE = 41
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
     private lateinit var bitmap: Bitmap
     private var encodedString: String? = ""
@@ -203,7 +204,7 @@ class BCPhotoUploadFragment : Fragment() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), FilePickerConst.REQUEST_CODE_PHOTO)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQ_SELECT_IMAGE)
     }
 
 
@@ -215,7 +216,7 @@ class BCPhotoUploadFragment : Fragment() {
             if (resultCode != Activity.RESULT_CANCELED) {
 
                 /*  Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")*/
-                if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == Activity.RESULT_OK && resultData != null) {
+                if (requestCode == REQ_SELECT_IMAGE && resultCode == Activity.RESULT_OK && resultData != null) {
                     var fileUri: Uri? = null
                     val selectedImageUri = resultData.data
                     val url = resultData.data!!.toString()

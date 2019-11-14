@@ -8,6 +8,7 @@ import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.HotJobs
 import com.bdjobs.app.API.ModelClasses.HotJobsData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.LoggedInUserLanding.HotjobsAdapterNew
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
@@ -15,7 +16,7 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_hot_jobs.*
-import kotlinx.android.synthetic.main.activity_hot_jobs.adView
+//import kotlinx.android.synthetic.main.activity_hot_jobs.adView
 import kotlinx.android.synthetic.main.activity_hot_jobs.favCountTV
 import kotlinx.android.synthetic.main.activity_hot_jobs.hotjobList_RV
 import kotlinx.android.synthetic.main.activity_hot_jobs.shimmer_view_container_hotJobList
@@ -47,21 +48,23 @@ class HotJobsActivity : Activity() {
 
         loadHotJobsData()
 
-        try {
-            adView?.hide()
-            val deviceInfo = getDeviceInformation()
-            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
+//        try {
+//            adView?.hide()
+//            val deviceInfo = getDeviceInformation()
+//            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
+//
+//            screenSize?.let{it->
+//                if(it.toFloat()>5.0){
+//                    val adRequest = AdRequest.Builder().build()
+//                    adView?.loadAd(adRequest)
+//                    adView?.show()
+//                }
+//            }
+//        } catch (e: Exception) {
+//            logException(e)
+//        }
+        Ads.loadAdaptiveBanner(this@HotJobsActivity,adView_container_hot_jobs)
 
-            screenSize?.let{it->
-                if(it.toFloat()>5.0){
-                    val adRequest = AdRequest.Builder().build()
-                    adView?.loadAd(adRequest)
-                    adView?.show()
-                }
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }
     }
 
     private fun loadHotJobsData() {

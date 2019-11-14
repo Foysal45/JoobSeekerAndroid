@@ -245,7 +245,16 @@ interface ApiServiceJobs {
     ): Call<ApplyEligibilityModel>
 
 
-
+    @FormUrlEncoded
+    @POST("view_push_notification.asp")
+    fun sendDataForAnalytics(
+            @Field("userId") userID: String? = "",
+            @Field("decodeID") decodeID: String? = "",
+            @Field("unique_Id") uniqueID: String? = "",
+            @Field("notification_Type") notificationType: String? = "",
+            @Field("encode") encode: String? = "",
+            @Field("sent_to") sentTo: String? = ""
+    ): Call<String>
 
 
 

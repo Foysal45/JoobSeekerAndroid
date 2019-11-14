@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BackgroundJob.ShortListedJobDeleteJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
@@ -96,6 +97,8 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 val viewLoading = inflater.inflate(R.layout.featured_joblist_item, parent, false)
                 viewHolder = FeaturedListVH(viewLoading)
             }
+
+
 
             //------------------------------------------------------------------------------------------------------------------------------//
 
@@ -325,7 +328,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             FEATURED_AD -> {
 
                 val jobsVH = holder as FeaturedAdListVH
-                Constants.showNativeAd(jobsVH.ad_small_template, context)
+                Ads.showNativeAd(jobsVH.ad_small_template, context)
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
                 jobsVH.tvDeadline.text = result?.deadline
@@ -392,7 +395,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 val jobsVH = holder as StandOutAdJobListVH
 
-                Constants.showNativeAd(jobsVH.ad_small_template, context)
+                Ads.showNativeAd(jobsVH.ad_small_template, context)
 
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
@@ -453,7 +456,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
                 val jobsVH = holder as BasicAdobListVH
 
-                Constants.showNativeAd(jobsVH.ad_small_template, context)
+                Ads.showNativeAd(jobsVH.ad_small_template, context)
 
                 jobsVH.tvPosName.text = result?.jobTitle
                 jobsVH.tvComName.text = result?.companyName
