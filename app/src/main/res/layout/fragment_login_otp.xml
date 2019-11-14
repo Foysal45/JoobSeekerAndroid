@@ -77,6 +77,9 @@
         app:layout_constraintGuide_begin="16dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:tint="#FFF"
+        app:borderWidth="0dp"
         android:id="@+id/nextButtonFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

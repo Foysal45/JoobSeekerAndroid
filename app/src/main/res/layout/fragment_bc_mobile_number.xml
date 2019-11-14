@@ -122,6 +122,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         app:tint="#FFF"
+        app:borderWidth="0dp"
         app:backgroundTint="#13A10E"
         android:background="#13A10E"
         android:id="@+id/bcMobileNumberFAButton"
