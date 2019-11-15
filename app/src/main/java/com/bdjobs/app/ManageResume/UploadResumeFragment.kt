@@ -100,9 +100,14 @@ class UploadResumeFragment : Fragment() {
                 Log.d("rakib",it.path.toString())
             }
 
-            val uri = Uri.parse(File(file!![0].path).toString())
+            try {
+                val uri = Uri.parse(File(file!![0].path).toString())
+                checkFilleSize(uri)
+            } catch (e: Exception){
+                logException(e)
+            }
 
-            checkFilleSize(uri)
+
         }
     }
 
