@@ -269,7 +269,7 @@ class ProfessionalQLEditFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     assert(activity != null)
-                    activity.stopProgressBar(professionalLoadingProgressBar)
+                    activity?.stopProgressBar(professionalLoadingProgressBar)
                     e.printStackTrace()
                 }
             }

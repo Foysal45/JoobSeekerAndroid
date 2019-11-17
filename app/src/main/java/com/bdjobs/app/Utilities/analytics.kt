@@ -2,6 +2,7 @@ package com.bdjobs.app.Utilities
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -33,10 +34,14 @@ fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: Stri
 
 
         context.doAsync {
-            val arrivalTime = bdjobsDB.notificationDao().getNotificationArrivalTime(type, jobID)
-            uiThread {
-                bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime.toString())
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+            try {
+                val arrivalTime = bdjobsDB.notificationDao().getNotificationArrivalTime(type, nId)
+                Log.d("rakib time", arrivalTime.toString())
+                uiThread {
+                    bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime.toString())
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+                }
+            } catch (e: Exception) {
             }
         }
     } catch (e: Exception) {
