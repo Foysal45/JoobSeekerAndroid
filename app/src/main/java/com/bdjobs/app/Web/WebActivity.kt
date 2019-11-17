@@ -30,8 +30,8 @@ class WebActivity : Activity() {
         setContentView(R.layout.activity_web)
         bdjobsUserSession = BdjobsUserSession(this@WebActivity)
 
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
 
         backIV.setOnClickListener {
             onBackPressed()

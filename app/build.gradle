@@ -11,8 +11,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 88 //689 //88
-        versionName "2.1.0.2"  //600.5.3 internal test // 2.1.0.1
+        versionCode 89 //691 //88
+        versionName "2.1.0.3"  //600.5.5 internal test // 2.1.0.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

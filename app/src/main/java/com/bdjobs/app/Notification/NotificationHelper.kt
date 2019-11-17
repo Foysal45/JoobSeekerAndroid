@@ -14,6 +14,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
@@ -23,7 +24,7 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.lang.Exception
 
-class NotificationHelper(context: Context) : ContextWrapper(context) {
+class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
     companion object {
         const val TAG = "NotificationHelper"
@@ -126,6 +127,7 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(interviewInvitationPendingIntent)
+                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
             }
 
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
@@ -147,6 +149,8 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
+                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+
             }
 
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
@@ -191,6 +195,8 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setContentIntent(pendingIntent)
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
+                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+
             }
 
             else -> {
@@ -213,6 +219,8 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
+                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+
             }
         }
 
