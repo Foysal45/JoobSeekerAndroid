@@ -11,9 +11,9 @@ class App :Application() {
     override fun onCreate() {
         super.onCreate()
 
-        JobConfig.setForceAllowApi14(true)
-        JobConfig.setApiEnabled(JobApi.GCM, false) // is only important for Android 4.X
-        JobManager.create(this).addJobCreator(BdjobsJobCreator(applicationContext))
+//        JobConfig.setForceAllowApi14(true)
+//        JobConfig.setApiEnabled(JobApi.GCM, false) // is only important for Android 4.X
+//        JobManager.create(this).addJobCreator(BdjobsJobCreator(applicationContext))
     }
 
 

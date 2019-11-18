@@ -13,11 +13,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.BackgroundJob.CancelAppliedJob
-import com.bdjobs.app.BackgroundJob.ExpectedSalaryJob
+//import com.bdjobs.app.BackgroundJob.CancelAppliedJob
+import com.bdjobs.app.Workmanager.ExpectedSalaryWorker
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -25,6 +26,7 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Workmanager.CancelAppliedJobWorker
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -108,10 +110,10 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 }
             }
 
-            ITEM_WITH_AD->{
+            ITEM_WITH_AD -> {
                 val itemHolder = holder as AppliedjobsAdViewHolder
-                Ads.showNativeAd(itemHolder.ad_small_template,context)
-                bindViews(itemHolder,position)
+                Ads.showNativeAd(itemHolder.ad_small_template, context)
+                bindViews(itemHolder, position)
             }
         }
     }
@@ -119,8 +121,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private fun bindViews(vHolder: RecyclerView.ViewHolder, position: Int) {
 
 
-        when(getItemViewType(position)){
-            ITEM->{
+        when (getItemViewType(position)) {
+            ITEM -> {
                 try {
                     val holder = vHolder as AppliedjobsViewHolder
                     holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
@@ -238,7 +240,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                         var salary = expected_salary_tv.getString()
 
                                         Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
-                                        ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
+
+                                        val constraints = Constraints.Builder()
+                                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                                .build()
+
+                                        val expectedSalaryJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to appliedJobsLists!![position].jobId!!, "salary" to salary)
+                                        val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
+                                        WorkManager.getInstance(context).enqueue(expectedSalaryRequest)
                                         // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
                                         saveSearchDialog.dismiss()
                                         appliedJobsLists?.get(position)?.expectedSalary = salary
@@ -315,7 +324,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 }
             }
 
-            ITEM_WITH_AD->{
+            ITEM_WITH_AD -> {
                 try {
                     val holder = vHolder as AppliedjobsAdViewHolder
                     holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
@@ -432,8 +441,16 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                     try {//update
                                         var salary = expected_salary_tv.getString()
 
+                                        val constraints = Constraints.Builder()
+                                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                                .build()
+
+                                        val expectedSalaryJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to appliedJobsLists!![position].jobId!!, "salary" to salary)
+                                        val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
+                                        WorkManager.getInstance(context).enqueue(expectedSalaryRequest)
+
                                         Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
-                                        ExpectedSalaryJob.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
+//                                        ExpectedSalaryWorker.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
                                         // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
                                         saveSearchDialog.dismiss()
                                         appliedJobsLists?.get(position)?.expectedSalary = salary
@@ -512,7 +529,6 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
         }
 
 
-
     }
 
     fun removeItem(position: Int, view: View) {
@@ -526,8 +542,16 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 notifyItemRemoved(position)
                 notifyDataSetChanged()
                 try {
-                    val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
+
+                    val constraints = Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build()
+
+                    val appliedJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to jobid)
+                    val cancelAppliedJobWorkRequest = OneTimeWorkRequestBuilder<CancelAppliedJobWorker>().setInputData(appliedJobData).setConstraints(constraints).build()
+//                    val deleteJobID = CancelAppliedJob.scheduleAdvancedJob(session.userId!!, session.decodId!!, jobid!!)
                     // undoRemove(view, deletedItem, position, deleteJobID)
+                    WorkManager.getInstance(context).enqueue(cancelAppliedJobWorkRequest)
                     communicator.decrementCounter()
                     communicator.incrementAvailableJobCounter()
                 } catch (e: Exception) {
@@ -549,7 +573,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
             val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                     .setAction("UNDO") {
-                        CancelAppliedJob.cancelJob(deleteJobID)
+//                        CancelAppliedJob.cancelJob(deleteJobID)
                         restoreMe(deletedItem!!, deletedIndex)
                         Log.d("jobiiii", "undo = deleted = ${deletedItem} index = ${deletedIndex}")
                         communicator?.scrollToUndoPosition(deletedIndex)

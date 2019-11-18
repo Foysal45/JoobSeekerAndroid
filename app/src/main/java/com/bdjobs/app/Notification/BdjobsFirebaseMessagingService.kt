@@ -3,6 +3,10 @@ package com.bdjobs.app.Notification
 import android.content.Intent
 import android.util.Log
 import androidx.annotation.UiThread
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
@@ -10,6 +14,7 @@ import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.Notification.Models.InterviewInvitationNotificationModel
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -76,7 +81,18 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                             logException(e)
                         }
                         try {
-                            DatabaseUpdateJob.runJobImmediately()
+//                            DatabaseUpdateJob.runJobImmediately()
+
+                            val constraints = Constraints.Builder()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
+
+                            val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                                    .setConstraints(constraints)
+                                    .build()
+
+                            WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
                         } catch (e: Exception) {
                         }
                     }
@@ -89,7 +105,18 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                             logException(e)
                         }
                         try {
-                            DatabaseUpdateJob.runJobImmediately()
+//                            DatabaseUpdateJob.runJobImmediately()
+
+                            val constraints = Constraints.Builder()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
+
+                            val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                                    .setConstraints(constraints)
+                                    .build()
+
+                            WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
                         } catch (e: Exception) {
                         }
                     }

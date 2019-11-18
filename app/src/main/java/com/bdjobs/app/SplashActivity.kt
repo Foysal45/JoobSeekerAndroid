@@ -21,6 +21,10 @@ import android.view.Window
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
 import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
@@ -36,6 +40,7 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.facebook.internal.WebDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -233,7 +238,19 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                         Constants.sendDeviceInformation(token, this@SplashActivity)
                     }
                 }
-                DatabaseUpdateJob.runJobImmediately()
+//                DatabaseUpdateJob.runJobImmediately()
+
+
+                val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                        .setConstraints(constraints)
+                        .build()
+
+                WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
             }
             try {
                 mSnackBar?.dismiss()

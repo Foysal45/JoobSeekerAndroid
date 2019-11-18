@@ -9,6 +9,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.ProgressBar
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
@@ -23,6 +27,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Web.WebActivity
+import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login_base.*
@@ -77,7 +82,18 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     }
 
     override fun goToHomePage() {
-        DatabaseUpdateJob.runJobImmediately()
+//        DatabaseUpdateJob.runJobImmediately()
+
+        val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+        val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                .setConstraints(constraints)
+                .build()
+
+        WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
         if (goToHome) {
             val intent = Intent(this@LoginBaseActivity, MainLandingActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)

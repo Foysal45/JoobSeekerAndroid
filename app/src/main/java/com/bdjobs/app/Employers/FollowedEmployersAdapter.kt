@@ -13,14 +13,16 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
+//import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Workmanager.FollowUnfollowWorker
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -254,7 +256,16 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 notifyItemRangeRemoved(position, followedEmployerList?.size!!)
 
                 try {
-                    val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
+
+                    val constraints = Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build()
+
+                    val followUnfollowData = workDataOf("companyid" to companyid, "companyname" to companyName)
+                    val followUnfollowRequest = OneTimeWorkRequestBuilder<FollowUnfollowWorker>().setInputData(followUnfollowData).setConstraints(constraints).build()
+                    WorkManager.getInstance(context).enqueue(followUnfollowRequest)
+
+//                    val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
                     bdjobsUserSession?.deccrementFollowedEmployer()
                     //undoRemove(view, deletedItem, position, deleteJobID)
                     employersCommunicator.decrementCounter(position)
@@ -276,7 +287,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
         val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
-                    FollowUnfollowJob.cancelJob(deleteJobID)
+//                    FollowUnfollowJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     employersCommunicator?.scrollToUndoPosition(deletedIndex)
                     Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")

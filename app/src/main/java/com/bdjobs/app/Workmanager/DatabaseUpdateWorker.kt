@@ -1,10 +1,12 @@
-package com.bdjobs.app.BackgroundJob
+package com.bdjobs.app.Workmanager
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
@@ -21,8 +23,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
-import com.evernote.android.job.Job
-import com.evernote.android.job.JobRequest
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -33,27 +33,16 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParameters)
+    : Worker(appContext, workerParams) {
 
-class DatabaseUpdateJob(private val appContext: Context) : Job() {
-    private val bdjobsUserSession = BdjobsUserSession(appContext)
-    val bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(appContext)
-    var dbUpdateDate : String? = ""
-    lateinit var pref : SharedPreferences
-
-    companion object {
-        const val TAG = "database_update_job"
-        fun runJobImmediately() {
-            val jobId = JobRequest.Builder(DatabaseUpdateJob.TAG)
-                    .startNow()
-                    .build()
-                    .schedule()
-        }
-    }
+    var bdjobsUserSession: BdjobsUserSession = BdjobsUserSession(appContext)
+    var bdjobsInternalDB: BdjobsDB = BdjobsDB.getInstance(appContext)
+    lateinit var pref: SharedPreferences
+    var dbUpdateDate: String? = ""
 
 
-    override fun onRunJob(params: Params): Result {
-        Log.d("DatabaseUpdateJob", "DatabaseUpdateJob Start : ${Calendar.getInstance().time}")
-
+    override fun doWork(): Result {
 
         insertFavouriteSearchFilter()
         insertJobInvitation()
@@ -65,12 +54,130 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         getIsCvUploaded()
         updateExternalDatabase()
         getUnSeenNotificationsCount()
-        return Result.SUCCESS
+
+        return Result.success()
     }
 
-    fun updateExternalDatabase(){
+    private fun insertFavouriteSearchFilter() {
+        ApiServiceJobs.create().getFavouriteSearchFilters(encoded = Constants.ENCODED_JOBS, userID = bdjobsUserSession.userId).enqueue(object : Callback<FavouritSearchFilterModelClass> {
+            override fun onFailure(call: Call<FavouritSearchFilterModelClass>, t: Throwable) {
+                error("onFailure", t)
+            }
 
-        pref = context.getSharedPreferences(Constants.name_sharedPref, Context.MODE_PRIVATE)
+            override fun onResponse(call: Call<FavouritSearchFilterModelClass>, response: Response<FavouritSearchFilterModelClass>) {
+                doAsync {
+                    bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
+                    response.body()?.data?.let { items ->
+                        Log.d("XZXfg", "insertFavourite Size: ${items.size}")
+                        for (item in items) {
+
+                            Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
+
+                            var cratedOn: Date? = null
+                            try {
+                                cratedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.createdon)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                            var updatedOn: Date? = null
+                            try {
+                                updatedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.updatedon)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+
+                            Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
+
+                            val favouriteSearch = FavouriteSearch(
+                                    filterid = item?.filterid,
+                                    filtername = item?.filtername,
+                                    industrialCat = item?.industrialCat,
+                                    functionalCat = item?.functionalCat,
+                                    location = item?.location,
+                                    organization = item?.organization,
+                                    jobnature = item?.jobnature,
+                                    joblevel = item?.joblevel,
+                                    postedon = item?.postedon,
+                                    deadline = item?.deadline,
+                                    keyword = item?.keyword,
+                                    newspaper = item?.newspaper,
+                                    gender = item?.gender,
+                                    genderb = item?.genderb,
+                                    experience = item?.experience,
+                                    age = item?.age,
+                                    jobtype = item?.jobtype,
+                                    retiredarmy = item?.retiredarmy,
+                                    createdon = cratedOn,
+                                    updatedon = updatedOn,
+                                    totaljobs = item?.totaljobs
+                            )
+                            bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
+                        }
+
+                    }
+
+                    uiThread {
+                        val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                        intent.putExtra("job", "insertFavouriteSearchFilter")
+                        appContext.sendBroadcast(intent)
+                        favSearchFiltersSynced = true
+                        Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
+                    }
+                }
+
+
+            }
+        })
+    }
+
+    private fun insertJobInvitation() {
+
+        ApiServiceMyBdjobs.create().getJobInvitationList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<JobInvitationListModel> {
+            override fun onFailure(call: Call<JobInvitationListModel>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<JobInvitationListModel>, response: Response<JobInvitationListModel>) {
+                response.body()?.statuscode?.let { status ->
+                    if (status == api_request_result_code_ok) {
+                        response.body()?.data?.let { items ->
+                            doAsync {
+                                for (item in items) {
+                                    var inviteDate: Date? = null
+                                    try {
+                                        inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                    val jobInvitation = JobInvitation(companyName = item?.companyName,
+                                            inviteDate = inviteDate,
+                                            jobId = item?.jobId,
+                                            jobTitle = item?.jobTitle,
+                                            seen = item?.seen)
+
+                                    bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
+
+                                }
+                                uiThread {
+                                    val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                                    intent.putExtra("job", "insertJobInvitation")
+                                    appContext.sendBroadcast(intent)
+                                    Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
+                                    jobInvitationSynced = true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
+
+    }
+
+    fun updateExternalDatabase() {
+
+        pref = appContext.getSharedPreferences(Constants.name_sharedPref, Context.MODE_PRIVATE)
 
         dbUpdateDate = pref.getString(Constants.key_db_update, Constants.dfault_date_db_update)
 
@@ -187,7 +294,7 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
     private fun getUnSeenNotificationsCount() {
         doAsync {
             val count = bdjobsInternalDB.notificationDao().getNotificationCount()
-            Log.d("rakib" , "notification count $count")
+            Log.d("rakib", "notification count $count")
             bdjobsUserSession.updateNotificationCount(count)
         }
     }
@@ -332,78 +439,6 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
         })
     }
 
-    private fun insertFavouriteSearchFilter() {
-        Log.d("XZXfg", "insertFavourite")
-        ApiServiceJobs.create().getFavouriteSearchFilters(encoded = Constants.ENCODED_JOBS, userID = bdjobsUserSession.userId).enqueue(object : Callback<FavouritSearchFilterModelClass> {
-            override fun onFailure(call: Call<FavouritSearchFilterModelClass>, t: Throwable) {
-                error("onFailure", t)
-            }
-
-            override fun onResponse(call: Call<FavouritSearchFilterModelClass>, response: Response<FavouritSearchFilterModelClass>) {
-                doAsync {
-                    bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
-                    response.body()?.data?.let { items ->
-                        Log.d("XZXfg", "insertFavourite Size: ${items.size}")
-                        for (item in items) {
-
-                            Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
-
-                            var cratedOn: Date? = null
-                            try {
-                                cratedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.createdon)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                            var updatedOn: Date? = null
-                            try {
-                                updatedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.updatedon)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-
-                            Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
-
-                            val favouriteSearch = FavouriteSearch(
-                                    filterid = item?.filterid,
-                                    filtername = item?.filtername,
-                                    industrialCat = item?.industrialCat,
-                                    functionalCat = item?.functionalCat,
-                                    location = item?.location,
-                                    organization = item?.organization,
-                                    jobnature = item?.jobnature,
-                                    joblevel = item?.joblevel,
-                                    postedon = item?.postedon,
-                                    deadline = item?.deadline,
-                                    keyword = item?.keyword,
-                                    newspaper = item?.newspaper,
-                                    gender = item?.gender,
-                                    genderb = item?.genderb,
-                                    experience = item?.experience,
-                                    age = item?.age,
-                                    jobtype = item?.jobtype,
-                                    retiredarmy = item?.retiredarmy,
-                                    createdon = cratedOn,
-                                    updatedon = updatedOn,
-                                    totaljobs = item?.totaljobs
-                            )
-                            bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
-                        }
-
-                    }
-
-                    uiThread {
-                        val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                        intent.putExtra("job", "insertFavouriteSearchFilter")
-                        appContext.sendBroadcast(intent)
-                        favSearchFiltersSynced = true
-                        Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
-                    }
-                }
-
-
-            }
-        })
-    }
 
     private fun insertFollowedEmployers() {
         ApiServiceJobs.create().getFollowEmployerList(userID = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<FollowEmployerListModelClass> {
@@ -512,51 +547,6 @@ class DatabaseUpdateJob(private val appContext: Context) : Job() {
 
         })
 
-
-    }
-
-    private fun insertJobInvitation() {
-
-        ApiServiceMyBdjobs.create().getJobInvitationList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<JobInvitationListModel> {
-            override fun onFailure(call: Call<JobInvitationListModel>, t: Throwable) {
-                error("onFailure", t)
-            }
-
-            override fun onResponse(call: Call<JobInvitationListModel>, response: Response<JobInvitationListModel>) {
-                response.body()?.statuscode?.let { status ->
-                    if (status == api_request_result_code_ok) {
-                        response.body()?.data?.let { items ->
-                            doAsync {
-                                for (item in items) {
-                                    var inviteDate : Date? = null
-                                    try {
-                                        inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
-                                    val jobInvitation = JobInvitation(companyName = item?.companyName,
-                                            inviteDate = inviteDate,
-                                            jobId = item?.jobId,
-                                            jobTitle = item?.jobTitle,
-                                            seen = item?.seen)
-
-                                    bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
-
-                                }
-                                uiThread {
-                                    val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
-                                    intent.putExtra("job", "insertJobInvitation")
-                                    appContext.sendBroadcast(intent)
-                                    Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
-                                    jobInvitationSynced = true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        })
 
     }
 
