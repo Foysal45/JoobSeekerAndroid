@@ -12,9 +12,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
+import androidx.work.*
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
@@ -355,8 +353,12 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 Log.d("ububua", "ububua = " + deletedItem.filterid)
                 notifyItemRangeRemoved(position, items?.size!!)
 
+                val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
                 val favSearchDeleteData = workDataOf("favId" to deletedItem.filterid)
-                val favouriteSearchDeleteRequest = OneTimeWorkRequestBuilder<FavouriteSearchDeleteWorker>().setInputData(favSearchDeleteData).build()
+                val favouriteSearchDeleteRequest = OneTimeWorkRequestBuilder<FavouriteSearchDeleteWorker>().setInputData(favSearchDeleteData).setConstraints(constraints).build()
                 WorkManager.getInstance(context).enqueue(favouriteSearchDeleteRequest)
 
 //                val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
