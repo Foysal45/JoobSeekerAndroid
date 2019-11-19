@@ -13,7 +13,7 @@ import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R

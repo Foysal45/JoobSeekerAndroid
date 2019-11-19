@@ -1,7 +1,8 @@
 package com.bdjobs.app.Notification.Models
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-
+@Keep
 data class CommonNotificationModel(
         @SerializedName("pId")
         val pId: String = "",

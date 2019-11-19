@@ -7,7 +7,7 @@ import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Notification.Models.CommonNotificationModel

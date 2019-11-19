@@ -1,6 +1,7 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-
+@Keep
 data class ShortListedJobModel(
     @SerializedName("common")
     var common: ShortListedJobCommon? = ShortListedJobCommon(),
@@ -11,7 +12,7 @@ data class ShortListedJobModel(
     @SerializedName("statuscode")
     var statuscode: String? = ""
 )
-
+@Keep
 data class ShortListedJobData(
     @SerializedName("companyname")
     var companyname: String? = "",
@@ -32,13 +33,14 @@ data class ShortListedJobData(
     @SerializedName("standout")
     var standout: String? = ""
 )
-
+@Keep
 data class ShortListedJobCommon(
     @SerializedName("appliedid")
     var appliedid: List<String?>? = listOf(),
     @SerializedName("totalcount")
     var totalcount: String? = ""
 )
+@Keep
 data class UnshorlistJobModel(
     @SerializedName("common")
     var common: Any? = Any(),
@@ -49,6 +51,7 @@ data class UnshorlistJobModel(
     @SerializedName("statuscode")
     var statuscode: String? = ""
 )
+@Keep
 data class ShortlistJobModel(
     @SerializedName("common")
     var common: Any? = Any(),
@@ -59,7 +62,7 @@ data class ShortlistJobModel(
     @SerializedName("statuscode")
     var statuscode: String? = ""
 )
-
+@Keep
 data class ShortlistJobModelData(
     @SerializedName("error")
     var error: String? = "",

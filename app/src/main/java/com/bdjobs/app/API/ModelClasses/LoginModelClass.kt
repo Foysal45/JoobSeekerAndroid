@@ -1,15 +1,16 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class LoginUserModel(
         @SerializedName("statuscode") val statuscode: String?,
         @SerializedName("message") val message: String?,
         @SerializedName("data") val data: List<DataUserModel?>?,
         @SerializedName("common") val common: Any?
 )
-
+@Keep
 data class Login2UserModel(
         @SerializedName("messageType") val messageType: String?,
         @SerializedName("userFullName") val userFullName: String?,
@@ -17,14 +18,14 @@ data class Login2UserModel(
         @SerializedName("imageurl") val imageUrl: String?,
         @SerializedName("isBlueCollar") val isBlueCollar: String?
 )
-
+@Keep
 data class DataUserModel(
         @SerializedName("userFullName") val userFullName: String?,
         @SerializedName("userId") val userId: String?,
         @SerializedName("imageurl") val imageurl: String?,
         @SerializedName("isBlueCollar") val isBlueCollar: String?
 )
-
+@Keep
 data class LoginSessionModel(
         @SerializedName("common")
         val common: Any?,
@@ -35,7 +36,7 @@ data class LoginSessionModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class DataLoginPasswordModel(
         @SerializedName("AppsDate")
         val appsDate: String?,
@@ -68,7 +69,7 @@ data class DataLoginPasswordModel(
         @SerializedName("userPicUrl")
         val userPicUrl: String?
 )
-
+@Keep
 data class SocialLoginAccountListModel(
         @SerializedName("common")
         val common: SocialLoginAccountListDataCommon?,
@@ -79,7 +80,7 @@ data class SocialLoginAccountListModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class SocialLoginAccountListData(
         @SerializedName("decodId")
         val decodId: String?,
@@ -104,7 +105,7 @@ data class SocialLoginAccountListData(
         @SerializedName("userId")
         val userId: String?
 )
-
+@Keep
 data class SocialLoginAccountListDataCommon(
         @SerializedName("isMap")
         val isMap: String?,

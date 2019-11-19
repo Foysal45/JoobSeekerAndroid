@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -25,6 +26,8 @@ class ShortlistedJobDeleteWorker(val appContext: Context, workerParams: WorkerPa
 
         val jobid = inputData.getString("jobId")
 
+        Log.d("rakib workmanager", jobid)
+
         if (jobid!!.isNotEmpty()) {
             doAsync {
                 bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobid)
@@ -40,6 +43,7 @@ class ShortlistedJobDeleteWorker(val appContext: Context, workerParams: WorkerPa
 
                 override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
                     try {
+                         val output = workDataOf("jobid" to jobid)
                         appContext?.toast("${response.body()?.message}")
                     } catch (e: Exception) {
                         e.printStackTrace()

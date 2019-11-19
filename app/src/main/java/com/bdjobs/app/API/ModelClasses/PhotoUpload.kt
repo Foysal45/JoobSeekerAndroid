@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class PhotoInfoModel(
         @SerializedName("common")
         val common: Any?="",
@@ -13,7 +14,7 @@ data class PhotoInfoModel(
         @SerializedName("statuscode")
         val statuscode: String?=""
 )
-
+@Keep
 data class PhotoInfoDataModel(
         @SerializedName("FolderId")
         val folderId: String?="",
@@ -28,7 +29,7 @@ data class PhotoInfoDataModel(
         @SerializedName("userId")
         val userId: String?=""
 )
-
+@Keep
 data class PhotoUploadModel(
         @SerializedName("common")
         val common: String,
@@ -39,12 +40,12 @@ data class PhotoUploadModel(
         @SerializedName("statuscode")
         val statuscode: String
 )
-
+@Keep
 data class PhotoUploadDataModel(
         @SerializedName("path")
         val path: String?=""
 )
-
+@Keep
 data class PhotoUploadResponseModel(
         @SerializedName("common")
         val common: Any?="",
@@ -55,7 +56,7 @@ data class PhotoUploadResponseModel(
         @SerializedName("statuscode")
         val statuscode: String?=""
 )
-
+@Keep
 data class PhotoUploadResponseData(
         @SerializedName("decodeId")
         val decodeId: String?="",

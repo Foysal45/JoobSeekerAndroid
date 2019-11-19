@@ -27,7 +27,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
-import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH

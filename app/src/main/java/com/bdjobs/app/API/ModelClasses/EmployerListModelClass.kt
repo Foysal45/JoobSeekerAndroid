@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class EmployerListModelClass(
     @SerializedName("common")
     var common: EmployerListModelCommon? = EmployerListModelCommon(),
@@ -12,7 +13,7 @@ data class EmployerListModelClass(
     @SerializedName("statuscode")
     var statuscode: String? = ""
 )
-
+@Keep
 data class EmployerListModelData(
     @SerializedName("companyid")
     var companyid: String? = "",
@@ -23,7 +24,7 @@ data class EmployerListModelData(
     @SerializedName("totaljobs")
     var totaljobs: String? = ""
 )
-
+@Keep
 data class EmployerListModelCommon(
     @SerializedName("totalpages")
     var totalpages: String? = "",

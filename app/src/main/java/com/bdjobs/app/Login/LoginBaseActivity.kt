@@ -17,7 +17,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.API.ModelClasses.StatsModelClass
-import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Jobs.JobDetailsFragment
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity

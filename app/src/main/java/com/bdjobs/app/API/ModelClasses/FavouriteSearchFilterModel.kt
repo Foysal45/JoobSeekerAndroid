@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class FavouritSearchFilterModelClass(
         @SerializedName("common")
         val common: Any?,
@@ -13,7 +14,7 @@ data class FavouritSearchFilterModelClass(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class FavouritSearchFilterData(
         @SerializedName("age")
         val age: String?,
@@ -59,7 +60,7 @@ data class FavouritSearchFilterData(
         val updatedon: String?=""
 
 )
-
+@Keep
 data class FavouriteSearchCountModel(
         @SerializedName("data")
         val `data`: List<FavouriteSearchCountDataModel?>?,
@@ -68,13 +69,13 @@ data class FavouriteSearchCountModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class FavouriteSearchCountDataModel(
         @SerializedName("intCount")
         val intCount: String?
 )
 
-
+@Keep
 data class FavouriteSearchCountDataModelWithID(
         @SerializedName("intCount")
         val intCount: String?,
@@ -82,14 +83,14 @@ data class FavouriteSearchCountDataModelWithID(
         val id: String?
 )
 
-
+@Keep
 data class SaveUpdateFavFilterModel(
         val common: Any,
         val `data`: List<SaveUpdateFavFilterData>,
         val message: String,
         val statuscode: String
 )
-
+@Keep
 data class SaveUpdateFavFilterData(
         val `data`: String,
         val message: String,
