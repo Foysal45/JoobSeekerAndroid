@@ -346,8 +346,11 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     finish()
                 }
             } else {
-                if (Build.VERSION.SDK_INT >= 25) {
-                    createShortcut(this@SplashActivity)
+                try {
+                    if (Build.VERSION.SDK_INT >= 25) {
+                        createShortcut(this@SplashActivity)
+                    }
+                } catch (e: Exception) {
                 }
                 val intent = Intent(this@SplashActivity, MainLandingActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
