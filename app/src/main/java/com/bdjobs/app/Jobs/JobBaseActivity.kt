@@ -27,6 +27,8 @@ import org.jetbrains.anko.uiThread
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+
+
     override fun setTotalAppliedJobs(appliedJobsCount: Int) {
         this.appliedJobsCount = appliedJobsCount
     }
@@ -112,10 +114,13 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var filterID: String? = ""
     private var filterName: String? = ""
     private var from: String? = ""
+    private var nId = ""
 
 
     lateinit var dataStorage: DataStorage
     lateinit var bdjobsDB: BdjobsDB
+    lateinit var bdjobsUserSession: BdjobsUserSession
+
 
     private var backFrom = ""
 
@@ -125,6 +130,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         setContentView(R.layout.activity_job_landing)
         dataStorage = DataStorage(applicationContext)
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
+        bdjobsUserSession = BdjobsUserSession(applicationContext)
         getData()
 
         /*
@@ -220,6 +226,12 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         try {
             setCategory(intent.getStringExtra(Constants.key_categoryET))
             //category = intent.getStringExtra(Constants.key_categoryET)
+        } catch (e: Exception) {
+            logException(e)
+        }
+
+        try {
+            nId = intent.getStringExtra("nid")
         } catch (e: Exception) {
             logException(e)
         }
@@ -363,6 +375,77 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 }
 
                 "employer" -> {
+                    clickedPosition = intent.getIntExtra("position", 0)
+                    val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+                    val jobids = intent.getStringArrayListExtra("jobids")
+                    val lns = intent.getStringArrayListExtra("lns")
+                    val deadline = intent.getStringArrayListExtra("deadline")
+                    for (i in 0 until jobids.size) {
+                        val jobListModelData = JobListModelData(
+                                jobid = jobids[i],
+                                jobTitle = "",
+                                companyName = "",
+                                deadline = "",
+                                eduRec = "",
+                                experience = "",
+                                standout = "0",
+                                logo = "",
+                                lantype = lns[i]
+                        )
+                        jobList.add(jobListModelData)
+                        Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                    }
+
+                    setJobList(jobList)
+                    totalRecordsFound = jobList.size
+                    pgNumber = 1
+                    totalPages = 1
+                    isLastPage = true
+                    transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+                }
+
+                "notification" -> {
+                    clickedPosition = intent.getIntExtra("position", 0)
+                    val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+                    val jobids = intent.getStringArrayListExtra("jobids")
+                    val lns = intent.getStringArrayListExtra("lns")
+                    val deadline = intent.getStringArrayListExtra("deadline")
+                    for (i in 0 until jobids.size) {
+                        val jobListModelData = JobListModelData(
+                                jobid = jobids[i],
+                                jobTitle = "",
+                                companyName = "",
+                                deadline = "",
+                                eduRec = "",
+                                experience = "",
+                                standout = "0",
+                                logo = "",
+                                lantype = lns[i]
+                        )
+                        jobList.add(jobListModelData)
+                        Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                    }
+
+                    setJobList(jobList)
+                    totalRecordsFound = jobList.size
+                    pgNumber = 1
+                    totalPages = 1
+                    isLastPage = true
+
+                    logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
+
+                    doAsync {
+                        bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, nId, Constants.NOTIFICATION_TYPE_MATCHED_JOB)
+                        val count = bdjobsDB.notificationDao().getNotificationCount()
+                        bdjobsUserSession = BdjobsUserSession(this@JobBaseActivity)
+                        bdjobsUserSession.updateNotificationCount(count)
+//                        Log.d("rakib", "noti count $count $jobId")
+                    }
+
+                    transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+                }
+
+                "notificationList" -> {
                     clickedPosition = intent.getIntExtra("position", 0)
                     val jobList: MutableList<JobListModelData> = java.util.ArrayList()
                     val jobids = intent.getStringArrayListExtra("jobids")

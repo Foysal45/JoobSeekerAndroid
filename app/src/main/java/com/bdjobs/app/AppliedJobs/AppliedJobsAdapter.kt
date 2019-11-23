@@ -312,8 +312,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             val deadline = ArrayList<String>()
                             deadline.add(appliedJobsLists?.get(position)?.deadLine.toString())
                             jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
-                            lns.add("0")
+                            lns.add(appliedJobsLists?.get(position)?.langType.toString())
                             communicator.setFrom("")
+                            Log.d("rakib deadline", "$deadline")
                             activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                         } catch (e: Exception) {
                             logException(e)
@@ -515,7 +516,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             val deadline = ArrayList<String>()
                             deadline.add(appliedJobsLists?.get(position)?.deadLine.toString())
                             jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
-                            lns.add("0")
+//                            lns.add("0")
+                            lns.add(appliedJobsLists?.get(position)?.langType.toString())
                             communicator.setFrom("")
                             activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                         } catch (e: Exception) {

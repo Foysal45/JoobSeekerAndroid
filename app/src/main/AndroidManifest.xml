@@ -4,7 +4,6 @@
     package="com.bdjobs.app">
 
     <application
-        android:name="com.google.android.play.core.missingsplits.MissingSplitsDetectingApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

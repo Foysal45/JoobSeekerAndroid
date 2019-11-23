@@ -122,7 +122,27 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                     }
 
                     Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                        try {
+//                            DatabaseUpdateJob.runJobImmediately()
 
+                            val constraints = Constraints.Builder()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
+
+                            val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                                    .setConstraints(constraints)
+                                    .build()
+
+                            WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
+                        } catch (e: Exception) {
+                        }
                     }
 
                     Constants.NOTIFICATION_TYPE_GENERAL -> {
