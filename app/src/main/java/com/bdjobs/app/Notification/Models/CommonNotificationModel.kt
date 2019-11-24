@@ -2,6 +2,7 @@ package com.bdjobs.app.Notification.Models
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+
 @Keep
 data class CommonNotificationModel(
         @SerializedName("pId")
@@ -25,6 +26,10 @@ data class CommonNotificationModel(
         @SerializedName("deleteType")
         val deleteType: String? = "",
         @SerializedName("notificationId")
-        val notificationId: String? = ""
+        val notificationId: String? = "",
+        @SerializedName("lanType")
+        val lanType: String? = "",
+        @SerializedName("deadlineDB")
+        val deadlineDB: String? = ""
 
 )

@@ -269,7 +269,11 @@ data class Notification(@ColumnInfo(name = "type")
                         @ColumnInfo(name = "company_name")
                         val companyName: String?,
                         @ColumnInfo(name = "notification_id")
-                        val notificationId: String?
+                        val notificationId: String?,
+                        @ColumnInfo(name = "lan_type")
+                        val lanType: String?,
+                        @ColumnInfo(name = "deadline")
+                        val deadline: String?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

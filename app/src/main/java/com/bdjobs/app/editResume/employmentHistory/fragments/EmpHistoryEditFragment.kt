@@ -307,36 +307,38 @@ class EmpHistoryEditFragment : Fragment() {
         }
         et_end_date?.setOnClickListener {
 
-            val cal = Calendar.getInstance()
-            val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+            if (!cb_present.isChecked) {
+                val cal = Calendar.getInstance()
+                val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
 
-            if (isEdit) {
-                try {
-                    date = if (empHisCB?.getData().to == "Continuing") {
-                        if (!et_end_date.text.toString().isNullOrEmpty()) {
-                            formatter.parse(et_end_date.text.toString())
+                if (isEdit) {
+                    try {
+                        date = if (empHisCB?.getData().to == "Continuing") {
+                            if (!et_end_date.text.toString().isNullOrEmpty()) {
+                                formatter.parse(et_end_date.text.toString())
+                            } else {
+                                Date()
+                            }
                         } else {
-                            Date()
+                            formatter.parse(et_end_date.text.toString())
                         }
-                    } else {
-                        formatter.parse(et_end_date.text.toString())
+                    } catch (e: ParseException) {
+                        e.printStackTrace()
                     }
-                } catch (e: ParseException) {
-                    e.printStackTrace()
-                }
-                date?.let {
-                    cal.time = date
-                    pickDate(activity, cal, endDateSetListener)
-                }
-            } else {
-                if (!et_end_date.text.toString().isNullOrEmpty()) {
-                    date = formatter.parse(et_end_date.text.toString())
-                    cal.time = date
-                    pickDate(activity, cal, endDateSetListener)
+                    date?.let {
+                        cal.time = date
+                        pickDate(activity, cal, endDateSetListener)
+                    }
                 } else {
-                    pickDate(activity, cal, endDateSetListener)
-                }
+                    if (!et_end_date.text.toString().isNullOrEmpty()) {
+                        date = formatter.parse(et_end_date.text.toString())
+                        cal.time = date
+                        pickDate(activity, cal, endDateSetListener)
+                    } else {
+                        pickDate(activity, cal, endDateSetListener)
+                    }
 
+                }
             }
         }
         companyBusinessACTV.onFocusChange { _, hasFocus ->

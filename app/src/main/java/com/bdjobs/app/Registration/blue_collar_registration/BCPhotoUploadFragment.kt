@@ -61,7 +61,7 @@ class BCPhotoUploadFragment : Fragment() {
     private val REQ_CAMERA_IMAGE = 40
     private val REQ_SELECT_IMAGE = 41
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
-    private lateinit var bitmap: Bitmap
+    private var bitmap: Bitmap? = null
     private var encodedString: String? = ""
     private var userId: String? = ""
     private var decodeId: String? = ""
@@ -226,9 +226,14 @@ class BCPhotoUploadFragment : Fragment() {
                             val `is` = activity.contentResolver.openInputStream(selectedImageUri!!)
                             if (`is` != null) {
                                 deleteCache(activity)
-                                bitmap = BitmapFactory.decodeStream(`is`)
+
+                                val options = BitmapFactory.Options()
+                                options.inSampleSize = 2
+                                bitmap  = BitmapFactory.decodeStream(`is`,null,options)
+
+//                                bitmap = BitmapFactory.decodeStream(`is`)
                                 if (bitmap != null) {
-                                    val tempUri = getImageUri(activity, bitmap)
+                                    val tempUri = getImageUri(activity, bitmap!!)
                                     // CALL THIS METHOD TO GET THE ACTUAL PATHa
                                     var finalFile: File? = null
                                     try {
@@ -295,7 +300,7 @@ class BCPhotoUploadFragment : Fragment() {
                                 bitmap = BitmapFactory.decodeFile(path, options)
                                 val stream = ByteArrayOutputStream()
                                 // Must compress the Image to reduce image size to make upload easy
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                                 val byte_arr = stream.toByteArray()
                                 // Encode Image to String
                                 encodedString = Base64.encodeToString(byte_arr, 0)

@@ -1164,7 +1164,10 @@ class ContactEditFragment : Fragment() {
                                 pmContactPostOfficeTIET?.clear()
                                 pmContactPostOfficeTIET?.setOnClickListener(null)
 
-                                thanaId = thanaListPm?.get(which)?.locationId!!
+                                try {
+                                    thanaId = thanaListPm?.get(which)?.locationId!!
+                                } catch (e: Exception) {
+                                }
                                 contactInfo.setPmThana(thanaId)
                                 postOfficeListPm = dataStorage.getDependentEnglishLocationByParentId(thanaListPm?.get(which)?.locationId!!)
                                 val pstOfficeNameList = arrayListOf<String>()

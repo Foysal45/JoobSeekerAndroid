@@ -101,7 +101,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
     }
 
 
-    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?): NotificationCompat.Builder {
+    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?, lanType:String?, deadlineDB : String?): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
@@ -160,9 +160,17 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                 val jobids = ArrayList<String>()
                 val lns = ArrayList<String>()
                 val deadline = ArrayList<String>()
-                deadline.add("")
-                jobids.add("871932")
-                lns.add("1")
+
+                try {
+                    deadline.add("")
+                    jobids.add(jobid!!)
+                    lns.add(lanType!!)
+
+                    Log.d("rakib mateched job", "${deadline[0]} ${lns[0]} ${jobids[0]}")
+
+                } catch (e: Exception) {
+                }
+
                 val intent = Intent(this, JobBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
                     putExtra("jobids", jobids)
@@ -200,25 +208,25 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                var imageBitmap: Bitmap? = null
+//                var imageBitmap: Bitmap? = null
+//
+//                var target = object : Target {
+//                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+//                    }
+//
+//                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+//                    }
+//
+//                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+//                        imageBitmap = bitmap
+//                        Log.d("rakib inside", "$bitmap")
+//                    }
+//
+//                }
+//
+//                Picasso.get().load(imageLink).into(target)
 
-                var target = object : Target {
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                    }
-
-                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-                    }
-
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        imageBitmap = bitmap
-                        Log.d("rakib inside", "$bitmap")
-                    }
-
-                }
-
-                Picasso.get().load(imageLink).into(target)
-
-                Log.d("rakib outside", "$imageBitmap $imageLink")
+//                Log.d("rakib outside", "$imageBitmap $imageLink")
 
                 return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
                         .setContentTitle(title)

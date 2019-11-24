@@ -345,14 +345,18 @@ fun Context.setLanguage(localeName: String) {
 
 fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: Boolean) {
     try {
-        val transaction = fragmentManager.beginTransaction()
+        fragmentManager?.executePendingTransactions()
+        if (!fragment?.isAdded)
+        {
+            val transaction = fragmentManager.beginTransaction()
 
-        if (addToBackStack) {
-            transaction.replace(holderID, fragment, simpleClassName(fragment)).addToBackStack(simpleClassName(fragment))
-        } else {
-            transaction.replace(holderID, fragment, simpleClassName(fragment))
+            if (addToBackStack) {
+                transaction.replace(holderID, fragment, simpleClassName(fragment)).addToBackStack(simpleClassName(fragment))
+            } else {
+                transaction.replace(holderID, fragment, simpleClassName(fragment))
+            }
+            transaction.commit()
         }
-        transaction.commit()
     } catch (e: Exception) {
         logException(e)
     }

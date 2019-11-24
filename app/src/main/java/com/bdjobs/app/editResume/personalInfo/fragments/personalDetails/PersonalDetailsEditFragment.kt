@@ -23,6 +23,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_personal_details_edit.*
+import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -111,8 +112,17 @@ class PersonalDetailsEditFragment : Fragment() {
             }
         }
         etPerDob.setOnClickListener {
+            Log.d("rakib", "clicked")
             pickDateOfBirth(birthDateSetListener)
         }
+
+        etPerReligion.setOnClickListener {
+            val religions = listOf("Buddhism", "Christianity", "Hinduism", "Islam","Jainism","Judaism","Sikhism","Others")
+            selector("Where are you from?", religions) { dialogInterface, i ->
+                toast("So you're living in ${religions[i]}, right?")
+            }
+        }
+
         fab_per_update.setOnClickListener {
             var validation = 0
             validation = isValidate(etPerFirstName, firstNameTIL, etPerFirstName, true, validation)

@@ -158,8 +158,14 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
     }
 
     private fun getIntentData() {
-        from = intent.getStringExtra(key_from)
-        textData = intent.getStringExtra(key_typedData)
+        try {
+            from = intent.getStringExtra(key_from)
+        } catch (e: Exception) {
+        }
+        try {
+            textData = intent.getStringExtra(key_typedData)
+        } catch (e: Exception) {
+        }
     }
 
     private fun onClicks() {
