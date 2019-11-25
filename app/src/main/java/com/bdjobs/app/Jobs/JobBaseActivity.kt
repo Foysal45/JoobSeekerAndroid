@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
@@ -24,6 +25,9 @@ import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
@@ -478,12 +482,34 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
                     logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
 
+                    try {
+                        ApiServiceJobs.create().sendDataForAnalytics(
+                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                        ).enqueue(
+                                object : Callback<String> {
+                                    override fun onFailure(call: Call<String>, t: Throwable) {
+
+                                    }
+
+                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                        try {
+                                            if (response.isSuccessful) {
+                                            }
+                                        } catch (e: Exception) {
+                                            logException(e)
+                                        }
+                                    }
+                                }
+                        )
+                    } catch (e: Exception) {
+                    }
+
                     doAsync {
                         bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, nId, Constants.NOTIFICATION_TYPE_MATCHED_JOB)
                         val count = bdjobsDB.notificationDao().getNotificationCount()
                         bdjobsUserSession = BdjobsUserSession(this@JobBaseActivity)
                         bdjobsUserSession.updateNotificationCount(count)
-//                        Log.d("rakib", "noti count $count $jobId")
                     }
 
                     transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
@@ -509,6 +535,29 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                         )
                         jobList.add(jobListModelData)
                         Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                    }
+
+                    try {
+                        ApiServiceJobs.create().sendDataForAnalytics(
+                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                        ).enqueue(
+                                object : Callback<String> {
+                                    override fun onFailure(call: Call<String>, t: Throwable) {
+
+                                    }
+
+                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                        try {
+                                            if (response.isSuccessful) {
+                                            }
+                                        } catch (e: Exception) {
+                                            logException(e)
+                                        }
+                                    }
+                                }
+                        )
+                    } catch (e: Exception) {
                     }
 
                     setJobList(jobList)

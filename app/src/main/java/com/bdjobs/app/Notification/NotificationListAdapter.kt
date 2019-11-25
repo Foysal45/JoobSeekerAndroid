@@ -21,15 +21,12 @@ import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JOB
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.openUrlInBrowser
-import com.bdjobs.app.Utilities.show
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
@@ -158,6 +155,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     notificationCommunicatior.positionClicked(position)
                     if (!items[position].seen!!) {
                         notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
                             val count = bdjobsDB.notificationDao().getNotificationCount()
@@ -212,10 +210,14 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 } catch (e: Exception) {
                 }
 
-                if (items[position].seen!!) {
-                    cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                } else
-                    cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                try {
+                    if (items[position].seen!!) {
+                        cvViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    } else
+                        cvViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                } catch (e : Exception){
+
+                }
 
 
                 cvViewedViewHolder?.notificationCV?.setOnClickListener {
@@ -223,14 +225,18 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     val intent = Intent(context.applicationContext, EmployersBaseActivity::class.java)
                     intent.putExtra("from", "notificationList")
 
-                    if (!items[position].seen!!) {
-                        doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                    try {
+                        if (!items[position].seen!!) {
+                            doAsync {
+                                bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                val count = bdjobsDB.notificationDao().getNotificationCount()
+                                bdjobsUserSession.updateNotificationCount(count)
+                            }
                         }
+                    } catch (e : Exception){
+                        logException(e)
                     }
-                    context.startActivity(intent)
+                    context?.startActivity(intent)
                     notificationCommunicatior.positionClicked(position)
                 }
             }
@@ -280,9 +286,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     val jobids = ArrayList<String>()
                     val lns = ArrayList<String>()
                     val deadline = ArrayList<String>()
-                    deadline.add("")
-                    jobids.add("871932")
-                    lns.add("1")
+                    deadline.add(items[position].deadline!!)
+                    jobids.add(items[position].serverId!!)
+                    lns.add(items[position].lanType!!)
                     val intent = Intent(context.applicationContext, JobBaseActivity::class.java)?.apply {
                         putExtra("from", "notificationList")
                         putExtra("jobids", jobids)
@@ -298,7 +304,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
-                    context.startActivity(intent)
+                    context?.startActivity(intent)
                     notificationCommunicatior.positionClicked(position)
                 }
             }
