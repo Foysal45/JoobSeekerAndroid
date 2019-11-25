@@ -163,6 +163,8 @@
                         android:digits="@string/charsWithSpace"
                         android:inputType="text|textMultiLine"
                         android:maxLength="50"
+                        android:focusable="false"
+                        android:clickable="true"
                         android:textColor="#212121" />
 
                 </com.google.android.material.textfield.TextInputLayout>

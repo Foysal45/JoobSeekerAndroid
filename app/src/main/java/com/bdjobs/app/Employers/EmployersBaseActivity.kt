@@ -3,6 +3,7 @@ package com.bdjobs.app.Employers
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
 import com.bdjobs.app.Ads.Ads
@@ -17,6 +18,9 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
 import kotlinx.android.synthetic.main.activity_employers_base.*
 import org.jetbrains.anko.doAsync
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -192,7 +196,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employers_base)
 
-        Ads.loadAdaptiveBanner(this@EmployersBaseActivity,adView)
+        Ads.loadAdaptiveBanner(this@EmployersBaseActivity, adView)
 
 
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
@@ -246,12 +250,66 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         } else if (value?.equals("notificationList")) {
 
-            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId,nId)
+            try {
+                logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId, nId)
+            } catch (e: Exception) {
+            }
+
+
+            try {
+                ApiServiceJobs.create().sendDataForAnalytics(
+                        userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_CV_VIEWED, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                ).enqueue(
+                        object : Callback<String> {
+                            override fun onFailure(call: Call<String>, t: Throwable) {
+
+                            }
+
+                            override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                try {
+                                    if (response.isSuccessful) {
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+                            }
+                        }
+                )
+            } catch (e: Exception) {
+            }
+
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
 
         } else if (value?.equals("notification")) {
 
-            logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId,nId)
+            try {
+                logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId, nId)
+            } catch (e: Exception) {
+            }
+
+            try {
+                ApiServiceJobs.create().sendDataForAnalytics(
+                        userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_CV_VIEWED, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                ).enqueue(
+                        object : Callback<String> {
+                            override fun onFailure(call: Call<String>, t: Throwable) {
+
+                            }
+
+                            override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                try {
+                                    if (response.isSuccessful) {
+                                    }
+                                } catch (e: Exception) {
+                                    logException(e)
+                                }
+                            }
+                        }
+                )
+            } catch (e: Exception) {
+            }
 
             doAsync {
                 bdjobsDB.notificationDao().updateNotificationTableByClickingNotification(Date(), true, nId, Constants.NOTIFICATION_TYPE_CV_VIEWED)

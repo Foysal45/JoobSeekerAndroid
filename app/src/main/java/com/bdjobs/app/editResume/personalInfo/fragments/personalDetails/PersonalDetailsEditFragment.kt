@@ -118,8 +118,8 @@ class PersonalDetailsEditFragment : Fragment() {
 
         etPerReligion.setOnClickListener {
             val religions = listOf("Buddhism", "Christianity", "Hinduism", "Islam","Jainism","Judaism","Sikhism","Others")
-            selector("Where are you from?", religions) { dialogInterface, i ->
-                toast("So you're living in ${religions[i]}, right?")
+            selector("Please select your religion", religions) { dialogInterface, i ->
+                etPerReligion?.setText(religions[i])
             }
         }
 

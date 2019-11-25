@@ -526,10 +526,10 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
 
-                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"One company viewed your cv.\", \"type\" : \"cv\", \"jobId\" : \"795881\", \"title\" : \"CV viewed\", \"notificationId\" : \"123\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
-                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
-                insertNotificationInToDatabase(payload, commonNotificationModel)
-                showNotification(commonNotificationModel)
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"One company viewed your cv.\", \"type\" : \"cv\", \"jobId\" : \"795881\", \"title\" : \"CV viewed\", \"notificationId\" : \"123\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
 
 
                 return@OnNavigationItemSelectedListener true
@@ -540,11 +540,11 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
 
-                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
-                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
-                insertNotificationInToDatabase(payload, commonNotificationModel)
-                showNotification(commonNotificationModel)
-                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
+//                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
 
 
                 return@OnNavigationItemSelectedListener true
@@ -553,10 +553,10 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             R.id.navigation_mybdjobs -> {
                 transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
 
-                val payload = "{ \"jobTitle\": \"\", \"companyName\": \"\" ,\"body\" : \"চাকরির জন্য বিজ্ঞাপন দাতা প্রতিষ্ঠান আপনার কাছ থেকে কোন অর্থ চাইলে অথবা কোন ধরনের ভুল বা বিভ্রান্তিকর তথ্য দিলে অতি সত্ত্বর আমাদেরকে জানান\", \"type\" : \"pm\", \"jobId\" : \"\", \"title\" : \"Bdjobs\", \"link\" : \"https://bdjobs.com/\", \"imageLink\" : \"https://bdjobs.com/images/logo.png\", \"notificationId\" : \"1256\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
-                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
-                insertNotificationInToDatabase(payload, commonNotificationModel)
-                showNotification(commonNotificationModel)
+//                val payload = "{ \"jobTitle\": \"\", \"companyName\": \"\" ,\"body\" : \"চাকরির জন্য বিজ্ঞাপন দাতা প্রতিষ্ঠান আপনার কাছ থেকে কোন অর্থ চাইলে অথবা কোন ধরনের ভুল বা বিভ্রান্তিকর তথ্য দিলে অতি সত্ত্বর আমাদেরকে জানান\", \"type\" : \"pm\", \"jobId\" : \"\", \"title\" : \"Bdjobs\", \"link\" : \"https://bdjobs.com/\", \"imageLink\" : \"https://bdjobs.com/images/logo.png\", \"notificationId\" : \"1256\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
 
 
                 return@OnNavigationItemSelectedListener true
@@ -565,11 +565,11 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             R.id.navigation_more -> {
                 transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
 
-                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"A new job matched with you that might be interested in. See the job details.\", \"type\" : \"mj\", \"jobId\" : \"878844\", \"title\" : \"Job Matched.\", \"notificationId\" : \"123456789\",  \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
-                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
-                insertNotificationInToDatabase(payload, commonNotificationModel)
-                showNotification(commonNotificationModel)
-                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"A new job matched with you that might be interested in. See the job details.\", \"type\" : \"mj\", \"jobId\" : \"878844\", \"title\" : \"Job Matched.\", \"notificationId\" : \"123456789\",  \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
+//                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
 
 
                 return@OnNavigationItemSelectedListener true

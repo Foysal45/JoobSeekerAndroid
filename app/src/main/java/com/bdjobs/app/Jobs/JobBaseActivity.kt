@@ -131,7 +131,54 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         dataStorage = DataStorage(applicationContext)
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
-        getData()
+
+
+        val jobids = ArrayList<String>()
+        val lns = ArrayList<String>()
+        val deadline = ArrayList<String>()
+
+        val inte  = getIntent().data
+        try {
+            Log.d("rakib" , "${inte?.getQueryParameter("id")}")
+            Log.d("rakib" , "${inte?.getQueryParameter("ln")}")
+        } catch (e: Exception) {
+        }
+
+
+        clickedPosition = intent.getIntExtra("position", 0)
+        val jobList: MutableList<JobListModelData> = java.util.ArrayList()
+
+        try {
+            jobids.add(inte?.getQueryParameter("id")!!)
+            lns.add(inte?.getQueryParameter("ln")!!)
+            deadline.add("")
+            for (i in 0 until jobids.size) {
+                val jobListModelData = JobListModelData(
+                        jobid = jobids[i],
+                        jobTitle = "",
+                        companyName = "",
+                        deadline = "",
+                        eduRec = "",
+                        experience = "",
+                        standout = "0",
+                        logo = "",
+                        lantype = lns[i]
+                )
+                jobList.add(jobListModelData)
+                Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+            }
+
+            setJobList(jobList)
+            totalRecordsFound = jobList.size
+            pgNumber = 1
+            totalPages = 1
+            isLastPage = true
+            transitFragment(jobDetailsFragment, R.id.jobFragmentHolder)
+        } catch (e: Exception) {
+            getData()
+        }
+
+
 
         /*
         try {
@@ -236,7 +283,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             logException(e)
         }
 
-
         Log.d("wtji", "jobase=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 ////
         try {
@@ -263,8 +309,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         } catch (e: Exception) {
             logException(e)
         }
-
-
 
 
         try {
