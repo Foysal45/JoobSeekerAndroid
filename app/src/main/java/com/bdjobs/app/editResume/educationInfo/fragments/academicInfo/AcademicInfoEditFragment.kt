@@ -53,6 +53,7 @@ class AcademicInfoEditFragment : Fragment() {
     private var instSuggession = true
     private var gradeOrMarks = "0"
     private var scaleORCgpa = ""
+    private var boardId = -1
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -385,6 +386,7 @@ class AcademicInfoEditFragment : Fragment() {
 
         addTextChangedListener(etLevelEdu, levelEduTIL)
         addTextChangedListener(etExamTitle, examTitleTIL)
+        addTextChangedListener(etBoard, boardTIL)
         addTextChangedListener(etExamOtherTitle, examOtherTIL)
         addTextChangedListener(etResults, resultTIL)
         addTextChangedListener(etPassignYear, acaPassingYearTIL)
@@ -408,6 +410,7 @@ class AcademicInfoEditFragment : Fragment() {
 
 
         etLevelEdu?.addTextChangedListener(TW.CrossIconBehave(etLevelEdu))
+        etBoard?.addTextChangedListener(TW.CrossIconBehave(etBoard))
         etExamTitle?.addTextChangedListener(TW.CrossIconBehave(etExamTitle))
         etExamOtherTitle?.addTextChangedListener(TW.CrossIconBehave(etExamOtherTitle))
         etResults?.addTextChangedListener(TW.CrossIconBehave(etResults))
@@ -522,9 +525,28 @@ class AcademicInfoEditFragment : Fragment() {
 
                 }
 
+                if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5") || eduLevel.equalIgnoreCase("6")){
+                    boardTIL?.hide()
+                } else {
+                    boardTIL?.show()
+                }
+
                 Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
         }
+
+        etBoard?.setOnClickListener {
+            val boardNames: Array<String> = ds.allBoards
+            Log.d("rakib", "${boardNames.size}")
+            selector("Select board", boardNames.toList()) { _, i ->
+                etBoard.setText(boardNames[i])
+                Log.d("rakib", "${ds.getBoardIDbyName(etBoard.text.toString())}")
+            }
+
+
+
+        }
+
         etExamTitle?.setOnClickListener {
             var queryValue = etLevelEdu.getString()
             queryValue = queryValue.replace("'", "''")
@@ -942,7 +964,7 @@ class AcademicInfoEditFragment : Fragment() {
                 ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                 etPassignYear.getString(), majorSubACTV.getString(),
                 hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
+                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes,boardId = ds.getBoardIDbyName(etBoard.text.toString()).toString())
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {

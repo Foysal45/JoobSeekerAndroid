@@ -119,6 +119,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var filterName: String? = ""
     private var from: String? = ""
     private var nId = ""
+    private var seen = false
 
 
     lateinit var dataStorage: DataStorage
@@ -314,6 +315,12 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             logException(e)
         }
 
+        try {
+            seen = intent.getBooleanExtra("seen",false)
+        } catch (e: Exception) {
+            logException(e)
+        }
+
 
         try {
             from = intent.getStringExtra("from")
@@ -480,29 +487,31 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     totalPages = 1
                     isLastPage = true
 
-                    logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
+                    if (!seen) {
+                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
 
-                    try {
-                        ApiServiceJobs.create().sendDataForAnalytics(
-                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
-                        ).enqueue(
-                                object : Callback<String> {
-                                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        try {
+                            ApiServiceJobs.create().sendDataForAnalytics(
+                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                            ).enqueue(
+                                    object : Callback<String> {
+                                        override fun onFailure(call: Call<String>, t: Throwable) {
 
-                                    }
+                                        }
 
-                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                                        override fun onResponse(call: Call<String>, response: Response<String>) {
 
-                                        try {
-                                            if (response.isSuccessful) {
+                                            try {
+                                                if (response.isSuccessful) {
+                                                }
+                                            } catch (e: Exception) {
+                                                logException(e)
                                             }
-                                        } catch (e: Exception) {
-                                            logException(e)
                                         }
                                     }
-                                }
-                        )
-                    } catch (e: Exception) {
+                            )
+                        } catch (e: Exception) {
+                        }
                     }
 
                     doAsync {
@@ -537,27 +546,35 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                         Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
                     }
 
-                    try {
-                        ApiServiceJobs.create().sendDataForAnalytics(
-                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
-                        ).enqueue(
-                                object : Callback<String> {
-                                    override fun onFailure(call: Call<String>, t: Throwable) {
 
-                                    }
+                    if (!seen) {
+                        try {
+                            logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
+                        } catch (e: Exception) {
+                        }
 
-                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        try {
+                            ApiServiceJobs.create().sendDataForAnalytics(
+                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                            ).enqueue(
+                                    object : Callback<String> {
+                                        override fun onFailure(call: Call<String>, t: Throwable) {
 
-                                        try {
-                                            if (response.isSuccessful) {
+                                        }
+
+                                        override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                            try {
+                                                if (response.isSuccessful) {
+                                                }
+                                            } catch (e: Exception) {
+                                                logException(e)
                                             }
-                                        } catch (e: Exception) {
-                                            logException(e)
                                         }
                                     }
-                                }
-                        )
-                    } catch (e: Exception) {
+                            )
+                        } catch (e: Exception) {
+                        }
                     }
 
                     setJobList(jobList)

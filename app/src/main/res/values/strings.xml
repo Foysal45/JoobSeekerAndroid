@@ -41,6 +41,7 @@
     <string name="hint.exam_degree_title">Exam / Degree Title *</string>
     <string name="hint.Other_exam_degree_title">Other</string>
     <string name="hint.concentration_major_group">\u0020Concentration / Major / Group *</string>
+    <string name="hint.board">Board *</string>
     <string name="hint.institute_name">\u0020Institute Name *</string>
     <string name="hint.institute_name_tr">Institute *</string>
     <string name="hint.institute_name_prf">Institute Name *</string>

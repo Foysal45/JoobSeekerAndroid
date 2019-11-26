@@ -160,6 +160,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
     private var jobId = ""
     private var time = ""
     private var nId = ""
+    private var seen = false
 
     private var messageId = ""
 
@@ -238,6 +239,12 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             logException(e)
         }
 
+        try {
+            seen = intent.getBooleanExtra("seen",false)
+        } catch (e: Exception) {
+            logException(e)
+        }
+
         //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         Log.d("value", "value = $value")
         if (value?.equals("follow")) {
@@ -250,65 +257,69 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         } else if (value?.equals("notificationList")) {
 
-            try {
-                logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId, nId)
-            } catch (e: Exception) {
-            }
+            if (!seen) {
+                try {
+                    logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId, nId)
+                } catch (e: Exception) {
+                }
 
 
-            try {
-                ApiServiceJobs.create().sendDataForAnalytics(
-                        userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_CV_VIEWED, encode = Constants.ENCODED_JOBS, sentTo = "Android"
-                ).enqueue(
-                        object : Callback<String> {
-                            override fun onFailure(call: Call<String>, t: Throwable) {
+                try {
+                    ApiServiceJobs.create().sendDataForAnalytics(
+                            userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_CV_VIEWED, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                    ).enqueue(
+                            object : Callback<String> {
+                                override fun onFailure(call: Call<String>, t: Throwable) {
 
-                            }
+                                }
 
-                            override fun onResponse(call: Call<String>, response: Response<String>) {
+                                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-                                try {
-                                    if (response.isSuccessful) {
+                                    try {
+                                        if (response.isSuccessful) {
+                                        }
+                                    } catch (e: Exception) {
+                                        logException(e)
                                     }
-                                } catch (e: Exception) {
-                                    logException(e)
                                 }
                             }
-                        }
-                )
-            } catch (e: Exception) {
+                    )
+                } catch (e: Exception) {
+                }
             }
 
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
 
         } else if (value?.equals("notification")) {
 
-            try {
-                logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId, nId)
-            } catch (e: Exception) {
-            }
+            if (!seen) {
+                try {
+                    logDataForAnalytics(Constants.NOTIFICATION_TYPE_CV_VIEWED, applicationContext, jobId, nId)
+                } catch (e: Exception) {
+                }
 
-            try {
-                ApiServiceJobs.create().sendDataForAnalytics(
-                        userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_CV_VIEWED, encode = Constants.ENCODED_JOBS, sentTo = "Android"
-                ).enqueue(
-                        object : Callback<String> {
-                            override fun onFailure(call: Call<String>, t: Throwable) {
+                try {
+                    ApiServiceJobs.create().sendDataForAnalytics(
+                            userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_CV_VIEWED, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                    ).enqueue(
+                            object : Callback<String> {
+                                override fun onFailure(call: Call<String>, t: Throwable) {
 
-                            }
+                                }
 
-                            override fun onResponse(call: Call<String>, response: Response<String>) {
+                                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-                                try {
-                                    if (response.isSuccessful) {
+                                    try {
+                                        if (response.isSuccessful) {
+                                        }
+                                    } catch (e: Exception) {
+                                        logException(e)
                                     }
-                                } catch (e: Exception) {
-                                    logException(e)
                                 }
                             }
-                        }
-                )
-            } catch (e: Exception) {
+                    )
+                } catch (e: Exception) {
+                }
             }
 
             doAsync {

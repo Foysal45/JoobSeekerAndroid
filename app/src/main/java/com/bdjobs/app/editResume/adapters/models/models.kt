@@ -268,7 +268,9 @@ data class AcaDataItem(
         @SerializedName("showMarks")
         var showMarks: String? = null,
         @SerializedName("yearofPAssing")
-        var yearofPAssing: String? = null
+        var yearofPAssing: String? = null,
+        @SerializedName("boardId")
+        var boardId: String? = null
 )
 
 

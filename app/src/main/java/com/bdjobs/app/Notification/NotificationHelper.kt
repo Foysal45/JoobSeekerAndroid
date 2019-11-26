@@ -202,6 +202,8 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                     putExtra("from", "notification")
                     putExtra("id", jobid)
                     putExtra("nid", nId)
+                    putExtra("seen", true)
+
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 

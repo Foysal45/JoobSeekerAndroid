@@ -222,8 +222,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 cvViewedViewHolder?.notificationCV?.setOnClickListener {
                     cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                    val intent = Intent(context.applicationContext, EmployersBaseActivity::class.java)
-                    intent.putExtra("from", "notificationList")
+
 
                     try {
                         if (!items[position].seen!!) {
@@ -236,8 +235,15 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     } catch (e : Exception){
                         logException(e)
                     }
-                    context?.startActivity(intent)
+
                     notificationCommunicatior.positionClicked(position)
+
+                    context.startActivity<EmployersBaseActivity>(
+                            "seen" to items[position].seen,
+                            "from" to "notificationList"
+                    )
+
+
                 }
             }
 
@@ -289,22 +295,25 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     deadline.add(items[position].deadline!!)
                     jobids.add(items[position].serverId!!)
                     lns.add(items[position].lanType!!)
-                    val intent = Intent(context.applicationContext, JobBaseActivity::class.java)?.apply {
-                        putExtra("from", "notificationList")
-                        putExtra("jobids", jobids)
-                        putExtra("lns", lns)
-                        putExtra("position", 0)
-                        putExtra("deadline", deadline)
-                    }
 
                     if (!items[position].seen!!) {
+
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
                             val count = bdjobsDB.notificationDao().getNotificationCount()
                             bdjobsUserSession.updateNotificationCount(count)
                         }
                     }
-                    context?.startActivity(intent)
+
+                    context?.startActivity<JobBaseActivity>(
+                            "from" to "notificationList",
+                            "jobids" to jobids,
+                            "lns" to lns,
+                            "position" to 0,
+                            "deadline" to deadline,
+                            "seen" to items[position].seen
+                    )
+
                     notificationCommunicatior.positionClicked(position)
                 }
             }
