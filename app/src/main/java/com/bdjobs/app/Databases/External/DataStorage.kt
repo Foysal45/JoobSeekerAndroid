@@ -2147,6 +2147,30 @@ class DataStorage(context: Context) {
         return s
     }
 
+    fun getBoardNameByID(id : Int) : String ?{
+        var s: String? = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.BOARDS_COL_NAME + " FROM " + DBHelper.TABLE_NAME_BOARDS + " WHERE " + DBHelper.BOARDS_COL_VALUE + " = '" + id + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.BOARDS_COL_NAME))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
     val getAllIndustries: Array<String>
         get() {
             val OrgTypes = ArrayList<String>()

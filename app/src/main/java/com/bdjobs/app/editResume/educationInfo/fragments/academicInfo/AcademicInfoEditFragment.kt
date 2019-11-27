@@ -53,7 +53,7 @@ class AcademicInfoEditFragment : Fragment() {
     private var instSuggession = true
     private var gradeOrMarks = "0"
     private var scaleORCgpa = ""
-    private var boardId = -1
+    private var boardId = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -170,6 +170,21 @@ class AcademicInfoEditFragment : Fragment() {
             instSuggession = false
         }
 
+        try {
+
+                if (data.boardId != "0"){
+                    boardTIL?.show()
+                    etBoard.setText(ds.getBoardNameByID(data.boardId!!.toInt()))
+
+                }
+                else{
+                    etBoard.setText("")
+                    boardTIL?.hide()
+                }
+
+
+        } catch (e: Exception) {
+        }
 
     }
 
@@ -192,6 +207,11 @@ class AcademicInfoEditFragment : Fragment() {
         if (etExamOtherTitle.isVisible) {
             checkValidity(etExamOtherTitle, examOtherTIL)
         }
+
+        if (etBoard.isVisible) {
+            checkValidity(etBoard, boardTIL)
+        }
+
         // concentration major group
         if (mejorTIL.isVisible) {
             if (TextUtils.isEmpty(majorSubACTV.getString())) {
@@ -234,6 +254,8 @@ class AcademicInfoEditFragment : Fragment() {
 
             Log.d("isChecked", "$isChecked")
 
+
+
             if (!TextUtils.isEmpty(etResults.getString())) {
                 if (isChecked) {
 
@@ -274,6 +296,7 @@ class AcademicInfoEditFragment : Fragment() {
                         marksTIL?.isErrorEnabled = false
 
                     }
+
 
                 }
 
@@ -460,6 +483,7 @@ class AcademicInfoEditFragment : Fragment() {
 
         val institutes = ds.allInstitutes
         val majorSubjects = ds.allInMajorSubjects
+        val boardNames: Array<String> = ds.allBoards
         val universityAdapter = ArrayAdapter<String>(activity,
                 android.R.layout.simple_dropdown_item_1line, institutes)
         val mejorSubjectAdapter = ArrayAdapter<String>(activity,
@@ -486,6 +510,8 @@ class AcademicInfoEditFragment : Fragment() {
                 val eduLevel = ds.getEduIDByEduLevel(eduLevelList[i])
                 etLevelEdu.setText(ds.getEduLevelByID(eduLevel))
 
+                etExamTitle?.setText("")
+
                 if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5")) {
 
                     instituteNameACTV.setAdapter(universityAdapter)
@@ -508,7 +534,12 @@ class AcademicInfoEditFragment : Fragment() {
                     etExamOtherTitle?.hide()
                     etExamOtherTitle?.clear()
                 }
-
+                if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5") || eduLevel.equalIgnoreCase("6")) {
+                    boardTIL?.hide()
+                    etBoard.setText("")
+                } else {
+                    boardTIL?.show()
+                }
 
                 if (eduLevel.equalIgnoreCase("-3") || eduLevel.equalIgnoreCase("-2")) {
 
@@ -525,24 +556,19 @@ class AcademicInfoEditFragment : Fragment() {
 
                 }
 
-                if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5") || eduLevel.equalIgnoreCase("6")){
-                    boardTIL?.hide()
-                } else {
-                    boardTIL?.show()
-                }
+
 
                 Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
         }
 
         etBoard?.setOnClickListener {
-            val boardNames: Array<String> = ds.allBoards
+
             Log.d("rakib", "${boardNames.size}")
             selector("Select board", boardNames.toList()) { _, i ->
                 etBoard.setText(boardNames[i])
                 Log.d("rakib", "${ds.getBoardIDbyName(etBoard.text.toString())}")
             }
-
 
 
         }
@@ -672,6 +698,20 @@ class AcademicInfoEditFragment : Fragment() {
 
     }
 
+
+    private fun validateBoard(): Boolean {
+        if (etBoard.getString().trim().isEmpty()) {
+            boardTIL?.isErrorEnabled = true
+            boardTIL?.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(etBoard)
+            return false
+        } else {
+            boardTIL?.isErrorEnabled = false
+            return true
+        }
+
+
+    }
 
     private fun validateExamDegreeTile(): Boolean {
 
@@ -964,7 +1004,7 @@ class AcademicInfoEditFragment : Fragment() {
                 ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                 etPassignYear.getString(), majorSubACTV.getString(),
                 hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes,boardId = ds.getBoardIDbyName(etBoard.text.toString()).toString())
+                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "0" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -1066,6 +1106,9 @@ class AcademicInfoEditFragment : Fragment() {
         acaPassingYearTIL?.isErrorEnabled = false
         majorSubACTV?.clearFocus()
         instituteNameACTV?.clearFocus()
+
+        etBoard?.clear()
+        boardTIL.isErrorEnabled = false
 
     }
 

@@ -68,7 +68,9 @@ class ORIEditFragment : Fragment() {
             logException(e)
         }
         onClicks()
+
         etOriKeywords.easyOnTextChangedListener { charSequence ->
+            Log.d("rakib", "adadad")
             if (maxInput - keywordsCount != 0) {
                 etOriKeywords.isEnabled = true
                 if (keywordsCount + charSequence.length < maxInput) {
@@ -88,6 +90,7 @@ class ORIEditFragment : Fragment() {
             } else
                 oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
         }
+
         etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
         Log.d("ORIData", "data: ${data?.keywords}")
         val keywords = data?.keywords?.removeLastComma()
@@ -96,8 +99,12 @@ class ORIEditFragment : Fragment() {
         } catch (e: Exception) {
             logException(e)
         }
+        Log.d("rakib", "${keywords?.length}")
+
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
+
         keyArray?.forEach {
+            Log.d("rakib", "$keyArray ${keyArray.size}")
             if (it.isNotBlank()) addChip(it)
         }
         fab_ori_update.setOnClickListener {
@@ -227,6 +234,7 @@ class ORIEditFragment : Fragment() {
 
 
     private fun addChip(input: String) {
+        Log.d("rakib", "came here $keywordsCount")
         if (keywordsCount < maxInput) {
             keywordsCount += input.length
             Log.d("ORIcount", "totalCount: $keywordsCount|<-")
@@ -304,7 +312,7 @@ class ORIEditFragment : Fragment() {
             idArr.remove(s)
             keywordsCount -= s.length
         }
-        etOriKeywords.isEnabled = keywordsCount <= 249
+        etOriKeywords.isEnabled = keywordsCount <= 250
 
         exps = TextUtils.join(",", idArr)
         checkIfEmpty()
