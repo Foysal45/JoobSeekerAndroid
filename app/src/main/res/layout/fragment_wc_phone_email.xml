@@ -78,7 +78,7 @@
                     android:editable="false"
                     android:text="Bangladesh (88)"
                     android:focusable="false"
-                    android:hint="Country Code"
+                    android:hint="Country / Region Code"
                     android:inputType="text"
                     android:singleLine="true"
                     android:typeface="normal"

@@ -60,7 +60,7 @@
     <string name="hint.certification">Certification *</string>
     <string name="hint.start_date">Start Date *</string>
     <string name="hint.end_date">End Date *</string>
-    <string name="hint.country">Country *</string>
+    <string name="hint.country">Country / Region*</string>
     <string name="hint.rf_address">Address</string>
     <string name="hint.country_v">Country</string>
     <string name="hint.training_title">Training Title *</string>
