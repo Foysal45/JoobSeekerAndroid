@@ -527,14 +527,28 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 try {
 
                     val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
-                    catIds?.let {
-                        for (item in it) {
-                            if (item.isNotEmpty()) {
-                                activity.subscribeToFCMTopic(item)
-                                Log.d("rakib", item)
+
+                    if (response.body()?.data?.get(0)?.subscriptionType == "0"){
+                        catIds?.let {
+                            for (item in it) {
+                                if (item.isNotEmpty()) {
+                                    activity.subscribeToFCMTopic(item)
+                                    Log.d("rakib", item)
+                                }
+                            }
+                        }
+                    } else if (response.body()?.data?.get(0)?.subscriptionType == "1"){
+                        catIds?.let {
+                            for (item in it) {
+                                if (item.isNotEmpty()) {
+                                    activity.unsubscribeFromFCMTopic(item)
+                                    Log.d("rakib", item)
+                                }
                             }
                         }
                     }
+
+
                     Log.d("rakib cat id", "${catIds?.size}")
 
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview

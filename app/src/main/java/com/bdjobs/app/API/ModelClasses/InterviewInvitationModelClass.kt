@@ -54,5 +54,8 @@ data class LastUpdateModelData(
         @SerializedName("applyRestrictionStatus")
         val applyRestrictionStatus: Boolean?,
         @SerializedName("appliedJobsThreshold")
-        val appliedJobsThreshold: String?
+        val appliedJobsThreshold: String?,
+
+        @SerializedName("subscriptionType")
+        val subscriptionType: String?
 )

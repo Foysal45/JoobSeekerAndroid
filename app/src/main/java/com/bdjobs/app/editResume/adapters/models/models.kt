@@ -337,7 +337,7 @@ data class C_DataItem(
         @SerializedName("primaryEmail")
         val email: String?="",
         @SerializedName("mobileNo1")
-        val homePhone: String?="",
+        val officePhone: String?="",
         @SerializedName("messageType")
         val messageType: String?="",
         @SerializedName("countryCode")
@@ -345,7 +345,7 @@ data class C_DataItem(
         @SerializedName("primaryMobileNo")
         val mobile: String?="",
         @SerializedName("mobileNo2")
-        val officePhone: String?="",
+        val homePhone: String?="",
         @SerializedName("permanentAddressID")
         val permanentAddressID: String?="",
         @SerializedName("permanentCountry")

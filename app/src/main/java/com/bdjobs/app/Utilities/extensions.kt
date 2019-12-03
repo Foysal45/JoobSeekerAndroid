@@ -242,6 +242,18 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
 //            })
 }
 
+fun Activity.unsubscribeFromFCMTopic(topicName: String) {
+    FirebaseMessaging.getInstance()?.unsubscribeFromTopic(topicName)
+            .addOnCompleteListener {
+                task ->
+                var msg = "Firebase topic unsubscribe on : $topicName is successful"
+                if (!task.isSuccessful){
+                    var msg = "Firebase topic unsubscribe on : $topicName is not successful"
+                }
+                wtf(msg)
+            }
+}
+
 fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener) {
     val dpd = DatePickerDialog(c,
             listener,
