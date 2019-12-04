@@ -118,7 +118,7 @@ class ContactViewFragment : Fragment() {
         if (info?.permanentVillage?.trim().equals("") && isSameOfPresent != "3") rl_2.hide() else rl_2.show()
         if (info?.email?.trim().equals("") && info?.alternativeEmail?.trim().equals("")) rl_4.hide() else rl_4.show()
         if (info?.mobile?.trim().equals("") && info?.homePhone?.trim().equals("")
-                && info?.homePhone?.trim().equals("")) rl_3.hide() else rl_3.show()
+                && info?.officePhone?.trim().equals("")) rl_3.hide() else rl_3.show()
 
         if (info?.presentInsideOutsideBD == "False") {
             presentAddress = presentAddress.replace(", ,".toRegex(), ",")
@@ -146,11 +146,21 @@ class ContactViewFragment : Fragment() {
         val b = info?.alternativeEmail
         val sb = StringBuilder()
         tvEmailAddr.text = sb.append(a).append(b)
-        val a1 = info?.mobile + "\n"
-        val b1 = info?.homePhone + "\n"
-        val c1 = info?.officePhone
-        val sb1 = StringBuilder()
-        tvMobileNo.text = sb1.append(a1).append(b1).append(c1)
+        var a1 = info?.mobile
+        var b1 = info?.homePhone
+        var c1 = info?.officePhone
+        var sb1 = StringBuilder()
+
+        if (a1 != "")
+            sb1.append(a1+"\n")
+        if (b1 != "")
+            sb1.append(b1+"\n")
+        if (c1 != "")
+            sb1.append(c1+"\n")
+
+        Log.d("rakib", "${info?.mobile} ${info?.officePhone} ${info?.homePhone}")
+
+        tvMobileNo.text = sb1
     }
 
     private fun shimmerStart() {

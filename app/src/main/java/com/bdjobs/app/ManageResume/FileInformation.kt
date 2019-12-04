@@ -58,8 +58,11 @@ class FileInformation {
             fileinfo.fileSize = f.length()
 
             //File Type
-            fileinfo.extension = MimeTypeMap.getFileExtensionFromUrl(uri
-                    .toString())
+//            fileinfo.extension = MimeTypeMap.getFileExtensionFromUrl(uri
+//                    .toString())
+//
+            fileinfo.extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+
             fileinfo.extensionwithDot = "." + fileinfo.extension!!
 
             fileinfo.type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(

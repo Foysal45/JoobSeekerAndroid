@@ -131,7 +131,7 @@ class ORIEditFragment : Fragment() {
 
                 Log.d("rakib", "total length $toatalLength")
 
-                if (etOriKeywords?.text.toString().length + toatalLength < 250) {
+                if (etOriKeywords?.text.toString().length + toatalLength < 251) {
                     if (etOriKeywords.text.toString() != "") {
                         addChip(etOriKeywords.getString().removeLastComma())
                     }
@@ -344,7 +344,7 @@ class ORIEditFragment : Fragment() {
 //            keywordsCount = data?.keywords?.length!! - s.length
             toatalLength -= s.length
         }
-        etOriKeywords.isEnabled = keywordsCount <= 250
+        etOriKeywords.isEnabled = toatalLength <= 250
 
         exps = TextUtils.join(",", idArr)
         checkIfEmpty()
