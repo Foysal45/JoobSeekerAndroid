@@ -106,8 +106,8 @@ interface ApiServiceMyBdjobs {
     ): Call<GetArmyEmpHis>
 
     @FormUrlEncoded
-//    @POST("apps_step_02_view_aca.asp")
-    @POST("apps_step_02_view_aca_testp.asp")
+    @POST("apps_step_02_view_aca.asp")
+//    @POST("apps_step_02_view_aca_testp.asp")
 
     fun getAcaInfoList(
             @Field("userId") userId: String? = "",
@@ -303,8 +303,8 @@ interface ApiServiceMyBdjobs {
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
-//    @POST("apps_step_02_update_aca.asp")
-    @POST("apps_step_02_update_aca_testp.asp")
+    @POST("apps_step_02_update_aca.asp")
+//    @POST("apps_step_02_update_aca_testp.asp")
     fun updateAcademicData(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",

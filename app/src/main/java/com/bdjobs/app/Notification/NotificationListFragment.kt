@@ -89,16 +89,19 @@ class NotificationListFragment : Fragment() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getNotification()
             uiThread {
-                notificationListAdapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
-                notificationsRV?.also {
-                    it.setHasFixedSize(true)
-                    it.itemAnimator = DefaultItemAnimator()
-                    it.adapter = notificationListAdapter
-                    it.layoutManager = linearLayoutManager
-                    try {
-                        it.scrollToPosition(notificationCommunicator.getPositionClicked())
-                    } catch (e: Exception) {
+                try {
+                    notificationListAdapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
+                    notificationsRV?.also {
+                        it.setHasFixedSize(true)
+                        it.itemAnimator = DefaultItemAnimator()
+                        it.adapter = notificationListAdapter
+                        it.layoutManager = linearLayoutManager
+                        try {
+                            it.scrollToPosition(notificationCommunicator.getPositionClicked())
+                        } catch (e: Exception) {
+                        }
                     }
+                } catch (e: Exception) {
                 }
 
                 if (notificationList?.size!! > 0) {
