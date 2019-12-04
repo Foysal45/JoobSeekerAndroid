@@ -528,22 +528,28 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
 
-                    if (response.body()?.data?.get(0)?.subscriptionType == "0"){
+                    if (response.body()?.data?.get(0)?.subscriptionType == "1"){
                         catIds?.let {
-                            for (item in it) {
-                                if (item.isNotEmpty()) {
-                                    activity.subscribeToFCMTopic(item)
-                                    Log.d("rakib", item)
+                            try {
+                                for (item in it) {
+                                    if (item.isNotEmpty()) {
+                                        activity.subscribeToFCMTopic(item)
+                                        Log.d("rakib", item)
+                                    }
                                 }
+                            } catch (e: Exception) {
                             }
                         }
-                    } else if (response.body()?.data?.get(0)?.subscriptionType == "1"){
+                    } else if (response.body()?.data?.get(0)?.subscriptionType == "0"){
                         catIds?.let {
-                            for (item in it) {
-                                if (item.isNotEmpty()) {
-                                    activity.unsubscribeFromFCMTopic(item)
-                                    Log.d("rakib", item)
+                            try {
+                                for (item in it) {
+                                    if (item.isNotEmpty()) {
+                                        activity.unsubscribeFromFCMTopic(item)
+                                        Log.d("rakib", item)
+                                    }
                                 }
+                            } catch (e: Exception) {
                             }
                         }
                     }

@@ -71,6 +71,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView48">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/cg_functional_pref"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -127,6 +128,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView49">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/cg_skilled_pref"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -184,6 +186,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView47">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/cg_org_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -239,14 +242,16 @@
                     android:id="@+id/LL_pref-area_4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
+                    android:padding="5dp"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView46"
                     app:layout_constraintTop_toBottomOf="@+id/textView50">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/cg_org_pref_locs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -267,7 +272,7 @@
                     android:id="@+id/LL_pref-area_5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="8dp"
                     android:orientation="horizontal"
                     android:padding="5dp"
@@ -276,6 +281,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView51">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/cg_org_pref_out_locs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

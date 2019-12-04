@@ -32,7 +32,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         const val GENERAL_CHANNEL = "general"
         const val INTERVIEW_INVITATION_CHANNEL = "interview_invitation"
         const val CV_VIEWED_CHANNEL = "cv_viewed"
-        const val MATCHED_JOB = "matched_job"
+        const val MATCHED_JOB_CHANNEL = "matched_job"
         const val MESSAGE_CHANNEL = "message"
     }
 
@@ -183,7 +183,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                return NotificationCompat.Builder(applicationContext, CV_VIEWED_CHANNEL)
+                return NotificationCompat.Builder(applicationContext, MATCHED_JOB_CHANNEL)
                         .setContentTitle(title)
                         .setContentText(body)
                         .setSmallIcon(smallIcon)

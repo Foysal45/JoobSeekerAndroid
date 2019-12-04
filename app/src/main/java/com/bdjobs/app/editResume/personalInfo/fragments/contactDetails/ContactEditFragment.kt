@@ -211,7 +211,7 @@ class ContactEditFragment : Fragment() {
         countryCodeTIET?.setOnClickListener {
 
             Log.d("rakb", contactInfo.getContactData().countryCode)
-            activity.selector("Please select your country / region code", countryList.toList()) { dialogInterface, i ->
+            activity.selector("Please select your country/region code", countryList.toList()) { dialogInterface, i ->
                 countryCodeTIET?.setText(countryList[i])
                 mobileNumberValidityCheck(contactMobileNumberTIET.text.toString())
                 val countryCode: String
@@ -939,7 +939,7 @@ class ContactEditFragment : Fragment() {
 
             val countryList: Array<String> = dataStorage.allCountries
 
-            activity?.selector("Please select your country / region", countryList.toList()) { _, i ->
+            activity?.selector("Please select your country/region", countryList.toList()) { _, i ->
 
                 presentContactCountryTIET.setText(countryList[i])
                 presentContactCountryTIL.requestFocus()
@@ -952,7 +952,7 @@ class ContactEditFragment : Fragment() {
         ////Parmanent Address---------------Start
         permanentContactCountryTIETP.setOnClickListener {
             val countryList: Array<String> = dataStorage.allCountries
-            activity?.selector("Please select your country / region", countryList.toList()) { _, i ->
+            activity?.selector("Please select your country/region", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
                 permanentContactCountryTILP.requestFocus()
                 // permanentContactCountryTILP.hideError()
@@ -963,7 +963,7 @@ class ContactEditFragment : Fragment() {
 
             val countryList: Array<String> = dataStorage.allCountriesWithOutBangladesh
 
-            activity?.selector("Please select your country / region", countryList.toList()) { _, i ->
+            activity?.selector("Please select your country/region", countryList.toList()) { _, i ->
 
                 presentContactCountryTIET.setText(countryList[i])
                 presentContactCountryTIL.requestFocus()
@@ -972,7 +972,7 @@ class ContactEditFragment : Fragment() {
         }
         permanentContactCountryTIETP.setOnClickListener {
             val countryList: Array<String> = dataStorage.allCountriesWithOutBangladesh
-            activity?.selector("Please select your country / region", countryList.toList()) { _, i ->
+            activity?.selector("Please select your country/region", countryList.toList()) { _, i ->
                 permanentContactCountryTIETP.setText(countryList[i])
                 permanentContactCountryTILP.requestFocus()
                 //permanentContactCountryTILP.hideError()
@@ -1136,13 +1136,16 @@ class ContactEditFragment : Fragment() {
                             }
                             if (editText.id == R.id.prContactPostOfficeTIET1) {
 
-                                postOfficeId = postOfficeList?.get(which)?.locationId!!
-                                contactInfo.setPostOffice(postOfficeId)
-                                postOffice = prContactPostOfficeTIET1.getString()
-                                locationID = if (postOffice.equals("Other", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
-                                    thanaId
-                                } else {
-                                    postOfficeId
+                                try {
+                                    postOfficeId = postOfficeList?.get(which)?.locationId!!
+                                    contactInfo.setPostOffice(postOfficeId)
+                                    postOffice = prContactPostOfficeTIET1.getString()
+                                    locationID = if (postOffice.equals("Other", ignoreCase = true) || TextUtils.isEmpty(postOffice)) {
+                                        thanaId
+                                    } else {
+                                        postOfficeId
+                                    }
+                                } catch (e: Exception) {
                                 }
                             }
 

@@ -1004,7 +1004,7 @@ class AcademicInfoEditFragment : Fragment() {
                 ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                 etPassignYear.getString(), majorSubACTV.getString(),
                 hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "0" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
+                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {

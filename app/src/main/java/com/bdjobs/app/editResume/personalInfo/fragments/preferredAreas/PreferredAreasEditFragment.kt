@@ -188,7 +188,7 @@ class PreferredAreasEditFragment : Fragment() {
             } else if (!acInsideBD?.text.toString().isNullOrEmpty()) {
                 toast("District is not available")
             } else if (!acOutsideBD.text.toString().isNullOrEmpty()) {
-                toast("Country is not available")
+                toast("Country/Region is not available")
             } else {
 
                 var valid = 0
@@ -436,7 +436,7 @@ class PreferredAreasEditFragment : Fragment() {
                             Log.d("acWCjobCat", "arr2: $idOutBDArr")
                         } else {
                             acOutsideBD.closeKeyboard(activity)
-                            activity?.toast("Country already added")
+                            activity?.toast("Country/Region already added")
                             acOutsideBD.setText("")
                             acOutsideBD.clearFocus()
                         }
