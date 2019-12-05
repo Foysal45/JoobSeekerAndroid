@@ -953,7 +953,6 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        activity.showProgressBar(loadingProgressBar)
 
         if (etExamTitle.getString().equalIgnoreCase("Other")) {
             d("dgbdjhgbdg in other")
@@ -1000,44 +999,93 @@ class AcademicInfoEditFragment : Fragment() {
         }
 
 
-        val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
-                ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
-                etPassignYear.getString(), majorSubACTV.getString(),
-                hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
+        if (boardTIL.isVisible) {
+            activity.showProgressBar(loadingProgressBar)
+            if (!etBoard.text.toString().isNullOrEmpty()){
+                val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
+                        ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
+                        etPassignYear.getString(), majorSubACTV.getString(),
+                        hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
+                        scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
 
-        call.enqueue(object : Callback<AddorUpdateModel> {
-            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                try {
-                    activity?.stopProgressBar(loadingProgressBar)
-                    activity?.toast(R.string.message_common_error)
-                } catch (e: Exception) {
+                call.enqueue(object : Callback<AddorUpdateModel> {
+                    override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                        try {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            activity?.toast(R.string.message_common_error)
+                        } catch (e: Exception) {
 
-                    logException(e)
-                }
-            }
-
-            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-
-                try {
-                    activity.stopProgressBar(loadingProgressBar)
-                    if (response.isSuccessful) {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        val resp = response.body()
-                        activity?.toast(resp?.message.toString())
-                        if (resp?.statuscode == "4") {
-                            eduCB.saveButtonClickStatus(true)
-                            eduCB.setBackFrom(acaUpdate)
-                            eduCB.goBack()
+                            logException(e)
                         }
                     }
-                } catch (e: Exception) {
-                    //activity.stopProgressBar(loadingProgressBar)
-                    e.printStackTrace()
-                    logException(e)
-                }
+
+                    override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+
+                        try {
+                            activity.stopProgressBar(loadingProgressBar)
+                            if (response.isSuccessful) {
+                                activity?.stopProgressBar(loadingProgressBar)
+                                val resp = response.body()
+                                activity?.toast(resp?.message.toString())
+                                if (resp?.statuscode == "4") {
+                                    eduCB.saveButtonClickStatus(true)
+                                    eduCB.setBackFrom(acaUpdate)
+                                    eduCB.goBack()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            //activity.stopProgressBar(loadingProgressBar)
+                            e.printStackTrace()
+                            logException(e)
+                        }
+                    }
+                })
+            } else{
+                activity.stopProgressBar(loadingProgressBar)
+                toast("Board can not be empty")
             }
-        })
+
+        } else {
+            activity.showProgressBar(loadingProgressBar)
+            val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
+                    ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
+                    etPassignYear.getString(), majorSubACTV.getString(),
+                    hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
+                    scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
+
+            call.enqueue(object : Callback<AddorUpdateModel> {
+                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                    try {
+                        activity?.stopProgressBar(loadingProgressBar)
+                        activity?.toast(R.string.message_common_error)
+                    } catch (e: Exception) {
+
+                        logException(e)
+                    }
+                }
+
+                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+
+                    try {
+                        activity.stopProgressBar(loadingProgressBar)
+                        if (response.isSuccessful) {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            val resp = response.body()
+                            activity?.toast(resp?.message.toString())
+                            if (resp?.statuscode == "4") {
+                                eduCB.saveButtonClickStatus(true)
+                                eduCB.setBackFrom(acaUpdate)
+                                eduCB.goBack()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        //activity.stopProgressBar(loadingProgressBar)
+                        e.printStackTrace()
+                        logException(e)
+                    }
+                }
+            })
+        }
     }
 
     fun dataDelete() {
