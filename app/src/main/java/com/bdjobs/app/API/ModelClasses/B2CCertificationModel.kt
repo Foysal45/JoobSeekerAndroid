@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class AssesmentCompleteModel(
     @SerializedName("common")
     val common: Any?,
@@ -13,6 +14,7 @@ data class AssesmentCompleteModel(
     val statuscode: String?
 )
 
+@Keep
 data class AssesmentCompleteData(
     @SerializedName("aid")
     val aid: String?,

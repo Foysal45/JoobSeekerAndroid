@@ -12,11 +12,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.BackgroundJob.ShortListedJobDeleteJob
+//import com.bdjobs.app.BackgroundJob.ShortListedJobDeleteJob
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
@@ -24,6 +25,7 @@ import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Workmanager.ShortlistedJobDeleteWorker
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
@@ -518,7 +520,16 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 notifyItemRemoved(position)
                 notifyItemRangeRemoved(position, jobList?.size!!)
                 val actv = context as Activity
-                val deleteJobID = ShortListedJobDeleteJob.scheduleAdvancedJob(deletedItem?.jobid!!)
+
+                val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                val shortlistedJobDeleteData = workDataOf("jobId" to deletedItem?.jobid)
+                val shortlistedJobDeleteRequest = OneTimeWorkRequestBuilder<ShortlistedJobDeleteWorker>().setInputData(shortlistedJobDeleteData).setConstraints(constraints).build()
+                WorkManager.getInstance(context).enqueue(shortlistedJobDeleteRequest)
+
+//                val deleteJobID = ShortListedJobDeleteJob.scheduleAdvancedJob(deletedItem?.jobid!!)
                 //undoRemove(actv.mainCL, deletedItem, position, deleteJobID)
                 homeCommunicator?.decrementCounter()
             } else {
@@ -533,7 +544,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val msg = Html.fromHtml("<font color=\"#ffffff\">The information has been deleted successfully</font>")
         val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
-                    ShortListedJobDeleteJob.cancelJob(deleteJobID)
+//                    ShortListedJobDeleteJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     homeCommunicator?.scrollToUndoPosition(deletedIndex)
                     Log.d("comid", "comid = ${deletedIndex}")
@@ -563,7 +574,14 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                                 if (homeCommunicator != null) {
                                     deleteShortListedJobwithUndo(position)
                                 } else {
-                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
+                                    val constraints = Constraints.Builder()
+                                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                                            .build()
+
+                                    val shortlistedJobDeleteData = workDataOf("jobId" to jobList?.get(position)?.jobid)
+                                    val shortlistedJobDeleteRequest = OneTimeWorkRequestBuilder<ShortlistedJobDeleteWorker>().setInputData(shortlistedJobDeleteData).setConstraints(constraints).build()
+                                    WorkManager.getInstance(context).enqueue(shortlistedJobDeleteRequest)
+//                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
                                     doAsync {
                                         bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                                     }

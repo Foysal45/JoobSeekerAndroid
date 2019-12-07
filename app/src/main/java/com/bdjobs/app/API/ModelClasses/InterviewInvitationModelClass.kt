@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class LastUpdateModel(
         @SerializedName("common")
         val common: Any?,
@@ -13,7 +14,7 @@ data class LastUpdateModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class LastUpdateModelData(
         @SerializedName("SocialMediaId")
         val socialMediaId: String?,
@@ -53,5 +54,8 @@ data class LastUpdateModelData(
         @SerializedName("applyRestrictionStatus")
         val applyRestrictionStatus: Boolean?,
         @SerializedName("appliedJobsThreshold")
-        val appliedJobsThreshold: String?
+        val appliedJobsThreshold: String?,
+
+        @SerializedName("subscriptionType")
+        val subscriptionType: String?
 )

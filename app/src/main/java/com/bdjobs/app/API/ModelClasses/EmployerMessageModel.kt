@@ -1,26 +1,28 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class EmployerMessageModel(
-    @SerializedName("common")
-    var common: CommonData? = CommonData(),
-    @SerializedName("data")
-    var `data`: List<MessageDataModel?>? = listOf(),
-    @SerializedName("message")
-    var message: String? = "",
-    @SerializedName("statuscode")
-    var statuscode: String? = ""
+        @SerializedName("common")
+        var common: CommonData? = CommonData(),
+        @SerializedName("data")
+        var `data`: List<MessageDataModel?>? = listOf(),
+        @SerializedName("message")
+        var message: String? = "",
+        @SerializedName("statuscode")
+        var statuscode: String? = ""
 )
-    data class CommonData(
+@Keep
+data class CommonData(
         @SerializedName("totalMessage")
         var totalMessage: Int? = 0,
         @SerializedName("totalpages")
         var totalpages: Int? = 0
-    )
-
-    data class MessageDataModel(
+)
+@Keep
+data class MessageDataModel(
         @SerializedName("companyName")
         var companyName: String? = "",
         @SerializedName("jobTite")
@@ -31,20 +33,21 @@ data class EmployerMessageModel(
         var messageId: String? = "",
         @SerializedName("status")
         var status: String? = ""
-    )
+)
 
-
+@Keep
 data class MessageDetailModel(
         @SerializedName("common")
-    var common: Any? = Any(),
+        var common: Any? = Any(),
         @SerializedName("data")
-    var `data`: List<MessageDetailData?>? = listOf(),
+        var `data`: List<MessageDetailData?>? = listOf(),
         @SerializedName("message")
-    var message: String? = "",
+        var message: String? = "",
         @SerializedName("statuscode")
-    var statuscode: String? = ""
+        var statuscode: String? = ""
 )
-    data class MessageDetailData(
+@Keep
+data class MessageDetailData(
         @SerializedName("from")
         var from: String? = "",
         @SerializedName("jobtitle")
@@ -57,4 +60,4 @@ data class MessageDetailModel(
         var msgBody: String? = "",
         @SerializedName("subject")
         var subject: String? = ""
-    )
+)

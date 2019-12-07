@@ -41,6 +41,7 @@
     <string name="hint.exam_degree_title">Exam / Degree Title *</string>
     <string name="hint.Other_exam_degree_title">Other</string>
     <string name="hint.concentration_major_group">\u0020Concentration / Major / Group *</string>
+    <string name="hint.board">Board *</string>
     <string name="hint.institute_name">\u0020Institute Name *</string>
     <string name="hint.institute_name_tr">Institute *</string>
     <string name="hint.institute_name_prf">Institute Name *</string>
@@ -59,9 +60,9 @@
     <string name="hint.certification">Certification *</string>
     <string name="hint.start_date">Start Date *</string>
     <string name="hint.end_date">End Date *</string>
-    <string name="hint.country">Country *</string>
+    <string name="hint.country">Country/Region*</string>
     <string name="hint.rf_address">Address</string>
-    <string name="hint.country_v">Country</string>
+    <string name="hint.country_v">Country/Region</string>
     <string name="hint.training_title">Training Title *</string>
     <string name="hint.reference_name">Name *</string>
     <string name="hint.add_skill">Add your Skill</string>
@@ -164,7 +165,7 @@
     <string name="what_is_key"><![CDATA[\"Keywords are specific words or phrases that job seekers use to search for jobs and employers use to find the right candidates. Keywords are used as search criteria in the same way you do research on the Internet. The more keywords you use, the more closely the job will match what you\'re really looking for.Example: <br>\\n\"                     + \"                MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, <br>\\n\"                     + \"                Java, HTML, Photo Shop, AIUB, BUET, DU, IBA, NSU etc \"]]></string>
     <string name="csgex"><![CDATA[\"<strong>Corporate Real Estate Executive (Your Job title):</strong><br/>Increasing Bottom-Line Profitability through Real Estate Strategies<br/><strong>Professional Profile </strong><br/>Accomplished executive with a proven ability to develop and implement real estate strategies that support business and financial objectives. Have led key initiatives that reduced operating budget by $32 million and contributed to 550 percent stock increase. Recognized as an expert in applying financial concepts to asset management decisions.<br/><strong>Areas of Expertise</strong><br/><div style=\'margin-left:5px\'><ul>   <li> High-Volume, High-Dollar Negotiations  </li>\\n\"                     + \"    <li>Strategic/Tactical Planning  </li>\\n\"                     + \"    <li>Multimillion-Dollar Operating and Capital Budget Administration  </li>\\n\"                     + \"    <li>Analytical and Financial Skills  </li>\\n\"                     + \"   <li> Statistical Modeling and ROI Analyses</li>\\n\"                     + \"</ul></div>\"]]></string>
     <string name="districtMSG">You ca not add more than 15 district!</string>
-    <string name="countryMSG">You can not add more than 10 country!</string>
+    <string name="countryMSG">You can not add more than 10 countries/regions!</string>
     <string name="orgMSG">You can not add more than 12 organization!</string>
     <string name="message.common.error">Something went wrong! Please try again.</string>
     <string name="yes">YES</string>
@@ -316,7 +317,7 @@
     <string name="hint.prefAreas_add_district">Add District *</string>
     <string name="hint.prefAreas_select_districts">Select Districts</string>
     <string name="hint.prefAreas_anywhere_in_bangladesh">Anywhere in Bangladesh</string>
-    <string name="hint.prefAreas_add_country">Add Country</string>
+    <string name="hint.prefAreas_add_country">Add Country/Region</string>
     <string name="hint.prefAreas_outside_bangladesh">Outside Bangladesh</string>
     <string name="hint.prefAreasBCJobCategory">Preferred Special Skilled Job Categories</string>
     <string name="hint.prefAreasOrgType">Preferred Organization Type</string>

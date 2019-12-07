@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class StatsModelClass(
     @SerializedName("common")
     val common: StatsModelClassCommon?,
@@ -13,6 +14,7 @@ data class StatsModelClass(
     val statuscode: String?
 )
 
+@Keep
 data class StatsModelClassCommon(
     @SerializedName("IsResumeUpdate")
     val isResumeUpdate: String?,
@@ -28,6 +30,7 @@ data class StatsModelClassCommon(
     val userId: String?
 )
 
+@Keep
 data class StatsModelClassData(
     @SerializedName("count")
     val count: String?,

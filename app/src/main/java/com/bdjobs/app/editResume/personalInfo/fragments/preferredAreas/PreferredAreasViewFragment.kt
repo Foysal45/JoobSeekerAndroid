@@ -119,16 +119,37 @@ class PreferredAreasViewFragment : Fragment() {
             addChip(it?.prefOrgName!!, cg_org_type)
         }
         removeChips(cg_org_pref_locs)
-        preferredInsideBDLocs?.forEach {
-            addChip(it?.districtName!!, cg_org_pref_locs)
-        }
-        removeChips(cg_org_pref_out_locs)
-        if (preferredOutsideBDLocs != null) {
-            textView51.show()
-            preferredOutsideBDLocs.forEach {
-                addChip(it?.countryName!!, cg_org_pref_out_locs)
+
+        try {
+            if (preferredInsideBDLocs != null) {
+                if (preferredInsideBDLocs.isNotEmpty()) {
+                    preferredInsideBDLocs?.forEach {
+                        addChip(it?.districtName!!, cg_org_pref_locs)
+                        textView50?.show()
+                    }
+                } else {
+                    textView50?.hide()
+                }
             }
-        } else textView51.hide()
+        } catch (e: Exception) {
+        }
+
+        removeChips(cg_org_pref_out_locs)
+        try {
+            if (preferredOutsideBDLocs != null) {
+                if (preferredOutsideBDLocs!!.isNotEmpty()) {
+                    Log.d("rakib", "preferred area if")
+                    textView51.show()
+                    preferredOutsideBDLocs.forEach {
+                        addChip(it?.countryName!!, cg_org_pref_out_locs)
+                    }
+                } else {
+                    Log.d("rakib", "preferred area else")
+                    textView51.hide()
+                }
+            }
+        } catch (e: Exception) {
+        }
     }
 
 
@@ -139,8 +160,9 @@ class PreferredAreasViewFragment : Fragment() {
         //LL_ORI_Keyword?.closeKeyboard(activity)
     }
 
-    private fun removeChips(cg:ChipGroup){
+    private fun removeChips(cg: ChipGroup) {
         cg.removeAllViews()
+
     }
 
     private fun getChip(text: String, item: Int): Chip {

@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class FollowEmployerListModelClass(
         @SerializedName("common")
         val common: Common?,
@@ -13,7 +14,7 @@ data class FollowEmployerListModelClass(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class Common(
         @SerializedName("TotalCompnay")
         val totalCompnay: String?,
@@ -26,7 +27,7 @@ data class Common(
         @SerializedName("totalpages")
         val totalpages: String?=""
 )
-
+@Keep
 data class FollowEmployerListData(
         @SerializedName("CompanyID")
         val companyID: String?="",

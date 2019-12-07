@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class ApplyOnlineModel(
         @SerializedName("common")
         val common: Any,
@@ -13,7 +14,7 @@ data class ApplyOnlineModel(
         @SerializedName("statuscode")
         val statuscode: String
 )
-
+@Keep
 data class ApplyOnlineDataModel(
         @SerializedName("AssessmentDeadline")
         val assessmentDeadline: String,

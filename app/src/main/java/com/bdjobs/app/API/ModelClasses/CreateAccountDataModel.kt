@@ -1,7 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class CreateAccountDataModel(
         @SerializedName("AppsDate")
         val appsDate: String?,

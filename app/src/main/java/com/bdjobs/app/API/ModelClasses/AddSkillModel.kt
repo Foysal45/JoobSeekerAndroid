@@ -1,10 +1,13 @@
 package com.bdjobs.app.API.ModelClasses
 
-  data class  AddExpModel(
+import androidx.annotation.Keep
 
-      var workExp :String? = "",
-      var expSource: ArrayList<String>?,
-      var NTVQF :String? =""
+@Keep
+data class AddExpModel(
+
+        var workExp: String? = "",
+        var expSource: ArrayList<String>?,
+        var NTVQF: String? = ""
 
 
-  )
+)

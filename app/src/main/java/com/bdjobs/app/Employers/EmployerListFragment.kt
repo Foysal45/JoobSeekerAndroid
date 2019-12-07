@@ -42,8 +42,8 @@ class EmployerListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         listCommunicator = activity as EmployersCommunicator
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
 
         backIV.setOnClickListener {
             listCommunicator?.backButtonPressed()

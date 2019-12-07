@@ -29,11 +29,18 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.ContextCompat
+import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 
 class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+
+
+    private var seen = false
 
     override fun positionClickedMessage(item: Int) {
         positionClickedMessage = item
@@ -65,6 +72,8 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
             }
         }
     }
+
+
 
     private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
@@ -107,13 +116,18 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
 
         try {
             from = intent.getStringExtra("from")
-            id = intent.getStringExtra("")
+            id = intent.getStringExtra("id")
             nId = intent.getStringExtra("nid")
 
         } catch (e: Exception) {
             logException(e)
         }
 
+        try {
+            seen = intent.getBooleanExtra("seen",false)
+        } catch (e: Exception) {
+            logException(e)
+        }
 
 
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -146,6 +160,25 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
         when{
             from?.equals("notification")->{
                 logDataForAnalytics(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE, applicationContext, id,nId)
+                try {
+                    ApiServiceJobs.create().sendDataForAnalytics(
+                            userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                    ).enqueue(
+                            object : Callback<String> {
+                                override fun onFailure(call: Call<String>, t: Throwable) {
+                                }
+                                override fun onResponse(call: Call<String>, response: Response<String>) {
+                                    try {
+                                        if (response.isSuccessful) {
+                                        }
+                                    } catch (e: Exception) {
+                                        logException(e)
+                                    }
+                                }
+                            }
+                    )
+                } catch (e: Exception) {
+                }
                 try {
                     val tab = tabs.getTabAt(1)
                     tab!!.select()

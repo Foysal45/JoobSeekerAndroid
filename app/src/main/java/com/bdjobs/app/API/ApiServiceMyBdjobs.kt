@@ -36,18 +36,18 @@ interface ApiServiceMyBdjobs {
     @FormUrlEncoded
     @POST("https://my.bdjobs.com/apps/mybdjobs/v1/apps-own-agen-log.asp")
     fun doLogin2(@Field("username") username: String? = "",
-                @Field("password") password: String? = "",
-                @Field("userId") userId: String? = "",
-                @Field("decodId") decodId: String? = "",
-                @Field("susername") susername: String? = "",
-                @Field("fullName") fullName: String? = "",
-                @Field("socialMediaId") socialMediaId: String? = "",
-                @Field("socialMediaName") socialMediaName: String? = "",
-                @Field("isMap") isMap: String? = "",
-                @Field("email") email: String? = "",
-                @Field("otpCode") otpCode: String? = "",
-                @Field("smId") smId: String? = "",
-                @Field("appId") appId: String? = Constants.APP_ID
+                 @Field("password") password: String? = "",
+                 @Field("userId") userId: String? = "",
+                 @Field("decodId") decodId: String? = "",
+                 @Field("susername") susername: String? = "",
+                 @Field("fullName") fullName: String? = "",
+                 @Field("socialMediaId") socialMediaId: String? = "",
+                 @Field("socialMediaName") socialMediaName: String? = "",
+                 @Field("isMap") isMap: String? = "",
+                 @Field("email") email: String? = "",
+                 @Field("otpCode") otpCode: String? = "",
+                 @Field("smId") smId: String? = "",
+                 @Field("appId") appId: String? = Constants.APP_ID
     ): Call<LoginSessionModel>
 
     @FormUrlEncoded
@@ -107,6 +107,8 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("apps_step_02_view_aca.asp")
+//    @POST("apps_step_02_view_aca_testp.asp")
+
     fun getAcaInfoList(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
@@ -302,6 +304,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("apps_step_02_update_aca.asp")
+//    @POST("apps_step_02_update_aca_testp.asp")
     fun updateAcademicData(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
@@ -321,6 +324,7 @@ interface ApiServiceMyBdjobs {
             @Field("achievements") achievements: String? = "",
             @Field("hEd_id") hEd_id: String? = "",
             @Field("chkResult") chkResult: String? = "",
+            @Field("boardId") boardId: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
 

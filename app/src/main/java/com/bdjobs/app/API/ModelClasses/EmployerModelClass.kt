@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class FollowUnfollowModelClass(
     @SerializedName("common")
     var common: Any?,
@@ -12,7 +13,7 @@ data class FollowUnfollowModelClass(
     @SerializedName("statuscode")
     var statuscode: String?
 )
-
+@Keep
 data class FollowUnfollowModelClassData(
     @SerializedName("jobcount")
     var jobcount: String?,

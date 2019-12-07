@@ -103,6 +103,37 @@ class DataStorage(context: Context) {
             return OrgTypes.toTypedArray()
         }
 
+    //----------------------------------BOARD----------------------------------------------//
+
+    val allBoards: Array<String>
+        get() {
+            val OrgTypes = ArrayList<String>()
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT " + DBHelper.BOARDS_COL_NAME + " FROM " + DBHelper.TABLE_NAME_BOARDS
+                Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
+
+                Log.d("rakib", "${cursor.count}")
+
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
+
+                    for (i in 0 until cursor.count) {
+                        OrgTypes.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.BOARDS_COL_NAME)))
+
+                        cursor.moveToNext()
+                    }
+                }
+                dbHelper.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
+            Log.d("rakib", "${OrgTypes}")
+
+            return OrgTypes.toTypedArray()
+        }
+
 
     //------------------------------SUB_CATEGORY------------------------------------------------------//
 
@@ -2079,6 +2110,55 @@ class DataStorage(context: Context) {
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
                 s = cursor.getString(cursor.getColumnIndex(DBHelper.INDUSTRY_COL_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+    fun getBoardIDbyName(value: String?): Int? {
+
+        var s: Int? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.BOARDS_COL_VALUE + " FROM " + DBHelper.TABLE_NAME_BOARDS + " WHERE " + DBHelper.BOARDS_COL_NAME + " = '" + value + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = -1
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getInt(cursor.getColumnIndex(DBHelper.BOARDS_COL_VALUE))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+    fun getBoardNameByID(id : Int) : String ?{
+        var s: String? = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.BOARDS_COL_NAME + " FROM " + DBHelper.TABLE_NAME_BOARDS + " WHERE " + DBHelper.BOARDS_COL_VALUE + " = '" + id + "'"
+            Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.BOARDS_COL_NAME))
                 cursor.moveToNext()
             }
             dbHelper.close()

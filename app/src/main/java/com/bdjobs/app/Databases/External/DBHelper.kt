@@ -154,6 +154,10 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
         val EDU_LEVELS_COL_EDU_ID = "EDU_ID"
         //************************************************************************************************//
 
+        val TABLE_NAME_BOARDS = "Board"
+        val BOARDS_COL_NAME = "name"
+        val BOARDS_COL_VALUE = "value"
+
         //-------------------------------EDU_TYPES--------------------------------------------------------//
         val TABLE_NAME_EDU_TYPES = "EDUCATION_TYPES"
         val EDU_TYPES_COL_EDU_TYPES = "EDU_TYPES"

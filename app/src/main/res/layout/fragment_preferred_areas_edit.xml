@@ -70,6 +70,7 @@
                     android:layout_marginBottom="10dp">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/wc_entry_chip_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -118,6 +119,7 @@
                     android:layout_marginBottom="10dp">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/bc_entry_chip_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -164,6 +166,7 @@
                     android:layout_marginBottom="10dp">
 
                     <com.google.android.material.chip.ChipGroup
+                        app:chipSpacingVertical="8dp"
                         android:id="@+id/org_entry_chip_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -272,6 +275,7 @@
                         android:layout_marginBottom="10dp">
 
                         <com.google.android.material.chip.ChipGroup
+                            app:chipSpacingVertical="8dp"
                             android:id="@+id/pref_locs_entry_chip_group"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -306,7 +310,7 @@
                         android:layout_marginTop="10dp"
                         android:focusableInTouchMode="true"
                         android:textColorHint="#757575"
-                        app:helperText="Countries maximum 10">
+                        app:helperText="Countries/Regions maximum 10">
 
                         <AutoCompleteTextView
                             android:importantForAutofill="noExcludeDescendants"
@@ -330,6 +334,7 @@
                         android:layout_marginBottom="10dp">
 
                         <com.google.android.material.chip.ChipGroup
+                            app:chipSpacingVertical="8dp"
                             android:id="@+id/pref_countries_entry_chip_group"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

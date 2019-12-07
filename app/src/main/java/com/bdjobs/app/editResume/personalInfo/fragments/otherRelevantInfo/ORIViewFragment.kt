@@ -3,6 +3,7 @@ package com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -91,8 +92,10 @@ class ORIViewFragment : Fragment() {
     }
 
     private fun setupView(data: ORIdataItem) {
+        Log.d("rakib", "${data.keywords?.length}")
         tvORICareerSummary.text = data?.careerSummery
         tvORISpecialQualificaiton.text = data?.specialQualifications
+        Log.d("rakib", "total commas ${data?.keywords?.countCommas()}")
         val keywords = data?.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         removeChips()
@@ -106,6 +109,7 @@ class ORIViewFragment : Fragment() {
 
     private fun addChip(input: String) {
         val c1 = getChip(input, R.xml.chip_highlighted)
+
         entry_chip_group.addView(c1)
         LL_ORI_Keyword?.closeKeyboard(activity)
     }

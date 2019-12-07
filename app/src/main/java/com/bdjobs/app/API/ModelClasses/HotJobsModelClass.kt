@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class HotJobs(
     @SerializedName("data")
     val `data`: List<HotJobsData?>?,
@@ -10,7 +11,7 @@ data class HotJobs(
     @SerializedName("statuscode")
     val statuscode: String?
 )
-
+@Keep
 data class HotJobsData(
         @SerializedName("companyName")
     val companyName: String?,
@@ -19,7 +20,7 @@ data class HotJobsData(
         @SerializedName("logoSource")
     val logoSource: String?
 )
-
+@Keep
 data class HotJobsJobTitle(
     @SerializedName("jobTitle")
     val jobTitle: String?,

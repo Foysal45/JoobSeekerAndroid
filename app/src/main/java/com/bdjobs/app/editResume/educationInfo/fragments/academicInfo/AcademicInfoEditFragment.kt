@@ -53,6 +53,7 @@ class AcademicInfoEditFragment : Fragment() {
     private var instSuggession = true
     private var gradeOrMarks = "0"
     private var scaleORCgpa = ""
+    private var boardId = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -169,6 +170,20 @@ class AcademicInfoEditFragment : Fragment() {
             instSuggession = false
         }
 
+        try {
+
+                if (data.boardId == "0" || data.boardId == "" || data.boardId!!.isEmpty()){
+                    etBoard.setText("")
+                    boardTIL?.hide()
+                }
+                else{
+                    boardTIL?.show()
+                    etBoard.setText(ds.getBoardNameByID(data.boardId!!.toInt()))
+                }
+
+
+        } catch (e: Exception) {
+        }
 
     }
 
@@ -191,6 +206,11 @@ class AcademicInfoEditFragment : Fragment() {
         if (etExamOtherTitle.isVisible) {
             checkValidity(etExamOtherTitle, examOtherTIL)
         }
+
+        if (etBoard.isVisible) {
+            checkValidity(etBoard, boardTIL)
+        }
+
         // concentration major group
         if (mejorTIL.isVisible) {
             if (TextUtils.isEmpty(majorSubACTV.getString())) {
@@ -233,6 +253,8 @@ class AcademicInfoEditFragment : Fragment() {
 
             Log.d("isChecked", "$isChecked")
 
+
+
             if (!TextUtils.isEmpty(etResults.getString())) {
                 if (isChecked) {
 
@@ -273,6 +295,7 @@ class AcademicInfoEditFragment : Fragment() {
                         marksTIL?.isErrorEnabled = false
 
                     }
+
 
                 }
 
@@ -385,6 +408,7 @@ class AcademicInfoEditFragment : Fragment() {
 
         addTextChangedListener(etLevelEdu, levelEduTIL)
         addTextChangedListener(etExamTitle, examTitleTIL)
+        addTextChangedListener(etBoard, boardTIL)
         addTextChangedListener(etExamOtherTitle, examOtherTIL)
         addTextChangedListener(etResults, resultTIL)
         addTextChangedListener(etPassignYear, acaPassingYearTIL)
@@ -408,6 +432,7 @@ class AcademicInfoEditFragment : Fragment() {
 
 
         etLevelEdu?.addTextChangedListener(TW.CrossIconBehave(etLevelEdu))
+        etBoard?.addTextChangedListener(TW.CrossIconBehave(etBoard))
         etExamTitle?.addTextChangedListener(TW.CrossIconBehave(etExamTitle))
         etExamOtherTitle?.addTextChangedListener(TW.CrossIconBehave(etExamOtherTitle))
         etResults?.addTextChangedListener(TW.CrossIconBehave(etResults))
@@ -457,6 +482,7 @@ class AcademicInfoEditFragment : Fragment() {
 
         val institutes = ds.allInstitutes
         val majorSubjects = ds.allInMajorSubjects
+        val boardNames: Array<String> = ds.allBoards
         val universityAdapter = ArrayAdapter<String>(activity,
                 android.R.layout.simple_dropdown_item_1line, institutes)
         val mejorSubjectAdapter = ArrayAdapter<String>(activity,
@@ -483,6 +509,8 @@ class AcademicInfoEditFragment : Fragment() {
                 val eduLevel = ds.getEduIDByEduLevel(eduLevelList[i])
                 etLevelEdu.setText(ds.getEduLevelByID(eduLevel))
 
+                etExamTitle?.setText("")
+
                 if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5")) {
 
                     instituteNameACTV.setAdapter(universityAdapter)
@@ -505,7 +533,12 @@ class AcademicInfoEditFragment : Fragment() {
                     etExamOtherTitle?.hide()
                     etExamOtherTitle?.clear()
                 }
-
+                if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5") || eduLevel.equalIgnoreCase("6")) {
+                    boardTIL?.hide()
+                    etBoard.setText("")
+                } else {
+                    boardTIL?.show()
+                }
 
                 if (eduLevel.equalIgnoreCase("-3") || eduLevel.equalIgnoreCase("-2")) {
 
@@ -522,9 +555,23 @@ class AcademicInfoEditFragment : Fragment() {
 
                 }
 
+
+
                 Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
         }
+
+        etBoard?.setOnClickListener {
+
+            Log.d("rakib", "${boardNames.size}")
+            selector("Select board", boardNames.toList()) { _, i ->
+                etBoard.setText(boardNames[i])
+                Log.d("rakib", "${ds.getBoardIDbyName(etBoard.text.toString())}")
+            }
+
+
+        }
+
         etExamTitle?.setOnClickListener {
             var queryValue = etLevelEdu.getString()
             queryValue = queryValue.replace("'", "''")
@@ -650,6 +697,20 @@ class AcademicInfoEditFragment : Fragment() {
 
     }
 
+
+    private fun validateBoard(): Boolean {
+        if (etBoard.getString().trim().isEmpty()) {
+            boardTIL?.isErrorEnabled = true
+            boardTIL?.error = resources.getString(R.string.field_empty_error_message_common)
+            requestFocus(etBoard)
+            return false
+        } else {
+            boardTIL?.isErrorEnabled = false
+            return true
+        }
+
+
+    }
 
     private fun validateExamDegreeTile(): Boolean {
 
@@ -891,7 +952,6 @@ class AcademicInfoEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        activity.showProgressBar(loadingProgressBar)
 
         if (etExamTitle.getString().equalIgnoreCase("Other")) {
             d("dgbdjhgbdg in other")
@@ -938,44 +998,93 @@ class AcademicInfoEditFragment : Fragment() {
         }
 
 
-        val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
-                ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
-                etPassignYear.getString(), majorSubACTV.getString(),
-                hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes)
+        if (boardTIL.isVisible) {
+            activity.showProgressBar(loadingProgressBar)
+            if (!etBoard.text.toString().isNullOrEmpty()){
+                val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
+                        ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
+                        etPassignYear.getString(), majorSubACTV.getString(),
+                        hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
+                        scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
 
-        call.enqueue(object : Callback<AddorUpdateModel> {
-            override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
-                try {
-                    activity?.stopProgressBar(loadingProgressBar)
-                    activity?.toast(R.string.message_common_error)
-                } catch (e: Exception) {
+                call.enqueue(object : Callback<AddorUpdateModel> {
+                    override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                        try {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            activity?.toast(R.string.message_common_error)
+                        } catch (e: Exception) {
 
-                    logException(e)
-                }
-            }
-
-            override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
-
-                try {
-                    activity.stopProgressBar(loadingProgressBar)
-                    if (response.isSuccessful) {
-                        activity?.stopProgressBar(loadingProgressBar)
-                        val resp = response.body()
-                        activity?.toast(resp?.message.toString())
-                        if (resp?.statuscode == "4") {
-                            eduCB.saveButtonClickStatus(true)
-                            eduCB.setBackFrom(acaUpdate)
-                            eduCB.goBack()
+                            logException(e)
                         }
                     }
-                } catch (e: Exception) {
-                    //activity.stopProgressBar(loadingProgressBar)
-                    e.printStackTrace()
-                    logException(e)
-                }
+
+                    override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+
+                        try {
+                            activity.stopProgressBar(loadingProgressBar)
+                            if (response.isSuccessful) {
+                                activity?.stopProgressBar(loadingProgressBar)
+                                val resp = response.body()
+                                activity?.toast(resp?.message.toString())
+                                if (resp?.statuscode == "4") {
+                                    eduCB.saveButtonClickStatus(true)
+                                    eduCB.setBackFrom(acaUpdate)
+                                    eduCB.goBack()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            //activity.stopProgressBar(loadingProgressBar)
+                            e.printStackTrace()
+                            logException(e)
+                        }
+                    }
+                })
+            } else{
+                activity.stopProgressBar(loadingProgressBar)
+                toast("Board can not be empty")
             }
-        })
+
+        } else {
+            activity.showProgressBar(loadingProgressBar)
+            val call = ApiServiceMyBdjobs.create().updateAcademicData(session.userId, session.decodId, session.IsResumeUpdate,
+                    ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
+                    etPassignYear.getString(), majorSubACTV.getString(),
+                    hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
+                    scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
+
+            call.enqueue(object : Callback<AddorUpdateModel> {
+                override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
+                    try {
+                        activity?.stopProgressBar(loadingProgressBar)
+                        activity?.toast(R.string.message_common_error)
+                    } catch (e: Exception) {
+
+                        logException(e)
+                    }
+                }
+
+                override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+
+                    try {
+                        activity.stopProgressBar(loadingProgressBar)
+                        if (response.isSuccessful) {
+                            activity?.stopProgressBar(loadingProgressBar)
+                            val resp = response.body()
+                            activity?.toast(resp?.message.toString())
+                            if (resp?.statuscode == "4") {
+                                eduCB.saveButtonClickStatus(true)
+                                eduCB.setBackFrom(acaUpdate)
+                                eduCB.goBack()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        //activity.stopProgressBar(loadingProgressBar)
+                        e.printStackTrace()
+                        logException(e)
+                    }
+                }
+            })
+        }
     }
 
     fun dataDelete() {
@@ -1044,6 +1153,9 @@ class AcademicInfoEditFragment : Fragment() {
         acaPassingYearTIL?.isErrorEnabled = false
         majorSubACTV?.clearFocus()
         instituteNameACTV?.clearFocus()
+
+        etBoard?.clear()
+        boardTIL.isErrorEnabled = false
 
     }
 

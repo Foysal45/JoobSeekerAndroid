@@ -26,6 +26,7 @@ fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: Stri
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Interview_Invitation")
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "CV_Viewed")
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Promotional_Message")
+            Constants.NOTIFICATION_TYPE_MATCHED_JOB -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Matched_Job")
         }
         bundle.putString(FirebaseAnalytics.Param.END_DATE, Date().toString())
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "notification_opened")
@@ -64,6 +65,8 @@ fun logAnalyticsForUnseenNotification(type: String, context: Context, jobID: Str
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Interview_Invitation")
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "CV_Viewed")
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Promotional_Message")
+            Constants.NOTIFICATION_TYPE_MATCHED_JOB -> bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Matched_Job")
+
         }
         bundle.putString(FirebaseAnalytics.Param.START_DATE, Date().toString())
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "notification_received")

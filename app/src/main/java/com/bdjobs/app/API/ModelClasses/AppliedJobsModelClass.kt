@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class AppliedJobModel(
         @SerializedName("activity")
         val activity: List<AppliedJobModelActivity?>?,
@@ -17,14 +18,14 @@ data class AppliedJobModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class AppliedJobModelCommon(
         @SerializedName("totalNumberOfApplication")
         val totalNumberOfApplication: String? = "",
         @SerializedName("totalNumberOfPage")
         val totalNumberOfPage: String?
 )
-
+@Keep
 data class AppliedJobModelActivity(
         @SerializedName("totalContacted")
         val totalContacted: String?,
@@ -33,7 +34,7 @@ data class AppliedJobModelActivity(
         @SerializedName("totalNotContacted")
         val totalNotContacted: String?
 )
-
+@Keep
 data class AppliedJobModelData(
         @SerializedName("appliedOn")
         val appliedOn: String?= "",
@@ -60,7 +61,7 @@ data class AppliedJobModelData(
         @SerializedName("viewedByEmployer")
         val viewedByEmployer: String?= ""
 )
-
+@Keep
 data class AppliedJobModelExprience(
 
         @SerializedName("jobid")

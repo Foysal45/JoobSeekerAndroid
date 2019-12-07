@@ -17,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
@@ -31,6 +32,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         const val GENERAL_CHANNEL = "general"
         const val INTERVIEW_INVITATION_CHANNEL = "interview_invitation"
         const val CV_VIEWED_CHANNEL = "cv_viewed"
+        const val MATCHED_JOB_CHANNEL = "matched_job"
         const val MESSAGE_CHANNEL = "message"
     }
 
@@ -99,7 +101,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
     }
 
 
-    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?): NotificationCompat.Builder {
+    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?, lanType:String?, deadlineDB : String?): NotificationCompat.Builder {
 
         Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
@@ -153,12 +155,55 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             }
 
+            Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
+
+                val jobids = ArrayList<String>()
+                val lns = ArrayList<String>()
+                val deadline = ArrayList<String>()
+
+                try {
+                    deadline.add("")
+                    jobids.add(jobid!!)
+                    lns.add(lanType!!)
+
+                    Log.d("rakib mateched job", "${deadline[0]} ${lns[0]} ${jobids[0]}")
+
+                } catch (e: Exception) {
+                }
+
+                val intent = Intent(this, JobBaseActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    putExtra("jobids", jobids)
+                    putExtra("lns", lns)
+                    putExtra("position", 0)
+                    putExtra("deadline", deadline)
+                    putExtra("nid", nId)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                return NotificationCompat.Builder(applicationContext, MATCHED_JOB_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(pendingIntent)
+                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+
+            }
+
+
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
 
                 val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
                     putExtra("from", "notification")
                     putExtra("id", jobid)
                     putExtra("nid", nId)
+                    putExtra("seen", true)
+
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
@@ -166,7 +211,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
 //                var imageBitmap: Bitmap? = null
-
+//
 //                var target = object : Target {
 //                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
 //                    }
@@ -176,22 +221,20 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 //
 //                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
 //                        imageBitmap = bitmap
+//                        Log.d("rakib inside", "$bitmap")
 //                    }
 //
 //                }
 //
 //                Picasso.get().load(imageLink).into(target)
 
+//                Log.d("rakib outside", "$imageBitmap $imageLink")
 
                 return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
                         .setContentTitle(title)
                         .setContentText(body)
                         .setSmallIcon(smallIcon)
                         .setAutoCancel(true)
-//                        .setLargeIcon(imageBitmap)
-//                        .setStyle(NotificationCompat.BigPictureStyle()
-//                                .bigPicture(imageBitmap)
-//                                .bigLargeIcon(null))
                         .setContentIntent(pendingIntent)
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))

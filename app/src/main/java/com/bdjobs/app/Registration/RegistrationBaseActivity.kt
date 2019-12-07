@@ -10,9 +10,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
-import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -23,6 +27,7 @@ import com.bdjobs.app.Registration.blue_collar_registration.*
 import com.bdjobs.app.Registration.white_collar_registration.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -208,7 +213,18 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     override fun goToHomePage() {
 
-        DatabaseUpdateJob.runJobImmediately()
+//        DatabaseUpdateJob.runJobImmediately()
+
+        val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+        val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                .setConstraints(constraints)
+                .build()
+
+        WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
         val intent = Intent(this@RegistrationBaseActivity, MainLandingActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

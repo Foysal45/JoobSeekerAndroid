@@ -201,7 +201,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp" />
+                    android:layout_marginEnd="5dp"
+                    app:chipSpacingVertical="8dp"/>
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

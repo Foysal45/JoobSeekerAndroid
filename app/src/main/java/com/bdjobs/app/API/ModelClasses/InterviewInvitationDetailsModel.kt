@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class InvitationDetailModels(
     @SerializedName("common")
     val common: InvitationDetailModelsCommon? = InvitationDetailModelsCommon(),
@@ -12,7 +13,7 @@ data class InvitationDetailModels(
     @SerializedName("statuscode")
     val statuscode: String? = ""
 )
-
+@Keep
 data class InvitationDetailModelsCommon(
     @SerializedName("applyDate")
     val applyDate: String? = "",
@@ -29,7 +30,7 @@ data class InvitationDetailModelsCommon(
     @SerializedName("showUndo")
     val showUndo: String? = ""
 )
-
+@Keep
 data class InvitationDetailModelsData(
     @SerializedName("activity")
     val activity: String? = "",
@@ -64,7 +65,7 @@ data class InvitationDetailModelsData(
     @SerializedName("contactNo")
     val contactNo: String? = ""
 )
-
+@Keep
 data class Direction(
     @SerializedName("lan")
     val lan: String? = "",

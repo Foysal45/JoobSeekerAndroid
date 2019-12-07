@@ -49,9 +49,9 @@ class EmployerJobListFragment : Fragment() {
 
         suggestiveSearchET?.text = communicator?.getCompanyName()
         loadJobList()
-        val adRequest = AdRequest.Builder().build()
-        adView?.loadAd(adRequest)
-        adView?.show()
+//        val adRequest = AdRequest.Builder().build()
+//        adView?.loadAd(adRequest)
+//        adView?.show()
 
         Log.d("onResume", "onResume")
     }

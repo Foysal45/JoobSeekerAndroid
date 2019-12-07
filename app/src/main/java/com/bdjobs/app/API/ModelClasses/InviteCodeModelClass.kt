@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class InviteCodeHomeModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -13,7 +14,7 @@ data class InviteCodeHomeModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeHomeModelData(
         @SerializedName("inviteCodeStatus")
         val inviteCodeStatus: String = "",
@@ -23,7 +24,7 @@ data class InviteCodeHomeModelData(
         val userType: String = ""
 )
 
-
+@Keep
 data class OwnerInviteCodeModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -34,13 +35,13 @@ data class OwnerInviteCodeModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class OwnerInviteCodeModelData(
         @SerializedName("inviteCode")
         val inviteCode: String = ""
 )
 
-
+@Keep
 data class InviteCodeCategoryAmountModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -51,7 +52,7 @@ data class InviteCodeCategoryAmountModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeCategoryAmountModelData(
         @SerializedName("categoryName")
         val categoryName: String = "",
@@ -59,7 +60,7 @@ data class InviteCodeCategoryAmountModelData(
         val ownerAmount: String = ""
 )
 
-
+@Keep
 data class OwnerInviteListModel(
         @SerializedName("common")
         val common: OwnerInviteListModelCommon = OwnerInviteListModelCommon(),
@@ -70,7 +71,7 @@ data class OwnerInviteListModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class OwnerInviteListModelData(
         @SerializedName("category")
         val category: String = "",
@@ -89,7 +90,7 @@ data class OwnerInviteListModelData(
         @SerializedName("verifyStatus")
         val verifyStatus: String = ""
 )
-
+@Keep
 data class OwnerInviteListModelCommon(
         @SerializedName("totalInvitation")
         val totalInvitation: String = "",
@@ -97,7 +98,7 @@ data class OwnerInviteListModelCommon(
         val totalAccount: String = ""
 )
 
-
+@Keep
 data class InviteCodeOwnerStatementModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -108,7 +109,7 @@ data class InviteCodeOwnerStatementModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeOwnerStatementModelData(
         @SerializedName("amount")
         val amount: String = "",
@@ -119,7 +120,7 @@ data class InviteCodeOwnerStatementModelData(
         @SerializedName("type")
         val type: String = ""
 )
-
+@Keep
 data class InviteCodeUserStatusModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -130,7 +131,7 @@ data class InviteCodeUserStatusModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeUserStatusModelData(
         @SerializedName("Amount")
         val amount: String = "",
@@ -155,7 +156,7 @@ data class InviteCodeUserStatusModelData(
         @SerializedName("verifiedStatus")
         val verifiedStatus: String = ""
 )
-
+@Keep
 data class InviteCodePaymentMethodModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -166,7 +167,7 @@ data class InviteCodePaymentMethodModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeOwnerPaymentIMethodModelData(
         @SerializedName("accountNo")
         val accountNo: String = "",
@@ -176,7 +177,7 @@ data class InviteCodeOwnerPaymentIMethodModelData(
         val paymentType: String = ""
 )
 
-
+@Keep
 data class InviteCodeBalanceModel(
         @SerializedName("common")
         val common: Any = Any(),
@@ -187,7 +188,7 @@ data class InviteCodeBalanceModel(
         @SerializedName("statuscode")
         val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeBalanceModelData(
         @SerializedName("totalPayable")
         val totalPayable: String = "",
@@ -200,7 +201,7 @@ data class InviteCodeBalanceModelData(
         val las_withDraw_date: String = ""
 )
 
-
+@Keep
 data class PaymentTypeInsertModel(
     @SerializedName("common")
     val common: Any = Any(),
@@ -211,12 +212,12 @@ data class PaymentTypeInsertModel(
     @SerializedName("statuscode")
     val statuscode: String = ""
 )
-
+@Keep
 data class PaymentTypeInsertModelData(
     @SerializedName("inserted")
     val inserted: String = ""
 )
-
+@Keep
 data class InviteCodeUserVerifyModel(
     @SerializedName("common")
     val common: Any = Any(),
@@ -227,7 +228,7 @@ data class InviteCodeUserVerifyModel(
     @SerializedName("statuscode")
     val statuscode: String = ""
 )
-
+@Keep
 data class InviteCodeUserVerifyModelData(
     @SerializedName("Amount")
     val amount: String = "",

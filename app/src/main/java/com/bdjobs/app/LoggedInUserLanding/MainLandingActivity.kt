@@ -53,6 +53,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
@@ -525,7 +526,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"One company viewed your cv.\", \"type\" : \"cv\", \"jobId\" : \"795881\", \"title\" : \"CV viewed\", \"notificationId\" : \"123\"}"
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"One company viewed your cv.\", \"type\" : \"cv\", \"jobId\" : \"795881\", \"title\" : \"CV viewed\", \"notificationId\" : \"123\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
 //                insertNotificationInToDatabase(payload, commonNotificationModel)
 //                showNotification(commonNotificationModel)
@@ -539,7 +540,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\"}"
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
 //                insertNotificationInToDatabase(payload, commonNotificationModel)
 //                showNotification(commonNotificationModel)
@@ -552,7 +553,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             R.id.navigation_mybdjobs -> {
                 transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"\", \"companyName\": \"\" ,\"body\" : \"চাকরির জন্য বিজ্ঞাপন দাতা প্রতিষ্ঠান আপনার কাছ থেকে কোন অর্থ চাইলে অথবা কোন ধরনের ভুল বা বিভ্রান্তিকর তথ্য দিলে অতি সত্ত্বর আমাদেরকে জানান\", \"type\" : \"pm\", \"jobId\" : \"\", \"title\" : \"Bdjobs\", \"link\" : \"https://bdjobs.com/\", \"imageLink\" : \"https://image.freepik.com/free-photo/abstract-formed-by-color-dissolving-water_1112-1944.jpg\", \"notificationId\" : \"1256\"}"
+//                val payload = "{ \"jobTitle\": \"\", \"companyName\": \"\" ,\"body\" : \"চাকরির জন্য বিজ্ঞাপন দাতা প্রতিষ্ঠান আপনার কাছ থেকে কোন অর্থ চাইলে অথবা কোন ধরনের ভুল বা বিভ্রান্তিকর তথ্য দিলে অতি সত্ত্বর আমাদেরকে জানান\", \"type\" : \"pm\", \"jobId\" : \"\", \"title\" : \"Bdjobs\", \"link\" : \"https://bdjobs.com/\", \"imageLink\" : \"https://bdjobs.com/images/logo.png\", \"notificationId\" : \"1256\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
 //                insertNotificationInToDatabase(payload, commonNotificationModel)
 //                showNotification(commonNotificationModel)
@@ -564,9 +565,12 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             R.id.navigation_more -> {
                 transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"\", \"companyName\": \"\" ,\"body\" : \"চাকরির জন্য বিজ্ঞাপন দাতা প্রতিষ্ঠান আপনার কাছ থেকে কোন অর্থ চাইলে অথবা কোন ধরনের ভুল বা বিভ্রান্তিকর তথ্য দিলে অতি সত্ত্বর আমাদেরকে জানান\", \"type\" : \"rn\", \"deleteType\" : \"cv\", \"jobId\" : \"795881\", \"title\" : \"Bdjobs\", \"link\" : \"https://bdjobs.com/\", \"imageLink\" : \"https://image.freepik.com/free-photo/abstract-formed-by-color-dissolving-water_1112-1944.jpg\"}"
+//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"A new job matched with you that might be interested in. See the job details.\", \"type\" : \"mj\", \"jobId\" : \"878844\", \"title\" : \"Job Matched.\", \"notificationId\" : \"123456789\",  \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
-//                removeNotificationFromDatabase(commonNotificationModel)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
+//                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+
 
                 return@OnNavigationItemSelectedListener true
             }
@@ -768,7 +772,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
         if (commonNotificationModel.type != "pm") {
             doAsync {
-                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId))
+                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType,deadline = commonNotificationModel.deadlineDB))
                 session.updateNotificationCount(session.notificationCount!! + 1)
                 uiThread {
                     Log.d("rakib", "FirebaseMessagingService")
@@ -779,7 +783,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             }
         } else if (commonNotificationModel.type == "pm") {
             doAsync {
-                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId))
+                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
@@ -813,21 +817,30 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                     mNotificationHelper.notify(
                             Constants.NOTIFICATION_INTERVIEW_INVITATTION,
                             mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
+
+            Constants.NOTIFICATION_TYPE_MATCHED_JOB->{
+                try {
+                    mNotificationHelper.notify(Constants.NOTIFICATION_MATCHED_JOB, mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType,commonNotificationModel.deadlineDB))
+                } catch (e: Exception) {
+                }
+            }
+
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId,commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }

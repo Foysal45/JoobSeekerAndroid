@@ -1,8 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class ApplyEligibilityModel(
         @SerializedName("data")
         var `data`: List<Data?>? = listOf(),
@@ -11,7 +12,7 @@ data class ApplyEligibilityModel(
         @SerializedName("statuscode")
         var statuscode: String? = ""
 )
-
+@Keep
 data class Data(
         @SerializedName("applyEligibility")
         var applyEligibility: String? = "",

@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class UpdateBlueCvModel(
     @SerializedName("common")
     val common: Any,
@@ -12,7 +13,7 @@ data class UpdateBlueCvModel(
     @SerializedName("statuscode")
     val statuscode: String
 )
-
+@Keep
 data class UpdateBlueCvDataModel(
     @SerializedName("AppsDate")
     val appsDate: String,

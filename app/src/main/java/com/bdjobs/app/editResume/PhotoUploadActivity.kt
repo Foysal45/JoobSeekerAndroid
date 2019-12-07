@@ -28,6 +28,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BitmapCompat
 import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
@@ -56,6 +57,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.InputStream
 
 class PhotoUploadActivity : Activity() {
 
@@ -460,7 +462,15 @@ class PhotoUploadActivity : Activity() {
                             val `is` = contentResolver.openInputStream(selectedImageUri!!)
                             if (`is` != null) {
                                 deleteCache(applicationContext)
-                                bitmap = BitmapFactory.decodeStream(`is`)
+
+                                val options = BitmapFactory.Options()
+                                options.inSampleSize = 2
+                                bitmap = BitmapFactory.decodeStream(`is`,null,options)
+
+//                                bitmap = BitmapFactory.decodeStream(`is`)
+
+                                Log.d("rakib", "${BitmapCompat.getAllocationByteCount(bitmap!!)}")
+
                                 if (bitmap != null) {
                                     val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
                                     // CALL THIS METHOD TO GET THE ACTUAL PATHa

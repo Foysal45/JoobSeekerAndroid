@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class TimesEmailed(
     @SerializedName("common")
     val common: TimesEmailedCommon?,
@@ -12,14 +13,14 @@ data class TimesEmailed(
     @SerializedName("statuscode")
     val statuscode: String?
 )
-
+@Keep
 data class TimesEmailedCommon(
     @SerializedName("totalNumberOfEmail")
     val totalNumberOfEmail: String?,
     @SerializedName("totalNumberOfPage")
     val totalNumberOfPage: String?
 )
-
+@Keep
 data class TimesEmailedData(
     @SerializedName("EmailTo")
     val emailTo: String? = "",

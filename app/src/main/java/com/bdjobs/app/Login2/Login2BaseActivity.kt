@@ -9,13 +9,18 @@ import android.provider.Settings
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 
 import kotlinx.android.synthetic.main.activity_login2_base.*
 
@@ -67,7 +72,18 @@ class Login2BaseActivity : Activity(), Login2Communicator, ConnectivityReceiver.
     }
 
     override fun goToHomePage() {
-        DatabaseUpdateJob.runJobImmediately()
+//        DatabaseUpdateJob.runJobImmediately()
+
+        val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+        val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                .setConstraints(constraints)
+                .build()
+
+        WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
         if (goToHome) {
             val intent = Intent(this@Login2BaseActivity, MainLandingActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)

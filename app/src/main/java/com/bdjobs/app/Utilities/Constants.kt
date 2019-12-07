@@ -191,6 +191,7 @@ class Constants {
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
         const val NOTIFICATION_CV_VIEWED = 101
         const val NOTIFICATION_PROMOTIONAL_MESSAGE = 102
+        const val NOTIFICATION_MATCHED_JOB = 104
 
 
         const val internal_database_name = "BdjobsInternal.db"

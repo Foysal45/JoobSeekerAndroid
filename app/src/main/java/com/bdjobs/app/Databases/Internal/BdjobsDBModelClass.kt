@@ -1,5 +1,6 @@
 package com.bdjobs.app.Databases.Internal
 
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -8,6 +9,7 @@ import java.util.*
 
 
 @Entity(tableName = "Suggestion", indices = [(Index(value = ["Suggestions"], unique = true))])
+@Keep
 data class Suggestion(@ColumnInfo(name = "Suggestions")
                       val suggestion: String,
                       @ColumnInfo(name = "Flag")
@@ -21,6 +23,7 @@ data class Suggestion(@ColumnInfo(name = "Suggestions")
 }
 
 @Entity(tableName = "FollowedEmployer", indices = [(Index(value = ["CompanyName"], unique = true))])
+@Keep
 data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
                             val CompanyID: String?,
                             @ColumnInfo(name = "CompanyName")
@@ -34,6 +37,7 @@ data class FollowedEmployer(@ColumnInfo(name = "CompanyID")
 }
 
 @Entity(tableName = "AppliedJobs", indices = [(Index(value = ["appliedid"], unique = true))])
+@Keep
 data class AppliedJobs(@ColumnInfo(name = "appliedid")
                        val appliedid: String?) {
     @PrimaryKey(autoGenerate = true)
@@ -41,6 +45,7 @@ data class AppliedJobs(@ColumnInfo(name = "appliedid")
 }
 
 @Entity(tableName = "ShortListedJobs", indices = [(Index(value = ["jobid"], unique = true))])
+@Keep
 data class ShortListedJobs(@ColumnInfo(name = "jobid")
                            val jobid: String?,
                            @ColumnInfo(name = "jobtitle")
@@ -64,6 +69,7 @@ data class ShortListedJobs(@ColumnInfo(name = "jobid")
 }
 
 @Entity(tableName = "FavouriteSearch", indices = [(Index(value = ["filterid"], unique = true))])
+@Keep
 data class FavouriteSearch(
         @ColumnInfo(name = "filterid")
         val filterid: String? = "",
@@ -114,6 +120,7 @@ data class FavouriteSearch(
 
 
 @Entity(tableName = "JobInvitation", indices = [(Index(value = ["jobId"], unique = true))])
+@Keep
 data class JobInvitation(@ColumnInfo(name = "companyName")
                          val companyName: String?,
                          @ColumnInfo(name = "inviteDate")
@@ -131,6 +138,7 @@ data class JobInvitation(@ColumnInfo(name = "companyName")
 
 
 @Entity(tableName = "B2CCertification", indices = [(Index(value = ["aid"], unique = true))])
+@Keep
 data class B2CCertification(@ColumnInfo(name = "jobRole")
                             val jobRole: String?,
                             @ColumnInfo(name = "testDate")
@@ -156,6 +164,7 @@ data class B2CCertification(@ColumnInfo(name = "jobRole")
 
 
 @Entity(tableName = "LastSearch", indices = [(Index(value = ["searchTime"], unique = true))])
+@Keep
 data class LastSearch(
         @ColumnInfo(name = "searchTime")
         val searchTime: Date?,
@@ -218,6 +227,7 @@ data class LastSearch(
 
 
 @Entity(tableName = "InviteCodeInfo", indices = [(Index(value = ["userId"], unique = true))])
+@Keep
 data class InviteCodeInfo(@ColumnInfo(name = "userId")
                           val userId: String?,
                           @ColumnInfo(name = "userType")
@@ -231,6 +241,7 @@ data class InviteCodeInfo(@ColumnInfo(name = "userId")
 }
 
 @Entity(tableName = "Notification")
+@Keep
 data class Notification(@ColumnInfo(name = "type")
                         val type: String?,
                         @ColumnInfo(name = "server_id")
@@ -258,7 +269,11 @@ data class Notification(@ColumnInfo(name = "type")
                         @ColumnInfo(name = "company_name")
                         val companyName: String?,
                         @ColumnInfo(name = "notification_id")
-                        val notificationId: String?
+                        val notificationId: String?,
+                        @ColumnInfo(name = "lan_type")
+                        val lanType: String?,
+                        @ColumnInfo(name = "deadline")
+                        val deadline: String?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

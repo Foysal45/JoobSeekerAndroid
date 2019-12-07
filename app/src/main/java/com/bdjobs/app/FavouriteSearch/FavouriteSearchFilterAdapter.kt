@@ -12,11 +12,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
+//import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
@@ -26,6 +27,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.Workmanager.FavouriteSearchDeleteWorker
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.alert
@@ -350,7 +352,16 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 notifyItemRemoved(position)
                 Log.d("ububua", "ububua = " + deletedItem.filterid)
                 notifyItemRangeRemoved(position, items?.size!!)
-                val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
+
+                val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                val favSearchDeleteData = workDataOf("favId" to deletedItem.filterid)
+                val favouriteSearchDeleteRequest = OneTimeWorkRequestBuilder<FavouriteSearchDeleteWorker>().setInputData(favSearchDeleteData).setConstraints(constraints).build()
+                WorkManager.getInstance(context).enqueue(favouriteSearchDeleteRequest)
+
+//                val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
                 //undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
                 favCommunicator?.decrementCounter()
             } else {
@@ -365,7 +376,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         val msg = Html.fromHtml("<font color=\"#ffffff\">The information has been deleted successfully</font>")
         val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") {
-                    FavSearchDeleteJob.cancelJob(deleteJobID)
+//                    FavSearchDeleteJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     favCommunicator?.scrollToUndoPosition(deletedIndex)
                     Log.d("comid", "comid")

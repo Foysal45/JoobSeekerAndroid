@@ -1,7 +1,8 @@
 package com.bdjobs.app.API.ModelClasses
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class LastSearchCountModel(
     @SerializedName("common")
     val common: Any?,
@@ -12,7 +13,7 @@ data class LastSearchCountModel(
     @SerializedName("statuscode")
     val statuscode: String?
 )
-
+@Keep
 data class LastSearchCountData(
     @SerializedName("error")
     val error: String?,

@@ -1,7 +1,9 @@
 package com.bdjobs.app.API.ModelClasses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class JobDetailJsonModel(
         @SerializedName("statuscode") val statuscode: String?,
         @SerializedName("message") val message: String?,
@@ -9,6 +11,7 @@ data class JobDetailJsonModel(
         @SerializedName("common") val common: Any?
 )
 
+@Keep
 data class JobDetailData(
         @SerializedName("DeadlineDB") val DeadlineDB: String?,
         @SerializedName("JobId") val jobId: String?,
@@ -58,7 +61,7 @@ data class JobDetailData(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+@Keep
 data class JobListModel(
         @SerializedName("statuscode") val statuscode: String?,
         @SerializedName("message") val message: String?,
@@ -66,6 +69,7 @@ data class JobListModel(
         @SerializedName("common") val common: JobListCommon?
 )
 
+@Keep
 data class JobListModelData(
     @SerializedName("jobid") val jobid: String? = "",
     @SerializedName("jobTitle") val jobTitle: String?= "",
@@ -80,6 +84,7 @@ data class JobListModelData(
     @SerializedName("deadlineDB") val deadlineDB: String?= ""
 )
 
+@Keep
 data class JobListCommon(
     @SerializedName("total_records_found") val totalRecordsFound: Int?=0,
     @SerializedName("showad") val showad: String?,
