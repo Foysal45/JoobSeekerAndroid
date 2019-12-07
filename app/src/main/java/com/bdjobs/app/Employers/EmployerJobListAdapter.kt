@@ -2,6 +2,7 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.singleTop
 import org.jetbrains.anko.startActivity
 
 class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapter<EmployerJobListViewHolder>() {
@@ -49,7 +52,8 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
                 data.ln?.let { it1 -> lns.add(it1) }
                 data.deadline?.let { it -> deadline.add(it) }
             }
-            context.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to position, "deadline" to deadline)
+            Log.d("hello", employerJobList?.get(position)?.jobid)
+            context.startActivity(context.intentFor<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to position, "deadline" to deadline).singleTop())
         }
 
     }

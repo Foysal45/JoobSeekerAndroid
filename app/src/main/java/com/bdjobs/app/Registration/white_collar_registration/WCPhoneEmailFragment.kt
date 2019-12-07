@@ -89,7 +89,7 @@ class WCPhoneEmailFragment : Fragment() {
         }
         countryCodeTIET?.setOnClickListener {
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
-            activity?.selector("Select your country / region", countryList.toList()) { dialogInterface, i ->
+            activity?.selector("Select your country/region", countryList.toList()) { dialogInterface, i ->
                 countryCodeTIET.setText(countryList[i])
                 val countryCode: String
                 val countryNameAndCountryCode = countryList[i]
@@ -167,7 +167,7 @@ class WCPhoneEmailFragment : Fragment() {
                     return false
                 }
                 isValidEmail(email) == false -> {
-                    emailTIL?.showError("email Not valid")
+                    emailTIL?.showError("Email not valid")
                     try {
                         requestFocus(emailTIET)
                     } catch (e: Exception) {

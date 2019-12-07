@@ -433,6 +433,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     clickedPosition = intent.getIntExtra("position", 0)
                     val jobList: MutableList<JobListModelData> = java.util.ArrayList()
                     val jobids = intent.getStringArrayListExtra("jobids")
+                    Log.d("rakib", "job id ${jobids[0]}")
                     val lns = intent.getStringArrayListExtra("lns")
                     val deadline = intent.getStringArrayListExtra("deadline")
                     for (i in 0 until jobids.size) {
