@@ -400,6 +400,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_interview_invitation">Interview Invitation</string>
     <string name="notification_channel_cv_viewed">CV Viewed</string>
     <string name="notification_channel_message">Message</string>
+    <string name="notification_channel_matched_job">Matched Job</string>
 
     <string name="notification">Notifications</string>
 

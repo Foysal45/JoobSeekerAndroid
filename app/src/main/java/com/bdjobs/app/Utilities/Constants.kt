@@ -195,7 +195,7 @@ class Constants {
 
 
         const val internal_database_name = "BdjobsInternal.db"
-        const val JOB_SHARE_URL = "http://jobs.bdjobs.com/JobDetails.asp?id="
+        const val JOB_SHARE_URL = "https://jobs.bdjobs.com/JobDetails.asp?id="
         const val BROADCAST_DATABASE_UPDATE_JOB = "com.bdjobs.dataBaseUpdateJob.jobComplete"
 
         const val KEY_MANUFACTURER = "Manufacturer"

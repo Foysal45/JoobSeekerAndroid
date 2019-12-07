@@ -1311,7 +1311,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             if (jobList!!.get(position).lantype.equals("2")) {
                 shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}&ln=${jobList!!.get(position).lantype}"
             } else {
-                shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}"
+                shareBody = "${Constants.JOB_SHARE_URL}${jobList!!.get(position).jobid}&ln=${jobList!!.get(position).lantype}"
             }
         } catch (e: Exception) {
             logException(e)

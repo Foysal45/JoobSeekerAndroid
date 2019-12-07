@@ -834,6 +834,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                     mNotificationHelper.notify(Constants.NOTIFICATION_MATCHED_JOB, mNotificationHelper.prepareNotification(
                             commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType,commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
 

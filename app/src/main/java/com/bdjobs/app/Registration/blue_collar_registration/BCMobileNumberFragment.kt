@@ -62,7 +62,7 @@ class BCMobileNumberFragment : Fragment() {
         }
         bcCountryCodeTIET?.setOnClickListener {
             val countryList: Array<String> = dataStorage.allCountryAndCountryCode
-            activity.selector("দেশ নির্বাচন করুন", countryList.toList()) { dialogInterface, i ->
+            activity.selector("দেশ/এলাকা নির্বাচন করুন", countryList.toList()) { dialogInterface, i ->
                 bcCountryCodeTIET?.setText(countryList[i])
                 val countryCode: String
                 val countryNameAndCountryCode = countryList[i]

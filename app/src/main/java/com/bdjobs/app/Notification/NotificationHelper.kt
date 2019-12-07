@@ -96,6 +96,19 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             // Submit the notification channel object to the notification manager
             mNotificationManager.createNotificationChannel(messageChannel)
 
+            // Create matched job notification channel
+            val matchedJobChannel = NotificationChannel(
+                    MATCHED_JOB_CHANNEL,
+                    getString(R.string.notification_channel_matched_job),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(matchedJobChannel)
+
         }
 
     }

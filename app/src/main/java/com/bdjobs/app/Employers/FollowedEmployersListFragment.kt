@@ -193,13 +193,17 @@ class FollowedEmployersListFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
-                shimmer_view_container_JobList?.hide()
-                shimmer_view_container_JobList?.stopShimmerAnimation()
+
                 try {
+
+
                     followedEmployerList = response.body()?.data as List<FollowEmployerListData>?
 
                     followedListSize = response.body()?.common?.total_records_found?.toInt()!!
                     followedEmployersAdapter?.addAll(followedEmployerList!!)
+
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmerAnimation()
 
                     TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
                     if (currentPage <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
