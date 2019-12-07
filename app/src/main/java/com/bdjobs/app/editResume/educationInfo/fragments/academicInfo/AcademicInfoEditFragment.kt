@@ -172,14 +172,13 @@ class AcademicInfoEditFragment : Fragment() {
 
         try {
 
-                if (data.boardId != "0"){
-                    boardTIL?.show()
-                    etBoard.setText(ds.getBoardNameByID(data.boardId!!.toInt()))
-
-                }
-                else{
+                if (data.boardId == "0" || data.boardId == "" || data.boardId!!.isEmpty()){
                     etBoard.setText("")
                     boardTIL?.hide()
+                }
+                else{
+                    boardTIL?.show()
+                    etBoard.setText(ds.getBoardNameByID(data.boardId!!.toInt()))
                 }
 
 

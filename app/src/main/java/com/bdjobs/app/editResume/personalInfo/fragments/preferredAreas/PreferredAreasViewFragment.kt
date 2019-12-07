@@ -119,14 +119,21 @@ class PreferredAreasViewFragment : Fragment() {
             addChip(it?.prefOrgName!!, cg_org_type)
         }
         removeChips(cg_org_pref_locs)
-        preferredInsideBDLocs?.forEach {
-            if (preferredInsideBDLocs?.isNotEmpty()){
-                addChip(it?.districtName!!, cg_org_pref_locs)
-                textView50?.show()
-            } else{
-                textView50?.hide()
+
+        try {
+            if (preferredInsideBDLocs != null) {
+                if (preferredInsideBDLocs.isNotEmpty()) {
+                    preferredInsideBDLocs?.forEach {
+                        addChip(it?.districtName!!, cg_org_pref_locs)
+                        textView50?.show()
+                    }
+                } else {
+                    textView50?.hide()
+                }
             }
+        } catch (e: Exception) {
         }
+
         removeChips(cg_org_pref_out_locs)
         try {
             if (preferredOutsideBDLocs != null) {
@@ -136,8 +143,7 @@ class PreferredAreasViewFragment : Fragment() {
                     preferredOutsideBDLocs.forEach {
                         addChip(it?.countryName!!, cg_org_pref_out_locs)
                     }
-                }
-                else {
+                } else {
                     Log.d("rakib", "preferred area else")
                     textView51.hide()
                 }
