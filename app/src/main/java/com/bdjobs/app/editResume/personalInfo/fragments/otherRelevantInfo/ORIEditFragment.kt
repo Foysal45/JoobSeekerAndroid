@@ -131,7 +131,7 @@ class ORIEditFragment : Fragment() {
 
                 Log.d("rakib", "total length $toatalLength")
 
-                if (etOriKeywords?.text.toString().length + toatalLength < 251) {
+                if (etOriKeywords?.text.toString().length + toatalLength < 250) {
                     if (etOriKeywords.text.toString() != "") {
                         addChip(etOriKeywords.getString().removeLastComma())
                     }
