@@ -750,10 +750,12 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     // -----------------------------  blue Collar start ------------------  //
     override fun goToStepBlueCollar() {
 
-        categoryType = "1"
-        transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL, true)
-        stepProgressBar.visibility = View.VISIBLE
-        stepProgressBar.progress = 10
+//        categoryType = "1"
+//        transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL, true)
+//        stepProgressBar.visibility = View.VISIBLE
+//        stepProgressBar.progress = 10
+
+        bcGoToStepEducation()
     }
 
     override fun bcGoToStepName() {

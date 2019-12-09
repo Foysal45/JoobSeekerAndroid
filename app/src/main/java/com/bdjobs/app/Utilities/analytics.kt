@@ -52,6 +52,8 @@ fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: Stri
 
 fun logAnalyticsForUnseenNotification(type: String, context: Context, jobID: String, nId: String){
 
+    Log.d("rakib", "sent unseen notification to analytics")
+
     try {
         val bdjobsUserSession = BdjobsUserSession(context)
         val firebaseAnalytics = FirebaseAnalytics.getInstance(context)

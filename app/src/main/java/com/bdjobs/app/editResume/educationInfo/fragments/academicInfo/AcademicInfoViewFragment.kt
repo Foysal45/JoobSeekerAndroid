@@ -82,6 +82,7 @@ class AcademicInfoViewFragment : Fragment() {
                     shimmerStop()
                     rv_aca_view?.show()
                     activity?.toast("Error occurred")
+                    t.printStackTrace()
                 } catch (e: Exception) {
                     logException(e)
                 }

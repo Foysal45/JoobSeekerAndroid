@@ -108,6 +108,8 @@ class BCEducationFragment : Fragment() {
             }
         }
 
+
+
         checkBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
                 if (isChecked) {
@@ -116,6 +118,7 @@ class BCEducationFragment : Fragment() {
                     bcEduDegreeTIET.isEnabled = true
                     bcInstituteNameTIET.isEnabled = true
                     bcPassingYearTIET.isEnabled = true
+                    bcEduBoardTIET.isEnabled = true
                     bcEduDegreeOtherTIL.visibility = View.GONE
                     bcEduDegreeOtherTIET.visibility = View.GONE
                     bcInstituteNameTIET.clearFocus()
@@ -134,8 +137,12 @@ class BCEducationFragment : Fragment() {
                     bcPassingYearTIET.isEnabled = false
                     bcEduDegreeOtherTIL.visibility = View.GONE
                     bcEduDegreeOtherTIET.visibility = View.GONE
+                    bcEduDegreeTIL.isErrorEnabled = false
+                    bcEduLevelTIL.isErrorEnabled = false
                     bcInstituteNameTIL.isErrorEnabled = false
                     bcPassingYearTIL.isErrorEnabled = false
+                    bcEduBoardTIET.clear()
+                    bcEduBoardTIL.isErrorEnabled = false
                 }
 
 
@@ -167,6 +174,10 @@ class BCEducationFragment : Fragment() {
         bcEduDegreeOtherTIET?.easyOnTextChangedListener { charSequence ->
             educationValidation(charSequence.toString(), bcEduDegreeOtherTIET, bcEduDegreeOtherTIL, "পরীক্ষা/ডিগ্রীর নাম লিখুন")
 
+        }
+
+        bcEduBoardTIET?.easyOnTextChangedListener { charSequence ->
+            educationValidation(charSequence.toString(), bcEduBoardTIET, bcEduBoardTIL, "বোর্ডের নাম লিখুন")
         }
 
 
@@ -261,6 +272,15 @@ class BCEducationFragment : Fragment() {
             }
         }
 
+        if (bcEduBoardTIL.isVisible){
+            if (TextUtils.isEmpty(bcEduBoardTIET.getString())){
+                bcEduBoardTIL?.showError("বোর্ডের নাম লিখুন")
+                requestFocus(bcEduBoardTIET)
+            } else {
+                bcEduBoardTIL?.isErrorEnabled = false
+            }
+        }
+
 
     }
 
@@ -271,6 +291,11 @@ class BCEducationFragment : Fragment() {
         bcInstituteNameTIL?.isErrorEnabled = false
         val eduLevels = dataStorage.allEduLevels
         setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))
+
+        val allBoards = dataStorage.allBoards
+
+        setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf<String>(allBoards,allBoards.size-1))
+
         if (!TextUtils.isEmpty(bcEduLevelTIET.getString())) {
             var queryValue = bcEduLevelTIET.getString()
             queryValue = queryValue.replace("'", "''")
