@@ -51,6 +51,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     private var userName: String? = null
     private var socialLoginAccountDataList: List<SocialLoginAccountListData?>? = null
     private var goToHome = true
+    private var isConnected = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,6 +163,12 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        this.isConnected = isConnected
+        showSnackBar(this.isConnected)
+    }
+
+    private fun showSnackBar(isConnected: Boolean) {
+
         if (!isConnected) {
             mSnackBar = Snackbar
                     .make(loginBaseCL, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
@@ -294,5 +301,10 @@ finish()
     }
 
 
+    override fun onRestart() {
+        super.onRestart()
+        showSnackBar(this.isConnected)
+        Log.d("rakib","called onRestart")
+    }
 
 }
