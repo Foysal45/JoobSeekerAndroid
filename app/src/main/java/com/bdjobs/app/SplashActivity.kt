@@ -232,13 +232,13 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         } else {
             Log.d("rakib", "do work else")
             if (bdjobsUserSession.isLoggedIn!!) {
-                if (!Constants.isDeviceInfromationSent) {
-                    Log.d("rakib", "token sent from splash")
-                    FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
-                        val token = instanceIdResult.token
-                        Constants.sendDeviceInformation(token, this@SplashActivity)
-                    }
-                }
+//                if (!Constants.isDeviceInfromationSent) {
+//                    Log.d("rakib", "token sent from splash")
+//                    FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
+//                        val token = instanceIdResult.token
+//                        Constants.sendDeviceInformation(token, this@SplashActivity)
+//                    }
+//                }
 //                DatabaseUpdateJob.runJobImmediately()
 
 

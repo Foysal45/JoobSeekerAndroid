@@ -754,6 +754,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         transitFragment(bcCategoryFragment, R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 10
+
+//        bcGoToStepEducation()
     }
 
     override fun bcGoToStepName() {

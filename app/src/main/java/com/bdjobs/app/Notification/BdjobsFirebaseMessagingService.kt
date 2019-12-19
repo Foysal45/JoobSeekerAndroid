@@ -166,6 +166,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
                     Constants.NOTIFICATION_TYPE_FORCE_LOGOUT -> {
                         try {
+                            removeShortcut(applicationContext)
                             bdjobsUserSession = BdjobsUserSession(applicationContext)
                             bdjobsUserSession.logoutUser(exitApp = true)
                         } catch (e: Exception) {

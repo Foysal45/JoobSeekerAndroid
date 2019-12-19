@@ -1,10 +1,13 @@
 package com.bdjobs.app.SessionManger
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -109,6 +112,17 @@ class BdjobsUserSession(val context: Context) {
     var notificationCount = pref?.getInt(Constants.notification_count,0)
 
 
+    private fun killCurrentApp(context: Context) {
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val appTasks = am!!.getAppTasks()
+            if (appTasks.size > 0) {
+                val appTask = appTasks[0]
+                appTask.finishAndRemoveTask()
+            }
+        }
+    }
+
     fun logoutUser(exitApp : Boolean = false) {
 
         pref?.edit()?.clear()?.apply()
@@ -133,6 +147,9 @@ class BdjobsUserSession(val context: Context) {
                     context.startActivity(intent)
                     (context as Activity).finishAffinity()
                 } else {
+//                    val id = android.os.Process.myPid()
+//                    android.os.Process.killProcess(id)
+                    killCurrentApp(context)
                     exitProcess(1)
                 }
 

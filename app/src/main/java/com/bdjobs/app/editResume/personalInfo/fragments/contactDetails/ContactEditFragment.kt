@@ -571,12 +571,12 @@ class ContactEditFragment : Fragment() {
             Log.d("mobile1", "called")
             contactAddMobileButton?.hide()
         } else if (mobile1 && !mobile2) {
-            contactMobileNumber2TIL?.show()
+            contactMobileNumber1TIL?.show()
             contactAddMobileButton?.hide()
             Log.d("mobile2", "called")
         } else if (!mobile1 && mobile2) {
             Log.d("mobile3", "called")
-            contactMobileNumber1TIL?.show()
+            contactMobileNumber2TIL?.show()
             contactAddMobileButton?.hide()
         } else {
             Log.d("mobile4", "called")

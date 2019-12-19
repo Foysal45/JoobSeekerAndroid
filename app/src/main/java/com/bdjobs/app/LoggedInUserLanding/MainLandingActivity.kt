@@ -352,6 +352,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
         if (isBlueCollarUser()) {
             getInviteCodeInformation()
+            Log.d("rakib" ,"is blue collar ${isBlueCollarUser()}")
             getUserStatus(userId = session.userId!!, decodeId = session.decodId!!, invitedUserId = session.userId!!)
         }
 
