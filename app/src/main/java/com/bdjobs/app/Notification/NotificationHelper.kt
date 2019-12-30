@@ -116,7 +116,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
     fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?, lanType:String?, deadlineDB : String?): NotificationCompat.Builder {
 
-        Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
+        //Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
         when (type) {
 
@@ -179,7 +179,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                     jobids.add(jobid!!)
                     lns.add(lanType!!)
 
-                    Log.d("rakib mateched job", "${deadline[0]} ${lns[0]} ${jobids[0]}")
+                    //Log.d("rakib mateched job", "${deadline[0]} ${lns[0]} ${jobids[0]}")
 
                 } catch (e: Exception) {
                 }
@@ -234,14 +234,14 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 //
 //                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
 //                        imageBitmap = bitmap
-//                        Log.d("rakib inside", "$bitmap")
+//                        //Log.d("rakib inside", "$bitmap")
 //                    }
 //
 //                }
 //
 //                Picasso.get().load(imageLink).into(target)
 
-//                Log.d("rakib outside", "$imageBitmap $imageLink")
+//                //Log.d("rakib outside", "$imageBitmap $imageLink")
 
                 return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
                         .setContentTitle(title)

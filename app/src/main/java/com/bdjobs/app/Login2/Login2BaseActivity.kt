@@ -44,7 +44,7 @@ class Login2BaseActivity : Activity(), Login2Communicator, ConnectivityReceiver.
         transitFragment(login2UserNameFragment, R.id.loginFragmentHolderFL)
         intent?.extras?.getBoolean(key_go_to_home)?.let { goHome ->
             goToHome = goHome
-            Log.d("goToHome", "goToHome: ${goToHome}")
+            //Log.d("goToHome", "goToHome: ${goToHome}")
         }
     }
 

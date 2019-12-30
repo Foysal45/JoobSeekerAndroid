@@ -123,6 +123,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     private var instName = ""
     private var educationType = ""
     private var hasEducation = ""
+    private var board = ""
 
     private var categorySelectedPosition = -1
     //-------------api response value----------//
@@ -196,9 +197,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                                 inviteCodeStatus = "0"
                         )
                         val bdjobsDB = BdjobsDB.getInstance(this@RegistrationBaseActivity)
-                        Log.d("inviteCodeUserInfoReg", "userID = ${inviteCodeInfo.userId},\n" +
+                        /*Log.d("inviteCodeUserInfoReg", "userID = ${inviteCodeInfo.userId},\n" +
                                 "userType = ${inviteCodeInfo.userType},\n" +
-                                "inviteCodeStatus = ${inviteCodeInfo.inviteCodeStatus}")
+                                "inviteCodeStatus = ${inviteCodeInfo.inviteCodeStatus}")*/
                         doAsync {
                             bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
                         }
@@ -299,22 +300,22 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         wccategoryFragment.wcGoToNextStep()
         categoryId = dataStorage.getCategoryIDByName(category)!!
         this.category = category
-        Log.d("catagorySelected", "catagory $category")
-        Log.d("catagorySelected", "categoryId $categoryId")
-        Log.d("selectedPosition", " in activity $categorySelectedPosition")
+        //Log.d("catagorySelected", "catagory $category")
+        //Log.d("catagorySelected", "categoryId $categoryId")
+        //Log.d("selectedPosition", " in activity $categorySelectedPosition")
         wccategoryFragment.getSelectedPosition(position)
 
     }
 
     override fun nameSelected(name: String) {
         this.name = name
-        Log.d("catagorySelected", "name ${this.name}")
+        //Log.d("catagorySelected", "name ${this.name}")
     }
 
     override fun wcGenderSelected(gender: String) {
 
         this.gender = gender
-        Log.d("catagorySelected", "gender ${this.gender}")
+        //Log.d("catagorySelected", "gender ${this.gender}")
         wcGenderFragment.goToNextStep()
 
     }
@@ -322,14 +323,14 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     override fun wcMobileNumberSelected(mobileNumber: String) {
 
         this.mobileNumber = mobileNumber
-        Log.d("catagorySelected", "mobileNumber ${this.mobileNumber}")
+        //Log.d("catagorySelected", "mobileNumber ${this.mobileNumber}")
 
     }
 
     override fun wcEmailSelected(email: String) {
 
         wcEmail = email
-        Log.d("catagorySelected", "wcEmail $wcEmail")
+        //Log.d("catagorySelected", "wcEmail $wcEmail")
     }
 
     override fun wcGetMobileNumber(): String {
@@ -343,7 +344,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     override fun wcUserNameTypeSelected(userId: String) {
 
         userNameType = userId
-        Log.d("catagorySelected", "userNameType test $userNameType")
+        //Log.d("catagorySelected", "userNameType test $userNameType")
 
     }
 
@@ -352,28 +353,28 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
         wcPassword = password
         wcConfirmPass = confirmPass
-        Log.d("catagorySelected", "wcPassword $wcPassword , wcConfirmPass $wcConfirmPass ")
+        //Log.d("catagorySelected", "wcPassword $wcPassword , wcConfirmPass $wcConfirmPass ")
 
     }
 
     override fun wcUserNameSelected(userName: String) {
         this.userName = userName
-        Log.d("catagorySelected", "userName first ${this.userName} ")
+        //Log.d("catagorySelected", "userName first ${this.userName} ")
     }
 
     override fun wcCountrySeledted(countryCode: String) {
         wcCountryCode = countryCode
-        Log.d("catagorySelected", "wcCountryCode  ${this.wcCountryCode} ")
+        //Log.d("catagorySelected", "wcCountryCode  ${this.wcCountryCode} ")
     }
 
     override fun wcSetOtp(otp: String) {
         this.otpCode = otp
-        Log.d("catagorySelected", "otpCode  ${this.otpCode} ")
+        //Log.d("catagorySelected", "otpCode  ${this.otpCode} ")
 
     }
 
     override fun wcGetOtp(): String {
-        Log.d("catagorySelected", "otpCode  $otpCode ")
+        //Log.d("catagorySelected", "otpCode  $otpCode ")
         return otpCode
 
     }
@@ -392,7 +393,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
             lastName = lastName.trim { it <= ' ' }
         }
 
-        Log.d("ResponseTesrt",
+        /*Log.d("ResponseTesrt",
                 "Name: " + name + "\n" +
                         "First Name: " + firstName + "\n" +
                         "Last Name: " + lastName + "\n" +
@@ -411,48 +412,48 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         "sMediatype " + socialMediaType + "\n" +
                         "isSMLogin " + isSMediaLogin + "\n" +
                         "sMid " + "" + socialMediaId + "\n"
-        )
+        )*/
 
         ApiServiceMyBdjobs.create().createAccount(firstName, lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin, categoryType, userNameType, socialMediaType, categoryId, wcCountryCode, "", "").enqueue(object : Callback<CreateAccountModel> {
             override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
-                Log.d("ResponseTesrt", " onFailure ${t.message}")
+                //Log.d("ResponseTesrt", " onFailure ${t.message}")
                 loadingProgressBar.visibility = View.GONE
             }
 
             override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
 
                 if (categoryType.equals("1", true)) {
-                    Log.d("ResponseTesrt", " in blue collar condition ")
+                    //Log.d("ResponseTesrt", " in blue collar condition ")
                     try {
 
-                        Log.d("ResponseTesrt", " onResponse message ${response.body()!!.message}")
-                        Log.d("ResponseTesrt", " onResponse statuscode ${response.body()!!.statuscode}")
+                        //Log.d("ResponseTesrt", " onResponse message ${response.body()!!.message}")
+                        //Log.d("ResponseTesrt", " onResponse statuscode ${response.body()!!.statuscode}")
 
                         if (response.isSuccessful) {
 
 
-                            Log.d("ResponseTesrt", " 1 ")
+                            //Log.d("ResponseTesrt", " 1 ")
                             if (response.body()!!.statuscode.equals("0", true)) {
-                                Log.d("ResponseTesrt", " 2 ")
+                                //Log.d("ResponseTesrt", " 2 ")
                                 val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
-                                Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
+                                //Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
                                 if (isCvPosted.equals("null", true)) {
 
                                     tempId = response.body()!!.data!!.get(0)!!.tmpId!!
-                                    Log.d("ResponseTesrt", " tempId $tempId")
-                                    Log.d("ResponseTesrt", " in first Condition")
+                                    //Log.d("ResponseTesrt", " tempId $tempId")
+                                    //Log.d("ResponseTesrt", " in first Condition")
 
                                     if (response.body()!!.statuscode.equals("2", true)) {
 
                                         toast(response.body()!!.message!!)
-                                        Log.d("ResponseTesrt", " first condition")
+                                        //Log.d("ResponseTesrt", " first condition")
                                     } else {
                                         bcGoToStepOtpCode()
 
                                         loadingProgressBar.visibility = View.GONE
 
-                                        Log.d("ResponseTesrt", " second condition")
+                                        //Log.d("ResponseTesrt", " second condition")
                                     }
 
 
@@ -481,13 +482,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                                 val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
-                                Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
+                                //Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
                                 if (isCvPosted.equals("null", true)) {
 
                                     tempId = response.body()!!.data!!.get(0)!!.tmpId!!
 
-                                    Log.d("ResponseTesrt", " tempId $tempId")
-                                    Log.d("ResponseTesrt", " in first Condition")
+                                    //Log.d("ResponseTesrt", " tempId $tempId")
+                                    //Log.d("ResponseTesrt", " in first Condition")
                                     wcGoToStepMobileVerification()
                                     loadingProgressBar.visibility = View.GONE
 
@@ -559,7 +560,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         loadingProgressBar.visibility = View.VISIBLE
         ApiServiceMyBdjobs.create().sendOtpToVerify(tempId, otpCode).enqueue(object : Callback<CreateAccountModel> {
             override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
-                Log.d("ResponseTesrt", " wcOtpVerify onFailure ${t.message}")
+                //Log.d("ResponseTesrt", " wcOtpVerify onFailure ${t.message}")
                 loadingProgressBar.visibility = View.GONE
             }
 
@@ -567,12 +568,12 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                 try {
                     if (response.isSuccessful) {
-                        Log.d("ResponseTesrt", " wcOtpVerify onResponse message ${response.body()!!.message}")
-                        Log.d("ResponseTesrt", " wcOtpVerify onResponse statuscode ${response.body()!!.statuscode}")
+                        //Log.d("ResponseTesrt", " wcOtpVerify onResponse message ${response.body()!!.message}")
+                        //Log.d("ResponseTesrt", " wcOtpVerify onResponse statuscode ${response.body()!!.statuscode}")
 
                         /*    val username = response.body()!!.data!!.get(0)!!.userName.toString()
 
-                            Log.d("ResponseTesrt", " wcOtpVerify name ${username}")*/
+                            //Log.d("ResponseTesrt", " wcOtpVerify name ${username}")*/
                         if (categoryType.equals("0", true)) {
 
                             try {
@@ -581,7 +582,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                                         val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
-                                        Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
+                                        //Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
                                         if (!isCvPosted.equals("null", true)) {
 
                                             wcGoToStepCongratulation()
@@ -639,7 +640,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                                         val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
 
-                                        Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
+                                        //Log.d("ResponseTesrt", " wcOtpVerify isCvPosted ${isCvPosted}")
                                         if (!isCvPosted.equals("null", true)) {
 
 
@@ -661,7 +662,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                                             userPicUrl = response.body()!!.data!!.get(0)!!.userPicUrl.toString()
 
 
-                                            Log.d("ResponseTesrt", "UserId $userID decodeid $decodeId")
+                                            //Log.d("ResponseTesrt", "UserId $userID decodeid $decodeId")
 
 
                                             bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
@@ -716,13 +717,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         ApiServiceMyBdjobs.create().resendOtp(tempId, mobileNumber, "1").enqueue(object : Callback<ResendOtpModel> {
             override fun onFailure(call: Call<ResendOtpModel>, t: Throwable) {
 
-                Log.d("resendOtp", " sjkafhsakfljh failuere")
+                //Log.d("resendOtp", " sjkafhsakfljh failuere")
             }
 
             override fun onResponse(call: Call<ResendOtpModel>, response: Response<ResendOtpModel>) {
 
                 try {
-                    Log.d("resendOtp", " sjkafhsakfljh ${response.message()}")
+                    //Log.d("resendOtp", " sjkafhsakfljh ${response.message()}")
                     /*  toast(response.message())*/
                     loadingProgressBar.visibility = View.GONE
 
@@ -821,11 +822,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
         loadingProgressBar.visibility = View.VISIBLE
 
-        Log.d("catagorySelected", "hasEducation  ${this.hasEducation} ")
+        //Log.d("catagorySelected", "hasEducation  ${this.hasEducation} ")
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 100
 
-        Log.d("ResponseTesrt",
+        /*Log.d("ResponseTesrt",
                 "userID: " + userID + "\n" +
                         "decodeId " + decodeId + "\n" +
                         "userName: " + userName + "\n" +
@@ -842,13 +843,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         "passingYear " + passingYear + "\n" +
                         "hasEducation " + hasEducation + "\n"
 
-        )
+        )*/
 
         ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, address, locationID, birthDate!!,
                 experience, subcategoriesID, age, userName, eduLevel, instName,
-                educationType, eduDegree, passingYear, hasEducation,skilledBy,ntvqfLevel,categoryId).enqueue(object : Callback<UpdateBlueCvModel> {
+                educationType, eduDegree, passingYear, hasEducation, board, skilledBy,ntvqfLevel,categoryId).enqueue(object : Callback<UpdateBlueCvModel> {
             override fun onFailure(call: Call<UpdateBlueCvModel>, t: Throwable) {
-                Log.d("Ressdjg", " onFailure ${t.message}")
+                //Log.d("Ressdjg", " onFailure ${t.message}")
                 loadingProgressBar.visibility = View.GONE
                 toast("Server Error!! Please try again later")
             }
@@ -856,10 +857,10 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
             override fun onResponse(call: Call<UpdateBlueCvModel>, response: Response<UpdateBlueCvModel>) {
 
                 try {/*  toast("On response ")*/
-                    Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.message}")
-                    Log.d("Ressdjg", " dkljgdslkjg ${response.body().toString()}")
+                    //Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.message}")
+                    //Log.d("Ressdjg", " dkljgdslkjg ${response.body().toString()}")
 
-                    Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.statuscode}")
+                    //Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.statuscode}")
                     if (response.body()!!.statuscode.equals("0", true)) {
 
                         val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
@@ -880,7 +881,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         userPicUrl = response.body()!!.data.get(0).userPicUrl
 
 
-                        Log.d("ResponseTesrt", "UserId $userID decodeid $decodeId")
+                        //Log.d("ResponseTesrt", "UserId $userID decodeid $decodeId")
 
 
                         bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
@@ -917,8 +918,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         bcCategoryFragment.bcGoToNextStep()
         categoryId = dataStorage.getCategoryIDByBanglaName(category)!!
         this.category = category
-        Log.d("catagorySelected", "catagory $category")
-        Log.d("catagorySelected", "categoryId $categoryId")
+        //Log.d("catagorySelected", "catagory $category")
+        //Log.d("catagorySelected", "categoryId $categoryId")
         bcCategoryFragment.getSelectedPosition(position)
 
 
@@ -933,13 +934,13 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     override fun bcGenderSelected(gender: String) {
 
         this.gender = gender
-        Log.d("catagorySelected", "gender ${this.gender}")
+        //Log.d("catagorySelected", "gender ${this.gender}")
         bcGenderFragment.goToNextStep()
     }
 
     override fun bcBirthDateAndAgeSelected(birthDate: String, age: String) {
 
-        Log.d("catagorySelected", "birthDate nbmm $birthDate")
+        //Log.d("catagorySelected", "birthDate nbmm $birthDate")
 
         if (TextUtils.isEmpty(birthDate)) {
 
@@ -952,12 +953,12 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                 val parsedDate = formatter.format(initDate)
                 println(parsedDate)
                 this.birthDate = parsedDate
-                Log.d("catagorySelected", " birthDate ${this.birthDate}")
+                //Log.d("catagorySelected", " birthDate ${this.birthDate}")
 
 
             } catch (e: RuntimeException) {
 
-                Log.d("catagorySelected", " RuntimeException ${e.message}")
+                //Log.d("catagorySelected", " RuntimeException ${e.message}")
                 e.printStackTrace()
             }
 
@@ -967,7 +968,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
         this.age = age
 
-        Log.d("catagorySelected", "birthDate ll  ${this.birthDate} age ${this.age}")
+        //Log.d("catagorySelected", "birthDate ll  ${this.birthDate} age ${this.age}")
 
     }
 
@@ -980,7 +981,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         this.category = category
 
 
-        Log.d("catagorySelected", "subcategoriesID ${this.subcategoriesID} experience ${this.experience}")
+        //Log.d("catagorySelected", "subcategoriesID ${this.subcategoriesID} experience ${this.experience}")
 
     }
 
@@ -995,18 +996,20 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     }
 
-    override fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String) {
+    override fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String, board : String) {
 
         this.eduLevel = eduLevel
         this.eduDegree = eduDegree
         this.instName = instName
         this.passingYear = passingYear
         this.educationType = educationType
+        this.board = board
 
 
-        Log.d("catagorySelected", "eduLevel ${this.eduLevel}" +
+        /*Log.d("catagorySelected", "eduLevel ${this.eduLevel}" +
                 "  eduDegree ${this.eduDegree} instName ${this.instName}" +
-                " passingYear ${this.passingYear} educationType ${this.educationType}")
+                " passingYear ${this.passingYear} educationType ${this.educationType}" +
+                " board ${this.board}")*/
 
 
     }
@@ -1023,7 +1026,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
         val curretFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
 
-        Log.d("curretFragment", "curretFragment $curretFragment")
+        //Log.d("curretFragment", "curretFragment $curretFragment")
 
         when (curretFragment) {
             bcPhotoUploadFragment -> Toast.makeText(this, "আগের পেজে যেতে পারবেন না ", Toast.LENGTH_SHORT).show()
@@ -1038,7 +1041,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     private fun setProgreesBar() {
         val currentFragment = fragmentManager.findFragmentById(R.id.registrationFragmentHolderFL)
-        Log.d("stepChange", "FragmentLive: $currentFragment")
+        //Log.d("stepChange", "FragmentLive: $currentFragment")
 
         when (currentFragment) {
 
@@ -1089,7 +1092,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
             bcGenderFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
                 stepProgressBar.progress = 30
-                Log.d("stepChange", " in wccategoryFragment")
+                //Log.d("stepChange", " in wccategoryFragment")
             }
             bcMobileNumberFragment -> {
                 stepProgressBar.visibility = View.VISIBLE
@@ -1149,7 +1152,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
+        //Log.d("onActivityResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
         try {
             if (resultCode != RESULT_CANCELED && requestCode != null && data != null) {
 
@@ -1162,8 +1165,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                     val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
 
-                    Log.d("GoffleSignIn", " isSuccess ${result.isSuccess}")
-                    Log.d("GoffleSignIn", " signInAccount ${result.signInAccount}")
+                    //Log.d("GoffleSignIn", " isSuccess ${result.isSuccess}")
+                    //Log.d("GoffleSignIn", " signInAccount ${result.signInAccount}")
                     if (result.isSuccess) {
                         // Google Sign In was successful, authenticate with Firebase
                         val account = result.signInAccount
@@ -1172,7 +1175,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         var name = account?.displayName
 
 
-                        Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
+                        //Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
                         signOutFromGoogle()
                         /* socialMediaMapping(sid, semial, Constants.SOCIAL_MEDIA_GOOGLE)*/
 
@@ -1189,7 +1192,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                         this.name = name
 
-                        Log.d("Gmail", "${this.name}  ${this.wcEmail} ")
+                        //Log.d("Gmail", "${this.name}  ${this.wcEmail} ")
 
                         wcEmail = account.email!!
                         userNameType = ""
@@ -1265,7 +1268,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                              }*//*
 
                             *//* socialMediaMapping(sMid, lemail, Constants.SOCIAL_MEDIA_LINKEDIN)*//*
-                            Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
+                            //Log.d("signInWithLinkedIn", "sMid:$sMid \n lemail: $lemail")
 
 
                             *//* val  fname = account!!.givenName
@@ -1337,7 +1340,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         val request = GraphRequest.newMeRequest(
                                 loginResult.accessToken
                         ) { `object`, response ->
-                            Log.d("FBLoginActivity", response.toString())
+                            //Log.d("FBLoginActivity", response.toString())
                             println("LoginActivity " + response.toString())
 
                             // Application code
@@ -1378,7 +1381,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
                                 if (`object`.has("gender")) {
                                     sgender = `object`.getString("gender")
-                                    Log.d("Gender", " $sgender")
+                                    //Log.d("Gender", " $sgender")
                                 }
 
                                 if (`object`.has("first_name")) {
@@ -1398,7 +1401,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                                     gender = "M"
                                 }
 
-                                Log.d("Gender", "$sgender")
+                                //Log.d("Gender", "$sgender")
 
                                 name = "$sfirstname $slastname"
                                 wcEmail = semail
@@ -1409,8 +1412,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                                 socialMediaId = sMid
 
                                 fbPicUrl = "https://graph.facebook.com/$sMid/picture?type=large"
-                                Log.d("MobileNumberVer2",
-                                        "fbPicUrl: $fbPicUrl")
+                                /*Log.d("MobileNumberVer2",
+                                        "fbPicUrl: $fbPicUrl")*/
 
                                 if (categoryType.equals("0", ignoreCase = true)) {
 

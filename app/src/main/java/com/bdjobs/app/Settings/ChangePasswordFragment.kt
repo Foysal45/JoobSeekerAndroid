@@ -49,7 +49,7 @@ class ChangePasswordFragment : Fragment() {
         }
 
         cbFAB.setOnClickListener {
-            Log.d("value", validateOldPassword2().toString())
+            //Log.d("value", validateOldPassword2().toString())
 
             login()
         }
@@ -114,13 +114,13 @@ class ChangePasswordFragment : Fragment() {
                 try {
                     // toast(response.body()?.message!!)
 
-                /*    Log.d("msg", "user = " + bdjobsUserSession.userId +
+                /*    //Log.d("msg", "user = " + bdjobsUserSession.userId +
                             "decode = " + bdjobsUserSession.decodId
 
                     )*/
                     activity?.toast(response.body()?.message!!)
                     if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
-                        Log.d("msg", response.body()?.message)
+                        //Log.d("msg", response.body()?.message)
                         // toast(response.body()?.message!!)
                         if (response.body()?.message == "The information has been updated Successfully") {
                             communicator.backButtonPressed()

@@ -104,7 +104,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         jobList = java.util.ArrayList()
         jobCommunicator = context as JobCommunicator
         language = "bangla"
-        Log.d("JobDetailFragment", "${jobList?.size}")
+        //Log.d("JobDetailFragment", "${jobList?.size}")
         try {
             Constants.appliedJobsCount = bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
             jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
@@ -169,11 +169,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     reportthisJob(position)
                 }
 
-                Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
+                //Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
                 jobsVH.shimmer_view_container.show()
 
-                Log.d("remote rakib", "${remoteConfig.getBoolean("Apply_Button_Type")}")
+                //Log.d("remote rakib", "${remoteConfig.getBoolean("Apply_Button_Type")}")
 
 //                if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                    jobsVH.applyButton.visibility = View.GONE
@@ -187,15 +187,15 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                 ApiServiceJobs.create().getJobdetailData(Constants.ENCODED_JOBS, jobList?.get(position)?.jobid!!, jobList?.get(position)?.lantype!!, "", "0", bdjobsUserSession.userId, "EN").enqueue(object : Callback<JobDetailJsonModel> {
                     override fun onFailure(call: Call<JobDetailJsonModel>, t: Throwable) {
-                        Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
+                        //Log.d("ApiServiceJobs", "onFailure: fisrt time ${t.message}")
                     }
 
                     override fun onResponse(call: Call<JobDetailJsonModel>, response: Response<JobDetailJsonModel>) {
 
                         try {
 
-                            Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
-                            Log.d("ApiServiceJobs", "onResponse: " + response.body())
+                            //Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
+                            //Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
                             jobsVH.shimmer_view_container.stopShimmerAnimation()
                             Ads.showNativeAd(jobsVH.ad_small_template, context)
@@ -256,7 +256,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 val deadline = jobDetailResponseAll.DeadlineDB!!
                                 val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadline)
 
-                                Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
+                                //Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
 
                                 if (todayDate > deadlineDate) {
                                     jobsVH.jobexpirationBtn.show()
@@ -349,7 +349,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
                             }
 
-                            Log.d("applyPostion", "online: $applyonlinePostions")
+                            //Log.d("applyPostion", "online: $applyonlinePostions")
                             if (applyOnline.equalIgnoreCase("True")) {
 
                                 bdjobsUserSession = BdjobsUserSession(context)
@@ -1071,7 +1071,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     private fun applyOnlineJob(position: Int, salary: String, gender: String, jobphotograph: String) {
-        Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
+        //Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
         val bdjobsUserSession = BdjobsUserSession(context)
         val loadingDialog = context.indeterminateProgressDialog("Applying")
         loadingDialog?.setCancelable(false)
@@ -1079,7 +1079,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         ApiServiceJobs.create().applyJob(bdjobsUserSession.userId, bdjobsUserSession.decodId, jobList?.get(position)?.jobid!!, salary, gender, jobphotograph, Constants.ENCODED_JOBS).enqueue(object : Callback<ApplyOnlineModel> {
             override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
 
-                Log.d("dlkgj", "respone ${t.message}")
+                //Log.d("dlkgj", "respone ${t.message}")
                 loadingDialog?.dismiss()
                 dialog?.dismiss()
                 applyStatus = false
@@ -1109,7 +1109,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         }
                         Constants.appliedJobsCount++
                         //jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
-                        //Log.d("rakib", "applied jobs $appliedJobsCount")
+                        ////Log.d("rakib", "applied jobs $appliedJobsCount")
                         d("applyTest success $applyStatus")
                     } else {
                         applyStatus = false
@@ -1179,9 +1179,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
+        //Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
 
-        Log.d("riuhghugr", " result: $result")
+        //Log.d("riuhghugr", " result: $result")
         if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
@@ -1304,7 +1304,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     fun shareJobs(position: Int) {
 
-        Log.d("ShareJob", "position $position")
+        //Log.d("ShareJob", "position $position")
 
         var shareBody = ""
         try {
@@ -1388,7 +1388,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             } catch (e: Exception) {
                                 logException(e)
                             }
-                            Log.d("DeadLine", "DeadLine: $deadline")
+                            //Log.d("DeadLine", "DeadLine: $deadline")
                             val shortlistedJob = ShortListedJobs(
                                     jobid = jobList?.get(position)?.jobid!!,
                                     jobtitle = jobList?.get(position)?.jobTitle!!,
@@ -1448,7 +1448,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 try {
                     val statuscode = response.body()?.statuscode
                     val message = response.body()?.data?.get(0)?.message
-                    Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
+                    //Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
 
                     if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -1483,7 +1483,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                 try {
                     var statuscode = response.body()?.statuscode
                     var message = response.body()?.data?.get(0)?.message
-                    Log.d("msg", message)
+                    //Log.d("msg", message)
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     if (statuscode?.equalIgnoreCase(Constants.api_request_result_code_ok)!!) {
                         doAsync {

@@ -60,7 +60,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         transitFragment(loginUserNameFragment, R.id.loginFragmentHolderFL)
         intent?.extras?.getBoolean(key_go_to_home)?.let { goHome ->
             goToHome = goHome
-            Log.d("goToHome", "goToHome: ${goToHome}")
+            //Log.d("goToHome", "goToHome: ${goToHome}")
         }
     }
 
@@ -103,7 +103,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
         } else {
             getLastUpdateFromServer(this@LoginBaseActivity)
             if (!Constants.isDeviceInfromationSent) {
-                Log.d("splashActivity", "token aaa")
+                //Log.d("splashActivity", "token aaa")
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
                     val token = instanceIdResult.token
                     Constants.sendDeviceInformation(token, this@LoginBaseActivity)
@@ -220,7 +220,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
 //                    Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
 //                    Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
                     getMybdjobsCountData("1",this@LoginBaseActivity)
-                    //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
+                    ////Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                 } catch (e: Exception) {
                     logException(e)
                     getMybdjobsCountData("1",this@LoginBaseActivity)
@@ -304,7 +304,7 @@ finish()
     override fun onRestart() {
         super.onRestart()
         showSnackBar(this.isConnected)
-        Log.d("rakib","called onRestart")
+        //Log.d("rakib","called onRestart")
     }
 
 }

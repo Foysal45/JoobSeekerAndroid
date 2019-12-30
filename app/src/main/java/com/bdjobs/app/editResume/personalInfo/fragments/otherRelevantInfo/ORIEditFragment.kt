@@ -76,7 +76,7 @@ class ORIEditFragment : Fragment() {
         onClicks()
 
 //        etOriKeywords.easyOnTextChangedListener { charSequence ->
-//            Log.d("rakib", "adadad")
+//            //Log.d("rakib", "adadad")
 //            if (maxInput - keywordsCount != 0) {
 //                etOriKeywords.isEnabled = true
 //                if (keywordsCount + charSequence.length <= maxInput) {
@@ -99,27 +99,27 @@ class ORIEditFragment : Fragment() {
 
         etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
 
-        Log.d("ORIData", "data: ${data?.keywords}")
+        //Log.d("ORIData", "data: ${data?.keywords}")
 
         val keywords = data?.keywords
 
         toatalLength = keywords?.length!!
 
-        Log.d("qqqqq", "total length $toatalLength")
+        //Log.d("qqqqq", "total length $toatalLength")
 
 //        try {
 //            maxInput -= data?.keywords?.countCommas()!!
 //        } catch (e: Exception) {
 //            logException(e)
 //        }
-//        Log.d("rakib", "${keywords?.length}")
+//        //Log.d("rakib", "${keywords?.length}")
 
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
 
 //        if (data?.keywords?.length!! <= 250)
 //            activity?.toast("Keywords maximum 250 characters")
         keyArray?.forEach {
-            Log.d("rakib", "$keyArray ${keyArray.size}")
+            //Log.d("rakib", "$keyArray ${keyArray.size}")
             if (it.isNotBlank()){
                 addChip(it)
             }
@@ -129,7 +129,7 @@ class ORIEditFragment : Fragment() {
 
             if (true) {
 
-                Log.d("rakib", "total length $toatalLength")
+                //Log.d("rakib", "total length $toatalLength")
 
                 if (etOriKeywords?.text.toString().length + toatalLength < 250) {
                     if (etOriKeywords.text.toString() != "") {
@@ -261,10 +261,10 @@ class ORIEditFragment : Fragment() {
 
 
     private fun addChip(input: String) {
-        Log.d("rakib", "came here $keywordsCount ${data?.keywords?.length!!}")
+        //Log.d("rakib", "came here $keywordsCount ${data?.keywords?.length!!}")
         if (data?.keywords?.length!! <= 250) {
             keywordsCount += input.length
-            Log.d("ORIcount", "totalCount: ${data?.keywords}|<- ${data?.keywords?.countCommas()}")
+            //Log.d("ORIcount", "totalCount: ${data?.keywords}|<- ${data?.keywords?.countCommas()}")
             addAsString(input)
             val c1 = getChip(ori_entry_chip_group, input, R.xml.chip_entry)
             ori_entry_chip_group.addView(c1)
@@ -337,7 +337,7 @@ class ORIEditFragment : Fragment() {
     }
 
     private fun removeItem(s: String) {
-        Log.d("rakib", "remove called")
+        //Log.d("rakib", "remove called")
         if (idArr.contains(s)) {
             idArr.remove(s)
 //            keywordsCount -= s.length

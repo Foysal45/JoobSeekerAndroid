@@ -50,7 +50,7 @@ class CancelAppliedJobWorker(val appContext: Context, workerParams: WorkerParame
                 }
             })
 
-            Log.d("werywirye", "Hello: $userid")
+            //Log.d("werywirye", "Hello: $userid")
             return Result.success()
         }
 

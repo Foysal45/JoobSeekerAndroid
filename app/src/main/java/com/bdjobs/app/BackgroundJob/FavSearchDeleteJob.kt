@@ -42,7 +42,7 @@ package com.bdjobs.app.BackgroundJob
 //                    .build()
 //                    .schedule()
 //
-//            Log.d("werywirye", " jobid: $jobId")
+//            //Log.d("werywirye", " jobid: $jobId")
 //            return jobId
 //        }
 //
@@ -66,17 +66,17 @@ package com.bdjobs.app.BackgroundJob
 //
 //                override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
 //                    try {
-//                        Log.d("werywirye", "Success API")
+//                        //Log.d("werywirye", "Success API")
 //                    } catch (e: Exception) {
 //                        logException(e)
 //                    }
 //                }
 //            })
-//            Log.d("werywirye", "Hello: $favID")
+//            //Log.d("werywirye", "Hello: $favID")
 //            return Result.SUCCESS
 //        }
 //
-//        Log.d("werywirye", "Hello: $favID")
+//        //Log.d("werywirye", "Hello: $favID")
 //        return Result.FAILURE
 //
 //    }

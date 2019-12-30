@@ -241,7 +241,7 @@ class Constants {
             val decodeID = session.decodId
             val deviceID = context.getDeviceID()
 
-            Log.d("DeviceInformation", "OS_API_Level=$OS_API_Level\n" +
+            /*Log.d("DeviceInformation", "OS_API_Level=$OS_API_Level\n" +
                     "Internal_storage=$Internal_storage\n" +
                     "Free_storage=$Free_storage\n" +
                     "Mobile_Network=$Mobile_Network\n" +
@@ -252,7 +252,7 @@ class Constants {
                     "Manufacturer=$Manufacturer\n" +
                     "AppVersion=$AppVersion\n" +
                     "deviceID=$deviceID\n" +
-                    "FCMToken=$token")
+                    "FCMToken=$token")*/
 
             ApiServiceMyBdjobs.create().sendDeviceInformation(
                     OS_API_Level = OS_API_Level,
@@ -276,7 +276,7 @@ class Constants {
                         }
 
                         override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
-                            Log.d("DeviceInformation", "send data: ${response.body()}")
+                            //Log.d("DeviceInformation", "send data: ${response.body()}")
                             try {
                                 if (response.body()?.statuscode == api_request_result_code_ok)
                                     Constants.isDeviceInfromationSent = true

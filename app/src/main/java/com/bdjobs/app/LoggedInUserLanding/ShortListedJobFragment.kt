@@ -200,18 +200,18 @@ ShortListedJobFragment : Fragment() {
                         if (totalJobs!! > 0) {
                             noDataLL?.hide()
                             shortListRV?.show()
-                            Log.d("totalJobs", "data ase")
+                            //Log.d("totalJobs", "data ase")
                         } else {
                             noDataLL?.show()
                             shortListRV?.hide()
-                            Log.d("totalJobs", "zero")
+                            //Log.d("totalJobs", "zero")
                         }
 
                         TOTAL_PAGES = jobResponse?.common?.totalpages
 
 
-                        Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
-                        Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
+                        //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                        //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
                         //communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
                         val results = response.body()?.data
@@ -239,7 +239,7 @@ ShortListedJobFragment : Fragment() {
                         totalRecordsFound = jobResponse.common?.totalRecordsFound
                         favListSize = totalRecordsFound
                     } else {
-                        /*Log.d("TAG", "not successful: $TAG")*/
+                        /*//Log.d("TAG", "not successful: $TAG")*/
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -248,14 +248,14 @@ ShortListedJobFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
-                Log.d("TAG", "not successful!! onFail")
+                //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
             }
         })
     }
 
     private fun loadNextPage(deadline: String, rpp: String, pageNumber: Int) {
-        Log.d("ArrayTest", " loadNextPage called")
+        //Log.d("ArrayTest", " loadNextPage called")
 
         val call = ApiServiceJobs.create().getStoreJobList(
                 p_id = bdjobsUserSession.userId,
@@ -269,7 +269,7 @@ ShortListedJobFragment : Fragment() {
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
                 try {
-                    Log.d("Paramtest", "response :   ${response.body().toString()}")
+                    //Log.d("Paramtest", "response :   ${response.body().toString()}")
                     if (response.isSuccessful) {
 
                         try {
@@ -307,7 +307,7 @@ ShortListedJobFragment : Fragment() {
                             e.printStackTrace()
                         }
                     } else {
-                        Log.d("TAG", "not successful: ")
+                        //Log.d("TAG", "not successful: ")
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -315,7 +315,7 @@ ShortListedJobFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
-                Log.d("TAG", "not successful!! onFail")
+                //Log.d("TAG", "not successful!! onFail")
             }
         })
     }
@@ -346,7 +346,7 @@ ShortListedJobFragment : Fragment() {
 
 
     fun updateNotificationView(count: Int?) {
-        Log.d("rakib", "in shorlist fragment $count")
+        //Log.d("rakib", "in shorlist fragment $count")
         if (count!! > 0) {
             notificationCountTV?.show()
             if (count <= 99)

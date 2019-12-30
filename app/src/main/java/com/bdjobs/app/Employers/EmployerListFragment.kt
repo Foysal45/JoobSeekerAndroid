@@ -63,7 +63,7 @@ class EmployerListFragment : Fragment() {
             isLastPages = false
             isLoadings = false
             initPagination()
-            Log.d("searchBTN", "searchBTN text: $orgName")
+            //Log.d("searchBTN", "searchBTN text: $orgName")
         }
 
         searchBTN?.isEnabled = false
@@ -90,7 +90,7 @@ class EmployerListFragment : Fragment() {
         employerList_RV?.adapter = employerListAdapter
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         employerList_RV?.layoutManager = layoutManager as RecyclerView.LayoutManager?
-        Log.d("initPag", "called")
+        //Log.d("initPag", "called")
         employerList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
 
@@ -128,10 +128,10 @@ class EmployerListFragment : Fragment() {
             override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
 
                 try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
+                    //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
                     TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
                     var totalRecords = response?.body()?.common?.totalrecordsfound
-                    Log.d("resresdata", " =${response?.body()?.data}")
+                    //Log.d("resresdata", " =${response?.body()?.data}")
 
                     if (!response?.body()?.data.isNullOrEmpty()) {
                         employerList_RV!!.visibility = View.VISIBLE
@@ -139,10 +139,10 @@ class EmployerListFragment : Fragment() {
                         employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
 
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                            Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                            //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
                             employerListAdapter?.addLoadingFooter()
                         } else {
-                            Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                            //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
                             isLastPages = true
                         }
 
@@ -176,7 +176,7 @@ class EmployerListFragment : Fragment() {
 
     private fun loadNextPage(orgname: String) {
 
-        Log.d("pg", pgNo?.toString())
+        //Log.d("pg", pgNo?.toString())
         ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
             override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
                 error("onFailure", t)
@@ -186,7 +186,7 @@ class EmployerListFragment : Fragment() {
             override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
 
                 try {
-                    Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
+                    //Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
 
                     TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
                     employerListAdapter?.removeLoadingFooter()

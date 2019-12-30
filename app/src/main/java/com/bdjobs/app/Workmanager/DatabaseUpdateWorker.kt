@@ -68,10 +68,10 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                 doAsync {
                     bdjobsInternalDB.favouriteSearchFilterDao().deleteAllFavouriteSearch()
                     response.body()?.data?.let { items ->
-                        Log.d("XZXfg", "insertFavourite Size: ${items.size}")
+                        //Log.d("XZXfg", "insertFavourite Size: ${items.size}")
                         for (item in items) {
 
-                            Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
+                            //Log.d("createdonF", "created onF: ${item.createdon} \n updatedOn onF: ${item.updatedon}")
 
                             var cratedOn: Date? = null
                             try {
@@ -86,7 +86,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 e.printStackTrace()
                             }
 
-                            Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
+                            //Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
 
                             val favouriteSearch = FavouriteSearch(
                                     filterid = item?.filterid,
@@ -121,7 +121,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         intent.putExtra("job", "insertFavouriteSearchFilter")
                         appContext.sendBroadcast(intent)
                         favSearchFiltersSynced = true
-                        Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
+                        //Log.d("DatabaseUpdateJob", "insertFavouriteSearchFilter Finish : ${Calendar.getInstance().time}")
                     }
                 }
 
@@ -162,7 +162,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
                                     intent.putExtra("job", "insertJobInvitation")
                                     appContext.sendBroadcast(intent)
-                                    Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
+                                    //Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
                                     jobInvitationSynced = true
                                 }
                             }
@@ -196,7 +196,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     if (response?.body()?.messageType == "1") {
 
                         if (response.body()?.update == "1") {
-                            Log.d("Rakib", response.body()?.dblink)
+                            //Log.d("Rakib", response.body()?.dblink)
                             downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
                         } else {
                         }
@@ -294,7 +294,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
     private fun getUnSeenNotificationsCount() {
         doAsync {
             val count = bdjobsInternalDB.notificationDao().getNotificationCount()
-            Log.d("rakib", "notification count $count")
+            //Log.d("rakib", "notification count $count")
             bdjobsUserSession.updateNotificationCount(count)
         }
     }
@@ -399,7 +399,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
     }
 
     private fun insertCertificationList() {
-        Log.d("XZXfg", "insertCertificationList")
+        //Log.d("XZXfg", "insertCertificationList")
         ApiServiceMyBdjobs.create().getAssesmentCompleteList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<AssesmentCompleteModel> {
             override fun onFailure(call: Call<AssesmentCompleteModel>, t: Throwable) {
                 error("onFailure", t)
@@ -428,7 +428,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     intent.putExtra("job", "insertCertificationList")
                                     appContext.sendBroadcast(intent)
                                     certificationSynced = true
-                                    Log.d("DatabaseUpdateJob", "insertCertificationList Finish : ${Calendar.getInstance().time}")
+                                    //Log.d("DatabaseUpdateJob", "insertCertificationList Finish : ${Calendar.getInstance().time}")
                                 }
                             }
                         }
@@ -448,11 +448,11 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
-                Log.d("XZXfg", "insertFollowedEmployers")
+                //Log.d("XZXfg", "insertFollowedEmployers")
                 doAsync {
                     bdjobsInternalDB.followedEmployerDao().deleteAllFollowedEmployer()
                     response.body()?.data?.let { items ->
-                        Log.d("XZXfg", "insertFollowedEmployers Size: ${items.size}")
+                        //Log.d("XZXfg", "insertFollowedEmployers Size: ${items.size}")
 
                         for (item in items) {
                             var followedOn: Date? = null
@@ -461,7 +461,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
-                            Log.d("followedOn", "followedOn on: $followedOn")
+                            //Log.d("followedOn", "followedOn on: $followedOn")
 
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item?.companyID,
@@ -478,7 +478,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         intent.putExtra("job", "insertFollowedEmployers")
                         appContext.sendBroadcast(intent)
                         followedEmployerSynced = true
-                        Log.d("DatabaseUpdateJob", "insertFollowedEmployers Finish : ${Calendar.getInstance().time}")
+                        //Log.d("DatabaseUpdateJob", "insertFollowedEmployers Finish : ${Calendar.getInstance().time}")
                     }
                 }
 
@@ -489,7 +489,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
     }
 
     private fun insertShortListedJobs() {
-        Log.d("XZXfg", "insertShortListedJobs")
+        //Log.d("XZXfg", "insertShortListedJobs")
         ApiServiceJobs.create().getShortListedJobs(p_id = bdjobsUserSession.userId, encoded = Constants.ENCODED_JOBS).enqueue(object : Callback<ShortListedJobModel> {
             override fun onFailure(call: Call<ShortListedJobModel>, t: Throwable) {
                 error("onFailure", t)
@@ -500,11 +500,11 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                 doAsync {
                     bdjobsInternalDB.shortListedJobDao().deleteAllShortListedJobs()
                     response.body()?.data?.let { items ->
-                        Log.d("XZXfg", "insertShortListedJobs Size: ${items.size}")
+                        //Log.d("XZXfg", "insertShortListedJobs Size: ${items.size}")
 
                         for (item in items) {
                             val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(item?.deadline)
-                            Log.d("deadline", "deadline: $deadline")
+                            //Log.d("deadline", "deadline: $deadline")
                             val shortlistedJob = ShortListedJobs(
                                     jobid = item?.jobid,
                                     jobtitle = item?.jobtitle,
@@ -517,13 +517,13 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     lantype = item?.lantype
                             )
 
-                            Log.d("item.jobTitle", "item.jobTitle: ${item?.jobtitle}")
-                            Log.d("item.jobTitle", "item.companyName: ${item?.companyname}")
+                            //Log.d("item.jobTitle", "item.jobTitle: ${item?.jobtitle}")
+                            //Log.d("item.jobTitle", "item.companyName: ${item?.companyname}")
                             bdjobsInternalDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                         }
                     }
                     response.body()?.common?.appliedid?.let { items ->
-                        Log.d("XZXfg", "appliedid Size: ${items.size}")
+                        //Log.d("XZXfg", "appliedid Size: ${items.size}")
 
                         bdjobsInternalDB.appliedJobDao().deleteAllAppliedJobs()
                         for (item in items) {
@@ -539,7 +539,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
                         intent.putExtra("job", "insertShortListedJobs")
                         appContext.sendBroadcast(intent)
-                        Log.d("DatabaseUpdateJob", "insertShortListedJobs Finish : ${Calendar.getInstance().time}")
+                        //Log.d("DatabaseUpdateJob", "insertShortListedJobs Finish : ${Calendar.getInstance().time}")
                     }
                 }
 

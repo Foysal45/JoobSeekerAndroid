@@ -345,7 +345,7 @@ class BdjobsUserSession(val context: Context) {
         try {
             val value = pref?.getString(key, "0")
             val count = (value?.toInt()!!+1).toString()
-            Log.d("rakib", "$key -> $count")
+            //Log.d("rakib", "$key -> $count")
             pref?.edit() {
                 putString(key, count)
             }
@@ -359,7 +359,7 @@ class BdjobsUserSession(val context: Context) {
             val value = pref?.getString(key, "0")
             if(value?.toInt()!!>0) {
                 val count = (value.toInt() - 1).toString()
-                Log.d("rakib", "$key -> $count")
+                //Log.d("rakib", "$key -> $count")
                 pref?.edit() {
                     putString(key, count)
                 }

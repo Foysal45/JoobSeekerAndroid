@@ -66,17 +66,17 @@ class EmployerInteractionFragment : Fragment() {
 
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
                     var totalRecords = response.body()?.common?.totalNumberOfApplication
-                    Log.d("totalrecords", "totalrecords  = $totalRecords")
-                    Log.d("expEXP", "expexperienceListInteraction=${experienceListInteraction}")
+                    //Log.d("totalrecords", "totalrecords  = $totalRecords")
+                    //Log.d("expEXP", "expexperienceListInteraction=${experienceListInteraction}")
                     try {
-                        Log.d("callAppliURl", "url: ${call?.request()} and ")
+                        //Log.d("callAppliURl", "url: ${call?.request()} and ")
                         if (!response?.body()?.data.isNullOrEmpty()) {
 
                             experienceListInteraction?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
-                            Log.d("expEXP", "---${response.body()?.exprience}")
+                            //Log.d("expEXP", "---${response.body()?.exprience}")
 
                             for (item in experienceListInteraction!!) {
-                                Log.d("expEXP", " v = $item")
+                                //Log.d("expEXP", " v = $item")
                             }
                             addRadioButton()
                             onClick()
@@ -86,7 +86,7 @@ class EmployerInteractionFragment : Fragment() {
                             //  totalRecords = "0"
                         }
                         loadingProgressBar.visibility = View.GONE
-                        Log.d("tot", "total = $totalRecords")
+                        //Log.d("tot", "total = $totalRecords")
 
 
                     } catch (e: Exception) {
@@ -115,28 +115,28 @@ class EmployerInteractionFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("calling", " onPause")
+        //Log.d("calling", " onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("calling", " onStop")
+        //Log.d("calling", " onStop")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("calling", " onDestroyView")
+        //Log.d("calling", " onDestroyView")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("calling", " onDetach")
+        //Log.d("calling", " onDetach")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("calling", " onResume")
-        Log.d("calling", " hire = $hire, contracted = $contracted, notcontracted = $Ncontracted")
+        //Log.d("calling", " onResume")
+        //Log.d("calling", " hire = $hire, contracted = $contracted, notcontracted = $Ncontracted")
         bdjobsUserSession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         //----------------------------------
@@ -148,7 +148,7 @@ class EmployerInteractionFragment : Fragment() {
                 " " + appliedJobsCommunicator.getTitle2().trim()
         var getStatus = appliedJobsCommunicator?.getStatus()
 
-        Log.d("calling", " onDestroy + $getStatus")
+        //Log.d("calling", " onDestroy + $getStatus")
 
         when (getStatus) {
             "1" -> notcontracted()
@@ -159,7 +159,7 @@ class EmployerInteractionFragment : Fragment() {
         expAPIcall("0")
         EmpInteractionFab?.setEnabled(false);
         //  EmpInteractionFab?.setBackgroundColor(Color.parseColor("#757575"))
-        Log.d("expEXP", "hire = $hire")
+        //Log.d("expEXP", "hire = $hire")
         if (hire?.equals("1")!! || contracted?.equals("1") || Ncontracted?.equals("1")) {
             EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
             EmpInteractionFab?.setEnabled(true);
@@ -172,7 +172,7 @@ class EmployerInteractionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("calling", " onDestroy")
+        //Log.d("calling", " onDestroy")
         hire = "0"
         contracted = "0"
         Ncontracted = "0"
@@ -185,7 +185,7 @@ class EmployerInteractionFragment : Fragment() {
         // val rgp = findViewById(com.bdjobs.app.R.id.radio_group) as RadioGroup
         //   populateshowExp = "yes"
         var buttonsize = experienceListInteraction?.size
-        Log.d("expEXP", "button size = $buttonsize")
+        //Log.d("expEXP", "button size = $buttonsize")
         radio_group?.removeAllViews()
         //foundTV.text = "We found " + buttonsize?.toString() + " experience from Your Resume"
 
@@ -217,15 +217,15 @@ class EmployerInteractionFragment : Fragment() {
                     radio_group?.addView(companyTV)
 
                     if (jobID?.equalIgnoreCase(jobIDApplied)!!) {
-                        Log.d("matched", " jobID + $jobID appliedjobid = $jobIDApplied")
+                        //Log.d("matched", " jobID + $jobID appliedjobid = $jobIDApplied")
                         designationradioBTN?.isChecked = true
                         designationradioBTN?.isEnabled = false
                     } else {
-                        Log.d("matched", " not matched")
+                        //Log.d("matched", " not matched")
                     }
 
 
-                    Log.d("matched", " exp id = ${experienceListInteraction?.get(i)?.jobid?.trim()}")
+                    //Log.d("matched", " exp id = ${experienceListInteraction?.get(i)?.jobid?.trim()}")
 
 
                     if (!experienceListInteraction?.get(i)?.jobid?.trim()?.equalIgnoreCase("0")!!){
@@ -234,7 +234,7 @@ class EmployerInteractionFragment : Fragment() {
 
                     designationradioBTN?.setOnClickListener {
                         expID = experienceListInteraction?.get(i)?.experienceID!!
-                        Log.d("matched", " exp id = $expID")
+                        //Log.d("matched", " exp id = $expID")
                         changeEXP = "1"
                         // toast(experienceListInteraction?.get(i)?.designation!! + " = " + expID)
                     }
@@ -475,19 +475,19 @@ class EmployerInteractionFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
-                    /* Log.d("key", "userid = " + bdjobsUserSession.userId
+                    /* //Log.d("key", "userid = " + bdjobsUserSession.userId
                              + "decode id = " + bdjobsUserSession.decodId + "status = "
                              + status + "jobid = " + appliedJobsCommunicator.getjobID()
                              + "experienceid = " + expID)*/
                 }
 
                 override fun onResponse(call: Call<EmployerInteraction>, response: Response<EmployerInteraction>) {
-                    Log.d("key", "userid = " + bdjobsUserSession.userId
+                    /*Log.d("key", "userid = " + bdjobsUserSession.userId
                             + "decode id = " + bdjobsUserSession.decodId + "status = "
                             + status + "jobid = " + appliedJobsCommunicator.getjobID()
                             + "experienceid = " + expID
                             + "changeEXP = " + changeEXP
-                    )
+                    )*/
                     try {
                         activity?.stopProgressBar(loadingProgressBar)
                         if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4")

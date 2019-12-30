@@ -52,7 +52,7 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
                 data.ln?.let { it1 -> lns.add(it1) }
                 data.deadline?.let { it -> deadline.add(it) }
             }
-            Log.d("hello", employerJobList?.get(position)?.jobid)
+            //Log.d("hello", employerJobList?.get(position)?.jobid)
             context.startActivity(context.intentFor<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to position, "deadline" to deadline).singleTop())
         }
 

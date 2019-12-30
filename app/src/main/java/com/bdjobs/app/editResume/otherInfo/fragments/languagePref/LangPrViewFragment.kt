@@ -60,10 +60,10 @@ class LangPrViewFragment : Fragment() {
                         fab_language_add?.show()
                     }
                 }
-                //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+                ////Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
 
             } else {
-                //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+                ////Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
                 doWork()
             }
         } catch (e: Exception) {
@@ -134,7 +134,7 @@ class LangPrViewFragment : Fragment() {
                         rv_lang_view?.show()
                         val respo = response.body()
 
-                        Log.d("dsfklhgjfd;h", "$respo")
+                        //Log.d("dsfklhgjfd;h", "$respo")
 
                         arr = respo?.data as ArrayList<LanguageDataModel>
 

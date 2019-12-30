@@ -73,7 +73,7 @@ class AppliedJobsFragment : Fragment() {
         bdjobsUsersession = BdjobsUserSession(activity)
         appliedJobsCommunicator = activity as AppliedJobsCommunicator
         time = appliedJobsCommunicator.getTime()
-        Log.d("rakib", time)
+        //Log.d("rakib", time)
         initializeViews()
         backIMV?.setOnClickListener {
             appliedJobsCommunicator.backButtonPressed()
@@ -95,7 +95,7 @@ class AppliedJobsFragment : Fragment() {
         appliedJobsRV!!.adapter = appliedJobsAdapter
         appliedJobsRV!!.setHasFixedSize(true)
         appliedJobsRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        Log.d("initPag", "called")
+        //Log.d("initPag", "called")
         appliedJobsRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         appliedJobsRV?.addOnScrollListener(object : PaginationScrollListener((appliedJobsRV.layoutManager as LinearLayoutManager?)!!) {
             override val isLoading: Boolean
@@ -114,7 +114,7 @@ class AppliedJobsFragment : Fragment() {
 
         jobApplyLimit = bdjobsUsersession.jobApplyLimit!!.toInt()
 
-//        Log.d("rakib" ,"onres ${bdjobsUsersession.availableJobsCount}")
+//        //Log.d("rakib" ,"onres ${bdjobsUsersession.availableJobsCount}")
 
         loadFirstPage(time)
 
@@ -171,7 +171,7 @@ class AppliedJobsFragment : Fragment() {
 
                     try {
                         var totalRecords = response.body()?.common?.totalNumberOfApplication
-                        Log.d("totalrecords", "totalrecords  = $totalRecords")
+                        //Log.d("totalrecords", "totalrecords  = $totalRecords")
 
                         if (totalRecords != null) {
                             //   toast("came")
@@ -195,7 +195,7 @@ class AppliedJobsFragment : Fragment() {
                                 }
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
-//                                Log.d("rakib", "load ${availableJobs}")
+//                                //Log.d("rakib", "load ${availableJobs}")
 
 
                                 if (availableJobs > 1) {
@@ -214,7 +214,7 @@ class AppliedJobsFragment : Fragment() {
 
 
 
-                        Log.d("callAppliURl", "url: ${call?.request()} and ")
+                        //Log.d("callAppliURl", "url: ${call?.request()} and ")
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         //   TOTAL_PAGES = 5
 
@@ -230,7 +230,7 @@ class AppliedJobsFragment : Fragment() {
                             appliedJobsAdapter?.addAllActivity(response.body()?.activity as List<AppliedJobModelActivity>)
 
                             experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
-                            Log.d("callAppliURlex", "size = ${value?.size}")
+                            //Log.d("callAppliURlex", "size = ${value?.size}")
                             appliedJobsCommunicator.setexperienceList(experienceList!!)
                             jobsAppliedSize = totalRecords?.toInt()!!
 
@@ -248,11 +248,11 @@ class AppliedJobsFragment : Fragment() {
 
                             appliedJobsNoDataLL?.show()
                             appliedJobsRV?.hide()
-                            Log.d("totalJobs", "zero")
+                            //Log.d("totalJobs", "zero")
 
                         }
 
-                        Log.d("tot", "total = $totalRecords")
+                        //Log.d("tot", "total = $totalRecords")
                         /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                          favCountTV.text = Html.fromHtml(styledText)*/
 
@@ -276,7 +276,7 @@ class AppliedJobsFragment : Fragment() {
                                 }
 
 
-                                //                            Log.d("rakib", "load $availableJobs")
+                                //                            //Log.d("rakib", "load $availableJobs")
                                 availableJobsCountTV?.show()
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
@@ -345,8 +345,8 @@ class AppliedJobsFragment : Fragment() {
                 override fun onResponse(call: Call<AppliedJobModel>, response: Response<AppliedJobModel>) {
 
                     try {
-                        Log.d("callAppliURl", "url: ${call?.request()} and $pgNo total= ${TOTAL_PAGES}")
-                        Log.d("callAppliURl", response.body()?.data.toString())
+                        //Log.d("callAppliURl", "url: ${call?.request()} and $pgNo total= ${TOTAL_PAGES}")
+                        //Log.d("callAppliURl", response.body()?.data.toString())
                         //TOTAL_PAGES = TOTAL_PAGES?.plus(1)
 
                         //response.body()?.common?.totalpages?.toInt()
@@ -382,7 +382,7 @@ class AppliedJobsFragment : Fragment() {
     fun scrollToUndoPosition(position: Int) {
         appliedJobsRV?.scrollToPosition(position)
         jobsAppliedSize++
-        Log.d("jobiiii", "scrollToUndoPosition = ${jobsAppliedSize}")
+        //Log.d("jobiiii", "scrollToUndoPosition = ${jobsAppliedSize}")
         if (jobsAppliedSize > 1) {
             val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
             favCountTV?.text = Html.fromHtml(styledText)
@@ -396,7 +396,7 @@ class AppliedJobsFragment : Fragment() {
 
     fun decrementCounter() {
         jobsAppliedSize--
-        Log.d("jobiiii", "decrementCounter = ${jobsAppliedSize}")
+        //Log.d("jobiiii", "decrementCounter = ${jobsAppliedSize}")
         if (jobsAppliedSize > 1) {
             val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
             favCountTV?.text = Html.fromHtml(styledText)

@@ -30,10 +30,10 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
         holder.experienceValueTV.text = items?.get(position)?.skillName
         holder.workExperienceTV.text = "skill - ${position + 1}"
         /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
-        /*Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
-        Log.d("fdhbjh", "position $position")
-        Log.d("fdhbjh", "expSource ${items?.get(position)?.skillBy}")
-        Log.d("fdhbjh", "NTVQF ${items?.get(position)?.ntvqfLevel}")*/
+        /*//Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
+        //Log.d("fdhbjh", "position $position")
+        //Log.d("fdhbjh", "expSource ${items?.get(position)?.skillBy}")
+        //Log.d("fdhbjh", "NTVQF ${items?.get(position)?.ntvqfLevel}")*/
 
         var firstText = ""
         var secondText = ""
@@ -43,7 +43,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
 
         val list = items?.get(position)?.skillBy!!
         list.forEachIndexed { index, s ->
-            Log.d("expTest", "exp: $s")
+            //Log.d("expTest", "exp: $s")
             when (s.toString()) {
                 "1" -> {
                     firstText = "Self,"

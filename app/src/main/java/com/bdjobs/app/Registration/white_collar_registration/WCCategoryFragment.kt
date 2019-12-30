@@ -67,7 +67,7 @@ class WCCategoryFragment : Fragment() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
         categories = dataStorage.allWhiteCollarCategories
-        Log.d("elkgjtsdlg", "Size ${categories.size}")
+        //Log.d("elkgjtsdlg", "Size ${categories.size}")
         categoryAdapter = WCCategoryAdapter(activity, categories)
         layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         wcCategoryList?.layoutManager = layoutManager
@@ -80,7 +80,7 @@ class WCCategoryFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
-        Log.d("selectedPosition", "selectedPosition in fragment $selectedPosition  }")
+        //Log.d("selectedPosition", "selectedPosition in fragment $selectedPosition  }")
         val wccategoryadater = WCCategoryAdapter(activity, categories)
         wcCategoryList.adapter = wccategoryadater
         wccategoryadater.setCategoryPositionSelected(selectedPosition)

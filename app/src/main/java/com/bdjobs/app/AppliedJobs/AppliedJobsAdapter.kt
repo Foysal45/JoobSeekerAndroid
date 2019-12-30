@@ -131,7 +131,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     holder?.deadline?.text = appliedJobsLists?.get(position)?.deadLine
                     holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
 
-                    Log.d("activity", appliedjobsActitivityLists?.toString())
+                    //Log.d("activity", appliedjobsActitivityLists?.toString())
 
                     if (appliedJobsLists?.get(position)?.isUserSeenInvitation == "0") {
                         holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
@@ -151,15 +151,15 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
                             val todaysDate = Date()
 
-                            /*       Log.d("date", "$deadline - $todaysDate")
-                                   Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
+                            /*       //Log.d("date", "$deadline - $todaysDate")
+                                   //Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
                                            "jobid = " + appliedJobsLists!![position].jobId
                                            + "deadline=$deadline + \"todays=$todaysDate ")*/
 
                             val compare = deadline.compareTo(todaysDate)
-                            Log.d("date", "compare = $compare")
+                            //Log.d("date", "compare = $compare")
                             /*  if (compare.equals("1")){
-                                  Log.d("date","$compare visible")
+                                  //Log.d("date","$compare visible")
                                   holder?.cancelBTN?.visibility = View.VISIBLE
                               }*/
                             if (deadline > todaysDate) {
@@ -173,7 +173,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                         } catch (e: Exception) {
                             logException(e)
-                            Log.d("date", "e")
+                            //Log.d("date", "e")
 
                         }
                     } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
@@ -199,7 +199,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                     holder?.edit_SalaryIcon?.setOnClickListener {
                         try {
-                            //    Log.d("huhu", "huhu")
+                            //    //Log.d("huhu", "huhu")
 
                             val saveSearchDialog = Dialog(context)
                             saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
@@ -239,7 +239,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                     try {//update
                                         var salary = expected_salary_tv.getString()
 
-                                        Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
+                                        //Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
 
                                         val constraints = Constraints.Builder()
                                                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -314,7 +314,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
                             lns.add(appliedJobsLists?.get(position)?.langType.toString())
                             communicator.setFrom("")
-                            Log.d("rakib deadline", "$deadline")
+                            //Log.d("rakib deadline", "$deadline")
                             activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                         } catch (e: Exception) {
                             logException(e)
@@ -334,7 +334,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     holder?.deadline?.text = appliedJobsLists?.get(position)?.deadLine
                     holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
 
-                    Log.d("activity", appliedjobsActitivityLists?.toString())
+                    //Log.d("activity", appliedjobsActitivityLists?.toString())
 
                     if (appliedJobsLists?.get(position)?.isUserSeenInvitation == "0") {
                         holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
@@ -354,15 +354,15 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
                             val todaysDate = Date()
 
-                            /*       Log.d("date", "$deadline - $todaysDate")
-                                   Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
+                            /*       //Log.d("date", "$deadline - $todaysDate")
+                                   //Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
                                            "jobid = " + appliedJobsLists!![position].jobId
                                            + "deadline=$deadline + \"todays=$todaysDate ")*/
 
                             val compare = deadline.compareTo(todaysDate)
-                            Log.d("date", "compare = $compare")
+                            //Log.d("date", "compare = $compare")
                             /*  if (compare.equals("1")){
-                                  Log.d("date","$compare visible")
+                                  //Log.d("date","$compare visible")
                                   holder?.cancelBTN?.visibility = View.VISIBLE
                               }*/
                             if (deadline > todaysDate) {
@@ -376,7 +376,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                         } catch (e: Exception) {
                             logException(e)
-                            Log.d("date", "e")
+                            //Log.d("date", "e")
 
                         }
                     } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
@@ -402,7 +402,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                     holder?.edit_SalaryIcon?.setOnClickListener {
                         try {
-                            //    Log.d("huhu", "huhu")
+                            //    //Log.d("huhu", "huhu")
 
                             val saveSearchDialog = Dialog(context)
                             saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
@@ -450,7 +450,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                         val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
                                         WorkManager.getInstance(context).enqueue(expectedSalaryRequest)
 
-                                        Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
+                                        //Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
 //                                        ExpectedSalaryWorker.runJobImmediately(session.userId!!, session.decodId!!, appliedJobsLists?.get(position)?.jobId!!, salary)
                                         // updateExpectedSalary(appliedJobsLists!![position].jobId!!,salary)
                                         saveSearchDialog.dismiss()
@@ -539,7 +539,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                 val deletedItem = appliedJobsLists?.get(position)
                 val jobid = appliedJobsLists?.get(position)?.jobId
                 val companyName = appliedJobsLists?.get(position)?.companyName
-                Log.d("werywirye", "jobid = $jobid companyname = $companyName")
+                //Log.d("werywirye", "jobid = $jobid companyname = $companyName")
                 appliedJobsLists?.removeAt(position)
                 notifyItemRemoved(position)
                 notifyDataSetChanged()
@@ -577,13 +577,13 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     .setAction("UNDO") {
 //                        CancelAppliedJob.cancelJob(deleteJobID)
                         restoreMe(deletedItem!!, deletedIndex)
-                        Log.d("jobiiii", "undo = deleted = ${deletedItem} index = ${deletedIndex}")
+                        //Log.d("jobiiii", "undo = deleted = ${deletedItem} index = ${deletedIndex}")
                         communicator?.scrollToUndoPosition(deletedIndex)
-                        Log.d("comid", "comid")
+                        //Log.d("comid", "comid")
                     }
 
             snack?.show()
-            Log.d("swipe", "dir to LEFT")
+            //Log.d("swipe", "dir to LEFT")
         } catch (e: Exception) {
             logException(e)
         }

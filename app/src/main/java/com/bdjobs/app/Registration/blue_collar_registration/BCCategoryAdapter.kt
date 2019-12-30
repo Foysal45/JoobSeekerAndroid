@@ -25,8 +25,8 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.categoryTV.text = items[position]
-        Log.d("elkgjtsdlgfghfdh","Item ${items.get(position)}")
-        Log.d("elkgjtsdlgfghfdh", "position $position")
+        //Log.d("elkgjtsdlgfghfdh","Item ${items.get(position)}")
+        //Log.d("elkgjtsdlgfghfdh", "position $position")
         holder.categoryTV.setOnClickListener {
             selectedPosition = position
 
@@ -37,7 +37,7 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
 
             registrationCommunicator.bcCategorySelected(items[position], selectedPosition)
             notifyDataSetChanged()
-            Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
+            //Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
 
         }
         if (selectedPosition == position) {
@@ -59,7 +59,7 @@ class BCCategoryAdapter(private val context: Context, private val items: ArrayLi
     fun SetCategoryPositionSelected(categoryPositionSelected: Int) {
         selectedPosition = categoryPositionSelected
         notifyDataSetChanged()
-        Log.d("SetCategory", categoryPositionSelected.toString())
+        //Log.d("SetCategory", categoryPositionSelected.toString())
     }
 }
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

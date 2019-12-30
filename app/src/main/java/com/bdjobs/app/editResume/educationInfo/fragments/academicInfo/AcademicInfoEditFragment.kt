@@ -164,9 +164,9 @@ class AcademicInfoEditFragment : Fragment() {
         majorSubACTV?.clearFocus()
         if (etLevelEdu.getString().equalIgnoreCase("Bachelor/Honors") || etLevelEdu.getString().equalIgnoreCase("Masters")) {
             instSuggession = true
-            Log.d("instSuggession", "in suggession condition")
+            //Log.d("instSuggession", "in suggession condition")
         } else {
-            Log.d("instSuggession", "in  not suggession condition")
+            //Log.d("instSuggession", "in  not suggession condition")
             instSuggession = false
         }
 
@@ -237,7 +237,7 @@ class AcademicInfoEditFragment : Fragment() {
 
         }
         //Grade  and scale validation
-        Log.d("Validation", " gradeLayout.isVisible ${gradeLayout.isVisible}")
+        //Log.d("Validation", " gradeLayout.isVisible ${gradeLayout.isVisible}")
         if (gradeLayout.isVisible) {
             checkValidity(cgpaTIET, cGpaTIL)
             checkValidity(etScaleTIET, scaleTIL)
@@ -251,7 +251,7 @@ class AcademicInfoEditFragment : Fragment() {
         setDialog()
         cbResHide?.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            Log.d("isChecked", "$isChecked")
+            //Log.d("isChecked", "$isChecked")
 
 
 
@@ -339,7 +339,7 @@ class AcademicInfoEditFragment : Fragment() {
                                             if (validatePassingYear()) {
 
                                                 d("Validation check 10 ")
-                                                Log.d("dshjfdg", " in first condition")
+                                                //Log.d("dshjfdg", " in first condition")
                                                 updateData()
 
                                             }
@@ -354,7 +354,7 @@ class AcademicInfoEditFragment : Fragment() {
 
                                                 d("Validation check 12 ")
 
-                                                Log.d("dshjfdg", " in second condition")
+                                                //Log.d("dshjfdg", " in second condition")
                                                 updateData()
 
                                             }
@@ -366,7 +366,7 @@ class AcademicInfoEditFragment : Fragment() {
                                         d("Validation check 13 ")
                                         if (validatePassingYear()) {
 
-                                            Log.d("dshjfdg", " in third condition")
+                                            //Log.d("dshjfdg", " in third condition")
                                             updateData()
 
                                         }
@@ -378,7 +378,7 @@ class AcademicInfoEditFragment : Fragment() {
 
                                     if (validatePassingYear()) {
 
-                                        Log.d("dshjfdg", " in fourth condition")
+                                        //Log.d("dshjfdg", " in fourth condition")
                                         updateData()
 
                                     }
@@ -557,16 +557,16 @@ class AcademicInfoEditFragment : Fragment() {
 
 
 
-                Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
+                //Log.d("eduLevel", "eduLevel ID ${ds.getEduIDByEduLevel(eduLevelList[i])}")
             }
         }
 
         etBoard?.setOnClickListener {
 
-            Log.d("rakib", "${boardNames.size}")
+            //Log.d("rakib", "${boardNames.size}")
             selector("Select board", boardNames.toList()) { _, i ->
                 etBoard.setText(boardNames[i])
-                Log.d("rakib", "${ds.getBoardIDbyName(etBoard.text.toString())}")
+                //Log.d("rakib", "${ds.getBoardIDbyName(etBoard.text.toString())}")
             }
 
 
@@ -580,7 +580,7 @@ class AcademicInfoEditFragment : Fragment() {
             activity.selector(getString(R.string.alert_exam_title), examList.toList()) { _, i ->
                 etExamTitle?.setText(examList[i])
                 examTitleTIL?.requestFocus()
-                Log.d("eduLevel", "ExamTitle ${examList[i]}")
+                //Log.d("eduLevel", "ExamTitle ${examList[i]}")
                 if (examList[i].equalIgnoreCase("Other")) {
 
                     examOtherTIL?.show()
@@ -625,17 +625,17 @@ class AcademicInfoEditFragment : Fragment() {
 
 
                 setView(examId.toInt())
-                Log.d("eduLevel", "examId $examId")
+                //Log.d("eduLevel", "examId $examId")
 
                 etResults?.setText(ds.getResultNameByResultID(examId))
-                Log.d("eduLevel", "eduLevel ${ds.getResultNameByResultID(examId)}")
+                //Log.d("eduLevel", "eduLevel ${ds.getResultNameByResultID(examId)}")
 
 
             }
         }
         /*cbResHide.setOnCheckedChangeListener { _, isChecked ->
 
-            Log.d("eduLevel", "hide $hideRes")
+            //Log.d("eduLevel", "hide $hideRes")
         }*/
         cbForInstitute?.setOnCheckedChangeListener { _, isChecked ->
             foreignInstitute = if (isChecked) "1" else "0"
@@ -1118,7 +1118,7 @@ class AcademicInfoEditFragment : Fragment() {
 //                        }
                         eduCB.setBackFrom(acaUpdate)
                         eduCB.goBack()
-                        Log.d("rakib", "go back")
+                        //Log.d("rakib", "go back")
                     }
                 } catch (e: Exception) {
                     //activity.stopProgressBar(loadingProgressBar)

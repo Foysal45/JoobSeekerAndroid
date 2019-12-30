@@ -72,7 +72,7 @@ class HotJobsFragment : Fragment() {
                             val domain = cookie.domain
                             val expires = cookie.expires
                             val cookie = "$cookieName =$cookieValue; Domain=$domain;Path=/; Expires=$expires"
-                            Log.d("LOGTAG", "cookie ------>$cookie")
+                            //Log.d("LOGTAG", "cookie ------>$cookie")
                             //cookieManager.setCookie(link, "MybdjobsUserId =8%5E0%5B4%5D2%5F1%5B2%5D4; Domain=.bdjobs.com;Path=/; Expires=Wed, 20 Dec 2017 07:28:00 GMT");
                             cookieManager.setCookie(Constants.HOTJOBS_WEB_LINK, cookie)
                         }
@@ -116,7 +116,7 @@ class HotJobsFragment : Fragment() {
 
                         webView?.loadUrl(Constants.HOTJOBS_WEB_LINK)
                         val cookieGet = cookieManager.getCookie(Constants.HOTJOBS_WEB_LINK)
-                        Log.d("LOGTAG", "cookieGET ------>$cookieGet")
+                        //Log.d("LOGTAG", "cookieGET ------>$cookieGet")
                     }
 
                 } catch (e: Exception) {

@@ -108,7 +108,7 @@ class JoblistFragment : Fragment() {
         age = communicator?.getAge()
         army = communicator?.getArmy()
 
-        Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
+        //Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 
         saveSearchDicission()
 
@@ -307,13 +307,13 @@ class JoblistFragment : Fragment() {
 
 
         try {
-            Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
+            //Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
 
-            Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
+            //Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
 
-            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+            //Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
 
-            Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
+            //Log.d("djggsgdjdg", "clickedPosition data ${jobListGet!!.get(communicator.getItemClickPosition()).jobTitle}}")
         } catch (e: Exception) {
             logException(e)
         }
@@ -381,14 +381,14 @@ class JoblistFragment : Fragment() {
 
 
         }, 200)
-        Log.d("jobListRecyclerView", "getCurrentJobPosition = ${communicator.getCurrentJobPosition()}")
+        //Log.d("jobListRecyclerView", "getCurrentJobPosition = ${communicator.getCurrentJobPosition()}")
 
 
     }
 
 
     private fun loadFirstPageFromJobDetailBackButton() {
-        Log.d(TAG, "came here from loadFirstPageFromJobDetailBackButton")
+        //Log.d(TAG, "came here from loadFirstPageFromJobDetailBackButton")
         try {
             joblistAdapter?.clear()
             joblistAdapter?.addAll(jobListGet as List<JobListModelData>)
@@ -404,8 +404,8 @@ class JoblistFragment : Fragment() {
 
     private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
 
-        Log.d(TAG, "came here")
-        Log.d("Paramtest", "jobLevel: $jobLevel")
+        //Log.d(TAG, "came here")
+        //Log.d("Paramtest", "jobLevel: $jobLevel")
 
         jobListRecyclerView?.hide()
         filterLayout?.hide()
@@ -453,8 +453,8 @@ class JoblistFragment : Fragment() {
                         TOTAL_PAGES = jobResponse?.common?.totalpages
 
 
-                        Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
-                        Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
+                        //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                        //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
                         communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
                         val results = response.body()?.data
@@ -493,7 +493,7 @@ class JoblistFragment : Fragment() {
                         totalRecordsFound = jobResponse.common.totalRecordsFound
 
                     } else {
-                        /*Log.d("TAG", "not successful: $TAG")*/
+                        /*//Log.d("TAG", "not successful: $TAG")*/
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -502,16 +502,16 @@ class JoblistFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
-                Log.d("TAG", "not successful!! onFail")
+                //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
             }
         })
     }
 
     private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
-        Log.d(TAG, " loadNextPage called")
+        //Log.d(TAG, " loadNextPage called")
 
-        //Log.d("${TAG} Param", "jobLevel: $jobLevel")
+        ////Log.d("${TAG} Param", "jobLevel: $jobLevel")
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
                 Newspaper = newsPaper,
@@ -543,7 +543,7 @@ class JoblistFragment : Fragment() {
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
                 try {
-                    Log.d("Paramtest", "response :   ${response.body().toString()}")
+                    //Log.d("Paramtest", "response :   ${response.body().toString()}")
                     if (response.isSuccessful) {
 
                         try {
@@ -554,7 +554,7 @@ class JoblistFragment : Fragment() {
 
                             val results = response.body()?.data
 
-                            Log.d(TAG, "total jobs ${results?.size}")
+                            //Log.d(TAG, "total jobs ${results?.size}")
 
                             joblistAdapter?.addAll(results as List<JobListModelData>)
 
@@ -586,7 +586,7 @@ class JoblistFragment : Fragment() {
                             e.printStackTrace()
                         }
                     } else {
-                        Log.d("TAG", "not successful: ")
+                        //Log.d("TAG", "not successful: ")
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -595,7 +595,7 @@ class JoblistFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
-                Log.d("TAG", "not successful!! onFail")
+                //Log.d("TAG", "not successful!! onFail")
             }
         })
     }
@@ -650,7 +650,7 @@ class JoblistFragment : Fragment() {
                 val ad_small_template = saveSearchDialog.findViewById<TemplateView>(R.id.ad_small_template)
                 Ads.showNativeAd(ad_small_template, activity)
 
-                Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
+                //Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
                 filterNameET?.easyOnTextChangedListener { text ->
@@ -706,7 +706,7 @@ class JoblistFragment : Fragment() {
                                     }
 
                                     uiThread {
-                                        Log.d("favsearchList", "size: ${favsearchList.size} fid: $fid")
+                                        //Log.d("favsearchList", "size: ${favsearchList.size} fid: $fid")
                                         if (favsearchList.size > 9) {
                                             toast("You cannot add more than 10 Favourite Search")
                                         } else if (fid != "") {

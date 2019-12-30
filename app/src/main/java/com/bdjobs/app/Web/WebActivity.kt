@@ -73,7 +73,7 @@ class WebActivity : Activity() {
             logException(e)
         }
 
-        //Log.d("bdjobsWeb", "Url: $url \nfrom: $from")
+        ////Log.d("bdjobsWeb", "Url: $url \nfrom: $from")
 
         when (from) {
             "forgotuserid" -> {
@@ -110,10 +110,10 @@ class WebActivity : Activity() {
                 suggestiveSearchET.text = "Report this Job / Company"
                 if(BdjobsUserSession(this@WebActivity).isLoggedIn!!){
                     loadUrlWithCookie(url)
-                    Log.d("reportJob","loadUrlWithCookie")
+                    //Log.d("reportJob","loadUrlWithCookie")
                 }else{
                     loadUrlWithoutCookie(url)
-                    Log.d("reportJob","loadUrlWithoutCookie")
+                    //Log.d("reportJob","loadUrlWithoutCookie")
                 }
             }
             else -> {
@@ -165,7 +165,7 @@ class WebActivity : Activity() {
     private fun loadUrlWithCookie(url: String?) {
 
 
-        Log.d("rakib","came here")
+        //Log.d("rakib","came here")
 
         bdjobsWeb?.hide()
         shimmer_view_container_JobList?.show()
@@ -190,7 +190,7 @@ class WebActivity : Activity() {
                             val domain = cookie.domain
                             val expires = cookie.expires
                             val cookie = "$cookieName =$cookieValue; Domain=$domain;Path=/; Expires=$expires"
-                            Log.d("LOGTAG", "cookie ------>$cookie")
+                            //Log.d("LOGTAG", "cookie ------>$cookie")
                             //cookieManager.setCookie(link, "MybdjobsUserId =8%5E0%5B4%5D2%5F1%5B2%5D4; Domain=.bdjobs.com;Path=/; Expires=Wed, 20 Dec 2017 07:28:00 GMT");
                             cookieManager.setCookie(url, cookie)
                         }
@@ -234,7 +234,7 @@ class WebActivity : Activity() {
 
                         bdjobsWeb?.loadUrl(url)
                         val cookieGet = cookieManager.getCookie(url)
-                        Log.d("LOGTAG", "cookieGET ------>$cookieGet")
+                        //Log.d("LOGTAG", "cookieGET ------>$cookieGet")
                     }
 
                 } catch (e: Exception) {

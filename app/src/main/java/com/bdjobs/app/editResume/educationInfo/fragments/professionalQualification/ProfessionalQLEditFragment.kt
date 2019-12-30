@@ -121,7 +121,7 @@ class ProfessionalQLEditFragment : Fragment() {
             validation = isValidate(etPqStartDate, pqStartDateTIL, etPqEndDate, true, validation)
             validation = isValidate(etPqEndDate, pqEndDateTIL, etPqEndDate, true, validation)
 
-            Log.d("validation", "validation : $validation")
+            //Log.d("validation", "validation : $validation")
             if (validation == 4) {
 
                 if (dateValidationCheck()) {
@@ -167,7 +167,7 @@ class ProfessionalQLEditFragment : Fragment() {
 //                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 //
 //                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
-//                        Log.d("Test", " date default ${date} ")
+//                        //Log.d("Test", " date default ${date} ")
 //                        etPqStartDate.setText(date)
 //
 //
@@ -223,7 +223,7 @@ class ProfessionalQLEditFragment : Fragment() {
 //                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 //
 //                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
-//                        Log.d("Test", " date default ${date} ")
+//                        //Log.d("Test", " date default ${date} ")
 //                        etPqEndDate.setText(date)
 //
 //                    }, mYear, mMonth, mDay)

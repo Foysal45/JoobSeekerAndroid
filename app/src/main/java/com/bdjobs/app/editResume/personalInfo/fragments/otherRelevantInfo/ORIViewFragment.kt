@@ -92,10 +92,10 @@ class ORIViewFragment : Fragment() {
     }
 
     private fun setupView(data: ORIdataItem) {
-        Log.d("rakib", "${data.keywords?.length}")
+        //Log.d("rakib", "${data.keywords?.length}")
         tvORICareerSummary.text = data?.careerSummery
         tvORISpecialQualificaiton.text = data?.specialQualifications
-        Log.d("rakib", "total commas ${data?.keywords?.countCommas()}")
+        //Log.d("rakib", "total commas ${data?.keywords?.countCommas()}")
         val keywords = data?.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         removeChips()

@@ -57,11 +57,11 @@ class FavouriteSearchFilterListFragment : Fragment() {
                     if (favListSize!! > 0) {
                         favouriteFilterNoDataLL?.hide()
                         favRV?.show()
-                        Log.d("totalJobs", "data ase")
+                        //Log.d("totalJobs", "data ase")
                     } else {
                         favouriteFilterNoDataLL?.show()
                         favRV?.hide()
-                        Log.d("totalJobs", "zero")
+                        //Log.d("totalJobs", "zero")
                     }
 
                     val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search $data"

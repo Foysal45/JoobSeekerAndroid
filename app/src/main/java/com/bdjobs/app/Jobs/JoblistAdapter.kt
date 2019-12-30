@@ -131,7 +131,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         when (getItemViewType(position)) {
             BASIC -> {
 
-                Log.d("ouiouii", " BASIC ${result?.jobTitle}")
+                //Log.d("ouiouii", " BASIC ${result?.jobTitle}")
 
                 val jobsVH = holder as JobsListVH
 
@@ -185,7 +185,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
             LOADING -> {
 
-                /*   Log.d("Check", " LOADING " + LOADING)*/
+                /*   //Log.d("Check", " LOADING " + LOADING)*/
                 val loadingVH = holder as LoadingVH
 
                 if (retryPageLoad) {
@@ -205,7 +205,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
             STANDOUT -> {
 
-                Log.d("ouiouii", " STANDOUT ${result?.jobTitle}")
+                //Log.d("ouiouii", " STANDOUT ${result?.jobTitle}")
 
                 val jobsVH = holder as StandOutListVH
 
@@ -393,7 +393,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             }
 
             STANDOUT_AD -> {
-                Log.d("ouiouii", " STANDOUT_AD ${result?.jobTitle}")
+                //Log.d("ouiouii", " STANDOUT_AD ${result?.jobTitle}")
 
                 val jobsVH = holder as StandOutAdJobListVH
 
@@ -454,7 +454,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
             }
 
             BASIC_AD -> {
-                Log.d("ouiouii", " BASIC_AD ${result?.jobTitle}")
+                //Log.d("ouiouii", " BASIC_AD ${result?.jobTitle}")
 
                 val jobsVH = holder as BasicAdobListVH
 
@@ -511,7 +511,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     private fun deleteShortListedJobwithUndo(position: Int) {
-        Log.d("czcx", "position: $position")
+        //Log.d("czcx", "position: $position")
 
         try {
             if (jobList?.size != 0) {
@@ -547,11 +547,11 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 //                    ShortListedJobDeleteJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     homeCommunicator?.scrollToUndoPosition(deletedIndex)
-                    Log.d("comid", "comid = ${deletedIndex}")
+                    //Log.d("comid", "comid = ${deletedIndex}")
                 }
 
         snack.show()
-        Log.d("swipe", "dir to LEFT")
+        //Log.d("swipe", "dir to LEFT")
     }
 
     private fun restoreMe(item: JobListModelData, pos: Int) {
@@ -602,7 +602,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                             val deadline = jobList?.get(position)?.deadlineDB
                             val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadline)
 
-                            Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
+                            //Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
 
                             if (todayDate > deadlineDate) {
                                 context.toast("This job's deadline has been expired. You can not shortlist this job")
@@ -635,7 +635,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                                     } catch (e: Exception) {
                                         logException(e)
                                     }
-                                    Log.d("DeadLine", "DeadLineParsed: $deadline \n DeadLine: ${jobList?.get(position)?.deadlineDB}")
+                                    //Log.d("DeadLine", "DeadLineParsed: $deadline \n DeadLine: ${jobList?.get(position)?.deadlineDB}")
                                     val shortlistedJob = ShortListedJobs(
                                             jobid = jobList?.get(position)?.jobid!!,
                                             jobtitle = jobList?.get(position)?.jobTitle!!,
@@ -752,9 +752,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
+        //Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
 
-        Log.d("riuhghugr", " result: $result")
+        //Log.d("riuhghugr", " result: $result")
         if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)

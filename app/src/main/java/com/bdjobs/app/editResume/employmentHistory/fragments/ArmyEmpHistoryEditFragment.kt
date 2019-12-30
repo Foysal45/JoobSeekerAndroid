@@ -136,11 +136,11 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                 pickDate(activity, cal, retireDateSetListener)
             } else {
                 if (et_retire.text.toString().isNullOrEmpty()){
-                    Log.d("rakib", "is edit false et empty")
+                    //Log.d("rakib", "is edit false et empty")
                     pickDate(activity, now, retireDateSetListener)
                 }
                 else {
-                    Log.d("rakib", "is edit false et not empty")
+                    //Log.d("rakib", "is edit false et not empty")
                     date = formatter.parse(et_retire.text.toString())
                     cal.time = date
                     pickDate(activity, cal, retireDateSetListener)
@@ -170,9 +170,9 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                 txtBANo = et_ba_no.getString(), comboBANo = et_ba_type.getString(), comboArms = et_arms.getString(), comboRank = et_ranks.getString(), comboType = et_type.getString(),
                 txtCourse = et_course.getString(), txtTrade = et_trade.getString(), cboCommissionDate = et_commission.getString(), cboRetirementDate = et_retire.getString(), arm_id = armyID, hId = hID)
 
-        Log.d("armyHis", "${session.userId}, ${session.decodId}, ${session.IsResumeUpdate},\n" +
+        /*Log.d("armyHis", "${session.userId}, ${session.decodId}, ${session.IsResumeUpdate},\n" +
                 "comboBANo = ${et_ba_no.getString()}, txtBANo = $baID, comboArms = $armsID, comboRank = $ranksID, comboType = $typeID,\n" +
-                "                txtCourse = ${et_course.getString()}, txtTrade = ${et_trade.getString()}, cboCommissionDate = ${et_commission.getString()}, cboRetirementDate = ${et_retire.getString()}, arm_id = $armyID, hId = $hID")
+                "                txtCourse = ${et_course.getString()}, txtTrade = ${et_trade.getString()}, cboCommissionDate = ${et_commission.getString()}, cboRetirementDate = ${et_retire.getString()}, arm_id = $armyID, hId = $hID")*/
 
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -295,7 +295,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
                 }
             }
         } catch (e: Exception) {
-            Log.d("gettingArray", "Error: ${e.printStackTrace()}")
+            //Log.d("gettingArray", "Error: ${e.printStackTrace()}")
         }
     }
 

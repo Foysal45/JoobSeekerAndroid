@@ -36,7 +36,7 @@ class EmployerJobListFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_employer_job_list, container, false)
-        Log.d("oncreateview", "oncreateview")
+        //Log.d("oncreateview", "oncreateview")
         //  loadJobList()
     }
 
@@ -53,7 +53,7 @@ class EmployerJobListFragment : Fragment() {
 //        adView?.loadAd(adRequest)
 //        adView?.show()
 
-        Log.d("onResume", "onResume")
+        //Log.d("onResume", "onResume")
     }
 
 
@@ -62,7 +62,7 @@ class EmployerJobListFragment : Fragment() {
         favCountTV?.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
-        Log.d("hello", "getCompanyID = ${communicator.getCompanyID()}\ncompanyname = ${communicator.getCompanyName()}\n")
+        //Log.d("hello", "getCompanyID = ${communicator.getCompanyID()}\ncompanyname = ${communicator.getCompanyName()}\n")
         ApiServiceJobs.create().getEmpJobLists(id = communicator.getCompanyID(), companyname = communicator.getCompanyName(), encoded = Constants.ENCODED_JOBS, jobid = communicator.getJobId()).enqueue(object : Callback<EmployerJobListsModel> {
             override fun onFailure(call: Call<EmployerJobListsModel>, t: Throwable) {
                 error("onFailure", t)
@@ -74,16 +74,16 @@ class EmployerJobListFragment : Fragment() {
                     var statuscode = response.body()?.statuscode
                     var jobLists = response.body()?.data
                     var totalRecords = response.body()?.data?.size
-                    Log.d("callAppliURl", "url: ${call?.request()} and ")
+                    //Log.d("callAppliURl", "url: ${call?.request()} and ")
 
                     //       Toast.makeText(context, statuscode + "---" + jobtitle, Toast.LENGTH_LONG).show()
-                    Log.d("hello", jobLists.toString())
+                    //Log.d("hello", jobLists.toString())
 
                     employersJobListsAdapter = EmployerJobListAdapter(activity!!)
                     employerjobList_RV?.adapter = employersJobListsAdapter
                     employerjobList_RV?.setHasFixedSize(true)
                     employerjobList_RV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                    Log.d("initPag", "called")
+                    //Log.d("initPag", "called")
                     employerjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                     employersJobListsAdapter?.addAll((jobLists as List<EmployerJobListsModelData>?)!!)
 

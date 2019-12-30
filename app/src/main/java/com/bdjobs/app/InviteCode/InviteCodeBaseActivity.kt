@@ -60,7 +60,7 @@ class InviteCodeBaseActivity : FragmentActivity(), InviteCodeCommunicator{
             logException(e)
         }
 
-        Log.d("rakib", inviteCodeuserType)
+        //Log.d("rakib", inviteCodeuserType)
 
         if (inviteCodeuserType.equalIgnoreCase("o")) {
             graph?.startDestination = R.id.navigation_owner_base

@@ -39,11 +39,11 @@ class GeneralSearch : Fragment() {
         generalCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
             if (text.isBlank()) {
-                Log.d("catTest", "generalCatET : isBlank")
+                //Log.d("catTest", "generalCatET : isBlank")
                 try {
                     val catid = jobCommunicator.getCategory()?.trim()?.toInt()
                     if (catid in 1..30 || catid == -10) {
-                        Log.d("eryfdh", "white")
+                        //Log.d("eryfdh", "white")
                         jobCommunicator.setCategory("")
                     }
                 } catch (e: Exception) {
@@ -55,11 +55,11 @@ class GeneralSearch : Fragment() {
         specialCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
             if (text.isBlank()) {
-                Log.d("catTest", "specialCatET : isBlank")
+                //Log.d("catTest", "specialCatET : isBlank")
                 try {
                     val catid = jobCommunicator.getCategory()?.trim()?.toInt()
                     if (catid!! > 60 || catid == -11) {
-                        Log.d("eryfdh", "blue")
+                        //Log.d("eryfdh", "blue")
                         jobCommunicator.setCategory("")
                     }
                 } catch (e: Exception) {
@@ -71,7 +71,7 @@ class GeneralSearch : Fragment() {
         keywordET?.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setKeyword("")
             }
         }
@@ -79,7 +79,7 @@ class GeneralSearch : Fragment() {
         loacationET?.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 jobCommunicator.setLocation("")
             }
         }
@@ -109,7 +109,7 @@ class GeneralSearch : Fragment() {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
-                Log.d("chip_entry", "text: ${chip.text}")
+                //Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
@@ -178,16 +178,16 @@ class GeneralSearch : Fragment() {
     override fun onResume() {
         super.onResume()
         keywordET?.setText(jobCommunicator?.getKeyword())
-        Log.d("eryfdh", "category Adv : ${jobCommunicator?.getCategory()}")
+        //Log.d("eryfdh", "category Adv : ${jobCommunicator?.getCategory()}")
 
         try {
             val catid = jobCommunicator?.getCategory()?.trim()?.toInt()
             if (catid!! > 60 || catid == -11) {
-                Log.d("eryfdh", "blue")
+                //Log.d("eryfdh", "blue")
                 specialCatET?.setText(dataStorage?.getCategoryBanglaNameByID(jobCommunicator?.getCategory()))
                 generalCatET.text?.clear()
             } else if (catid in 1..30 || catid == -10) {
-                Log.d("eryfdh", "white")
+                //Log.d("eryfdh", "white")
                 generalCatET?.setText(dataStorage?.getCategoryNameByID(jobCommunicator?.getCategory()))
                 specialCatET?.text?.clear()
             }
@@ -212,7 +212,7 @@ class GeneralSearch : Fragment() {
                 val chip = chipGroup.getChildAt(i) as Chip
                 val chipText = chip.text.toString()
                 if (data?.equalIgnoreCase(chipText)!!) {
-                    Log.d("chip_entry", "text:$i")
+                    //Log.d("chip_entry", "text:$i")
                     chip.isChecked = true
                 }
             }

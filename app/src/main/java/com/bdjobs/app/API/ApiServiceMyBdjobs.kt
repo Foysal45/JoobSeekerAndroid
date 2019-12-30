@@ -1,6 +1,7 @@
 package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
@@ -577,6 +578,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("apps_updateBlueCv.asp")
+//    @POST("apps_updateBlueCv_testp.asp")
     fun sendBlueCollarUserInfo(
             @Field("UserID") userid: String? = "",
             @Field("decodeId") decodeId: String? = "",
@@ -593,6 +595,7 @@ interface ApiServiceMyBdjobs {
             @Field("examDegreeTitle") examDegreeTitle: String? = "",
             @Field("yearOfPassing") yearOfPassing: String? = "",
             @Field("hasEdu") hasEdu: String? = "",
+            @Field("boardId") board: String? = "",
             @Field("SkilledBy") SkilledBy: String = "",
             @Field("ntvqfLevel") ntvqfLevel: String = "",
             @Field("cat_id") cat_id: String = "",
@@ -1077,11 +1080,13 @@ interface ApiServiceMyBdjobs {
                     .addInterceptor(interceptor)
                     .build()
 
-            return Retrofit.Builder()
-                    .baseUrl(Constants.baseUrlMyBdjobs)
-                    .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
+            return Retrofit.Builder().apply {
+                baseUrl(Constants.baseUrlMyBdjobs)
+                addConverterFactory(GsonConverterFactory.create(gson))
+                if (BuildConfig.DEBUG) {
+                    client(okHttpClient)
+                }
+            }.build()
         }
     }
 

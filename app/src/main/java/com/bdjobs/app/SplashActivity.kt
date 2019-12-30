@@ -122,8 +122,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         super.onResume()
         pref = getSharedPreferences(name_sharedPref, Context.MODE_PRIVATE)
         ConnectivityReceiver.connectivityReceiverListener = this
-        //Log.d("rakib", "check for permission")
-        Log.d("rakib", "called onresume")
+        ////Log.d("rakib", "check for permission")
+        //Log.d("rakib", "called onresume")
 
     }
 
@@ -151,7 +151,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
                     // Notified when the permissions are accepted.
                     dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
                     firstDialog?.dismiss()
-                    Log.d("rakib", "on accepted")
+                    //Log.d("rakib", "on accepted")
                     doWork(connectionStatus)
                 }
 
@@ -161,7 +161,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
                 onPermanentlyDenied { permissions ->
                     // Notified when the permissions are permanently denied.
-                    Log.d("rakib", "permanently denied")
+                    //Log.d("rakib", "permanently denied")
                     showPermanentlyDeniedPopup(firstDialog as Dialog)
 
                 }
@@ -178,7 +178,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private fun takeDecisions(isConnected: Boolean) {
 
-        Log.d("rakib", "take decisions called")
+        //Log.d("rakib", "take decisions called")
 
         if (isConnected) {
             if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -186,7 +186,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             ) {
                 showExplanationFirstTimePopup(isConnected)
             } else {
-                Log.d("rakib", "below else")
+                //Log.d("rakib", "below else")
                 doWork(isConnected)
             }
         } else {
@@ -215,7 +215,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private fun doWork(connected: Boolean) {
         var mSnackBar: Snackbar? = null
-        Log.d("rakib", "connection in doWork $connected")
+        //Log.d("rakib", "connection in doWork $connected")
         if (!connected) {
             try {
                 setContentView(R.layout.no_internet)
@@ -230,10 +230,10 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             }
 
         } else {
-            Log.d("rakib", "do work else")
+            //Log.d("rakib", "do work else")
             if (bdjobsUserSession.isLoggedIn!!) {
 //                if (!Constants.isDeviceInfromationSent) {
-//                    Log.d("rakib", "token sent from splash")
+//                    //Log.d("rakib", "token sent from splash")
 //                    FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
 //                        val token = instanceIdResult.token
 //                        Constants.sendDeviceInformation(token, this@SplashActivity)
@@ -282,7 +282,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 //                        if (response?.body()?.messageType == "1") {
 //
 //                            if (response.body()?.update == "1") {
-//                                Log.d("Rakib", response.body()?.dblink)
+//                                //Log.d("Rakib", response.body()?.dblink)
 //                                downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
 //                            } else {
 //                                showAdAndGoToNextActivity()
@@ -338,8 +338,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     private fun goToNextActivity() {
         try {
-            Log.d("XZXfg", "The interstitial wasn't loaded yet.")
-            Log.d("XZXfg", "showAdAndGoToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
+            //Log.d("XZXfg", "The interstitial wasn't loaded yet.")
+            //Log.d("XZXfg", "showAdAndGoToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
             if (!bdjobsUserSession.isLoggedIn!!) {
                 if (!isFinishing) {
                     startActivity<GuestUserJobSearchActivity>()
@@ -371,27 +371,27 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
             if (it.isSuccessful) {
                 if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                         it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                    Log.d("UpdateCheck", "UPDATE_AVAILABLE")
+                    //Log.d("UpdateCheck", "UPDATE_AVAILABLE")
                     appUpdateManager?.startUpdateFlowForResult(
                             it.result,
                             AppUpdateType.IMMEDIATE,
                             this@SplashActivity,
                             APP_UPDATE_REQUEST_CODE)
                 } else {
-                    Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
+                    //Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
                     goToNextActivity()
                 }
             } else {
-                Log.d("UpdateCheck", "came here else")
+                //Log.d("UpdateCheck", "came here else")
                 goToNextActivity()
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d("UpdateCheck", "requestCode= $requestCode\nresultCode= $resultCode ")
+        //Log.d("UpdateCheck", "requestCode= $requestCode\nresultCode= $resultCode ")
         if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK) {
-            Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")
+            //Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")
             //checkUpdate()
             goToNextActivity()
         }
@@ -399,9 +399,9 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         connectionStatus = isConnected
-        Log.d("rakib", "connection $isConnected")
+        //Log.d("rakib", "connection $isConnected")
         takeDecisions(isConnected)
-        Log.d("splash", "called")
+        //Log.d("splash", "called")
     }
 
 //    private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
@@ -482,7 +482,7 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("rakib", "called on restart")
+        //Log.d("rakib", "called on restart")
         dialog?.dismiss()
         firstDialog?.dismiss()
         takeDecisions(connectionStatus)

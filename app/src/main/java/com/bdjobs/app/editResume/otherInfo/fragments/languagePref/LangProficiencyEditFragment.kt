@@ -263,7 +263,7 @@ class LangProficiencyEditFragment : Fragment() {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
             if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip_entry", "text:$i")
+                //Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
             }
         }
@@ -272,19 +272,19 @@ class LangProficiencyEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
 
-        Log.d("djkgnhdg", "cg $cg")
+        //Log.d("djkgnhdg", "cg $cg")
 
 
 
         cg.setOnCheckedChangeListener { chipGroup, i ->
 
 
-            Log.d("djkgnhdg", " i $i")
+            //Log.d("djkgnhdg", " i $i")
 
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 cg.radioCheckableChip(chip)
-                Log.d("chip_entry", "text: ${chip.text}")
+                //Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.cgReading -> {
@@ -322,7 +322,7 @@ class LangProficiencyEditFragment : Fragment() {
                 }
             } else {
 
-                Log.d("djkgnhdg", " else")
+                //Log.d("djkgnhdg", " else")
 
                 when (chipGroup.id) {
                     R.id.cgReading -> {

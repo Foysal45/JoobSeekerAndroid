@@ -210,7 +210,7 @@ class ContactEditFragment : Fragment() {
 
         countryCodeTIET?.setOnClickListener {
 
-            Log.d("rakb", contactInfo.getContactData().countryCode)
+            //Log.d("rakb", contactInfo.getContactData().countryCode)
             activity.selector("Please select your country/region code", countryList.toList()) { dialogInterface, i ->
                 countryCodeTIET?.setText(countryList[i])
                 mobileNumberValidityCheck(contactMobileNumberTIET.text.toString())
@@ -272,7 +272,7 @@ class ContactEditFragment : Fragment() {
         }
 
         if (pmContactAddressTIETPRM.getString().isNotEmpty()) {
-            Log.d("rakib", "ulta palta if")
+            //Log.d("rakib", "ulta palta if")
             addTextChangedListener(pmContactDistrictTIET, contactDistrictTIL)
             addTextChangedListener(pmContactThanaTIETP, contactThanaTIL)
             //addTextChangedListener(pmContactPostOfficeTIET, contactPostOfficeTIL)
@@ -281,7 +281,7 @@ class ContactEditFragment : Fragment() {
 //            addTextChangedListener(contactMobileNumberTIET, contactMobileNumberTIL)
 //            addTextChangedListener(contactEmailAddressTIET, contactEmailAddressTIL)
         } else {
-            Log.d("rakib", "ulta palta else")
+            //Log.d("rakib", "ulta palta else")
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
@@ -290,17 +290,17 @@ class ContactEditFragment : Fragment() {
         }
 
         if (contactMobileNumberTIET.getString().isNotEmpty()) {
-            Log.d("rakib", "mobile not empty")
+            //Log.d("rakib", "mobile not empty")
             contactEmailAddressTIL.hideError()
         } else {
-            Log.d("rakib", "mobile empty")
+            //Log.d("rakib", "mobile empty")
             contactEmailAddressTIL.isErrorEnabled = true
         }
         if (contactEmailAddressTIET.getString().isNotEmpty()) {
-            Log.d("rakib", "email not empty")
+            //Log.d("rakib", "email not empty")
             contactMobileNumberTIL.hideError()
         } else {
-            Log.d("rakib", "email empty")
+            //Log.d("rakib", "email empty")
             contactMobileNumberTIL.isErrorEnabled = true
         }
 
@@ -378,23 +378,23 @@ class ContactEditFragment : Fragment() {
 //                }
 //            }
             var validation = 0
-            Log.d("valid", "fab clicked $validation")
+            //Log.d("valid", "fab clicked $validation")
             when (presentInOutBD) {
                 "0" -> {
 //                        validation = isValidate(prContactDivTIET, contactDivTIL, prContactDivTIET, true, validation)
                     validation = isValidate(prContactDistrictTIET, contactDistrictTIL1, prContactDistrictTIET, true, validation)
-                    Log.d("valid", "present district $validation")
+                    //Log.d("valid", "present district $validation")
                     validation = isValidate(prContactThanaTIET, contactThanaTIL1, prContactThanaTIET, true, validation)
-                    Log.d("valid", "present thana $validation")
+                    //Log.d("valid", "present thana $validation")
                     validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
-                    Log.d("valid", "present address $validation")
+                    //Log.d("valid", "present address $validation")
 
-                    Log.d("CValidaiton", "(out 1.1) value : $validation")
+                    //Log.d("CValidaiton", "(out 1.1) value : $validation")
                 }
                 "1" -> {
                     validation = isValidate(presentContactCountryTIET, presentContactCountryTIL, presentContactCountryTIET, true, validation)
                     validation = isValidate(prContactAddressTIETPR, prContactAddressTILPR, prContactAddressTIETPR, true, validation)
-                    Log.d("CValidaiton", "(out 1.2) value : $validation")
+                    //Log.d("CValidaiton", "(out 1.2) value : $validation")
                 }
             }
 
@@ -403,7 +403,7 @@ class ContactEditFragment : Fragment() {
                     if (!addressCheckbox.isChecked) {
                         validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
                         validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                        Log.d("CValidaiton", "(out 2.2) value : $validation")
+                        //Log.d("CValidaiton", "(out 2.2) value : $validation")
                     }
                 }
                 "0" -> {
@@ -412,20 +412,20 @@ class ContactEditFragment : Fragment() {
                         validation = isValidate(pmContactDistrictTIET, contactDistrictTIL, pmContactDistrictTIET, true, validation)
                         validation = isValidate(pmContactThanaTIETP, contactThanaTIL, pmContactThanaTIETP, true, validation)
                         validation = isValidate(pmContactAddressTIETPRM, contactAddressTILPRM, pmContactAddressTIETPRM, true, validation)
-                        Log.d("CValidaiton", "(out 2.1) value : $validation")
+                        //Log.d("CValidaiton", "(out 2.1) value : $validation")
                     }
                 }
             }
 
             if (contactEmailAddressTIET.getString().trim() == "") {
                 validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
-                Log.d("CValidaiton", "email empty $validation")
+                //Log.d("CValidaiton", "email empty $validation")
             }
 
 
             if (contactMobileNumberTIET.getString().trim() == "") {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
-                Log.d("CValidaiton", "mobile empty $validation")
+                //Log.d("CValidaiton", "mobile empty $validation")
             }
 
             if (contactMobileNumberTIET.getString().trim() != "") {
@@ -433,7 +433,7 @@ class ContactEditFragment : Fragment() {
 //                        validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, false, validation)
                     validation++
                 }
-                Log.d("CValidaiton", "mobile not empty $validation")
+                //Log.d("CValidaiton", "mobile not empty $validation")
             }
 
             if (contactEmailAddressTIET.getString().trim() != "") {
@@ -441,7 +441,7 @@ class ContactEditFragment : Fragment() {
 //                        validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactEmailAddressTIET, false, validation)
                     validation++
                 }
-                Log.d("CValidaiton", "email not empty $validation")
+                //Log.d("CValidaiton", "email not empty $validation")
             }
 
             if (presentInOutBD == "1") {
@@ -466,7 +466,7 @@ class ContactEditFragment : Fragment() {
 
             clContactEdit.clearFocus()
             clContactEdit.closeKeyboard(activity)
-            Log.d("checkValid", " val : $validation ")
+            //Log.d("checkValid", " val : $validation ")
 //                if (addressCheckbox.isChecked) {
 //                    if (validation >= 3) {
 //                        updateData()
@@ -484,7 +484,7 @@ class ContactEditFragment : Fragment() {
                 var valid: Boolean
                 var numberOfValidations = 0
 
-                Log.d("check", "entered")
+                //Log.d("check", "entered")
 
 
 
@@ -517,18 +517,18 @@ class ContactEditFragment : Fragment() {
                 }
 
                 if (numberOfValidations > 1) {
-                    Log.d("check", "valid")
+                    //Log.d("check", "valid")
 
                     if (addressCheckbox.isChecked) {
                         if (validation > 4) {
-                            Log.d("rakib", "came 4")
+                            //Log.d("rakib", "came 4")
                             updateData()
                         }
                     } else {
                         val selectedChip = cgPermanent.checkedChipId
                         if (selectedChip == R.id.insideP || selectedChip == R.id.outSideP) {
                             if (validation > 7) {
-                                Log.d("rakib", "came 7")
+                                //Log.d("rakib", "came 7")
                                 updateData()
                             }
                         } else {
@@ -568,18 +568,18 @@ class ContactEditFragment : Fragment() {
 
         //if (count == 1) contactMobileNumber1TIL?.show() else contactMobileNumber2TIL?.show()
         if (mobile1 && mobile2) {
-            Log.d("mobile1", "called")
+            //Log.d("mobile1", "called")
             contactAddMobileButton?.hide()
         } else if (mobile1 && !mobile2) {
             contactMobileNumber1TIL?.show()
             contactAddMobileButton?.hide()
-            Log.d("mobile2", "called")
+            //Log.d("mobile2", "called")
         } else if (!mobile1 && mobile2) {
-            Log.d("mobile3", "called")
+            //Log.d("mobile3", "called")
             contactMobileNumber2TIL?.show()
             contactAddMobileButton?.hide()
         } else {
-            Log.d("mobile4", "called")
+            //Log.d("mobile4", "called")
             contactMobileNumber1TIL?.show()
             contactAddMobileButton?.show()
         }
@@ -599,7 +599,7 @@ class ContactEditFragment : Fragment() {
 
         val presentAddressID = data.presentAddressID
         val permanentAddressID = data.permanentAddressID
-//        Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
+//        //Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
 //                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
 //                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} " + "\n" +
 //                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")}" + "\n" +
@@ -622,7 +622,7 @@ class ContactEditFragment : Fragment() {
 //                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
 //                " email address another: ${contactEmailAddressTIET1.getString()}")
 
-        Log.d("contactDetails", "\n" +
+        /*Log.d("contactDetails", "\n" +
                 "userid:${session.userId} \n" +
                 "decodeid:${session.decodId} \n" +
                 "isResumeUpdate:${session.IsResumeUpdate} \n" +
@@ -648,7 +648,7 @@ class ContactEditFragment : Fragment() {
                 "email:${contactEmailAddressTIET.getString()} \n" +
                 "alternativeEmail:${contactEmailAddressTIET1.getString()}"
 
-        )
+        )*/
 
         val call = ApiServiceMyBdjobs.create().updateContactData(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
                 inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString(), districtList, "d"), present_thana = getIdByName(prContactThanaTIET.getString(), thanaList, "t"),
@@ -663,7 +663,7 @@ class ContactEditFragment : Fragment() {
                 try {
                     activity?.stopProgressBar(loadingProgressBar)
                     activity?.toast(R.string.message_common_error)
-                    Log.d("contact_details", "msg: ${t.message}")
+                    //Log.d("contact_details", "msg: ${t.message}")
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -701,11 +701,11 @@ class ContactEditFragment : Fragment() {
             for ((_, value) in list.withIndex()) {
                 if (value.locationName == s) {
                     id = value.locationId
-                    Log.d("getIdByName", ",// ${value.locationId},//")
+                    //Log.d("getIdByName", ",// ${value.locationId},//")
                 }
             }
         } else {
-            Log.d("getIdByNameElse", "$list,// $tag,//")
+            //Log.d("getIdByNameElse", "$list,// $tag,//")
             when (tag) {
                 "t" -> id = contactInfo.getThana().toString()
                 "p" -> id = contactInfo.getPostOffice().toString()
@@ -715,12 +715,12 @@ class ContactEditFragment : Fragment() {
                 }
             }
         }
-        Log.d("locationID", "value: $id")
+        //Log.d("locationID", "value: $id")
         return id
     }
 
     private fun getIdByCountryName(s: String): String {
-        Log.d("locationID", "value: ${dataStorage.getLocationIDByName(s).toString().trim()}")
+        //Log.d("locationID", "value: ${dataStorage.getLocationIDByName(s).toString().trim()}")
         return dataStorage.getLocationIDByName(s).toString().trim()
     }
 
@@ -740,7 +740,7 @@ class ContactEditFragment : Fragment() {
 //        selectChip(cgPermanent, "Inside Bangladesh")
         try {
             data = contactInfo.getContactData()
-            Log.d("rakib", data.presentThana + " " + data.presentPostOffice)
+            //Log.d("rakib", data.presentThana + " " + data.presentPostOffice)
         } catch (e: Exception) {
             logException(e)
             d("++${e.message}")
@@ -902,19 +902,19 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun hideAllError() {
-        Log.d("rakib error", "called main")
+        //Log.d("rakib error", "called main")
 
 //        if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
 //            contactDistrictTIL.hideError()
 //            contactThanaTIL.hideError()
-//            Log.d("rakib error", "called if")
+//            //Log.d("rakib error", "called if")
 //            contactAddressTILPRM.hideError()
 //            permanentContactCountryTILP.hideError()
 //        } else {
 //            contactDistrictTIL.setError()
 //            contactThanaTIL.setError()
 //            contactAddressTILPRM.setError()
-//            Log.d("rakib error", "called else ")
+//            //Log.d("rakib error", "called else ")
 //
 //            permanentContactCountryTILP.setError()
 //        }
@@ -922,13 +922,13 @@ class ContactEditFragment : Fragment() {
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()
             contactAddressTILPRM.hideError()
-            Log.d("rakib error", "called 2nd if")
+            //Log.d("rakib error", "called 2nd if")
 
         }
         if (permanentInOutBD == "1" && permanentContactCountryTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
             permanentContactCountryTILP.hideError()
             contactAddressTILPRM.hideError()
-            Log.d("rakib error", "called 3rd if")
+            //Log.d("rakib error", "called 3rd if")
 
         }
     }
@@ -985,7 +985,7 @@ class ContactEditFragment : Fragment() {
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 cg.radioCheckableChip(chip)
-                Log.d("chip_entry", "text: ${chip.text}")
+                //Log.d("chip_entry", "text: ${chip.text}")
                 val dataC = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.cgPresent -> {
@@ -1057,14 +1057,14 @@ class ContactEditFragment : Fragment() {
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
-        Log.d("rakib", "came here")
+        //Log.d("rakib", "came here")
         val count = chipGroup.childCount
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
             chip.isClickable = true
             if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip_entry", "text:$i")
+                //Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
                 d("value t/f : ${chip.isChecked}")
             }
@@ -1095,7 +1095,7 @@ class ContactEditFragment : Fragment() {
                                 prContactThanaTIET?.setOnClickListener(null)
                                 prContactPostOfficeTIET1?.setOnClickListener(null)
 
-                                Log.d("rakib district", districtList?.get(which)?.locationId)
+                                //Log.d("rakib district", districtList?.get(which)?.locationId)
 
                                 contactInfo.setPresentDistrict(districtList?.get(which)?.locationId)
                                 thanaList = dataStorage.getDependentEnglishLocationByParentId(districtList?.get(which)?.locationId!!)
@@ -1237,7 +1237,7 @@ class ContactEditFragment : Fragment() {
             }
             else -> {
                 emailTextInputLayout?.hideError()
-                Log.d("rakib", "email valid true")
+                //Log.d("rakib", "email valid true")
             }
         }
         return true
@@ -1286,19 +1286,19 @@ class ContactEditFragment : Fragment() {
 
 
     private fun validateMobileNumber(): Boolean {
-        Log.d("rakib", "country code ${countryCodeTIET.text.toString()}")
+        //Log.d("rakib", "country code ${countryCodeTIET.text.toString()}")
         if (!TextUtils.isEmpty(countryCodeTIET?.text.toString()) && !TextUtils.isEmpty(contactMobileNumberTIET?.text.toString())) {
             if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
                 if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length == 11) {
-                    Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+                    //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
                     return true
                 } else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
-                    Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+                    //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
                     return true
                 }
             }
         }
-        Log.d("rakib", "validate number function false")
+        //Log.d("rakib", "validate number function false")
         return false
     }
 

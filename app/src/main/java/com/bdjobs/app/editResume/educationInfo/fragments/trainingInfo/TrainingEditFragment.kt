@@ -168,7 +168,7 @@ class TrainingEditFragment : Fragment() {
             validation = isValidate(etTrCountry, trCountryTIL, etTrTrainingYear, true, validation)
             validation = isValidate(etTrTrainingYear, trTrainingYearTIL, etTrDuration, true, validation)
             validation = isValidate(etTrDuration, trDurTIL, etTrDuration, true, validation)
-            Log.d("validation", "validation : $validation")
+            //Log.d("validation", "validation : $validation")
             if (validation == 5) updateData()
         }
     }

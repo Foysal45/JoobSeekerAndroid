@@ -43,9 +43,9 @@ package com.bdjobs.app.BackgroundJob
 //                    .setExtras(extras)
 //                    .build()
 //                    .schedule()
-//            // Log.d("werywirye", " jobid-android-job: $jobId ")
-//            Log.d("werywirye", "Hello: $jobid - $decodeId - $userId - $expectedSalary ")
-//            Log.d("werywirye", " jobid: $jobId ")
+//            // //Log.d("werywirye", " jobid-android-job: $jobId ")
+//            //Log.d("werywirye", "Hello: $jobid - $decodeId - $userId - $expectedSalary ")
+//            //Log.d("werywirye", " jobid: $jobId ")
 //            return jobId
 //        }
 //    }
@@ -56,10 +56,10 @@ package com.bdjobs.app.BackgroundJob
 //        val jobID = params.extras.getString("jobid", "")
 //        val expectedSalary = params.extras.getString("expectedsalary", "")
 //
-//        Log.d("werywirye1", "Hello: $jobID - $decodeID - $userID - $expectedSalary ")
+//        //Log.d("werywirye1", "Hello: $jobID - $decodeID - $userID - $expectedSalary ")
 //        if (jobID.isNotEmpty()) {
 //            // updateExpectedSalary(jobID, expectedSalary, userID, decodeID)
-//            /*Log.d("werywirye1", "Hello: $jobID - $expectedSalary - $userID - $expectedSalary ")
+//            /*//Log.d("werywirye1", "Hello: $jobID - $expectedSalary - $userID - $expectedSalary ")
 //            return Result.SUCCESS*/
 //
 //
@@ -87,7 +87,7 @@ package com.bdjobs.app.BackgroundJob
 //            return Result.SUCCESS
 //        }
 //
-//        Log.d("werywirye1", "employer: $jobID")
+//        //Log.d("werywirye1", "employer: $jobID")
 //        return Result.FAILURE
 //
 //

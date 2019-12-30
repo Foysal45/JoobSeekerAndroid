@@ -88,8 +88,8 @@ class LogoutFragment : Fragment() {
         backIV.setOnClickListener {
             communicator.backButtonPressed()
         }
-        Log.d("isblue", "isis = ${activity.isBlueCollarUser()}")
-        Log.d("isblue", "isis = ${changePassword_Eligibility}")
+        //Log.d("isblue", "isis = ${activity.isBlueCollarUser()}")
+        //Log.d("isblue", "isis = ${changePassword_Eligibility}")
 
         if (changePassword_Eligibility == "1") {
             // changepass.show()
@@ -125,7 +125,7 @@ class LogoutFragment : Fragment() {
                         Ads.mInterstitialAd!!.adListener = object : AdListener() {
                             override fun onAdLoaded() {
                                 // Code to be executed when an ad finishes loading.
-                                Log.d("mInterstitialAd", "Ad Loaded")
+                                //Log.d("mInterstitialAd", "Ad Loaded")
                             }
 
                             override fun onAdFailedToLoad(errorCode: Int) {

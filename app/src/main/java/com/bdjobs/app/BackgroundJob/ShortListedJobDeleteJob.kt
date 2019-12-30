@@ -42,7 +42,7 @@ package com.bdjobs.app.BackgroundJob
 //                    .build()
 //                    .schedule()
 //
-//            Log.d(TAG, " jobid: $jobId")
+//            //Log.d(TAG, " jobid: $jobId")
 //            return jobId
 //        }
 //
@@ -54,7 +54,7 @@ package com.bdjobs.app.BackgroundJob
 //                    .setExtras(extras)
 //                    .build()
 //                    .schedule()
-//            Log.d("werywirye", " jobid: $jobId")
+//            //Log.d("werywirye", " jobid: $jobId")
 //            return jobId
 //        }
 //
@@ -66,7 +66,7 @@ package com.bdjobs.app.BackgroundJob
 //    override fun onRunJob(params: Params): Result {
 //
 //        val jobid = params.extras.getString("jobid", "")
-//        Log.d(TAG, "Shortlised jobID: $jobid")
+//        //Log.d(TAG, "Shortlised jobID: $jobid")
 //        if (jobid.isNotEmpty()) {
 //            doAsync {
 //                bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobid)
@@ -81,7 +81,7 @@ package com.bdjobs.app.BackgroundJob
 //                }
 //
 //                override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
-//                    Log.d(TAG, "Shortlised jobID: $jobid")
+//                    //Log.d(TAG, "Shortlised jobID: $jobid")
 //                    try {
 //                        appContext?.toast("${response.body()?.message}")
 //                    } catch (e: Exception) {
@@ -93,7 +93,7 @@ package com.bdjobs.app.BackgroundJob
 //            return Result.SUCCESS
 //        }
 //
-//        Log.d("werywirye", "Shortlised jobID: $jobid")
+//        //Log.d("werywirye", "Shortlised jobID: $jobid")
 //        return Result.FAILURE
 //
 //    }

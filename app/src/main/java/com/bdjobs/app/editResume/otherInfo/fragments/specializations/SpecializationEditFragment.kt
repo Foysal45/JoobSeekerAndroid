@@ -142,7 +142,7 @@ class SpecializationEditFragment : Fragment() {
 
 
             //updateData(skills.removePrefix(","))
-            Log.d("specialization", " val: ${TextUtils.join(",", idArr)}")
+            //Log.d("specialization", " val: ${TextUtils.join(",", idArr)}")
             updateData(TextUtils.join(",", idArr).removePrefix(","))
 
 

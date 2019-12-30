@@ -65,7 +65,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
 
     private fun getInformation(userId: String?, decodId: String?, inviteCodepcOwnerID: String?) {
 
-        Log.d("rakib", "$userId $decodId $inviteCodepcOwnerID")
+        //Log.d("rakib", "$userId $decodId $inviteCodepcOwnerID")
 
         ApiServiceMyBdjobs.create().getOwnerInviteCode(
                 userID = userId,

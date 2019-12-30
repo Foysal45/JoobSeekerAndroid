@@ -208,9 +208,9 @@ class PaymentMethodFragment : Fragment(), ConnectivityReceiver.ConnectivityRecei
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
 
-        Log.d("rakib", "onNetworkChanged ${OwnerBalanceFragment.i}++")
+        //Log.d("rakib", "onNetworkChanged ${OwnerBalanceFragment.i}++")
 
-        Log.d("rakib", "connection $isConnected")
+        //Log.d("rakib", "connection $isConnected")
 
         if (!isConnected) {
             nextButton?.isClickable = false

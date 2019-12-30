@@ -84,9 +84,9 @@ class InterviewInvitationDetailsFragment : Fragment() {
         followedRV?.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
-        Log.d("sdofjwioapfgh", "userId= ${bdjobsUserSession.userId!!}" +
+        /*Log.d("sdofjwioapfgh", "userId= ${bdjobsUserSession.userId!!}" +
                 "decodId= ${bdjobsUserSession.decodId!!}" +
-                "CompanyJobID= ${interviewInvitationCommunicator.getCompanyJobID()}")
+                "CompanyJobID= ${interviewInvitationCommunicator.getCompanyJobID()}")*/
 
         ApiServiceMyBdjobs.create().getIterviewInvitationDetails(
                 userID = bdjobsUserSession.userId!!,
@@ -109,7 +109,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
                             shimmer_view_container_JobList?.hide()
                             shimmer_view_container_JobList?.stopShimmerAnimation()
 
-                            Log.d("sdofjwioapfgh", "res: ${response.body()}")
+                            //Log.d("sdofjwioapfgh", "res: ${response.body()}")
                             if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                                 appliedDateTV.text = "Applied on: ${response.body()!!.common?.applyDate}"
                                 val interviewInvitationDetailsAdapter = InterviewInvitationDetailsAdapter(activity, (response.body()?.data!!))
@@ -140,7 +140,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
         applyID = common.applyId!!
         invitationID = latestJobInviteDetails.invitationId!!
 
-        Log.d("invitationID", "jobClosed: $jobClosed\napplyID: $applyID")
+        //Log.d("invitationID", "jobClosed: $jobClosed\napplyID: $applyID")
 
         if (jobClosed.equals("True", ignoreCase = true)) {
             if (TextUtils.isEmpty(companyRating)) {

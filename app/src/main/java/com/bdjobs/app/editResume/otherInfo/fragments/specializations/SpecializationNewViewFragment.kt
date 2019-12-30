@@ -128,7 +128,7 @@ class SpecializationNewViewFragment : Fragment() {
                         shimmerStop()
 
                         val respo = response.body()
-//                        Log.d("rakib", respo?.data)
+//                        //Log.d("rakib", respo?.data)
                         arr = respo?.data!![0]?.skills as ArrayList<Skill?>
 
                         eduCB.setSkills(arr!!)
@@ -262,7 +262,7 @@ class SpecializationNewViewFragment : Fragment() {
 
     fun showEditDialog(item: Skill?) {
 
-        //Log.d("rakib", "came here")
+        ////Log.d("rakib", "came here")
         val workSource = java.util.ArrayList<String>()
         workSource.add(0, "-1")
         workSource.add(1, "-2")
@@ -305,7 +305,7 @@ class SpecializationNewViewFragment : Fragment() {
         if (item != null) {
             currentDialogValue = item.skillName?.slice(0 until item.skillName.length - 1)
 
-            Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+            //Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
         }
 
         refnameATCTV?.setSelection(refnameATCTV.getString().length)
@@ -437,9 +437,9 @@ class SpecializationNewViewFragment : Fragment() {
         refnameATCTV.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
-                Log.d("rakib", "${refnameATCTV.isPopupShowing}")
+                //Log.d("rakib", "${refnameATCTV.isPopupShowing}")
 
-                Log.d("rakib", "called after text changed")
+                //Log.d("rakib", "called after text changed")
 
                 if (s.toString().length == 2) {
 //                    refnameATCTV.hideKeyboard()
@@ -447,14 +447,14 @@ class SpecializationNewViewFragment : Fragment() {
                 }
 
                 if (s.toString().length > 2 && !refnameATCTV.isPopupShowing) {
-                    Log.d("rakib", "not permitted")
+                    //Log.d("rakib", "not permitted")
                     saveButton.isEnabled = true
                 }
 //                if (!s.toString().isEmpty() && s.toString().length > 2)
 //                {
-//                    Log.d("rakib", "called")
+//                    //Log.d("rakib", "called")
 //                    if (!refnameATCTV.isPopupShowing){
-//                        Log.d("rakib", "popup showing")
+//                        //Log.d("rakib", "popup showing")
 //                        toast("No skill found!")
 //                        saveButton?.isEnabled = false
 //                    } else {
@@ -474,8 +474,8 @@ class SpecializationNewViewFragment : Fragment() {
                 if (s.toString().length > 2) {
 
 
-                    Log.d("rakib", "called on text change: ${s}")
-                    Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+                    //Log.d("rakib", "called on text change: ${s}")
+                    //Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
                     if (refnameATCTV?.isPopupShowing!!) {
@@ -646,7 +646,7 @@ class SpecializationNewViewFragment : Fragment() {
     }
 
     private fun showDialog(activity: Activity) {
-        Log.d("rakib", "came here")
+        //Log.d("rakib", "came here")
         val workSource = java.util.ArrayList<String>()
         workSource.add(0, "-1")
         workSource.add(1, "-2")
@@ -687,7 +687,7 @@ class SpecializationNewViewFragment : Fragment() {
 
             currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
 
-            Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
+            //Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
 
             refnameATCTV?.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV?.getString()
@@ -1006,9 +1006,9 @@ class SpecializationNewViewFragment : Fragment() {
     }
 
     private fun addOrUpdateItem(skills: String, s_id: String, skilledBy: String, ntvqfLevel: String, insertOrUpdate: String) {
-        Log.d("nbnnn", skilledBy)
-        Log.d("nbnnn", skills)
-        Log.d("nbnnn", s_id)
+        //Log.d("nbnnn", skilledBy)
+        //Log.d("nbnnn", skills)
+        //Log.d("nbnnn", s_id)
         d("nbnnn  ${session.userId} ${session.decodId} ${session.IsResumeUpdate} $skills  $s_id  $skilledBy $ntvqfLevel  $insertOrUpdate")
 
         activity?.showProgressBar(newSpecializationLoadingProgressBar)

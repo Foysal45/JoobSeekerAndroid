@@ -44,7 +44,7 @@ class HotJobsFragmentNew : Fragment() {
     }
 
     fun updateNotificationView(count: Int?) {
-        Log.d("rakib", "in hot jobs fragment $count")
+        //Log.d("rakib", "in hot jobs fragment $count")
         if (count!! > 0) {
             notificationCountTV?.show()
             if (count <= 99)
@@ -96,11 +96,11 @@ class HotJobsFragmentNew : Fragment() {
 
                 override fun onResponse(call: Call<HotJobs>, response: Response<HotJobs>) {
                     try {
-                        Log.d("hehe", response.body().toString())
+                        //Log.d("hehe", response.body().toString())
                         if (response.isSuccessful) {
                             hotjobList_RV?.adapter = hotjobsAdapterNew
                             hotjobList_RV?.setHasFixedSize(true)
-                            Log.d("initPag", response.body()?.data?.size.toString())
+                            //Log.d("initPag", response.body()?.data?.size.toString())
                             hotjobList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                             hotjobsAdapterNew?.removeAll()
                             hotjobsAdapterNew?.addAll(response.body()?.data as List<HotJobsData>)

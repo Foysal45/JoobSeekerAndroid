@@ -59,7 +59,7 @@ class EmployerMessageDetailFragment : Fragment() {
 
             if (toogleStatus) {
 
-                Log.d("uuuuuuuu", "click  $toogleStatus")
+                //Log.d("uuuuuuuu", "click  $toogleStatus")
 
                 toogleStatus = false
                 expand_arrow.setImageResource(R.drawable.ic_arrow_down)
@@ -69,7 +69,7 @@ class EmployerMessageDetailFragment : Fragment() {
 
             } else {
 
-                Log.d("uuuuuuuu", "click  $toogleStatus")
+                //Log.d("uuuuuuuu", "click  $toogleStatus")
 
                 toogleStatus = true
                 expand_arrow.setImageResource(R.drawable.ic_arrow_up)
@@ -147,7 +147,7 @@ class EmployerMessageDetailFragment : Fragment() {
                             linearLayoutMain.show()
                             if (response?.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
 
-                                Log.d("uuuuuuuu", "dd  $toogleStatus")
+                                //Log.d("uuuuuuuu", "dd  $toogleStatus")
 
                                 positionDataNullStatus = true
 
@@ -166,7 +166,7 @@ class EmployerMessageDetailFragment : Fragment() {
 
                             } else {
 
-                                Log.d("uuuuuuuu", "dd fgjh $toogleStatus")
+                                //Log.d("uuuuuuuu", "dd fgjh $toogleStatus")
                                 positionTV?.text = response?.body()?.data?.get(0)?.jobtitle
 
                                 positionDataNullStatus = false

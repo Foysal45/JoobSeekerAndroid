@@ -31,7 +31,7 @@ class EditResLandingAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.d("aca", "calling")
+        //Log.d("aca", "calling")
         holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_training_summary))
         val dModel = itemList?.get(position)!!
         holder.tvTitle?.text = dModel.title
@@ -49,7 +49,7 @@ class EditResLandingAdapter(arr: java.util.ArrayList<Tr_DataItem>, val context: 
         }
 
         holder.imageViewExpand!!.setOnClickListener {
-            Log.d("click", "clicked success")
+            //Log.d("click", "clicked success")
             toggleDetails(holder)
         }
         holder.moreActionDetails?.visibility = View.GONE

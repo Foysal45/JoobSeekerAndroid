@@ -51,7 +51,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
             logException(e)
         }
 
-        Log.d("manage", "jobid== $jobID toemail = $toEmail subj = $subject")
+        //Log.d("manage", "jobid== $jobID toemail = $toEmail subj = $subject")
         getIsCvUploaded()
 
     }
@@ -111,7 +111,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
                     if (response.isSuccessful) {
                         cvUpload = response.body()?.statuscode!!
                         Constants.cvUploadStatus = cvUpload
-                        Log.d("value", "val " + cvUpload)
+                        //Log.d("value", "val " + cvUpload)
 
 
                         if (from.equalIgnoreCase("uploadResume")) {
@@ -145,7 +145,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
         try {
 
                 cvUpload = bdjobsUserSession.cvUploadStatus
-                Log.d("value", "val " + cvUpload)
+                //Log.d("value", "val " + cvUpload)
 
 
                 if (from.equalIgnoreCase("uploadResume")) {

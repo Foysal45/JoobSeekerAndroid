@@ -19,7 +19,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT DISTINCT " + DBHelper.JOB_ROLE_INFO_CAT_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " ORDER BY " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -49,7 +49,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -81,7 +81,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -111,10 +111,10 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.BOARDS_COL_NAME + " FROM " + DBHelper.TABLE_NAME_BOARDS
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
-                Log.d("rakib", "${cursor.count}")
+                //Log.d("rakib", "${cursor.count}")
 
                 if (cursor != null && cursor.count > 0) {
                     cursor.moveToFirst()
@@ -129,7 +129,7 @@ class DataStorage(context: Context) {
             } catch (e: SQLException) {
                 e.printStackTrace()
             }
-            Log.d("rakib", "${OrgTypes}")
+            //Log.d("rakib", "${OrgTypes}")
 
             return OrgTypes.toTypedArray()
         }
@@ -143,7 +143,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT DISTINCT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -172,7 +172,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -197,7 +197,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT DISTINCT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'"
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -227,7 +227,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT DISTINCT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " = 'False' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -253,7 +253,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " != 'PostOffice' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -281,7 +281,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'Country' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -309,7 +309,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'Country'  AND " +  DBHelper.LOCATIONS_COL_LOCATION_NAME + " !=  'Bangladesh' " +  "ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -337,7 +337,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='0' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -365,7 +365,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='0' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -393,7 +393,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + "," + DBHelper.LOCATIONS_COL_LOCATION_COUNTRY_CODE + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " ='Country' AND " + DBHelper.LOCATIONS_COL_LOCATION_COUNTRY_CODE + " !='NULL' ORDER BY " + DBHelper.LOCATIONS_COL_LOCATION_NAME
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -428,7 +428,7 @@ class DataStorage(context: Context) {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE (CAST(" + DBHelper.CATEGORY_COL_CAT_ID + " AS INT) < 30 AND " + DBHelper.CATEGORY_COL_CAT_NAME + " !='NULL') AND CAST(" + DBHelper.CATEGORY_COL_CAT_ID + " AS INT) >=0 ORDER BY " + DBHelper.CATEGORY_COL_CAT_ORD + "," + DBHelper.CATEGORY_COL_CAT_ID
 
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -458,7 +458,7 @@ class DataStorage(context: Context) {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE (CAST(" + DBHelper.CATEGORY_COL_CAT_ID + " AS INT) < 30 AND " + DBHelper.CATEGORY_COL_CAT_NAME + " !='NULL') AND CAST(" + DBHelper.CATEGORY_COL_CAT_ID + " AS INT) >=-10 ORDER BY " + DBHelper.CATEGORY_COL_CAT_ORD + "," + DBHelper.CATEGORY_COL_CAT_ID
 
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -487,7 +487,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE (CAST(" + DBHelper.CATEGORY_COL_CAT_ID + " AS INT) > 60 and " + DBHelper.CATEGORY_COL_CAT_NAME + " !='NULL') OR CAST(" + DBHelper.CATEGORY_COL_CAT_ID + " AS INT) =-11 ORDER BY " + DBHelper.CATEGORY_COL_CAT_ORD + "," + DBHelper.CATEGORY_COL_CAT_ID
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -518,7 +518,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.INSTITUTES_COL_INSTITUTE_NAME + " FROM " + DBHelper.TABLE_NAME_INSTITUTES
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -548,7 +548,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.MAJOR_SUBJECTS_COL_MAJOR_NAME + " FROM " + DBHelper.TABLE_NAME_MAJOR_SUBJECTS
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -577,7 +577,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT + " FROM " + DBHelper.TABLE_NAME_RESULTS
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -606,7 +606,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -635,7 +635,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.MARITAL_COL_MARITAL_STATUS + " FROM " + DBHelper.TABLE_NAME_MARITAL
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -664,7 +664,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.LOOKING_COL_LOOKING_FOR + " FROM " + DBHelper.TABLE_NAME_LOOKING
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -694,7 +694,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.NEWSPAPER_COL_NEWSPAPER_NAME + " FROM " + DBHelper.TABLE_NAME_NEWSPAPER + " ORDER BY " + DBHelper.NEWSPAPER_COL_NEWSPAPER_ID
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -724,7 +724,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.AGERANGE_COL_AGE_RANGE + " FROM " + DBHelper.TABLE_NAME_AGERANGE
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -769,7 +769,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT DISTINCT " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE + " FROM " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " WHERE " + DBHelper.JOB_ROLE_INFO_CAT_NAME + " = '" + ID + "' OR " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE + " = 'Test Name' ORDER BY " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE_ID
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -797,7 +797,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " WHERE " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE + " = '" + jobRole + "' and " + DBHelper.JOB_ROLE_INFO_CAT_NAME + " = '" + cat_name + "' ORDER BY " + DBHelper.JOB_ROLE_INFO_COL_MODULE_NAME
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -834,7 +834,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE_ID + " FROM " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " WHERE " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -859,7 +859,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_ROLE_INFO_CAT_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " WHERE " + DBHelper.JOB_ROLE_INFO_COL_JOB_ROLE + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -885,24 +885,24 @@ class DataStorage(context: Context) {
             if (categories.size == 1) {
                 selectQuery = "update " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " set " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY + " = 'B' where " + DBHelper.JOB_ROLE_INFO_COL_CATEGORY_ID + " in ('" + categories[0] + "')"
                 dbHelper.dataBase()!!.execSQL(selectQuery)
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 selectQuery = "update " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " set " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY + " = 'F' where " + DBHelper.JOB_ROLE_INFO_COL_CATEGORY_ID + " not in ('0','" + categories[0] + "')"
                 dbHelper.dataBase()!!.execSQL(selectQuery)
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
             } else if (categories.size == 2) {
                 selectQuery = "update " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " set " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY + " = 'B' where " + DBHelper.JOB_ROLE_INFO_COL_CATEGORY_ID + " in ('" + categories[0] + "','" + categories[1] + "')"
                 dbHelper.dataBase()!!.execSQL(selectQuery)
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 selectQuery = "update " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " set " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY + " = 'F' where " + DBHelper.JOB_ROLE_INFO_COL_CATEGORY_ID + " not in ('0','" + categories[0] + "','" + categories[1] + "')"
                 dbHelper.dataBase()!!.execSQL(selectQuery)
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
             } else if (categories.size == 3) {
                 selectQuery = "update " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " set " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY + " = 'B' where " + DBHelper.JOB_ROLE_INFO_COL_CATEGORY_ID + " in ('" + categories[0] + "','" + categories[1] + "','" + categories[2] + "')"
                 dbHelper.dataBase()!!.execSQL(selectQuery)
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 selectQuery = "update " + DBHelper.TABLE_NAME_JOB_ROLE_INFO + " set " + DBHelper.JOB_ROLE_INFO_COL_PRIORITY + " = 'F' where " + DBHelper.JOB_ROLE_INFO_COL_CATEGORY_ID + " not in ('0','" + categories[0] + "','" + categories[1] + "','" + categories[2] + "')"
                 dbHelper.dataBase()!!.execSQL(selectQuery)
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
             }
             dbHelper.close()
         } catch (e: SQLException) {
@@ -918,7 +918,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES + " WHERE " + DBHelper.ORG_TYPES_COL_ORG_TYPE_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
 
@@ -942,7 +942,7 @@ class DataStorage(context: Context) {
         var s: String = ""
         try {
             val selectQuery = "SELECT " + DBHelper.ORG_TYPES_COL_ORG_TYPE_ID + " FROM " + DBHelper.TABLE_NAME_ORG_TYPES + " WHERE " + DBHelper.ORG_TYPES_COL_ORG_TYPE_NAME + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
@@ -964,7 +964,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS + " WHERE " + DBHelper.EDU_LEVELS_COL_EDU_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
@@ -986,7 +986,7 @@ class DataStorage(context: Context) {
         var s: String = ""
         try {
             val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_ID + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS + " WHERE " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1010,7 +1010,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES_TAG + " LIKE '%," + ID + ",%'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1038,7 +1038,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES_ID + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1061,7 +1061,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDU_TYPES_COL_EDU_TYPES + " FROM " + DBHelper.TABLE_NAME_EDU_TYPES + " WHERE " + DBHelper.EDU_TYPES_COL_EDU_TYPES_ID + " = '" + id + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1083,7 +1083,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area' AND " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + catID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1110,7 +1110,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill' AND " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + categoryID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1138,7 +1138,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'"
-            Log.d("selectQuery11", selectQuery)
+            //Log.d("selectQuery11", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1162,11 +1162,11 @@ class DataStorage(context: Context) {
         var s: String? = null
         var name: String? = nae
         name = name?.replace("'", "''")
-        Log.d("coxx", "value: $name")
+        //Log.d("coxx", "value: $name")
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_ID + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1191,7 +1191,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = '" + locationName + "'"
-            Log.d("selectQueryDiv", selectQuery)
+            //Log.d("selectQueryDiv", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1215,7 +1215,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1242,7 +1242,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1270,7 +1270,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_ID + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1296,7 +1296,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_ID + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1321,7 +1321,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1351,7 +1351,7 @@ class DataStorage(context: Context) {
             OrgTypes = ArrayList()
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1379,7 +1379,7 @@ class DataStorage(context: Context) {
 
             dbHelper.openDataBase()
             val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1416,7 +1416,7 @@ class DataStorage(context: Context) {
 
             dbHelper.openDataBase()
             val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1450,7 +1450,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1482,7 +1482,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT * FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_TYPE + " = 'District'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1528,7 +1528,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1' OR " + DBHelper.LOCATIONS_COL_LOCATION_ID + " ='-2'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1556,7 +1556,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='0' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1' OR " + DBHelper.LOCATIONS_COL_LOCATION_ID + " ='-2'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1584,7 +1584,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_ID + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE " + DBHelper.CATEGORY_COL_CAT_NAME + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1609,7 +1609,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_ID + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE " + DBHelper.CATEGORY_COL_CAT_NAME_BANGLA + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1634,7 +1634,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE " + DBHelper.CATEGORY_COL_CAT_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1659,7 +1659,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.CATEGORY_COL_CAT_NAME_BANGLA + " FROM " + DBHelper.TABLE_NAME_CATEGORY + " WHERE " + DBHelper.CATEGORY_COL_CAT_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
@@ -1681,7 +1681,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT_ID + " FROM " + DBHelper.TABLE_NAME_RESULTS + " WHERE " + DBHelper.RESULTS_COL_RESULT + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1705,7 +1705,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.RESULTS_COL_RESULT + " FROM " + DBHelper.TABLE_NAME_RESULTS + " WHERE " + DBHelper.RESULTS_COL_RESULT_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
@@ -1727,7 +1727,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.GENDER_COL_GENDER + " FROM " + DBHelper.TABLE_NAME_GENDER + " WHERE " + DBHelper.GENDER_COL_GENDER_ID + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1750,7 +1750,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.MARITAL_COL_MARITAL_ID + " FROM " + DBHelper.TABLE_NAME_MARITAL + " WHERE " + DBHelper.MARITAL_COL_MARITAL_STATUS + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1773,7 +1773,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOOKING_COL_LOOKING_ID + " FROM " + DBHelper.TABLE_NAME_LOOKING + " WHERE " + DBHelper.LOOKING_COL_LOOKING_FOR + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1797,7 +1797,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_EDU_LEVEL + " = '" + ID + "' or " + DBHelper.EDUCATION_DEGREES_COL_EDU_LEVEL + " = '-1'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1824,7 +1824,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " = '" + DegreeName + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             var s = ""
 
@@ -1849,7 +1849,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EDUCATION_DEGREES_COL_EDUCATION_TYPE + " FROM " + DBHelper.TABLE_NAME_EDUCATION_DEGREES + " WHERE " + DBHelper.EDUCATION_DEGREES_COL_DEGREE_NAME + " = '" + DegreeName + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             if (cursor != null && cursor.count > 0) {
                 cursor.moveToFirst()
@@ -1875,7 +1875,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_Sub_NAME_BNG + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + bluCollarCategoryID + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -1926,7 +1926,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.NEWSPAPER_COL_NEWSPAPER_ID + " FROM " + DBHelper.TABLE_NAME_NEWSPAPER + " WHERE " + DBHelper.NEWSPAPER_COL_NEWSPAPER_NAME + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1951,7 +1951,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.NEWSPAPER_COL_NEWSPAPER_NAME + " FROM " + DBHelper.TABLE_NAME_NEWSPAPER + " WHERE " + DBHelper.NEWSPAPER_COL_NEWSPAPER_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -1976,7 +1976,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.AGERANGE_COL_AGE_ID + " FROM " + DBHelper.TABLE_NAME_AGERANGE + " WHERE " + DBHelper.AGERANGE_COL_AGE_RANGE + " = '" + name + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2001,7 +2001,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.AGERANGE_COL_AGE_RANGE + " FROM " + DBHelper.TABLE_NAME_AGERANGE + " WHERE " + DBHelper.AGERANGE_COL_AGE_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2027,7 +2027,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.ORG_TYPE_JOB_SEARCH_COL_ORG_TYPE + " FROM " + DBHelper.TABLE_NAME_ORG_TYPE_JOB_SEARCH + " WHERE " + DBHelper.ORG_TYPE_JOB_SEARCH_COL_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2052,7 +2052,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.ORG_TYPE_JOB_SEARCH_COL_ID + " FROM " + DBHelper.TABLE_NAME_ORG_TYPE_JOB_SEARCH + " WHERE " + DBHelper.ORG_TYPE_JOB_SEARCH_COL_ORG_TYPE + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2078,7 +2078,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH + " FROM " + DBHelper.TABLE_NAME_INDUSTRY + " WHERE " + DBHelper.INDUSTRY_COL_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2103,7 +2103,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.INDUSTRY_COL_ID + " FROM " + DBHelper.TABLE_NAME_INDUSTRY + " WHERE " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH + " = '" + value + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2128,7 +2128,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.BOARDS_COL_VALUE + " FROM " + DBHelper.TABLE_NAME_BOARDS + " WHERE " + DBHelper.BOARDS_COL_NAME + " = '" + value + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = -1
 
@@ -2152,7 +2152,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.BOARDS_COL_NAME + " FROM " + DBHelper.TABLE_NAME_BOARDS + " WHERE " + DBHelper.BOARDS_COL_VALUE + " = '" + id + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2177,7 +2177,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH + " FROM " + DBHelper.TABLE_NAME_INDUSTRY + " ORDER BY " + DBHelper.INDUSTRY_COL_INDUSTRY_NAME_ENGLISH
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -2206,7 +2206,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_NATURE_COL_JOB_NATURE_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_NATURE + " WHERE " + DBHelper.JOB_NATURE_COL_JOB_NATURE_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2232,7 +2232,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_NATURE_COL_JOB_NATURE_ID + " FROM " + DBHelper.TABLE_NAME_JOB_NATURE + " WHERE LOWER(" + DBHelper.JOB_NATURE_COL_JOB_NATURE_NAME + ") = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2257,7 +2257,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_LEVEL + " WHERE " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2282,7 +2282,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_LEVEL + " WHERE LOWER(" + DBHelper.JOB_LEVEL_COL_JOB_LEVEL_NAME + ") = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2308,7 +2308,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EXPERIENCE_COL_EXPERIENCE_NAME + " FROM " + DBHelper.TABLE_NAME_EXPERIENCE + " WHERE " + DBHelper.EXPERIENCE_COL_EXPERIENCE_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2333,7 +2333,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.EXPERIENCE_COL_EXPERIENCE_ID + " FROM " + DBHelper.TABLE_NAME_EXPERIENCE + " WHERE " + DBHelper.EXPERIENCE_COL_EXPERIENCE_NAME + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2359,7 +2359,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_TYPE_COL_JOB_TYPE_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_TYPE + " WHERE " + DBHelper.JOB_TYPE_COL_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2385,7 +2385,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_TYPE_COL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_TYPE + " WHERE " + DBHelper.JOB_TYPE_COL_JOB_TYPE_NAME + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2411,7 +2411,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_ID + " FROM " + DBHelper.TABLE_NAME_POSTED_WITHIN + " WHERE " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_NAME + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2436,7 +2436,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_NAME + " FROM " + DBHelper.TABLE_NAME_POSTED_WITHIN + " WHERE " + DBHelper.POSTED_WITHIN_COL_POSTED_WITHIN_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2462,7 +2462,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_DEADLINE_COL_JOB_DEADLINE_NAME + " FROM " + DBHelper.TABLE_NAME_JOB_DEADLINE + " WHERE " + DBHelper.JOB_DEADLINE_COL_ID + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2488,7 +2488,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.JOB_DEADLINE_COL_ID + " FROM " + DBHelper.TABLE_NAME_JOB_DEADLINE + " WHERE " + DBHelper.JOB_DEADLINE_COL_JOB_DEADLINE_NAME + " = '" + ID + "'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2519,7 +2519,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_SUB_NAME + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_SUB_CAT_ID + " = '" + name + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Work Area'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = ""
 
@@ -2547,7 +2547,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.LOCATIONS_COL_LOCATION_NAME + " FROM " + DBHelper.TABLE_NAME_LOCATIONS + " WHERE " + DBHelper.LOCATIONS_COL_LOCATION_PARENT_ID + " ='" + locationID + "' AND " + DBHelper.LOCATIONS_COL_LOCATION_OUTSIDE_BANGLADESH + " ='False' AND " + DBHelper.LOCATIONS_COL_LOCATION_ID + " !='-1' OR " + DBHelper.LOCATIONS_COL_LOCATION_ID + " ='-2'"
-            Log.d("selectQuery", selectQuery)
+            //Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -2576,7 +2576,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT DISTINCT " + DBHelper.KEYWORD_SUGGESYIONS_COL_KEYWORDS + " FROM " + DBHelper.TABLE_NAME_KEYWORD_SUGGESYIONS + " ORDER BY " + DBHelper.KEYWORD_SUGGESYIONS_COL_KEYWORDS
-                Log.d("selectQuery", selectQuery)
+                //Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {

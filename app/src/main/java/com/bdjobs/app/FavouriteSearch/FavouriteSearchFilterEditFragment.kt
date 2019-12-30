@@ -91,7 +91,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
 
-                Log.d("typedData", "typedData : $typedData")
+                //Log.d("typedData", "typedData : $typedData")
 
                 when (from) {
                     Constants.key_jobtitleET -> {
@@ -180,14 +180,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         keywordET?.easyOnTextChangedListener { text ->
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 keyword = ""
             }
         }
         generalCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(generalCatET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 try {
                     val catid = category?.toInt()
                     if (catid in 1..30 || catid == -10) {
@@ -202,7 +202,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         specialCatET?.easyOnTextChangedListener { text ->
             showHideCrossButton(specialCatET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 try {
                     val catid = category?.toInt()
                     if (catid!! > 60 || catid == -11) {
@@ -217,7 +217,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         loacationET?.easyOnTextChangedListener { text ->
             showHideCrossButton(loacationET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 location = ""
             }
         }
@@ -225,14 +225,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         newsPaperET?.easyOnTextChangedListener { text ->
             showHideCrossButton(newsPaperET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 newspaper = ""
             }
         }
         industryET?.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
             if (text.isBlank()) {
-                Log.d("catTest", "typedData : isBlank")
+                //Log.d("catTest", "typedData : isBlank")
                 industry = ""
             }
         }
@@ -353,7 +353,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
 
                 try {
-                    Log.d("resposet", response.body().toString())
+                    //Log.d("resposet", response.body().toString())
 
                     if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                         doAsync {
@@ -402,7 +402,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
             if (i > 0) {
                 val chip = chipGroup?.findViewById(i) as Chip
-                Log.d("chip", "text: ${chip.text}")
+                //Log.d("chip", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.orgCG -> {
@@ -469,14 +469,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun setGenderData(gndr: String?) {
         val tempGender = gndr
-        Log.d("GenderCheck", "tempGender: $tempGender")
+        //Log.d("GenderCheck", "tempGender: $tempGender")
         maleChip?.isChecked = false
         femaleChip?.isChecked = false
         otherChip?.isChecked = false
         val genderList = tempGender?.split(",")
         genderList?.forEach { it ->
-            Log.d("GenderCheck", "genderGet: $it")
-            Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
+            //Log.d("GenderCheck", "genderGet: $it")
+            //Log.d("GenderCheck", " dataStorage genderGet: ${dataStorage.getGenderByID(it.trim())}")
             selectChip(genderCG, dataStorage.getGenderByID(it.trim()))
         }
     }
@@ -488,7 +488,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 val chip = chipGroup.getChildAt(i) as Chip
                 val chipText = chip.text.toString()
                 if (data?.equalIgnoreCase(chipText)!!) {
-                    Log.d("chip", "text:$i")
+                    //Log.d("chip", "text:$i")
                     chip.isChecked = true
                 }
             }
@@ -497,7 +497,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     }
 
     private fun setData() {
-        Log.d("filterID", "filterID= $filterID")
+        //Log.d("filterID", "filterID= $filterID")
         doAsync {
             val filterData = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterid = filterID)
             val locationString = dataStorage.getLocationNameByID(filterData.location)
@@ -510,7 +510,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     filterNameET?.setText(filterName)
                     keywordET?.setText(filterData.keyword)
                     loacationET?.setText(locationString)
-                    Log.d("catTest", "category : ${filterData.keyword}")
+                    //Log.d("catTest", "category : ${filterData.keyword}")
 
                     if (filterData.functionalCat?.isNotBlank()!!) {
                         if (filterData.functionalCat.toInt() < 30) {

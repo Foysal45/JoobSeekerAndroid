@@ -98,7 +98,7 @@ class DownloadResumeFragment : Fragment() {
                     if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         if (action.equalIgnoreCase("download")) {
                             downloadLink = response.body()?.data?.get(0)?.path
-                            Log.d("downloadResume", "Downloadlink: $downloadLink")
+                            //Log.d("downloadResume", "Downloadlink: $downloadLink")
                         } else {
                             toast(response.body()?.message!!)
                             bdjobsUserSession.updateUserCVUploadStatus("3")

@@ -48,7 +48,7 @@ class ReferenceAdapter(arr: java.util.ArrayList<ReferenceDataModel>, val context
         }
 
         holder.imageViewExpand!!.setOnClickListener {
-            Log.d("click", "clicked success")
+            //Log.d("click", "clicked success")
             toggleDetails(holder)
         }
         holder.moreActionDetails?.visibility = View.GONE

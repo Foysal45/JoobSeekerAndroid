@@ -34,14 +34,14 @@ class EditResLandingActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("rakib", "called onResume")
+        //Log.d("rakib", "called onResume")
         session = BdjobsUserSession(this@EditResLandingActivity)
         try {
             if (!session.userPicUrl.isNullOrEmpty()) {
-                Log.d("rakib", "${session.userPicUrl}")
+                //Log.d("rakib", "${session.userPicUrl}")
                 ivProfileImage?.loadCircularImageFromUrl(session.userPicUrl)
             } else{
-                Log.d("rakib", "called onresume else")
+                //Log.d("rakib", "called onresume else")
                 ivProfileImage?.setImageResource(R.drawable.ic_user_thumb_small)
             }
         } catch (e: Exception) {
@@ -238,7 +238,7 @@ class EditResLandingActivity : Activity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("rakib", "called onRestart")
+        //Log.d("rakib", "called onRestart")
     }
 
 }

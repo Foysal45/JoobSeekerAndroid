@@ -90,14 +90,14 @@ class UploadResumeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d("UploadResume", "requestCode=$requestCode \nresultCode=$resultCode \ndata=$data")
+        //Log.d("UploadResume", "requestCode=$requestCode \nresultCode=$resultCode \ndata=$data")
         if (requestCode == Constant.REQUEST_CODE_PICK_FILE && resultCode == Activity.RESULT_OK && data != null) {
 
 
             val file : List<NormalFile>? = data.getParcelableArrayListExtra(Constant.RESULT_PICK_FILE)
 
             file?.forEach {
-                Log.d("rakib",it.path.toString())
+                //Log.d("rakib",it.path.toString())
             }
 
             try {
@@ -120,7 +120,7 @@ class UploadResumeFragment : Fragment() {
 
         if (fileinfo.extension!!.equalIgnoreCase("pdf") || fileinfo.extension!!.equalIgnoreCase("doc") || fileinfo.extension!!.equalIgnoreCase("docx")) {
 
-            Log.d("UploadResume", "UploadResume size: ${fileSizeInKB} type: ${fileinfo.extension}")
+            //Log.d("UploadResume", "UploadResume size: ${fileSizeInKB} type: ${fileinfo.extension}")
 
             if (fileSizeInKB == 0L) {
                 toast("It is an invalid file")
@@ -133,7 +133,7 @@ class UploadResumeFragment : Fragment() {
 
                 val filePath = uri.path
 
-                Log.d("UploadResume", "filePath= $filePath")
+                //Log.d("UploadResume", "filePath= $filePath")
 
                 val requestFile = RequestBody.create(MediaType.parse(mediaType), File(filePath))
 
@@ -155,7 +155,7 @@ class UploadResumeFragment : Fragment() {
                 map["fileType"] = fileType
                 map["fileName"] = fileName
 
-                Log.d("UploadResume", "userid = $userid\ndecodeid= $decodeid\nstatus= $status\nfileExtension= $fileExtension\nfileType= $fileType\nfileName= $fileName")
+                //Log.d("UploadResume", "userid = $userid\ndecodeid= $decodeid\nstatus= $status\nfileExtension= $fileExtension\nfileType= $fileType\nfileName= $fileName")
 
                 uploadCVtoServer(multipartBodyPart, map)
 
@@ -190,7 +190,7 @@ class UploadResumeFragment : Fragment() {
                 try {
                     progressDialog.dismiss()
                     toast(response.body()?.message!!)
-                    Log.d("UploadResume", "response: ${response.body()}")
+                    //Log.d("UploadResume", "response: ${response.body()}")
                     bdjobsUserSession.updateUserCVUploadStatus("0")
                     communicator.gotoDownloadResumeFragment()
                 } catch (e: Exception) {

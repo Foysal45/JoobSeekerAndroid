@@ -6,6 +6,7 @@ interface RegistrationCommunicator {
 
     //------------white collar-------------//
     fun gotToStepWhiteCollar()
+
     fun wcGoToStepSocialInfo()
     fun wcGoToStepName()
     fun wcGoToStepGender()
@@ -17,22 +18,23 @@ interface RegistrationCommunicator {
     fun wcCategorySelected(category: String, position: Int)
     fun wcGenderSelected(gender: String)
     fun wcMobileNumberSelected(mobileNumber: String)
-    fun wcEmailSelected(email : String)
-    fun wcGetMobileNumber():String
-    fun wcGetEmail():String
+    fun wcEmailSelected(email: String)
+    fun wcGetMobileNumber(): String
+    fun wcGetEmail(): String
     fun wcUserNameTypeSelected(userId: String)
-    fun wcSetPassAndConfirmPassword(password:String,confirmPass:String)
+    fun wcSetPassAndConfirmPassword(password: String, confirmPass: String)
 
     fun wcCreateAccount()
     fun wcUserNameSelected(userName: String)
     fun wcCountrySeledted(countryCode: String)
     fun wcOtpVerify()
     fun wcSetOtp(otp: String)
-    fun wcGetOtp():String
+    fun wcGetOtp(): String
 
 
     //-------------blue collar------------//
     fun goToStepBlueCollar()
+
     fun bcGoToStepName()
     fun bcGoToStepGender()
     fun bcGoToStepMobileNumber()
@@ -46,23 +48,24 @@ interface RegistrationCommunicator {
     fun bcCategorySelected(category: String, position: Int)
     fun bcGenderSelected(gender: String)
     fun bcBirthDateAndAgeSelected(birthDate: String, age: String)
-    fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String,skilledBy:String,ntvqfLevel:String, categoryID:String,category: String)
+    fun bcSelectedBlueCollarSubCategoriesIDandExperince(IDs: String, experience: String, skilledBy: String, ntvqfLevel: String, categoryID: String, category: String)
     fun bcAddressSelected(district: String, thana: String, postOffice: String, address: String, locationID: String)
-    fun bcGetAge():String
+    fun bcGetAge(): String
     fun bcResendOtp()
-    fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String)
+    fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String, board: String)
 
     ////-------------common-----------//
-    fun nameSelected(name : String)
+    fun nameSelected(name: String)
+
     fun goToHomePage()
-    fun getUserId():String
-    fun getDecodeId():String
+    fun getUserId(): String
+    fun getDecodeId(): String
     fun regWithGoogle()
     fun regWithFacebook()
     fun regWithLinkedIn()
-    fun getName():String
-    fun getEmail():String
-    fun getGender():String
+    fun getName(): String
+    fun getEmail(): String
+    fun getGender(): String
     fun showProgressBar()
     fun hideProgressBar()
     fun getCategory(): String
@@ -75,9 +78,9 @@ interface RegistrationCommunicator {
 
 
     fun setItemClick(position: Int)
-    fun getItemClick():Int
-    fun showEditDialog(item : AddExpModel)
+    fun getItemClick(): Int
+    fun showEditDialog(item: AddExpModel)
 
-    fun getCategoryId():String
+    fun getCategoryId(): String
 
 }

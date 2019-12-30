@@ -73,7 +73,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
         suggestiveSearchET?.easyOnTextChangedListener { e: CharSequence ->
             if (TextUtils.isEmpty(e)) {
-                Log.d("susu", "susu")
+                //Log.d("susu", "susu")
                 suggestiveSearchET.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 if (from == key_categoryET || from == key_special_categoryET || from == key_industryET) {
                     filterRV.show()

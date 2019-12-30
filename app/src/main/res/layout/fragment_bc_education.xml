@@ -147,7 +147,6 @@
                app:layout_constraintTop_toBottomOf="@+id/bcEduDegreeTIL">
 
                <com.google.android.material.textfield.TextInputEditText
-                   android:visibility="gone"
                    android:id="@+id/bcEduBoardTIET"
                    android:importantForAutofill="noExcludeDescendants"
                    android:layout_width="match_parent"

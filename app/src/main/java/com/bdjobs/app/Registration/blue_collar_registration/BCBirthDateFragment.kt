@@ -46,14 +46,14 @@ class BCBirthDateFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("birthd", "onResumeCalled")
+        //Log.d("birthd", "onResumeCalled")
         if (!TextUtils.isEmpty(birthdate)) {
             bcBirthDateTIET?.setText(birthdate)
             bcAgeTIET?.text!!.clear()
             ageLimit = true
 
         } else if (!TextUtils.isEmpty(registrationCommunicator.bcGetAge())) {
-            Log.d("birthd", "age: " + registrationCommunicator.bcGetAge())
+            //Log.d("birthd", "age: " + registrationCommunicator.bcGetAge())
             age = Integer.parseInt(registrationCommunicator.bcGetAge())
             if (age >= 12) {
                 bcAgeTIET?.setText(age.toString())
@@ -69,19 +69,19 @@ class BCBirthDateFragment : Fragment() {
         bcBirthDateFAButton.setOnClickListener {
             if (!TextUtils.isEmpty(bcBirthDateTIET?.text.toString())) {
                 birthdate = bcBirthDateTIET?.text.toString()
-                Log.d("Test", " birthDtae ${birthdate}")
+                //Log.d("Test", " birthDtae ${birthdate}")
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 try {
                     val birthDateCal = sdf.parse(birthdate)
-                    Log.d("Test", " birthDate after parse $birthDateCal ")
+                    //Log.d("Test", " birthDate after parse $birthDateCal ")
                     val age = calculateAge(birthDateCal)
-                    Log.d("Test", " age in calculationn ${calculateAge(birthDateCal)} age ${age}")
+                    //Log.d("Test", " age in calculationn ${calculateAge(birthDateCal)} age ${age}")
 
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
                 age = 0
-                Log.d("Test", " age in birth condition ${age} ageLimit ${ageLimit}")
+                //Log.d("Test", " age in birth condition ${age} ageLimit ${ageLimit}")
 
             } else {
                 birthdate = ""
@@ -90,9 +90,9 @@ class BCBirthDateFragment : Fragment() {
                     age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
                 }
-                Log.d("Test", " age $age")
+                //Log.d("Test", " age $age")
                 ageLimit = age in 12..85
-                Log.d("Test", " ageLimit ${ageLimit} and age $age ")
+                //Log.d("Test", " ageLimit ${ageLimit} and age $age ")
             }
             if (TextUtils.isEmpty(bcBirthDateTIET?.text.toString()) && TextUtils.isEmpty(bcAgeTIET?.text.toString())) {
                 bcAgeTIL?.showError("জন্ম তারিখ অথবা বয়স যেকোনো একটির তথ্য দিন")
@@ -119,19 +119,19 @@ class BCBirthDateFragment : Fragment() {
 
                         date = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
                         bcAgeTIET.text!!.clear()
-                        Log.d("Test", " date default ${date} ")
+                        //Log.d("Test", " date default ${date} ")
                         bcBirthDateTIET.setText(date)
                         var ageTemp = 0
                         val sdf = SimpleDateFormat("dd/MM/yyyy")
                         try {
                             val birthDate = sdf.parse(date)
-                            Log.d("Test", " date after formate ${birthDate} ")
+                            //Log.d("Test", " date after formate ${birthDate} ")
                             ageTemp = calculateAge(birthDate)
                         } catch (e: ParseException) {
                             e.printStackTrace()
                         }
 
-                        Log.d("Test", " ageTemp ${ageTemp} ageLimit $ageLimit")
+                        //Log.d("Test", " ageTemp ${ageTemp} ageLimit $ageLimit")
                         val age = ageTemp
                         if (age in 12..85) {
                             ageLimit = true
@@ -146,7 +146,7 @@ class BCBirthDateFragment : Fragment() {
 
                         }
 
-                        Log.d("Test", " age in birth ${age} ageLimit $ageLimit")
+                        //Log.d("Test", " age in birth ${age} ageLimit $ageLimit")
 
                     }, mYear, mMonth, mDay)
 
@@ -203,12 +203,12 @@ class BCBirthDateFragment : Fragment() {
                     age = Integer.parseInt(bcAgeTIET?.text.toString())
                 } catch (e: Exception) {
                 }
-                Log.d("Test", " age in age ${age}")
+                //Log.d("Test", " age in age ${age}")
                 if (age in 12..85) {
-                    Log.d("Test", " true ")
+                    //Log.d("Test", " true ")
                     ageLimit = true
                 } else {
-                    Log.d("Test", " false ")
+                    //Log.d("Test", " false ")
                     ageLimit = false
                 }
                 if (ageLimit) {

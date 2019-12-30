@@ -104,7 +104,7 @@ class PreferredAreasEditFragment : Fragment() {
             addChip(ds.getCategoryNameByID(it?.id!!), "wc", acWCjobCat)
             acWCjobCat.isEnabled = idWCArr.size <= 3
             addAsString(it.id, idWCArr)
-            Log.d("prefs", "wc: $prefWcIds and $idWCArr")
+            //Log.d("prefs", "wc: $prefWcIds and $idWCArr")
             if (idWCArr.isNullOrEmpty()) tilWCjobCat.hideError() else tilWCjobCat.isErrorEnabled = true
         }
         bcjobCats?.forEach {
@@ -112,14 +112,14 @@ class PreferredAreasEditFragment : Fragment() {
             addChip(ds.getCategoryBanglaNameByID(it?.id!!), "bc", acBCJobCat)
             acBCJobCat.isEnabled = idBCArr.size <= 3
             addAsString(it.id, idBCArr)
-            Log.d("prefs", "bc: $prefBcIds and $idBCArr")
+            //Log.d("prefs", "bc: $prefBcIds and $idBCArr")
         }
         orgTypes?.forEach {
             //idOrgArr.clear()
             addChip(ds.getOrgNameByID(it?.id!!), "orgs", acOrgType)
             acOrgType.isEnabled = idOrgArr.size <= 12
             addAsString(it.id, idOrgArr)
-            Log.d("prefs", "org: $prefOrgIds and $idOrgArr")
+            //Log.d("prefs", "org: $prefOrgIds and $idOrgArr")
         }
 
         if (!inBD.isNullOrEmpty()) {
@@ -133,7 +133,7 @@ class PreferredAreasEditFragment : Fragment() {
                     anywhereinBD = true
                     changeBtnBackground(anywhereinBD)
                 }
-                Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
+                //Log.d("prefs", "inBD: $prefDistrictIds and $idInBDArr")
             }
         }
         outBD?.forEach {
@@ -142,14 +142,14 @@ class PreferredAreasEditFragment : Fragment() {
             acOutsideBD.isEnabled = idOutBDArr.size <= 10
             addAsString(it.id, idOutBDArr)
 
-            Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
+            //Log.d("prefs", "outBD: $prefCountryIds and $idOutBDArr")
         }
     }
 
     private fun addAsString(expID: String, idArr: ArrayList<String>) {
         if (!idArr.contains(expID)) {
             idArr.add(expID.trim())
-            Log.d("prefAreas", "test : $idArr")
+            //Log.d("prefAreas", "test : $idArr")
         }
     }
 
@@ -201,7 +201,7 @@ class PreferredAreasEditFragment : Fragment() {
                 if (idInBDArr.isEmpty() && idOutBDArr.isEmpty()) {
                     tilInsideBD.isErrorEnabled = true
                     tilInsideBD.error = "This field can not be empty"
-                    Log.d("valid1", "valid: $valid")
+                    //Log.d("valid1", "valid: $valid")
                     /*tilOutsideBD.isErrorEnabled = true
                         tilOutsideBD.error = "This field can not be empty"*/
                 }
@@ -212,25 +212,25 @@ class PreferredAreasEditFragment : Fragment() {
                     //tilBCJobCat.hideError()
                     tilBCJobCat.isErrorEnabled = true
                     tilBCJobCat.error = "This field can not be empty"
-                    Log.d("valid2", "valid: $valid")
+                    //Log.d("valid2", "valid: $valid")
                 }
                 if (idBCArr.isNotEmpty() || idWCArr.isNotEmpty()) {
                     valid += 1
                     tilBCJobCat.hideError()
                     tilWCjobCat.hideError()
-                    Log.d("valid3", "valid: $valid")
+                    //Log.d("valid3", "valid: $valid")
                 }
                 if (idInBDArr.isNotEmpty()) {
                     valid += 1
                     tilInsideBD.hideError()
-                    Log.d("valid4", "valid: $valid")
+                    //Log.d("valid4", "valid: $valid")
                 }
                 if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && idInBDArr.isNotEmpty()) {
                     valid += 1
                     tilWCjobCat.hideError()
                     tilBCJobCat.hideError()
                     tilInsideBD.hideError()
-                    Log.d("valid5", "valid: $valid")
+                    //Log.d("valid5", "valid: $valid")
                 }
 
                 if (idInBDArr.isEmpty() && !anywhereinBD) {
@@ -239,16 +239,16 @@ class PreferredAreasEditFragment : Fragment() {
                 }
 
                 if (valid >= 2) {
-                    Log.d("ppppppp", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid  ")
+                    //Log.d("ppppppp", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid  ")
                     updateData()
                 } else if ((idWCArr.isNotEmpty() || idBCArr.isNotEmpty()) && anywhereinBD) {
                     updateData()
-                    Log.d("ppppppp2", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
+                    //Log.d("ppppppp2", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
                 } else {
-                    Log.d("ppppppp3", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
+                    //Log.d("ppppppp3", "$idBCArr, // $idInBDArr // $anywhereinBD // $valid ")
                 }
 
-                Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
+                //Log.d("acWCjobCat", "wc: $prefWcIds// $prefBcIds// $prefOrgIds// $prefDistrictIds and $prefCountryIds")
             }
         }
 
@@ -280,7 +280,7 @@ class PreferredAreasEditFragment : Fragment() {
                         if (!idWCArr.contains(inputId)) {
                             addChip(ds.getCategoryNameByID(inputId), "wc", acWCjobCat)
                             addAsString(inputId, idWCArr)
-                            Log.d("acWCjobCat", "arr2: $idWCArr")
+                            //Log.d("acWCjobCat", "arr2: $idWCArr")
                         } else {
                             acWCjobCat.closeKeyboard(activity)
                             activity?.toast("Category already added")
@@ -315,7 +315,7 @@ class PreferredAreasEditFragment : Fragment() {
                         if (!idBCArr.contains(inputId)) {
                             addChip(ds.getCategoryBanglaNameByID(inputId), "bc", acBCJobCat)
                             addAsString(inputId, idBCArr)
-                            Log.d("acWCjobCat", "arr2: $idBCArr")
+                            //Log.d("acWCjobCat", "arr2: $idBCArr")
                         } else {
                             acBCJobCat.closeKeyboard(activity)
                             activity?.toast("ক্যাটাগরি ইতিমধ্যে যোগ করা হয়েছে")
@@ -350,7 +350,7 @@ class PreferredAreasEditFragment : Fragment() {
                         if (!idOrgArr.contains(inputId)) {
                             addChip(ds.getOrgNameByID(inputId), "orgs", acOrgType)
                             addAsString(inputId, idOrgArr)
-                            Log.d("acWCjobCat", "arr2: $idOrgArr")
+                            //Log.d("acWCjobCat", "arr2: $idOrgArr")
                         } else {
                             acOrgType.closeKeyboard(activity)
                             activity?.toast("Organization type already added")
@@ -395,7 +395,7 @@ class PreferredAreasEditFragment : Fragment() {
                             acInsideBD.requestFocus()
                             addChip(ds.getLocationNameByID(inputId).toString(), "in", acInsideBD)
                             addAsString(inputId.toString(), idInBDArr)
-                            Log.d("acWCjobCat", "arr2: $idInBDArr")
+                            //Log.d("acWCjobCat", "arr2: $idInBDArr")
                         } else {
                             acInsideBD.closeKeyboard(activity)
                             activity?.toast("District already added")
@@ -426,14 +426,14 @@ class PreferredAreasEditFragment : Fragment() {
                     //d("Selected : ${acList[position + 1]} and gotStr : ${acOutsideBD.text}")
                     val inputId = ds.getLocationIDByName(acOutsideBD.text.toString())
                     //idOutBDArr.add(inputId!!)
-                    //Log.d("acWCjobCat", "Countryarr2: idOutBDArr")
+                    ////Log.d("acWCjobCat", "Countryarr2: idOutBDArr")
                     if (idOutBDArr.size in 0..9) {
                         acOutsideBD.isEnabled = true
                         acOutsideBD.requestFocus()
                         if (!idOutBDArr.contains(inputId)) {
                             addChip(ds.getLocationNameByID(inputId).toString(), "out", acOutsideBD)
                             addAsString(inputId.toString(), idOutBDArr)
-                            Log.d("acWCjobCat", "arr2: $idOutBDArr")
+                            //Log.d("acWCjobCat", "arr2: $idOutBDArr")
                         } else {
                             acOutsideBD.closeKeyboard(activity)
                             activity?.toast("Country/Region already added")
@@ -489,7 +489,7 @@ class PreferredAreasEditFragment : Fragment() {
             }
             "in" -> {
                 maxItems = 15
-                Log.d("insideBD", "$idInBDArr")
+                //Log.d("insideBD", "$idInBDArr")
                 pref_locs_entry_chip_group
             }
             "out" -> {
@@ -527,7 +527,7 @@ class PreferredAreasEditFragment : Fragment() {
             entryChipGroup.removeView(chip)
             val check = chip.text.toString()/*.replace("'", "''")*/
             removeItem(check, tag)
-            Log.d("coxx22", "value: $check")
+            //Log.d("coxx22", "value: $check")
         }
         return chip
     }
@@ -576,7 +576,7 @@ class PreferredAreasEditFragment : Fragment() {
         activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePrefAreasData(session.userId, session.decodId, session.IsResumeUpdate,
                 prefWcIds, prefBcIds, prefDistrictIds, prefCountryIds, prefOrgIds)
-        Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
+        //Log.d("PrefAreas", "${TextUtils.join(",", idWCArr)} // [${TextUtils.join(",", idBCArr)}] ${TextUtils.join(",", idInBDArr)} // ${TextUtils.join(",", idOutBDArr)} // and check: // ${TextUtils.join(",", idOrgArr)}")
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 try {

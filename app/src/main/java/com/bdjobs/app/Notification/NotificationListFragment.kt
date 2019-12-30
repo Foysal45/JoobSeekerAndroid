@@ -34,10 +34,10 @@ import org.jetbrains.anko.uiThread
 
 class NotificationListFragment : Fragment() {
 //    override fun onUpdateNotification() {
-//        Log.d("rakib", "came in noti list")
+//        //Log.d("rakib", "came in noti list")
 //        doAsync {
 //            val noti = bdjobsDB.notificationDao().getSingleNotification()
-//            Log.d("rakib", "${noti.type + noti.id}")
+//            //Log.d("rakib", "${noti.type + noti.id}")
 //            uiThread {
 //                notificationListAdapter.addItem(noti)
 //                notificationListAdapter.notifyDataSetChanged()
@@ -76,7 +76,7 @@ class NotificationListFragment : Fragment() {
         //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
 
         showDataFromDB()
-        Log.d("rakib", "${notificationCommunicator.getPositionClicked()}")
+        //Log.d("rakib", "${notificationCommunicator.getPositionClicked()}")
 
     }
 

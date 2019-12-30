@@ -47,15 +47,15 @@ class AcademicInfoViewFragment : Fragment() {
         eduCB.setTitle(getString(R.string.title_academic))
         if (eduCB.getBackFrom() == "") {
             if (eduCB.getAcademicList() != null) setupRV(eduCB.getAcademicList()!!) // add message if needed in the else part
-            Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+            //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
         } else {
-            Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+            //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
             doWork()
         }
         fab_aca_add.setOnClickListener {
             eduCB.goToEditInfo("add")
         }
-        Log.d("acaFrag", "calling... ${eduCB.getClickStatus()}")
+        //Log.d("acaFrag", "calling... ${eduCB.getClickStatus()}")
     }
 
     private fun doWork() {

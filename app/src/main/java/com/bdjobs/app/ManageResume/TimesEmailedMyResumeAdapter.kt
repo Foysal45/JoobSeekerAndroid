@@ -202,7 +202,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
         /*     if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
                  holder?.itemView?.setOnClickListener {
-                     Log.d("mumu", "mumu ")
+                     //Log.d("mumu", "mumu ")
                      try {
                          val jobids = ArrayList<String>()
                          val lns = ArrayList<String>()
@@ -234,7 +234,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
                     holder?.itemView?.setOnClickListener {
-                        Log.d("mumu", "mumu ")
+                        //Log.d("mumu", "mumu ")
                         try {
                             val jobids = ArrayList<String>()
                             val lns = ArrayList<String>()
@@ -260,7 +260,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
                     holder?.itemView?.setOnClickListener {
-                        Log.d("mumu", "mumu ")
+                        //Log.d("mumu", "mumu ")
                         try {
                             val jobids = ArrayList<String>()
                             val lns = ArrayList<String>()

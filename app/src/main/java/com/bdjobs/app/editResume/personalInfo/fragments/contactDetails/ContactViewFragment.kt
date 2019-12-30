@@ -158,7 +158,7 @@ class ContactViewFragment : Fragment() {
         if (c1 != "")
             sb1.append(c1+"\n")
 
-        Log.d("rakib", "${info?.mobile} ${info?.officePhone} ${info?.homePhone}")
+        //Log.d("rakib", "${info?.mobile} ${info?.officePhone} ${info?.homePhone}")
 
         tvMobileNo.text = sb1
     }

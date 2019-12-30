@@ -109,7 +109,7 @@ class EmpHistoryEditFragment : Fragment() {
                 logException(e)
             }
         }*/
-        //Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
+        ////Log.d("dsgjdhsg", "companyBusinessID $companyBusinessID")
         //exps = ""
         positionTIL.clearFocus()
         companyNameET.requestFocus()
@@ -210,7 +210,7 @@ class EmpHistoryEditFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("onDestroyView", "onDestroyView called")
+        //Log.d("onDestroyView", "onDestroyView called")
     }
 
     private fun doWork() {
@@ -376,7 +376,7 @@ class EmpHistoryEditFragment : Fragment() {
             validation = isValidateAutoCompleteTV(experiencesMACTV, experiencesTIL, companyNameET, idArr.isEmpty(), validation)
             if (!cb_present.isChecked) validation = isValidate(et_end_date, endDateTIL, et_end_date, true, validation)
             //validation = isValidate(estartDateET, estartDateTIL, estartDateET, true, validation) // area of experiences
-            Log.d("validation", "validation : $validation and isEmpty")
+            //Log.d("validation", "validation : $validation and isEmpty")
 
             if (companyBusinessACTV.getString().trim().isEmpty())
                 companyBusinessTIL.isErrorEnabled = true
@@ -419,7 +419,7 @@ class EmpHistoryEditFragment : Fragment() {
             activity?.showProgressBar(loadingProgressBar)
             val exps = TextUtils.join(",", idArr)
 
-            Log.d("*+*+allValuesExp", exps.toString())
+            //Log.d("*+*+allValuesExp", exps.toString())
             //companyBusinessID = dataStorage.getOrgIDByOrgName(companyBusinessACTV.getString())
             val call = ApiServiceMyBdjobs.create().updateExpsList(session.userId, session.decodId, companyNameET.getString(),
                     companyBusinessACTV.getString(), companyLocationET.getString(), positionET.getString(),

@@ -99,7 +99,7 @@ class MyBdjobsFragment : Fragment() {
     }
 
     private fun getCountData() {
-        Log.d("\nmybdjobsCountTest","mybdjobscount_jobs_applied_lastmonth: ${session.mybdjobscount_jobs_applied_lastmonth}\n" +
+        /*Log.d("\nmybdjobsCountTest","mybdjobscount_jobs_applied_lastmonth: ${session.mybdjobscount_jobs_applied_lastmonth}\n" +
                 "mybdjobscount_times_emailed_resume_lastmonth: ${session.mybdjobscount_times_emailed_resume_lastmonth}\n" +
                 "mybdjobscount_employers_viwed_resume_lastmonth: ${session.mybdjobscount_employers_viwed_resume_lastmonth}\n" +
                 "mybdjobscount_employers_followed_lastmonth: ${session.mybdjobscount_employers_followed_lastmonth}\n" +
@@ -112,7 +112,7 @@ class MyBdjobsFragment : Fragment() {
                 "mybdjobscount_employers_followed_alltime: ${session.mybdjobscount_employers_followed_alltime}\n" +
                 "mybdjobscount_interview_invitation_lastmonth: ${session.mybdjobscount_interview_invitation_alltime}\n" +
                 "mybdjobscount_message_by_employers_alltime: ${session.mybdjobscount_message_by_employers_alltime}\n"
-        )
+        )*/
     }
 
     private fun initializeViews() {
@@ -120,7 +120,7 @@ class MyBdjobsFragment : Fragment() {
         myBdjobsgridView_RV?.adapter = mybdjobsAdapter
         myBdjobsgridView_RV?.setHasFixedSize(true)
         myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
-        Log.d("initPag", "called")
+        //Log.d("initPag", "called")
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         populateDataModel()
     }
@@ -174,7 +174,7 @@ class MyBdjobsFragment : Fragment() {
             communicator.showManageResumePopup()
         }
 
-        Log.d("sagor", "sagor= " + Constants.myBdjobsStatsLastMonth)
+        //Log.d("sagor", "sagor= " + Constants.myBdjobsStatsLastMonth)
         if (Constants.myBdjobsStatsLastMonth) {
             lastmonth_MBTN?.performClick()
         } else if (!Constants.myBdjobsStatsLastMonth) {
@@ -187,7 +187,7 @@ class MyBdjobsFragment : Fragment() {
             for ((index, value) in lastMonthStatsData!!.withIndex()) {
                 if (index < (lastMonthStatsData?.size!! - 1)) {
                     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
-                    Log.d("vvuu", "${bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
+                    //Log.d("vvuu", "${bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
                 }
             }
             mybdjobsAdapter?.addAll(bdjobsList)
@@ -260,7 +260,7 @@ class MyBdjobsFragment : Fragment() {
                         }
                     }
 
-                    // Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
+                    // //Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -270,7 +270,7 @@ class MyBdjobsFragment : Fragment() {
     }
 
     fun updateNotificationView(count: Int?) {
-        Log.d("rakib", "in mybdjobs fragment $count")
+        //Log.d("rakib", "in mybdjobs fragment $count")
         if (count!! > 0) {
             notificationCountTV?.show()
             if (count <= 99)
