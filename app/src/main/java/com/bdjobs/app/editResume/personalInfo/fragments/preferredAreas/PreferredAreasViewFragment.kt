@@ -67,7 +67,7 @@ class PreferredAreasViewFragment : Fragment() {
 
 
     private fun populateData() {
-        Log.d("rakib", "came here")
+        //Log.d("rakib", "came here")
         clPrefAreaView.hide()
         val call = ApiServiceMyBdjobs.create().getPreferredAreaInfo(session.userId, session.decodId)
         call.enqueue(object : Callback<GetPreferredAreas> {
@@ -98,14 +98,14 @@ class PreferredAreasViewFragment : Fragment() {
     }
 
     private fun setupView(data: PreferredAreasData) {
-        Log.d("rakib", "came here testing")
+        //Log.d("rakib", "came here testing")
         val preferredJobCategories = data.preferredJobCategories
         val preferredBlueCategories = data.preferredBlueCategories
         val preferredOrgTypes = data.preferredOrganizationType
         val preferredInsideBDLocs = data.inside
         val preferredOutsideBDLocs = data.outside
         //for ((i, value) in areaOfexps?.withIndex()!!)
-        Log.d("rakib", "Preffered job categories ${preferredJobCategories!!.size}")
+        //Log.d("rakib", "Preffered job categories ${preferredJobCategories!!.size}")
         removeChips(cg_functional_pref)
         preferredJobCategories?.forEach {
             addChip(it?.prefCatName!!, cg_functional_pref)
@@ -138,13 +138,13 @@ class PreferredAreasViewFragment : Fragment() {
         try {
             if (preferredOutsideBDLocs != null) {
                 if (preferredOutsideBDLocs!!.isNotEmpty()) {
-                    Log.d("rakib", "preferred area if")
+                    //Log.d("rakib", "preferred area if")
                     textView51.show()
                     preferredOutsideBDLocs.forEach {
                         addChip(it?.countryName!!, cg_org_pref_out_locs)
                     }
                 } else {
-                    Log.d("rakib", "preferred area else")
+                    //Log.d("rakib", "preferred area else")
                     textView51.hide()
                 }
             }

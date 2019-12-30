@@ -36,7 +36,7 @@ class SocialRVadapter(private val items: List<SocialLoginAccountListData?>?, val
         holder?.nameTV?.text = items?.get(position)?.fullName
         holder?.emailTV?.text = items?.get(position)?.email
 
-        Log.d("CheckPhotoUrl", "Url: ${items?.get(position)?.photo} ")
+        //Log.d("CheckPhotoUrl", "Url: ${items?.get(position)?.photo} ")
 
         val photoUrl = base_url_mybdjobs_photo + items?.get(position)?.photo
         holder?.profilePicIMGV?.loadCircularImageFromUrl(photoUrl)

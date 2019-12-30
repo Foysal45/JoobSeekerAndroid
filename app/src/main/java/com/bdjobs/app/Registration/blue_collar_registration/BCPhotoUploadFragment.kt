@@ -97,12 +97,12 @@ class BCPhotoUploadFragment : Fragment() {
                 registrationCommunicator.showProgressBar()
                 ApiServiceMyBdjobs.create().getPhotoInfo(registrationCommunicator.getUserId(), registrationCommunicator.getDecodeId()).enqueue(object : Callback<PhotoInfoModel> {
                     override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-                        Log.d("PhotoUpload", " onFailure ${t.message}")
+                        //Log.d("PhotoUpload", " onFailure ${t.message}")
                     }
                     override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
                         try {
-                            Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
-                            Log.d("PhotoUpload", " response ${response.body()!!.message}")
+                            //Log.d("PhotoUpload", " response ${response.body()!!.statuscode}")
+                            //Log.d("PhotoUpload", " response ${response.body()!!.message}")
                             if (response.body()?.statuscode.equals("0", true)) {
 
                                 userId = response.body()?.data?.get(0)?.userId
@@ -168,11 +168,11 @@ class BCPhotoUploadFragment : Fragment() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
                 try {
                     val response = String(responseBody)
-                    Log.d("dgdsgdghj", " response ${response}")
+                    //Log.d("dgdsgdghj", " response ${response}")
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
                     val photoUrl = photoUploadModel.data?.get(0)?.path
-                    Log.d("dgdsgdghj", " $photoUrl")
+                    //Log.d("dgdsgdghj", " $photoUrl")
                     val bdjobsUserSession = BdjobsUserSession(activity)
                     bdjobsUserSession.updateUserPicUrl(photoUrl?.trim().toString())
                     registrationCommunicator.hideProgressBar()
@@ -210,12 +210,12 @@ class BCPhotoUploadFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        Log.d("dfgh", "  onActivityResult called")
+        //Log.d("dfgh", "  onActivityResult called")
 
         try {
             if (resultCode != Activity.RESULT_CANCELED) {
 
-                /*  Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")*/
+                /*  //Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")*/
                 if (requestCode == REQ_SELECT_IMAGE && resultCode == Activity.RESULT_OK && resultData != null) {
                     var fileUri: Uri? = null
                     val selectedImageUri = resultData.data
@@ -253,28 +253,28 @@ class BCPhotoUploadFragment : Fragment() {
                     }
 
                     ////////////////////////////////////////////
-                    Log.d("dfgh", "  1 condition")
-                    Log.d("dfgh", "Uri: " + fileUri!!.toString())
-                    Log.d("PhotoUpload", "Uri: " + fileUri.toString())
+                    //Log.d("dfgh", "  1 condition")
+                    //Log.d("dfgh", "Uri: " + fileUri!!.toString())
+                    //Log.d("PhotoUpload", "Uri: " + fileUri.toString())
                     val myDirectory = File("/sdcard/BDJOBS")
                     if (!myDirectory.exists()) {
                         myDirectory.mkdirs()
                     }
                     val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-                    Log.d("dfgh", "  2 condition")
+                    //Log.d("dfgh", "  2 condition")
                     if (file.exists()) {
                         val deleted = file.delete()
                     }
                     val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-                    UCrop.of(fileUri, destinationUri).withAspectRatio(9f, 10f).start(activity)
+                    UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(activity)
                 }
 
-                Log.d("dfgh", " resultCode $resultCode RESULT_OK $RESULT_OK " +
-                        "requestCode $requestCode  UCrop.REQUEST_CROP ${UCrop.REQUEST_CROP} resultData $resultData ")
+                /*Log.d("dfgh", " resultCode $resultCode RESULT_OK $RESULT_OK " +
+                        "requestCode $requestCode  UCrop.REQUEST_CROP ${UCrop.REQUEST_CROP} resultData $resultData ")*/
 
                 if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && resultData != null) {
 
-                    Log.d("dfgh", "  3 Crop condition")
+                    //Log.d("dfgh", "  3 Crop condition")
 
                     val resultUri = UCrop.getOutput(resultData)
                     val tempURI = Uri.fromFile(File("/sdcard/"))
@@ -312,10 +312,10 @@ class BCPhotoUploadFragment : Fragment() {
 
                 } else if (resultCode == UCrop.RESULT_ERROR) {
 
-                    Log.d("ImageUpload", "")
+                    //Log.d("ImageUpload", "")
 
                     val cropError = UCrop.getError(resultData!!)
-                    Log.d("ImageUpload", " cropError $cropError")
+                    //Log.d("ImageUpload", " cropError $cropError")
                 }
 
                 if (requestCode == REQ_CAMERA_IMAGE && resultCode == Activity.RESULT_OK) {
@@ -350,7 +350,7 @@ class BCPhotoUploadFragment : Fragment() {
         if (imageCursor.moveToFirst()) {
             val id = imageCursor.getInt(imageCursor.getColumnIndex(MediaStore.Images.Media._ID))
             val fullPath = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA))
-            Log.d("Path", fullPath)
+            //Log.d("Path", fullPath)
             return fullPath
         } else {
             return ""
@@ -436,7 +436,7 @@ class BCPhotoUploadFragment : Fragment() {
             path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "bdJobsProfilePic", null)
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.d("PhotoInvalid", "getImageUri: " + e.message)
+            //Log.d("PhotoInvalid", "getImageUri: " + e.message)
             Toast.makeText(inContext, "Invalid Image has been selected!", Toast.LENGTH_SHORT).show()
         }
 

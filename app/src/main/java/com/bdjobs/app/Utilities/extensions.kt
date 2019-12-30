@@ -106,14 +106,14 @@ fun Context.isBlueCollarUser(): Boolean {
             val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
             for (i in aList.indices) {
                 println(" -->" + aList[i])
-                Log.d("ListOutput", "ListOutput " + aList[i])
+                //Log.d("ListOutput", "ListOutput " + aList[i])
                 if (!TextUtils.isEmpty(aList[i].toString().trim { it <= ' ' })) {
                     val temCat = Integer.parseInt(aList[i].toString().trim { it <= ' ' })
-                    Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
+                    //Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
                     if (temCat > 59) {
-                        Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
+                        //Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
                         isBlueCollar = true
-                        Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
+                        //Log.d("isBlueCollar", "isBlueCollar value $isBlueCollar")
                         break
                     }
                 }
@@ -135,11 +135,11 @@ fun Context.getBlueCollarUserId(): Int {
             val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
             for (i in aList.indices) {
                 println(" -->" + aList[i])
-                Log.d("ListOutput", "ListOutput " + aList[i])
+                //Log.d("ListOutput", "ListOutput " + aList[i])
                 if (!TextUtils.isEmpty(aList[i].toString().trim { it <= ' ' })) {
 
                     val temCat = Integer.parseInt(aList[i].toString().trim { it <= ' ' })
-                    Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
+                    //Log.d("isBlueCollar", "isBlueCollar temCat $temCat")
                     if (temCat > 59) {
                         blueCollarId = temCat
                         break
@@ -190,7 +190,7 @@ fun String.countCommas(): Int {
         if (it == someChar)
             count++
     }
-    Log.d("CommaCount", "count: $count")
+    //Log.d("CommaCount", "count: $count")
     return count
 }
 
@@ -583,16 +583,16 @@ fun View.makeUnClickable() {
 }
 
 fun Any.debug(message: String) {
-    Log.d(this::class.java.simpleName, message)
+    //Log.d(this::class.java.simpleName, message)
     Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message)
 }
 
 fun Any.d(message: String) {
-    Log.d("+++" + this::class.java.simpleName, message)
+    //Log.d("+++" + this::class.java.simpleName, message)
 }
 
 fun Any.debug(message: String, tr: Throwable) {
-    Log.d(this::class.java.simpleName, message, tr)
+    //Log.d(this::class.java.simpleName, message, tr)
 }
 
 

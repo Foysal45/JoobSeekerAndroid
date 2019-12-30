@@ -21,7 +21,7 @@ class ExpectedSalaryWorker(val appContext: Context, workerParams: WorkerParamete
 
         if (jobid!!.isNotEmpty()) {
             // updateExpectedSalary(jobID, expectedSalary, userID, decodeID)
-            /*Log.d("werywirye1", "Hello: $jobID - $expectedSalary - $userID - $expectedSalary ")
+            /*//Log.d("werywirye1", "Hello: $jobID - $expectedSalary - $userID - $expectedSalary ")
             return Result.SUCCESS*/
 
 

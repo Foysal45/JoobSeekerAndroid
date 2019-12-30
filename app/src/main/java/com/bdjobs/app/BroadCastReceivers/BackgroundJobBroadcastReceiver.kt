@@ -12,12 +12,12 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
         val action = intent?.action
         if (BROADCAST_DATABASE_UPDATE_JOB == action) {
 
-            Log.d("rakib", "Broadcast $action")
+            //Log.d("rakib", "Broadcast $action")
 
             val job = intent?.getStringExtra("job")
             val notification = intent?.getStringExtra("notification")
 
-            Log.d("rakib", "Broadcast $job $notification")
+            //Log.d("rakib", "Broadcast $job $notification")
 
 
             if (backgroundJobListener != null) {
@@ -40,7 +40,7 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
 
             if (notificationUpdateListener != null){
                 if (notification == "insertOrUpdateNotification"){
-                    Log.d("rakib", "inside broadcast")
+                    //Log.d("rakib", "inside broadcast")
                     notificationUpdateListener!!.onUpdateNotification()
                 }
 

@@ -45,82 +45,82 @@ class SpecializationViewAdapter(private val context: Activity, private val items
         holder.experienceValueTV.text = items?.get(position)?.skillName
         holder.workExperienceTV.text = "skill - ${position+1}"
         /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
-     /*   Log.d("uhiuhiu", "workExp ${items?.get(position)?.workExp}")
-        Log.d("fdhbjh", "position $position")*/
-       /* Log.d("uhiuhiu", "skillBy ${items?.get(position)?.skillBy}")
-        Log.d("uhiuhiu", "NTVQF ${items?.get(position)?.ntvqfLevel}")*/
+     /*   //Log.d("uhiuhiu", "workExp ${items?.get(position)?.workExp}")
+        //Log.d("fdhbjh", "position $position")*/
+       /* //Log.d("uhiuhiu", "skillBy ${items?.get(position)?.skillBy}")
+        //Log.d("uhiuhiu", "NTVQF ${items?.get(position)?.ntvqfLevel}")*/
 
 
         val animalList = asList(items?.get(position)?.skillBy!!.replace(", ", ",").split(","))
 
         animalList.forEachIndexed { index, t ->
 
-            Log.d("uhiuhiu", "index $index t $t")
+            //Log.d("uhiuhiu", "index $index t $t")
             for (s in t) {
 
-                Log.d("uhiuhiu", "s $s")
+                //Log.d("uhiuhiu", "s $s")
 
                 when (s) {
                     "1" -> {
-                        Log.d("uhiuhiu", " in 1")
+                        //Log.d("uhiuhiu", " in 1")
                         holder.filter_chip1.text = "Self"
                         holder.filter_chip1.show()
                     }
                     "2" -> {
-                        Log.d("uhiuhiu", " in 2")
+                        //Log.d("uhiuhiu", " in 2")
                         holder.filter_chip3.text = "job"
                         holder.filter_chip3.show()
 
                     }
                     "3" -> {
-                        Log.d("uhiuhiu", " in 3")
+                        //Log.d("uhiuhiu", " in 3")
                         holder.filter_chip2.text = "Educational"
                         holder.filter_chip2.show()
 
                     }
                     "4" -> {
-                        Log.d("uhiuhiu", " in 4")
+                        //Log.d("uhiuhiu", " in 4")
                         holder.filter_chip4.text = "Professional Training"
                         holder.filter_chip4.show()
                     }
                     "5" -> {
-                        Log.d("uhiuhiu", " in 5")
+                        //Log.d("uhiuhiu", " in 5")
 
                         holder.filter_chip5.show()
                         when (items?.get(position)?.ntvqfLevel) {
                             "1" -> {
-                                Log.d("uhiuhiu", " in 1")
+                                //Log.d("uhiuhiu", " in 1")
                                 holder.filter_chip5.text = "NTVQF:Pre-Voc Level 1"
                             }
                             "2" -> {
-                                Log.d("uhiuhiu", " in 2")
+                                //Log.d("uhiuhiu", " in 2")
                                 holder.filter_chip5.text = "NTVQF:Pre-Voc Level 2"
                             }
                             "3" -> {
-                                Log.d("uhiuhiu", " in 3")
+                                //Log.d("uhiuhiu", " in 3")
                                 holder.filter_chip5.text = "NTVQF:NTVQF Level 1"
                             }
                             "4" -> {
-                                Log.d("uhiuhiu", " in 4")
+                                //Log.d("uhiuhiu", " in 4")
                                 holder.filter_chip5.text = "NTVQF:NTVQF Level 2"
                             }
                             "5" -> {
-                                Log.d("uhiuhiu", " in 5")
+                                //Log.d("uhiuhiu", " in 5")
 
 
                                 holder.filter_chip5.text = "NTVQF:NTVQF Level 3"
 
                             }
                             "6" -> {
-                                Log.d("uhiuhiu", " in 4")
+                                //Log.d("uhiuhiu", " in 4")
                                 holder.filter_chip5.text = "NTVQF:NTVQF Level 4"
                             }
                             "7" -> {
-                                Log.d("uhiuhiu", " in 5")
+                                //Log.d("uhiuhiu", " in 5")
                                 holder.filter_chip5.text = "NTVQF:NTVQF Level 5"
                             }
                             "8" -> {
-                                Log.d("uhiuhiu", " in 5")
+                                //Log.d("uhiuhiu", " in 5")
                                 holder.filter_chip5.text = "NTVQF:NTVQF Level 6"
                             }
 

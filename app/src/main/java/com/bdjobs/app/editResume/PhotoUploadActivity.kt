@@ -97,7 +97,7 @@ class PhotoUploadActivity : Activity() {
         progressDialog = ProgressDialog(this@PhotoUploadActivity)
         if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
             editResPhotoUploadImageView.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
-            Log.d("dgdsgdghjOnRes", "Session url ${bdjobsUserSession.userPicUrl}")
+            //Log.d("dgdsgdghjOnRes", "Session url ${bdjobsUserSession.userPicUrl}")
             noPhotoTV?.text = "You can change or delete your photo"
             photoInfoTV?.hide()
             editResPhotoUploadButton?.hide()
@@ -152,16 +152,16 @@ class PhotoUploadActivity : Activity() {
                 try {
                     val response = String(responseBody)
 
-                    Log.d("dgdsgdghj", " response ${response}")
+                    //Log.d("dgdsgdghj", " response ${response}")
 
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
                     val photoUrl = photoUploadModel.data?.get(0)?.path
-                    Log.d("dgdsgdghj", photoUrl)
+                    //Log.d("dgdsgdghj", photoUrl)
 
                     bdjobsUserSession.updateUserPicUrl(photoUrl?.trim().toString())
 
-                    Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
+                    //Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
                     noPhotoTV?.text = "You can change or delete your photo"
                     photoInfoTV?.hide()
                     editResPhotoUploadButton?.hide()
@@ -210,9 +210,9 @@ class PhotoUploadActivity : Activity() {
 
             override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
                 try {
-                    Log.d("PhotoUpload", " response message ${response.body()!!}")
-                    Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
-                    Log.d("PhotoUpload", " response message ${response.body()!!.message}")
+                    //Log.d("PhotoUpload", " response message ${response.body()!!}")
+                    //Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
+                    //Log.d("PhotoUpload", " response message ${response.body()!!.message}")
 
 
                     if (response.body()!!.statuscode.equals("0", true)) {
@@ -258,7 +258,7 @@ class PhotoUploadActivity : Activity() {
                         override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
 
                             try {
-                                Log.d("dgdsgdghj", "getPhotoInfo response ${response.body()!!} ")
+                                //Log.d("dgdsgdghj", "getPhotoInfo response ${response.body()!!} ")
 
                                 if (response.body()!!.statuscode.equals("0", true)) {
 
@@ -319,10 +319,10 @@ class PhotoUploadActivity : Activity() {
                 try {
                     val response = String(responseBody)
 
-                    Log.d("Deltete", " response ${response}")
+                    //Log.d("Deltete", " response ${response}")
 
 
-                    Log.d("rakib", "photo deleted")
+                    //Log.d("rakib", "photo deleted")
 
                     val gson = Gson()
                     val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
@@ -340,7 +340,7 @@ class PhotoUploadActivity : Activity() {
                     PicassoTools().clearCache(Picasso.get())
                     toast(photoUploadModel.message.toString())
 
-                    Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
+                    //Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -436,7 +436,7 @@ class PhotoUploadActivity : Activity() {
         if (imageCursor.moveToFirst()) {
             val id = imageCursor.getInt(imageCursor.getColumnIndex(MediaStore.Images.Media._ID))
             val fullPath = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA))
-            Log.d("Path", fullPath)
+            //Log.d("Path", fullPath)
             return fullPath
         } else {
             return ""
@@ -446,7 +446,7 @@ class PhotoUploadActivity : Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
+        //Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
 
         try {
             if (resultCode != RESULT_CANCELED) {
@@ -469,7 +469,7 @@ class PhotoUploadActivity : Activity() {
 
 //                                bitmap = BitmapFactory.decodeStream(`is`)
 
-                                Log.d("rakib", "${BitmapCompat.getAllocationByteCount(bitmap!!)}")
+                                //Log.d("rakib", "${BitmapCompat.getAllocationByteCount(bitmap!!)}")
 
                                 if (bitmap != null) {
                                     val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
@@ -508,8 +508,8 @@ class PhotoUploadActivity : Activity() {
                     }
                 }
 
-                Log.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
-                        "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)
+                /*og.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
+                        "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)*/
 
                 if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
                     resultUri = UCrop.getOutput(data)!!
@@ -644,7 +644,7 @@ class PhotoUploadActivity : Activity() {
             path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "bdJobsProfilePic", null)
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.d("PhotoInvalid", "getImageUri: " + e.message)
+            //Log.d("PhotoInvalid", "getImageUri: " + e.message)
             Toast.makeText(inContext, "Invalid Image has been selected!", Toast.LENGTH_SHORT).show()
 
         }

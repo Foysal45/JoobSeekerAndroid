@@ -27,14 +27,14 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
 
         holder.experienceValueTV.text = items?.get(position)?.workExp
         holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"
-        Log.d("uhiuhiu", "workExp ${items?.get(position)?.workExp}")
-        Log.d("fdhbjh", "position $position")
-        Log.d("fdhbjh", "expSource ${items?.get(position)?.expSource}")
-        Log.d("uhiuhiu", "NTVQF ${items?.get(position)?.NTVQF}")
+        //Log.d("uhiuhiu", "workExp ${items?.get(position)?.workExp}")
+        //Log.d("fdhbjh", "position $position")
+        //Log.d("fdhbjh", "expSource ${items?.get(position)?.expSource}")
+        //Log.d("uhiuhiu", "NTVQF ${items?.get(position)?.NTVQF}")
 
         val list = items?.get(position)?.expSource!!
         list.forEachIndexed { index, s ->
-            Log.d("expTest", "exp: $s")
+            //Log.d("expTest", "exp: $s")
             when (s) {
                 "1" -> {
                     holder.filter_chip1.text = "নিজেই"

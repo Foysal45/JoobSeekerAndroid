@@ -46,7 +46,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("rakib", "onCreateView $i++")
+        //Log.d("rakib", "onCreateView $i++")
         return inflater.inflate(R.layout.invite_code_owner_balance_fragment, container, false)
     }
 
@@ -60,7 +60,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("rakib", "onCreate $i++")
+        //Log.d("rakib", "onCreate $i++")
         super.onCreate(savedInstanceState)
 
     }
@@ -88,7 +88,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
     }
 
     override fun onResume() {
-        Log.d("rakib", "onResumed $i++")
+        //Log.d("rakib", "onResumed $i++")
         super.onResume()
         mapView?.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this
@@ -105,7 +105,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
         bdjobsUserSession = BdjobsUserSession(activity!!)
         inviteCodeCommunicator = activity as InviteCodeCommunicator
 
-        Log.d("rakib", "onActivityCreated $i++")
+        //Log.d("rakib", "onActivityCreated $i++")
 
         //doWork()
 
@@ -142,9 +142,9 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
                                 val isExists = response.body()!!.data[0].isExist
                                  paymentType = response.body()!!.data[0].paymentType
                                  accountNumber = response.body()!!.data[0].accountNo
-                                Log.d("paymentType", "paymentType = $paymentType")
+                                //Log.d("paymentType", "paymentType = $paymentType")
 
-                                Log.d("isExists", isExists)
+                                //Log.d("isExists", isExists)
 
                                 if (isExists.equals("0", ignoreCase = true)) {
                                     moneyWithdrawRL.visibility = View.VISIBLE
@@ -158,7 +158,7 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
                                 }
 
 
-                                Log.d("paymentType", "paymentType = $paymentType")
+                                //Log.d("paymentType", "paymentType = $paymentType")
                                 if (paymentType != null && !paymentType.isEmpty()) {
 
                                     if (paymentType.equals("1", ignoreCase = true)) {
@@ -223,10 +223,10 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
 
-        Log.d("rakib", "onNetworkChanged $i++")
+        //Log.d("rakib", "onNetworkChanged $i++")
 
         connectionStatus = isConnected
-        Log.d("rakib", "connection $isConnected")
+        //Log.d("rakib", "connection $isConnected")
 
         doWork()
 

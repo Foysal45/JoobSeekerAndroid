@@ -43,7 +43,7 @@ class LanguageAdapter(arr: java.util.ArrayList<LanguageDataModel>, val context: 
         }
 
         /* holder.imageViewExpand!!.setOnClickListener {
-             Log.d("click", "clicked success")
+             //Log.d("click", "clicked success")
              toggleDetails(holder)
          }
          holder.moreActionDetails?.visibility = View.GONE*/

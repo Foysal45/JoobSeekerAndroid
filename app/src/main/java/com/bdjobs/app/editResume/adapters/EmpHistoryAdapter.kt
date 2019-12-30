@@ -54,8 +54,8 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
 
         holder.tvDept?.text = dModel.departmant
 
-        Log.d("dsgjdhsg", "in adpater companyBusiness ${dataStorage.getOrgNameByID(dModel.companyBusiness!!)}")
-        Log.d("dsgjdhsg", "in adpater companyBusiness ID ${dModel.companyBusiness} ")
+        //Log.d("dsgjdhsg", "in adpater companyBusiness ${dataStorage.getOrgNameByID(dModel.companyBusiness!!)}")
+        //Log.d("dsgjdhsg", "in adpater companyBusiness ID ${dModel.companyBusiness} ")
 
         holder.tvComBus?.text = dModel.companyBusiness
         val areaOfExp = dModel.areaofExperience
@@ -87,7 +87,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         }
 
         holder.imageViewExpand!!.setOnClickListener {
-            Log.d("click", "clicked success")
+            //Log.d("click", "clicked success")
             toggleDetails(holder)
         }
         holder.moreActionDetails?.visibility = View.GONE

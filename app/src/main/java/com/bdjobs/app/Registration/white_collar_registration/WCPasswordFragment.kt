@@ -95,7 +95,7 @@ class WCPasswordFragment : Fragment() {
     private fun setUserId(){
 
         if (TextUtils.isEmpty(registrationCommunicator.wcGetEmail())){
-            Log.d("ConditionCheck","1 Condition")
+            //Log.d("ConditionCheck","1 Condition")
             email_button.text = "Email Address"
             email_button.isEnabled = false
             phone_button.text = registrationCommunicator.wcGetMobileNumber()
@@ -108,7 +108,7 @@ class WCPasswordFragment : Fragment() {
 
         } else if (TextUtils.isEmpty(registrationCommunicator.wcGetMobileNumber())){
 
-            Log.d("ConditionCheck","2 Condition")
+            //Log.d("ConditionCheck","2 Condition")
             phone_button.text = "Mobile Number"
             phone_button.isEnabled = false
             email_button.text = registrationCommunicator.wcGetEmail()
@@ -121,7 +121,7 @@ class WCPasswordFragment : Fragment() {
 
         } else {
 
-            Log.d("ConditionCheck","3 Condition")
+            //Log.d("ConditionCheck","3 Condition")
             email_button.text = registrationCommunicator.wcGetEmail()
             phone_button.text = registrationCommunicator.wcGetMobileNumber()
             email_button.iconTint = resources.getColorStateList(R.color.colorWhite)
@@ -139,7 +139,7 @@ class WCPasswordFragment : Fragment() {
         super.onResume()
 
         if (TextUtils.isEmpty(registrationCommunicator.wcGetEmail())){
-            Log.d("ConditionCheck","4 Condition")
+            //Log.d("ConditionCheck","4 Condition")
             email_button.text = "Email Address"
             email_button.isEnabled = false
             phone_button.text = registrationCommunicator.wcGetMobileNumber()
@@ -150,7 +150,7 @@ class WCPasswordFragment : Fragment() {
             email_button.setTextColor(resources.getColor(R.color.inactive_text_color))
             registrationCommunicator.wcUserNameTypeSelected("mobile")
         } else if (TextUtils.isEmpty(registrationCommunicator.wcGetMobileNumber())){
-            Log.d("ConditionCheck","5 Condition")
+            //Log.d("ConditionCheck","5 Condition")
             phone_button.text = "Mobile Number"
             phone_button.isEnabled = false
             email_button.text = registrationCommunicator.wcGetEmail()
@@ -161,7 +161,7 @@ class WCPasswordFragment : Fragment() {
             email_button.setTextColor(resources.getColor(R.color.colorWhite))
             registrationCommunicator.wcUserNameTypeSelected("email")
         } else {
-            Log.d("ConditionCheck","6 Condition")
+            //Log.d("ConditionCheck","6 Condition")
             email_button.text = registrationCommunicator.wcGetEmail()
             phone_button.text = registrationCommunicator.wcGetMobileNumber()
             email_button.iconTint = resources.getColorStateList(R.color.colorWhite)
@@ -196,8 +196,8 @@ class WCPasswordFragment : Fragment() {
         return true
     }
     private fun confirmPassValidityCheck(password: String): Boolean {
-        Log.d("sdjkgndsg", " pass $password confirmPass ${passwordTIET?.text}")
-        Log.d("sdjkgndsg", "comparision ${password.equals(passwordTIET?.text.toString(), true)}")
+        //Log.d("sdjkgndsg", " pass $password confirmPass ${passwordTIET?.text}")
+        //Log.d("sdjkgndsg", "comparision ${password.equals(passwordTIET?.text.toString(), true)}")
         when {
             TextUtils.isEmpty(password) -> {
                 confirmPassTIL?.showError(getString(R.string.field_empty_error_message_common))

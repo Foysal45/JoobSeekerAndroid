@@ -50,7 +50,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_employer_viewed_my_resume, container, false)
-        Log.d("called", "onCreateView")
+        //Log.d("called", "onCreateView")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,8 +59,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
         isActivityDate = employerCommunicator.getTime()
         if (isActivityDate == "")
             isActivityDate = "1"
-        Log.d("test", "test" + isActivityDate)
-        Log.d("called", "onActivityCreated")
+        //Log.d("test", "test" + isActivityDate)
+        //Log.d("called", "onActivityCreated")
 
         backIMV?.setOnClickListener {
             employerCommunicator.backButtonPressed()
@@ -77,33 +77,33 @@ class EmployerViewedMyResumeFragment : Fragment() {
 //        adView?.loadAd(adRequest)
 //        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
 
-        Log.d("called", "onResume")
+        //Log.d("called", "onResume")
 
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("called", "onPause")
+        //Log.d("called", "onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("called", "onStop")
+        //Log.d("called", "onStop")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("called", "onDestroyView")
+        //Log.d("called", "onDestroyView")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("called", "onDestroy")
+        //Log.d("called", "onDestroy")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("called", "onDetach")
+        //Log.d("called", "onDetach")
     }
 
 
@@ -113,7 +113,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         viewedMyResumeRV!!.adapter = employerViewedMyResumeAdapter
         viewedMyResumeRV!!.setHasFixedSize(true)
         viewedMyResumeRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        Log.d("initPag", "called")
+        //Log.d("initPag", "called")
         viewedMyResumeRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         viewedMyResumeRV?.addOnScrollListener(object : PaginationScrollListener((viewedMyResumeRV.layoutManager as LinearLayoutManager?)!!) {
             override val isLoading: Boolean
@@ -177,11 +177,11 @@ class EmployerViewedMyResumeFragment : Fragment() {
 //                userId=241028&decodeId=T8B8Rx&pageNumber=1&itemsPerPage=10&isActivityDate=&AppsDate=1&appId=1
 
                 override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
-                    Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
-                            "de-" + bdjobsUserSession.decodId!!)
+                    /*Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
+                            "de-" + bdjobsUserSession.decodId!!)*/
 
-                    Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
-                    Log.d("callAppliURl", "url: ${response.body()?.data}")
+                    //Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
+                    //Log.d("callAppliURl", "url: ${response.body()?.data}")
                     shimmer_view_container_employerViewedMyList?.hide()
                     shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
 
@@ -193,21 +193,21 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         if (!response?.body()?.data.isNullOrEmpty()) {
                             resumeViewNoDataLL?.hide()
                             viewedMyResumeRV?.show()
-                            //Log.d("oooooo", "url: ${response?.body()?.data} and ")
+                            ////Log.d("oooooo", "url: ${response?.body()?.data} and ")
 
                             val value = response.body()?.data
                             employerViewedMyResumeAdapter?.removeAll()
                             employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
 
                             if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                                Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                                //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
                                 employerViewedMyResumeAdapter?.addLoadingFooter()
                             } else {
-                                Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                                //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
                                 isLastPages = true
                             }
 
-                            Log.d("totalJobs", "totalRecords $totalRecords")
+                            //Log.d("totalJobs", "totalRecords $totalRecords")
 
 
 
@@ -226,7 +226,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                             resumeViewNoDataLL?.show()
                             viewedMyResumeRV?.hide()
-                            Log.d("totalJobs", "zero")
+                            //Log.d("totalJobs", "zero")
 
 
                         }
@@ -237,7 +237,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
 
                     } catch (exception: Exception) {
-                        Log.d("issue", exception.toString())
+                        //Log.d("issue", exception.toString())
 
                     }
                 }

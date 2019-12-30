@@ -107,7 +107,7 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
             holder.date.text = employerMessageList?.get(position)?.mailedOn
             holder.dateHeading.text = "Mailed on:"
 
-            Log.d("activity", appliedjobsActitivityLists?.toString())
+            //Log.d("activity", appliedjobsActitivityLists?.toString())
 
             holder.itemView.setOnClickListener {
                 try {

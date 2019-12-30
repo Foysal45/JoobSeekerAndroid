@@ -82,7 +82,7 @@ class EmployerMessageListFragment : Fragment() {
             override fun onResponse(call: Call<EmployerMessageModel>, response: Response<EmployerMessageModel>) {
                 try {
 
-//                    Log.d("rakib", "total ${employerMessageListAdapter?.itemCount}")
+//                    //Log.d("rakib", "total ${employerMessageListAdapter?.itemCount}")
                     val resp_jobs = response.body()
                     val results = response.body()?.data
                     TOTAL_PAGES = resp_jobs?.common?.totalpages
@@ -95,7 +95,7 @@ class EmployerMessageListFragment : Fragment() {
 
                     employerMessageList?.addAll(results!!.filterNotNull())
 
-                    Log.d("rakib", "load more ${employerMessageList?.size}")
+                    //Log.d("rakib", "load more ${employerMessageList?.size}")
 
 
                     if (pgNo == TOTAL_PAGES!!) {
@@ -142,11 +142,11 @@ class EmployerMessageListFragment : Fragment() {
             if (employersCommunicator?.getEmployerMessageList().isNullOrEmpty()) {
                 shimmer_view_container_employerMessage?.show()
                 shimmer_view_container_employerMessage?.startShimmerAnimation()
-                Log.d("rakib", "came here first page")
+                //Log.d("rakib", "came here first page")
                 loadFirstPage(activityDate)
             } else {
                 try {
-                    Log.d("rakib", "came here not first page ${messagelistSize}")
+                    //Log.d("rakib", "came here not first page ${messagelistSize}")
                     if (employersCommunicator.getTotalRecords()!! > 1) {
                         val styledText = "<b><font color='#13A10E'>${employersCommunicator?.getTotalRecords().toString()}</font></b> Messages from Employer(s)"
                         messageCountTV?.text = Html.fromHtml(styledText)
@@ -205,7 +205,7 @@ class EmployerMessageListFragment : Fragment() {
 //        adView?.loadAd(adRequest)
 //        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
 
-        Log.d("rakib", "${employersCommunicator?.getPositionClicked()}")
+        //Log.d("rakib", "${employersCommunicator?.getPositionClicked()}")
 
 
     }
@@ -264,7 +264,7 @@ class EmployerMessageListFragment : Fragment() {
                             try {
 
                                 employerMessageListAdapter?.addAll(employerMessageList!!)
-                                Log.d("rakib", "total ${employerMessageList?.size!!}")
+                                //Log.d("rakib", "total ${employerMessageList?.size!!}")
                             } catch (e: Exception) {
 
                             }
@@ -281,7 +281,7 @@ class EmployerMessageListFragment : Fragment() {
                             totalRecords = "0"
                         }
 
-//                        Log.d("tot", "total = $totalRecords")
+//                        //Log.d("tot", "total = $totalRecords")
 //                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employer(s)"
 //                        messageCountTV.text = Html.fromHtml(styledText)
 
@@ -316,7 +316,7 @@ class EmployerMessageListFragment : Fragment() {
         employersCommunicator.setTotalPage(TOTAL_PAGES)
         employersCommunicator.setIsloading(isLoadings)
         employersCommunicator.setIsLastPage(isLastPages)
-        Log.d("rakib", "${employersCommunicator.getPositionClicked()}")
+        //Log.d("rakib", "${employersCommunicator.getPositionClicked()}")
     }
 
 

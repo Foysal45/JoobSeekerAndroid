@@ -32,7 +32,7 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
             selectedPosition = position
             registrationCommunicator.wcCategorySelected(items[position], selectedPosition)
             notifyDataSetChanged()
-            Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
+            //Log.d("selectedPosition", "selectedPosition $selectedPosition  ${items[position]}")
         }
         if (selectedPosition == position) {
             holder.categoryTV.backgroundTintList = context.resources.getColorStateList(R.color.colorPrimary)
@@ -50,7 +50,7 @@ class WCCategoryAdapter(private val context: Context, private val items: ArrayLi
     fun setCategoryPositionSelected(categoryPositionSelected: Int) {
         selectedPosition = categoryPositionSelected
         notifyDataSetChanged()
-        Log.d("SetCategory", categoryPositionSelected.toString())
+        //Log.d("SetCategory", categoryPositionSelected.toString())
 
     }
 

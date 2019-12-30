@@ -69,7 +69,7 @@ class FollowedEmployersListFragment : Fragment() {
             followedRV?.setHasFixedSize(true)
             val layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             followedRV?.layoutManager = layoutManager
-            Log.d("initPag", "called")
+            //Log.d("initPag", "called")
             followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
             if (employersCommunicator.getFollowedEmployerList().isNullOrEmpty()) {
@@ -113,7 +113,7 @@ class FollowedEmployersListFragment : Fragment() {
 
 
                 override fun loadMoreItems() {
-                    Log.d("rakib", "called")
+                    //Log.d("rakib", "called")
                     isLoadings = true
                     currentPage += 1
                     //loadData(currentPage);
@@ -132,7 +132,7 @@ class FollowedEmployersListFragment : Fragment() {
 
     private fun loadNextPage() {
 
-        Log.d("rakib", "load more $currentPage")
+        //Log.d("rakib", "load more $currentPage")
 
         if (currentPage <= TOTAL_PAGES?:0){
             try {
@@ -146,7 +146,7 @@ class FollowedEmployersListFragment : Fragment() {
 
                 ).enqueue(object : Callback<FollowEmployerListModelClass> {
                     override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
-                        Log.d("getFEmployerListLazy", t.message)
+                        //Log.d("getFEmployerListLazy", t.message)
                     }
 
                     override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
@@ -177,7 +177,7 @@ class FollowedEmployersListFragment : Fragment() {
 
     private fun loadData(currentPage: Int) {
 
-        Log.d("rakib", "load data")
+        //Log.d("rakib", "load data")
 
         ApiServiceJobs.create().getFollowEmployerListLazy(
                 pg = currentPage.toString(),
@@ -189,7 +189,7 @@ class FollowedEmployersListFragment : Fragment() {
 
         ).enqueue(object : Callback<FollowEmployerListModelClass> {
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
-                Log.d("getFEmployerListLazy", t.message)
+                //Log.d("getFEmployerListLazy", t.message)
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
@@ -219,11 +219,11 @@ class FollowedEmployersListFragment : Fragment() {
                     if (followedEmployerList?.size!! > 0) {
                         followEmployerNoDataLL?.hide()
                         followedRV?.show()
-                        Log.d("totalJobs", "data ase")
+                        //Log.d("totalJobs", "data ase")
                     } else {
                         followEmployerNoDataLL?.show()
                         followedRV?.hide()
-                        Log.d("totalJobs", "zero")
+                        //Log.d("totalJobs", "zero")
                     }
                 } catch (e: Exception) {
                     logException(e)

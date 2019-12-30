@@ -145,20 +145,20 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         jobCount = "0"
                     }
                     var jobCountint = jobCount?.toInt()
-                    //      Log.d("crash", "crash $jobCount")
+                    //      //Log.d("crash", "crash $jobCount")
 
 
                     holder?.itemView?.setOnClickListener {
                         if (jobCountint > 0) {
                             try {
                                 if (position < followedEmployerList?.size!!) {
-                                    Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
+                                    //Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
                                     var company_name_1 = followedEmployerList?.get(position)?.companyName!!
                                     var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
                                     employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
                                     employersCommunicator?.positionClicked(position)
-                                    Log.d("companyid", company_ID_1)
-                                    Log.d("companyid", company_name_1)
+                                    //Log.d("companyid", company_ID_1)
+                                    //Log.d("companyid", company_name_1)
                                 }
                             } catch (e: Exception) {
                                 logException(e)
@@ -202,20 +202,20 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         jobCount = "0"
                     }
                     var jobCountint = jobCount?.toInt()
-                    //      Log.d("crash", "crash $jobCount")
+                    //      //Log.d("crash", "crash $jobCount")
 
 
                     holder?.itemView?.setOnClickListener {
                         if (jobCountint > 0) {
                             try {
                                 if (position < followedEmployerList?.size!!) {
-                                    Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
+                                    //Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
                                     var company_name_1 = followedEmployerList?.get(position)?.companyName!!
                                     var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
                                     employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
                                     employersCommunicator?.positionClicked(position)
-                                    Log.d("companyid", company_ID_1)
-                                    Log.d("companyid", company_name_1)
+                                    //Log.d("companyid", company_ID_1)
+                                    //Log.d("companyid", company_name_1)
                                 }
                             } catch (e: Exception) {
                                 logException(e)
@@ -250,7 +250,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 val deletedItem = followedEmployerList?.get(position)
                 val companyid = followedEmployerList?.get(position)?.companyID
                 val companyName = followedEmployerList?.get(position)?.companyName
-                Log.d("werywirye", "companyid = $companyid companyname = $companyName")
+                //Log.d("werywirye", "companyid = $companyid companyname = $companyName")
                 followedEmployerList?.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeRemoved(position, followedEmployerList?.size!!)
@@ -290,11 +290,11 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 //                    FollowUnfollowJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     employersCommunicator?.scrollToUndoPosition(deletedIndex)
-                    Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")
+                    //Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")
                 }
 
         snack?.show()
-        Log.d("swipe", "dir to LEFT")
+        //Log.d("swipe", "dir to LEFT")
     }
 
     private fun restoreMe(item: FollowEmployerListData, pos: Int) {

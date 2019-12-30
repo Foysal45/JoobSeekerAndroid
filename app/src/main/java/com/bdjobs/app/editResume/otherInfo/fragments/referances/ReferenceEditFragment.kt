@@ -229,7 +229,7 @@ class ReferenceEditFragment : Fragment() {
     private fun updateData() {
         activity?.showProgressBar(referenceLoadingProgressBar)
 
-        Log.d("fklfh", "hID $hID, relation $relation, hReferenceID $hReferenceID ")
+        //Log.d("fklfh", "hID $hID, relation $relation, hReferenceID $hReferenceID ")
 
 
         val call = ApiServiceMyBdjobs.create().updateReferenceList(session.userId, session.decodId, etRefName.getString(),
@@ -255,7 +255,7 @@ class ReferenceEditFragment : Fragment() {
                         val resp = response.body()
                         activity.toast(resp?.message.toString())
 
-                        Log.d("fklfh", "$resp")
+                        //Log.d("fklfh", "$resp")
 
                         if (resp?.statuscode == "4") {
                             eduCB.setBackFrom(referUpdate)
@@ -328,7 +328,7 @@ class ReferenceEditFragment : Fragment() {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
             if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip_entry", "text:$i")
+                //Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
             }
         }
@@ -337,13 +337,13 @@ class ReferenceEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(cg: ChipGroup) {
 
-        Log.d("djkgnhdg", "cg $cg")
+        //Log.d("djkgnhdg", "cg $cg")
         cg.setOnCheckedChangeListener { chipGroup, i ->
-            Log.d("djkgnhdg", " i $i")
+            //Log.d("djkgnhdg", " i $i")
 
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
-                Log.d("chip_entry", "text: ${chip.text}")
+                //Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.cgRelation -> {
@@ -363,7 +363,7 @@ class ReferenceEditFragment : Fragment() {
                 }
             } else {
 
-                Log.d("djkgnhdg", " else")
+                //Log.d("djkgnhdg", " else")
 
                 when (chipGroup.id) {
                     R.id.cgRelation -> {

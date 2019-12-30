@@ -59,7 +59,7 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
     }
 
     override fun onUpdateNotification() {
-        Log.d("rakib", "came in noti list")
+        //Log.d("rakib", "came in noti list")
         doAsync {
             val item = bdjobsDB.notificationDao().getSingleItem()
 

@@ -128,7 +128,7 @@ class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
         } catch (e: Exception) {
             logException(e)
         }
-        Log.d("time", "time: " + time)
+        //Log.d("time", "time: " + time)
         gotoAppliedJobsFragment()
     }
 }

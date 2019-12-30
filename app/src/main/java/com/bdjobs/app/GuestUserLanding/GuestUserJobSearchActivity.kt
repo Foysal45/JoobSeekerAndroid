@@ -127,7 +127,7 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
             }
 
 
-            Log.d("wtji", "keyWord: $keyWord \n locationName: $locationName \n categoryName: $categoryName \n locationId: $locationId \n catID: $catID")
+            //Log.d("wtji", "keyWord: $keyWord \n locationName: $locationName \n categoryName: $categoryName \n locationId: $locationId \n catID: $catID")
 
 
             startActivity<JobBaseActivity>(
@@ -150,12 +150,12 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
 //            if (startMillis.toInt() == 0 || (time - startMillis > 3000)) {
 //                startMillis = time
 //                count = 1
-//                Log.d("rakib", "secret if")
+//                //Log.d("rakib", "secret if")
 //            }
 //            //it is not the first, and it has been  less than 3 seconds since the first
 //            else { //  time-startMillis< 3000
 //                count++
-//                Log.d("rakib", "secret else $count")
+//                //Log.d("rakib", "secret else $count")
 //            }
 //
 //            if (count == 10) {

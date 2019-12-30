@@ -82,9 +82,9 @@ class OwnerStatementFragment :Fragment(), ConnectivityReceiver.ConnectivityRecei
 
                                     resetButton()
 
-                                    Log.d("Statement", "allStatement = " + allStatement.size.toString()
+                                    /*Log.d("Statement", "allStatement = " + allStatement.size.toString()
                                             + "\n cashInstatementList = " + cashInstatementList.size.toString()
-                                            + "\n cashOutstatementList = " + cashOutstatementList.size.toString())
+                                            + "\n cashOutstatementList = " + cashOutstatementList.size.toString())*/
 
                                 } catch (e: Exception) {
 

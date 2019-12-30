@@ -37,7 +37,7 @@ fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: Stri
         context.doAsync {
             try {
                 val arrivalTime = bdjobsDB.notificationDao().getNotificationArrivalTime(type, nId)
-                Log.d("rakib time", arrivalTime.toString())
+                //Log.d("rakib time", arrivalTime.toString())
                 uiThread {
                     bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime.toString())
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
@@ -52,7 +52,7 @@ fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: Stri
 
 fun logAnalyticsForUnseenNotification(type: String, context: Context, jobID: String, nId: String){
 
-    Log.d("rakib", "sent unseen notification to analytics")
+    //Log.d("rakib", "sent unseen notification to analytics")
 
     try {
         val bdjobsUserSession = BdjobsUserSession(context)

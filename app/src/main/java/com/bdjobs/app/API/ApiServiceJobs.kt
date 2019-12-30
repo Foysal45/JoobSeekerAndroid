@@ -1,6 +1,7 @@
 package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_jobs_db_update
 import com.google.gson.GsonBuilder
@@ -294,11 +295,14 @@ interface ApiServiceJobs {
                     .addInterceptor(interceptor)
                     .build()
 
-            return Retrofit.Builder()
-                    .baseUrl(Constants.baseUrlJobs)
-                    .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
+            return Retrofit.Builder().apply{
+                baseUrl(Constants.baseUrlJobs)
+                addConverterFactory(GsonConverterFactory.create(gson))
+                if (BuildConfig.DEBUG){
+                    client(okHttpClient)
+                }
+            }.build()
+
         }
     }
 

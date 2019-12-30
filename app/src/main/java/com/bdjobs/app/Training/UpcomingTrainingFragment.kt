@@ -47,7 +47,7 @@ class UpcomingTrainingFragment : Fragment() {
         val scale = resources.displayMetrics.density
         topBottomPadding = (8 * scale + 0.5f).toInt()
         leftRightPadding = (16 * scale + 0.5f).toInt()
-        Log.d("scale", "s = " + scale)
+        //Log.d("scale", "s = " + scale)
 
         if (Constants.matchedTraining) {
 
@@ -125,18 +125,18 @@ class UpcomingTrainingFragment : Fragment() {
                 override fun onResponse(call: Call<TrainingList>, response: Response<TrainingList>) {
 
                     try {
-                        Log.d("value", "userid = " + bdjobsUserSession?.userId
+                        /*Log.d("value", "userid = " + bdjobsUserSession?.userId
                                 + "decodeid = " + bdjobsUserSession?.decodId
                                 + "trainid= " + trainid
                                 + "AppsDate= " + ""
-                        )
+                        )*/
 
                         if (response.isSuccessful) {
 
                             trainListRV?.adapter = upcomingTrainingAdapter
                             trainListRV?.setHasFixedSize(true)
                             trainListRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                            Log.d("initPag", response.body()?.data?.size.toString())
+                            //Log.d("initPag", response.body()?.data?.size.toString())
                             trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                             upcomingTrainingAdapter?.removeAll()
                             upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)

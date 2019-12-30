@@ -102,7 +102,7 @@ class BCMobileNumberFragment : Fragment() {
                 registrationCommunicator.wcMobileNumberSelected(bcMobileNumberTIET?.getString()!!)
                 registrationCommunicator.wcUserNameTypeSelected("mobile")
                 registrationCommunicator.wcUserNameSelected(bcMobileNumberTIET?.getString()!!)
-                Log.d("CountryCode", "${bcCountryCodeTIET?.text}")
+                //Log.d("CountryCode", "${bcCountryCodeTIET?.text}")
 
                 val countryNameAndCountryCode = bcCountryCodeTIET?.getString()!!
                 val inputData = countryNameAndCountryCode.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()

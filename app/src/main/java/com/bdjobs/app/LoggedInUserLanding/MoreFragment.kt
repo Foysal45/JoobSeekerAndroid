@@ -52,7 +52,7 @@ class MoreFragment : Fragment() {
     }
 
     private fun shakeHorizontaList() {
-        Log.d("horizontaList", "horizontaList: ${horizontaList.size}")
+        //Log.d("horizontaList", "horizontaList: ${horizontaList.size}")
         Handler().postDelayed({
             horizontal_RV?.post {
                 horizontal_RV.smoothScrollToPosition(horizontaList.size - 1)
@@ -191,7 +191,7 @@ class MoreFragment : Fragment() {
         horizontalAdapter = HorizontalAdapter(activity)
         horizontal_RV?.adapter = horizontalAdapter
         horizontal_RV?.setHasFixedSize(true)
-        Log.d("initPag", "called")
+        //Log.d("initPag", "called")
 
     }
 
@@ -220,7 +220,7 @@ class MoreFragment : Fragment() {
     }
 
     fun updateNotificationView(count: Int?) {
-        Log.d("rakib", "in home fragment $count")
+        //Log.d("rakib", "in home fragment $count")
         if (count!! > 0) {
             notificationCountTV?.show()
             if (count <= 99)

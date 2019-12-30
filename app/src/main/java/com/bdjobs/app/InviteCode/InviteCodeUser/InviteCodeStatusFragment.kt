@@ -145,9 +145,9 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
                                 val isExists = response.body()!!.data[0].isExist
                                 paymentType = response.body()!!.data[0].paymentType
                                 accountNumber = response.body()!!.data[0].accountNo
-                                Log.d("paymentType", "paymentType = $paymentType")
+                                //Log.d("paymentType", "paymentType = $paymentType")
 
-                                Log.d("isExists", isExists)
+                                //Log.d("isExists", isExists)
 
                                 if (isExists.equals("0", ignoreCase = true)) {
                                     moneyWithdrawLayout.visibility = View.VISIBLE
@@ -166,7 +166,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
                                 infoLL.show()
 
 
-                                Log.d("paymentType", "paymentType = $paymentType")
+                                //Log.d("paymentType", "paymentType = $paymentType")
                                 if (paymentType != null && !paymentType.isEmpty()) {
 
                                     if (paymentType.equals("1", ignoreCase = true)) {
@@ -211,7 +211,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
         if (personal.equals("true", ignoreCase = true) && experience.equals("true", ignoreCase = true) && education.equals("true", ignoreCase = true) && photo.equals("true", ignoreCase = true)) {
             accountInfoLL.visibility = View.GONE
             accountStatusLL.visibility = View.VISIBLE
-            Log.d("StatusPPPP", "Paid: $paid, Verified: $verified")
+            //Log.d("StatusPPPP", "Paid: $paid, Verified: $verified")
             if (verified.equals("0", ignoreCase = true)) {
                 cvInfoVerifyStopIMGV.setBackgroundResource(R.drawable.cv_check_pending)
             } else if (verified.equals("1", ignoreCase = true)) {
@@ -231,16 +231,16 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
             accountInfoLL.visibility = View.VISIBLE
             accountStatusLL.visibility = View.GONE
 
-            Log.d("CheckData", " personal $personal experinece $experience education $education photo $photo")
+            //Log.d("CheckData", " personal $personal experinece $experience education $education photo $photo")
 
             if (personal.equals("True", ignoreCase = true)) {
 
-                Log.d("CheckData", "12")
+                //Log.d("CheckData", "12")
                 personalInfoIMGV.setBackgroundResource(R.drawable.acount_right_icon)
 
             } else {
 
-                Log.d("CheckData", "13")
+                //Log.d("CheckData", "13")
                 personalInfoIMGV.setBackgroundResource(R.drawable.resume_add_icon)
 
                 personalInfoIMGV.setOnClickListener { setClickListener("personal") }
@@ -250,12 +250,12 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
 
             if (experience.equals("True", ignoreCase = true)) {
 
-                Log.d("CheckData", "14")
+                //Log.d("CheckData", "14")
                 experienceInfoIMGV.setBackgroundResource(R.drawable.acount_right_icon)
 
             } else {
 
-                Log.d("CheckData", "15")
+                //Log.d("CheckData", "15")
                 experienceInfoIMGV.setBackgroundResource(R.drawable.resume_add_icon)
 
                 experienceInfoIMGV.setOnClickListener { setClickListener("experience") }
@@ -263,23 +263,23 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
 
             if (education.equals("True", ignoreCase = true)) {
 
-                Log.d("CheckData", "1")
+                //Log.d("CheckData", "1")
 
                 educationalInfoIMGV.setBackgroundResource(R.drawable.acount_right_icon)
 
             } else {
-                Log.d("CheckData", "2")
+                //Log.d("CheckData", "2")
                 educationalInfoIMGV.setBackgroundResource(R.drawable.resume_add_icon)
 
                 educationalInfoIMGV.setOnClickListener { setClickListener("education") }
             }
 
             if (photo.equals("True", ignoreCase = true)) {
-                Log.d("CheckData", "3")
+                //Log.d("CheckData", "3")
                 photoInfoIMGV.setBackgroundResource(R.drawable.acount_right_icon)
 
             } else {
-                Log.d("CheckData", "4")
+                //Log.d("CheckData", "4")
                 photoInfoIMGV.setBackgroundResource(R.drawable.resume_add_icon)
 
                 photoInfoIMGV.setOnClickListener { setClickListener("photo") }

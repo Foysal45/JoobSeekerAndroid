@@ -67,7 +67,7 @@ import java.util.*
 class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
     override fun onUpdateNotification() {
-        Log.d("rakib", "in Main Landing Activity")
+        //Log.d("rakib", "in Main Landing Activity")
         BdjobsUserSession(this@MainLandingActivity)?.let {
             val count = it.notificationCount
             homeFragment.updateNotificationView(count)
@@ -283,7 +283,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                 if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
                     Ads.mInterstitialAd?.show()
                 } else {
-                    Log.d("TAG", "The interstitial wasn't loaded yet.")
+                    //Log.d("TAG", "The interstitial wasn't loaded yet.")
                     super.onBackPressed()
                 }
             } catch (e: Exception) {
@@ -323,7 +323,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         }
 
         val value = FirebaseRemoteConfig.getInstance().getString("Guest_JobSearch_interstitial_AdInterval")
-        Log.d("remote config rakib", value)
+        //Log.d("remote config rakib", value)
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -335,14 +335,14 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                     val token = task.result?.token
 
                     // Log and toast
-                    Log.d("rakib", token)
+                    //Log.d("rakib", token)
                 })
 
         loadAd()
 
 
         if (!isDeviceInfromationSent) {
-            Log.d("rakib", "token sent from main ")
+            //Log.d("rakib", "token sent from main ")
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
                 val token = instanceIdResult.token
                 sendDeviceInformation(token, this@MainLandingActivity)
@@ -352,13 +352,13 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
         if (isBlueCollarUser()) {
             getInviteCodeInformation()
-            Log.d("rakib" ,"is blue collar ${isBlueCollarUser()}")
+            //Log.d("rakib" ,"is blue collar ${isBlueCollarUser()}")
             getUserStatus(userId = session.userId!!, decodeId = session.decodId!!, invitedUserId = session.userId!!)
         }
 
         /*getStatsData("0")
         getStatsData("1")*/
-        Log.d("calling", "Mainlanding")
+        //Log.d("calling", "Mainlanding")
         //getIsCvUploaded()
 
         tetsLog()
@@ -372,7 +372,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             Ads.mInterstitialAd!!.adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     // Code to be executed when an ad finishes loading.
-                    Log.d("mInterstitialAd", "Ad Loaded")
+                    //Log.d("mInterstitialAd", "Ad Loaded")
                 }
 
                 override fun onAdFailedToLoad(errorCode: Int) {
@@ -407,11 +407,11 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 if (inviteCodeUserInfo.isNullOrEmpty()) {
 
-                    Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
+                    /*Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
                             "decodeID = ${session.decodId},\n" +
                             "mobileNumber = ${session.userName},\n" +
                             "catId = ${getBlueCollarUserId()},\n" +
-                            "deviceID = ${getDeviceID()}")
+                            "deviceID = ${getDeviceID()}")*/
                     updateInviteCodeOwnerInformation()
 
                 } else {
@@ -424,7 +424,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                         updateInviteCodeOwnerInformation()
                     }
 
-                    Log.d("inviteCodeUserInfo", "pcOwnerID = $pcOwnerID")
+                    //Log.d("inviteCodeUserInfo", "pcOwnerID = $pcOwnerID")
                 }
             }
         }
@@ -452,10 +452,10 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                             pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
                             inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
                     )
-                    Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
+                    /*Log.d("inviteCodeUserInfo", "userID = ${session.userId},\n" +
                             "userType = ${response.body()?.data?.get(0)?.userType},\n" +
-                            "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +
-                            "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")
+                            "pcOwnerID = ${response.body()?.data?.get(0)?.pcOwnerID},\n" +*
+                            "inviteCodeStatus = ${response.body()?.data?.get(0)?.inviteCodeStatus}")*/
 
                     doAsync {
                         bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
@@ -582,7 +582,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
     fun tetsLog() {
 
-        Log.d("XZXfg", "\nisCvPosted = ${session.isCvPosted}\n" +
+        /*Log.d("XZXfg", "\nisCvPosted = ${session.isCvPosted}\n" +
                 "userPicUrl = ${session.userPicUrl}\n" +
                 "name = ${session.fullName}\n" +
                 "email = ${session.email}\n" +
@@ -596,7 +596,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                 "gender = ${session.gender}\n" +
                 "resumeUpdateON = ${session.resumeUpdateON}\n" +
                 "IsResumeUpdate = ${session.IsResumeUpdate}\n" +
-                "trainingId = ${session.trainingId}\n")
+                "trainingId = ${session.trainingId}\n")*/
     }
 
     override fun shortListedClicked(jobids: ArrayList<String>, lns: ArrayList<String>, deadline: ArrayList<String>) {
@@ -630,7 +630,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                                         personalInfo.equalIgnoreCase("True") &&
                                         skills.equalIgnoreCase("True")
                                 ) {
-                                    Log.d("getUserStatus", "everything is filled up")
+                                    //Log.d("getUserStatus", "everything is filled up")
                                 } else {
                                     showCategoryDialog(
                                             response.body()!!.data[0].name,
@@ -655,11 +655,11 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
     private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String, skillInfo: String) {
 
-        Log.d("showCategoryDialog", "" +
+        /*Log.d("showCategoryDialog", "" +
                 "educationInfo: $educationInfo" +
                 "personalInfo: $personalInfo" +
                 "photoInfo:$photoInfo" +
-                "name: $name")
+                "name: $name")*/
 
         val dialog = Dialog(this@MainLandingActivity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -776,7 +776,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                 bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType,deadline = commonNotificationModel.deadlineDB))
                 session.updateNotificationCount(session.notificationCount!! + 1)
                 uiThread {
-                    Log.d("rakib", "FirebaseMessagingService")
+                    //Log.d("rakib", "FirebaseMessagingService")
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
                     applicationContext.sendBroadcast(intent)
@@ -798,7 +798,7 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 ////            if (commonNotificationModel.type != "pm")
 ////                bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
 ////            uiThread {
-////                Log.d("rakib", "FirebaseMessagingService")
+////                //Log.d("rakib", "FirebaseMessagingService")
 ////                val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
 ////                intent.putExtra("notification", "insertOrUpdateNotification")
 ////                applicationContext.sendBroadcast(intent)

@@ -76,9 +76,9 @@ class InviteCodeSubmitFragment : Fragment() {
                                     inviteCodeStatus = "1"
                             )
                             val bdjobsDB = BdjobsDB.getInstance(activity!!)
-                            Log.d("inviteCodeUserInfoReg", "userID = ${inviteCodeInfo.userId},\n" +
+                            /*Log.d("inviteCodeUserInfoReg", "userID = ${inviteCodeInfo.userId},\n" +
                                     "userType = ${inviteCodeInfo.userType},\n" +
-                                    "inviteCodeStatus = ${inviteCodeInfo.inviteCodeStatus}")
+                                    "inviteCodeStatus = ${inviteCodeInfo.inviteCodeStatus}")*/
                             doAsync {
                                 bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
                                 inviteCodeCommunicator?.goToPaymentMethod(fromInviteCodeSubmitPage = true)

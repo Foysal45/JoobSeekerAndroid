@@ -32,7 +32,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
 
     override fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String) {
-        Log.d("rakib interface", "$from $jobTitle $jobID $companyName")
+        //Log.d("rakib interface", "$from $jobTitle $jobID $companyName")
         this.jobID = jobID
         this.jobTitle = jobTitle
         this.companyName = companyName
@@ -69,7 +69,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_interview_invitation_base)
-        Log.d("rakib", "onCreate")
+        //Log.d("rakib", "onCreate")
 
         bdjobsDB = BdjobsDB.getInstance(applicationContext)
         bdjobsUserSession = BdjobsUserSession(applicationContext)
@@ -84,7 +84,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
 
     override fun onResume() {
         super.onResume()
-        Log.d("rakib", "onResume")
+        //Log.d("rakib", "onResume")
         try {
             from = intent.getStringExtra("from")
         } catch (e: Exception) {
@@ -142,7 +142,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         }
 
 
-        Log.d("utuytujtjtgdju56u", "$from $jobTitle $jobID $companyName")
+        //Log.d("utuytujtjtgdju56u", "$from $jobTitle $jobID $companyName")
 
 
         when {

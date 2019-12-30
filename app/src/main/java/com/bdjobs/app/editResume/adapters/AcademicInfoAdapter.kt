@@ -30,7 +30,7 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.d("aca", "calling")
+        //Log.d("aca", "calling")
         holder.ivCollapsedLogo?.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_education_icon))
 
         val dModel = itemList?.get(position)!!
@@ -92,7 +92,7 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
             holder.imageViewExpand?.show()
         }
         holder.tvAchievement?.text = dModel.acievement
-        Log.d("aca", "${dModel.examDegreeTitle}")
+        //Log.d("aca", "${dModel.examDegreeTitle}")
 
         holder.ivEdit?.setOnClickListener {
             call.passData(dModel)
@@ -100,7 +100,7 @@ class AcademicInfoAdapter(arr: java.util.ArrayList<AcaDataItem>, val context: Co
         }
 
         holder.imageViewExpand!!.setOnClickListener {
-            Log.d("click", "clicked success")
+            //Log.d("click", "clicked success")
             toggleDetails(holder)
         }
         holder.moreActionDetails?.visibility = View.GONE

@@ -89,7 +89,7 @@ class LoginUserNameFragment : Fragment() {
 
                         try {
                             val request = GraphRequest.newMeRequest(loginResult.accessToken) { profileData, response ->
-                                Log.d("LoginActivity", response.toString())
+                                //Log.d("LoginActivity", response.toString())
                                 try {
                                     var semail: String? = null
                                     var sMid: String? = null
@@ -111,7 +111,7 @@ class LoginUserNameFragment : Fragment() {
                                     socialMediaMapping(sMid, semail, SOCIAL_MEDIA_FACEBOOK)
 
 
-                                    Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
+                                    //Log.d("FacebookSignIN", "sid:$sMid \n semial:$semail")
 
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -141,7 +141,7 @@ class LoginUserNameFragment : Fragment() {
 
     private fun socialMediaMapping(sMid: String?, semail: String?, sType: String?) {
 
-        Log.d("socialMediaMapping", "sMid:$sMid \n semail:$semail  \n sType: $sType")
+        //Log.d("socialMediaMapping", "sMid:$sMid \n semail:$semail  \n sType: $sType")
 
         activity?.showProgressBar(loadingProgressBar)
 
@@ -170,7 +170,7 @@ class LoginUserNameFragment : Fragment() {
 
                         }
 
-                        Log.d("mappedAccountNumber", "mappedAccountNumber: $mappedAccountNumber")
+                        //Log.d("mappedAccountNumber", "mappedAccountNumber: $mappedAccountNumber")
 
                         if (hasMappedAccount) {
                             val mappedAccount = response.body()?.data?.get(mappedAccountNumber!!)
@@ -210,7 +210,7 @@ class LoginUserNameFragment : Fragment() {
                         } else if (!hasMappedAccount) {
                             activity?.stopProgressBar(loadingProgressBar)
                             response.body()?.common?.total?.let { total ->
-                                Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
+                                //Log.d("mappedAccountNumber", "totalNumberofUnmappedAccounts: $total")
                                 try {
                                     if (total.toInt() > 0) {
                                         loginCommunicator.goToSocialAccountListFragment(response.body()?.data)
@@ -358,7 +358,7 @@ class LoginUserNameFragment : Fragment() {
                         val sid = account?.id
                         val semial = account?.email
                         val name = account?.displayName
-                        Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
+                        //Log.d("GoogleSignIn", "sid:$sid \n semial:$semial  \n sname: $name")
                         signOutFromGoogle()
                         socialMediaMapping(sid, semial, SOCIAL_MEDIA_GOOGLE)
 
@@ -481,7 +481,7 @@ class LoginUserNameFragment : Fragment() {
 
         okBtn.setOnClickListener {
             passET?.let {
-                Log.d("rakib", "${Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP)} ${R.string.pass}")
+                //Log.d("rakib", "${Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP)} ${R.string.pass}")
                 if (Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP) == getString(R.string.pass)) {
                     dialog?.dismiss()
                     startActivity(intentFor<Login2BaseActivity>(Constants.key_go_to_home to true))

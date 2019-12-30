@@ -37,13 +37,13 @@ class FavouriteSearchDeleteWorker(val appContext: Context, workerParams: WorkerP
 
                 override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
                     try {
-                        Log.d("werywirye", "Success API")
+                        //Log.d("werywirye", "Success API")
                     } catch (e: Exception) {
                         logException(e)
                     }
                 }
             })
-            Log.d("werywirye", "Hello: $favID")
+            //Log.d("werywirye", "Hello: $favID")
             return Result.success()
         }
         return Result.failure()

@@ -85,10 +85,10 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
         accountLV.onItemClickListener = AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
 
             val invitedUserId = dataArray?.get(position)?.userID
-            Log.d("SendingData",
+            /*Log.d("SendingData",
                     "invitedUserId " + invitedUserId +
                             "\n position " + position
-            )
+            )*/
             getUserStatus(bdjobsUserSession?.userId!!, bdjobsUserSession?.decodId!!, invitedUserId!!)
         }
 
@@ -203,7 +203,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
 
 
 
-        Log.d("status_code", state.toString())
+        //Log.d("status_code", state.toString())
 
         if (state == 0) {
             successSelected()
@@ -259,11 +259,11 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
 
     private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String, skillInfo: String) {
 
-        Log.d("showCategoryDialog", "" +
+        /*Log.d("showCategoryDialog", "" +
                 "educationInfo: $educationInfo" +
                 "personalInfo: $personalInfo" +
                 "photoInfo:$photoInfo" +
-                "name: $name")
+                "name: $name")*/
 
         activity?.let {
             val dialog = Dialog(it)

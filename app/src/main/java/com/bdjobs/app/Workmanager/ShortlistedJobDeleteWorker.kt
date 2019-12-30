@@ -26,7 +26,7 @@ class ShortlistedJobDeleteWorker(val appContext: Context, workerParams: WorkerPa
 
         val jobid = inputData.getString("jobId")
 
-        Log.d("rakib workmanager", jobid)
+        //Log.d("rakib workmanager", jobid)
 
         if (jobid!!.isNotEmpty()) {
             doAsync {

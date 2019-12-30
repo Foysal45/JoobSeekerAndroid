@@ -1,6 +1,7 @@
 package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.*
+import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
@@ -1079,11 +1080,13 @@ interface ApiServiceMyBdjobs {
                     .addInterceptor(interceptor)
                     .build()
 
-            return Retrofit.Builder()
-                    .baseUrl(Constants.baseUrlMyBdjobs)
-                    .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
+            return Retrofit.Builder().apply {
+                baseUrl(Constants.baseUrlMyBdjobs)
+                addConverterFactory(GsonConverterFactory.create(gson))
+                if (BuildConfig.DEBUG) {
+                    client(okHttpClient)
+                }
+            }.build()
         }
     }
 

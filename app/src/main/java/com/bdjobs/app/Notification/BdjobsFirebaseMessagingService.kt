@@ -45,14 +45,14 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        Log.d("rakib received", remoteMessage.data.toString())
+//        Log.d("rakib received", remoteMessage.data.toString())
 
         val gson = Gson()
 
         // Check if message contains a data payload.
         remoteMessage?.let {
 
-            Log.d("rakib received" ,"hhh")
+            //Log.d("rakib received" ,"hhh")
 
 
             bdjobsUserSession = BdjobsUserSession(applicationContext)
@@ -69,7 +69,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
             if (bdjobsUserSession.isLoggedIn!! && commonNotificationModel.pId.trim() == bdjobsUserSession.userId) {
 
-                Log.d("rakib", payload)
+                //Log.d("rakib", payload)
 
                 logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
 
@@ -175,7 +175,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                     }
 
                     Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
-                        Log.d("rakib", "came here")
+                        //Log.d("rakib", "came here")
                         try {
                             insertNotificationInToDatabase(payload)
                             showNotification(commonNotificationModel)
@@ -190,7 +190,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
-            Log.d("rakib", "Message Notification Body: ${it.body}")
+            //Log.d("rakib", "Message Notification Body: ${it.body}")
         }
     }
 
@@ -238,7 +238,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun showNotification(commonNotificationModel: CommonNotificationModel) {
-        Log.d("rakib" ,"outside noti")
+        //Log.d("rakib" ,"outside noti")
 
         mNotificationHelper = NotificationHelper(applicationContext)
 
@@ -257,7 +257,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 }
             }
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
-                Log.d("rakib" ,"insdie noti")
+                //Log.d("rakib" ,"insdie noti")
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
                             commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId,commonNotificationModel.lanType,commonNotificationModel.deadlineDB))

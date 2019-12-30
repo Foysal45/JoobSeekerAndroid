@@ -109,7 +109,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                 try {
                     holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
                     holder?.appliedOn?.text = vwdResumeList?.get(position)?.viewedOn
-                    //  Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
+                    //  //Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
                     if (vwdResumeList?.get(position)?.summaryView == "yes") {
                         holder?.summaryView.visibility = View.VISIBLE
@@ -128,7 +128,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                 try {
                     holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
                     holder?.appliedOn?.text = vwdResumeList?.get(position)?.viewedOn
-                    //  Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
+                    //  //Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
                     if (vwdResumeList?.get(position)?.summaryView == "yes") {
                         holder?.summaryView.visibility = View.VISIBLE
@@ -158,7 +158,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
         for (result in moveResults!!) {
             add(result)
         }
-        Log.d("hello", "=== ${moveResults}")
+        //Log.d("hello", "=== ${moveResults}")
     }
 
     fun removeAll() {

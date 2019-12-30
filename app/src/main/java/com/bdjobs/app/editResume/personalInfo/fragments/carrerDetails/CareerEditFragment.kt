@@ -78,7 +78,7 @@ class CareerEditFragment : Fragment() {
             validation = isValidate(etCrObj, crObjTIL, etCrObj, true, validation)
             if (validation == 1) {
                 updateData()
-                Log.d("chip_entry2", "text:$jobNature and $jobLevel")
+                //Log.d("chip_entry2", "text:$jobNature and $jobLevel")
             }/* else {
                 assert(activity != null)
                 activity?.toast("Please fill up the mandatory field first")
@@ -194,7 +194,7 @@ class CareerEditFragment : Fragment() {
             debug("valueig : $i")
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
-                Log.d("chip_entry", "text: ${chip.text}")
+                //Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.cgLookingFor -> {
@@ -230,7 +230,7 @@ class CareerEditFragment : Fragment() {
             val chipText = chip.text.toString()
             try {
                 if (data?.equalIgnoreCase(chipText)!!) {
-                    Log.d("chip_entry", "text:$i")
+                    //Log.d("chip_entry", "text:$i")
                     chip.isChecked = true
                 }
             } catch (e: Exception) {

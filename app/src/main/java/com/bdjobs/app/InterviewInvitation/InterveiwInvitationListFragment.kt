@@ -77,7 +77,7 @@ class InterveiwInvitationListFragment : Fragment() {
 
         }
 
-        Log.d("from", "from: ${interviewInvitationCommunicator.getFrom()}")
+        //Log.d("from", "from: ${interviewInvitationCommunicator.getFrom()}")
     }
 
     private fun showDataFromServer() {
@@ -127,7 +127,7 @@ class InterveiwInvitationListFragment : Fragment() {
     }
 
     private fun showDataFromDB() {
-        Log.d("rakib","came here")
+        //Log.d("rakib","came here")
         doAsync {
             var interviewInvitations: List<JobInvitation>? = null
 
@@ -148,7 +148,7 @@ class InterveiwInvitationListFragment : Fragment() {
 
             }
 
-            Log.d("rakib",interviewInvitations.size.toString())
+            //Log.d("rakib",interviewInvitations.size.toString())
 
             uiThread {
                 try {
@@ -161,11 +161,11 @@ class InterveiwInvitationListFragment : Fragment() {
                     if (interviewInvitations.size!! > 0) {
                         invitationNoDataLL?.hide()
                         followedRV?.show()
-                        Log.d("totalJobs", "data ase")
+                        //Log.d("totalJobs", "data ase")
                     } else {
                         invitationNoDataLL?.show()
                         followedRV?.hide()
-                        Log.d("totalJobs", "zero")
+                        //Log.d("totalJobs", "zero")
                     }
 
                     if (interviewInvitations.size > 1) {

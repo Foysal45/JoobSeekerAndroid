@@ -101,8 +101,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                             val company_name_1 = employerList?.get(position)?.companyname!!
                             val company_ID_1 = employerList?.get(position)?.companyid!!
                             employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
-                            Log.d("companyid", company_ID_1)
-                            Log.d("companyid", company_name_1)
+                            //Log.d("companyid", company_ID_1)
+                            //Log.d("companyid", company_name_1)
 
                         }
                     }
@@ -162,8 +162,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                             val company_name_1 = employerList?.get(position)?.companyname!!
                             val company_ID_1 = employerList?.get(position)?.companyid!!
                             employersCommunicator.gotoJobListFragment(company_ID_1, company_name_1)
-                            Log.d("companyid", company_ID_1)
-                            Log.d("companyid", company_name_1)
+                            //Log.d("companyid", company_ID_1)
+                            //Log.d("companyid", company_name_1)
 
                         }
                     }
@@ -221,7 +221,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
             val isitFollowed = bdjobsDB.followedEmployerDao().isItFollowed(company_ID, company_NAME)
 
-            Log.d("companyinfo", "companyid: $company_ID \n companyname: $company_NAME \n isitFollowed: $isitFollowed")
+            //Log.d("companyinfo", "companyid: $company_ID \n companyname: $company_NAME \n isitFollowed: $isitFollowed")
 
 
             uiThread {
@@ -319,7 +319,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                 try {
                     val statuscode = response?.body()?.statuscode
                     val message = response?.body()?.data?.get(0)?.message
-                    Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
+                    //Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
                     bdjobsUserSession?.incrementFollowedEmployer()
                     doAsync {
                         val followedEmployer = FollowedEmployer(
@@ -356,7 +356,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                 try {
                     var statuscode = response.body()?.statuscode
                     var message = response.body()?.data?.get(0)?.message
-                    Log.d("msg", message)
+                    //Log.d("msg", message)
                     bdjobsUserSession?.deccrementFollowedEmployer()
                     doAsync {
                         bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid, companyName)

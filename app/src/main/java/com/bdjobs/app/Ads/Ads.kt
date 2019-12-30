@@ -49,7 +49,7 @@ class Ads {
                             }
                             .withAdListener(object : AdListener() {
                                 override fun onAdFailedToLoad(errorCode: Int) {
-                                    Log.d("adLoader", "error code: $errorCode")
+                                    //Log.d("adLoader", "error code: $errorCode")
                                 }
                             })
                             .withNativeAdOptions(NativeAdOptions

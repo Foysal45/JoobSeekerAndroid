@@ -246,7 +246,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         }
 
         //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
-        Log.d("value", "value = $value")
+        //Log.d("value", "value = $value")
         if (value?.equals("follow")) {
             transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
         } else if (value?.equals("employer")) {
@@ -327,7 +327,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
                 val count = bdjobsDB.notificationDao().getNotificationCount()
                 bdjobsUserSession = BdjobsUserSession(this@EmployersBaseActivity)
                 bdjobsUserSession.updateNotificationCount(count)
-                Log.d("rakib", "noti count $count $jobId")
+                //Log.d("rakib", "noti count $count $jobId")
             }
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         } else if (value?.equals("employerMessageList")) {

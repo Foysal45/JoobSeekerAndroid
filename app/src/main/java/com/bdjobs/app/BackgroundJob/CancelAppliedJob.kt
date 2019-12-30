@@ -45,7 +45,7 @@ package com.bdjobs.app.BackgroundJob
 //                    .build()
 //                    .schedule()
 //
-//            Log.d("werywirye", " jobid: $jobId ")
+//            //Log.d("werywirye", " jobid: $jobId ")
 //            return jobId
 //        }
 //
@@ -83,11 +83,11 @@ package com.bdjobs.app.BackgroundJob
 //                }
 //            })
 //
-//            Log.d("werywirye", "Hello: $userid")
+//            //Log.d("werywirye", "Hello: $userid")
 //            return Result.SUCCESS
 //        }
 //
-//        Log.d("werywirye", "Hello: $userid")
+//        //Log.d("werywirye", "Hello: $userid")
 //        return Result.FAILURE
 //
 //    }

@@ -43,16 +43,16 @@ class FollowUnfollowWorker(val appContext: Context, workerParams: WorkerParamete
             ).enqueue(object : Callback<FollowUnfollowModelClass> {
                 override fun onFailure(call: Call<FollowUnfollowModelClass>, t: Throwable) {
                     error("onFailure", t)
-                    Log.d("error", " error = ${ t.message}")
+                    //Log.d("error", " error = ${ t.message}")
                 }
 
                 override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
-                    Log.d("error", " error = ${ response?.code()}")
+                    //Log.d("error", " error = ${ response?.code()}")
                     try {
-                        Log.d("werywirye", "Success API")
+                        //Log.d("werywirye", "Success API")
                         var statuscode = response.body()?.statuscode
                         var message = response.body()?.data?.get(0)?.message
-//                Log.d("msg", message)
+//                //Log.d("msg", message)
                         Toast.makeText(appContext, message, Toast.LENGTH_LONG).show()
                     } catch (e: Exception) {
                         logException(e)
@@ -60,7 +60,7 @@ class FollowUnfollowWorker(val appContext: Context, workerParams: WorkerParamete
                 }
 
             })
-            Log.d("werywirye", "Hello: $companyID")
+            //Log.d("werywirye", "Hello: $companyID")
             return Result.success()
         }
         return Result.failure()

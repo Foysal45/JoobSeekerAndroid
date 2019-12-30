@@ -20,7 +20,7 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): Filter.FilterResults {
 
-                Log.d("aaa", "Size:e")
+                //Log.d("aaa", "Size:e")
                 val charString = charSequence.toString()
                 filteredItems = if (charString.isEmpty()) {
                     itemList
@@ -40,7 +40,7 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
 
             override fun publishResults(charSequence: CharSequence, filterResults: Filter.FilterResults) {
                 filteredItems = filterResults.values as ArrayList<String>
-                Log.d("aaa", "Size: ${filterResults.count}")
+                //Log.d("aaa", "Size: ${filterResults.count}")
                 notifyDataSetChanged()
             }
         }

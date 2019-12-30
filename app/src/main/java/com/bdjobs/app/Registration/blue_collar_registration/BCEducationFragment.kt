@@ -77,30 +77,31 @@ class BCEducationFragment : Fragment() {
 
             if (board == "-1") board = "0" else board
 
-            Log.d("rakib", "click $board")
+            //Log.d("rakib", "click $board")
 
-            Log.d("rakib", "check $levelOfEducation $eduDegree $instituteName $passingYear 1 board $board")
-            Log.d("MobileNumberVer2", " EducationType in database $educationType")
-            Log.d("MobileNumberVer2", " levelOfEducation in database $levelOfEducation")
+            //Log.d("rakib", "check $levelOfEducation $eduDegree $instituteName $passingYear 1 board $board")
+            //Log.d("MobileNumberVer2", " EducationType in database $educationType")
+            //Log.d("MobileNumberVer2", " levelOfEducation in database $levelOfEducation")
             if (eduDegree.equals("Other", ignoreCase = true)) {
 
                 eduDegree = bcEduDegreeOtherTIET.text.toString()
                 educationType = "5"
             }
-            Log.d("ConditionCheck", " hasEducation $hasEducation ")
+            //Log.d("ConditionCheck", " hasEducation $hasEducation ")
             if (hasEducation.equals("False", true)) {
 
-                Log.d("ConditionCheck", " First Condition ")
+                //Log.d("ConditionCheck", " First Condition ")
                 registrationCommunicator.bcEducationSelected("0", eduDegree, instituteName, "0", "0", board)
                 registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
             } else {
                 bcEducationFAButton.hideKeyboard()
                 checkValidity()
-                Log.d("ConditionCheck", " validateCondition ${validateCondition()} 2nd ${validateConditionTwo()}")
+                //Log.d("ConditionCheck", " validateCondition ${validateCondition()} 2nd ${validateConditionTwo()}")
                 if (validateCondition() || validateConditionTwo()) {
-                    Log.d("ConditionCheck", " second Condition ")
+                    //Log.d("ConditionCheck", " second Condition ")
                     registrationCommunicator.bcEducationSelected(levelOfEducation, eduDegree, instituteName, passingYear, "1", board)
                     registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
+//                    Log.d("rakib","$board")
                 }
             }
         }
@@ -311,20 +312,21 @@ class BCEducationFragment : Fragment() {
             var queryValue = bcEduLevelTIET.getString()
             queryValue = queryValue.replace("'", "''")
             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
-            Log.d("rakib", "edu level id $edulevelID")
+            //Log.d("rakib", "edu level id $edulevelID")
             setDialog("পরীক্ষা/ডিগ্রীর নাম", bcEduDegreeTIET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
 
             if (edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
+                bcEduBoardTIET?.clear()
                 bcEduBoardTIL?.visibility = View.GONE
                 bcEduDegreeTIL.isErrorEnabled = false
                 board = "0"
-                Log.d("rakib", "onresume if $board")
+                //Log.d("rakib", "onresume if $board")
 
             } else {
                 board = dataStorage.getBoardIDbyName(bcEduBoardTIET?.text?.toString()).toString()
                 bcEduBoardTIL?.visibility = View.VISIBLE
                 bcEduDegreeTIL.isErrorEnabled = false
-                Log.d("rakib", "onresume else $board")
+                //Log.d("rakib", "onresume else $board")
 
             }
         }
@@ -333,11 +335,11 @@ class BCEducationFragment : Fragment() {
                 bcEduDegreeOtherTIET?.show()
             }
             if (educationType == "5") {
-                Log.d("ExceptionTest", " In If Condition ")
+                //Log.d("ExceptionTest", " In If Condition ")
                 bcEduDegreeOtherTIET?.show()
             }
         } catch (e: Exception) {
-            Log.d("ExceptionTest", " Exception " + e.message)
+            //Log.d("ExceptionTest", " Exception " + e.message)
         }
 
     }
@@ -378,14 +380,15 @@ class BCEducationFragment : Fragment() {
                             if (edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
                                 bcEduBoardTIL?.visibility = View.GONE
                                 bcEduDegreeTIL.isErrorEnabled = false
+                                bcEduBoardTIET?.clear()
                                 board = "0"
-                                Log.d("rakib", "set dialog if $board")
+                                //Log.d("rakib", "set dialog if $board")
 
                             } else {
                                 board = dataStorage.getBoardIDbyName(bcEduBoardTIET?.text?.toString()).toString()
                                 bcEduBoardTIL?.visibility = View.VISIBLE
                                 bcEduDegreeTIL.isErrorEnabled = false
-                                Log.d("rakib", "set dialog else $board")
+                                //Log.d("rakib", "set dialog else $board")
 
 
 

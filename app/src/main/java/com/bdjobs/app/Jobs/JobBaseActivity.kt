@@ -144,8 +144,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
         val inte  = getIntent().data
         try {
-            Log.d("rakib" , "${inte?.getQueryParameter("id")}")
-            Log.d("rakib" , "${inte?.getQueryParameter("ln")}")
+            //Log.d("rakib" , "${inte?.getQueryParameter("id")}")
+            //Log.d("rakib" , "${inte?.getQueryParameter("ln")}")
         } catch (e: Exception) {
         }
 
@@ -170,7 +170,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                         lantype = lns[i]
                 )
                 jobList.add(jobListModelData)
-                Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
             }
 
             setJobList(jobList)
@@ -226,7 +226,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
 
-                Log.d("eryfdh", "from: $from --- typedData : $typedData")
+                //Log.d("eryfdh", "from: $from --- typedData : $typedData")
 
                 when (from) {
                     Constants.key_jobtitleET -> setKeyword(typedData)
@@ -288,7 +288,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             logException(e)
         }
 
-        Log.d("wtji", "jobase=>\nkeyword: $keyword \nlocation: $location\n category:$category")
+        //Log.d("wtji", "jobase=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 ////
         try {
             //postedWithin = intent.getStringExtra("postedWithin")
@@ -384,7 +384,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                         logException(e)
                     }
 
-                    Log.d("shortListedJob", "shortListedJob: $clickedPosition")
+                    //Log.d("shortListedJob", "shortListedJob: $clickedPosition")
                     var shortListFilter = ""
                     try {
                         shortListFilter = intent.getStringExtra("shortListFilter")
@@ -433,7 +433,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     clickedPosition = intent.getIntExtra("position", 0)
                     val jobList: MutableList<JobListModelData> = java.util.ArrayList()
                     val jobids = intent.getStringArrayListExtra("jobids")
-                    Log.d("rakib", "job id ${jobids[0]}")
+                    //Log.d("rakib", "job id ${jobids[0]}")
                     val lns = intent.getStringArrayListExtra("lns")
                     val deadline = intent.getStringArrayListExtra("deadline")
                     for (i in 0 until jobids.size) {
@@ -449,7 +449,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                                 lantype = lns[i]
                         )
                         jobList.add(jobListModelData)
-                        Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                        //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
                     }
 
                     setJobList(jobList)
@@ -479,7 +479,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                                 lantype = lns[i]
                         )
                         jobList.add(jobListModelData)
-                        Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                        //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
                     }
 
                     setJobList(jobList)
@@ -544,7 +544,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                                 lantype = lns[i]
                         )
                         jobList.add(jobListModelData)
-                        Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                        //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
                     }
 
 
@@ -730,7 +730,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun setJobList(jobList: MutableList<JobListModelData>?) {
         jobList1 = jobList
-        Log.d("setJobList", "setJobList: ${jobList?.size}")
+        //Log.d("setJobList", "setJobList: ${jobList?.size}")
     }
 
     override fun setPosition(position: Int) {
@@ -885,7 +885,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     override fun onBackPressed() {
         try {
             val bdjobsUserSession = BdjobsUserSession(applicationContext)
-            Log.d("wreiifb", "From: $from")
+            //Log.d("wreiifb", "From: $from")
             if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("guestuser")!!) {
                 val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
                 if (joblistFragment != null && joblistFragment.isVisible) {
@@ -917,7 +917,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("rakib"," came restart")
+        //Log.d("rakib"," came restart")
         jobDetailsFragment.jobDetailAdapter?.reload()
 
     }

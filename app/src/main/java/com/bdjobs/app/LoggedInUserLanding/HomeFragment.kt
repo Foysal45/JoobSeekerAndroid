@@ -55,7 +55,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
     fun updateNotificationView(count: Int?) {
-        Log.d("rakib", "in home fragment $count")
+        //Log.d("rakib", "in home fragment $count")
         if (count!! > 0) {
             notificationCountTV?.show()
             if (count <= 99)
@@ -124,7 +124,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 .withAdListener(object : AdListener() {
                     override fun onAdFailedToLoad(errorCode: Int) {
                         // Handle the failure by logging, altering the UI, and so on.
-                        Log.d("adLoader", "error code: $errorCode")
+                        //Log.d("adLoader", "error code: $errorCode")
                     }
                 })
                 .withNativeAdOptions(NativeAdOptions.Builder()
@@ -142,7 +142,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             val c = Calendar.getInstance().time
             val df = SimpleDateFormat("dd-MMM-yyyy")
             val dtcrnt = df.format(c)
-            Log.d("formattedDate", "dtprev: $shortlistedDate  dtcrnt: $dtcrnt")
+            //Log.d("formattedDate", "dtprev: $shortlistedDate  dtcrnt: $dtcrnt")
             if (shortlistedDate != dtcrnt) {
                 showShortListedJobsExpirationPopUP()
             }
@@ -234,22 +234,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     override fun jobInvitationSyncComplete() {
-        Log.d("broadCastCheck", "jobInvitationSyncComplete")
+        //Log.d("broadCastCheck", "jobInvitationSyncComplete")
         showJobInvitation()
     }
 
     override fun certificationSyncComplete() {
-        Log.d("broadCastCheck", "certificationSyncComplete")
+        //Log.d("broadCastCheck", "certificationSyncComplete")
         //showCertificationInfo()
     }
 
     override fun followedEmployerSyncComplete() {
-        Log.d("broadCastCheck", "followedEmployerSyncComplete")
+        //Log.d("broadCastCheck", "followedEmployerSyncComplete")
         showFollowedEmployers()
     }
 
     override fun favSearchFilterSyncComplete() {
-        Log.d("broadCastCheck", "favSearchFilterSyncComplete")
+        //Log.d("broadCastCheck", "favSearchFilterSyncComplete")
         showFavouriteSearchFilters()
     }
 
@@ -262,7 +262,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
                     followEmplowercounterTV?.text = followedEmployerJobCount.toString()
-                    Log.d("followEmplowercounterTV", "followEmplowercounterTV: $followedEmployerJobCount")
+                    //Log.d("followEmplowercounterTV", "followEmplowercounterTV: $followedEmployerJobCount")
                     var followedCompanyNames = ""
                     followedEmployerList?.forEach { item ->
                         followedCompanyNames += item.CompanyName + ","
@@ -411,7 +411,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                         override fun onResponse(call: Call<LastSearchCountModel>, response: Response<LastSearchCountModel>) {
                             try {
-                                Log.d("jobCount", "jobCount ${response.body()?.data!![0]?.totaljobs}")
+                                //Log.d("jobCount", "jobCount ${response.body()?.data!![0]?.totaljobs}")
                                 lastPrgrs?.hide()
                                 lastSearchcounterTV?.text = response.body()?.data!![0]?.totaljobs
 
@@ -473,22 +473,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             }
         }
 
-        Log.d("gender", "gender:  ${search.gender}")
+        //Log.d("gender", "gender:  ${search.gender}")
 
-        Log.d("gender", "genderb: ${search.genderB}")
+        //Log.d("gender", "genderb: ${search.genderB}")
 
         var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
-        Log.d("allValuesN", allValues)
+        //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
-        Log.d("allValues", allValues)
+        //Log.d("allValues", allValues)
         for (i in 0..15) {
             allValues = allValues.replace(",,".toRegex(), ",")
         }
         allValues = allValues.replace(",$".toRegex(), "")
         allValues = if (allValues.startsWith(",")) allValues.substring(1) else allValues
 
-        Log.d("allValuesN", allValues)
+        //Log.d("allValuesN", allValues)
 
         return allValues.removeLastComma()
     }
@@ -534,7 +534,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
                                         activity.subscribeToFCMTopic(item)
-                                        Log.d("rakib", item)
+                                        //Log.d("rakib", item)
                                     }
                                 }
                             } catch (e: Exception) {
@@ -546,7 +546,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
                                         activity.unsubscribeFromFCMTopic(item)
-                                        Log.d("rakib", item)
+                                        //Log.d("rakib", item)
                                     }
                                 }
                             } catch (e: Exception) {
@@ -555,10 +555,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     }
 
 
-                    Log.d("rakib cat id", "${catIds?.size}")
+                    //Log.d("rakib cat id", "${catIds?.size}")
 
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
-                    Log.d("google", "google = $inviteInterviview")
+                    //Log.d("google", "google = $inviteInterviview")
 
                     if (inviteInterviview?.toInt()!! > 0) {
                         showInterviewInvitationPop()
@@ -578,7 +578,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateJobApplyThreshold(response.body()?.data?.get(0)?.appliedJobsThreshold)
 //                        Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
 //                        Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
-                        Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
+                        //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -602,7 +602,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         doAsync {
             val shortlistedjobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
             uiThread {
-                Log.d("ShortListedJobPopup", "Job found: ${shortlistedjobs.size}")
+                //Log.d("ShortListedJobPopup", "Job found: ${shortlistedjobs.size}")
 
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
@@ -626,7 +626,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 val c = Calendar.getInstance().time
                                 val df = SimpleDateFormat("dd-MMM-yyyy")
                                 val formattedDate = df.format(c)
-                                Log.d("formattedDate", "formattedDate: $formattedDate")
+                                //Log.d("formattedDate", "formattedDate: $formattedDate")
                                 bdjobsUserSession.insertShortlListedPopupDate(formattedDate)
                             } else if (!isChecked) {
                                 bdjobsUserSession.insertShortlListedPopupDate("19-Mar-1919")

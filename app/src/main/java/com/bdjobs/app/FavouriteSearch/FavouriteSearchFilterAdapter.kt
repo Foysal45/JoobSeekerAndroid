@@ -180,7 +180,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                                         }
 
                                         holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
-                                        Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
+                                        //Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
                                         val favCountWithID = FavouriteSearchCountDataModelWithID(
                                                 intCount = response.body()?.data?.get(0)?.intCount,
                                                 id = filterId
@@ -195,7 +195,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     })
                 } else {
                     try {
-                        Log.d("filterCount", "filterCount= $filterCount")
+                        //Log.d("filterCount", "filterCount= $filterCount")
                         holder.progressBar.hide()
                         holder.favcounter1BTN.textSize = 18.0F
                         if (filterCount.get(0)?.intCount?.length!! > 3) {
@@ -299,7 +299,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                                         }
 
                                         holder.favcounter1BTN.text = response.body()?.data?.get(0)?.intCount
-                                        Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
+                                        //Log.d("favouriteSearch", "favouriteSearch.intCount = ${response.body()?.data?.get(0)?.intCount}")
                                         val favCountWithID = FavouriteSearchCountDataModelWithID(
                                                 intCount = response.body()?.data?.get(0)?.intCount,
                                                 id = filterId
@@ -314,7 +314,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     })
                 } else {
                     try {
-                        Log.d("filterCount", "filterCount= $filterCount")
+                        //Log.d("filterCount", "filterCount= $filterCount")
                         holder.progressBar.hide()
                         holder.favcounter1BTN.textSize = 18.0F
                         if (filterCount.get(0)?.intCount?.length!! > 3) {
@@ -343,14 +343,14 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
 
     private fun deleteFavSearch(position: Int) {
-        Log.d("czcx", "position: $position")
+        //Log.d("czcx", "position: $position")
 
         try {
             if (items.size != 0) {
                 val deletedItem = items.get(position)
                 items.removeAt(position)
                 notifyItemRemoved(position)
-                Log.d("ububua", "ububua = " + deletedItem.filterid)
+                //Log.d("ububua", "ububua = " + deletedItem.filterid)
                 notifyItemRangeRemoved(position, items?.size!!)
 
                 val constraints = Constraints.Builder()
@@ -379,11 +379,11 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 //                    FavSearchDeleteJob.cancelJob(deleteJobID)
                     restoreMe(deletedItem!!, deletedIndex)
                     favCommunicator?.scrollToUndoPosition(deletedIndex)
-                    Log.d("comid", "comid")
+                    //Log.d("comid", "comid")
                 }
 
         snack.show()
-        Log.d("swipe", "dir to LEFT")
+        //Log.d("swipe", "dir to LEFT")
     }
 
     private fun restoreMe(item: FavouriteSearch, pos: Int) {
@@ -394,7 +394,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
     private fun getFilterString(favouriteSearch: FavouriteSearch): String? {
 
-        Log.d("favouriteSearch", "favouriteSearch.filterid= ${favouriteSearch.filterid}")
+        //Log.d("favouriteSearch", "favouriteSearch.filterid= ${favouriteSearch.filterid}")
 
         val age = dataStorage.getAgeRangeNameByID(favouriteSearch.age)
         val keyword = favouriteSearch.keyword
@@ -423,22 +423,22 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
             }
         }
 
-        Log.d("gender", "gender:  ${favouriteSearch.gender}")
+        //Log.d("gender", "gender:  ${favouriteSearch.gender}")
 
-        Log.d("gender", "genderb: ${favouriteSearch.genderb}")
+        //Log.d("gender", "genderb: ${favouriteSearch.genderb}")
 
         var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
-        Log.d("allValuesN", allValues)
+        //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
-        Log.d("allValues", allValues)
+        //Log.d("allValues", allValues)
         for (i in 0..15) {
             allValues = allValues.replace(",,".toRegex(), ",")
         }
         allValues = allValues.replace(",$".toRegex(), "")
         allValues = if (allValues.startsWith(",")) allValues.substring(1) else allValues
 
-        Log.d("allValuesN", allValues)
+        //Log.d("allValuesN", allValues)
 
         return allValues.removeLastComma()
     }

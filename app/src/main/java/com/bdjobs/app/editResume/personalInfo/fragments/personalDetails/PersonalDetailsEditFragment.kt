@@ -112,7 +112,7 @@ class PersonalDetailsEditFragment : Fragment() {
             }
         }
         etPerDob.setOnClickListener {
-            Log.d("rakib", "clicked")
+            //Log.d("rakib", "clicked")
             pickDateOfBirth(birthDateSetListener)
         }
 
@@ -137,7 +137,7 @@ class PersonalDetailsEditFragment : Fragment() {
                 validation = isValidate(etPerNationality, nationalityTIL, etPerNationality, false, validation)
             }
 
-            Log.d("rakib", "gender $gender marital $marital")
+            //Log.d("rakib", "gender $gender marital $marital")
             if (gender.isEmpty()) activity?.toast("Please select Gender") else validation += 1
             if (marital?.isEmpty()!!) activity?.toast("Please select Marital Status") else validation += 1
             ClPersonalLayout.clearFocus()
@@ -197,7 +197,7 @@ class PersonalDetailsEditFragment : Fragment() {
         calendarMax.set(Calendar.MONTH, mMonth)
         calendarMax.set(Calendar.YEAR, mYear - 12)
 
-        Log.d("calValue", "year : $mYear")
+        //Log.d("calValue", "year : $mYear")
 
         dpd.datePicker.maxDate = calendarMax.timeInMillis
         dpd.datePicker.minDate = calendarMin.timeInMillis
@@ -244,7 +244,7 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun updateData() {
-        Log.d("nation", "val : $nationality and ${etPerNationality.getString()}")
+        //Log.d("nation", "val : $nationality and ${etPerNationality.getString()}")
         activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePersonalData(session.userId, session.decodId, session.IsResumeUpdate,
                 etPerFirstName.getString(), etPerLastName.getString(), etPerFName.getString(), etPerMName.getString(),
@@ -288,7 +288,7 @@ class PersonalDetailsEditFragment : Fragment() {
             if (i > 0) {
                 val chip = chipGroup.findViewById(i) as Chip
                 cg.radioCheckableChip(chip)
-                Log.d("chip_entry", "text: ${chip.text}")
+                //Log.d("chip_entry", "text: ${chip.text}")
                 val data = chip.text.toString()
                 when (chipGroup.id) {
                     R.id.cgGender -> {
@@ -320,13 +320,13 @@ class PersonalDetailsEditFragment : Fragment() {
     }
 
     private fun selectChip(chipGroup: ChipGroup, data: String) {
-        Log.d("rakib", data)
+        //Log.d("rakib", data)
         val count = chipGroup.childCount
         for (i in 0 until count) {
             val chip = chipGroup.getChildAt(i) as Chip
             val chipText = chip.text.toString()
             if (data.equalIgnoreCase(chipText)) {
-                Log.d("chip_entry", "text:$i")
+                //Log.d("chip_entry", "text:$i")
                 chip.isChecked = true
 
             }

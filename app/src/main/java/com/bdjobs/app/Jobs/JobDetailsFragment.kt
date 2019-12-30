@@ -79,7 +79,7 @@ class JobDetailsFragment : Fragment() {
 
         layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
-        Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
+        //Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
         jobDetailAdapter = JobDetailAdapter(activity!!)
         jobDetailRecyclerView?.adapter = jobDetailAdapter
 
@@ -88,7 +88,7 @@ class JobDetailsFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     currentJobPosition = getCurrentItem()
-                    Log.d("PositionTest", "snapHelper   $currentJobPosition")
+                    //Log.d("PositionTest", "snapHelper   $currentJobPosition")
 
                     shareJobPosition = currentJobPosition
                     communicator.setCurrentJobPosition(currentJobPosition)
@@ -132,9 +132,9 @@ class JobDetailsFragment : Fragment() {
                 isLoading = true
                 currentPage += 1
 
-                Log.d("loadMoreItemsgfjfg", " Called ")
+                //Log.d("loadMoreItemsgfjfg", " Called ")
 
-                Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
+                //Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
                 loadNextPage(
                         jobLevel = jobLevel,
                         newsPaper = newsPaper,
@@ -188,20 +188,20 @@ class JobDetailsFragment : Fragment() {
 
         try {
             jobListGet = communicator.getJobList()!!
-            Log.d("Job detail fragment", "${jobListGet?.size}")
+            //Log.d("Job detail fragment", "${jobListGet?.size}")
         } catch (e: Exception) {
             logException(e)
         }
 
 
         try {
-            Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
+            //Log.d("djggsgdjdg", "jobListGet ${jobListGet!!.size}")
 
-            Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
+            //Log.d("djggsgdjdg", "clickedPosition ${communicator.getItemClickPosition()}")
 
-            Log.d("djggsgdjdg", "getCurrentPageNumber: ${communicator.getCurrentPageNumber()}")
+            //Log.d("djggsgdjdg", "getCurrentPageNumber: ${communicator.getCurrentPageNumber()}")
 
-            Log.d("djggsgdjdg", "getTotalPage: ${communicator.getTotalPage()}")
+            //Log.d("djggsgdjdg", "getTotalPage: ${communicator.getTotalPage()}")
         } catch (e: Exception) {
             logException(e)
         }
@@ -233,7 +233,7 @@ class JobDetailsFragment : Fragment() {
     }
 
     private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
-        Log.d("ArrayTestJobdetail", " loadNextPage called\n ")
+        //Log.d("ArrayTestJobdetail", " loadNextPage called\n ")
 
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
@@ -268,7 +268,7 @@ class JobDetailsFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
 
-                        Log.d("ArrayTestJobdetail", " response.isSuccessful")
+                        //Log.d("ArrayTestJobdetail", " response.isSuccessful")
 
                         val resp_jobs = response.body()
 
@@ -295,7 +295,7 @@ class JobDetailsFragment : Fragment() {
                         communicator.setTotalJob(resp_jobs?.common?.totalRecordsFound!!)
 
                     } else {
-                        Log.d("TAG", "not successful: ")
+                        //Log.d("TAG", "not successful: ")
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -303,7 +303,7 @@ class JobDetailsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
-                Log.d("TAG", "not successful!! onFail")
+                //Log.d("TAG", "not successful!! onFail")
             }
         })
     }
@@ -311,7 +311,7 @@ class JobDetailsFragment : Fragment() {
 
     private fun loadFirstPage() {
 
-        Log.d("Job detail fragment","came here")
+        //Log.d("Job detail fragment","came here")
 
         try {
             jobDetailAdapter?.addAll(jobListGet as List<JobListModelData>)
@@ -357,7 +357,7 @@ class JobDetailsFragment : Fragment() {
 
         filterIMGV?.setOnClickListener {
             jobDetailAdapter!!.shareJobs(shareJobPosition)
-            Log.d("ShareJob", "currentJobPosition $shareJobPosition")
+            //Log.d("ShareJob", "currentJobPosition $shareJobPosition")
         }
 
         shortListIMGV?.setOnClickListener {

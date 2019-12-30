@@ -66,7 +66,7 @@ class WCPhoneEmailFragment : Fragment() {
                     registrationCommunicator.wcGoToStepPassword()
                     registrationCommunicator.wcMobileNumberSelected(mobileNumberTIET.getString())
                     registrationCommunicator.wcUserNameSelected(mobileNumberTIET.getString())
-                    Log.d("CountryCode", "${countryCodeTIET?.text}")
+                    //Log.d("CountryCode", "${countryCodeTIET?.text}")
                     val countryCode: String
                     val countryNameAndCountryCode = countryCodeTIET?.getString()
                     val inputData = countryNameAndCountryCode!!.split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
@@ -79,7 +79,7 @@ class WCPhoneEmailFragment : Fragment() {
                     }
                 }
                 isValidEmail(emailTIET.text.toString()) -> {
-                    Log.d("dsklgj", "2")
+                    //Log.d("dsklgj", "2")
                     registrationCommunicator.wcGoToStepPassword()
                     registrationCommunicator.wcEmailSelected(emailTIET.getString())
                     registrationCommunicator.wcUserNameSelected(emailTIET.getString())

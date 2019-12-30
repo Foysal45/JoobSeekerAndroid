@@ -26,14 +26,14 @@ abstract class PaginationScrollListener
 
         if (!isLoading && !isLastPage) {
 
-            Log.d("Loading", "!isLoading && !isLastPage ")
+            //Log.d("Loading", "!isLoading && !isLastPage ")
 
-            Log.d("Loading", "visibleItemCount:  $visibleItemCount " +
-                    "firstVisibleItemPosition: $firstVisibleItemPosition totalItemCount: $totalItemCount ")
+            /*Log.d("Loading", "visibleItemCount:  $visibleItemCount " +
+                    "firstVisibleItemPosition: $firstVisibleItemPosition totalItemCount: $totalItemCount ")*/
 
 
             if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                Log.d("Loading", "loadMoreItems ")
+                //Log.d("Loading", "loadMoreItems ")
 
                 if(isLastPage != true){
 
@@ -43,7 +43,7 @@ abstract class PaginationScrollListener
 
             }
         } else if (isLastPage) {
-            Log.d("Loading", "isLastPage")
+            //Log.d("Loading", "isLastPage")
         }
 
     }

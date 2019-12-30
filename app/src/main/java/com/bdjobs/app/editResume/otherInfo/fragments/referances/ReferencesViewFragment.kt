@@ -47,12 +47,12 @@ class ReferencesViewFragment : Fragment() {
         super.onResume()
         session = BdjobsUserSession(activity)
         eduCB = activity as OtherInfo
-        Log.d("rakib", "size ${eduCB.getReferenceList()?.size}")
+        //Log.d("rakib", "size ${eduCB.getReferenceList()?.size}")
         eduCB.setDeleteButton(false)
         if (eduCB.getBackFrom() == "") {
             if (eduCB.getReferenceList() != null) setupRV(eduCB.getReferenceList()!!) // add message if needed in the else part
-            //Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
-            Log.d("rakib", "came if")
+            ////Log.d("academic", "value : ->|${eduCB.getBackFrom()}| and ->|${eduCB.getAcademicList()?.size}|")
+            //Log.d("rakib", "came if")
             try {
                 if(eduCB.getReferenceList()?.size == 2)
                     fab_reference_add?.hide()
@@ -63,8 +63,8 @@ class ReferencesViewFragment : Fragment() {
             }
 
         } else {
-            //Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
-            Log.d("rakib", "came else")
+            ////Log.d("academic1", "value : ->|${eduCB.getBackFrom()}|")
+            //Log.d("rakib", "came else")
             doWork()
         }
         eduCB.setTitle(resources.getString(R.string.title_reference))
@@ -135,7 +135,7 @@ class ReferencesViewFragment : Fragment() {
 
                         arr?.clear()
 
-                        Log.d("dsfklhgjfd;h", "$respo")
+                        //Log.d("dsfklhgjfd;h", "$respo")
 
                         arr = respo?.data as ArrayList<ReferenceDataModel>
 
