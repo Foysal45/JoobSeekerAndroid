@@ -1,7 +1,8 @@
 package com.bdjobs.app.editResume.adapters.models
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-
+@Keep
 // Employment history
 data class AreaofExperienceItem(
 
@@ -11,7 +12,7 @@ data class AreaofExperienceItem(
         @field:SerializedName("id")
         val id: String? = null
 )
-
+@Keep
 data class DataItem(
 
         @field:SerializedName("departmant")
@@ -47,7 +48,7 @@ data class DataItem(
         @field:SerializedName("companyLocation")
         val companyLocation: String? = null
 )
-
+@Keep
 data class GetExps(
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
@@ -61,7 +62,7 @@ data class GetExps(
         @field:SerializedName("message")
         val message: String? = null
 )
-
+@Keep
 data class GetArmyEmpHis(
 
         @field:SerializedName("statuscode")
@@ -76,7 +77,7 @@ data class GetArmyEmpHis(
         @field:SerializedName("message")
         val message: String? = null
 )
-
+@Keep
 data class ArmydataItem(
 
         @field:SerializedName("Trade")
@@ -115,7 +116,7 @@ data class ArmydataItem(
         @field:SerializedName("ba_no2")
         var baNo2: String? = null
 )
-
+@Keep
 data class AddorUpdateModel(
         @field:SerializedName("statuscode")
         val statuscode: String? = "",
@@ -132,7 +133,7 @@ data class AddorUpdateModel(
         @field:SerializedName("message")
         val message: String? = null
 )
-
+@Keep
 data class SpecializationAdModel(
     @SerializedName("data")
     var `data`: Any? = Any(),
@@ -218,7 +219,7 @@ data class AcaDataItem(
         val instituteType: String? = null
 )*/
 
-
+@Keep
 data class GetAcademicInfo(
         @SerializedName("common")
         var common: Any? = null,
@@ -229,7 +230,7 @@ data class GetAcademicInfo(
         @SerializedName("statuscode")
         var statuscode: String? = null
 )
-
+@Keep
 data class AcaDataItem(
         @SerializedName("acId")
         var acId: String? = null,
@@ -273,7 +274,7 @@ data class AcaDataItem(
         var boardId: String? = null
 )
 
-
+@Keep
 // Personal Info
 data class P_DataItem(
 
@@ -310,7 +311,7 @@ data class P_DataItem(
         @field:SerializedName("religion")
         val religion: String? = ""
 )
-
+@Keep
 data class GetPersInfo(
 
         @field:SerializedName("statuscode")
@@ -325,7 +326,7 @@ data class GetPersInfo(
         @field:SerializedName("message")
         val message: String? = null
 )
-
+@Keep
 // Contact Info
 data class C_DataItem(
         @SerializedName("addressType1")
@@ -375,7 +376,7 @@ data class C_DataItem(
         @SerializedName("presentVillage")
         val presentVillage: String?=""
 )
-
+@Keep
 data class GetContactInfo(
         @SerializedName("common")
         val common: Any?,
@@ -386,7 +387,7 @@ data class GetContactInfo(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 // Career Info
 data class Ca_DataItem(
 
@@ -408,7 +409,7 @@ data class Ca_DataItem(
         @field:SerializedName("objective")
         val objective: String? = null
 )
-
+@Keep
 data class GetCarrerInfo(
         @field:SerializedName("statuscode")
         val statuscode: String? = null,
@@ -422,7 +423,7 @@ data class GetCarrerInfo(
         @field:SerializedName("message")
         val message: String? = null
 )
-
+@Keep
 // ORI Info
 data class GetORIResponse(
 
@@ -438,7 +439,7 @@ data class GetORIResponse(
         @field:SerializedName("message")
         val message: String? = null
 )
-
+@Keep
 data class ORIdataItem(
 
         @field:SerializedName("messageType")
@@ -455,6 +456,7 @@ data class ORIdataItem(
 )
 
 // Training Info
+@Keep
 data class Tr_DataItem(
         val duration: String? = null,
         val country: String? = null,
@@ -466,14 +468,14 @@ data class Tr_DataItem(
         val title: String? = null,
         val trId: String? = null
 )
-
+@Keep
 data class GetTrainingInfo(
         val statuscode: String? = null,
         val data: List<Tr_DataItem?>? = listOf(),
         val common: Any? = null,
         val message: String? = null
 )
-
+@Keep
 // preferred Areas
 data class GetPreferredAreas(
         @SerializedName("common")
@@ -485,7 +487,7 @@ data class GetPreferredAreas(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class PreferredAreasData(
         @SerializedName("inside")
         val inside: List<Inside?>? = listOf(),
@@ -500,35 +502,35 @@ data class PreferredAreasData(
         @SerializedName("prefferedOrganizationType")
         val preferredOrganizationType: List<PreferredOrgType?>? = listOf()
 )
-
+@Keep
 data class PreferredOrgType(
         @SerializedName("id")
         val id: String?,
         @SerializedName("pref_org_name")
         val prefOrgName: String?
 )
-
+@Keep
 data class Outside(
         @SerializedName("country_name")
         val countryName: String?,
         @SerializedName("id")
         val id: String?
 )
-
+@Keep
 data class Inside(
         @SerializedName("district_name")
         val districtName: String?,
         @SerializedName("id")
         val id: String?
 )
-
+@Keep
 data class PreferredBlueCategory(
         @SerializedName("id")
         val id: String?,
         @SerializedName("pref_blue_cat_name")
         val prefBlueCatName: String?
 )
-
+@Keep
 data class PreferredJobCategory(
         @SerializedName("id")
         val id: String?,
@@ -541,7 +543,7 @@ data class PreferredJobCategory(
 
 
 //LanguageInfo
-
+@Keep
 data class LanguageModel(
         @SerializedName("common")
         val common: Any?,
@@ -552,7 +554,7 @@ data class LanguageModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class LanguageDataModel(
         @SerializedName("language")
         val language: String?="",
@@ -568,7 +570,7 @@ data class LanguageDataModel(
         val writing: String?=""
 )
 
-
+@Keep
 data class ReferenceModel(
         @SerializedName("common")
         val common: Any?,
@@ -579,7 +581,7 @@ data class ReferenceModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class ReferenceDataModel(
         @SerializedName("address")
         val address: String?="",
@@ -605,7 +607,7 @@ data class ReferenceDataModel(
         val relation: String?=""
 )
 
-
+@Keep
 data class ProfessionalModel(
         @SerializedName("common")
         val common: Any?,
@@ -616,7 +618,7 @@ data class ProfessionalModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class ProfessionalDataModel(
         @SerializedName("certification")
         val certification: String?="",
@@ -634,7 +636,7 @@ data class ProfessionalDataModel(
         val to: String?=""
 )
 
-
+@Keep
 data class SpecialzationModel(
         @SerializedName("common")
         val common: Any?,
@@ -645,7 +647,7 @@ data class SpecialzationModel(
         @SerializedName("statuscode")
         val statuscode: String?
 )
-
+@Keep
 data class SpecializationDataModel(
         @SerializedName("description")
         val description: String?="",
@@ -657,6 +659,7 @@ data class SpecializationDataModel(
         val skills : List<Skill?>? =listOf()
 )
 
+@Keep
 data class Skill(
         @SerializedName("id")
         val id: String?,

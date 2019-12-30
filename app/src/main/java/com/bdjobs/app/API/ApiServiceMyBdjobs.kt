@@ -577,6 +577,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("apps_updateBlueCv.asp")
+//    @POST("apps_updateBlueCv_testp.asp")
     fun sendBlueCollarUserInfo(
             @Field("UserID") userid: String? = "",
             @Field("decodeId") decodeId: String? = "",
@@ -593,6 +594,7 @@ interface ApiServiceMyBdjobs {
             @Field("examDegreeTitle") examDegreeTitle: String? = "",
             @Field("yearOfPassing") yearOfPassing: String? = "",
             @Field("hasEdu") hasEdu: String? = "",
+            @Field("boardId") board: String? = "",
             @Field("SkilledBy") SkilledBy: String = "",
             @Field("ntvqfLevel") ntvqfLevel: String = "",
             @Field("cat_id") cat_id: String = "",

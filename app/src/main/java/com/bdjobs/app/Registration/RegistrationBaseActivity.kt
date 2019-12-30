@@ -123,6 +123,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     private var instName = ""
     private var educationType = ""
     private var hasEducation = ""
+    private var board = ""
 
     private var categorySelectedPosition = -1
     //-------------api response value----------//
@@ -846,7 +847,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
         ApiServiceMyBdjobs.create().sendBlueCollarUserInfo(userID, decodeId, address, locationID, birthDate!!,
                 experience, subcategoriesID, age, userName, eduLevel, instName,
-                educationType, eduDegree, passingYear, hasEducation,skilledBy,ntvqfLevel,categoryId).enqueue(object : Callback<UpdateBlueCvModel> {
+                educationType, eduDegree, passingYear, hasEducation, board, skilledBy,ntvqfLevel,categoryId).enqueue(object : Callback<UpdateBlueCvModel> {
             override fun onFailure(call: Call<UpdateBlueCvModel>, t: Throwable) {
                 Log.d("Ressdjg", " onFailure ${t.message}")
                 loadingProgressBar.visibility = View.GONE
@@ -995,18 +996,20 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     }
 
-    override fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String) {
+    override fun bcEducationSelected(eduLevel: String, eduDegree: String, instName: String, passingYear: String, educationType: String, board : String) {
 
         this.eduLevel = eduLevel
         this.eduDegree = eduDegree
         this.instName = instName
         this.passingYear = passingYear
         this.educationType = educationType
+        this.board = board
 
 
         Log.d("catagorySelected", "eduLevel ${this.eduLevel}" +
                 "  eduDegree ${this.eduDegree} instName ${this.instName}" +
-                " passingYear ${this.passingYear} educationType ${this.educationType}")
+                " passingYear ${this.passingYear} educationType ${this.educationType}" +
+                " board ${this.board}")
 
 
     }

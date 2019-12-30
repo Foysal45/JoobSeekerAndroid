@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_education.*
 import org.jetbrains.anko.selector
+import org.jetbrains.anko.toast
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,6 +37,7 @@ class BCEducationFragment : Fragment() {
     private lateinit var levelOfEducation: String
     private lateinit var passingYear: String
     private lateinit var instituteName: String
+    private lateinit var board: String
     private var educationType = ""
     private lateinit var returnView: View
     private var yearList = ArrayList<String>()
@@ -70,6 +72,14 @@ class BCEducationFragment : Fragment() {
             passingYear = bcPassingYearTIET?.text.toString()
             educationType = dataStorage.getEducationTypeByEducationDegreeName(eduDegree)
             levelOfEducation = dataStorage.getEduIDByEduLevel(eduLevel)
+            board = dataStorage.getBoardIDbyName(bcEduBoardTIET.text.toString()).toString()
+
+
+            if (board == "-1") board = "0" else board
+
+            Log.d("rakib", "click $board")
+
+            Log.d("rakib", "check $levelOfEducation $eduDegree $instituteName $passingYear 1 board $board")
             Log.d("MobileNumberVer2", " EducationType in database $educationType")
             Log.d("MobileNumberVer2", " levelOfEducation in database $levelOfEducation")
             if (eduDegree.equals("Other", ignoreCase = true)) {
@@ -81,7 +91,7 @@ class BCEducationFragment : Fragment() {
             if (hasEducation.equals("False", true)) {
 
                 Log.d("ConditionCheck", " First Condition ")
-                registrationCommunicator.bcEducationSelected("0", eduDegree, instituteName, "0", "0")
+                registrationCommunicator.bcEducationSelected("0", eduDegree, instituteName, "0", "0", board)
                 registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
             } else {
                 bcEducationFAButton.hideKeyboard()
@@ -89,7 +99,7 @@ class BCEducationFragment : Fragment() {
                 Log.d("ConditionCheck", " validateCondition ${validateCondition()} 2nd ${validateConditionTwo()}")
                 if (validateCondition() || validateConditionTwo()) {
                     Log.d("ConditionCheck", " second Condition ")
-                    registrationCommunicator.bcEducationSelected(levelOfEducation, eduDegree, instituteName, passingYear, "1")
+                    registrationCommunicator.bcEducationSelected(levelOfEducation, eduDegree, instituteName, passingYear, "1", board)
                     registrationCommunicator.bcGoToStepPhotoUpload(hasEducation)
                 }
             }
@@ -108,8 +118,6 @@ class BCEducationFragment : Fragment() {
             }
         }
 
-
-
         checkBox.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
                 if (isChecked) {
@@ -125,18 +133,21 @@ class BCEducationFragment : Fragment() {
                     bcInstituteNameTIL.isErrorEnabled = false
                     bcPassingYearTIL.isErrorEnabled = false
                     educationType = ""
+
                 } else {
                     hasEducation = "False"
                     bcEduLevelTIET.clear()
                     bcEduDegreeTIET.clear()
                     bcInstituteNameTIET.clear()
                     bcPassingYearTIET.clear()
+                    bcEduBoardTIET?.clear()
                     bcEduLevelTIET.isEnabled = false
                     bcEduDegreeTIET.isEnabled = false
                     bcInstituteNameTIET.isEnabled = false
                     bcPassingYearTIET.isEnabled = false
                     bcEduDegreeOtherTIL.visibility = View.GONE
                     bcEduDegreeOtherTIET.visibility = View.GONE
+                    bcEduBoardTIET?.isEnabled = false
                     bcEduDegreeTIL.isErrorEnabled = false
                     bcEduLevelTIL.isErrorEnabled = false
                     bcInstituteNameTIL.isErrorEnabled = false
@@ -260,7 +271,7 @@ class BCEducationFragment : Fragment() {
             requestFocus(bcPassingYearTIET)
             //scrollview.scrollTo(0, bcPassingYearTIET.bottom)
 
-        }else {
+        } else {
             bcPassingYearTIL?.isErrorEnabled = false
         }
         if (bcEduDegreeOtherTIL.isVisible) {
@@ -272,8 +283,8 @@ class BCEducationFragment : Fragment() {
             }
         }
 
-        if (bcEduBoardTIL.isVisible){
-            if (TextUtils.isEmpty(bcEduBoardTIET.getString())){
+        if (bcEduBoardTIL.isVisible) {
+            if (TextUtils.isEmpty(bcEduBoardTIET.getString())) {
                 bcEduBoardTIL?.showError("বোর্ডের নাম লিখুন")
                 requestFocus(bcEduBoardTIET)
             } else {
@@ -294,13 +305,28 @@ class BCEducationFragment : Fragment() {
 
         val allBoards = dataStorage.allBoards
 
-        setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf<String>(allBoards,allBoards.size-1))
+        setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf<String>(allBoards, allBoards.size - 1))
 
         if (!TextUtils.isEmpty(bcEduLevelTIET.getString())) {
             var queryValue = bcEduLevelTIET.getString()
             queryValue = queryValue.replace("'", "''")
             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
+            Log.d("rakib", "edu level id $edulevelID")
             setDialog("পরীক্ষা/ডিগ্রীর নাম", bcEduDegreeTIET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
+
+            if (edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
+                bcEduBoardTIL?.visibility = View.GONE
+                bcEduDegreeTIL.isErrorEnabled = false
+                board = "0"
+                Log.d("rakib", "onresume if $board")
+
+            } else {
+                board = dataStorage.getBoardIDbyName(bcEduBoardTIET?.text?.toString()).toString()
+                bcEduBoardTIL?.visibility = View.VISIBLE
+                bcEduDegreeTIL.isErrorEnabled = false
+                Log.d("rakib", "onresume else $board")
+
+            }
         }
         try {
             if (bcEduDegreeTIET?.text.toString().equalIgnoreCase("Other")) {
@@ -313,6 +339,7 @@ class BCEducationFragment : Fragment() {
         } catch (e: Exception) {
             Log.d("ExceptionTest", " Exception " + e.message)
         }
+
     }
 
     private fun setDialog(title: String, editText: TextInputEditText, data: Array<String>) {
@@ -348,6 +375,21 @@ class BCEducationFragment : Fragment() {
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
                             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
+                            if (edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
+                                bcEduBoardTIL?.visibility = View.GONE
+                                bcEduDegreeTIL.isErrorEnabled = false
+                                board = "0"
+                                Log.d("rakib", "set dialog if $board")
+
+                            } else {
+                                board = dataStorage.getBoardIDbyName(bcEduBoardTIET?.text?.toString()).toString()
+                                bcEduBoardTIL?.visibility = View.VISIBLE
+                                bcEduDegreeTIL.isErrorEnabled = false
+                                Log.d("rakib", "set dialog else $board")
+
+
+
+                            }
                             setDialog("পরীক্ষা/ডিগ্রীর নাম", bcEduDegreeTIET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
 
                         }
