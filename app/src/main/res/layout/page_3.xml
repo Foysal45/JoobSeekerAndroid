@@ -69,25 +69,154 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
+                android:id="@+id/guidelineLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="10dp" />
+                app:layout_constraintGuide_begin="12dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="12dp"/>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/first_card"
+                android:layout_width="0dp"
+                android:layout_height="102dp"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:cardCornerRadius="4dp"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/first_cl"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/gradient_page_3"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_marginEnd="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:src="@drawable/ic_sms3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/first_cl"
+                        app:layout_constraintTop_toBottomOf="@id/first_cl"
+                        app:layout_constraintTop_toTopOf="@id/first_cl" />
+
+                    <View
+                        android:id="@+id/first_dot"
+                        app:layout_constraintStart_toStartOf="@+id/first_cl"
+                        app:layout_constraintTop_toTopOf="@+id/first_cl"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginStart="20dp"
+                        android:background="#FFF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Buy &amp; Get Job alert on your phone instantly"
+                        android:textColor="#FFF"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textStyle="italic"
+                        app:layout_constraintBottom_toBottomOf="@+id/first_dot"
+                        app:layout_constraintStart_toEndOf="@+id/first_dot"
+                        app:layout_constraintTop_toTopOf="@id/first_dot" />
+
+                    <View
+                        android:id="@+id/second_dot"
+                        app:layout_constraintStart_toStartOf="@+id/first_cl"
+                        app:layout_constraintTop_toBottomOf="@+id/first_dot"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="20dp"
+                        android:background="#FFF"/>
+
+                    <TextView
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Get Free Trial  20 SMS Today"
+                        android:textColor="#FFF"
+                        android:textStyle="italic"
+                        app:layout_constraintBottom_toBottomOf="@+id/second_dot"
+                        app:layout_constraintStart_toEndOf="@+id/second_dot"
+                        app:layout_constraintTop_toTopOf="@id/second_dot" />
+
+                    <com.google.android.material.button.MaterialButton
+                        app:layout_constraintTop_toBottomOf="@id/second_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:textStyle="italic"
+                        android:text="Start Trial"
+
+                        app:iconGravity="end"
+                        android:includeFontPadding="false"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        app:backgroundTint="#707070"
+                        app:iconTint="#FFF"
+                        app:icon="@drawable/ic_arrow_forward_black_24dp"
+                        android:textAllCaps="false"
+                        app:layout_constraintStart_toStartOf="@id/first_dot"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_marginTop="18dp"
+                android:textColor="#000"
+                app:layout_constraintTop_toBottomOf="@id/first_card"
+                android:id="@+id/Buy_following_SMS_Packages"
+                android:text="Buy following SMS Packages"
+                android:layout_width="0dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/first_card"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/second_card"
+                android:layout_width="0dp"
+                android:layout_height="102dp"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:cardCornerRadius="4dp"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintTop_toBottomOf="@id/Buy_following_SMS_Packages">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/second_cl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            </com.google.android.material.card.MaterialCardView>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
