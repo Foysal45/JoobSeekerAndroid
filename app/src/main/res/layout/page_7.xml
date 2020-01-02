@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp">
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_close_ash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:layout_marginTop="30dp"
+            android:id="@+id/job_apply_limit_reached_header_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sms7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/turn_of_sms_alert_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:paddingLeft="39dp"
+            android:textColor="#393939"
+            android:paddingRight="39dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_apply_limit_reached_header_img"
+            tools:text="Turn off SMS Alert" />
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/sms_count_tv"
+            app:layout_constraintTop_toBottomOf="@id/turn_of_sms_alert_tv"
+            tools:text="You have more than 20 SMS Job alert left. Avail this service from following features"
+            android:textColor="#767676"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/job_apply_limit_reached_day_remaining_cv"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            app:cardBackgroundColor="#FFEBEE"
+            app:cardElevation="0dp"
+            app:strokeColor="#FFCDD2"
+            app:strokeWidth="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="5dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toEndOf="@id/job_apply_limit_reached_apply_count_cv"
+            app:layout_constraintTop_toBottomOf="@id/sms_count_tv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#C62828"
+                    android:text=" Favourite\nSearch"
+                    />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/job_apply_limit_reached_apply_count_cv"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            app:cardBackgroundColor="#E3F2FD"
+            app:strokeWidth="1dp"
+            android:layout_marginRight="5dp"
+            app:cardCornerRadius="4dp"
+            app:strokeColor="#90CAF9"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toStartOf="@id/job_apply_limit_reached_day_remaining_cv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sms_count_tv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#1565C0"
+                    android:textSize="14sp"
+                    android:text="Following Employer" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
