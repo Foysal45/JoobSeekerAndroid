@@ -304,9 +304,12 @@ class BCEducationFragment : Fragment() {
         val eduLevels = dataStorage.allEduLevels
         setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))
 
-        val allBoards = dataStorage.allBoards
+        val allBoards =  dataStorage.allBoards
 
-        setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf<String>(allBoards, allBoards.size - 1))
+        try {
+            setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf(allBoards, allBoards.size-1))
+        } catch (e: Exception) {
+        }
 
         if (!TextUtils.isEmpty(bcEduLevelTIET.getString())) {
             var queryValue = bcEduLevelTIET.getString()
