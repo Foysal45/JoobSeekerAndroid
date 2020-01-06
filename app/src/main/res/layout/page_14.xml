@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="335dp"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_background">
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Select Payment Method"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:text="Your preferred payment method can be selected from here."
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card1"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="0dp"
+        app:cardCornerRadius="4dp"
+        app:cardForegroundColor="@android:color/transparent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv2"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="11dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/img1"
+                android:src="@drawable/ic_credit"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
+            <TextView
+                android:id="@+id/tv3"
+                android:textColor="#636363"
+                android:layout_marginStart="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/img1"
+                app:layout_constraintTop_toTopOf="@id/img1"
+                app:layout_constraintStart_toEndOf="@id/img1"
+                android:text="Credit/Debit Card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv3"
+                app:layout_constraintTop_toTopOf="@id/tv3"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow_forward"
+                android:layout_width="18dp"
+                android:layout_height="18dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card2"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="0dp"
+        app:cardCornerRadius="4dp"
+        app:cardForegroundColor="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card1"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="11dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/img2"
+                android:src="@drawable/ic_internet_banking"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
+            <TextView
+                android:id="@+id/tv4"
+                android:textColor="#636363"
+                android:layout_marginStart="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/img2"
+                app:layout_constraintTop_toTopOf="@id/img2"
+                app:layout_constraintStart_toEndOf="@id/img2"
+                android:text="Internet Banking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv4"
+                app:layout_constraintTop_toTopOf="@id/tv4"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow_forward"
+                android:layout_width="18dp"
+                android:layout_height="18dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="0dp"
+        app:cardCornerRadius="4dp"
+        app:cardForegroundColor="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card2"
+        app:strokeColor="#D9D9D9"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="11dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/img3"
+                android:src="@drawable/ic_mobile_banking"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
+            <TextView
+                android:id="@+id/tv5"
+                android:textColor="#636363"
+                android:layout_marginStart="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/img3"
+                app:layout_constraintTop_toTopOf="@id/img3"
+                app:layout_constraintStart_toEndOf="@id/img3"
+                android:text="Mobile  Banking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv5"
+                app:layout_constraintTop_toTopOf="@id/tv5"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow_forward"
+                android:layout_width="18dp"
+                android:layout_height="18dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+    <ImageView
+        android:id="@+id/deleteIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#000000"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_black_24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
