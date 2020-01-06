@@ -38,10 +38,11 @@ fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: Stri
             try {
                 val arrivalTime = bdjobsDB.notificationDao().getNotificationArrivalTime(type, nId)
                 //Log.d("rakib time", arrivalTime.toString())
-                uiThread {
-                    bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime.toString())
+                arrivalTime?.let {
+                    bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime?.toString())
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 }
+
             } catch (e: Exception) {
             }
         }
