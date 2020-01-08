@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,6 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayoutToolbar"
             android:layout_width="match_parent"
@@ -63,51 +65,39 @@
 
 
     <ScrollView
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F2F2F2">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="12dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="12dp"/>
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/first_card"
+                style="@style/Widget.MaterialComponents.CardView"
                 android:layout_width="0dp"
                 android:layout_height="102dp"
-                style="@style/Widget.MaterialComponents.CardView"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 app:cardCornerRadius="4dp"
-                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/first_cl"
                     android:layout_width="match_parent"
-                    android:background="@drawable/gradient_page_3"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_page_3">
 
                     <ImageView
-                        android:layout_marginEnd="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
                         android:src="@drawable/ic_sms3"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/first_cl"
@@ -116,21 +106,21 @@
 
                     <View
                         android:id="@+id/first_dot"
-                        app:layout_constraintStart_toStartOf="@+id/first_cl"
-                        app:layout_constraintTop_toTopOf="@+id/first_cl"
                         android:layout_width="6dp"
                         android:layout_height="6dp"
-                        android:layout_marginTop="22dp"
                         android:layout_marginStart="20dp"
-                        android:background="#FFF"/>
+                        android:layout_marginTop="22dp"
+                        android:background="#FFF"
+                        app:layout_constraintStart_toStartOf="@+id/first_cl"
+                        app:layout_constraintTop_toTopOf="@+id/first_cl" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Buy &amp; Get Job alert on your phone instantly"
                         android:textColor="#FFF"
-                        android:fontFamily="@font/roboto_medium"
                         android:textStyle="italic"
                         app:layout_constraintBottom_toBottomOf="@+id/first_dot"
                         app:layout_constraintStart_toEndOf="@+id/first_dot"
@@ -138,19 +128,19 @@
 
                     <View
                         android:id="@+id/second_dot"
-                        app:layout_constraintStart_toStartOf="@+id/first_cl"
-                        app:layout_constraintTop_toBottomOf="@+id/first_dot"
                         android:layout_width="6dp"
                         android:layout_height="6dp"
-                        android:layout_marginTop="15dp"
                         android:layout_marginStart="20dp"
-                        android:background="#FFF"/>
+                        android:layout_marginTop="15dp"
+                        android:background="#FFF"
+                        app:layout_constraintStart_toStartOf="@+id/first_cl"
+                        app:layout_constraintTop_toBottomOf="@+id/first_dot" />
 
                     <TextView
-                        android:fontFamily="@font/roboto_medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="Get Free Trial  20 SMS Today"
                         android:textColor="#FFF"
                         android:textStyle="italic"
@@ -159,51 +149,55 @@
                         app:layout_constraintTop_toTopOf="@id/second_dot" />
 
                     <com.google.android.material.button.MaterialButton
-                        app:layout_constraintTop_toBottomOf="@id/second_dot"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:textStyle="italic"
-                        android:text="Start Trial"
-
-                        app:iconGravity="end"
-                        android:includeFontPadding="false"
-                        android:minHeight="0dp"
-                        android:minWidth="0dp"
-                        app:backgroundTint="#707070"
-                        app:iconTint="#FFF"
-                        app:icon="@drawable/ic_arrow_forward_black_24dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintStart_toStartOf="@id/first_dot"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="10dp"
+                        android:includeFontPadding="false"
+
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Start Trial"
+                        android:textAllCaps="false"
+                        android:textStyle="italic"
+                        app:backgroundTint="#707070"
+                        app:icon="@drawable/ic_arrow_forward_black_24dp"
+                        app:iconGravity="end"
+                        app:iconTint="#FFF"
+                        app:layout_constraintStart_toStartOf="@id/first_dot"
+                        app:layout_constraintTop_toBottomOf="@id/second_dot" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:layout_marginTop="18dp"
-                android:textColor="#000"
-                app:layout_constraintTop_toBottomOf="@id/first_card"
                 android:id="@+id/Buy_following_SMS_Packages"
-                android:text="Buy following SMS Packages"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="18dp"
                 android:fontFamily="@font/roboto_medium"
+                android:text="Buy following SMS Packages"
+                android:textColor="#000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/first_card"
-                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/first_card" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/second_card"
+                style="@style/Widget.MaterialComponents.CardView"
                 android:layout_width="0dp"
                 android:layout_height="68dp"
-                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="4dp"
-                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/Buy_following_SMS_Packages">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -211,58 +205,461 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                        <ImageView
-                            app:layout_constraintTop_toTopOf="@id/second_cl"
-                            app:layout_constraintStart_toStartOf="@id/second_cl"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="12dp"
-                            android:src="@drawable/sms_message1"
-                            android:id="@+id/page_3_img_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:id="@+id/page_3_img_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/sms_message1"
+                        app:layout_constraintStart_toStartOf="@id/second_cl"
+                        app:layout_constraintTop_toTopOf="@id/second_cl" />
 
                     <TextView
                         android:id="@+id/sms_amount"
-                        android:text="100 SMS"
-                        app:layout_constraintTop_toTopOf="@id/page_3_img_1"
-                        app:layout_constraintStart_toEndOf="@id/page_3_img_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"/>
-                    <TextView
-                        app:layout_constraintTop_toBottomOf="@id/sms_amount"
-                        app:layout_constraintStart_toEndOf="@id/page_3_img_1"
-                        android:text="50 BDT"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginTop="3dp"
                         android:layout_marginStart="15dp"
+                        android:text="100 SMS"
+                        app:layout_constraintStart_toEndOf="@id/page_3_img_1"
+                        app:layout_constraintTop_toTopOf="@id/page_3_img_1" />
+
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="50 BDT"
+                        app:layout_constraintStart_toEndOf="@id/page_3_img_1"
+                        app:layout_constraintTop_toBottomOf="@id/sms_amount" />
 
                     <ImageView
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/forward_img"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:src="@drawable/forward_img"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/third_card"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/second_card">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/third_cl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/page_3_img2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/sms_message1"
+                        app:layout_constraintStart_toStartOf="@id/third_cl"
+                        app:layout_constraintTop_toTopOf="@id/third_cl" />
+
+                    <TextView
+                        android:id="@+id/discount_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="SAVE 10%"
+                        android:textColor="#FF1414"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/page_3_img2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/sms_amount2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="250 SMS"
+                        app:layout_constraintStart_toEndOf="@id/page_3_img2"
+                        app:layout_constraintTop_toBottomOf="@id/discount_amount" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="50 BDT"
+                        app:layout_constraintStart_toEndOf="@id/page_3_img2"
+                        app:layout_constraintTop_toBottomOf="@id/sms_amount2" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/forward_img"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/fourth_card"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/third_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/third_cl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/page_3_img2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/sms_message1"
+                        app:layout_constraintStart_toStartOf="@id/third_cl"
+                        app:layout_constraintTop_toTopOf="@id/third_cl" />
+
+                    <TextView
+                        android:id="@+id/discount_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="SAVE 10%"
+                        android:textColor="#FF1414"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/page_3_img2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/sms_amount2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="250 SMS"
+                        app:layout_constraintStart_toEndOf="@id/page_3_img2"
+                        app:layout_constraintTop_toBottomOf="@id/discount_amount" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="50 BDT"
+                        app:layout_constraintStart_toEndOf="@id/page_3_img2"
+                        app:layout_constraintTop_toBottomOf="@id/sms_amount2" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/forward_img"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/customized_package_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Your customized package"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fourth_card" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/customized_package_card"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="0dp"
+                android:layout_height="119dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customized_package_tv">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/sms_lot_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="13dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="SMS (Lot)"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Per Lot 40 SMS"
+                        android:textColor="#767676"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        app:layout_constraintStart_toEndOf="@id/sms_lot_tv"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/minus_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/ic_minus"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sms_lot_tv" />
+
+                    <TextView
+                        android:id="@+id/sms_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="#AC016D"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/minus_iv"
+                        app:layout_constraintTop_toBottomOf="@id/minus_iv"
+                        app:layout_constraintTop_toTopOf="@id/minus_iv"
+                        tools:text="16" />
+
+                    <ImageView
+                        android:id="@+id/plus_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:src="@drawable/ic_plus"
+                        app:layout_constraintBottom_toBottomOf="@id/sms_count_tv"
+                        app:layout_constraintStart_toEndOf="@id/sms_count_tv"
+                        app:layout_constraintTop_toTopOf="@id/sms_count_tv" />
+
+                    <TextView
+                        android:id="@+id/total_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginBottom="18dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="400"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/minus_iv" />
+
+                    <TextView
+                        android:id="@+id/sms_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="SMS"
+                        android:textColor="#767676"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/total_count_tv"
+                        app:layout_constraintStart_toEndOf="@id/total_count_tv"
+                        app:layout_constraintTop_toTopOf="@id/total_count_tv" />
+
+                    <view
+                        android:id="@+id/view"
+                        android:layout_width="1dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/sms_tv"
+                        app:layout_constraintStart_toEndOf="@id/sms_tv"
+                        app:layout_constraintTop_toTopOf="@id/sms_tv" />
+
+                    <TextView
+                        android:id="@+id/total_amount_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="200"
+                        android:textColor="#4D4D4D"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/total_count_tv"
+                        app:layout_constraintStart_toEndOf="@id/view"
+                        app:layout_constraintTop_toTopOf="@id/total_count_tv" />
+
+                    <TextView
+                        android:id="@+id/bdt_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="BDT"
+                        android:textColor="#4D4D4D"
+                        app:layout_constraintBottom_toBottomOf="@id/total_amount_tv"
+                        app:layout_constraintStart_toEndOf="@id/total_amount_tv"
+                        app:layout_constraintTop_toTopOf="@id/total_amount_tv" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="75dp"
+                        android:layout_marginEnd="15dp"
+                        android:letterSpacing="0"
+                        android:text="Purchase"
+                        android:textAllCaps="false"
+                        app:backgroundTint="#13A10E"
+                        app:layout_constraintBottom_toBottomOf="@id/total_amount_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/sms_package_benefits_tv"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="#393939"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="16sp"
+                android:text="SMS Package Benefits"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/customized_package_card" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/benefits_card"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="0dp"
+                android:layout_height="119dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="27dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sms_package_benefits_tv">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <View
+                        android:id="@+id/first_dot_benefits"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="20dp"
+                        android:background="#000000"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/benefits_text1_tv"
+                        android:text="Get subscription for Following Employer(s), Favorite Search features"
+                        app:layout_constraintStart_toEndOf="@id/first_dot_benefits"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="0dp"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="15dp"
+                        android:textColor="#000000"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"/>
+
+                    <View
+                        android:id="@+id/second_dot_benefits"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="20dp"
+                        android:background="#000000"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv" />
+
+                    <TextView
+                        android:id="@+id/benefits_text2_tv"
+                        android:text="Receive SMS according to the subscribed service(s) till the purchased package limit"
+                        app:layout_constraintStart_toEndOf="@id/second_dot_benefits"
+                        app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="0dp"
+                        android:fontFamily="@font/roboto"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="14sp"
+                        android:textColor="#000000"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
