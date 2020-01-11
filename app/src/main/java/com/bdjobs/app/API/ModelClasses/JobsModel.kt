@@ -12,6 +12,14 @@ data class JobDetailJsonModel(
 )
 
 @Keep
+data class TestJsonModel(
+        @SerializedName("statuscode") val statuscode: String?,
+        @SerializedName("message") val message: String?,
+        @SerializedName("data") val data: List<String?>?,
+        @SerializedName("common") val common: Any?
+)
+
+@Keep
 data class JobDetailData(
         @SerializedName("DeadlineDB") val DeadlineDB: String?,
         @SerializedName("JobId") val jobId: String?,

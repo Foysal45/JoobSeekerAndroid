@@ -441,6 +441,8 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
+                Log.d("rakib", call?.request()?.url()?.query().toString())
+
                 try {
                     if (response.isSuccessful) {
                         jobListRecyclerView?.show()

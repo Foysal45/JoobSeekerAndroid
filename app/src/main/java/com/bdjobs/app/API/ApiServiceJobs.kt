@@ -258,7 +258,25 @@ interface ApiServiceJobs {
     ): Call<String>
 
 
+    @FormUrlEncoded
+    @POST("ResponseBroken.asp")
+    fun responseBroken(
+            @Field("RURL") url : String? = "",
+            @Field("RParameters") params : String? = "",
+            @Field("encoded") encoded : String? = "",
+            @Field("RUserID") userId : String? = "",
+            @Field("RResponse") response : String? = "",
+            @Field("appId") appId: String? = ""
+    ) : Call<String>
 
+    @FormUrlEncoded
+    @POST("ResponseBroken_TestCase.asp")
+    fun responseBrokenTestCase(
+            @Field("encoded") encoded : String? = "",
+            @Field("param1") param1 : String? = "",
+            @Field("param2") param2 : String? = ""
+
+    ) : Call<TestJsonModel>
 
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")

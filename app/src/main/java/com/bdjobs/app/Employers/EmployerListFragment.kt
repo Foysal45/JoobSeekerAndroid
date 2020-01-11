@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
 import com.bdjobs.app.API.ModelClasses.EmployerListModelData
+import com.bdjobs.app.API.ModelClasses.TestJsonModel
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_employer_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,6 +36,8 @@ class EmployerListFragment : Fragment() {
     private lateinit var listCommunicator: EmployersCommunicator
     private lateinit var employerListAdapter: EmployerListAdapter
 
+    lateinit var bdjobsUserSession: BdjobsUserSession
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,6 +49,8 @@ class EmployerListFragment : Fragment() {
         listCommunicator = activity as EmployersCommunicator
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
+
+        bdjobsUserSession = BdjobsUserSession(activity)
 
         backIV.setOnClickListener {
             listCommunicator?.backButtonPressed()
@@ -68,7 +75,7 @@ class EmployerListFragment : Fragment() {
 
         searchBTN?.isEnabled = false
 
-        suggestiveSearch_ET?.easyOnTextChangedListener {text ->
+        suggestiveSearch_ET?.easyOnTextChangedListener { text ->
             if (text.isBlank()) {
                 searchBTN?.isEnabled = false
                 orgName = suggestiveSearch_ET?.getString()!!
@@ -77,8 +84,7 @@ class EmployerListFragment : Fragment() {
                 isLastPages = false
                 isLoadings = false
                 initPagination()
-            }
-            else {
+            } else {
                 searchBTN?.setEnabled(true);
             }
         }
@@ -120,56 +126,96 @@ class EmployerListFragment : Fragment() {
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
 
-        ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
-            override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
-                error("onFailure", t)
+        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<TestJsonModel> {
+            override fun onFailure(call: Call<TestJsonModel>, t: Throwable) {
+                Log.d("rakib first", t.toString())
+//                ApiServiceJobs.create().responseBroken(
+//                        url = call.request().url().toString(),
+//                        params = Gson().toJson(call.request().body()),
+//                        encoded = Constants.ENCODED_JOBS,
+//                        userId = bdjobsUserSession.userId,
+//                        response = t.toString(),
+//                        appId = "1"
+//                ).enqueue(object :Callback<String>{
+//                    override fun onFailure(call: Call<String>, t: Throwable) {
+//                        Log.d("rakib second", "on failure called")
+//                        Log.d("rakib second", t.toString())
+//                    }
+//
+//                    override fun onResponse(call: Call<String>, response: Response<String>) {
+//                        Log.d("rakib second", "on success called")
+//                        Log.d("rakib second", response.toString())
+//                    }
+//
+//                })
             }
 
-            override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
+            override fun onResponse(call: Call<TestJsonModel>, response: Response<TestJsonModel>) {
+                Log.d("rakib first", response.toString())
+                if (response.isSuccessful)
+                {
 
-                try {
-                    //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
-                    TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
-                    var totalRecords = response?.body()?.common?.totalrecordsfound
-                    //Log.d("resresdata", " =${response?.body()?.data}")
-
-                    if (!response?.body()?.data.isNullOrEmpty()) {
-                        employerList_RV!!.visibility = View.VISIBLE
-                        employerListAdapter?.removeAll()
-                        employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
-
-                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-                            //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                            employerListAdapter?.addLoadingFooter()
-                        } else {
-                            //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-                            isLastPages = true
-                        }
-
-                    }
-
-                    else {
-                      //  toast("came")
-                        totalRecords = "0"
-                    }
-
-                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employer(s) now offering Job(s)"
-                    favCountTV.text = Html.fromHtml(styledText)
-
-                    employerList_RV?.show()
-                    favCountTV?.show()
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
-                } catch (e: Exception) {
-                    logException(e)
                 }
-
+                else{
+                    Log.d("rakib","sss")
+                }
             }
-
         })
 
-
-
+//        ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
+//            override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
+//                error("onFailure", t)
+//            }
+//
+//            override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
+//
+//                Log.d("rakib", call.request().body().toString())
+//                Log.d("rakib", call.request().url().toString())
+//                Log.d("rakib", call.request().url().host().toString())
+//                Log.d("rakib", call.request().url().toString())
+//                Log.d("rakib", call.request().url().uri().toString())
+//                Log.d("rakib", call.request().url().topPrivateDomain().toString())
+//
+//                try {
+//                    //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
+//                    TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
+//                    var totalRecords = response?.body()?.common?.totalrecordsfound
+//                    //Log.d("resresdata", " =${response?.body()?.data}")
+//
+//                    if (!response?.body()?.data.isNullOrEmpty()) {
+//                        employerList_RV!!.visibility = View.VISIBLE
+//                        employerListAdapter?.removeAll()
+//                        employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
+//
+//                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+//                            //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+//                            employerListAdapter?.addLoadingFooter()
+//                        } else {
+//                            //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+//                            isLastPages = true
+//                        }
+//
+//                    }
+//
+//                    else {
+//                      //  toast("came")
+//                        totalRecords = "0"
+//                    }
+//
+//                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employer(s) now offering Job(s)"
+//                    favCountTV.text = Html.fromHtml(styledText)
+//
+//                    employerList_RV?.show()
+//                    favCountTV?.show()
+//                    shimmer_view_container_JobList?.hide()
+//                    shimmer_view_container_JobList?.stopShimmerAnimation()
+//                } catch (e: Exception) {
+//                    logException(e)
+//                }
+//
+//            }
+//
+//        })
 
 
     }

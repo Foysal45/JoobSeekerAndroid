@@ -21,6 +21,7 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_edit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -353,7 +354,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
 
                 try {
-                    //Log.d("resposet", response.body().toString())
+                    Log.d("rakib", response.body().toString())
+                    Log.d("rakib", Gson().toJson(call.request().body()))
 
                     if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                         doAsync {
