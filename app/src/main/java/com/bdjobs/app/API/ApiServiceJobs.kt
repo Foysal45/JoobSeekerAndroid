@@ -269,6 +269,15 @@ interface ApiServiceJobs {
             @Field("appId") appId: String? = ""
     ) : Call<String>
 
+//    @FormUrlEncoded
+//    @POST("ResponseBroken_TestCase.asp")
+//    fun responseBrokenTestCase(
+//            @Field("encoded") encoded : String? = "",
+//            @Field("param1") param1 : String? = "",
+//            @Field("param2") param2 : String? = ""
+//
+//    ) : Call<TestJsonModel>
+
     @FormUrlEncoded
     @POST("ResponseBroken_TestCase.asp")
     fun responseBrokenTestCase(
@@ -276,7 +285,7 @@ interface ApiServiceJobs {
             @Field("param1") param1 : String? = "",
             @Field("param2") param2 : String? = ""
 
-    ) : Call<TestJsonModel>
+    ) : Call<com.squareup.okhttp.ResponseBody>
 
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")

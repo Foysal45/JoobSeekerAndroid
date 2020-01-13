@@ -18,10 +18,12 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import com.google.gson.Gson
+import com.squareup.okhttp.ResponseBody
 import kotlinx.android.synthetic.main.fragment_employer_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class EmployerListFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -126,9 +128,15 @@ class EmployerListFragment : Fragment() {
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
 
-        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<TestJsonModel> {
-            override fun onFailure(call: Call<TestJsonModel>, t: Throwable) {
-                Log.d("rakib first", t.toString())
+        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("rakib first onFailure", call.request().body().toString())
+                t.printStackTrace()
+                if (t is IOException){
+                    Log.d("rakib first net failure", t.toString())
+                } else {
+                    Log.d("rakib first conversion", Gson().toJson(call.request().body()))
+                }
 //                ApiServiceJobs.create().responseBroken(
 //                        url = call.request().url().toString(),
 //                        params = Gson().toJson(call.request().body()),
@@ -150,12 +158,21 @@ class EmployerListFragment : Fragment() {
 //                })
             }
 
-            override fun onResponse(call: Call<TestJsonModel>, response: Response<TestJsonModel>) {
-                Log.d("rakib first", response.toString())
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                Log.d("rakib first onResponse", response.raw().toString())
                 if (response.isSuccessful)
                 {
+                    val responseData = response.body()?.string()
+                    Log.d("rakib responseData",responseData)
 
+                    try {
+                        val testJsonModel = Gson().fromJson(responseData,EmployerListModelClass::class.java)
+                        Log.d("rakib testJsonModel",testJsonModel.message)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+
                 else{
                     Log.d("rakib","sss")
                 }
