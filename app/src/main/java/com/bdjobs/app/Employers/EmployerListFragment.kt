@@ -16,10 +16,9 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
 import com.google.gson.Gson
-import com.squareup.okhttp.ResponseBody
 import kotlinx.android.synthetic.main.fragment_employer_list.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -128,111 +127,106 @@ class EmployerListFragment : Fragment() {
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmerAnimation()
 
+
         ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("rakib first onFailure", call.request().body().toString())
-                t.printStackTrace()
-                if (t is IOException){
-                    Log.d("rakib first net failure", t.toString())
-                } else {
-                    Log.d("rakib first conversion", Gson().toJson(call.request().body()))
-                }
-//                ApiServiceJobs.create().responseBroken(
-//                        url = call.request().url().toString(),
-//                        params = Gson().toJson(call.request().body()),
-//                        encoded = Constants.ENCODED_JOBS,
-//                        userId = bdjobsUserSession.userId,
-//                        response = t.toString(),
-//                        appId = "1"
-//                ).enqueue(object :Callback<String>{
-//                    override fun onFailure(call: Call<String>, t: Throwable) {
-//                        Log.d("rakib second", "on failure called")
-//                        Log.d("rakib second", t.toString())
-//                    }
-//
-//                    override fun onResponse(call: Call<String>, response: Response<String>) {
-//                        Log.d("rakib second", "on success called")
-//                        Log.d("rakib second", response.toString())
-//                    }
-//
-//                })
-            }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Log.d("rakib first onResponse", response.raw().toString())
+
                 if (response.isSuccessful)
                 {
                     val responseData = response.body()?.string()
                     Log.d("rakib responseData",responseData)
+                    Log.d("rakib url","${call.request().url()}")
+                    Log.d("rakib params","${Gson().toJson(call.request().body())}")
 
-                    try {
-                        val testJsonModel = Gson().fromJson(responseData,EmployerListModelClass::class.java)
+                    try{
+                        val testJsonModel = Gson().fromJson(responseData, TestJsonModel::class.java)
                         Log.d("rakib testJsonModel",testJsonModel.message)
-                    } catch (e: Exception) {
+
+
+
+                    } catch (e : java.lang.Exception) {
                         e.printStackTrace()
+                        ApiServiceJobs.create().responseBroken(url = "${call.request().url()}", params = "${Gson().toJson(call.request().body())}", encoded = Constants.ENCODED_JOBS, userId = bdjobsUserSession.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            }
+
+                        })
                     }
                 }
-
                 else{
                     Log.d("rakib","sss")
                 }
             }
+
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("rakib first onFailure", call.request().body().toString())
+                t?.printStackTrace()
+                if (t is IOException) {
+                    Log.d("rakib first net failure", t.toString())
+                }
+                else {
+                    Log.d("rakib first converstion", Gson().toJson(call.request().body()))
+
+                    // todo log to some central bug tracking service
+                }
+            }
+
+
         })
 
-//        ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
-//            override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
-//                error("onFailure", t)
-//            }
-//
-//            override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
-//
-//                Log.d("rakib", call.request().body().toString())
-//                Log.d("rakib", call.request().url().toString())
-//                Log.d("rakib", call.request().url().host().toString())
-//                Log.d("rakib", call.request().url().toString())
-//                Log.d("rakib", call.request().url().uri().toString())
-//                Log.d("rakib", call.request().url().topPrivateDomain().toString())
-//
-//                try {
-//                    //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
-//                    TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
-//                    var totalRecords = response?.body()?.common?.totalrecordsfound
-//                    //Log.d("resresdata", " =${response?.body()?.data}")
-//
-//                    if (!response?.body()?.data.isNullOrEmpty()) {
-//                        employerList_RV!!.visibility = View.VISIBLE
-//                        employerListAdapter?.removeAll()
-//                        employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
-//
-//                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
-//                            //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-//                            employerListAdapter?.addLoadingFooter()
-//                        } else {
-//                            //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
-//                            isLastPages = true
-//                        }
-//
-//                    }
-//
-//                    else {
-//                      //  toast("came")
-//                        totalRecords = "0"
-//                    }
-//
-//                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employer(s) now offering Job(s)"
-//                    favCountTV.text = Html.fromHtml(styledText)
-//
-//                    employerList_RV?.show()
-//                    favCountTV?.show()
-//                    shimmer_view_container_JobList?.hide()
-//                    shimmer_view_container_JobList?.stopShimmerAnimation()
-//                } catch (e: Exception) {
-//                    logException(e)
-//                }
-//
-//            }
-//
-//        })
+        ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
+            override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
+
+
+                try {
+                    //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
+                    TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
+                    var totalRecords = response?.body()?.common?.totalrecordsfound
+                    //Log.d("resresdata", " =${response?.body()?.data}")
+
+                    if (!response?.body()?.data.isNullOrEmpty()) {
+                        employerList_RV!!.visibility = View.VISIBLE
+                        employerListAdapter?.removeAll()
+                        employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
+
+                        if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                            //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
+                            employerListAdapter?.addLoadingFooter()
+                        } else {
+                            //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
+                            isLastPages = true
+                        }
+
+                    }
+
+                    else {
+                      //  toast("came")
+                        totalRecords = "0"
+                    }
+
+                    val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Employer(s) now offering Job(s)"
+                    favCountTV.text = Html.fromHtml(styledText)
+
+                    employerList_RV?.show()
+                    favCountTV?.show()
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                } catch (e: Exception) {
+                    logException(e)
+                }
+
+            }
+
+        })
 
 
     }

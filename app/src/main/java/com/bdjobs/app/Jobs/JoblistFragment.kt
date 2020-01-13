@@ -31,7 +31,10 @@ import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
@@ -437,62 +440,79 @@ class JoblistFragment : Fragment() {
                 rpp = rpp,
                 slno = slno,
                 version = version)
-        call.enqueue(object : Callback<JobListModel> {
+        call.enqueue(object : Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
                 Log.d("rakib", call?.request()?.url()?.query().toString())
 
                 try {
                     if (response.isSuccessful) {
+
                         jobListRecyclerView?.show()
                         filterLayout.show()
                         shimmer_view_container_JobList?.hide()
                         shimmer_view_container_JobList?.stopShimmerAnimation()
 
-                        val jobResponse = response.body()
+                        val responseData = response.body()?.string()
 
-                        TOTAL_PAGES = jobResponse?.common?.totalpages
+                        try {
+
+                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
+
+                            val jobResponse = response.body()
+
+                            TOTAL_PAGES = jobListModel?.common?.totalpages
 
 
-                        //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
-                        //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
+                            //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                            //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
-                        communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
-                        val results = response.body()?.data
+                            communicator.totalJobCount(jobListModel?.common?.totalRecordsFound)
+                            val results = jobListModel?.data
 
-                        if (!results.isNullOrEmpty()) {
-                            joblistAdapter?.addAll(results)
+                            if (!results.isNullOrEmpty()) {
+                                joblistAdapter?.addAll(results)
+                            }
+
+                            if (currentPage >= TOTAL_PAGES!!) {
+                                isLastPages = true
+                            } else {
+                                joblistAdapter?.addLoadingFooter()
+                            }
+
+                            val totalJobs = jobListModel!!.common!!.totalRecordsFound
+                            if (totalJobs?.toInt()!! > 1) {
+                                val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Jobs"
+                                jobCounterTV?.text = Html.fromHtml(styledText)
+                            } else {
+                                val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
+                                jobCounterTV?.text = Html.fromHtml(styledText)
+
+                            }
+
+                            if(totalJobs>0){
+                                jobListRecyclerView?.show()
+                                noDataLL?.hide()
+                            }else{
+                                jobListRecyclerView?.hide()
+                                noDataLL?.show()
+                            }
+                            communicator.setIsLoading(isLoadings)
+                            communicator.setLastPasge(isLastPages)
+                            communicator.setTotalJob(jobListModel.common?.totalRecordsFound!!)
+                            communicator.setTotalPage(jobListModel.common?.totalpages)
+                            totalRecordsFound = jobListModel.common.totalRecordsFound
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url()}", params = "${call?.request()?.url()?.query()}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+
+                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                }
+
+                            })
                         }
-
-                        if (currentPage >= TOTAL_PAGES!!) {
-                            isLastPages = true
-                        } else {
-                            joblistAdapter?.addLoadingFooter()
-                        }
-
-                        val totalJobs = jobResponse!!.common!!.totalRecordsFound
-                        if (totalJobs?.toInt()!! > 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Jobs"
-                            jobCounterTV?.text = Html.fromHtml(styledText)
-                        } else {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
-                            jobCounterTV?.text = Html.fromHtml(styledText)
-
-                        }
-
-                        if(totalJobs>0){
-                            jobListRecyclerView?.show()
-                            noDataLL?.hide()
-                        }else{
-                            jobListRecyclerView?.hide()
-                            noDataLL?.show()
-                        }
-                        communicator.setIsLoading(isLoadings)
-                        communicator.setLastPasge(isLastPages)
-                        communicator.setTotalJob(jobResponse.common?.totalRecordsFound!!)
-                        communicator.setTotalPage(jobResponse.common?.totalpages)
-                        totalRecordsFound = jobResponse.common.totalRecordsFound
 
                     } else {
                         /*//Log.d("TAG", "not successful: $TAG")*/
@@ -503,7 +523,7 @@ class JoblistFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
             }
@@ -540,21 +560,26 @@ class JoblistFragment : Fragment() {
                 rpp = rpp,
                 slno = slno,
                 version = version)
-        call.enqueue(object : Callback<JobListModel> {
+        call.enqueue(object : Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
                 try {
                     //Log.d("Paramtest", "response :   ${response.body().toString()}")
                     if (response.isSuccessful) {
 
+                        val responseData = response.body()?.string()
+
                         try {
+
+                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
+
                             val resp_jobs = response.body()
-                            TOTAL_PAGES = resp_jobs?.common?.totalpages
+                            TOTAL_PAGES = jobListModel?.common?.totalpages
                             joblistAdapter?.removeLoadingFooter()
                             isLoadings = false
 
-                            val results = response.body()?.data
+                            val results = jobListModel?.data
 
                             //Log.d(TAG, "total jobs ${results?.size}")
 
@@ -568,13 +593,13 @@ class JoblistFragment : Fragment() {
 
                             communicator.setIsLoading(isLoadings)
                             communicator.setLastPasge(isLastPages)
-                            communicator.setTotalJob(resp_jobs?.common!!.totalRecordsFound!!.toInt())
+                            communicator.setTotalJob(jobListModel?.common!!.totalRecordsFound!!.toInt())
 
 
 
-                            totalRecordsFound = resp_jobs.common.totalRecordsFound!!
+                            totalRecordsFound = jobListModel.common.totalRecordsFound!!
 
-                            communicator.setTotalPage(resp_jobs.common?.totalpages)
+                            communicator.setTotalPage(jobListModel.common?.totalpages)
 
                             if (totalRecordsFound.toInt() > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
@@ -586,6 +611,13 @@ class JoblistFragment : Fragment() {
 
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url()}", params = "${call?.request()?.url()?.query()}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+
+                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                }
+
+                            })
                         }
                     } else {
                         //Log.d("TAG", "not successful: ")
@@ -596,7 +628,7 @@ class JoblistFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 //Log.d("TAG", "not successful!! onFail")
             }
         })
