@@ -552,7 +552,6 @@ class AcademicInfoEditFragment : Fragment() {
                     mejorTIL?.show()
                     majorSubACTV?.show()
 
-
                 }
 
 
