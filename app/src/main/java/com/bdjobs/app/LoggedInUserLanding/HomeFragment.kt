@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
@@ -171,6 +172,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
         jobInvitationView?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+            } catch (e: Exception) {
+            }
         }
         searchBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
@@ -511,6 +516,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         interviewList_MBTN?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+            } catch (e: Exception) {
+            }
         }
     }
 

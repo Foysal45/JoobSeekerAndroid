@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -213,10 +214,10 @@ class JoblistFragment : Fragment() {
 
                     uiThread {
                         if (!favsearch.isNullOrEmpty()) {
-                            saveSearchBtn.text = filterName
-                            saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+                            saveSearchBtn?.text = filterName
+                            saveSearchBtn?.setIconTintResource(R.color.fav_search_save)
                         }
-                        saveSearchBtn.setOnClickListener {
+                        saveSearchBtn?.setOnClickListener {
                             if (!favsearch.isNullOrEmpty()) {
                                 Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
                             } else {
@@ -227,7 +228,7 @@ class JoblistFragment : Fragment() {
                 }
 
             } else {
-                saveSearchBtn.setOnClickListener {
+                saveSearchBtn?.setOnClickListener {
                     saveSearch()
                 }
             }
@@ -504,7 +505,9 @@ class JoblistFragment : Fragment() {
                             communicator.setTotalPage(jobListModel.common?.totalpages)
                             totalRecordsFound = jobListModel.common.totalRecordsFound
                         } catch (e: Exception) {
+                            Log.d("rakib", "catch")
                             e.printStackTrace()
+
                             ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url()}", params = "${call?.request()?.url()?.query()}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
                                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
 

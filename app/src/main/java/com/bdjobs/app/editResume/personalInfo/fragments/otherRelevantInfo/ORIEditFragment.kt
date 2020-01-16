@@ -39,9 +39,10 @@ class ORIEditFragment : Fragment() {
     private var exps: String = ""
     private var keywordsCount: Int = 0
     private var maxInput: Int = 250
-    private var toatalLength = 0
+    private var toatalLength : Int= 0
     private lateinit var dialog: Dialog
     private lateinit var cgORI: ChipGroup
+    private var keywords : String? = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -101,9 +102,11 @@ class ORIEditFragment : Fragment() {
 
         //Log.d("ORIData", "data: ${data?.keywords}")
 
-        val keywords = data?.keywords
+       // val keywords = data?.keywords
 
-        toatalLength = keywords?.length!!
+        keywords?.let {
+            toatalLength = keywords!!.length
+        }
 
         //Log.d("qqqqq", "total length $toatalLength")
 

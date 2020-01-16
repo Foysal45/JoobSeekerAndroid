@@ -314,14 +314,14 @@ fun TextInputLayout.setError() {
 }
 
 
-fun Activity.showProgressBar(progressBar: ProgressBar) {
-    progressBar.show()
+fun Activity.showProgressBar(progressBar: ProgressBar?) {
+    progressBar?.show()
     disableUserInteraction()
 
 }
 
-fun Activity.stopProgressBar(progressBar: ProgressBar) {
-    progressBar.hide()
+fun Activity.stopProgressBar(progressBar: ProgressBar?) {
+    progressBar?.hide()
     enableUserInteraction()
 }
 

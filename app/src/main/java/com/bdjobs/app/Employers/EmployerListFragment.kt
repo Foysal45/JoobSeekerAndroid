@@ -128,56 +128,52 @@ class EmployerListFragment : Fragment() {
         shimmer_view_container_JobList?.startShimmerAnimation()
 
 
-        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<ResponseBody> {
-
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Log.d("rakib first onResponse", response.raw().toString())
-
-                if (response.isSuccessful)
-                {
-                    val responseData = response.body()?.string()
-                    Log.d("rakib responseData",responseData)
-                    Log.d("rakib url","${call.request().url()}")
-                    Log.d("rakib params","${Gson().toJson(call.request().body())}")
-
-                    try{
-                        val testJsonModel = Gson().fromJson(responseData, TestJsonModel::class.java)
-                        Log.d("rakib testJsonModel",testJsonModel.message)
-
-
-
-                    } catch (e : java.lang.Exception) {
-                        e.printStackTrace()
-                        ApiServiceJobs.create().responseBroken(url = "${call.request().url()}", params = "${Gson().toJson(call.request().body())}", encoded = Constants.ENCODED_JOBS, userId = bdjobsUserSession.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
-                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
-
-                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                            }
-
-                        })
-                    }
-                }
-                else{
-                    Log.d("rakib","sss")
-                }
-            }
-
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("rakib first onFailure", call.request().body().toString())
-                t?.printStackTrace()
-                if (t is IOException) {
-                    Log.d("rakib first net failure", t.toString())
-                }
-                else {
-                    Log.d("rakib first converstion", Gson().toJson(call.request().body()))
-
-                    // todo log to some central bug tracking service
-                }
-            }
-
-
-        })
+//        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<ResponseBody> {
+//
+//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                Log.d("rakib first onResponse", response.raw().toString())
+//
+//                if (response.isSuccessful)
+//                {
+//                    val responseData = response.body()?.string()
+//                    Log.d("rakib responseData",responseData)
+//                    Log.d("rakib url","${call.request().url()}")
+//                    Log.d("rakib params","${Gson().toJson(call.request().body())}")
+//
+//                    try{
+//                        val testJsonModel = Gson().fromJson(responseData, TestJsonModel::class.java)
+//                        Log.d("rakib testJsonModel",testJsonModel.message)
+//
+//                    } catch (e : java.lang.Exception) {
+//                        e.printStackTrace()
+//                        ApiServiceJobs.create().responseBroken(url = "${call.request().url()}", params = "${Gson().toJson(call.request().body())}", encoded = Constants.ENCODED_JOBS, userId = bdjobsUserSession.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+//                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+//
+//                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                            }
+//
+//                        })
+//                    }
+//                }
+//                else{
+//                    Log.d("rakib","sss")
+//                }
+//            }
+//
+//
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                Log.d("rakib first onFailure", call.request().body().toString())
+//                t?.printStackTrace()
+//                if (t is IOException) {
+//                    Log.d("rakib first net failure", t.toString())
+//                }
+//                else {
+//                    Log.d("rakib first converstion", Gson().toJson(call.request().body()))
+// //                }
+//            }
+//
+//
+//        })
 
         ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
             override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
