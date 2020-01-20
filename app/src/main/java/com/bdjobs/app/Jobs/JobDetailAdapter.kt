@@ -81,6 +81,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var experienceData = ""
     var requirmentsData = ""
     var salaryData = ""
+    var salaryDataText = ""
     var otherBenifitsData = ""
     var jobSourceData = ""
     var readApplyData = ""
@@ -209,6 +210,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             experienceData = jobDetailResponseAll.experience!!
                             requirmentsData = jobDetailResponseAll.additionJobRequirements!!
                             salaryData = jobDetailResponseAll.jobSalaryRange!!
+                            salaryDataText = jobDetailResponseAll.jobSalaryRangeText!!
                             otherBenifitsData = jobDetailResponseAll.jobOtherBenifits!!
                             jobSourceData = jobDetailResponseAll.jobSource!!
                             readApplyData = jobDetailResponseAll.applyInstruction!!
@@ -587,16 +589,22 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 } else {
 
-                                    if (salaryData.isBlank()) {
+                                    if (salaryData.equals("--")) {
 
                                         jobsVH.tvSalaryRange.visibility = View.GONE
                                         jobsVH.tvSalaryRangeData.visibility = View.GONE
+
+                                        if (!salaryDataText.isBlank())
+                                        {
+                                            jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
+                                            jobsVH.tvSalaryRangeData.text = salaryDataText
+                                        }
 
                                     } else {
 
                                         jobsVH.tvSalaryRange.visibility = View.VISIBLE
                                         jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
-                                        jobsVH.tvSalaryRangeData.text = salaryData
+                                        jobsVH.tvSalaryRangeData.text = "\u2022 $salaryData" + "\n\n$salaryDataText"
                                     }
 
                                     if (otherBenifitsData.isBlank()) {

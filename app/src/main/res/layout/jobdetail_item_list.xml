@@ -519,7 +519,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Salary Range"
+                android:text="Salary"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/salaryAndCompensation" />
@@ -549,7 +549,7 @@
                 android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/salaryRangeTV"
-                tools:text="Other Benefits" />
+                android:text="Other Benefits" />
 
             <TextView
                 android:id="@+id/otherBenefitsTV"
