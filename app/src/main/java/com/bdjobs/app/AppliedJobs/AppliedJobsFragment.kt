@@ -181,6 +181,7 @@ class AppliedJobsFragment : Fragment() {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
 
+
                             if (appliedJobsCommunicator.getTime() == "1") {
                                 availableJobsCountTV?.show()
 
@@ -222,6 +223,13 @@ class AppliedJobsFragment : Fragment() {
 
 
                         if (!response?.body()?.data.isNullOrEmpty()) {
+
+                            status_card_ll?.show()
+
+                            not_contacted_count_tv?.text = "${response?.body()?.activity?.get(0)?.totalNotContacted}"
+                            contacted_count_tv?.text = "${response?.body()?.activity?.get(0)?.totalContacted}"
+                            hired_count_tv?.text = "${response?.body()?.activity?.get(0)?.totalHired}"
+
                             appliedJobsRV?.show()
                             var value = response.body()?.data
                             appliedJobsAdapter?.removeAll()
