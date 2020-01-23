@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/assessment_navigation"
+    app:startDestination="@id/viewPagerFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.bdjobs.app.Assessment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_testInstructionFragment"
+            app:destination="@id/testInstructionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/certificateListFragment"
+        android:name="com.bdjobs.app.Assessment.CertificateListFragment"
+        android:label="fragment_certificate_list"
+        tools:layout="@layout/fragment_certificate_list" />
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.bdjobs.app.Assessment.ViewPagerFragment"
+        android:label="Employability Certification" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_testInstructionFragment"
+            app:destination="@id/testInstructionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/testInstructionFragment"
+        android:name="com.bdjobs.app.Assessment.TestInstructionFragment"
+        android:label="Test Instructions"
+        tools:layout="@layout/fragment_test_instruction" />
+</navigation>

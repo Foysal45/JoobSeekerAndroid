@@ -237,8 +237,19 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/jobApplicationStatus_MBTN"
+                android:id="@+id/assessment_MBTN"
                 android:layout_marginTop="20dp"
+                style="@style/more.button"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Assessment"
+                app:icon="@drawable/ic_job_application_status_image" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/jobApplicationStatus_MBTN"
                 style="@style/more.button"
                 android:visibility="visible"
                 android:layout_width="match_parent"

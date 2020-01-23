@@ -403,5 +403,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_matched_job">Matched Job</string>
 
     <string name="notification">Notifications</string>
+    <string name="title_activity_assesment_base">Employability Certification</string>
 
 </resources>

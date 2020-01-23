@@ -55,6 +55,11 @@ class TimesEmailedMyResumeFragment : Fragment() {
             manageCommunicator.backButtonPressed()
         }
 
+
+        filter_btn.setOnClickListener {
+            manageCommunicator.gotoTimesResumeFilterFrag()
+        }
+
         newEmaiResume.setOnClickListener {
             manageCommunicator.gotoEmailResumeFragment()
         }
@@ -85,6 +90,17 @@ class TimesEmailedMyResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        if (manageCommunicator.getBackFrom() == "filter")
+        {
+            manageCommunicator.setBackFrom("")
+            cross_iv?.show()
+            filter_btn?.hide()
+        }
+
+        cross_iv?.setOnClickListener {
+            cross_iv?.hide()
+            filter_btn?.show()
+        }
 
         matchedTV.setOnClickListener {
             if (!Constants.timesEmailedResumeLast) {

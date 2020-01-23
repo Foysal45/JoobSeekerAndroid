@@ -18,12 +18,14 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
     private val emailResumeFragment = EmailResumeFragment()
     private val uploadResumeFragment = UploadResumeFragment()
     private var timesEmailedMyResumeFragment = TimesEmailedMyResumeFragment()
+    private var timesEmailedMyResumeFilterFragment = TimesEmailedMyResumeFilterFragment()
     private var downloadResumeFragment = DownloadResumeFragment()
     var cvUpload: String? = ""
     private var from = ""
     private var subject = ""
     private var toEmail = ""
     private var jobID = ""
+    private var backFrom = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,14 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
         return subject
     }
 
+    override fun setBackFrom(backFrom: String) {
+        this.backFrom = backFrom
+    }
+
+    override fun getBackFrom(): String {
+        return backFrom
+    }
+
     override fun gotoEmailResumeFragment() {
         transitFragment(emailResumeFragment, R.id.fragmentHolder,addToBackStack = true)
     }
@@ -81,6 +91,10 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
 
     override fun gotoTimesResumeFrag() {
         transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)
+    }
+
+    override fun gotoTimesResumeFilterFrag() {
+        transitFragment(timesEmailedMyResumeFilterFragment,R.id.fragmentHolder,addToBackStack = false)
     }
 
     override fun backButtonPressed() {

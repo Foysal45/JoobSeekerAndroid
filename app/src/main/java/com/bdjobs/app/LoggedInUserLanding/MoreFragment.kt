@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
+import com.bdjobs.app.Assessment.AssesmentBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
@@ -150,6 +151,10 @@ class MoreFragment : Fragment() {
         jobApplicationStatus_MBTN.setOnClickListener {
 //            activity?.showJobApplicationGuidelineDialog()
             Constants.showJobApplicationGuidelineDialog(activity)
+        }
+
+        assessment_MBTN?.setOnClickListener {
+            startActivity<AssesmentBaseActivity>()
         }
     }
 

@@ -360,6 +360,7 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
         fragmentManager?.executePendingTransactions()
         if (!fragment?.isAdded)
         {
+            Log.d("rakib", "fragment if")
             val transaction = fragmentManager.beginTransaction()
 
             if (addToBackStack) {
@@ -368,6 +369,9 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
                 transaction.replace(holderID, fragment, simpleClassName(fragment))
             }
             transaction.commit()
+        }
+        else{
+           Log.d("rakib", "fragment else")
         }
     } catch (e: Exception) {
         logException(e)
