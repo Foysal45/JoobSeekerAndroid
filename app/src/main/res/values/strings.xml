@@ -405,4 +405,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification">Notifications</string>
     <string name="title_activity_assesment_base">Employability Certification</string>
 
+    <string name="call"><b>01844519336</b> or <b>16479</b></string>
+
 </resources>

@@ -31,7 +31,6 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginBottom="-30dp"
         android:id="@+id/btn_cl"
         android:layout_width="0dp"
         android:layout_height="54dp"

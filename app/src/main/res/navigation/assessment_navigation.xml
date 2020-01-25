@@ -35,10 +35,48 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_testLocationFragment"
+            app:destination="@id/testLocationFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/testInstructionFragment"
         android:name="com.bdjobs.app.Assessment.TestInstructionFragment"
         android:label="Test Instructions"
         tools:layout="@layout/fragment_test_instruction" />
+    <fragment
+        android:id="@+id/testLocationFragment"
+        android:name="com.bdjobs.app.Assessment.TestLocationFragment"
+        android:label="Choose Test Location"
+        tools:layout="@layout/fragment_test_location" >
+        <action
+            android:id="@+id/action_testLocationFragment_to_chooseScheduleFragment"
+            app:destination="@id/chooseScheduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseScheduleFragment"
+        android:name="com.bdjobs.app.Assessment.ChooseScheduleFragment"
+        android:label="Choose Test Location"
+        tools:layout="@layout/fragment_choose_schedule" >
+        <action
+            android:id="@+id/action_chooseScheduleFragment_to_bookScheduleFragment"
+            app:destination="@id/bookScheduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookScheduleFragment"
+        android:name="com.bdjobs.app.Assessment.BookScheduleFragment"
+        android:label="Choose Test Location"
+        tools:layout="@layout/fragment_book_schedule" />
 </navigation>
