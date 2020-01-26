@@ -407,4 +407,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
 
     <string name="call"><b>01844519336</b> or <b>16479</b></string>
 
+    <string name="test_payment_amount"><strike>BDT 550/-</strike> Free for first time</string>
+
 </resources>

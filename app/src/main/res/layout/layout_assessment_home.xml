@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_benefits_of_certficate" />
+            <include layout="@layout/layout_benefits_of_certificate" />
 
             <include layout="@layout/layout_what_is_employability_certification" />
 
