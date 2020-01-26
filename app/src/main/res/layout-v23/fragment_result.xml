@@ -249,7 +249,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         >
-
+        
         <TextView
             android:id="@+id/btn_txt_tv"
             android:layout_width="wrap_content"

@@ -85,10 +85,23 @@
         android:id="@+id/bookScheduleFragment"
         android:name="com.bdjobs.app.Assessment.BookScheduleFragment"
         android:label="Choose Test Location"
-        tools:layout="@layout/fragment_book_schedule" />
+        tools:layout="@layout/fragment_book_schedule" >
+        <action
+            android:id="@+id/action_bookScheduleFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.bdjobs.app.Assessment.ResultFragment"
         android:label="Result"
         tools:layout="@layout/fragment_result" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.bdjobs.app.Assessment.PaymentFragment"
+        android:label="Choose Payment"
+        tools:layout="@layout/fragment_payment" />
 </navigation>
