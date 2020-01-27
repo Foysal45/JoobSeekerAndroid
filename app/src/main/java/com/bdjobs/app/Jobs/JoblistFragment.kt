@@ -96,21 +96,21 @@ class JoblistFragment : Fragment() {
     }
 
     private fun getData() {
-        keyword = communicator?.getKeyword()
-        location = communicator?.getLocation()
-        category = communicator?.getCategory()
-        newsPaper = communicator?.getNewsPaper()
-        industry = communicator?.getIndustry()
-        organization = communicator?.getOrganization()
-        gender = communicator?.getGender()
-        experience = communicator?.getExperience()
-        jobType = communicator?.getJobType()
-        jobLevel = communicator?.getJobLevel()
-        jobNature = communicator?.getJobNature()
-        postedWithin = communicator?.getPostedWithin()
-        deadline = communicator?.getDeadline()
-        age = communicator?.getAge()
-        army = communicator?.getArmy()
+        keyword = communicator.getKeyword()
+        location = communicator.getLocation()
+        category = communicator.getCategory()
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getOrganization()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
 
         //Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 
@@ -344,33 +344,33 @@ class JoblistFragment : Fragment() {
         }
 
 
-        currentPage = communicator?.getCurrentPageNumber()
-        TOTAL_PAGES = communicator?.getTotalPage()
-        isLastPages = communicator?.getLastPasge()
+        currentPage = communicator.getCurrentPageNumber()
+        TOTAL_PAGES = communicator.getTotalPage()
+        isLastPages = communicator.getLastPasge()
 
-        keyword = communicator?.getKeyword()
-        location = communicator?.getLocation()
-        category = communicator?.getCategory()
-        newsPaper = communicator?.getNewsPaper()
-        industry = communicator?.getIndustry()
-        organization = communicator?.getOrganization()
-        gender = communicator?.getGender()
-        experience = communicator?.getExperience()
-        jobType = communicator?.getJobType()
-        jobLevel = communicator?.getJobLevel()
-        jobNature = communicator?.getJobNature()
-        postedWithin = communicator?.getPostedWithin()
-        deadline = communicator?.getDeadline()
-        age = communicator?.getAge()
-        army = communicator?.getArmy()
+        keyword = communicator.getKeyword()
+        location = communicator.getLocation()
+        category = communicator.getCategory()
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getOrganization()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
 
         saveSearchDicission()
 
         suggestiveSearchET?.text = keyword
 
         suggestiveSearchET?.setOnClickListener { et ->
-            communicator?.setBackFrom("")
-            communicator?.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
+            communicator.setBackFrom("")
+            communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
         loadFirstPageFromJobDetailBackButton()
@@ -456,6 +456,7 @@ class JoblistFragment : Fragment() {
                         shimmer_view_container_JobList?.stopShimmerAnimation()
 
                         val responseData = response.body()?.string()
+                        Log.d("rakib - response", "${responseData}")
 
                         try {
 
@@ -502,7 +503,7 @@ class JoblistFragment : Fragment() {
                             communicator.setIsLoading(isLoadings)
                             communicator.setLastPasge(isLastPages)
                             communicator.setTotalJob(jobListModel.common?.totalRecordsFound!!)
-                            communicator.setTotalPage(jobListModel.common?.totalpages)
+                            communicator.setTotalPage(jobListModel.common.totalpages)
                             totalRecordsFound = jobListModel.common.totalRecordsFound
                         } catch (e: Exception) {
                             Log.d("rakib", "catch")
@@ -602,7 +603,7 @@ class JoblistFragment : Fragment() {
 
                             totalRecordsFound = jobListModel.common.totalRecordsFound!!
 
-                            communicator.setTotalPage(jobListModel.common?.totalpages)
+                            communicator.setTotalPage(jobListModel.common.totalpages)
 
                             if (totalRecordsFound.toInt() > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
@@ -640,14 +641,14 @@ class JoblistFragment : Fragment() {
 
     private fun onClick() {
         backIV?.setOnClickListener {
-            communicator?.backButtonPressesd()
+            communicator.backButtonPressesd()
         }
         filterIMGV?.setOnClickListener {
-            communicator?.goToAdvanceSearch()
+            communicator.goToAdvanceSearch()
         }
 
         advnSearchFloatBtn?.setOnClickListener {
-            communicator?.goToAdvanceSearch()
+            communicator.goToAdvanceSearch()
         }
 
     }
@@ -690,11 +691,11 @@ class JoblistFragment : Fragment() {
                 //Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
-                filterNameET?.easyOnTextChangedListener { text ->
+                filterNameET.easyOnTextChangedListener { text ->
                     validateFilterName(text.toString(), textInputLayout)
                 }
 
-                cancelBTN?.setOnClickListener {
+                cancelBTN.setOnClickListener {
                     saveSearchDialog.dismiss()
                 }
 
@@ -724,7 +725,7 @@ class JoblistFragment : Fragment() {
                     }
                 }
 
-                saveBTN?.setOnClickListener {
+                saveBTN.setOnClickListener {
 
                     if (validateFilterName(filterNameET.getString(), textInputLayout)) {
                         if (!session.isLoggedIn!!) {
@@ -845,8 +846,8 @@ class JoblistFragment : Fragment() {
                         }
 
                     } else {
-                        loadingDialog?.dismiss()
-                        saveSearchDialog?.dismiss()
+                        loadingDialog.dismiss()
+                        saveSearchDialog.dismiss()
                     }
                 } catch (e: Exception) {
                     logException(e)
