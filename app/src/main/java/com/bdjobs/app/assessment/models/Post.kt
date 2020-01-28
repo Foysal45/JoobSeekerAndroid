@@ -5,12 +5,12 @@ import com.squareup.moshi.Json
 
 @Keep
 data class Post(
-        @Json(name = "body")
+        @field:Json(name = "body")
         var body: String?,
-        @Json(name = "id")
+        @field:Json(name = "id")
         var id: Int?,
-        @Json(name = "title")
+        @field:Json(name = "title")
         var title: String?,
-        @Json(name = "userId")
+        @field:Json(name = "userId")
         var userId: Int?
 )

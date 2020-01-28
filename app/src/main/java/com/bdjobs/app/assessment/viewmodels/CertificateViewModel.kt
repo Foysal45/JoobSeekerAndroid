@@ -45,10 +45,13 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             Log.d("rakib", "called post")
             try {
+
                 postList = AssessmentApi.retrofitService.getPosts()
+
                 Log.d("rakib", "called try")
 
             } catch (e: Exception) {
+
                 Log.d("rakib", "called catch ${e.message}")
 
             }
