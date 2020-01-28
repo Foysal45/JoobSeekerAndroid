@@ -306,7 +306,7 @@ class JobDetailsFragment : Fragment() {
                             communicator.setTotalJob(jobListModel?.common?.totalRecordsFound!!)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url()}", params = "${call?.request()?.url()?.query()}", encoded = Constants.ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = Constants.ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
                                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
 
                                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

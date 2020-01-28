@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6F8FA"
-    tools:context=".Assessment.TestLocationFragment">
+    tools:context=".assessment.TestLocationFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

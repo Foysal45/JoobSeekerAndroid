@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity
-            android:name=".Assessment.AssesmentBaseActivity"
+            android:name=".assessment.AssesmentBaseActivity"
             android:label="@string/title_activity_assesment_base"
             android:parentActivityName=".LoggedInUserLanding.MainLandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -27,7 +27,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bdjobs.app.LoggedInUserLanding.MainLandingActivity" />
         </activity>
-        <activity android:name=".Assessment.BaseActivity" />
+        <activity android:name=".assessment.BaseActivity" />
         <activity android:name=".Notification.NotificationBaseActivity" />
         <activity
             android:name=".Login2.Login2BaseActivity"

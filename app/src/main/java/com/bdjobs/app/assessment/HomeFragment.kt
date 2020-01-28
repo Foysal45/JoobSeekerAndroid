@@ -1,4 +1,4 @@
-package com.bdjobs.app.Assessment
+package com.bdjobs.app.assessment
 
 
 import android.os.Bundle

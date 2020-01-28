@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.bdjobs.app.Assessment.HomeFragment"
+        android:name="com.bdjobs.app.assessment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,12 +20,12 @@
     </fragment>
     <fragment
         android:id="@+id/certificateListFragment"
-        android:name="com.bdjobs.app.Assessment.CertificateListFragment"
+        android:name="com.bdjobs.app.assessment.CertificateListFragment"
         android:label="fragment_certificate_list"
         tools:layout="@layout/fragment_certificate_list" />
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.bdjobs.app.Assessment.ViewPagerFragment"
+        android:name="com.bdjobs.app.assessment.ViewPagerFragment"
         android:label="Employability Certification">
         <action
             android:id="@+id/action_viewPagerFragment_to_testInstructionFragment"
@@ -52,12 +52,12 @@
     </fragment>
     <fragment
         android:id="@+id/testInstructionFragment"
-        android:name="com.bdjobs.app.Assessment.TestInstructionFragment"
+        android:name="com.bdjobs.app.assessment.TestInstructionFragment"
         android:label="Test Instructions"
         tools:layout="@layout/fragment_test_instruction" />
     <fragment
         android:id="@+id/testLocationFragment"
-        android:name="com.bdjobs.app.Assessment.TestLocationFragment"
+        android:name="com.bdjobs.app.assessment.TestLocationFragment"
         android:label="Choose Test Location"
         tools:layout="@layout/fragment_test_location">
         <action
@@ -70,7 +70,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseScheduleFragment"
-        android:name="com.bdjobs.app.Assessment.ChooseScheduleFragment"
+        android:name="com.bdjobs.app.assessment.ChooseScheduleFragment"
         android:label="Choose Test Location"
         tools:layout="@layout/fragment_choose_schedule">
         <action
@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookScheduleFragment"
-        android:name="com.bdjobs.app.Assessment.BookScheduleFragment"
+        android:name="com.bdjobs.app.assessment.BookScheduleFragment"
         android:label="Choose Test Location"
         tools:layout="@layout/fragment_book_schedule" >
         <action
@@ -96,12 +96,12 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.bdjobs.app.Assessment.ResultFragment"
+        android:name="com.bdjobs.app.assessment.ResultFragment"
         android:label="Result"
         tools:layout="@layout/fragment_result" />
     <fragment
         android:id="@+id/paymentFragment"
-        android:name="com.bdjobs.app.Assessment.PaymentFragment"
+        android:name="com.bdjobs.app.assessment.PaymentFragment"
         android:label="Choose Payment"
         tools:layout="@layout/fragment_payment" />
 </navigation>

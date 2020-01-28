@@ -445,7 +445,7 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
-                Log.d("rakib", call?.request()?.url()?.query().toString())
+                Log.d("rakib", call?.request()?.url?.query.toString())
 
                 try {
                     if (response.isSuccessful) {
@@ -508,7 +508,7 @@ class JoblistFragment : Fragment() {
                             Log.d("rakib", "catch")
                             e.printStackTrace()
 
-                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url()}", params = "${call?.request()?.url()?.query()}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
                                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
 
                                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -614,7 +614,7 @@ class JoblistFragment : Fragment() {
 
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url()}", params = "${call?.request()?.url()?.query()}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
                                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
 
                                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

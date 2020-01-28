@@ -354,8 +354,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             override fun onResponse(call: Call<SaveUpdateFavFilterModel>, response: Response<SaveUpdateFavFilterModel>) {
 
                 try {
-                    Log.d("rakib", response.body().toString())
-                    Log.d("rakib", Gson().toJson(call.request().body()))
+                    //Log.d("rakib", response.body().toString())
+                    //Log.d("rakib", Gson().toJson(call.request().body()))
 
                     if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                         doAsync {

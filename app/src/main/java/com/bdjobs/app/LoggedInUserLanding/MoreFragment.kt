@@ -4,12 +4,11 @@ import android.app.Dialog
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
-import com.bdjobs.app.Assessment.AssesmentBaseActivity
+import com.bdjobs.app.assessment.AssesmentBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
@@ -17,7 +16,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
-import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import kotlinx.android.synthetic.main.fragment_more_layout.notificationCountTV
 import kotlinx.android.synthetic.main.fragment_more_layout.notificationIMGV

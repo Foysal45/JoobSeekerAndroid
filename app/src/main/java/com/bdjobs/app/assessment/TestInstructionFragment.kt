@@ -1,4 +1,4 @@
-package com.bdjobs.app.Assessment
+package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
@@ -12,12 +12,12 @@ import com.bdjobs.app.R
 /**
  * A simple [Fragment] subclass.
  */
-class PaymentFragment : Fragment() {
+class TestInstructionFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payment, container, false)
+        return inflater.inflate(R.layout.fragment_test_instruction, container, false)
     }
 
 

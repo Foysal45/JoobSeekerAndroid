@@ -33,6 +33,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 
 class UploadResumeFragment : Fragment() {
@@ -135,7 +138,10 @@ class UploadResumeFragment : Fragment() {
 
                 //Log.d("UploadResume", "filePath= $filePath")
 
-                val requestFile = RequestBody.create(MediaType.parse(mediaType), File(filePath))
+
+                val requestFile = File(filePath).asRequestBody(mediaType.toMediaType())
+
+//               RequestBody.create(MediaType?.parse(mediaType), File(filePath))
 
                 val multipartBodyPart = MultipartBody.Part.createFormData("File", fileinfo.fileName, requestFile)
 
@@ -202,7 +208,10 @@ class UploadResumeFragment : Fragment() {
 
 
     private fun createPartFromString(s: String): RequestBody {
-        return RequestBody.create(MediaType.parse("text/plain"), s)
+
+        return s.toRequestBody("text/plain".toMediaType())
+
+//        RequestBody.create(MediaType.parse("text/plain"), s)
     }
 
 

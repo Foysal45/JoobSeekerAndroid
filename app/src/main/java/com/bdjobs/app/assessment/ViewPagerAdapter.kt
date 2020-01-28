@@ -1,4 +1,4 @@
-package com.bdjobs.app.Assessment
+package com.bdjobs.app.assessment
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

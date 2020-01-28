@@ -1,81 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginBottom="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
+    <data>
+        <variable
+            name="certificate"
+            type="com.bdjobs.app.assessment.models.Certificate" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="#FFF"
-        app:cardCornerRadius="6dp">
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="#FFF"
+            app:cardCornerRadius="6dp">
 
-            <TextView
-                android:textColor="#303030"
-                android:fontFamily="@font/roboto_medium"
-                android:id="@+id/certificate_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:text="Software Engineering"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_marginTop="8dp"
-                android:id="@+id/img"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_date_of_comission"
-                android:tint="#595959"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/certificate_name_tv"
-                app:layout_constraintTop_toBottomOf="@id/certificate_name_tv"
-                app:layout_constraintVertical_bias="0.0" />
+                <TextView
+                    android:textColor="#303030"
+                    android:fontFamily="@font/roboto_medium"
+                    android:id="@+id/certificate_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Software Engineering"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/certificate_date_tv"
-                android:layout_marginStart="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/img"
-                android:text="01 Jan, 2020"
-                android:textColor="#595959"
-                app:layout_constraintStart_toEndOf="@id/img"
-                app:layout_constraintTop_toTopOf="@id/img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/img"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_date_of_comission"
+                    android:tint="#595959"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/certificate_name_tv"
+                    app:layout_constraintTop_toBottomOf="@id/certificate_name_tv"
+                    app:layout_constraintVertical_bias="0.0" />
 
-            <com.google.android.material.button.MaterialButton
-                android:text="Get Result"
-                android:textSize="12sp"
-                android:textAllCaps="false"
-                app:backgroundTint="#ac016d"
-                android:padding="0dp"
-                android:alpha=".1"
-                android:includeFontPadding="false"
-                android:layout_marginTop="15dp"
-                style="@style/Widget.MaterialComponents.Button"
-                app:layout_constraintTop_toTopOf="@id/certificate_name_tv"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="4dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/certificate_date_tv"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toBottomOf="@id/img"
+                    android:text="01 Jan, 2020"
+                    android:textColor="#595959"
+                    app:layout_constraintStart_toEndOf="@id/img"
+                    app:layout_constraintTop_toTopOf="@id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:text="Get Result"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#ac016d"
+                    android:padding="0dp"
+                    android:alpha=".1"
+                    android:includeFontPadding="false"
+                    android:layout_marginTop="15dp"
+                    style="@style/Widget.MaterialComponents.Button"
+                    app:layout_constraintTop_toTopOf="@id/certificate_name_tv"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-    </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
