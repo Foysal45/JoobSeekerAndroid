@@ -2,59 +2,52 @@ package com.bdjobs.app.assessment.viewmodels
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
-import com.bdjobs.app.assessment.models.Certificate
-import com.bdjobs.app.assessment.models.Data
-import com.bdjobs.app.assessment.models.Post
-import com.bdjobs.app.assessment.network.AssessmentApi
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.repositories.CertificateRepository
 import kotlinx.coroutines.launch
-import java.security.cert.CertificateFactory
 
 class CertificateViewModel(application: Application) : AndroidViewModel(application) {
 
     private val certificateRepository = CertificateRepository(application)
 
-    private var certificateList: List<Data?>? = null
+    private var certificateList: List<CertificateData?>? = null
 
-    private var postList : List<Post>? = null
-
-    private val _certificates = MutableLiveData<List<Data?>?>()
-    val certificates: LiveData<List<Data?>?>
+    private val _certificates = MutableLiveData<List<CertificateData?>>()
+    val certificates: LiveData<List<CertificateData?>>
         get() = _certificates
 
+    private val _navigateToResultDetails = MutableLiveData<CertificateData>()
+    val navigateToResultDetails: LiveData<CertificateData>
+        get() = _navigateToResultDetails
+
     init {
-        //getCertificateList()
-        getPosts()
+        getCertificateList()
+        //getPosts()
     }
 
     private fun getCertificateList() {
         Log.d("rakib", "called")
         viewModelScope.launch {
             try {
-                certificateList =  certificateRepository.getCertificateList().data
-                Log.d("rakib", "${certificateList?.size}")
+                certificateList = certificateRepository.getCertificateList().data
+                _certificates.value = certificateList
+                Log.d("rakib try", "${certificateList?.size}")
             } catch (e: Exception) {
-                Log.d("rakib", e.message)
+                Log.d("rakib catch", e.message)
             }
         }
     }
 
-    private fun getPosts()
-    {
-        viewModelScope.launch {
-            Log.d("rakib", "called post")
-            try {
-
-                postList = AssessmentApi.retrofitService.getPosts()
-
-                Log.d("rakib", "called try")
-
-            } catch (e: Exception) {
-
-                Log.d("rakib", "called catch ${e.message}")
-
-            }
-        }
+    fun displayResultDetails(certificateData: CertificateData) {
+        _navigateToResultDetails.value = certificateData
     }
+
+    fun displayResultDetailsCompleted() {
+        _navigateToResultDetails.value = null
+    }
+
 }

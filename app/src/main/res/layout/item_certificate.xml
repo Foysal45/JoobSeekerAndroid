@@ -5,7 +5,10 @@
     <data>
         <variable
             name="certificate"
-            type="com.bdjobs.app.assessment.models.Certificate" />
+            type="com.bdjobs.app.assessment.models.CertificateData" />
+        <variable
+            name="clickListener"
+            type="com.bdjobs.app.assessment.adapters.ClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,9 +36,9 @@
                     android:id="@+id/certificate_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text='@{certificate.testName.empty ? "bdjobs-amcat Certificate" : certificate.testName}'
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:text="Software Engineering"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +51,7 @@
                     android:layout_height="16dp"
                     android:src="@drawable/ic_date_of_comission"
                     android:tint="#595959"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/certificate_name_tv"
                     app:layout_constraintTop_toBottomOf="@id/certificate_name_tv"
@@ -57,7 +61,7 @@
                     android:id="@+id/certificate_date_tv"
                     android:layout_marginStart="5dp"
                     app:layout_constraintBottom_toBottomOf="@id/img"
-                    android:text="01 Jan, 2020"
+                    android:text="@{certificate.testDate}"
                     android:textColor="#595959"
                     app:layout_constraintStart_toEndOf="@id/img"
                     app:layout_constraintTop_toTopOf="@id/img"
@@ -67,10 +71,14 @@
                 <com.google.android.material.button.MaterialButton
                     android:text="Get Result"
                     android:textSize="12sp"
+                    android:textColor="#ac016d"
                     android:textAllCaps="false"
-                    app:backgroundTint="#ac016d"
                     android:padding="0dp"
-                    android:alpha=".1"
+                    android:paddingBottom="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="0dp"
+                    app:backgroundTint="#F7E5F0"
+                    android:onClick="@{()-> clickListener.onClick(certificate)}"
                     android:includeFontPadding="false"
                     android:layout_marginTop="15dp"
                     style="@style/Widget.MaterialComponents.Button"

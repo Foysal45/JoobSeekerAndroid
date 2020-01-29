@@ -1,18 +1,24 @@
 package com.bdjobs.app.assessment
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.assessment.adapters.CertificateListAdapter
+import com.bdjobs.app.assessment.adapters.ClickListener
 import com.bdjobs.app.assessment.viewmodels.CertificateViewModel
 import com.bdjobs.app.databinding.FragmentCertificateListBinding
+import kotlinx.android.synthetic.main.fragment_certificate_list.*
 
 /**
  * A simple [Fragment] subclass.
@@ -23,7 +29,6 @@ class CertificateListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
 
         val binding = FragmentCertificateListBinding.inflate(inflater)
 
@@ -31,15 +36,21 @@ class CertificateListFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
+        binding.certificateViewModel = viewModel
+
+        binding.certificateListRv.adapter = CertificateListAdapter(requireNotNull(context), ClickListener {
+            Toast.makeText(context, "${it?.testName}",Toast.LENGTH_SHORT).show()
+            viewModel.displayResultDetails(it)
+        })
+
+        viewModel.navigateToResultDetails.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(ViewPagerFragmentDirections.actionViewPagerFragmentToResultFragment(it))
+                viewModel.displayResultDetailsCompleted()
+            }
+        })
+
         return binding.root
-
-        //return inflater.inflate(R.layout.fragment_certificate_list, container, false)
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
 
 }

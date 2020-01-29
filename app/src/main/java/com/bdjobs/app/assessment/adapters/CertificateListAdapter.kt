@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.assessment.models.Certificate
+import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.databinding.ItemCertificateBinding
 
 
 class CertificateListAdapter(val context: Context, val clickListener: ClickListener) :
-        ListAdapter<Certificate, CertificateListAdapter.CertificateViewHolder>(DiffUserCallback) {
+        ListAdapter<CertificateData, CertificateListAdapter.CertificateViewHolder>(DiffUserCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CertificateViewHolder {
         return CertificateViewHolder.from(parent)
@@ -20,20 +21,19 @@ class CertificateListAdapter(val context: Context, val clickListener: ClickListe
     private var selectedItemViewHolder: CertificateViewHolder? = null
 
     override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) {
-        val user = getItem(position)
-        holder.bind(user, clickListener)
+        val certificate = getItem(position)
+        holder.bind(certificate, clickListener)
     }
 
 
-    companion object DiffUserCallback : DiffUtil.ItemCallback<Certificate>() {
-        override fun areItemsTheSame(oldItem: Certificate, newItem: Certificate): Boolean {
-            return oldItem === newItem
+    companion object DiffUserCallback : DiffUtil.ItemCallback<CertificateData>() {
+        override fun areItemsTheSame(oldItem: CertificateData, newItem: CertificateData): Boolean {
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Certificate, newItem: Certificate): Boolean {
-            return true
+        override fun areContentsTheSame(oldItem: CertificateData, newItem: CertificateData): Boolean {
+            return oldItem?.assessmentId == newItem?.assessmentId
         }
-
     }
 
 
@@ -52,18 +52,18 @@ class CertificateListAdapter(val context: Context, val clickListener: ClickListe
 
 
         fun bind(
-                certificate: Certificate,
+                certificate: CertificateData,
                 clickListener: ClickListener
         ) {
             binding.certificate = certificate
             binding.executePendingBindings()
-            //binding.clickListener = clickListener
+            binding.clickListener = clickListener
         }
     }
 }
 
-class ClickListener(val clickListener: (userId: Certificate) -> Unit) {
-    fun onClick(certificate: Certificate) = clickListener(certificate)
+class ClickListener(val clickListener: (id: CertificateData) -> Unit) {
+    fun onClick(certificateData: CertificateData) = clickListener(certificateData)
 }
 
 
