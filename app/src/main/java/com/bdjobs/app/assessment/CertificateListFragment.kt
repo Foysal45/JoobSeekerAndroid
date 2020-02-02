@@ -49,8 +49,6 @@ class CertificateListFragment : Fragment() {
                 viewModel.displayResultDetailsCompleted()
             }
         })
-
         return binding.root
     }
-
 }

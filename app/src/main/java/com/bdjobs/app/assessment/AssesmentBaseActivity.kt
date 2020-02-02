@@ -3,6 +3,7 @@ package com.bdjobs.app.assessment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.bdjobs.app.R
 
@@ -19,7 +20,17 @@ class AssesmentBaseActivity : AppCompatActivity() {
 
         toolbar.title = "Employability Certification"
 
+        val navHostFragment = assessmentNavHostFragment as NavHostFragment
+        val inflater = navHostFragment.navController.navInflater
+
+        val graph = inflater.inflate(R.navigation.assessment_navigation)
+
+//        graph.startDestination = R.id.testInstructionFragment
+
+        navHostFragment.navController.graph = graph
+
         val navController = this.findNavController(R.id.assessmentNavHostFragment)
+
         NavigationUI.setupActionBarWithNavController(this, navController)
 
 

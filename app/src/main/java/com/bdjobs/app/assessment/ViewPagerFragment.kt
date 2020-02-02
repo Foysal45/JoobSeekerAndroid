@@ -39,7 +39,5 @@ class ViewPagerFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = ViewPagerAdapter(this).getPageTitle(position)
         }.attach()
-
     }
-
 }

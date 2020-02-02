@@ -119,7 +119,7 @@
                             android:paddingTop="6dp"
                             android:paddingEnd="10dp"
                             android:paddingBottom="6dp"
-                            android:text="Test Score: 500"
+                            app:scoreText="@{resultViewModel.result}"
                             android:textColor="#303030"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +144,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="6dp"
+                            android:checked='@{resultViewModel.result.isShowIncv().equals("True") ? true : false}'
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -165,13 +166,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/graph_card"
                     android:layout_width="0dp"
-                    android:layout_height="260dp"
+                    android:layout_height="270dp"
                     android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
                     app:cardBackgroundColor="#FFF"
                     app:cardCornerRadius="8dp"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@id/module_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/module_tv" >
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingBottom="10dp"
+                        android:id="@+id/h_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:graph="@{resultViewModel.result.modulewisescore}"/>
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                     android:id="@+id/notes_tv"

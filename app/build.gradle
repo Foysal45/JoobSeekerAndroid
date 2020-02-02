@@ -170,6 +170,7 @@ dependencies {
     //timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
 
 }

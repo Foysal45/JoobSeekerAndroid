@@ -98,7 +98,11 @@
         android:id="@+id/resultFragment"
         android:name="com.bdjobs.app.assessment.ResultFragment"
         android:label="Result"
-        tools:layout="@layout/fragment_result" />
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="CertificateData"
+            app:argType="com.bdjobs.app.assessment.models.CertificateData" />
+    </fragment>
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.bdjobs.app.assessment.PaymentFragment"
