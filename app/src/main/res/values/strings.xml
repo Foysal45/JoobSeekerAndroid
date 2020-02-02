@@ -423,5 +423,8 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="tv_instructions_dont_modify_txt">Do not try to modify your answers.</string>
     <string name="tv_instructions_dont_browser_txt">Do not try browser usage, screen capturing, photographs, audio, video etc.</string>
     <string name="tv_instructions_dont_record_txt">Avoid trying to record, copy, publish or share any part of the test questions or consult any third person.</string>
+    <string name="tv_successful_txt">Successful</string>
+    <string name="tv_test_date_txt">Test Date</string>
+    <string name="tv_test_time_txt">Test Time</string>
 
 </resources>
