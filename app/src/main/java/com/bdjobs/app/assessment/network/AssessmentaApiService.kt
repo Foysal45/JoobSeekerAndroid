@@ -3,6 +3,7 @@ package com.bdjobs.app.assessment.network
 //import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.bdjobs.app.assessment.models.Certificate
 import com.bdjobs.app.assessment.models.Result
+import com.bdjobs.app.assessment.models.Schedule
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -57,6 +58,28 @@ interface AssessmentApiService {
             @Field("amcatJobId") amcatJobId: String? = ""
     ): Result
 
+    @FormUrlEncoded
+    @POST("apps_smnt_add_result_in_cv.asp")
+    suspend fun updateResult(
+            @Field("userID") userID: String? = "",
+            @Field("decodeID") decodeID: String? = "",
+            @Field("assessmentId") assessmentId: String? = "",
+            @Field("jobRoleId") jobRoleId: String? = "",
+            @Field("scheduleId") scheduleID: String? = "",
+            @Field("actionType") actionType: String? = ""
+    ) : Result
+
+    @FormUrlEncoded
+    @POST("apps_smnt_new_certification_schedule_list.asp")
+    suspend fun getScheduleFromAPI(
+            @Field("userID") userID: String? = "",
+            @Field("decodeID") decodeID: String? = "",
+            @Field("pageno") pageNo: String? = "",
+            @Field("pagesize") pageSize: String? = "",
+            @Field("fromDate") fromDate: String? = "",
+            @Field("toDate") toDate: String? = "",
+            @Field("venue") venue: String? = ""
+    ) : Schedule
 
 }
 

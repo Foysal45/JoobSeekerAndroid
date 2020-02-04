@@ -1,34 +1,37 @@
 package com.bdjobs.app.assessment.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.assessment.Event
 import com.bdjobs.app.assessment.models.CertificateData
-import com.bdjobs.app.assessment.models.Result
 import com.bdjobs.app.assessment.models.ResultData
 import com.bdjobs.app.assessment.repositories.ResultRepository
 import kotlinx.coroutines.launch
 
+
 class ResultViewModel(certificateData: CertificateData, application: Application) : AndroidViewModel(application) {
 
-    private var resultRepository : ResultRepository
+    private var resultRepository: ResultRepository = ResultRepository(application, certificateData)
 
+    var downloadLink : String? = ""
 
     private val _result = MutableLiveData<ResultData?>()
-    val result : LiveData<ResultData?>
+    val result: LiveData<ResultData?>
         get() = _result
 
-    private val _selectedCertificate = MutableLiveData<CertificateData>()
-    val selectedCertificate: LiveData<CertificateData>
-        get() = _selectedCertificate
+    private val _resultMessage = MutableLiveData<String>()
+    val resultMessage : LiveData<String>
+        get() = _resultMessage
 
-
+    private val _reportLink = MutableLiveData<String>()
+    val reportLink : LiveData<String>
+        get() = _reportLink
 
     init {
-        _selectedCertificate.value = certificateData
-        resultRepository = ResultRepository(application,certificateData)
         getResults()
     }
 
@@ -36,10 +39,25 @@ class ResultViewModel(certificateData: CertificateData, application: Application
         viewModelScope.launch {
             try {
                 _result.value = resultRepository.getResult().data?.get(0)
+                downloadLink = _result.value?.reportLink
             } catch (e: Exception) {
             }
         }
     }
 
-
+    fun onCheckedChanged(checked: Boolean) {
+        viewModelScope.launch {
+            try {
+                val result = resultRepository.updateResult(
+                        when (checked) {
+                            true -> "i"
+                            false -> "d"
+                        }
+                )
+                _resultMessage.value = result.message
+                Log.d("rakib", "$checked ${resultMessage.value}")
+            } catch (e: Exception) {
+            }
+        }
+    }
 }

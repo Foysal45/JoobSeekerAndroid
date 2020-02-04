@@ -21,4 +21,5 @@
     <color name="hintColor">#99BBD6</color>
 
     <color name="colorBlack">#000000</color>
+    <color name="unselected">#EFEFEF</color>
 </resources>

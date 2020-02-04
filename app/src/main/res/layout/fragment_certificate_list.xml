@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="@{String.valueOf(certificateViewModel.certificates.size())}"
+            app:totalCertificates="@{certificateViewModel.certificates.size()}"
             android:textColor="#000"
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.models.ModuleWiseScore
 import com.bdjobs.app.assessment.models.ResultData
+import com.bdjobs.app.assessment.models.ScheduleData
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Description
@@ -30,6 +31,14 @@ fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData
     }
 }
 
+@BindingAdapter("scheduleList")
+fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?){
+    val adapter = recyclerView.adapter as ScheduleListAdapter
+    data?.let {
+        adapter.submitList(data)
+    }
+}
+
 @BindingAdapter("scoreText")
 fun bindScoreTextView(textView: TextView, result: ResultData?)
 {
@@ -41,6 +50,13 @@ fun bindScoreTextView(textView: TextView, result: ResultData?)
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         textView.text = spannable
+    }
+}
+
+@BindingAdapter("totalCertificates")
+fun bindTotalCertificatesTextView(textView: TextView, total : Int?){
+    total?.let {
+        textView.text = "My Certificate List ($total Certificates)"
     }
 }
 
@@ -71,6 +87,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         xAxis.isEnabled = true
         xAxis.setDrawAxisLine(true)
         xAxis.isAvoidFirstLastClippingEnabled
+        xAxis.gridColor = Color.parseColor("#004445")
 
 
 
@@ -80,6 +97,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         yLeft.axisMaximum = 500f
         yLeft.axisMinimum = 0f
         yLeft.isEnabled = false
+        yLeft.axisLineColor = Color.parseColor("#004445")
 
         //Set label count to 5 as we are displaying 5 star rating
         xAxis.labelCount = moduleWiseScore.size
@@ -103,6 +121,8 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         yRight.axisMinimum = 0f
         yRight.isGranularityEnabled = true
         yRight.granularity = 1f
+        yRight.axisLineColor = Color.parseColor("#004445")
+        yRight.zeroLineColor = Color.parseColor("#004445")
 
         yRight.setDrawZeroLine(true)
 
@@ -136,8 +156,9 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
 
 
         //Add animation to the graph
-        chart.animateY(2000)
+        chart.animateY(1000)
     }
+
 
 
 }

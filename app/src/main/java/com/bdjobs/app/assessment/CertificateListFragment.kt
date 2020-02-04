@@ -39,16 +39,16 @@ class CertificateListFragment : Fragment() {
         binding.certificateViewModel = viewModel
 
         binding.certificateListRv.adapter = CertificateListAdapter(requireNotNull(context), ClickListener {
-            Toast.makeText(context, "${it?.testName}",Toast.LENGTH_SHORT).show()
             viewModel.displayResultDetails(it)
         })
 
-        viewModel.navigateToResultDetails.observe(viewLifecycleOwner, Observer {
-            it?.let {
+        viewModel.navigateToResultDetails.observe(viewLifecycleOwner, Observer { it ->
+            it.getContentIfNotHandled()?.let {
                 findNavController().navigate(ViewPagerFragmentDirections.actionViewPagerFragmentToResultFragment(it))
-                viewModel.displayResultDetailsCompleted()
+                //viewModel.displayResultDetailsCompleted()
             }
         })
+
         return binding.root
     }
 }

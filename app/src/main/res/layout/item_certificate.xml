@@ -66,7 +66,7 @@
                     app:layout_constraintStart_toEndOf="@id/img"
                     app:layout_constraintTop_toTopOf="@id/img"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:text="Get Result"
@@ -81,7 +81,7 @@
                     android:onClick="@{()-> clickListener.onClick(certificate)}"
                     android:includeFontPadding="false"
                     android:layout_marginTop="15dp"
-                    style="@style/Widget.MaterialComponents.Button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     app:layout_constraintTop_toTopOf="@id/certificate_name_tv"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.assessment.Event
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.repositories.CertificateRepository
 import kotlinx.coroutines.launch
@@ -20,13 +21,12 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
     val certificates: LiveData<List<CertificateData?>>
         get() = _certificates
 
-    private val _navigateToResultDetails = MutableLiveData<CertificateData>()
-    val navigateToResultDetails: LiveData<CertificateData>
+    private val _navigateToResultDetails = MutableLiveData<Event<CertificateData>>()
+    val navigateToResultDetails: LiveData<Event<CertificateData>>
         get() = _navigateToResultDetails
 
     init {
         getCertificateList()
-        //getPosts()
     }
 
     private fun getCertificateList() {
@@ -43,11 +43,7 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun displayResultDetails(certificateData: CertificateData) {
-        _navigateToResultDetails.value = certificateData
-    }
-
-    fun displayResultDetailsCompleted() {
-        _navigateToResultDetails.value = null
+        _navigateToResultDetails.value = Event(certificateData)
     }
 
 }

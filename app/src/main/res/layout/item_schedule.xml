@@ -3,21 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="schedule"
+            type="com.bdjobs.app.assessment.models.ScheduleData" />
 
+        <variable
+            name="clickListener"
+            type="com.bdjobs.app.assessment.adapters.ScheduleClickListener" />
     </data>
 
-        <com.google.android.material.card.MaterialCardView
 
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:cardBackgroundColor="#EFEFEF"
+            android:id="@+id/schedule_cv"
             app:cardCornerRadius="4dp"
-            app:cardElevation="0dp">
+            app:cardElevation="0dp"
+            android:onClick="@{()-> clickListener.onClick(schedule)}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/schedule_cl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="11dp"
@@ -41,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="01 Jan, 2020"
+                    android:text="@{schedule.testDate}"
                     android:textColor="#303030"
                     app:layout_constraintBottom_toBottomOf="@id/img1"
                     app:layout_constraintEnd_toStartOf="@id/img2"
@@ -65,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="6 PM"
+                    android:text="@{schedule.testTime}"
                     android:textColor="#303030"
                     app:layout_constraintBottom_toBottomOf="@id/img2"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -88,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="Dhaka"
+                    android:text="@{schedule.testCenter}"
                     android:textColor="#303030"
                     app:layout_constraintBottom_toBottomOf="@id/img3"
                     app:layout_constraintHorizontal_bias="0.0"

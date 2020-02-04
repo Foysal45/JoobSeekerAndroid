@@ -27,4 +27,17 @@ class ResultRepository(context: Context, var certificateData: CertificateData){
             )
         }
     }
+
+    suspend fun updateResult(actionType : String) : Result{
+        return withContext(Dispatchers.IO){
+            AssessmentApi.retrofitService.updateResult(
+                    userID = bdjobsUserSession.userId,
+                    decodeID = bdjobsUserSession.decodId,
+                    scheduleID = certificateData.scheduleId,
+                    assessmentId = certificateData.assessmentId,
+                    jobRoleId = certificateData.jobRoleId,
+                    actionType = actionType
+            )
+        }
+    }
 }

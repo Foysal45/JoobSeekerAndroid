@@ -206,7 +206,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     logException(e)
                 }
             }
-
         })
 
     }
