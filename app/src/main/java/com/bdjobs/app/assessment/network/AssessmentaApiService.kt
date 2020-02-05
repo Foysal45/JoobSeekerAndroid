@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment.network
 
 //import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.bdjobs.app.assessment.models.Certificate
+import com.bdjobs.app.assessment.models.Home
 import com.bdjobs.app.assessment.models.Result
 import com.bdjobs.app.assessment.models.Schedule
 import com.squareup.moshi.Moshi
@@ -80,6 +81,14 @@ interface AssessmentApiService {
             @Field("toDate") toDate: String? = "",
             @Field("venue") venue: String? = ""
     ) : Schedule
+
+    @FormUrlEncoded
+    @POST("apps_smnt_certification_home.asp")
+    suspend fun getHomeDetailsFromAPI(
+            @Field("userID") userID: String? = "",
+            @Field("decodeID") decodeID: String? = "",
+            @Field("postingDate") postingDate: String? = ""
+    ) : Home
 
 }
 
