@@ -31,6 +31,7 @@
 
                 <include
                     android:visibility="gone"
+                    bind:data="@{homeViewModel.homeData}"
                     android:id="@+id/no_pending_test"
                     layout="@layout/layout_assessment_no_pending_test" />
 
@@ -41,6 +42,7 @@
 
 
                 <include
+                    android:visibility="gone"
                     android:id="@+id/assessment_info"
                     bind:data="@{homeViewModel.homeData}"
                     layout="@layout/layout_assessment_test_info" />
@@ -58,7 +60,7 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="@{homeViewModel.homeData.isUserPermittedForSchldBooking().equals(String.valueOf(0)) ? View.VISIBLE : View.GONE}"
+            app:firstTimeButtonVisibility="@{homeViewModel.homeData}"
             android:id="@+id/btn_cl"
             android:layout_width="0dp"
             android:layout_height="54dp"

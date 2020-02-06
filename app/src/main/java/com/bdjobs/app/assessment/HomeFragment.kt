@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,11 +41,12 @@ class HomeFragment : Fragment() {
             view.findNavController().navigate(R.id.action_viewPagerFragment_to_testInstructionFragment)
         }
 
-        btn_cl?.setOnClickListener {
-            findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
+        binding.btnCl?.setOnClickListener {
+            Log.d("rakib","clicked")
+            it.findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
         }
 
-        take_test_btn?.setOnClickListener {
+        binding.noPendingTest.takeNewTestBtn.setOnClickListener {
             findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
         }
 
