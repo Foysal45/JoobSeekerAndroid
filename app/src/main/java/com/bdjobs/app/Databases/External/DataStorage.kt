@@ -2600,6 +2600,34 @@ class DataStorage(context: Context) {
             return OrgTypes.toTypedArray()
         }
 
+//    Asseessment Module Queries
+
+    val getDegreeLevels: Array<String>
+        get() {
+            val degreeLevels = ArrayList<String>()
+            try {
+                dbHelper.openDataBase()
+                val selectQuery = "SELECT DISTINCT " + DBHelper.AM_DEGREE_NAME + " FROM " + DBHelper.TABLE_DEGREE_WISE_MODULE
+                //Log.d("selectQuery", selectQuery)
+                val cursor = dbHelper.getCursor(selectQuery)
+
+                if (cursor != null && cursor.count > 0) {
+                    cursor.moveToFirst()
+
+                    for (i in 0 until cursor.count) {
+                        degreeLevels.add(i, cursor.getString(cursor.getColumnIndex(DBHelper.AM_DEGREE_NAME)))
+                        cursor.moveToNext()
+                    }
+                }
+                dbHelper.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return degreeLevels.toTypedArray()
+        }
 
 }
 

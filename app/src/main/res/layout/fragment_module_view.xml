@@ -147,23 +147,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
+                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/tie_degree_level"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:drawableRight="@drawable/ic_arrow_drop_down_advance_search_24dp"
-                    android:drawablePadding="3dp"
-                    android:editable="false"
-                    android:focusableInTouchMode="false"
-                    android:fontFamily="@font/roboto"
-                    android:hint="Degree Level"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:inputType="none"
-                    android:textSize="16sp"
-                    android:transitionName="" />
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint.concentration_major_group"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="150"
+                    android:imeOptions="actionNext"
+                    android:padding="15dp"
+                    android:textColor="#212121" />
+
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <TextView
                 android:id="@+id/tv_specialization_title"
