@@ -585,6 +585,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
                         bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
                         bdjobsUserSession.updateJobApplyThreshold(response.body()?.data?.get(0)?.appliedJobsThreshold)
+                        bdjobsUserSession.updatePostingDate(response.body()?.data?.get(0)?.postingDate!!)
 //                        Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
 //                        Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
                         //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")

@@ -28,6 +28,8 @@ class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        Log.d("rakib", "called onCreateView")
+
         val binding = FragmentHomeBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(requireNotNull(activity)).get(HomeViewModel::class.java)
@@ -53,5 +55,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("rakib", "called onResume")
+        ViewModelProvider(requireNotNull(activity)).get(HomeViewModel::class.java)
+    }
 
 }

@@ -107,5 +107,15 @@
         android:id="@+id/paymentFragment"
         android:name="com.bdjobs.app.assessment.PaymentFragment"
         android:label="Choose Payment"
-        tools:layout="@layout/fragment_payment" />
+        tools:layout="@layout/fragment_payment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

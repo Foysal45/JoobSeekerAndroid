@@ -145,6 +145,7 @@ class Constants {
         const val session_key_decodId = "decodId"
         const val session_key_userName = "userName"
         const val session_key_AppsDate = "AppsDate"
+        const val session_key_PostingDate = "postingDate"
         const val session_key_age = "age"
         const val session_key_exp = "exp"
         const val session_key_catagoryId = "catagoryId"

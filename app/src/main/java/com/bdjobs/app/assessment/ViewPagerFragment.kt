@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ class ViewPagerFragment : Fragment() {
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var viewPager: ViewPager2
+    lateinit var tabLayout : TabLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,9 +37,11 @@ class ViewPagerFragment : Fragment() {
         viewPager.adapter = viewPagerAdapter
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        val tabLayout : TabLayout = view.findViewById(R.id.tab_layout)
+        tabLayout  = view.findViewById(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = ViewPagerAdapter(this).getPageTitle(position)
         }.attach()
     }
+
+
 }

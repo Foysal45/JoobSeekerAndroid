@@ -144,7 +144,7 @@ fun bindTestDataVisibility(constraintLayout: ConstraintLayout, homeData: HomeDat
 @BindingAdapter("firstTimeButtonVisibility")
 fun bindFirstTimeTestButtonVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?){
     homeData?.let {
-        if (homeData.isUserFirstTimeInAssessmentPanel.equals("1") && homeData.isUserPermittedForSchldBooking.equals("")){
+        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0")){
             constraintLayout.visibility = View.GONE
         } else{
             constraintLayout.visibility = View.VISIBLE

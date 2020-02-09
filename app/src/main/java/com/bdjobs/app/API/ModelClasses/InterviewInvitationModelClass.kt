@@ -48,6 +48,9 @@ data class LastUpdateModelData(
         @SerializedName("isCVPosted")
         val isCVPosted: String?,
 
+        @SerializedName("postingDate")
+        val postingDate: String?,
+
         @SerializedName("jobApplyLimit")
         val jobApplyLimit: String?,
 

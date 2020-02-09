@@ -1,10 +1,7 @@
 package com.bdjobs.app.assessment.network
 
 //import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.bdjobs.app.assessment.models.Certificate
-import com.bdjobs.app.assessment.models.Home
-import com.bdjobs.app.assessment.models.Result
-import com.bdjobs.app.assessment.models.Schedule
+import com.bdjobs.app.assessment.models.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -89,6 +86,20 @@ interface AssessmentApiService {
             @Field("decodeID") decodeID: String? = "",
             @Field("postingDate") postingDate: String? = ""
     ) : Home
+
+    @FormUrlEncoded
+    @POST("app_smnt_certification_schedule_booking_update_cancel.asp")
+    suspend fun bookSchedule(
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = "",
+            @Field("strActionType") actionType: String? = "",
+            @Field("scID") scID: String? = "",
+            @Field("SchID") schID: String? = "",
+            @Field("OPID") opID: String? = "",
+            @Field("fltBdjAmount") amount: String? = "",
+            @Field("strTransactionDate") transactionDate: String? = "",
+            @Field("isFromHome") isFromHome: String? = ""
+    ) : BookingResponse
 
 }
 

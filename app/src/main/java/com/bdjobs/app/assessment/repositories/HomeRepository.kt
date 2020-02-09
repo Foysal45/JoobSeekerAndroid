@@ -17,7 +17,7 @@ class HomeRepository(context: Context) {
             AssessmentApi.retrofitService.getHomeDetailsFromAPI(
                     userID = bdjobsUserSession.userId,
                     decodeID = bdjobsUserSession.decodId,
-                    postingDate = bdjobsUserSession.AppsDate
+                    postingDate = bdjobsUserSession.postingDate
             )
         }
     }

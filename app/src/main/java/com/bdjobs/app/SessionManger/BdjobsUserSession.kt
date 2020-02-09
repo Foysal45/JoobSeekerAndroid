@@ -74,6 +74,7 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_decodId, sessionData.decodId)
             putString(Constants.session_key_userName, sessionData.userName)
             putString(Constants.session_key_AppsDate, sessionData.appsDate)
+            putString(Constants.session_key_PostingDate, sessionData.posingDate)
             putString(Constants.session_key_age, sessionData.age)
             putString(Constants.session_key_exp, sessionData.exp)
             putString(Constants.session_key_catagoryId, sessionData.catagoryId)
@@ -94,6 +95,7 @@ class BdjobsUserSession(val context: Context) {
     val decodId = pref?.getString(Constants.session_key_decodId, null)
     val userName = pref?.getString(Constants.session_key_userName, null)
     val AppsDate = pref?.getString(Constants.session_key_AppsDate, null)
+    val postingDate = pref?.getString(Constants.session_key_PostingDate, null)
     val age = pref?.getString(Constants.session_key_age, null)
     val exp = pref?.getString(Constants.session_key_exp, null)
     val catagoryId = pref?.getString(Constants.session_key_catagoryId, null)
@@ -204,6 +206,12 @@ class BdjobsUserSession(val context: Context) {
     fun updateAppsDate(AppsDate: String) {
         pref?.edit {
             putString(Constants.session_key_AppsDate, AppsDate)
+        }
+    }
+
+    fun updatePostingDate(postingDate: String) {
+        pref?.edit {
+            putString(Constants.session_key_PostingDate, postingDate)
         }
     }
 
