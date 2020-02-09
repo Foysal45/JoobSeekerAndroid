@@ -14,6 +14,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.TW
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import kotlinx.android.synthetic.main.fragment_module_view.*
+import org.jetbrains.anko.support.v4.selector
 import kotlin.math.log
 
 /**
@@ -34,14 +35,7 @@ class ModulesViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         try{
             dataStorage = DataStorage(context!!)
-            val degreeLevels = dataStorage.getDegreeLevels
-            val degreeLevelsAdapter = ArrayAdapter<String>(context!!,
-                    android.R.layout.simple_dropdown_item_1line, degreeLevels)
-
-            tie_degree_level?.addTextChangedListener(TW.CrossIconBehave(tie_degree_level))
-
-            tie_degree_level?.setAdapter(degreeLevelsAdapter)
-            tie_degree_level?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+            initViews()
 
         }catch (e: Exception){
             Log.d("Exception", e.toString())
@@ -49,4 +43,16 @@ class ModulesViewFragment : Fragment() {
 
     }
 
+    private fun initViews(){
+
+        val degreeLevels = dataStorage.getDegreeLevels
+
+        et_degree_level.setOnClickListener {
+            selector("Please select degree level", degreeLevels.toList()) { dialogInterface, i ->
+                et_degree_level?.setText(degreeLevels[i])
+            }
+
+
+        }
+    }
 }

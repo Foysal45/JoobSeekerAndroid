@@ -147,17 +147,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_degree_level"
                     android:importantForAutofill="noExcludeDescendants"
-                    android:id="@+id/tie_degree_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/hint.concentration_major_group"
+                    android:hint="Degree Levels"
+                    android:digits="@string/charsWithSpace"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="150"
-                    android:imeOptions="actionNext"
-                    android:padding="15dp"
+                    android:maxLength="50"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:textColor="#212121" />
 
 
