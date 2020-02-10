@@ -15,7 +15,9 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/scroll"
+            app:notFirstTime="@{homeViewModel.homeData}"
+            android:visibility="gone"
+            android:id="@+id/main_sv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/btn_cl"
@@ -24,10 +26,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/main_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
 
                 <include
                     android:visibility="gone"
@@ -47,6 +49,36 @@
                     bind:data="@{homeViewModel.homeData}"
                     layout="@layout/layout_assessment_test_info" />
 
+                <include layout="@layout/layout_steps_to_get_the_certification" />
+
+                <include layout="@layout/layout_benefits_of_certificate" />
+
+                <include layout="@layout/layout_what_is_employability_certification" />
+
+                <include layout="@layout/layout_need_more_information"/>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <ScrollView
+            app:firstTime="@{homeViewModel.homeData}"
+            android:visibility="gone"
+            android:id="@+id/first_time_sv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_cl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/first_time_main_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <include layout="@layout/layout_benefits_of_certificate" />
 
                 <include layout="@layout/layout_what_is_employability_certification" />
@@ -55,11 +87,15 @@
 
                 <include layout="@layout/layout_certification_laptop" />
 
+                <include layout="@layout/layout_need_more_information" />
+
             </LinearLayout>
+
 
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             app:firstTimeButtonVisibility="@{homeViewModel.homeData}"
             android:id="@+id/btn_cl"
             android:layout_width="0dp"

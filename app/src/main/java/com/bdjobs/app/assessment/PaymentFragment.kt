@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.models.Booking
@@ -40,7 +42,7 @@ class PaymentFragment : Fragment() {
 
             bookingViewModel.bookSchedule()
 
-            //findNavController().navigate(R.id.action_paymentFragment_to_viewPagerFragment)
+            findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToViewPagerFragment().setStatus("true"))
         }
     }
 }

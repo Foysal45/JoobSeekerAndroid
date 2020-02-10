@@ -6,6 +6,9 @@
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -13,6 +16,7 @@
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:cardElevation="0dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -22,4 +22,6 @@
 
     <color name="colorBlack">#000000</color>
     <color name="unselected">#EFEFEF</color>
+
+    <color name="selected">#1565C0</color>
 </resources>

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -12,11 +13,9 @@ import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.models.HomeData
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 import org.jetbrains.anko.textColor
-import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
 
 @BindingAdapter("paymentStatusBackground")
 fun bindStatusBackground(constraintLayout: ConstraintLayout, homeData: HomeData?) {
@@ -86,15 +85,18 @@ fun bindVenueText(textView: TextView, venue: String?) {
 fun bindExamDate(textView: TextView, date: String?) {
     date?.let {
         Log.d("rakib", "$it")
-        var originalFormat: DateFormat = SimpleDateFormat("MM/dd/YYYY", Locale.US)
-        var targetFormat: DateFormat = SimpleDateFormat("dd MMM YYYY")
-
-        if (it != "") {
-            var formattedDate: Date = originalFormat.parse(it)
-            textView.text = targetFormat.format(formattedDate)
-        }
+//        var originalFormat: DateFormat = SimpleDateFormat("MM/dd/YYYY", Locale.US)
+//        var targetFormat: DateFormat = SimpleDateFormat("dd MMM YYYY")
+//
+//        if (it != "") {
+//            var formattedDate: Date = originalFormat.parse(it)
+//            textView.text = targetFormat.format(formattedDate)
+//        }
+        textView.text = date
     }
 }
+
+
 
 @BindingAdapter("fee")
 fun bindFeeText(textView: TextView, fee: String?) {
@@ -118,36 +120,56 @@ fun bindSecondButtonBehaviour(button: MaterialButton, homeData: HomeData?) {
 }
 
 @BindingAdapter("takeNewTestVisibility")
-fun bindTakeNewTestCardVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?){
+fun bindTakeNewTestCardVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
 
     homeData?.let {
-        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("1")){
+        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("1")) {
             constraintLayout.visibility = View.VISIBLE
-        } else{
+        } else {
             constraintLayout.visibility = View.GONE
         }
     }
 }
 
 @BindingAdapter("testDataVisibility")
-fun bindTestDataVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?){
+fun bindTestDataVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
 
     homeData?.let {
-        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0")){
+        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0")) {
             constraintLayout.visibility = View.VISIBLE
-        } else{
+        } else {
             constraintLayout.visibility = View.GONE
         }
     }
 }
 
 @BindingAdapter("firstTimeButtonVisibility")
-fun bindFirstTimeTestButtonVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?){
+fun bindFirstTimeTestButtonVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
     homeData?.let {
-        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0")){
+        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0")) {
             constraintLayout.visibility = View.GONE
-        } else{
+        } else {
             constraintLayout.visibility = View.VISIBLE
         }
+    }
+}
+
+@BindingAdapter("firstTime")
+fun bindFirstTimeView(scrollView: ScrollView, homeData: HomeData?) {
+    homeData?.let {
+        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0"))
+            scrollView.visibility = View.GONE
+        else
+            scrollView.visibility = View.VISIBLE
+    }
+}
+
+@BindingAdapter("notFirstTime")
+fun bindNotFirstTimeView(scrollView: ScrollView, homeData: HomeData?) {
+    homeData?.let {
+        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0"))
+            scrollView.visibility = View.VISIBLE
+        else
+            scrollView.visibility = View.GONE
     }
 }

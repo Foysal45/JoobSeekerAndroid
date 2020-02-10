@@ -15,6 +15,7 @@ import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_assessment_no_pending_test.*
+import kotlinx.android.synthetic.main.layout_assessment_test_info.view.*
 import kotlinx.android.synthetic.main.layout_what_is_employability_certification.*
 
 /**
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.layout_what_is_employability_certification
 class HomeFragment : Fragment() {
 
     lateinit var viewModel: HomeViewModel
+    lateinit var binding : FragmentHomeBinding
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +32,7 @@ class HomeFragment : Fragment() {
 
         Log.d("rakib", "called onCreateView")
 
-        val binding = FragmentHomeBinding.inflate(inflater)
+        binding = FragmentHomeBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(requireNotNull(activity)).get(HomeViewModel::class.java)
 
@@ -38,28 +40,39 @@ class HomeFragment : Fragment() {
 
         binding.homeViewModel = viewModel
 
-
         learn_more_btn?.setOnClickListener {view ->
             view.findNavController().navigate(R.id.action_viewPagerFragment_to_testInstructionFragment)
         }
 
         binding.btnCl?.setOnClickListener {
-            Log.d("rakib","clicked")
             it.findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
         }
 
-        binding.noPendingTest.takeNewTestBtn.setOnClickListener {
+        binding.noPendingTest?.takeNewTestBtn?.setOnClickListener {
             findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
         }
+
+        binding.assessmentInfo?.changeBtn?.setOnClickListener {
+            findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
+        }
+
+
 
         return binding.root
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("rakib", "called onResume")
-        ViewModelProvider(requireNotNull(activity)).get(HomeViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.takeIf { it.containsKey("status") }?.apply {
+            Log.d("rakibe in home" , getString("status"))
+            if(getString("status").equals("true"))
+            {
+                viewModel.getHomeInfo()
+                binding.homeViewModel = viewModel
+            }
+        }
     }
+
 
 }

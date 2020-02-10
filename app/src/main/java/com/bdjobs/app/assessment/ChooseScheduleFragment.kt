@@ -38,7 +38,7 @@ class ChooseScheduleFragment : Fragment() {
         binding.scheduleViewModel = scheduleViewModel
 
         binding.scheduleRv.adapter = ScheduleListAdapter(requireNotNull(context), ScheduleClickListener {
-            Toast.makeText(activity, it.testCenter, Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, it.schlId, Toast.LENGTH_SHORT).show()
         })
 
         // Inflate the layout for this fragment

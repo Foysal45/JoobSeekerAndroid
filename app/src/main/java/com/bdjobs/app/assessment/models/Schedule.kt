@@ -23,14 +23,12 @@ data class ScheduleData(
         var actionType: String?,
         @Json(name = "examType")
         var examType: String?,
-        @Json(name = "istestOnline")
-        var istestOnline: String?,
         @Json(name = "jobRoleId")
         var jobRoleId: String?,
-        @Json(name = "newScheduleId")
-        var newScheduleId: String?,
-        @Json(name = "previousSchduleId")
-        var previousSchduleId: String?,
+        @Json(name = "scId")
+        var scId: String?,
+        @Json(name = "schlId")
+        var schlId: String?,
         @Json(name = "testCenter")
         var testCenter: String?,
         @Json(name = "testDate")

@@ -21,8 +21,7 @@
     <fragment
         android:id="@+id/certificateListFragment"
         android:name="com.bdjobs.app.assessment.CertificateListFragment"
-        android:label="fragment_certificate_list"
-        tools:layout="@layout/fragment_certificate_list" />
+        android:label="fragment_certificate_list" />
     <fragment
         android:id="@+id/viewPagerFragment"
         android:name="com.bdjobs.app.assessment.ViewPagerFragment"
@@ -49,6 +48,11 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="status"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="false"/>
     </fragment>
     <fragment
         android:id="@+id/testInstructionFragment"
