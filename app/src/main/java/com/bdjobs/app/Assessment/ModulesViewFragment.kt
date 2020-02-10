@@ -7,15 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+
 import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.TW
-import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
+
+import com.bdjobs.app.Utilities.getString
+import com.google.android.material.chip.Chip
+
 import kotlinx.android.synthetic.main.fragment_module_view.*
+
 import org.jetbrains.anko.support.v4.selector
-import kotlin.math.log
+
 
 /**
  * A simple [Fragment] subclass.
@@ -50,9 +53,31 @@ class ModulesViewFragment : Fragment() {
         et_degree_level.setOnClickListener {
             selector("Please select degree level", degreeLevels.toList()) { dialogInterface, i ->
                 et_degree_level?.setText(degreeLevels[i])
+                upDateView()
             }
-
-
         }
+    }
+
+    private fun upDateView(){
+        Log.d("degree Name " , et_degree_level.getString())
+        val degreeID = dataStorage.getIDbyDegreeLevel(et_degree_level.getString())
+
+        Log.d("degree ID " , degreeID.toString())
+
+        val degreeSubjects = dataStorage.getSubjectsbyDegreeID(degreeID.toString())
+
+        val subjectArray = degreeSubjects?.split("*")?.toTypedArray()
+
+        cg_specialization.removeAllViews()
+        for (index in subjectArray!!.indices) {
+            val chip = Chip(cg_specialization.context)
+            chip.text= subjectArray[index]
+            chip.isClickable = false
+            chip.isCheckable = false
+            cg_specialization.addView(chip)
+        }
+
+        
+
     }
 }

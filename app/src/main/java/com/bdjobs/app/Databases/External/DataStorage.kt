@@ -2629,6 +2629,57 @@ class DataStorage(context: Context) {
             return degreeLevels.toTypedArray()
         }
 
+    fun getIDbyDegreeLevel(name: String): String? {
+
+        var s: String? = null
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT DISTINCT " + DBHelper.DEGREE_ID + " FROM " + DBHelper.TABLE_DEGREE_WISE_MODULE + " WHERE " + DBHelper.AM_DEGREE_NAME + " = '" + name + "'"
+            //Log.d("selectQuery", selectQuery)
+            val cursor = dbHelper.getCursor(selectQuery)
+            s = ""
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.DEGREE_ID))
+                cursor.moveToNext()
+            }
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
+    fun getSubjectsbyDegreeID(id: String): String? {
+
+        var s: String? = ""
+        try {
+            dbHelper.openDataBase()
+            val selectQuery = "SELECT " + DBHelper.DEGREE_SUBJECTS + " FROM " + DBHelper.TABLE_DEGREE_WISE_MODULE + " WHERE " + DBHelper.DEGREE_ID + " = '" + id + "' LIMIT 1"
+//            Log.d("degree selectQuery", selectQuery)
+
+            val cursor = dbHelper.getCursor(selectQuery)
+
+            if (cursor != null && cursor.count > 0) {
+                cursor.moveToFirst()
+                s = cursor.getString(cursor.getColumnIndex(DBHelper.DEGREE_SUBJECTS))
+                cursor.moveToNext()
+            }
+
+            dbHelper.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return s
+    }
+
 }
 
 
