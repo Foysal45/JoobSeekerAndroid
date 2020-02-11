@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.models.Booking
-import com.bdjobs.app.assessment.viewmodels.BookingViewModelFactory
-import com.bdjobs.app.assessment.viewmodels.BookingViewModel
+import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
+import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
 import kotlinx.android.synthetic.main.fragment_payment.*
 
 /**
@@ -21,16 +21,16 @@ import kotlinx.android.synthetic.main.fragment_payment.*
  */
 class PaymentFragment : Fragment() {
 
-    lateinit var bookingViewModel : BookingViewModel
+    lateinit var paymentViewModel: PaymentViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val application = requireNotNull(activity).application
 
-        val viewModelFactory = BookingViewModelFactory(Booking(),application)
+        val viewModelFactory = PaymentViewModelFactory(Booking(),application)
 
-        bookingViewModel = ViewModelProvider(this,viewModelFactory).get(BookingViewModel::class.java)
+        paymentViewModel = ViewModelProvider(this,viewModelFactory).get(PaymentViewModel::class.java)
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_payment, container, false)
@@ -40,7 +40,7 @@ class PaymentFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         btn_cl?.setOnClickListener {
 
-            bookingViewModel.bookSchedule()
+            //bookingViewModel.bookSchedule()
 
             findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToViewPagerFragment().setStatus("true"))
         }

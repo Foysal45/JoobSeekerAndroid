@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.assessment.Event
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.repositories.CertificateRepository
 import kotlinx.coroutines.launch
@@ -25,19 +26,24 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
     val navigateToResultDetails: LiveData<Event<CertificateData>>
         get() = _navigateToResultDetails
 
+    private val _status = MutableLiveData<Status>()
+    val status :LiveData<Status>
+        get() = _status
+
     init {
         getCertificateList()
     }
 
     private fun getCertificateList() {
-        Log.d("rakib", "called")
+        _status.value = Status.LOADING
         viewModelScope.launch {
             try {
+                _status.value = Status.LOADING
                 certificateList = certificateRepository.getCertificateList().data
                 _certificates.value = certificateList
-                Log.d("rakib try", "${certificateList?.size}")
+                _status.value = Status.DONE
             } catch (e: Exception) {
-                Log.d("rakib catch", e.message)
+                _status.value = Status.ERROR
             }
         }
     }
@@ -45,5 +51,4 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
     fun displayResultDetails(certificateData: CertificateData) {
         _navigateToResultDetails.value = Event(certificateData)
     }
-
 }

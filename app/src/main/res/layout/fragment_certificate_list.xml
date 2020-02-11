@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"
             app:layout_constraintTop_toTopOf="parent"
-            app:totalCertificates="@{certificateViewModel.certificates.size()}" />
+            app:totalCertificates="@{certificateViewModel.certificates}" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -61,15 +61,16 @@
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="@{certificateViewModel.certificates == null ? View.VISIBLE : View.GONE }"
             android:id="@+id/no_data_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:certificateStatus="@{certificateViewModel.status}"
+            app:data="@{certificateViewModel.certificates}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25">
+            app:layout_constraintVertical_bias="0.19999999">
 
             <ImageView
                 android:id="@+id/not_data_img"

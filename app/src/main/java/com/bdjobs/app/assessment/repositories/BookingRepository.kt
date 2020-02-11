@@ -13,14 +13,14 @@ class BookingRepository(context: Context,var booking: Booking) {
 
     val bdjobsUserSession : BdjobsUserSession = BdjobsUserSession(context)
 
-    suspend fun bookSchedule() : BookingResponse{
+    suspend fun manageSchedule() : BookingResponse{
         return withContext(Dispatchers.IO){
             AssessmentApi.retrofitService.bookSchedule(
                     userID = bdjobsUserSession.userId,
                     decodeID = bdjobsUserSession.decodId,
-                    actionType = "I",
-                    scID = "0",
-                    schID = "15576",
+                    actionType = booking.strActionType,
+                    scID = booking.scId,
+                    schID = booking.schId,
                     opID = booking.opId,
                     amount = booking.fltBdjAmount,
                     transactionDate = booking.strTransactionDate,

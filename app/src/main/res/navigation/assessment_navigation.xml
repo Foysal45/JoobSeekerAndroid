@@ -53,6 +53,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="false"/>
+        <action
+            android:id="@+id/action_viewPagerFragment_to_chooseScheduleFragment"
+            app:destination="@id/chooseScheduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/testInstructionFragment"
@@ -71,6 +74,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_testLocationFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/chooseScheduleFragment"
@@ -78,25 +88,28 @@
         android:label="Choose Test Location"
         tools:layout="@layout/fragment_choose_schedule">
         <action
-            android:id="@+id/action_chooseScheduleFragment_to_bookScheduleFragment"
-            app:destination="@id/bookScheduleFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            android:id="@+id/action_chooseScheduleFragment_to_bookingOverviewFragment"
+            app:destination="@id/bookingOverviewFragment" />
     </fragment>
     <fragment
-        android:id="@+id/bookScheduleFragment"
-        android:name="com.bdjobs.app.assessment.BookScheduleFragment"
+        android:id="@+id/bookingOverviewFragment"
+        android:name="com.bdjobs.app.assessment.BookingOverviewFragment"
         android:label="Choose Test Location"
-        tools:layout="@layout/fragment_book_schedule" >
+        tools:layout="@layout/fragment_booking_overview" >
         <action
-            android:id="@+id/action_bookScheduleFragment_to_paymentFragment"
+            android:id="@+id/action_bookingOverviewFragment_to_paymentFragment"
             app:destination="@id/paymentFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="ScheduleData"
+            app:argType="com.bdjobs.app.assessment.models.ScheduleData"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_bookingOverviewFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
