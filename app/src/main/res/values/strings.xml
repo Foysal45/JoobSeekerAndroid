@@ -403,10 +403,28 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_matched_job">Matched Job</string>
 
     <string name="notification">Notifications</string>
+
+    <!-- Assessment Strings -->
     <string name="title_activity_assesment_base">Employability Certification</string>
 
     <string name="call"><b>01844519336</b> or <b>16479</b></string>
 
     <string name="test_payment_amount"><strike>BDT 550/-</strike> Free for first time</string>
+
+    <string name="btn_certification_home_txt">Certification Home</string>
+
+    <string name="tv_instructions_do_title_txt">Do\'s</string>
+    <string name="tv_instructions_do_internet_txt">Make sure you have a good internet connection.</string>
+    <string name="tv_instructions_do_time_txt">A clock will show the remaining time.</string>
+    <string name="tv_instructions_do_clock_txt">Follow the clock displays the remaining duration and try to complete your test.</string>
+
+    <string name="tv_instructions_dont_title_txt">Dont\'s</string>
+    <string name="tv_instructions_dont_back_button_txt">Do not use the back button and avoid using scroll button on your mouse during the test.</string>
+    <string name="tv_instructions_dont_modify_txt">Do not try to modify your answers.</string>
+    <string name="tv_instructions_dont_browser_txt">Do not try browser usage, screen capturing, photographs, audio, video etc.</string>
+    <string name="tv_instructions_dont_record_txt">Avoid trying to record, copy, publish or share any part of the test questions or consult any third person.</string>
+    <string name="tv_successful_txt">Successful</string>
+    <string name="tv_test_date_txt">Test Date</string>
+    <string name="tv_test_time_txt">Test Time</string>
 
 </resources>
