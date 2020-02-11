@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.assessment.Event
 import com.bdjobs.app.assessment.models.Booking
 import com.bdjobs.app.assessment.models.BookingResponse
 import com.bdjobs.app.assessment.models.ScheduleData
@@ -16,23 +17,26 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
 
     private var bookingRepository: BookingRepository
     lateinit var bookingResponse: BookingResponse
-    private var booking : Booking = Booking()
+    private var booking: Booking = Booking()
 
-    var  schedule : ScheduleData
+    var schedule: ScheduleData
 
     private val _scheduleData = MutableLiveData<ScheduleData>()
     val scheduleData: LiveData<ScheduleData>
         get() = _scheduleData
 
     private val _bookingData = MutableLiveData<Booking>()
-    val bookingData : LiveData<Booking>
+    val bookingData: LiveData<Booking>
         get() = _bookingData
 
+    private val _navigateToPayment = MutableLiveData<Event<Booking>>()
+    val navigateToPayment: LiveData<Event<Booking>>
+        get() = _navigateToPayment
 
     init {
         _scheduleData.value = scheduleData
         schedule = scheduleData
-        bookingRepository = BookingRepository(application,booking)
+        bookingRepository = BookingRepository(application, booking)
     }
 
     fun setUpBookingData() {
@@ -45,16 +49,11 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
 
         _bookingData.value = booking
 
-//        viewModelScope.launch {
-//            try {
-//                bookingResponse = bookingRepository.manageSchedule()
-//                Log.d("rakib", "${bookingResponse.message}")
-//            } catch (e: Exception) {
-//            }
-//        }
+        displayPayment(booking)
+
     }
 
-    fun cancelSchedule(){
+    fun cancelSchedule() {
 
         booking.apply {
             scId = schedule.scId
@@ -68,6 +67,10 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
             } catch (e: Exception) {
             }
         }
+    }
+
+    private fun displayPayment(booking: Booking){
+        _navigateToPayment.value = Event(booking)
     }
 
 }

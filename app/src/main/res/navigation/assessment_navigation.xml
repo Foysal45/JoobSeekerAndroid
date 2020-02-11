@@ -134,5 +134,9 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/viewPagerFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="bookingData"
+            app:argType="com.bdjobs.app.assessment.models.Booking"
+            app:nullable="true" />
     </fragment>
 </navigation>

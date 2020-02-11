@@ -49,9 +49,9 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
 
         mapFragment?.getMapAsync(this)
 
-        bookingOverviewViewModel.bookingData.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                findNavController().navigate(R.id.action_bookingOverviewFragment_to_paymentFragment)
+        bookingOverviewViewModel.navigateToPayment.observe(viewLifecycleOwner, Observer {it->
+            it.getContentIfNotHandled()?.let {
+                findNavController().navigate(BookingOverviewFragmentDirections.actionBookingOverviewFragmentToPaymentFragment(it))
             }
         })
 

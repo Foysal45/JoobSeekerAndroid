@@ -28,7 +28,9 @@ class PaymentFragment : Fragment() {
 
         val application = requireNotNull(activity).application
 
-        val viewModelFactory = PaymentViewModelFactory(Booking(),application)
+        val bookingData = PaymentFragmentArgs.fromBundle(arguments!!).bookingData
+
+        val viewModelFactory = PaymentViewModelFactory(bookingData!!,application)
 
         paymentViewModel = ViewModelProvider(this,viewModelFactory).get(PaymentViewModel::class.java)
 
@@ -38,11 +40,16 @@ class PaymentFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        btn_cl?.setOnClickListener {
 
-            //bookingViewModel.bookSchedule()
-
-            findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToViewPagerFragment().setStatus("true"))
+        pay_cash_card?.setOnClickListener {
+            paymentViewModel.bookSchedule()
         }
+
+//        btn_cl?.setOnClickListener {
+//
+//            //bookingViewModel.bookSchedule()
+//
+//            findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToViewPagerFragment().setStatus("true"))
+//        }
     }
 }
