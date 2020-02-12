@@ -1,11 +1,13 @@
 package com.bdjobs.app.assessment
 
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
@@ -24,6 +26,20 @@ class TestLocationFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        test_home_card?.setOnClickListener{
+//            test_home_card.strokeColor = ContextCompat.getColor(activity!!.applicationContext,R.color.selected)
+//            test_home_card.strokeWidth = 3
+//            test_center_card.strokeWidth = 0
+            findNavController().navigate(R.id.action_testLocationFragment_to_paymentFragment)
+        }
+
+        test_center_card?.setOnClickListener{
+//            test_center_card.strokeColor = ContextCompat.getColor(activity!!.applicationContext,R.color.selected)
+//            test_center_card.strokeWidth = 3
+//            test_home_card.strokeWidth = 0
+            findNavController().navigate(R.id.action_testLocationFragment_to_chooseScheduleFragment)
+        }
 
         btn_cl?.setOnClickListener {
             findNavController().navigate(R.id.action_testLocationFragment_to_chooseScheduleFragment)

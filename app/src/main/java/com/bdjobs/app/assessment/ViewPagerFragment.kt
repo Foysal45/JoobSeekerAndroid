@@ -32,14 +32,18 @@ class ViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPagerAdapter = ViewPagerAdapter(this)
+        val status = ViewPagerFragmentArgs.fromBundle(arguments!!).status
+
+        Log.d("rakibe", "$status")
+
+        viewPagerAdapter = ViewPagerAdapter(this,status!!)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = viewPagerAdapter
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         tabLayout  = view.findViewById(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = ViewPagerAdapter(this).getPageTitle(position)
+            tab.text = ViewPagerAdapter(this,status).getPageTitle(position)
         }.attach()
     }
 

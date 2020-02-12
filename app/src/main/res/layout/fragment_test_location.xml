@@ -246,8 +246,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/test_center_iv"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/test_center_sub_heading_tv"
@@ -278,13 +277,13 @@
                 app:layout_constraintStart_toStartOf="@+id/test_center_heading_tv"
                 app:layout_constraintTop_toBottomOf="@+id/test_center_sub_heading_tv" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
         android:id="@+id/btn_cl"
         android:layout_width="0dp"
         android:layout_height="54dp"

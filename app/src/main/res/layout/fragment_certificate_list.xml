@@ -37,11 +37,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            app:totalCertificates="@{certificateViewModel.certificates.size()}"
             android:textColor="#000"
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:totalCertificates="@{certificateViewModel.certificates}" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -58,18 +58,58 @@
             app:layout_constraintVertical_bias="0.0"
             app:list="@{certificateViewModel.certificates}"
             tools:itemCount="10"
-            tools:listitem="@layout/item_certificate" />
+            />
 
-        <ImageView
-            android:id="@+id/not_data_img"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_data_cl"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_no_data"
-            android:visibility="@{certificateViewModel.certificates == null ? View.VISIBLE : View.GONE }"
+            app:certificateStatus="@{certificateViewModel.status}"
+            app:data="@{certificateViewModel.certificates}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.19999999">
+
+            <ImageView
+                android:id="@+id/not_data_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_no_data"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_certificate_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="No Certificate Yet!"
+                android:textColor="#303030"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/not_data_img" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:text="Verify your skill to get desired Job "
+                android:textColor="#767676"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/no_certificate_tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,8 @@
 package com.bdjobs.app.assessment
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +17,8 @@ import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_assessment_no_pending_test.*
+import kotlinx.android.synthetic.main.layout_assessment_test_info.view.*
+import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 import kotlinx.android.synthetic.main.layout_what_is_employability_certification.*
 
 /**
@@ -23,43 +27,58 @@ import kotlinx.android.synthetic.main.layout_what_is_employability_certification
 class HomeFragment : Fragment() {
 
     lateinit var viewModel: HomeViewModel
-
+    lateinit var binding : FragmentHomeBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         Log.d("rakib", "called onCreateView")
 
-        val binding = FragmentHomeBinding.inflate(inflater)
+        binding = FragmentHomeBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(requireNotNull(activity)).get(HomeViewModel::class.java)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         binding.homeViewModel = viewModel
-
 
         learn_more_btn?.setOnClickListener {view ->
             view.findNavController().navigate(R.id.action_viewPagerFragment_to_testInstructionFragment)
         }
 
         binding.btnCl?.setOnClickListener {
-            Log.d("rakib","clicked")
             it.findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
         }
 
-        binding.noPendingTest.takeNewTestBtn.setOnClickListener {
+        binding.noPendingTest?.takeNewTestBtn?.setOnClickListener {
             findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
+        }
+
+        binding.assessmentInfo?.changeBtn?.setOnClickListener {
+            findNavController().navigate(R.id.action_viewPagerFragment_to_chooseScheduleFragment)
+        }
+
+        binding.needMoreInfoCl.call_cl.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:01844519336")
+            startActivity(intent)
         }
 
         return binding.root
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("rakib", "called onResume")
-        ViewModelProvider(requireNotNull(activity)).get(HomeViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.takeIf { it.containsKey("status") }?.apply {
+            Log.d("rakibe in home" , getString("status"))
+            if(getString("status").equals("true"))
+            {
+                viewModel.getHomeInfo()
+                arguments?.putString("status", "false")
+            }
+        }
     }
+
 
 }

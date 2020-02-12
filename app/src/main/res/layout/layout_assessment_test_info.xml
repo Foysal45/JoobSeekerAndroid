@@ -202,6 +202,8 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="5dp"
                     app:layout_constraintBottom_toBottomOf="@id/money_tv"
+                    app:layout_constraintEnd_toStartOf="@id/guideline11"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/money_tv"
                     app:layout_constraintTop_toTopOf="@id/money_tv"
                     app:paymentStatusBackground="@{data}">

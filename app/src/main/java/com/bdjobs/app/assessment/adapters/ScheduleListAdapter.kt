@@ -22,8 +22,8 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
     }
 
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-        val certificate = getItem(position)
-        holder.bind(certificate, ScheduleClickListener {
+        val schedule = getItem(position)
+        holder.bind(schedule, ScheduleClickListener {
             // Deselect last selected item
             selectedItemViewHolder?.apply {
 
@@ -49,7 +49,7 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
         }
 
         override fun areContentsTheSame(oldItem: ScheduleData, newItem: ScheduleData): Boolean {
-            return oldItem?.newScheduleId == newItem?.newScheduleId
+            return oldItem?.schlId == newItem?.schlId
         }
     }
 

@@ -23,7 +23,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         getHomeInfo()
     }
 
-    private fun getHomeInfo() {
+    fun getHomeInfo() {
         viewModelScope.launch {
             try {
                 _homeData.value = homeRepository.getHomeData().data?.get(0)

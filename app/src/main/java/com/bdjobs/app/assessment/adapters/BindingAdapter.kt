@@ -6,13 +6,13 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.util.Log
+import android.view.View
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.assessment.models.CertificateData
-import com.bdjobs.app.assessment.models.ModuleWiseScore
-import com.bdjobs.app.assessment.models.ResultData
-import com.bdjobs.app.assessment.models.ScheduleData
+import com.bdjobs.app.assessment.enums.Status
+import com.bdjobs.app.assessment.models.*
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Description
@@ -32,7 +32,7 @@ fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData
 }
 
 @BindingAdapter("scheduleList")
-fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?){
+fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?) {
     val adapter = recyclerView.adapter as ScheduleListAdapter
     data?.let {
         adapter.submitList(data)
@@ -40,8 +40,7 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?){
 }
 
 @BindingAdapter("scoreText")
-fun bindScoreTextView(textView: TextView, result: ResultData?)
-{
+fun bindScoreTextView(textView: TextView, result: ResultData?) {
     result?.let {
         val spannable = SpannableString("Total Score: ${result.totalScore}")
         spannable.setSpan(
@@ -54,15 +53,18 @@ fun bindScoreTextView(textView: TextView, result: ResultData?)
 }
 
 @BindingAdapter("totalCertificates")
-fun bindTotalCertificatesTextView(textView: TextView, total : Int?){
-    total?.let {
-        textView.text = "My Certificate List ($total Certificates)"
+fun bindTotalCertificatesTextView(textView: TextView, certificateList: List<CertificateData?>?) {
+
+    if (certificateList.isNullOrEmpty())
+        textView.visibility = View.GONE
+    else{
+        textView.visibility = View.VISIBLE
+        textView.text = "My Certificate List (${certificateList.size} Certificates)"
     }
 }
 
 @BindingAdapter("graph")
-fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>?)
-{
+fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>?) {
     moduleWiseScore?.let {
 
         chart.setDrawBarShadow(false)
@@ -90,7 +92,6 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         xAxis.gridColor = Color.parseColor("#004445")
 
 
-
         val yLeft = chart.axisLeft
 
         //Set the minimum and maximum bar lengths as per the values that they represent
@@ -109,7 +110,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
 
         try {
             xAxis.valueFormatter = IndexAxisValueFormatter(subjectNameList)
-        } catch (e : Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -131,8 +132,8 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
 
         val entries = ArrayList<BarEntry>()
 
-        for ( i in moduleWiseScore.indices){
-            entries.add(BarEntry(i.toFloat(),moduleWiseScore[i]?.moduleWiseScore!!.toFloat()))
+        for (i in moduleWiseScore.indices) {
+            entries.add(BarEntry(i.toFloat(), moduleWiseScore[i]?.moduleWiseScore!!.toFloat()))
         }
 
         val barDataSet = BarDataSet(entries, "Bar Data Set")
@@ -158,7 +159,19 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         //Add animation to the graph
         chart.animateY(1000)
     }
+}
 
+@BindingAdapter("certificateStatus", "data")
+fun bindCertificateStatus(constraintLayout: ConstraintLayout, status: Status, certificateList: List<CertificateData?>?) {
+    when (status) {
+        Status.LOADING -> constraintLayout.visibility = View.INVISIBLE
+        Status.DONE -> {
+            if (certificateList.isNullOrEmpty())
+                constraintLayout.visibility = View.VISIBLE
+            else
+                constraintLayout.visibility = View.GONE
+        }
+        Status.ERROR -> constraintLayout.visibility = View.GONE
 
-
+    }
 }

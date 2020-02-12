@@ -38,10 +38,11 @@ class ChooseScheduleFragment : Fragment() {
         binding.scheduleViewModel = scheduleViewModel
 
         binding.scheduleRv.adapter = ScheduleListAdapter(requireNotNull(context), ScheduleClickListener {
-            Toast.makeText(activity, it.testCenter, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity, it.schlId, Toast.LENGTH_SHORT).show()
+            findNavController().navigate(ChooseScheduleFragmentDirections.actionChooseScheduleFragmentToBookingOverviewFragment(it))
+
         })
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -49,7 +50,6 @@ class ChooseScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn_cl?.setOnClickListener {
-            findNavController().navigate(R.id.action_chooseScheduleFragment_to_bookScheduleFragment)
         }
     }
 }
