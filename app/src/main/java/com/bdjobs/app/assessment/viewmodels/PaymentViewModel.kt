@@ -1,6 +1,7 @@
 package com.bdjobs.app.assessment.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,19 +19,27 @@ class PaymentViewModel(booking: Booking, application: Application) : AndroidView
     private var booking: Booking = Booking()
 
     private val _status = MutableLiveData<Status>()
-    val status :LiveData<Status>
+    val status: LiveData<Status>
         get() = _status
+
+    private val _navigateToSuccessful = MutableLiveData<BookingResponse>()
+    val navigateToSuccessful: LiveData<BookingResponse>
+        get() = _navigateToSuccessful
 
     init {
         bookingRepository = BookingRepository(application, booking)
+        _status.value = Status.DONE
     }
 
-    fun bookSchedule(){
+    fun bookSchedule() {
+        Log.d("rakib", "came here")
         _status.value = Status.LOADING
         viewModelScope.launch {
             try {
                 _status.value = Status.LOADING
                 bookingResponse = bookingRepository.manageSchedule()
+                if (bookingResponse.statuscode.equals("0"))
+                    _navigateToSuccessful.value = bookingResponse
                 _status.value = Status.DONE
             } catch (e: Exception) {
             }

@@ -14,14 +14,14 @@ class BookingViewModel(booking: Booking,application: Application) : AndroidViewM
     private val bookingRepository = BookingRepository(application,booking)
     lateinit var bookingResponse : BookingResponse
 
-    fun bookSchedule(){
-        viewModelScope.launch {
-            try {
-                bookingResponse = bookingRepository.bookSchedule()
-                Log.d("rakib", "${bookingResponse.message}")
-            } catch (e: Exception) {
-            }
-        }
-    }
+//    fun bookSchedule(){
+//        viewModelScope.launch {
+//            try {
+//                bookingResponse = bookingRepository.bookSchedule()
+//                Log.d("rakib", "${bookingResponse.message}")
+//            } catch (e: Exception) {
+//            }
+//        }
+//    }
 
 }

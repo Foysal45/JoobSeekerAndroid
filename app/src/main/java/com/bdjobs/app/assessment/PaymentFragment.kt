@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.assessment.models.Booking
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
+import com.bdjobs.app.databinding.FragmentPaymentBinding
 import kotlinx.android.synthetic.main.fragment_payment.*
 
 /**
@@ -26,6 +28,8 @@ class PaymentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        val binding = FragmentPaymentBinding.inflate(inflater)
+
         val application = requireNotNull(activity).application
 
         val bookingData = PaymentFragmentArgs.fromBundle(arguments!!).bookingData
@@ -34,22 +38,19 @@ class PaymentFragment : Fragment() {
 
         paymentViewModel = ViewModelProvider(this,viewModelFactory).get(PaymentViewModel::class.java)
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payment, container, false)
-    }
+        binding.viewModel = paymentViewModel
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
-        pay_cash_card?.setOnClickListener {
+        binding.payCashCard?.setOnClickListener {
             paymentViewModel.bookSchedule()
         }
 
-//        btn_cl?.setOnClickListener {
-//
-//            //bookingViewModel.bookSchedule()
-//
-//            findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToViewPagerFragment().setStatus("true"))
-//        }
+        paymentViewModel.navigateToSuccessful.observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.action_paymentFragment_to_paymentSuccessfulFragment)
+        })
+
+        return binding.root
     }
+
 }

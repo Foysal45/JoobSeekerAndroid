@@ -5,8 +5,7 @@
     android:id="@+id/test_location_cl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F8FA"
-    tools:context=".Assessment.PaymentSuccessfulFragment">
+    android:background="#F6F8FA">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -188,8 +187,11 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btn_cl"
+        android:id="@+id/btn_certification_home_cl"
         android:layout_width="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_height="54dp"
         android:background="@drawable/button_background"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -172,6 +172,5 @@ fun bindCertificateStatus(constraintLayout: ConstraintLayout, status: Status, ce
                 constraintLayout.visibility = View.GONE
         }
         Status.ERROR -> constraintLayout.visibility = View.GONE
-
     }
 }

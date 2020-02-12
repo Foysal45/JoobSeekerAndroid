@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/assessment_navigation"
-    app:startDestination="@id/viewPagerFragment">
+    app:startDestination="@+id/viewPagerFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -51,8 +51,7 @@
         <argument
             android:name="status"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="false"/>
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_viewPagerFragment_to_chooseScheduleFragment"
             app:destination="@id/chooseScheduleFragment" />
@@ -95,7 +94,7 @@
         android:id="@+id/bookingOverviewFragment"
         android:name="com.bdjobs.app.assessment.BookingOverviewFragment"
         android:label="Choose Test Location"
-        tools:layout="@layout/fragment_booking_overview" >
+        tools:layout="@layout/fragment_booking_overview">
         <action
             android:id="@+id/action_bookingOverviewFragment_to_paymentFragment"
             app:destination="@id/paymentFragment"
@@ -115,7 +114,7 @@
         android:id="@+id/resultFragment"
         android:name="com.bdjobs.app.assessment.ResultFragment"
         android:label="Result"
-        tools:layout="@layout/fragment_result" >
+        tools:layout="@layout/fragment_result">
         <argument
             android:name="CertificateData"
             app:argType="com.bdjobs.app.assessment.models.CertificateData" />
@@ -124,19 +123,26 @@
         android:id="@+id/paymentFragment"
         android:name="com.bdjobs.app.assessment.PaymentFragment"
         android:label="Choose Payment"
-        tools:layout="@layout/fragment_payment" >
-        <action
-            android:id="@+id/action_paymentFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/viewPagerFragment"
-            app:popUpToInclusive="true" />
+        tools:layout="@layout/fragment_payment">
         <argument
             android:name="bookingData"
             app:argType="com.bdjobs.app.assessment.models.Booking"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_paymentFragment_to_paymentSuccessfulFragment"
+            app:destination="@id/paymentSuccessfulFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/paymentSuccessfulFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentSuccessfulFragment"
+        android:name="com.bdjobs.app.assessment.PaymentSuccessfulFragment"
+        android:label="fragment_payment_successful"
+        tools:layout="@layout/fragment_payment_successful" >
+        <action
+            android:id="@+id/action_paymentSuccessfulFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/viewPagerFragment" />
     </fragment>
 </navigation>
