@@ -47,7 +47,11 @@
             app:nullable="true"/>
         <action
             android:id="@+id/action_viewPagerFragment_to_chooseScheduleFragment"
-            app:destination="@id/chooseScheduleFragment" />
+            app:destination="@id/chooseScheduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_viewPagerFragment_to_modulesViewFragment"
             app:destination="@id/modulesViewFragment" />
@@ -85,6 +89,15 @@
         <action
             android:id="@+id/action_chooseScheduleFragment_to_bookingOverviewFragment"
             app:destination="@id/bookingOverviewFragment" />
+        <action
+            android:id="@+id/action_chooseScheduleFragment_to_scheduleFilterFragment"
+            app:destination="@id/scheduleFilterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/chooseScheduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookingOverviewFragment"
@@ -152,4 +165,9 @@
             android:id="@+id/action_modulesViewFragment_to_testLocationFragment"
             app:destination="@id/testLocationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/scheduleFilterFragment"
+        android:name="com.bdjobs.app.assessment.FilterScheduleFragment"
+        android:label="fragment_schedule_filter"
+        tools:layout="@layout/fragment_filter_schedule" />
 </navigation>

@@ -25,7 +25,7 @@ fun bindStatusBackground(constraintLayout: ConstraintLayout, homeData: HomeData?
             when (homeData.paymentStatus) {
                 "Paid" -> constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.paid_background)
                 "Unpaid" -> constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.unpaid_background)
-                else -> constraintLayout.visibility = View.GONE
+                //else -> constraintLayout.visibility = View.GONE
             }
         } else {
             constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.first_time_background)
@@ -41,7 +41,7 @@ fun bindStatusImage(imageView: ImageView, homeData: HomeData?) {
             when (homeData.paymentStatus) {
                 "Paid" -> imageView.background = ContextCompat.getDrawable(imageView.context, R.drawable.ic_paid)
                 "Unpaid" -> imageView.background = ContextCompat.getDrawable(imageView.context, R.drawable.ic_unpaid)
-                else -> imageView.visibility = View.GONE
+               // else -> imageView.visibility = View.GONE
             }
         } else {
             imageView.visibility = View.GONE
@@ -59,11 +59,11 @@ fun bindStatusText(textView: TextView, homeData: HomeData?) {
                     text = "Paid"
                     textColor = Color.parseColor("#155724")
                 }
-                "Unpaid" -> textView.apply {
+                else -> textView.apply {
                     text = "Unpaid"
                     textColor = Color.parseColor("#721C24")
                 }
-                else -> textView.visibility = View.GONE
+                //else -> textView.visibility = View.GONE
             }
         } else {
             textView.apply {

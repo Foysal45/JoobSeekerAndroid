@@ -40,6 +40,8 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
 
         val scheduleData = BookingOverviewFragmentArgs.fromBundle(arguments!!).scheduleData
 
+        Log.d("rakib", "$scheduleData")
+
         val viewModelFactory = BookingOverviewViewModelFactory(scheduleData!!, application)
 
         bookingOverviewViewModel = ViewModelProvider(this, viewModelFactory).get(BookingOverviewViewModel::class.java)

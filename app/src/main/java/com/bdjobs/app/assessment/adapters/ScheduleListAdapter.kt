@@ -23,6 +23,7 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
 
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
         val schedule = getItem(position)
+
         holder.bind(schedule, ScheduleClickListener {
             // Deselect last selected item
             selectedItemViewHolder?.apply {
@@ -40,6 +41,11 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
             // Call the other click listeners
             clickListener.onClick(it)
         })
+
+        if (schedule.actionType == "U" && position == 0){
+            Log.d("rakib", "${schedule.testTime}")
+            holder.select(context)
+        }
     }
 
 
@@ -76,6 +82,7 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
+
 
         fun select(context: Context) {
 

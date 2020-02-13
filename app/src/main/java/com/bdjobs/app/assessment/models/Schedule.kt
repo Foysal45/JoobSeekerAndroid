@@ -40,3 +40,4 @@ data class ScheduleData(
         @Json(name = "testTime")
         var testTime: String?
 ):Parcelable
+

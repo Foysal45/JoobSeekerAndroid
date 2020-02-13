@@ -1,6 +1,7 @@
 package com.bdjobs.app.assessment
 
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel
 import com.bdjobs.app.databinding.FragmentChooseScheduleBinding
 import kotlinx.android.synthetic.main.fragment_choose_schedule.*
 import org.jetbrains.anko.support.v4.toast
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -43,13 +45,16 @@ class ChooseScheduleFragment : Fragment() {
 
         })
 
+        binding.filterImg?.setOnClickListener {
+            findNavController().navigate(R.id.action_chooseScheduleFragment_to_scheduleFilterFragment)
+        }
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        btn_cl?.setOnClickListener {
-        }
+    override fun onResume() {
+        super.onResume()
+        scheduleViewModel.getScheduleList()
     }
+
 }

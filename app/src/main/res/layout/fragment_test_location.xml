@@ -1,318 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/test_location_cl"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F6F8FA"
-    tools:context=".Assessment.TestLocationFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline1"
-        app:layout_constraintGuide_begin="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        app:layout_constraintGuide_end="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"/>
-
-    <ImageView
-        android:layout_marginStart="36dp"
-        app:layout_constraintTop_toTopOf="@id/second_dot_iv"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        android:id="@+id/first_dot_iv"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:src="@drawable/assessment_circle"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="23dp" />
-
-    <ImageView
-        app:layout_constraintStart_toEndOf="@id/first_dot_iv"
-        app:layout_constraintEnd_toStartOf="@id/third_dot_iv"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="23dp"
-        android:id="@+id/second_dot_iv"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:src="@drawable/assessment_circle"
-        tools:layout_editor_absoluteX="200dp"
-        tools:layout_editor_absoluteY="23dp" />
-
-    <ImageView
-        android:layout_marginEnd="36dp"
-        app:layout_constraintTop_toTopOf="@id/second_dot_iv"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
-        android:id="@+id/third_dot_iv"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:src="@drawable/assessment_circle_inactive"
-        tools:layout_editor_absoluteX="297dp"
-        tools:layout_editor_absoluteY="23dp" />
-
-    <View
-        android:id="@+id/view1"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/assessment_horizontal_line"
-        app:layout_constraintBottom_toBottomOf="@id/first_dot_iv"
-        app:layout_constraintEnd_toStartOf="@id/second_dot_iv"
-        app:layout_constraintStart_toEndOf="@id/first_dot_iv"
-        app:layout_constraintTop_toTopOf="@id/first_dot_iv" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/assessment_horizontal_line"
-        android:backgroundTint="#E1E1E1"
-        app:layout_constraintBottom_toBottomOf="@id/second_dot_iv"
-        app:layout_constraintEnd_toStartOf="@id/third_dot_iv"
-        app:layout_constraintStart_toEndOf="@id/second_dot_iv"
-        app:layout_constraintTop_toTopOf="@id/second_dot_iv" />
-
-
-    <TextView
-        android:layout_marginStart="26dp"
-        android:id="@+id/view_test_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:text="View Test"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/first_dot_iv"
-        app:layout_constraintStart_toStartOf="@id/first_dot_iv"
-        app:layout_constraintTop_toBottomOf="@id/first_dot_iv" />
-
-    <TextView
-        android:id="@+id/choose_center_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose Center"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/view_test_tv"
-        app:layout_constraintEnd_toEndOf="@id/second_dot_iv"
-        app:layout_constraintStart_toStartOf="@id/second_dot_iv"
-        app:layout_constraintTop_toTopOf="@id/view_test_tv" />
-
-    <TextView
-        android:id="@+id/payment_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Payment"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/choose_center_tv"
-        app:layout_constraintEnd_toEndOf="@id/third_dot_iv"
-        app:layout_constraintStart_toStartOf="@id/third_dot_iv"
-        app:layout_constraintTop_toTopOf="@+id/choose_center_tv" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/test_home_card"
-        style="@style/Widget.MaterialComponents.CardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardBackgroundColor="#FFF"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintEnd_toStartOf="@id/guideline2"
-        app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/choose_center_tv">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="13dp"
-            android:paddingTop="15dp"
-            android:paddingEnd="13dp"
-            android:paddingBottom="15dp">
-
-            <ImageView
-                android:id="@+id/test_home_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_test_home"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/test_home_heading_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Test from Home"
-                android:textColor="#1565C0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/test_home_iv"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <TextView
-                android:id="@+id/test_home_sub_heading_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Start test from home with online payment "
-                android:textColor="#595959"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/test_home_iv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/test_home_heading_tv"
-                app:layout_constraintTop_toTopOf="@id/test_home_iv" />
-
-            <TextView
-                android:id="@+id/test_home_payment_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:fontFamily="@font/roboto"
-                android:text="BDT 300/-"
-                android:textColor="#000000"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/test_home_heading_tv"
-                app:layout_constraintTop_toBottomOf="@+id/test_home_sub_heading_tv" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/test_center_card"
-        style="@style/Widget.MaterialComponents.CardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardBackgroundColor="#FFF"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/test_home_card">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="13dp"
-            android:paddingTop="15dp"
-            android:paddingEnd="13dp"
-            android:paddingBottom="15dp">
-
-            <ImageView
-                android:id="@+id/test_center_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_test_center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/test_center_heading_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Test at Test Center"
-                android:textColor="#1565C0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/test_center_iv"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TextView
-                android:id="@+id/test_center_sub_heading_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Test fee 300 TK + Center cost 200 TK"
-                android:textColor="#595959"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/test_center_iv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/test_center_heading_tv"
-                app:layout_constraintTop_toTopOf="@id/test_center_iv" />
-
-            <TextView
-                android:id="@+id/test_center_payment_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:fontFamily="@font/roboto"
-                android:text="BDT 500/-"
-                android:textColor="#000000"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/test_center_heading_tv"
-                app:layout_constraintTop_toBottomOf="@+id/test_center_sub_heading_tv" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
+    <data>
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.assessment.viewmodels.TestLocationViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
-        android:id="@+id/btn_cl"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:id="@+id/test_location_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F6F8FA"
+        tools:context=".assessment.TestLocationFragment">
 
-        <TextView
-            android:id="@+id/btn_txt_tv"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            app:layout_constraintGuide_begin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            app:layout_constraintGuide_end="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="9dp"
-            android:src="@drawable/ic_arrow_floating_white"
-            app:layout_constraintBottom_toBottomOf="@id/btn_txt_tv"
-            app:layout_constraintStart_toEndOf="@id/btn_txt_tv"
-            app:layout_constraintTop_toTopOf="@id/btn_txt_tv" />
+            android:layout_marginStart="36dp"
+            app:layout_constraintTop_toTopOf="@id/second_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            android:id="@+id/first_dot_iv"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:src="@drawable/assessment_circle"
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+        <ImageView
+            app:layout_constraintStart_toEndOf="@id/first_dot_iv"
+            app:layout_constraintEnd_toStartOf="@id/third_dot_iv"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="23dp"
+            android:id="@+id/second_dot_iv"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:src="@drawable/assessment_circle"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+        <ImageView
+            android:layout_marginEnd="36dp"
+            app:layout_constraintTop_toTopOf="@id/second_dot_iv"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            android:id="@+id/third_dot_iv"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:src="@drawable/assessment_circle_inactive"
+            tools:layout_editor_absoluteX="297dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/assessment_horizontal_line"
+            app:layout_constraintBottom_toBottomOf="@id/first_dot_iv"
+            app:layout_constraintEnd_toStartOf="@id/second_dot_iv"
+            app:layout_constraintStart_toEndOf="@id/first_dot_iv"
+            app:layout_constraintTop_toTopOf="@id/first_dot_iv" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/assessment_horizontal_line"
+            android:backgroundTint="#E1E1E1"
+            app:layout_constraintBottom_toBottomOf="@id/second_dot_iv"
+            app:layout_constraintEnd_toStartOf="@id/third_dot_iv"
+            app:layout_constraintStart_toEndOf="@id/second_dot_iv"
+            app:layout_constraintTop_toTopOf="@id/second_dot_iv" />
+
+
+        <TextView
+            android:layout_marginStart="26dp"
+            android:id="@+id/view_test_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:text="View Test"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/first_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/first_dot_iv"
+            app:layout_constraintTop_toBottomOf="@id/first_dot_iv" />
+
+        <TextView
+            android:id="@+id/choose_center_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Center"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/view_test_tv"
+            app:layout_constraintEnd_toEndOf="@id/second_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/second_dot_iv"
+            app:layout_constraintTop_toTopOf="@id/view_test_tv" />
+
+        <TextView
+            android:id="@+id/payment_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/choose_center_tv"
+            app:layout_constraintEnd_toEndOf="@id/third_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/third_dot_iv"
+            app:layout_constraintTop_toTopOf="@+id/choose_center_tv" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/test_home_card"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#FFF"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
+            app:layout_constraintStart_toEndOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/choose_center_tv">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="13dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="13dp"
+                android:paddingBottom="15dp">
+
+                <ImageView
+                    android:id="@+id/test_home_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_test_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/test_home_heading_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Test from Home"
+                    android:textColor="#1565C0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/test_home_iv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/test_home_sub_heading_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Start test from home with online payment "
+                    android:textColor="#595959"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/test_home_iv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/test_home_heading_tv"
+                    app:layout_constraintTop_toTopOf="@id/test_home_iv" />
+
+                <TextView
+                    android:id="@+id/test_home_payment_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="BDT 300/-"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/test_home_heading_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/test_home_sub_heading_tv" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/test_center_card"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#FFF"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/test_home_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="13dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="13dp"
+                android:paddingBottom="15dp">
+
+                <ImageView
+                    android:id="@+id/test_center_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_test_center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/test_center_heading_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Test at Test Center"
+                    android:textColor="#1565C0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/test_center_iv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/test_center_sub_heading_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Test fee 300 TK + Center cost 200 TK"
+                    android:textColor="#595959"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/test_center_iv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/test_center_heading_tv"
+                    app:layout_constraintTop_toTopOf="@id/test_center_iv" />
+
+                <TextView
+                    android:id="@+id/test_center_payment_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="BDT 500/-"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/test_center_heading_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/test_center_sub_heading_tv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
+            android:id="@+id/btn_cl"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:background="@drawable/button_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/btn_txt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="9dp"
+                android:src="@drawable/ic_arrow_floating_white"
+                app:layout_constraintBottom_toBottomOf="@id/btn_txt_tv"
+                app:layout_constraintStart_toEndOf="@id/btn_txt_tv"
+                app:layout_constraintTop_toTopOf="@id/btn_txt_tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
