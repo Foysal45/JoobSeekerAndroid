@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass.
@@ -32,18 +33,28 @@ class ViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val status = ViewPagerFragmentArgs.fromBundle(arguments!!).status
+        var a : String? = ""
 
-        Log.d("rakibe", "$status")
+        try {
+            val status = ViewPagerFragmentArgs.fromBundle(arguments!!).status
+            a = status
+        } catch (e: Exception)
+        {
+            e.printStackTrace()
+        }
 
-        viewPagerAdapter = ViewPagerAdapter(this,status!!)
+
+
+        Log.d("rakibe", "$a")
+
+        viewPagerAdapter = ViewPagerAdapter(this,a!!)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = viewPagerAdapter
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         tabLayout  = view.findViewById(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = ViewPagerAdapter(this,status).getPageTitle(position)
+            tab.text = ViewPagerAdapter(this,a).getPageTitle(position)
         }.attach()
     }
 

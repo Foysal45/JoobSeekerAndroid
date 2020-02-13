@@ -26,7 +26,7 @@ class PaymentSuccessfulFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         btn_certification_home_cl?.setOnClickListener {
-            findNavController().navigate(PaymentSuccessfulFragmentDirections.actionPaymentSuccessfulFragmentToViewPagerFragment())
+            findNavController().navigate(PaymentSuccessfulFragmentDirections.actionPaymentSuccessfulFragmentToViewPagerFragment("true"))
         }
     }
 

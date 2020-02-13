@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.Databases.External.DataStorage
 
@@ -56,6 +57,10 @@ class ModulesViewFragment : Fragment() {
                 upDateView()
             }
         }
+
+        btn_cl?.setOnClickListener {
+            findNavController().navigate(R.id.action_modulesViewFragment_to_testLocationFragment)
+        }
     }
 
     private fun upDateView(){
@@ -76,8 +81,6 @@ class ModulesViewFragment : Fragment() {
             chip.isCheckable = false
             cg_specialization.addView(chip)
         }
-
-        
 
     }
 }

@@ -35,13 +35,6 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_viewPagerFragment_to_testLocationFragment"
-            app:destination="@id/testLocationFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_viewPagerFragment_to_resultFragment"
             app:destination="@id/resultFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -51,10 +44,13 @@
         <argument
             android:name="status"
             app:argType="string"
-            android:defaultValue="false" />
+            app:nullable="true"/>
         <action
             android:id="@+id/action_viewPagerFragment_to_chooseScheduleFragment"
             app:destination="@id/chooseScheduleFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_modulesViewFragment"
+            app:destination="@id/modulesViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/testInstructionFragment"
@@ -108,7 +104,9 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_bookingOverviewFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            app:destination="@id/viewPagerFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/viewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -137,12 +135,21 @@
     <fragment
         android:id="@+id/paymentSuccessfulFragment"
         android:name="com.bdjobs.app.assessment.PaymentSuccessfulFragment"
-        android:label="fragment_payment_successful"
-        tools:layout="@layout/fragment_payment_successful" >
+        android:label="Payment"
+        tools:layout="@layout/fragment_payment_successful">
         <action
             android:id="@+id/action_paymentSuccessfulFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/viewPagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modulesViewFragment"
+        android:name="com.bdjobs.app.Assessment.ModulesViewFragment"
+        android:label="View Test Instruction\"
+        tools:layout="@layout/fragment_module_view">
+        <action
+            android:id="@+id/action_modulesViewFragment_to_testLocationFragment"
+            app:destination="@id/testLocationFragment" />
     </fragment>
 </navigation>

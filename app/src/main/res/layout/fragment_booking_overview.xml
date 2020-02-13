@@ -279,6 +279,7 @@ Kawran Bazar C/A, Dhaka-1215"
             app:layout_constraintTop_toBottomOf="@id/manage_booking_btn"
             android:layout_marginTop="0dp"
             android:text="Cancel Booking"
+            android:onClick="@{()-> viewmodel.cancelSchedule()}"
             android:textAllCaps="false"
             android:letterSpacing="0"
             android:visibility='@{viewmodel.scheduleData.actionType.equals("I") ? View.GONE : View.VISIBLE}'
@@ -303,6 +304,16 @@ Kawran Bazar C/A, Dhaka-1215"
             layout="@layout/layout_need_more_information" />
 
 
+        <ProgressBar
+            android:id="@+id/loadingProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:theme="@style/BdjobsLinearProgress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModelFactory
 import com.bdjobs.app.databinding.FragmentBookingOverviewBinding
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_booking_overview.*
 
 /**
@@ -43,7 +46,7 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
 
         binding.viewmodel = bookingOverviewViewModel
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as? SupportMapFragment
 
@@ -55,18 +58,34 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
             }
         })
 
+        bookingOverviewViewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
+            it?.getContentIfNotHandled()?.let {
+                findNavController().navigate(BookingOverviewFragmentDirections.actionBookingOverviewFragmentToViewPagerFragment("true"))
+            }
+        })
+
+        bookingOverviewViewModel.showSnackbar.observe(viewLifecycleOwner, Observer {
+            it?.getContentIfNotHandled()?.let {
+                showSnackbar()
+            }
+        })
+
+        bookingOverviewViewModel.status.observe(viewLifecycleOwner, Observer {
+          when(it){
+              Status.DONE-> binding.loadingProgressBar.visibility = View.GONE
+              Status.LOADING-> binding.loadingProgressBar.visibility = View.VISIBLE
+              Status.ERROR-> binding.loadingProgressBar.visibility = View.GONE
+          }
+        })
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-
-        cancel_booking_btn?.setOnClickListener {
-            bookingOverviewViewModel.cancelSchedule()
-        }
+    private fun showSnackbar(){
+        Snackbar.make(test_location_cl,"Unable to book schedule. Please try again after some time.", Snackbar.LENGTH_SHORT).show()
     }
+
+
 
     override fun onMapReady(googleMap: GoogleMap?) {
         val latLng = LatLng(23.751009, 90.393092)

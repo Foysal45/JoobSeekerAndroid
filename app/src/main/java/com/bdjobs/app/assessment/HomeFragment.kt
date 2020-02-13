@@ -47,11 +47,11 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnCl?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
+            it.findNavController().navigate(R.id.action_viewPagerFragment_to_modulesViewFragment)
         }
 
         binding.noPendingTest?.takeNewTestBtn?.setOnClickListener {
-            findNavController().navigate(R.id.action_viewPagerFragment_to_testLocationFragment)
+            findNavController().navigate(R.id.action_viewPagerFragment_to_modulesViewFragment)
         }
 
         binding.assessmentInfo?.changeBtn?.setOnClickListener {
