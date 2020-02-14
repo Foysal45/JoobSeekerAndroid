@@ -254,16 +254,39 @@ fun Activity.unsubscribeFromFCMTopic(topicName: String) {
             }
 }
 
-fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener) {
-    val dpd = DatePickerDialog(c,
-            listener,
-            // set DatePickerDialog to point to today's date when it loads up
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH))
-    dpd.datePicker.maxDate = Date().time
-    dpd.show()
+fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener, from :String? = "") {
+
+    if (from == "assessment"){
+
+        var now : Long = System.currentTimeMillis() - 1000;
+
+        val dpd = DatePickerDialog(c,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+        dpd.datePicker.minDate = now
+        dpd.datePicker.maxDate = now+(1000*60*60*24*7)
+
+        dpd.show()
+    } else {
+        val dpd = DatePickerDialog(c,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+        dpd.datePicker.maxDate = Date().time
+        dpd.show()
+    }
+
+
 }
+
+//fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener ) {
+//    pickDate()
+//}
 
 
 fun NestedScrollView.behaveYourself(fab: FloatingActionButton) {

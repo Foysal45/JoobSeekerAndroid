@@ -14,6 +14,9 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.pickDate
 import com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel
 import com.bdjobs.app.databinding.FragmentFilterScheduleBinding
+import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
+import kotlinx.android.synthetic.main.fragment_filter_schedule.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -30,7 +33,7 @@ class FilterScheduleFragment : Fragment() {
         now.set(Calendar.MONTH, monthOfYear)
         now.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        //updateDateInView(0)
+        updateDateInView(0)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +57,20 @@ class FilterScheduleFragment : Fragment() {
 
     private fun openDialog(){
         Log.d("rakib", "callllllll")
-        pickDate(activity?.application!!.applicationContext, now, startDateSetListener)
+        activity?.apply{
+            pickDate(this, now, startDateSetListener,from = "assessment")
+        }
+    }
+
+    private fun updateDateInView(c: Int) {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        if (c == 0) {
+
+            filter_from_tv.setText(sdf.format(now.time))
+        } else {
+            et_end_date.setText(sdf.format(now.time))
+        }
     }
 
 }

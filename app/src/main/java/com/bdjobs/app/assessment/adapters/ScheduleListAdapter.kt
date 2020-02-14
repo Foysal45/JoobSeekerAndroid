@@ -5,17 +5,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.databinding.ItemScheduleBinding
+import timber.log.Timber
 
-class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClickListener) :
+class ScheduleListAdapter(val context: Context, private val lifecycleOwner: LifecycleOwner, val clickListener: ScheduleClickListener) :
         ListAdapter<ScheduleData, ScheduleListAdapter.ScheduleViewHolder>(DiffUserCallback) {
 
-    private var selectedItemViewHolder: ScheduleViewHolder? = null
+//    private var selectedItemViewHolder: ScheduleViewHolder? = null
+    
+    private val selectedItemIdLive: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
         return ScheduleViewHolder.from(parent)
@@ -24,28 +33,42 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
         val schedule = getItem(position)
 
-        holder.bind(schedule, ScheduleClickListener {
-            // Deselect last selected item
-            selectedItemViewHolder?.apply {
+        holder.bind(
+                position,
+                schedule,
+                context,
+                lifecycleOwner,
+                selectedItemIdLive,
+                ScheduleClickListener {
+                    // Deselect last selected item
+//                    selectedItemViewHolder?.apply {
 
-                deselect(context)
+                    selectedItemIdLive.value = schedule.schlId ?: "0"
 
-            }
-            // Select current item
-            holder.select(context)
+                    clickListener.onClick(it)
 
-            // Save current item to variable
-            selectedItemViewHolder = holder
+                    //deselect(context)
+
+//                    }
+                    // Select current item
+                    //holder.select(context)
+
+                    // Save current item to variable
+                    //selectedItemViewHolder = holder
 
 
-            // Call the other click listeners
-            clickListener.onClick(it)
-        })
+                    // Call the other click listeners
+                    //clickListener.onClick(it)
+                })
 
-        if (schedule.actionType == "U" && position == 0){
-            Log.d("rakib", "${schedule.testTime}")
-            holder.select(context)
-        }
+//        if (schedule.actionType == "U" && position == 0) {
+//            Log.d("rakib", "${schedule.testTime}")
+//            holder.select(context)
+//        }
+    }
+
+    public fun selectItem(id: String) {
+        selectedItemIdLive.value = id
     }
 
 
@@ -75,12 +98,33 @@ class ScheduleListAdapter(val context: Context, val clickListener: ScheduleClick
 
 
         fun bind(
+                position: Int,
                 schedule: ScheduleData,
+                context: Context,
+                lifecycleOwner: LifecycleOwner,
+                liveData: LiveData<String>,
                 clickListener: ScheduleClickListener
         ) {
             binding.schedule = schedule
             binding.clickListener = clickListener
             binding.executePendingBindings()
+
+            if(position == 0 && schedule.actionType=="U") {
+                select(context)
+            } else {
+                deselect(context)
+            }
+
+            liveData.observe(lifecycleOwner, Observer {
+
+
+//                if (it == schedule.schlId) {
+//                    select(context)
+//                } else {
+//                    deselect(context)
+//                }
+
+            })
         }
 
 
