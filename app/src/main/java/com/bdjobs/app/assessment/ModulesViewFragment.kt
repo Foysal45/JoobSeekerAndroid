@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.bdjobs.app.Databases.External.DataStorage
 
 import com.bdjobs.app.R
 
 import com.bdjobs.app.Utilities.getString
+import com.bdjobs.app.assessment.adapters.ModuleListAdapter
 import com.google.android.material.chip.Chip
 
 import kotlinx.android.synthetic.main.fragment_module_view.*
@@ -27,6 +30,10 @@ import org.jetbrains.anko.support.v4.selector
 class ModulesViewFragment : Fragment() {
 
     private lateinit var dataStorage: DataStorage
+    private var moduleListAdapter: ModuleListAdapter? = null
+    private var moduleListRequired: List<String>? = null
+    private var moduleListOptional: List<String>? = null
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +46,7 @@ class ModulesViewFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         try{
             dataStorage = DataStorage(context!!)
+
             initViews()
 
         }catch (e: Exception){
@@ -48,6 +56,8 @@ class ModulesViewFragment : Fragment() {
     }
 
     private fun initViews(){
+
+        showHideView()
 
         val degreeLevels = dataStorage.getDegreeLevels
 
@@ -82,5 +92,52 @@ class ModulesViewFragment : Fragment() {
             cg_specialization.addView(chip)
         }
 
+        btn_view_module.setOnClickListener{
+            showHideView()
+        }
+
+        moduleListAdapter = ModuleListAdapter(context!!, dataStorage.getCompulsoryModulebyDegreeID(degreeID.toString()))
+
+        rv_compulsory_modules?.adapter = moduleListAdapter
+        rv_compulsory_modules?.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        rv_compulsory_modules?.layoutManager = layoutManager
+        rv_compulsory_modules?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+
+
+        moduleListAdapter = ModuleListAdapter(context!!, dataStorage.getOptionalModulebyDegreeID(degreeID.toString()))
+
+        rv_optional_modules?.adapter = moduleListAdapter
+        rv_optional_modules?.setHasFixedSize(true)
+        val layoutManager2 = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        rv_optional_modules?.layoutManager = layoutManager2
+        rv_optional_modules?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+    }
+
+    fun showHideView(){
+
+        tv_compulsory_modules_title.visibility = if (tv_compulsory_modules_title.visibility == View.VISIBLE){
+            View.GONE
+        } else{
+            View.VISIBLE
+        }
+
+        tv_optional_modules_title.visibility = if (tv_optional_modules_title.visibility == View.VISIBLE){
+            View.GONE
+        } else{
+            View.VISIBLE
+        }
+
+        rv_compulsory_modules.visibility = if (rv_compulsory_modules.visibility == View.VISIBLE){
+            View.GONE
+        } else{
+            View.VISIBLE
+        }
+
+        rv_optional_modules.visibility = if (rv_optional_modules.visibility == View.VISIBLE){
+            View.GONE
+        } else{
+            View.VISIBLE
+        }
     }
 }
