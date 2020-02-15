@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.util.Log
 import androidx.lifecycle.*
 import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.assessment.models.ScheduleRequest
 import com.bdjobs.app.assessment.repositories.ScheduleRepository
@@ -23,6 +24,10 @@ class ChooseScheduleVewModel(application: Application) : AndroidViewModel(applic
 
     var scheduleRequest: ScheduleRequest = ScheduleRequest()
 
+    private val _status = MutableLiveData<Status>()
+    val status :LiveData<Status>
+        get() = _status
+
     private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
         now.set(Calendar.MONTH, monthOfYear)
@@ -39,25 +44,28 @@ class ChooseScheduleVewModel(application: Application) : AndroidViewModel(applic
     init {
         now = Calendar.getInstance()
         scheduleRepository = ScheduleRepository(application,scheduleRequest)
+        _status.value = Status.DONE
     }
 
     fun getScheduleList() {
 
         scheduleRequest.apply {
             pageNo = "1"
-            pageSize = "20"
+            pageSize = "100"
             fromDate = ""
             toDate = ""
             venue = "0"
         }
 
         viewModelScope.launch {
+            _status.value = Status.LOADING
             try {
+                _status.value = Status.LOADING
                 scheduleList = scheduleRepository.getScheduleList().data
                 _schedules.value = scheduleList
-//                Log.d("rakib try", "${certificateList?.size}")
+                _status.value = Status.DONE
             } catch (e: Exception) {
-                //Log.d("rakib catch", e.message)
+                _status.value = Status.ERROR
             }
         }
     }

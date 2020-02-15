@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        shimmer:duration="10"
+        shimmer:shimmer_duration="1200"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">

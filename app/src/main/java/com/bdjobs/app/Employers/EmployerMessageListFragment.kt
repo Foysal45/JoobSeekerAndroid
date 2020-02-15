@@ -141,7 +141,7 @@ class EmployerMessageListFragment : Fragment() {
 
             if (employersCommunicator?.getEmployerMessageList().isNullOrEmpty()) {
                 shimmer_view_container_employerMessage?.show()
-                shimmer_view_container_employerMessage?.startShimmerAnimation()
+                shimmer_view_container_employerMessage?.startShimmer()
                 //Log.d("rakib", "came here first page")
                 loadFirstPage(activityDate)
             } else {
@@ -236,7 +236,7 @@ class EmployerMessageListFragment : Fragment() {
                     try {
                         activity?.toast("${t.message}")
                         shimmer_view_container_employerMessage?.hide()
-                        shimmer_view_container_employerMessage?.stopShimmerAnimation()
+                        shimmer_view_container_employerMessage?.stopShimmer()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -246,7 +246,7 @@ class EmployerMessageListFragment : Fragment() {
                     try {
                         d("fdjkghfjkg onResponse called")
                         shimmer_view_container_employerMessage?.hide()
-                        shimmer_view_container_employerMessage?.stopShimmerAnimation()
+                        shimmer_view_container_employerMessage?.stopShimmer()
 
                         employerMessageList = response?.body()?.data as ArrayList<MessageDataModel>
                         var totalRecords = response.body()?.common?.totalMessage.toString()
@@ -300,7 +300,7 @@ class EmployerMessageListFragment : Fragment() {
 
                     messageCountTV?.show()
                     shimmer_view_container_employerMessage?.hide()
-                    shimmer_view_container_employerMessage?.stopShimmerAnimation()
+                    shimmer_view_container_employerMessage?.stopShimmer()
                 }
 
             })

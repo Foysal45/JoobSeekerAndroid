@@ -73,7 +73,7 @@
         android:visibility="gone"
 
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        shimmer:duration="10"
+        shimmer:shimmer_duration="1200"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">

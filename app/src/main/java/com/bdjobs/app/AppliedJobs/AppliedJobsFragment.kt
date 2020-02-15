@@ -145,7 +145,7 @@ class AppliedJobsFragment : Fragment() {
             daysRemainingCountTV?.hide()
 
             shimmer_view_container_appliedJobList?.show()
-            shimmer_view_container_appliedJobList?.startShimmerAnimation()
+            shimmer_view_container_appliedJobList?.startShimmer()
 
 
             ApiServiceMyBdjobs.create().getAppliedJobs(
@@ -159,7 +159,7 @@ class AppliedJobsFragment : Fragment() {
                     try {
                         activity?.toast("${t.message}")
                         shimmer_view_container_appliedJobList?.hide()
-                        shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+                        shimmer_view_container_appliedJobList?.stopShimmer()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -315,7 +315,7 @@ class AppliedJobsFragment : Fragment() {
                     availableJobsCountTV?.show()
                     daysRemainingCountTV?.show()
                     shimmer_view_container_appliedJobList?.hide()
-                    shimmer_view_container_appliedJobList?.stopShimmerAnimation()
+                    shimmer_view_container_appliedJobList?.stopShimmer()
                 }
 
             })

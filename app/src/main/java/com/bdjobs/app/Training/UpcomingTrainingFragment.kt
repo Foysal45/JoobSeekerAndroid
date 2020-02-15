@@ -109,7 +109,7 @@ class UpcomingTrainingFragment : Fragment() {
         try {
             trainListRV?.hide()
             shimmer_view_container_trainingList?.show()
-            shimmer_view_container_trainingList?.startShimmerAnimation()
+            shimmer_view_container_trainingList?.startShimmer()
             numberTV.text = "0"
             ApiServiceMyBdjobs.create().getTrainingList(
                     userID = bdjobsUserSession?.userId,
@@ -145,7 +145,7 @@ class UpcomingTrainingFragment : Fragment() {
                         }
                         trainListRV?.show()
                         shimmer_view_container_trainingList?.hide()
-                        shimmer_view_container_trainingList?.stopShimmerAnimation()
+                        shimmer_view_container_trainingList?.stopShimmer()
                     } catch (e: Exception) {
                         logException(e)
                     }

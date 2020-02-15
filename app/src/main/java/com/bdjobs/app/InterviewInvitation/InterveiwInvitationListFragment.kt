@@ -63,7 +63,7 @@ class InterveiwInvitationListFragment : Fragment() {
             followedRV?.hide()
             favCountTV?.hide()
             shimmer_view_container_JobList?.show()
-            shimmer_view_container_JobList?.startShimmerAnimation()
+            shimmer_view_container_JobList?.startShimmer()
             showDataFromServer()
 
         } else {
@@ -71,7 +71,7 @@ class InterveiwInvitationListFragment : Fragment() {
             followedRV?.hide()
             favCountTV?.hide()
             shimmer_view_container_JobList?.show()
-            shimmer_view_container_JobList?.startShimmerAnimation()
+            shimmer_view_container_JobList?.startShimmer()
 
             showDataFromDB()
 
@@ -176,7 +176,7 @@ class InterveiwInvitationListFragment : Fragment() {
 
                     favCountTV?.show()
                     shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                    shimmer_view_container_JobList?.stopShimmer()
                 } catch (e: Exception) {
                     logException(e)
                 }

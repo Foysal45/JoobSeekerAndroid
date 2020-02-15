@@ -83,7 +83,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
         constraintLayout3.hide()
         followedRV?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
         /*Log.d("sdofjwioapfgh", "userId= ${bdjobsUserSession.userId!!}" +
                 "decodId= ${bdjobsUserSession.decodId!!}" +
                 "CompanyJobID= ${interviewInvitationCommunicator.getCompanyJobID()}")*/
@@ -99,7 +99,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
                         error("onFailure", t)
                         followedRV?.show()
                         shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmerAnimation()
+                        shimmer_view_container_JobList?.stopShimmer()
                     }
 
                     override fun onResponse(call: Call<InvitationDetailModels>, response: Response<InvitationDetailModels>) {
@@ -107,7 +107,7 @@ class InterviewInvitationDetailsFragment : Fragment() {
                             constraintLayout3?.show()
                             followedRV?.show()
                             shimmer_view_container_JobList?.hide()
-                            shimmer_view_container_JobList?.stopShimmerAnimation()
+                            shimmer_view_container_JobList?.stopShimmer()
 
                             //Log.d("sdofjwioapfgh", "res: ${response.body()}")
                             if (response.body()?.statuscode == Constants.api_request_result_code_ok) {

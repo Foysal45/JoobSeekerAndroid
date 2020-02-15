@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.adapters.ScheduleClickListener
 import com.bdjobs.app.assessment.adapters.ScheduleListAdapter
+import com.bdjobs.app.assessment.models.ScheduleRequest
 import com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel
 import com.bdjobs.app.databinding.FragmentChooseScheduleBinding
 
@@ -19,7 +21,9 @@ import com.bdjobs.app.databinding.FragmentChooseScheduleBinding
  */
 class ChooseScheduleFragment : Fragment() {
 
-    lateinit var scheduleViewModel : ChooseScheduleVewModel
+    lateinit var scheduleViewModel: ChooseScheduleVewModel
+    var scheduleRequestData: ScheduleRequest? = null
+    var from = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -33,12 +37,19 @@ class ChooseScheduleFragment : Fragment() {
         binding.scheduleViewModel = scheduleViewModel
 
         try {
-            binding.scheduleRv.adapter = ScheduleListAdapter(requireNotNull(context), viewLifecycleOwner,ScheduleClickListener {
+            binding.scheduleRv.adapter = ScheduleListAdapter(requireNotNull(context), viewLifecycleOwner, ScheduleClickListener {
                 //Toast.makeText(activity, it.schlId, Toast.LENGTH_SHORT).show()
                 findNavController().navigate(ChooseScheduleFragmentDirections.actionChooseScheduleFragmentToBookingOverviewFragment(it))
-
             })
-        } catch (e:Exception){
+        } catch (e: Exception) {
+
+        }
+
+        try {
+            scheduleRequestData = ChooseScheduleFragmentArgs.fromBundle(arguments!!).scheduleRequestData
+            Log.d("rakib", "schedule ${scheduleRequestData?.fromDate}")
+            from = "filter"
+        } catch (e: Exception) {
 
         }
 
@@ -52,7 +63,10 @@ class ChooseScheduleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        scheduleViewModel.getScheduleList()
+        if (from == "filter")
+            scheduleViewModel.filterScheduleList()
+        else
+            scheduleViewModel.getScheduleList()
     }
 
 }

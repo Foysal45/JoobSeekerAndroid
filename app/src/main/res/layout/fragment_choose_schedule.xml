@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="scheduleViewModel"
             type="com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel" />
@@ -166,7 +166,47 @@
             app:layout_constraintStart_toEndOf="@id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/heading_tv" />
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:visibility="gone"
+            app:scheduleShimmer="@{scheduleViewModel.status}"
+            android:id="@+id/shimmer"
+            android:layout_width="0dp"
+            app:shimmer_duration="1200"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_cl"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
+            app:layout_constraintStart_toEndOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/sub_heading_tv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+                <include layout="@layout/list_schedule_shimmer_layout" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/schedule_rv"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -177,7 +217,23 @@
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/sub_heading_tv"
-            app:scheduleList="@{scheduleViewModel.schedules}" />
+            app:scheduleList="@{scheduleViewModel.schedules}"
+            app:scheduleStatus="@{scheduleViewModel.status}"/>
+
+
+        <include
+            android:visibility="@{scheduleViewModel.schedules.empty ? View.VISIBLE : View.GONE}"
+            android:id="@+id/no_data_found_cl"
+            layout="@layout/layout_no_data_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sub_heading_tv"
+            app:layout_constraintVertical_bias="0.19999999" />
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btn_cl"

@@ -24,20 +24,20 @@ data class Schedule(
 @Parcelize
 data class ScheduleData(
         @Json(name = "actionType")
-        var actionType: String?,
+        var actionType: String? = "",
         @Json(name = "examType")
-        var examType: String?,
+        var examType: String? = "",
         @Json(name = "jobRoleId")
-        var jobRoleId: String?,
+        var jobRoleId: String? = "",
         @Json(name = "scId")
-        var scId: String?,
+        var scId: String? = "",
         @Json(name = "schlId")
-        var schlId: String?,
+        var schlId: String? = "",
         @Json(name = "testCenter")
-        var testCenter: String?,
+        var testCenter: String? = "",
         @Json(name = "testDate")
-        var testDate: String?,
+        var testDate: String? = "",
         @Json(name = "testTime")
-        var testTime: String?
+        var testTime: String? = ""
 ):Parcelable
 

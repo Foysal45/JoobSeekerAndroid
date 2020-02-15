@@ -51,7 +51,7 @@ class HotJobsFragment : Fragment() {
 
         webView?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
 
         ApiServiceMyBdjobs.create().getCookies(
                 userId = bdjobsUserSession.userId,
@@ -90,7 +90,7 @@ class HotJobsFragment : Fragment() {
                             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                                 webView?.hide()
                                 shimmer_view_container_JobList?.show()
-                                shimmer_view_container_JobList?.startShimmerAnimation()
+                                shimmer_view_container_JobList?.startShimmer()
 
                                 super.onPageStarted(view, url, favicon)
                             }
@@ -110,7 +110,7 @@ class HotJobsFragment : Fragment() {
                                 super.onPageFinished(view, url)
                                 webView?.show()
                                 shimmer_view_container_JobList?.hide()
-                                shimmer_view_container_JobList?.stopShimmerAnimation()
+                                shimmer_view_container_JobList?.stopShimmer()
                             }
                         }
 

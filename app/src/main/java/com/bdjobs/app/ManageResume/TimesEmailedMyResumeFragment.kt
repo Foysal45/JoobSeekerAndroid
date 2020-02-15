@@ -199,7 +199,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
         emailedResumeRV?.hide()
         shimmer_view_container_emailedResumeList?.show()
-        shimmer_view_container_emailedResumeList?.startShimmerAnimation()
+        shimmer_view_container_emailedResumeList?.startShimmer()
         numberTV.text = "0"
         ApiServiceMyBdjobs.create().emailedMyResume(
                 userID = bdjobsUserSession?.userId,
@@ -272,7 +272,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     emailedResumeRV?.hide()
                     numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+                    shimmer_view_container_emailedResumeList?.stopShimmer()
                     //Log.d("totalJobs", "zero")
                 }
                 else {
@@ -280,7 +280,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     emailedResumeRV?.show()
                     numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmerAnimation()
+                    shimmer_view_container_emailedResumeList?.stopShimmer()
                 }
             }
 

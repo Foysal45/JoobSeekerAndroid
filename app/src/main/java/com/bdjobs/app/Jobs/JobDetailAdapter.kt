@@ -181,7 +181,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                else
                     jobsVH.applyFab.hide()
 
-                jobsVH.shimmer_view_container.startShimmerAnimation()
+                jobsVH.shimmer_view_container.startShimmer()
                 jobCommunicator?.hideShortListIcon()
 
 
@@ -198,7 +198,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             //Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
                             //Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
-                            jobsVH.shimmer_view_container.stopShimmerAnimation()
+                            jobsVH.shimmer_view_container.stopShimmer()
                             Ads.showNativeAd(jobsVH.ad_small_template, context)
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 

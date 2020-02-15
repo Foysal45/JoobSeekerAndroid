@@ -41,7 +41,7 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
                 _status.value = Status.LOADING
                 certificateList = certificateRepository.getCertificateList().data
                 _certificates.value = certificateList
-                _status.value = Status.DONE
+               _status.value = Status.DONE
             } catch (e: Exception) {
                 _status.value = Status.ERROR
             }

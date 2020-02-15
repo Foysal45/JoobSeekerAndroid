@@ -42,7 +42,8 @@
                 <include
                     android:id="@+id/ongoing_test"
                     layout="@layout/layout_assessment_ongoing_test"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    bind:data="@{homeViewModel.homeData}"/>
 
 
                 <include

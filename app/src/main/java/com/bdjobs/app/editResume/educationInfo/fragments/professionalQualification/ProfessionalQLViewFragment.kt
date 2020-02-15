@@ -109,7 +109,7 @@ class ProfessionalQLViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_Prf_List?.show()
-            shimmer_view_container_Prf_List?.startShimmerAnimation()
+            shimmer_view_container_Prf_List?.startShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -119,7 +119,7 @@ class ProfessionalQLViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_Prf_List?.hide()
-            shimmer_view_container_Prf_List?.stopShimmerAnimation()
+            shimmer_view_container_Prf_List?.stopShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

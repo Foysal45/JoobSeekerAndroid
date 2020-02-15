@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.models.Booking
+import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
+import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
 import com.bdjobs.app.databinding.FragmentPaymentBinding
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_payment.*
 class PaymentFragment : Fragment() {
 
     lateinit var paymentViewModel: PaymentViewModel
+    lateinit var homeViewModel : HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -34,9 +37,15 @@ class PaymentFragment : Fragment() {
 
         val bookingData = PaymentFragmentArgs.fromBundle(arguments!!).bookingData
 
+        val scheduleData = PaymentFragmentArgs.fromBundle(arguments!!).scheduleData
+
         val viewModelFactory = PaymentViewModelFactory(bookingData!!,application)
 
         paymentViewModel = ViewModelProvider(this,viewModelFactory).get(PaymentViewModel::class.java)
+
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        binding.homeViewModel = homeViewModel
 
         binding.viewModel = paymentViewModel
 
@@ -47,7 +56,7 @@ class PaymentFragment : Fragment() {
         }
 
         paymentViewModel.navigateToSuccessful.observe(viewLifecycleOwner, Observer {
-            findNavController().navigate(R.id.action_paymentFragment_to_paymentSuccessfulFragment)
+            findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentSuccessfulFragment(scheduleData))
         })
 
         return binding.root

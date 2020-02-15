@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.assessment.viewmodels.TestLocationViewModel
 import com.bdjobs.app.databinding.FragmentTestLocationBinding
 import kotlinx.android.synthetic.main.fragment_test_location.*
@@ -35,7 +36,7 @@ class TestLocationFragment : Fragment() {
         binding.viewModel = testLocationViewModel
 
         binding.testHomeCard?.setOnClickListener {
-            findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking))
+            findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking, ScheduleData()))
         }
 
         binding.testCenterCard?.setOnClickListener {

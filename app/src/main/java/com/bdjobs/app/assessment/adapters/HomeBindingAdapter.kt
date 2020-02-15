@@ -41,7 +41,7 @@ fun bindStatusImage(imageView: ImageView, homeData: HomeData?) {
             when (homeData.paymentStatus) {
                 "Paid" -> imageView.background = ContextCompat.getDrawable(imageView.context, R.drawable.ic_paid)
                 "Unpaid" -> imageView.background = ContextCompat.getDrawable(imageView.context, R.drawable.ic_unpaid)
-               // else -> imageView.visibility = View.GONE
+                // else -> imageView.visibility = View.GONE
             }
         } else {
             imageView.visibility = View.GONE
@@ -95,7 +95,6 @@ fun bindExamDate(textView: TextView, date: String?) {
         textView.text = date
     }
 }
-
 
 
 @BindingAdapter("fee")
@@ -171,5 +170,33 @@ fun bindNotFirstTimeView(scrollView: ScrollView, homeData: HomeData?) {
             scrollView.visibility = View.VISIBLE
         else
             scrollView.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("onGoingTestVisibility")
+fun bindOnGoingTestVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
+    homeData?.let {
+        if (homeData.resumeTestBtnFormat.equals("3")) {
+            constraintLayout.visibility = View.VISIBLE
+        } else {
+            constraintLayout.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("testStatusHeading")
+fun bindTestStatusHeadingTextView(textView: TextView, homeData: HomeData?) {
+    homeData?.let {
+        if (homeData.isTestFree.equals("0")) {
+            textView.apply {
+                text = "Scheduled Test"
+                textColor = Color.parseColor("#303030")
+            }
+        } else {
+            textView.apply {
+                text = "Expired Test"
+                textColor = Color.parseColor("#F44336")
+            }
+        }
     }
 }

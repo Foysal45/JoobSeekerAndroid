@@ -414,7 +414,7 @@ class JoblistFragment : Fragment() {
         jobListRecyclerView?.hide()
         filterLayout?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
                 Newspaper = newsPaper,
@@ -453,7 +453,7 @@ class JoblistFragment : Fragment() {
                         jobListRecyclerView?.show()
                         filterLayout.show()
                         shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmerAnimation()
+                        shimmer_view_container_JobList?.stopShimmer()
 
                         val responseData = response.body()?.string()
                         Log.d("rakib - response", "${responseData}")

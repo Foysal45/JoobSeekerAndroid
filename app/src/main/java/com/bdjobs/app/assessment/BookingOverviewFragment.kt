@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModelFactory
@@ -56,7 +57,7 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
 
         bookingOverviewViewModel.navigateToPayment.observe(viewLifecycleOwner, Observer {it->
             it.getContentIfNotHandled()?.let {
-                findNavController().navigate(BookingOverviewFragmentDirections.actionBookingOverviewFragmentToPaymentFragment(it))
+                findNavController().navigate(BookingOverviewFragmentDirections.actionBookingOverviewFragmentToPaymentFragment(it,scheduleData))
             }
         })
 
@@ -90,9 +91,19 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onMapReady(googleMap: GoogleMap?) {
-        val latLng = LatLng(23.751009, 90.393092)
-        googleMap?.addMarker(MarkerOptions().position(latLng).title("Bdjobs"))
-        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+
+        if (bookingOverviewViewModel.scheduleData.value?.testCenter!!.equalIgnoreCase("Dhaka"))
+        {
+            val latLng = LatLng(23.751009, 90.393092)
+            googleMap?.addMarker(MarkerOptions().position(latLng).title("Bdjobs"))
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+        }
+        else {
+            val latLng = LatLng(22.332859, 91.812864)
+            googleMap?.addMarker(MarkerOptions().position(latLng).title("Bdjobs"))
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+        }
+
     }
 
 

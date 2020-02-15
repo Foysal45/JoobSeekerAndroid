@@ -21,15 +21,14 @@
         android:orientation="vertical">
 
         <TextView
+            app:testStatusHeading="@{data}"
             android:id="@+id/heading_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="18dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="Scheduled Test"
-            android:textColor="#303030"
-            android:textSize="14dp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

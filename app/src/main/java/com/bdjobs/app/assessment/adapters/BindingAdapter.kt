@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import org.jetbrains.anko.textColor
 
 @BindingAdapter("list")
 fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData?>?) {
@@ -31,13 +32,37 @@ fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData
     }
 }
 
-@BindingAdapter("scheduleList")
-fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?) {
-    val adapter = recyclerView.adapter as ScheduleListAdapter
-    data?.let {
-        adapter.submitList(data)
+@BindingAdapter("scheduleList","scheduleStatus")
+fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?,status: Status?) {
+//    data?.let {
+//        adapter.submitList(data)
+//    }
+
+    when(status)
+    {
+        Status.LOADING->{
+            recyclerView.visibility = View.GONE
+        }
+
+        Status.DONE->{
+            if (data == null){
+                recyclerView.visibility = View.GONE
+            } else{
+                recyclerView.visibility = View.VISIBLE
+                val adapter = recyclerView.adapter as ScheduleListAdapter
+                adapter.submitList(data)
+            }
+        }
+
+        Status.ERROR->{
+            recyclerView.visibility = View.GONE
+        }
     }
+
 }
+
+//@BindingAdapter("filterNoResult")
+//fun bindSchedule(constraintLayout: ConstraintLayout,)
 
 @BindingAdapter("scoreText")
 fun bindScoreTextView(textView: TextView, result: ResultData?) {
@@ -160,6 +185,8 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         chart.animateY(1000)
     }
 }
+
+
 
 @BindingAdapter("certificateStatus", "data")
 fun bindCertificateStatus(constraintLayout: ConstraintLayout, status: Status, certificateList: List<CertificateData?>?) {

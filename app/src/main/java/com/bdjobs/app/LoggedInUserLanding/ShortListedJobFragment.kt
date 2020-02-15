@@ -176,7 +176,7 @@ ShortListedJobFragment : Fragment() {
         noDataLL?.hide()
         shortListRV.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
 
         val call = ApiServiceJobs.create().getStoreJobList(
                 p_id = bdjobsUserSession.userId,
@@ -192,7 +192,7 @@ ShortListedJobFragment : Fragment() {
                 try {
                     if (response.isSuccessful) {
                         shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmerAnimation()
+                        shimmer_view_container_JobList?.stopShimmer()
 
                         val jobResponse = response.body()
                         val totalJobs = jobResponse?.common?.totalRecordsFound

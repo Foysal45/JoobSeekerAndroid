@@ -52,7 +52,7 @@ class OwnerStatementFragment :Fragment(), ConnectivityReceiver.ConnectivityRecei
 
     private fun getStatement(userId: String, decodeId: String, ownerId: String) {
         shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        shimmer_view_container_JobList.startShimmer()
         statementLV.hide()
         ApiServiceMyBdjobs.create().getOwnerStatement(
                 userID= userId,
@@ -67,7 +67,7 @@ class OwnerStatementFragment :Fragment(), ConnectivityReceiver.ConnectivityRecei
                         try {
                             if (response.isSuccessful) {
                                 shimmer_view_container_JobList.hide()
-                                shimmer_view_container_JobList.stopShimmerAnimation()
+                                shimmer_view_container_JobList.stopShimmer()
                                 statementLV.show()
                                 try {
                                     allStatement = response.body()?.data as ArrayList<InviteCodeOwnerStatementModelData>

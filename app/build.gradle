@@ -114,7 +114,9 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     //----facebook
-    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+//    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
     implementation 'com.facebook.android:facebook-login:5.8.0'
 
     //-----background service

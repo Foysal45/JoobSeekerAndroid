@@ -125,7 +125,7 @@ class EmployerListFragment : Fragment() {
         employerList_RV?.hide()
         favCountTV?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
 
 
 //        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<ResponseBody> {
@@ -215,7 +215,7 @@ class EmployerListFragment : Fragment() {
                     employerList_RV?.show()
                     favCountTV?.show()
                     shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                    shimmer_view_container_JobList?.stopShimmer()
                 } catch (e: Exception) {
                     logException(e)
                 }
