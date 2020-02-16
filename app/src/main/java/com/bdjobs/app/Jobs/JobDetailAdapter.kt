@@ -182,6 +182,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                     jobsVH.applyFab.hide()
 
                 jobsVH.shimmer_view_container.startShimmer()
+                jobsVH.constraintLayout.hide()
                 jobCommunicator?.hideShortListIcon()
 
 
@@ -199,6 +200,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             //Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
                             jobsVH.shimmer_view_container.stopShimmer()
+                            jobsVH.constraintLayout.show()
                             Ads.showNativeAd(jobsVH.ad_small_template, context)
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 
@@ -1222,6 +1224,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val govtJobsIMGV: ImageView = viewItem?.findViewById(R.id.govtJobsIMGV) as ImageView
 
         val shimmer_view_container: ShimmerFrameLayout = viewItem?.findViewById(R.id.shimmer_view_container) as ShimmerFrameLayout
+
+        val constraintLayout : ConstraintLayout = viewItem?.findViewById(R.id.constraintLayout) as ConstraintLayout
+
         val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
         val tvPosName: TextView = viewItem?.findViewById(R.id.positionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.companyName) as TextView

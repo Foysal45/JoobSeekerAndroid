@@ -32,37 +32,45 @@ fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData
     }
 }
 
-@BindingAdapter("scheduleList","scheduleStatus")
-fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?,status: Status?) {
+@BindingAdapter("scheduleList", "scheduleStatus")
+fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, status: Status?) {
 //    data?.let {
 //        adapter.submitList(data)
 //    }
 
-    when(status)
-    {
-        Status.LOADING->{
+    when (status) {
+        Status.LOADING -> {
             recyclerView.visibility = View.GONE
         }
 
-        Status.DONE->{
-            if (data == null){
+        Status.DONE -> {
+            if (data == null) {
                 recyclerView.visibility = View.GONE
-            } else{
+            } else {
                 recyclerView.visibility = View.VISIBLE
                 val adapter = recyclerView.adapter as ScheduleListAdapter
                 adapter.submitList(data)
             }
         }
 
-        Status.ERROR->{
+        Status.ERROR -> {
             recyclerView.visibility = View.GONE
         }
     }
-
 }
 
-//@BindingAdapter("filterNoResult")
-//fun bindSchedule(constraintLayout: ConstraintLayout,)
+@BindingAdapter("emptyView", "status")
+fun bindEmptyView(constraintLayout: ConstraintLayout, data: List<ScheduleData?>?, status: Status?) {
+    if (status == Status.DONE) {
+        if (data == null) {
+            constraintLayout.visibility = View.VISIBLE
+        } else {
+            constraintLayout.visibility = View.GONE
+        }
+    } else{
+        constraintLayout.visibility = View.GONE
+    }
+}
 
 @BindingAdapter("scoreText")
 fun bindScoreTextView(textView: TextView, result: ResultData?) {
@@ -82,7 +90,7 @@ fun bindTotalCertificatesTextView(textView: TextView, certificateList: List<Cert
 
     if (certificateList.isNullOrEmpty())
         textView.visibility = View.GONE
-    else{
+    else {
         textView.visibility = View.VISIBLE
         textView.text = "My Certificate List (${certificateList.size} Certificates)"
     }
@@ -185,7 +193,6 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         chart.animateY(1000)
     }
 }
-
 
 
 @BindingAdapter("certificateStatus", "data")

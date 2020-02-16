@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.HomeData
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.button.MaterialButton
 import org.jetbrains.anko.textColor
 import java.text.ParseException
@@ -200,3 +202,23 @@ fun bindTestStatusHeadingTextView(textView: TextView, homeData: HomeData?) {
         }
     }
 }
+
+@BindingAdapter("homeStatus")
+fun bindHomeShimmer(shimmerFrameLayout: ShimmerFrameLayout, status: Status){
+    when(status){
+        Status.LOADING-> {
+            shimmerFrameLayout.visibility = View.VISIBLE
+            shimmerFrameLayout.startShimmer()
+        }
+        Status.DONE-> {
+            shimmerFrameLayout.visibility = View.GONE
+            shimmerFrameLayout.stopShimmer()
+        }
+        Status.ERROR-> {
+            shimmerFrameLayout.visibility = View.GONE
+            shimmerFrameLayout.stopShimmer()
+
+        }
+    }
+}
+

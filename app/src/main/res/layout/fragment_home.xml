@@ -16,6 +16,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:visibility="gone"
+            app:homeStatus="@{homeViewModel.status}"
+            android:id="@+id/home_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_duration="1200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+            <include layout="@layout/list_shimmer_layout"/>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <ScrollView
             android:id="@+id/main_sv"
             android:visibility="gone"

@@ -24,7 +24,7 @@ class BookingRepository(context: Context,var booking: Booking) {
                     opID = booking.opId,
                     amount = booking.fltBdjAmount,
                     transactionDate = booking.strTransactionDate,
-                    isFromHome = "1"
+                    isFromHome = "0"
             )
         }
     }

@@ -59,6 +59,7 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
             scId = schedule.scId
             schId = schedule.schlId
             strActionType = schedule.actionType
+            isFromHome = "0"
         }
         _bookingData.value = booking
         displayPayment(booking)

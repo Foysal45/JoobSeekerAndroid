@@ -155,19 +155,13 @@
             android:name="bookingData"
             app:argType="com.bdjobs.app.assessment.models.Booking"
             app:nullable="true" />
-        <action
-            android:id="@+id/action_paymentFragment_to_paymentSuccessfulFragment"
-            app:destination="@id/paymentSuccessfulFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/paymentSuccessfulFragment" />
         <argument
             android:name="scheduleData"
             app:argType="com.bdjobs.app.assessment.models.ScheduleData"
             app:nullable="true"/>
+        <action
+            android:id="@+id/action_paymentFragment_to_paymentSuccessfulFragment"
+            app:destination="@id/paymentSuccessfulFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentSuccessfulFragment"

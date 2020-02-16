@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,15 @@ class PaymentFragment : Fragment() {
 
         binding.payCashCard?.setOnClickListener {
             paymentViewModel.bookSchedule()
+        }
+
+        Log.d("rakib","$bookingData")
+
+        if (bookingData.isFromHome == "0")
+        {
+            binding.payCashCard.visibility = View.VISIBLE
+        } else {
+            binding.payCashCard.visibility = View.GONE
         }
 
         paymentViewModel.navigateToSuccessful.observe(viewLifecycleOwner, Observer {
