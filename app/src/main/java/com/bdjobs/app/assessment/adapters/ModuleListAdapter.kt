@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.google.android.material.button.MaterialButton
 import com.loopj.android.http.AsyncHttpClient.log
@@ -31,7 +32,7 @@ class ModuleListAdapter(private val context: Context, private val items : Array<
         val viewHolder = holder as ModuleListViewHolder
 
         viewHolder?.moduleName?.text = items.get(position)
-        val sampleLink = "http://mybdjobs.bdjobs.com/mybdjobs/assessment/samples/" + dataStorage.getSampleLinkbyName(items.get(position))
+        val sampleLink = Constants.base_url_module_sample + dataStorage.getSampleLinkbyName(items.get(position))
         viewHolder?.downloadButton?.setOnClickListener{
             log.d("Sample link ",sampleLink )
             context.openUrlInBrowser(sampleLink)

@@ -31,14 +31,10 @@ class ModulesViewFragment : Fragment() {
 
     private lateinit var dataStorage: DataStorage
     private var moduleListAdapter: ModuleListAdapter? = null
-    private var moduleListRequired: List<String>? = null
-    private var moduleListOptional: List<String>? = null
-
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_module_view, container, false)
     }
 
