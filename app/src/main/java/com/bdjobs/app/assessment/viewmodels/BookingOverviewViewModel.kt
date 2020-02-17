@@ -61,8 +61,45 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
             strActionType = schedule.actionType
             isFromHome = "0"
         }
+
+        Log.d("rakib","${booking.strActionType}")
+
         _bookingData.value = booking
-        displayPayment(booking)
+
+        when(booking.strActionType)
+        {
+            "I" -> {
+                displayPayment(booking)
+            }
+            "U" ->{
+                updateSchedule()
+            }
+        }
+    }
+
+    fun updateSchedule()
+    {
+        booking.apply {
+            scId = schedule.scId
+            schId = schedule.schlId
+            strActionType = "U"
+        }
+
+        viewModelScope.launch {
+            try {
+                _status.value = Status.LOADING
+                bookingResponse = bookingRepository.manageSchedule()
+                _status.value = Status.DONE
+                if (bookingResponse.statuscode.equals("0")){
+                    displayHome(bookingResponse)
+                } else {
+                    displaySnackBar(bookingResponse)
+                }
+            } catch (e: Exception) {
+                Log.d("rakib","catch")
+                _status.value = Status.ERROR
+            }
+        }
     }
 
     fun cancelSchedule() {
@@ -84,7 +121,7 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
                     displaySnackBar(bookingResponse)
                 }
             } catch (e: Exception) {
-                _status.value = Status.DONE
+                _status.value = Status.ERROR
             }
         }
     }

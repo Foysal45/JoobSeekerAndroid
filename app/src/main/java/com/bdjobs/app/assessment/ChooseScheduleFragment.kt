@@ -13,7 +13,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.assessment.adapters.ScheduleClickListener
 import com.bdjobs.app.assessment.adapters.ScheduleListAdapter
 import com.bdjobs.app.assessment.models.ScheduleRequest
-import com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel
+import com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel
 import com.bdjobs.app.databinding.FragmentChooseScheduleBinding
 
 /**
@@ -21,14 +21,14 @@ import com.bdjobs.app.databinding.FragmentChooseScheduleBinding
  */
 class ChooseScheduleFragment : Fragment() {
 
-    lateinit var scheduleViewModel: ChooseScheduleVewModel
+    lateinit var scheduleViewModel: ChooseScheduleViewModel
     var scheduleRequestData: ScheduleRequest? = null
     var from = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        scheduleViewModel = ViewModelProvider(requireNotNull(activity)).get(ChooseScheduleVewModel::class.java)
+        scheduleViewModel = ViewModelProvider(requireNotNull(activity)).get(ChooseScheduleViewModel::class.java)
 
         val binding = FragmentChooseScheduleBinding.inflate(inflater)
 
@@ -42,11 +42,12 @@ class ChooseScheduleFragment : Fragment() {
                 findNavController().navigate(ChooseScheduleFragmentDirections.actionChooseScheduleFragmentToBookingOverviewFragment(it))
             })
         } catch (e: Exception) {
-
+            Log.d("rakib", e.message)
         }
 
         try {
             scheduleRequestData = ChooseScheduleFragmentArgs.fromBundle(arguments!!).scheduleRequestData
+
             Log.d("rakib", "schedule ${scheduleRequestData?.fromDate}")
             from = "filter"
         } catch (e: Exception) {
@@ -65,8 +66,11 @@ class ChooseScheduleFragment : Fragment() {
         super.onResume()
         if (from == "filter")
             scheduleViewModel.filterScheduleList()
-        else
+        else{
+            Log.d("rakib", "called get list")
             scheduleViewModel.getScheduleList()
+        }
+
     }
 
 }

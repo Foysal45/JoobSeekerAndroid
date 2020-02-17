@@ -111,9 +111,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
 
         chart.isDoubleTapToZoomEnabled = false
 
-
         chart.setDrawValueAboveBar(false)
-
 
         //Display the axis on the left (contains the labels 1*, 2* and so on)
         val xAxis = chart.xAxis
@@ -128,7 +126,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         val yLeft = chart.axisLeft
 
         //Set the minimum and maximum bar lengths as per the values that they represent
-        yLeft.axisMaximum = 500f
+        yLeft.axisMaximum = 900f
         yLeft.axisMinimum = 0f
         yLeft.isEnabled = false
         yLeft.axisLineColor = Color.parseColor("#004445")
@@ -151,7 +149,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         yRight.setDrawAxisLine(true)
         yRight.setDrawGridLines(false)
         yRight.isEnabled = true
-        yRight.axisMaximum = 500f
+        yRight.axisMaximum = 900f
         yRight.axisMinimum = 0f
         yRight.isGranularityEnabled = true
         yRight.granularity = 1f

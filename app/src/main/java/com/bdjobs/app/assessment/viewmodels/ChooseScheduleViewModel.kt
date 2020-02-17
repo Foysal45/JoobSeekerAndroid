@@ -12,7 +12,7 @@ import com.bdjobs.app.assessment.repositories.ScheduleRepository
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ChooseScheduleVewModel(application: Application) : AndroidViewModel(application) {
+class ChooseScheduleViewModel(application: Application) : AndroidViewModel(application) {
 
     private lateinit var now: Calendar
 
@@ -51,7 +51,7 @@ class ChooseScheduleVewModel(application: Application) : AndroidViewModel(applic
 
         scheduleRequest.apply {
             pageNo = "1"
-            pageSize = "100"
+            pageSize = "20"
             fromDate = ""
             toDate = ""
             venue = "0"
@@ -62,6 +62,7 @@ class ChooseScheduleVewModel(application: Application) : AndroidViewModel(applic
             try {
                 _status.value = Status.LOADING
                 scheduleList = scheduleRepository.getScheduleList().data
+                Log.d("rakib", scheduleList?.size.toString())
                 _schedules.value = scheduleList
                 _status.value = Status.DONE
             } catch (e: Exception) {
@@ -74,10 +75,14 @@ class ChooseScheduleVewModel(application: Application) : AndroidViewModel(applic
     fun filterScheduleList(){
 
         viewModelScope.launch {
+            _status.value = Status.LOADING
             try {
+                _status.value = Status.LOADING
                 scheduleList = scheduleRepository.getScheduleList().data
                 _schedules.value = scheduleList
+                _status.value = Status.DONE
             } catch (e: Exception) {
+                _status.value = Status.ERROR
             }
         }
     }

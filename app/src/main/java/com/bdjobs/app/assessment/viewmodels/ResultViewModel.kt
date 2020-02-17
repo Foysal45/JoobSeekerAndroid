@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.assessment.Event
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.models.ResultData
 import com.bdjobs.app.assessment.repositories.ResultRepository
@@ -27,6 +28,10 @@ class ResultViewModel(certificateData: CertificateData, application: Application
     val resultMessage : LiveData<String>
         get() = _resultMessage
 
+    private val _status = MutableLiveData<Status>()
+    val status :LiveData<Status>
+        get() = _status
+
     private val _reportLink = MutableLiveData<String>()
     val reportLink : LiveData<String>
         get() = _reportLink
@@ -36,11 +41,15 @@ class ResultViewModel(certificateData: CertificateData, application: Application
     }
 
     private fun getResults() {
+        _status.value = Status.LOADING
         viewModelScope.launch {
             try {
                 _result.value = resultRepository.getResult().data?.get(0)
                 downloadLink = _result.value?.reportLink
+                _status.value = Status.DONE
+
             } catch (e: Exception) {
+                _status.value = Status.ERROR
             }
         }
     }

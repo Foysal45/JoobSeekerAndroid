@@ -39,6 +39,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             } catch (e: Exception) {
                 Log.d("rakib catch", e.message)
                 _status.value = Status.ERROR
+
             }
         }
     }

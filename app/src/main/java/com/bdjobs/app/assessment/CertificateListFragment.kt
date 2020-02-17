@@ -16,9 +16,12 @@ import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.adapters.CertificateListAdapter
 import com.bdjobs.app.assessment.adapters.ClickListener
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.CertificateViewModel
 import com.bdjobs.app.databinding.FragmentCertificateListBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_certificate_list.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * A simple [Fragment] subclass.
@@ -26,6 +29,8 @@ import kotlinx.android.synthetic.main.fragment_certificate_list.*
 class CertificateListFragment : Fragment() {
 
     lateinit var viewModel: CertificateViewModel
+
+    lateinit var snackbar: Snackbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -46,6 +51,28 @@ class CertificateListFragment : Fragment() {
             it.getContentIfNotHandled()?.let {
                 findNavController().navigate(ViewPagerFragmentDirections.actionViewPagerFragmentToResultFragment(it))
                 //viewModel.displayResultDetailsCompleted()
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            try {
+                snackbar = Snackbar.make(certificate_list_cl, "Something went wrong", Snackbar.LENGTH_INDEFINITE)
+                when (it) {
+                    Status.ERROR ->
+
+                        snackbar.apply {
+                            setAction(
+                                    "Retry"
+                            ) {
+                                viewModel.getCertificateList()
+                            }.show()
+
+                        }
+                    else -> {
+                        snackbar.dismiss()
+                    }
+                }
+            } catch (e: Exception) {
             }
         })
 

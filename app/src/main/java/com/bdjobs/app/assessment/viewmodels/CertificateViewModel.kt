@@ -34,7 +34,7 @@ class CertificateViewModel(application: Application) : AndroidViewModel(applicat
         getCertificateList()
     }
 
-    private fun getCertificateList() {
+    fun getCertificateList() {
         _status.value = Status.LOADING
         viewModelScope.launch {
             try {

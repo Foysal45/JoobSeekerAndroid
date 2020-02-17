@@ -118,3 +118,6 @@
   <init>(...);
   <fields>;
 }
+
+-keep class kotlin.** { *; }
+-keep class com.github.mikephil.charting.** { *; }

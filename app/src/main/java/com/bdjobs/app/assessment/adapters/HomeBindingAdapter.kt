@@ -136,12 +136,25 @@ fun bindTakeNewTestCardVisibility(constraintLayout: ConstraintLayout, homeData: 
 fun bindTestDataVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
 
     homeData?.let {
-        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0")) {
+        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0") && !homeData.resumeTestBtnFormat.equals("2")) {
             constraintLayout.visibility = View.VISIBLE
         } else {
             constraintLayout.visibility = View.GONE
         }
     }
+}
+
+@BindingAdapter("startTestCardVisibility")
+fun bindStartTestCard(constraintLayout: ConstraintLayout, homeData: HomeData?) {
+
+    homeData?.let {
+        if (homeData.resumeTestBtnFormat.equals("2")) {
+            constraintLayout.visibility = View.VISIBLE
+        } else {
+            constraintLayout.visibility = View.GONE
+        }
+    }
+
 }
 
 @BindingAdapter("firstTimeButtonVisibility")
@@ -189,32 +202,41 @@ fun bindOnGoingTestVisibility(constraintLayout: ConstraintLayout, homeData: Home
 @BindingAdapter("testStatusHeading")
 fun bindTestStatusHeadingTextView(textView: TextView, homeData: HomeData?) {
     homeData?.let {
-        if (homeData.isTestFree.equals("0")) {
-            textView.apply {
-                text = "Scheduled Test"
-                textColor = Color.parseColor("#303030")
-            }
-        } else {
+        if (homeData.isExpired.equals("1")) {
             textView.apply {
                 text = "Expired Test"
                 textColor = Color.parseColor("#F44336")
+            }
+        } else {
+            if (homeData.isFromHome.equals("1")){
+
+                textView.apply {
+                    text = "Online Test"
+                    textColor = Color.parseColor("#303030")
+                }
+
+            } else{
+                textView.apply {
+                    text = "Scheduled Test"
+                    textColor = Color.parseColor("#303030")
+                }
             }
         }
     }
 }
 
 @BindingAdapter("homeStatus")
-fun bindHomeShimmer(shimmerFrameLayout: ShimmerFrameLayout, status: Status){
-    when(status){
-        Status.LOADING-> {
+fun bindHomeShimmer(shimmerFrameLayout: ShimmerFrameLayout, status: Status) {
+    when (status) {
+        Status.LOADING -> {
             shimmerFrameLayout.visibility = View.VISIBLE
             shimmerFrameLayout.startShimmer()
         }
-        Status.DONE-> {
+        Status.DONE -> {
             shimmerFrameLayout.visibility = View.GONE
             shimmerFrameLayout.stopShimmer()
         }
-        Status.ERROR-> {
+        Status.ERROR -> {
             shimmerFrameLayout.visibility = View.GONE
             shimmerFrameLayout.stopShimmer()
 

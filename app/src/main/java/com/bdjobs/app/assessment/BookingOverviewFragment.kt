@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -77,7 +78,10 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
           when(it){
               Status.DONE-> binding.loadingProgressBar.visibility = View.GONE
               Status.LOADING-> binding.loadingProgressBar.visibility = View.VISIBLE
-              Status.ERROR-> binding.loadingProgressBar.visibility = View.GONE
+              Status.ERROR-> {
+                  binding.loadingProgressBar.visibility = View.GONE
+                  Toast.makeText(activity,"Something went wrong",Toast.LENGTH_SHORT).show()
+              }
           }
         })
 
@@ -87,7 +91,6 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
     private fun showSnackbar(){
         Snackbar.make(test_location_cl,"Unable to book schedule. Please try again after some time.", Snackbar.LENGTH_SHORT).show()
     }
-
 
 
     override fun onMapReady(googleMap: GoogleMap?) {

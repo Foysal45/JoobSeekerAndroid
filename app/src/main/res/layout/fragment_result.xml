@@ -16,8 +16,35 @@
         android:background="#F6F8FA">
 
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            app:resultShimmerVisibility="@{resultViewModel.status}"
+            android:id="@+id/home_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_duration="1200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout"/>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
         <ScrollView
-            android:id="@+id/scroll"
+                app:resultScrollViewVisibility="@{resultViewModel.status}"
+        android:visibility="gone"
+        android:id="@+id/result_sv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -264,6 +291,8 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            app:resultButtonVisibility="@{resultViewModel.status}"
+            android:visibility="gone"
             android:id="@+id/btn_cl"
             android:layout_width="0dp"
             android:layout_height="54dp"

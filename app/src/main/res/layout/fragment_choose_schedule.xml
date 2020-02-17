@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="scheduleViewModel"
-            type="com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel" />
+            type="com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

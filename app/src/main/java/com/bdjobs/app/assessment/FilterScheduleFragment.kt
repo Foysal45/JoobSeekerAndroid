@@ -3,19 +3,16 @@ package com.bdjobs.app.assessment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.pickDate
-import com.bdjobs.app.assessment.viewmodels.ChooseScheduleVewModel
+import com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel
 import com.bdjobs.app.databinding.FragmentFilterScheduleBinding
-import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import kotlinx.android.synthetic.main.fragment_filter_schedule.*
 import org.jetbrains.anko.support.v4.selector
 import java.text.SimpleDateFormat
@@ -26,7 +23,7 @@ import java.util.*
  */
 class FilterScheduleFragment : Fragment() {
 
-    lateinit var scheduleViewModel: ChooseScheduleVewModel
+    lateinit var scheduleViewModel: ChooseScheduleViewModel
 
     var now = Calendar.getInstance()
 
@@ -49,7 +46,7 @@ class FilterScheduleFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        scheduleViewModel = ViewModelProvider(requireNotNull(activity)).get(ChooseScheduleVewModel::class.java)
+        scheduleViewModel = ViewModelProvider(requireNotNull(activity)).get(ChooseScheduleViewModel::class.java)
 
         val binding = FragmentFilterScheduleBinding.inflate(inflater)
 
