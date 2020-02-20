@@ -41,7 +41,7 @@ class TestLocationFragment : Fragment() {
         binding.viewModel = testLocationViewModel
 
         binding.testHomeCard?.setOnClickListener {
-            findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking, ScheduleData()))
+//            findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking, ScheduleData()))
             snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from BDJobs website", Snackbar.LENGTH_INDEFINITE)
             snackbar.apply {
                 setAction("Go To Website") {

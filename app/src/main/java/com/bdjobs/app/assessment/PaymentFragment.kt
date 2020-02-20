@@ -13,13 +13,16 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.assessment.models.Booking
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
 import com.bdjobs.app.databinding.FragmentPaymentBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_payment.*
+import org.jetbrains.anko.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +31,8 @@ class PaymentFragment : Fragment() {
 
     lateinit var paymentViewModel: PaymentViewModel
     lateinit var homeViewModel : HomeViewModel
+    lateinit var snackbar: Snackbar
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -63,6 +68,16 @@ class PaymentFragment : Fragment() {
             binding.payCashCard.visibility = View.VISIBLE
         } else {
             binding.payCashCard.visibility = View.GONE
+        }
+
+        binding.testHomeCard.setOnClickListener {
+            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from BDJobs website", Snackbar.LENGTH_INDEFINITE)
+            snackbar.apply {
+                setAction("Go To Website") {
+                    val url = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
+                    context.startActivity<WebActivity>("url" to url, "from" to "assessment")
+                }.show()
+            }
         }
 
         paymentViewModel.navigateToSuccessful.observe(viewLifecycleOwner, Observer {
