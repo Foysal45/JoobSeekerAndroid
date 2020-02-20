@@ -116,6 +116,10 @@ class WebActivity : Activity() {
                     //Log.d("reportJob","loadUrlWithoutCookie")
                 }
             }
+            "assessment"-> {
+                suggestiveSearchET.text = "Assessment"
+                loadUrlWithCookie(url)
+            }
             else -> {
                 loadUrlWithoutCookie(url)
             }

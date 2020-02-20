@@ -12,10 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.assessment.viewmodels.TestLocationViewModel
 import com.bdjobs.app.databinding.FragmentTestLocationBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_test_location.*
+import org.jetbrains.anko.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -23,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_test_location.*
 class TestLocationFragment : Fragment() {
 
     lateinit var testLocationViewModel: TestLocationViewModel
+    lateinit var snackbar: Snackbar
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,6 +42,13 @@ class TestLocationFragment : Fragment() {
 
         binding.testHomeCard?.setOnClickListener {
             findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking, ScheduleData()))
+            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from BDJobs website", Snackbar.LENGTH_INDEFINITE)
+            snackbar.apply {
+                setAction("Go To Website") {
+                    val url = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
+                    context.startActivity<WebActivity>("url" to url, "from" to "assessment")
+                }.show()
+            }
         }
 
         binding.testCenterCard?.setOnClickListener {

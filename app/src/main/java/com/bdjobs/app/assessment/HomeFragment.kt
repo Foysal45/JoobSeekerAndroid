@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.layout_assessment_no_pending_test.*
 import kotlinx.android.synthetic.main.layout_assessment_test_info.view.*
 import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 import kotlinx.android.synthetic.main.layout_what_is_employability_certification.*
+import org.jetbrains.anko.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -61,6 +63,16 @@ class HomeFragment : Fragment() {
         binding.assessmentInfo?.changeBtn?.setOnClickListener {
             Log.d("rakib", "${viewModel.homeData.value?.paymentStatus}")
             findNavController().navigate(R.id.action_viewPagerFragment_to_chooseScheduleFragment)
+        }
+
+        binding.startTest.startBtn.setOnClickListener {
+            snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from BDJobs website", Snackbar.LENGTH_INDEFINITE)
+            snackbar.apply {
+                setAction("Go To Website") {
+                    val url = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
+                    context.startActivity<WebActivity>("url" to url, "from" to "assessment")
+                }.show()
+            }
         }
 
         binding.needMoreInfoCl.call_cl.setOnClickListener {
