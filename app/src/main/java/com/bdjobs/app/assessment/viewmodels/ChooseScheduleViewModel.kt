@@ -28,13 +28,13 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
     val status :LiveData<Status>
         get() = _status
 
-    private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-        now.set(Calendar.YEAR, year)
-        now.set(Calendar.MONTH, monthOfYear)
-        now.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-        //updateDateInView(0)
-    }
+//    private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+//        now.set(Calendar.YEAR, year)
+//        now.set(Calendar.MONTH, monthOfYear)
+//        now.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+//
+//        //updateDateInView(0)
+//    }
 
     private val _schedules = MutableLiveData<List<ScheduleData?>>()
     val schedules: LiveData<List<ScheduleData?>>
@@ -42,7 +42,7 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
 
 
     init {
-        now = Calendar.getInstance()
+//        now = Calendar.getInstance()
         scheduleRepository = ScheduleRepository(application,scheduleRequest)
         _status.value = Status.DONE
     }
@@ -51,7 +51,7 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
 
         scheduleRequest.apply {
             pageNo = "1"
-            pageSize = "20"
+            pageSize = "40"
             fromDate = ""
             toDate = ""
             venue = "0"

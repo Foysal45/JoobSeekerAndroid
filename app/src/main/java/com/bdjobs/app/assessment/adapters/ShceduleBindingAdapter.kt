@@ -29,6 +29,22 @@ fun bindScheduleTime(textView: TextView, time:String?){
     }
 }
 
+@BindingAdapter("date")
+fun bindScheduleDate(textView: TextView, time:String?){
+    time?.let {
+        var dateFormat = SimpleDateFormat("MM/dd/yyyy")
+        val dateFormat2 = SimpleDateFormat("MMM dd, yyyy")
+        try {
+            val date = dateFormat.parse(time)
+            val out = dateFormat2.format(date)
+            textView.text = out
+            Log.e("Time", out)
+        } catch (e: ParseException) {
+            Log.d("Time", e.toString())
+        }
+    }
+}
+
 @BindingAdapter("scheduleShimmer")
 fun bindScheduleShimmer(shimmerFrameLayout: ShimmerFrameLayout, status : Status?){
 

@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="@{schedule.testDate}"
+                    app:date="@{schedule.testDate}"
                     android:textColor="#303030"
                     app:layout_constraintBottom_toBottomOf="@id/img1"
                     app:layout_constraintEnd_toStartOf="@id/img2"
