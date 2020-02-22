@@ -25,6 +25,7 @@
         <activity
             android:name=".assessment.AssesmentBaseActivity"
             android:label="@string/title_activity_assesment_base"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoggedInUserLanding.MainLandingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
