@@ -198,8 +198,8 @@
     <fragment
         android:id="@+id/scheduleFilterFragment"
         android:name="com.bdjobs.app.assessment.FilterScheduleFragment"
-        android:label="fragment_schedule_filter"
-        tools:layout="@layout/fragment_filter_schedule" >
+        android:label="Schedule Filter"
+        tools:layout="@layout/fragment_filter_schedule">
         <action
             android:id="@+id/action_scheduleFilterFragment_to_chooseScheduleFragment"
             app:destination="@id/chooseScheduleFragment"
