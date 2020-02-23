@@ -17,7 +17,7 @@ class AssesmentBaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_assesment_base)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         toolbar.title = "Employability Certification"
 
@@ -33,7 +33,8 @@ class AssesmentBaseActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.assessmentNavHostFragment)
 
         NavigationUI.setupActionBarWithNavController(this, navController)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
 
     }
 

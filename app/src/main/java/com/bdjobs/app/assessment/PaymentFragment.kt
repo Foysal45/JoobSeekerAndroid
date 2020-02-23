@@ -71,7 +71,7 @@ class PaymentFragment : Fragment() {
         }
 
         binding.testHomeCard.setOnClickListener {
-            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from BDJobs website", Snackbar.LENGTH_INDEFINITE)
+            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
             snackbar.apply {
                 setAction("Go To Website") {
                     val url = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
