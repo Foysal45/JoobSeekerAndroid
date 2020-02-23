@@ -114,5 +114,13 @@ class HomeFragment : Fragment() {
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+        try{
+            snackbar.dismiss()
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+    }
 
 }
