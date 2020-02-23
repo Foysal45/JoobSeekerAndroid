@@ -22,6 +22,7 @@ import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_module_view.*
 
 import org.jetbrains.anko.support.v4.selector
+import org.jetbrains.anko.support.v4.toast
 
 
 /**
@@ -62,6 +63,10 @@ class ModulesViewFragment : Fragment() {
                 et_degree_level?.setText(degreeLevels[i])
                 upDateView()
             }
+        }
+
+        btn_view_module.setOnClickListener{
+            toast("select degree level")
         }
 
         btn_cl?.setOnClickListener {
