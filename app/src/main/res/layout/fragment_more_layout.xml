@@ -245,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="Assessment"
-                app:icon="@drawable/ic_job_application_status_image" />
+                app:icon="@drawable/ic_assessment_image" />
 
 
             <com.google.android.material.button.MaterialButton

@@ -19,9 +19,6 @@ import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.layout_assessment_no_pending_test.*
-import kotlinx.android.synthetic.main.layout_assessment_test_info.view.*
 import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 import kotlinx.android.synthetic.main.layout_what_is_employability_certification.*
 import org.jetbrains.anko.startActivity
