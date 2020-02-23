@@ -136,9 +136,13 @@ fun bindTakeNewTestCardVisibility(constraintLayout: ConstraintLayout, homeData: 
 fun bindTestDataVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
 
     homeData?.let {
-        if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0") && !homeData.resumeTestBtnFormat.equals("2")) {
+
+        if(homeData.resumeTestBtnFormat.equals("3")){
+            constraintLayout.visibility = View.GONE
+        }else if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0") && !homeData.resumeTestBtnFormat.equals("2")) {
             constraintLayout.visibility = View.VISIBLE
         } else {
+            Log.d("assessment info", homeData.resumeTestBtnFormat)
             constraintLayout.visibility = View.GONE
         }
     }
