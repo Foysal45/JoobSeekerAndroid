@@ -3,10 +3,11 @@ package com.bdjobs.app.assessment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
@@ -15,6 +16,8 @@ import com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel
 import com.bdjobs.app.databinding.FragmentFilterScheduleBinding
 import kotlinx.android.synthetic.main.fragment_filter_schedule.*
 import org.jetbrains.anko.support.v4.selector
+import org.jetbrains.anko.support.v4.toast
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,6 +57,18 @@ class FilterScheduleFragment : Fragment() {
 
         binding.viewModel = scheduleViewModel
 
+        //might be set into xml or move to different fragment
+        try{
+            Log.d("from - ", binding.viewModel?.scheduleRequest?.fromDate)
+            Log.d("to - ", binding.viewModel?.scheduleRequest?.toDate)
+            binding.filterFromTv.setText(binding.viewModel?.scheduleRequest?.fromDate)
+            binding.filterToTv.setText(binding.viewModel?.scheduleRequest?.toDate)
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+
         binding.filterFromTv?.setOnClickListener {
             openDialog(it)
         }
@@ -75,7 +90,9 @@ class FilterScheduleFragment : Fragment() {
         }
 
         binding.filterSearchBtn?.setOnClickListener {
-            findNavController().navigate(FilterScheduleFragmentDirections.actionScheduleFilterFragmentToChooseScheduleFragment(scheduleViewModel.scheduleRequest))
+            if(dateValidationCheck()){
+                findNavController().navigate(FilterScheduleFragmentDirections.actionScheduleFilterFragmentToChooseScheduleFragment(scheduleViewModel.scheduleRequest))
+            }
         }
 
         return binding.root
@@ -115,6 +132,25 @@ class FilterScheduleFragment : Fragment() {
             filter_to_tv.setText(to)
             scheduleViewModel.scheduleRequest.toDate = to
         }
+    }
+
+
+
+    private fun dateValidationCheck(): Boolean {
+
+        val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+        try {
+            val dateFrom = sdf.parse(filter_from_tv.text.toString())
+            val dateTo = sdf.parse(filter_to_tv.text.toString())
+
+            if (dateFrom.after(dateTo)) {
+                toast("Start Date cannot be greater than End Date!")
+                return false
+            }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return true
     }
 
 }
