@@ -13,6 +13,8 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.assessment.models.Booking
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
@@ -74,8 +76,8 @@ class PaymentFragment : Fragment() {
             snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
             snackbar.apply {
                 setAction("Go To Website") {
-                    val url = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
-                    context.startActivity<WebActivity>("url" to url, "from" to "assessment")
+//                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
+                    context.openUrlInBrowser(Constants.base_url_assessment_web)
                 }.show()
             }
         }

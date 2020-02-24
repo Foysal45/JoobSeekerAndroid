@@ -135,6 +135,7 @@ class Constants {
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
         const val base_url_module_sample = "http://mybdjobs.bdjobs.com/mybdjobs/assessment/samples/"
+        const val base_url_assessment_web = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
 
         const val key_go_to_home = "goToHome"
         const val BdjobsUserRequestCode = 1

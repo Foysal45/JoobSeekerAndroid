@@ -14,13 +14,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.layout_need_more_information.view.*
-import kotlinx.android.synthetic.main.layout_what_is_employability_certification.*
+import kotlinx.android.synthetic.main.layout_what_is_employability_certification.view.*
 import org.jetbrains.anko.startActivity
 
 /**
@@ -45,9 +47,10 @@ class HomeFragment : Fragment() {
 
         binding.homeViewModel = viewModel
 
-        learn_more_btn?.setOnClickListener { view ->
+        binding.whatIsEmployabilityCertificationCl.learn_more_btn?.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_viewPagerFragment_to_testInstructionFragment)
         }
+
 
         binding.btnCl?.setOnClickListener {
             it.findNavController().navigate(R.id.action_viewPagerFragment_to_modulesViewFragment)
@@ -62,12 +65,30 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_viewPagerFragment_to_chooseScheduleFragment)
         }
 
+        binding.assessmentInfo?.cancelBtn?.setOnClickListener {
+            Log.d("rakib", "${viewModel.homeData.value?.resumeTestBtnFormat}")
+
+
+            when (viewModel.homeData.value?.resumeTestBtnFormat) {
+                "1", "4" -> {
+                    snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
+                    snackbar.apply {
+                        setAction("Go To Website") {
+//                          context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
+                            context.openUrlInBrowser(Constants.base_url_assessment_web)
+                        }.show()
+                    }
+                }
+            }
+
+        }
+
         binding.startTest.startBtn.setOnClickListener {
             snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
             snackbar.apply {
                 setAction("Go To Website") {
-                    val url = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
-                    context.startActivity<WebActivity>("url" to url, "from" to "assessment")
+//                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
+                    context.openUrlInBrowser(Constants.base_url_assessment_web)
                 }.show()
             }
         }
