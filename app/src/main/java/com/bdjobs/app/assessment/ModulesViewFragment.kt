@@ -66,7 +66,7 @@ class ModulesViewFragment : Fragment() {
         }
 
         btn_view_module.setOnClickListener{
-            toast("select degree level")
+            toast("Select Degree Levels")
         }
 
         btn_cl?.setOnClickListener {
