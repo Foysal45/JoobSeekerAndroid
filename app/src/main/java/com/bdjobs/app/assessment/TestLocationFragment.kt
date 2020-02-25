@@ -44,14 +44,14 @@ class TestLocationFragment : Fragment() {
 
         binding.testHomeCard?.setOnClickListener {
 //            findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking, ScheduleData()))
-            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
-            snackbar.apply {
-                setAction("Go To Website") {
-//                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
-                    context.openUrlInBrowser(Constants.base_url_assessment_web)
-
-                }.show()
-            }
+            snackbar = Snackbar.make(binding.testLocationCl, "Take test from Home With a laptop or desktop", Snackbar.LENGTH_INDEFINITE)
+//            snackbar.apply {
+//                setAction("Go To Website") {
+////                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
+//                    context.openUrlInBrowser(Constants.base_url_assessment_web)
+//
+//                }.show()
+//            }
         }
 
         binding.testCenterCard?.setOnClickListener {

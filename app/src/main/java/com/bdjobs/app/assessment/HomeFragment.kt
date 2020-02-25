@@ -70,11 +70,14 @@ class HomeFragment : Fragment() {
 
 
             when (viewModel.homeData.value?.resumeTestBtnFormat) {
-                "1", "4" -> {
+                "1" -> {
+                    snackbar = Snackbar.make(binding.homeCl, "Start test from a laptop or desktop with ", Snackbar.LENGTH_INDEFINITE)
+                }
+                "4" -> {
                     snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
                     snackbar.apply {
                         setAction("Go To Website") {
-//                          context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
+                            //context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
                             context.openUrlInBrowser(Constants.base_url_assessment_web)
                         }.show()
                     }
@@ -84,13 +87,13 @@ class HomeFragment : Fragment() {
         }
 
         binding.startTest.startBtn.setOnClickListener {
-            snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
-            snackbar.apply {
-                setAction("Go To Website") {
-//                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
-                    context.openUrlInBrowser(Constants.base_url_assessment_web)
-                }.show()
-            }
+            snackbar = Snackbar.make(binding.homeCl, "Start test from a laptop or desktop with ", Snackbar.LENGTH_INDEFINITE)
+//            snackbar.apply {
+//                setAction("Go To Website") {
+////                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
+//                    context.openUrlInBrowser(Constants.base_url_assessment_web)
+//                }.show()
+//            }
         }
 
         binding.needMoreInfoCl.call_cl.setOnClickListener {
