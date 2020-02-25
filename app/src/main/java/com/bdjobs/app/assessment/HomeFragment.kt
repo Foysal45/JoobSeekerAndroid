@@ -96,11 +96,18 @@ class HomeFragment : Fragment() {
 //            }
         }
 
-        binding.needMoreInfoCl.call_cl.setOnClickListener {
+        binding.needMoreInfoCl.call_tv.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse("tel:01844519336")
             startActivity(intent)
         }
+
+        binding.needMoreInfoCl.call_helpline_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:16479")
+            startActivity(intent)
+        }
+
 
         return binding.root
     }

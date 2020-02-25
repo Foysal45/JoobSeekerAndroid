@@ -39,7 +39,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_cl"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -72,16 +72,27 @@
 
                 <TextView
                     android:id="@+id/call_tv"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="@string/call"
                     android:textColor="#13A10E"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@id/call_img"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/call_helpline_tv"
                     app:layout_constraintStart_toEndOf="@id/call_img"
                     app:layout_constraintTop_toTopOf="@id/call_img" />
+                <TextView
+                    android:id="@+id/call_helpline_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_helpline"
+                    android:textColor="#13A10E"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/call_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/call_tv"
+                    app:layout_constraintTop_toTopOf="@id/call_tv" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
