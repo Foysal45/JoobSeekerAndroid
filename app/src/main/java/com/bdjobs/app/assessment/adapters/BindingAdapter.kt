@@ -61,14 +61,23 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, sta
 
 @BindingAdapter("emptyView", "status")
 fun bindEmptyView(constraintLayout: ConstraintLayout, data: List<ScheduleData?>?, status: Status?) {
-    if (status == Status.DONE) {
-        if (data == null) {
-            constraintLayout.visibility = View.VISIBLE
-        } else {
+
+    when (status) {
+        Status.LOADING -> {
             constraintLayout.visibility = View.GONE
         }
-    } else{
-        constraintLayout.visibility = View.GONE
+
+        Status.DONE -> {
+            if (data == null) {
+                constraintLayout.visibility = View.VISIBLE
+            } else {
+                constraintLayout.visibility = View.GONE
+            }
+        }
+
+        Status.ERROR -> {
+            constraintLayout.visibility = View.VISIBLE
+        }
     }
 }
 
