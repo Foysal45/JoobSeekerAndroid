@@ -72,6 +72,7 @@ class HomeFragment : Fragment() {
             when (viewModel.homeData.value?.resumeTestBtnFormat) {
                 "1" -> {
                     snackbar = Snackbar.make(binding.homeCl, "Start test from a laptop or desktop with ", Snackbar.LENGTH_INDEFINITE)
+                    snackbar.show()
                 }
                 "4" -> {
                     snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
@@ -94,6 +95,8 @@ class HomeFragment : Fragment() {
 //                    context.openUrlInBrowser(Constants.base_url_assessment_web)
 //                }.show()
 //            }
+            snackbar.show()
+
         }
 
         binding.needMoreInfoCl.call_tv.setOnClickListener {

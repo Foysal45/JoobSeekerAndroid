@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.bdjobs.app.R
-
 import kotlinx.android.synthetic.main.activity_assesment_base.*
+
 
 class AssesmentBaseActivity : AppCompatActivity() {
 
@@ -30,9 +30,18 @@ class AssesmentBaseActivity : AppCompatActivity() {
 
         navHostFragment.navController.graph = graph
 
+        val appBarConfiguration =
+                AppBarConfiguration.Builder()
+                        .setFallbackOnNavigateUpListener { onNavigateUp() }
+                        .build()
+
         val navController = this.findNavController(R.id.assessmentNavHostFragment)
 
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        toolbar.apply {
+            setupActionBarWithNavController(navController, appBarConfiguration)
+        }
+
+//        NavigationUI.setupActionBarWithNavController(this, navController)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
@@ -40,7 +49,13 @@ class AssesmentBaseActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.assessmentNavHostFragment)
-        return navController.navigateUp()
+        return navController.navigateUp()|| super.onSupportNavigateUp()
     }
+
+    override fun onNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
 
 }

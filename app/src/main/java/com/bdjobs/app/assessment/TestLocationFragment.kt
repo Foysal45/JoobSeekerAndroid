@@ -52,6 +52,8 @@ class TestLocationFragment : Fragment() {
 //
 //                }.show()
 //            }
+            snackbar.show()
+
         }
 
         binding.testCenterCard?.setOnClickListener {
