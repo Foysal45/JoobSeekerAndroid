@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
         binding.homeViewModel = viewModel
 
         binding.whatIsEmployabilityCertificationCl.learn_more_btn?.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_viewPagerFragment_to_testInstructionFragment)
+            context?.openUrlInBrowser(Constants.url_assessment_help)
         }
 
 
