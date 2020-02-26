@@ -107,7 +107,7 @@
             android:id="@+id/choose_center_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Center"
+            android:text="Choose Test Center"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/view_test_tv"
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Test from Home"
+                    android:text="Home"
                     android:textColor="#1565C0"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -225,7 +225,7 @@
             app:layout_constraintTop_toBottomOf="@id/test_home_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="366dp"
                 android:layout_height="match_parent"
                 android:paddingStart="13dp"
                 android:paddingTop="15dp"
@@ -249,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Test at Test Center"
+                    android:text="Test Center"
                     android:textColor="#1565C0"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -289,6 +289,16 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+
+        <include
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toBottomOf="@id/test_center_card"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            layout="@layout/layout_assessment_location_instruction" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:visibility="gone"

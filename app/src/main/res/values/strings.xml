@@ -417,7 +417,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
 
     <string name="tv_instructions_do_title_txt">Do\'s</string>
     <string name="tv_instructions_do_internet_txt">Make sure you have a good internet connection.</string>
-    <string name="tv_instructions_do_time_txt">A clock will show the remaining time.</string>
+    <string name="tv_instructions_do_time_txt">If the test gets interrupted, just resume test within 4 hours.</string>
     <string name="tv_instructions_do_clock_txt">Follow the clock displays the remaining duration and try to complete your test.</string>
 
     <string name="tv_instructions_dont_title_txt">Dont\'s</string>
@@ -428,5 +428,8 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="tv_successful_txt">Successful</string>
     <string name="tv_test_date_txt">Test Date</string>
     <string name="tv_test_time_txt">Test Time</string>
+    <string name="assessment_requirement_instruction">Certification test requires a laptop or desktop with a webcam and good internet connection</string>
+    <string name="assessment_payment_success_instruction"><b>Now you can Take Test from Home only TK 300!!</b>\n\nPay 500 TK to attend test at venue. (Test fee 300 TK + Venue cost 200 TK)</string>
+    <string name="tv_instructions_do_webcam_text">A laptop/desktop with a webcam is required</string>
 
 </resources>
