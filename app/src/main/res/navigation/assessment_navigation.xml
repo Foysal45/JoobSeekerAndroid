@@ -31,8 +31,10 @@
             app:destination="@id/testInstructionFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_viewPagerFragment_to_resultFragment"
@@ -70,8 +72,10 @@
             app:destination="@id/viewPagerFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/testLocationFragment"
