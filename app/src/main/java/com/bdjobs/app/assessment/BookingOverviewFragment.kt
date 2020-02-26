@@ -1,6 +1,8 @@
 package com.bdjobs.app.assessment
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_booking_overview.*
+import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -84,6 +87,19 @@ class BookingOverviewFragment : Fragment(), OnMapReadyCallback {
               }
           }
         })
+
+        binding.needMoreCl.call_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:01844519336")
+            startActivity(intent)
+        }
+
+        binding.needMoreCl.call_helpline_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:16479")
+            startActivity(intent)
+        }
+
 
         return binding.root
     }
