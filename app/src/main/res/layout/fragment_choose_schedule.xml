@@ -110,7 +110,7 @@
             android:id="@+id/choose_center_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Center"
+            android:text="Choose Test Center"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/view_test_tv"

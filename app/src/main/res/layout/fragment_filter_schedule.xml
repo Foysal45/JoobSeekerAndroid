@@ -117,7 +117,7 @@
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 .-"
                 android:focusableInTouchMode="false"
                 android:fontFamily="@font/roboto"
-                android:hint="Test Venue"
+                android:hint="Test Center"
                 android:importantForAutofill="noExcludeDescendants"
                 android:longClickable="false"
                 android:maxLength="50"

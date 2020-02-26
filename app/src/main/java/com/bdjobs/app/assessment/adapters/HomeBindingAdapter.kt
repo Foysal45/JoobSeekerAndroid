@@ -103,7 +103,7 @@ fun bindExamDate(textView: TextView, date: String?) {
 fun bindFeeText(textView: TextView, fee: String?) {
     fee?.let {
         if (it != "")
-            textView.text = "BDT $fee/-"
+            textView.text = "Taka $fee/-"
     }
 }
 
