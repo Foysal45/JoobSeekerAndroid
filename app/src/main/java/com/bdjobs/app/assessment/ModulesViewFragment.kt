@@ -3,24 +3,20 @@ package com.bdjobs.app.Assessment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.bdjobs.app.Databases.External.DataStorage
-
 import com.bdjobs.app.R
-
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.assessment.adapters.ModuleListAdapter
 import com.google.android.material.chip.Chip
-
 import kotlinx.android.synthetic.main.fragment_module_view.*
-
+import kotlinx.android.synthetic.main.layout_view_module_instruction.*
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.toast
 
@@ -71,6 +67,11 @@ class ModulesViewFragment : Fragment() {
 
         btn_cl?.setOnClickListener {
             findNavController().navigate(R.id.action_modulesViewFragment_to_testLocationFragment)
+        }
+
+        learn_more_btn.setOnClickListener{
+            findNavController().navigate(R.id.action_modulesViewFragment_to_testInstructionFragment)
+
         }
     }
 
