@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.databinding.ItemScheduleBinding
 import timber.log.Timber
@@ -21,7 +22,7 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
         ListAdapter<ScheduleData, ScheduleListAdapter.ScheduleViewHolder>(DiffUserCallback) {
 
 //    private var selectedItemViewHolder: ScheduleViewHolder? = null
-    
+
     private val selectedItemIdLive: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -38,12 +39,12 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
                 schedule,
                 context,
                 lifecycleOwner,
-                selectedItemIdLive,
+                //selectedItemIdLive,
                 ScheduleClickListener {
                     // Deselect last selected item
 //                    selectedItemViewHolder?.apply {
 
-                    selectedItemIdLive.value = schedule.schlId ?: "0"
+                    //selectedItemIdLive.value = schedule.schlId ?: "-1"
 
                     clickListener.onClick(it)
 
@@ -64,7 +65,8 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
 //        if (schedule.actionType == "U" && position == 0) {
 //            Log.d("rakib", "${schedule.testTime}")
 //            holder.select(context)
-//        }
+//        } else
+//            holder.deselect(context)
     }
 
     public fun selectItem(id: String) {
@@ -102,20 +104,29 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
                 schedule: ScheduleData,
                 context: Context,
                 lifecycleOwner: LifecycleOwner,
-                liveData: LiveData<String>,
+                //liveData: LiveData<String>,
                 clickListener: ScheduleClickListener
         ) {
             binding.schedule = schedule
-            binding.clickListener = clickListener
             binding.executePendingBindings()
+            binding.clickListener = clickListener
 
-            if(position == 0 && schedule.actionType=="U") {
+//            schedule.strBookingStatus?.let {
+//                //binding.scheduleCl.isClickable = !it.equalIgnoreCase("False")
+//                if (it.equalIgnoreCase("False"))
+//                    select(context)
+//                else
+//                    deselect(context)
+//            }
+
+
+            if(schedule.actionType=="U") {
                 select(context)
             } else {
                 deselect(context)
             }
 
-            liveData.observe(lifecycleOwner, Observer {
+            // liveData.observe(lifecycleOwner, Observer {
 
 
 //                if (it == schedule.schlId) {
@@ -124,7 +135,13 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
 //                    deselect(context)
 //                }
 
-            })
+//                if (position == 0 ) {
+//                    select(context)
+//                } else {
+//                    deselect(context)
+//                }
+//
+            //  })
         }
 
 

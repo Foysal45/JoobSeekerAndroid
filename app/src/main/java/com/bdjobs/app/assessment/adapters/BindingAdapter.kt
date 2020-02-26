@@ -28,7 +28,11 @@ import org.jetbrains.anko.textColor
 fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData?>?) {
     val adapter = recyclerView.adapter as CertificateListAdapter
     data?.let {
+
+
+
         adapter.submitList(data)
+
     }
 }
 
@@ -49,6 +53,29 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, sta
             } else {
                 recyclerView.visibility = View.VISIBLE
                 val adapter = recyclerView.adapter as ScheduleListAdapter
+//                adapter.notifyDataSetChanged()
+                adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                    override fun onChanged() {
+                        recyclerView.scrollToPosition(0)
+                    }
+                    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                        recyclerView.scrollToPosition(0)
+                    }
+                    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                        recyclerView.scrollToPosition(0)
+                    }
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                        recyclerView.scrollToPosition(0)
+                    }
+                    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                        recyclerView.scrollToPosition(0)
+                    }
+                    override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                        recyclerView.scrollToPosition(0)
+                    }
+                })
+
+                adapter.notifyDataSetChanged()
                 adapter.submitList(data)
             }
         }
@@ -195,6 +222,12 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
             chart.invalidate()
         }
 
+        chart.description.isEnabled = false
+
+        chart.legend.isEnabled = false
+
+        barDataSet.valueTextColor = Color.parseColor("#FFFFFF")
+        barDataSet.valueTextSize = 8f
 
         //Add animation to the graph
         chart.animateY(1000)

@@ -40,6 +40,8 @@ data class ScheduleData(
         @Json(name = "testTime")
         var testTime: String? = "",
         @Json(name = "isPaid")
-        var isPaid: String? = ""
+        var isPaid: String? = "",
+        @Json(name = "strBookingStatus")
+        var strBookingStatus: String? = ""
 ):Parcelable
 

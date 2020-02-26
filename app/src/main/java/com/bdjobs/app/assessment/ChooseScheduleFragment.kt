@@ -37,10 +37,12 @@ class ChooseScheduleFragment : Fragment() {
         binding.scheduleViewModel = scheduleViewModel
 
         try {
+
             binding.scheduleRv.adapter = ScheduleListAdapter(requireNotNull(context), viewLifecycleOwner, ScheduleClickListener {
                 //Toast.makeText(activity, it.schlId, Toast.LENGTH_SHORT).show()
                 findNavController().navigate(ChooseScheduleFragmentDirections.actionChooseScheduleFragmentToBookingOverviewFragment(it))
             })
+            binding.scheduleRv?.adapter?.notifyDataSetChanged()
         } catch (e: Exception) {
             Log.d("rakib", e.message)
         }
