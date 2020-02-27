@@ -58,6 +58,7 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
             venue = "0"
         }
 
+
         viewModelScope.launch {
             scheduleList?.clear()
             filteredScheduleList?.clear()
