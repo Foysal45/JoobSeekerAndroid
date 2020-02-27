@@ -83,21 +83,6 @@ fun bindVenueText(textView: TextView, venue: String?) {
     }
 }
 
-@BindingAdapter("date")
-fun bindExamDate(textView: TextView, date: String?) {
-    date?.let {
-        Log.d("rakib", "$it")
-//        var originalFormat: DateFormat = SimpleDateFormat("MM/dd/YYYY", Locale.US)
-//        var targetFormat: DateFormat = SimpleDateFormat("dd MMM YYYY")
-//
-//        if (it != "") {
-//            var formattedDate: Date = originalFormat.parse(it)
-//            textView.text = targetFormat.format(formattedDate)
-//        }
-        textView.text = date
-    }
-}
-
 
 @BindingAdapter("fee")
 fun bindFeeText(textView: TextView, fee: String?) {
