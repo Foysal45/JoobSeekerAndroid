@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.assessment.Event
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.CertificateData
@@ -36,6 +37,8 @@ class ResultViewModel(certificateData: CertificateData, application: Application
     val reportLink : LiveData<String>
         get() = _reportLink
 
+    var isUpdate = false
+
     init {
         getResults()
     }
@@ -48,6 +51,9 @@ class ResultViewModel(certificateData: CertificateData, application: Application
                 downloadLink = _result.value?.reportLink
                 _status.value = Status.DONE
 
+                if (result.value?.isShowIncv!!.equalIgnoreCase("False"))
+                    isUpdate = true
+
             } catch (e: Exception) {
                 _status.value = Status.ERROR
             }
@@ -55,16 +61,20 @@ class ResultViewModel(certificateData: CertificateData, application: Application
     }
 
     fun onCheckedChanged(checked: Boolean) {
+        Log.d("rakiv", "$checked")
         viewModelScope.launch {
             try {
-                val result = resultRepository.updateResult(
-                        when (checked) {
-                            true -> "i"
-                            false -> "d"
-                        }
-                )
-                _resultMessage.value = result.message
-                Log.d("rakib", "$checked ${resultMessage.value}")
+                if (isUpdate) {
+                    val result = resultRepository.updateResult(
+                            when (checked) {
+                                true -> "i"
+                                false -> "d"
+                            }
+                    )
+                    _resultMessage.value = result.message
+                    Log.d("rakib", "$checked ${resultMessage.value}")
+                } else
+                    isUpdate = true
             } catch (e: Exception) {
             }
         }

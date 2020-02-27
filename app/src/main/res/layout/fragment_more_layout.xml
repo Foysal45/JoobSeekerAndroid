@@ -141,11 +141,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/assessment_MBTN"
+                android:layout_marginTop="20dp"
+                style="@style/more.button"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Employability Certification"
+                app:icon="@drawable/ic_assessment_image" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#E0E0E0"
+                android:visibility="visible" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:text="Job Search"
                 android:textColor="#999999" />
 
@@ -154,7 +172,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:text="General Search"
                 android:textAllCaps="false"
                 android:textColor="#212121"
@@ -231,22 +249,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:background="#E0E0E0"
                 android:visibility="visible" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/assessment_MBTN"
-                android:layout_marginTop="20dp"
-                style="@style/more.button"
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="Assessment"
-                app:icon="@drawable/ic_assessment_image" />
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/jobApplicationStatus_MBTN"
@@ -255,6 +260,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
+                android:layout_marginTop="20dp"
                 android:text="Job Application Guideline"
                 app:icon="@drawable/ic_job_application_status_image" />
 

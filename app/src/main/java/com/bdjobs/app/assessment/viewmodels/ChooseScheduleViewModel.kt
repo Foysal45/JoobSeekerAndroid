@@ -18,14 +18,15 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
 
     var applications = application
 
-    private  var scheduleRepository : ScheduleRepository
+    private var scheduleRepository: ScheduleRepository
 
-    private var scheduleList: List<ScheduleData?>? = null
+    private var scheduleList: MutableList<ScheduleData?>? = null
+    private var filteredScheduleList: MutableList<ScheduleData?>? = mutableListOf()
 
     var scheduleRequest: ScheduleRequest = ScheduleRequest()
 
     private val _status = MutableLiveData<Status>()
-    val status :LiveData<Status>
+    val status: LiveData<Status>
         get() = _status
 
 //    private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -43,7 +44,7 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
 
     init {
 //        now = Calendar.getInstance()
-        scheduleRepository = ScheduleRepository(application,scheduleRequest)
+        scheduleRepository = ScheduleRepository(application, scheduleRequest)
         _status.value = Status.DONE
     }
 
@@ -58,12 +59,25 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
         }
 
         viewModelScope.launch {
+            scheduleList?.clear()
+            filteredScheduleList?.clear()
             _status.value = Status.LOADING
             try {
                 _status.value = Status.LOADING
-                scheduleList = scheduleRepository.getScheduleList().data
-                Log.d("rakib", scheduleList?.size.toString())
-                _schedules.value = scheduleList
+                scheduleList = scheduleRepository.getScheduleList().data?.toMutableList()
+                Log.d("rakib before", scheduleList?.size.toString())
+
+                scheduleList?.forEach {
+                        Log.d("rakib", "$it")
+                        if (it?.strBookingStatus == "0" || it?.strBookingStatus == "2"){
+                            Log.d("rakib", "got it")
+                            filteredScheduleList?.add(it)
+                        }
+                }
+
+                Log.d("rakib after", filteredScheduleList?.size.toString())
+
+                _schedules.value = filteredScheduleList
                 _status.value = Status.DONE
             } catch (e: Exception) {
                 _status.value = Status.ERROR
@@ -72,13 +86,13 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
     }
 
 
-    fun filterScheduleList(){
+    fun filterScheduleList() {
 
         viewModelScope.launch {
             _status.value = Status.LOADING
             try {
                 _status.value = Status.LOADING
-                scheduleList = scheduleRepository.getScheduleList().data
+                scheduleList = scheduleRepository.getScheduleList().data?.toMutableList()
                 _schedules.value = scheduleList
                 _status.value = Status.DONE
             } catch (e: Exception) {

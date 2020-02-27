@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:text="Get Result"
+                    android:text='@{certificate.res.equals("0") ? "Get Result" : "View Result"}'
                     android:textSize="12sp"
                     android:textColor="#ac016d"
                     android:textAllCaps="false"

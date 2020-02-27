@@ -172,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="6dp"
                             android:onCheckedChanged="@{(switch, checked) -> resultViewModel.onCheckedChanged(checked)}"
-                            android:checked='@{resultViewModel.result.isShowIncv().equals("True") ? true : false}'
+                            android:checked='@{resultViewModel.result.isShowIncv().equalsIgnoreCase("True") ? true : false}'
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
