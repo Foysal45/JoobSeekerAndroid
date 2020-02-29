@@ -3,96 +3,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="certificate"
             type="com.bdjobs.app.assessment.models.CertificateData" />
+
         <variable
             name="clickListener"
             type="com.bdjobs.app.assessment.adapters.ClickListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#FFF"
+        app:cardCornerRadius="6dp"
+        android:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="#FFF"
-            app:cardCornerRadius="6dp">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/certificate_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text='@{certificate.testName.empty ? "bdjobs-amcat Certificate" : certificate.testName}'
+                android:textColor="#303030"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:textColor="#303030"
-                    android:fontFamily="@font/roboto_medium"
-                    android:id="@+id/certificate_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{certificate.testName.empty ? "bdjobs-amcat Certificate" : certificate.testName}'
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_date_of_comission"
+                android:tint="#595959"
 
-                <ImageView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/img"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_date_of_comission"
-                    android:tint="#595959"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/certificate_name_tv"
+                app:layout_constraintTop_toBottomOf="@id/certificate_name_tv"
+                app:layout_constraintVertical_bias="0.0" />
 
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/certificate_name_tv"
-                    app:layout_constraintTop_toBottomOf="@id/certificate_name_tv"
-                    app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/certificate_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@{certificate.testDate}"
+                android:textColor="#595959"
+                app:layout_constraintBottom_toBottomOf="@id/img"
+                app:layout_constraintStart_toEndOf="@id/img"
+                app:layout_constraintTop_toTopOf="@id/img" />
 
-                <TextView
-                    android:id="@+id/certificate_date_tv"
-                    android:layout_marginStart="5dp"
-                    app:layout_constraintBottom_toBottomOf="@id/img"
-                    android:text="@{certificate.testDate}"
-                    android:textColor="#595959"
-                    app:layout_constraintStart_toEndOf="@id/img"
-                    app:layout_constraintTop_toTopOf="@id/img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="4dp"
+                android:includeFontPadding="false"
+                android:onClick="@{()-> clickListener.onClick(certificate)}"
+                android:padding="0dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:paddingBottom="0dp"
+                android:text='@{certificate.res.equals("0") ? "Get Result" : "View Result"}'
+                android:textAllCaps="false"
+                android:textColor="#ac016d"
+                android:textSize="12sp"
+                app:backgroundTint="#F7E5F0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/certificate_name_tv" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:text='@{certificate.res.equals("0") ? "Get Result" : "View Result"}'
-                    android:textSize="12sp"
-                    android:textColor="#ac016d"
-                    android:textAllCaps="false"
-                    android:padding="0dp"
-                    android:paddingBottom="0dp"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="0dp"
-                    app:backgroundTint="#F7E5F0"
-                    android:onClick="@{()-> clickListener.onClick(certificate)}"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="15dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    app:layout_constraintTop_toTopOf="@id/certificate_name_tv"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.card.MaterialCardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

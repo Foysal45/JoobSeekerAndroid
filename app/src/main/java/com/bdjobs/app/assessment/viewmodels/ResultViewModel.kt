@@ -43,7 +43,7 @@ class ResultViewModel(certificateData: CertificateData, application: Application
         getResults()
     }
 
-    private fun getResults() {
+    fun getResults() {
         _status.value = Status.LOADING
         viewModelScope.launch {
             try {
@@ -61,7 +61,6 @@ class ResultViewModel(certificateData: CertificateData, application: Application
     }
 
     fun onCheckedChanged(checked: Boolean) {
-        Log.d("rakiv", "$checked")
         viewModelScope.launch {
             try {
                 if (isUpdate) {
@@ -72,7 +71,6 @@ class ResultViewModel(certificateData: CertificateData, application: Application
                             }
                     )
                     _resultMessage.value = result.message
-                    Log.d("rakib", "$checked ${resultMessage.value}")
                 } else
                     isUpdate = true
             } catch (e: Exception) {

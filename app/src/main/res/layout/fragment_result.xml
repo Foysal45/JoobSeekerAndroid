@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="resultViewModel"
-            type="com.bdjobs.app.assessment.viewmodels.ResultViewModel"/>
+            type="com.bdjobs.app.assessment.viewmodels.ResultViewModel" />
 
     </data>
 
@@ -17,10 +19,10 @@
 
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            app:resultShimmerVisibility="@{resultViewModel.status}"
             android:id="@+id/home_shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:resultShimmerVisibility="@{resultViewModel.status}"
             app:shimmer_duration="1200">
 
             <LinearLayout
@@ -28,29 +30,36 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
-                <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
 
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
 
         <ScrollView
-                app:resultScrollViewVisibility="@{resultViewModel.status}"
-        android:visibility="gone"
-        android:id="@+id/result_sv"
+            android:id="@+id/result_sv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_cl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_cl"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:resultScrollViewVisibility="@{resultViewModel.status}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -76,46 +85,58 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="* Improve your score by retaking same certification test again"
-                    android:textColor="#AC016D"
-                    android:textSize="12sp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Result Details"
+                    android:textColor="#303030"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/get_result_tv"
+                    android:id="@+id/test_name_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@{resultViewModel.result.testName}"
+                    android:layout_marginTop="6dp"
+                    android:text="Test Name: "
                     android:textColor="#303030"
-                    app:layout_constraintEnd_toStartOf="@id/guideline2"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
                     app:layout_constraintTop_toBottomOf="@id/heading_tv" />
 
-                <ImageView
-                    android:id="@+id/img"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                <TextView
+                    android:id="@+id/get_result_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@{resultViewModel.result.testName}"
+                    android:textColor="#303030"
+                    app:layout_constraintBottom_toBottomOf="@id/test_name_title_tv"
+                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/test_name_title_tv"
+                    app:layout_constraintTop_toTopOf="@id/test_name_title_tv"
+                    tools:text="bdjobs-amcat Certification Test" />
+
+                <TextView
+                    android:id="@+id/test_date_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_date_of_comission"
-                    android:tint="#303030"
+                    android:text="Test Date: "
+                    android:textColor="#303030"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@id/get_result_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/test_name_title_tv" />
 
                 <TextView
                     android:id="@+id/result_date_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    app:resultDate="@{resultViewModel.result.testDate}"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="#303030"
-                    app:layout_constraintBottom_toBottomOf="@id/img"
-                    app:layout_constraintStart_toEndOf="@id/img"
-                    app:layout_constraintTop_toTopOf="@id/img" />
+                    app:layout_constraintBottom_toBottomOf="@id/test_date_title_tv"
+                    app:layout_constraintStart_toEndOf="@id/test_date_title_tv"
+                    app:layout_constraintTop_toTopOf="@id/test_date_title_tv"
+                    app:resultDate="@{resultViewModel.result.testDate}" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/result_card"
@@ -128,7 +149,7 @@
                     app:cardCornerRadius="8dp"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@id/img"
+                    app:layout_constraintTop_toBottomOf="@id/test_date_title_tv"
                     app:strokeColor="#E6DECE"
                     app:strokeWidth="1dp">
 
@@ -146,17 +167,17 @@
                             android:paddingTop="6dp"
                             android:paddingEnd="10dp"
                             android:paddingBottom="6dp"
-                            app:scoreText="@{resultViewModel.result}"
                             android:textColor="#303030"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:scoreText="@{resultViewModel.result}" />
 
                         <TextView
                             android:id="@+id/show_on_resume_text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
+                            android:layout_marginEnd="4dp"
                             android:gravity="end"
                             android:text="Show on Resume"
                             android:textColor="#303030"
@@ -171,8 +192,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="6dp"
-                            android:onCheckedChanged="@{(switch, checked) -> resultViewModel.onCheckedChanged(checked)}"
                             android:checked='@{resultViewModel.result.isShowIncv().equalsIgnoreCase("True") ? true : false}'
+                            android:onCheckedChanged="@{(switch, checked) -> resultViewModel.onCheckedChanged(checked)}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -182,14 +203,28 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
+                    android:id="@+id/test_improvement_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="You can improve your score by retaking same certification test again. This Certificate is valid for two years."
+                    android:textColor="#757575"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toEndOf="@id/guideline1"
+                    app:layout_constraintTop_toBottomOf="@id/result_card" />
+
+                <TextView
                     android:id="@+id/module_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Module wise score"
                     android:textColor="#303030"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@+id/result_card" />
+                    app:layout_constraintTop_toBottomOf="@+id/test_improvement_tv" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/graph_card"
@@ -198,22 +233,22 @@
                     android:layout_marginTop="10dp"
                     android:paddingBottom="10dp"
                     app:cardBackgroundColor="#FFF"
-                    app:layout_constraintBottom_toTopOf="@id/notes_tv"
                     app:cardCornerRadius="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/notes_tv"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@id/module_tv" >
+                    app:layout_constraintTop_toBottomOf="@id/module_tv">
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:paddingBottom="10dp"
                         android:id="@+id/h_chart"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:graph="@{resultViewModel.result.modulewisescore}"/>
+                        android:paddingBottom="10dp"
+                        app:graph="@{resultViewModel.result.modulewisescore}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -222,10 +257,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="28dp"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Notes:"
                     android:textColor="#303030"
                     android:textSize="16sp"
-                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
                     app:layout_constraintTop_toBottomOf="@id/graph_card" />
 
@@ -279,11 +314,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
+                    android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"
                     app:layout_constraintStart_toEndOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@id/note2_tv"
-                    android:layout_marginBottom="20dp" />
+                    app:layout_constraintTop_toBottomOf="@id/note2_tv" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -291,18 +326,18 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            app:resultButtonVisibility="@{resultViewModel.status}"
-            android:visibility="gone"
             android:id="@+id/btn_cl"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:background="@drawable/button_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground">
+            app:resultButtonVisibility="@{resultViewModel.status}">
 
             <TextView
                 android:id="@+id/btn_txt_tv"
