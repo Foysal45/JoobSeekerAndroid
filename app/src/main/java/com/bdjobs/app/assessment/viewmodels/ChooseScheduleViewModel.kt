@@ -73,13 +73,20 @@ class ChooseScheduleViewModel(application: Application) : AndroidViewModel(appli
 
 
     fun filterScheduleList() {
-
+        scheduleList?.clear()
+        filteredScheduleList?.clear()
         viewModelScope.launch {
             _status.value = Status.LOADING
             try {
                 _status.value = Status.LOADING
                 scheduleList = scheduleRepository.getScheduleList().data?.toMutableList()
-                _schedules.value = scheduleList
+
+                scheduleList?.forEach {
+                    if (it?.strBookingStatus == "0" || it?.strBookingStatus == "2"){
+                        filteredScheduleList?.add(it)
+                    }
+                }
+                _schedules.value = filteredScheduleList
                 _status.value = Status.DONE
             } catch (e: Exception) {
                 _status.value = Status.ERROR

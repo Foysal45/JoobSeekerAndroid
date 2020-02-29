@@ -6,6 +6,7 @@ import android.graphics.Typeface.BOLD
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -96,13 +97,15 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, sta
 @BindingAdapter("emptyView", "status")
 fun bindEmptyView(constraintLayout: ConstraintLayout, data: List<ScheduleData?>?, status: Status?) {
 
+    Log.d("rakib","empty view called $data")
+
     when (status) {
         Status.LOADING -> {
             constraintLayout.visibility = View.GONE
         }
 
         Status.DONE -> {
-            if (data == null) {
+            if (data.isNullOrEmpty()) {
                 constraintLayout.visibility = View.VISIBLE
             } else {
                 constraintLayout.visibility = View.GONE
