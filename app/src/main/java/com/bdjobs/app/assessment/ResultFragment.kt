@@ -76,7 +76,6 @@ class ResultFragment : Fragment() {
             } catch (e: Exception) {
             }
         })
-
         return binding.root
     }
 
