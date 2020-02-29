@@ -267,7 +267,7 @@ fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetList
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH))
         dpd.datePicker.minDate = now
-        dpd.datePicker.maxDate = now+(1000*60*60*24*7)
+        //dpd.datePicker.maxDate = now+(1000*60*60*24*7)
 
         dpd.show()
     } else {
@@ -816,6 +816,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     return deviceInfo
 }
 
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
 //fun Context.showJobApplicationGuidelineDialog() {
 //

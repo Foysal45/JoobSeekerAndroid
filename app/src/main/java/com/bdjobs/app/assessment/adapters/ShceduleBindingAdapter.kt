@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 
 @BindingAdapter("time")
 fun bindScheduleTime(textView: TextView, time:String?){
-    time?.let {
+    time?.trim()?.let {
         var dateFormat = SimpleDateFormat("h aa")
         val dateFormat2 = SimpleDateFormat("hh:mm aa")
         try {
@@ -20,11 +20,17 @@ fun bindScheduleTime(textView: TextView, time:String?){
             textView.text = out
             Log.e("Time", out)
         } catch (e: ParseException) {
-            dateFormat = SimpleDateFormat("h:mm aa")
-            val date = dateFormat.parse(time)
-            val out = dateFormat2.format(date)
-            textView.text = out
-            Log.d("Time", "parse")
+            try{
+                dateFormat = SimpleDateFormat("h:mm aa")
+                val date = dateFormat.parse(time)
+                val out = dateFormat2.format(date)
+                textView.text = out
+                Log.d("Time", "parse")
+            }catch (e: ParseException){
+                Log.d("Time", "parse")
+
+            }
+            textView.text = time
         }
     }
 }

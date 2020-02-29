@@ -9,7 +9,6 @@
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         app:cardBackgroundColor="#E8F5E9"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
@@ -39,12 +38,11 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_cl"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv1">
 
@@ -52,7 +50,6 @@
                     android:id="@+id/tv2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="65dp"
                     android:gravity="center"
                     android:text="Call"
                     android:textColor="#13A10E"
@@ -80,8 +77,10 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@id/call_img"
                     app:layout_constraintEnd_toStartOf="@+id/call_helpline_tv"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/call_img"
                     app:layout_constraintTop_toTopOf="@id/call_img" />
+
                 <TextView
                     android:id="@+id/call_helpline_tv"
                     android:layout_width="0dp"
@@ -90,7 +89,6 @@
                     android:textColor="#13A10E"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@id/call_tv"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/call_tv"
                     app:layout_constraintTop_toTopOf="@id/call_tv" />
 

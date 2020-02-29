@@ -12,9 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.ResultViewModel
 import com.bdjobs.app.assessment.viewmodels.ResultViewModelFactory
 import com.bdjobs.app.databinding.FragmentResultBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_result.*
 
 /**
  * A simple [Fragment] subclass.
@@ -22,6 +25,8 @@ import com.bdjobs.app.databinding.FragmentResultBinding
 class ResultFragment : Fragment() {
 
     lateinit var resultViewModel: ResultViewModel
+
+    lateinit var snackbar: Snackbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -51,6 +56,34 @@ class ResultFragment : Fragment() {
             activity?.openUrlInBrowser(resultViewModel.downloadLink)
         }
 
+        resultViewModel.status.observe(viewLifecycleOwner, Observer {
+            try {
+                snackbar = Snackbar.make(result_sv, "Something went wrong", Snackbar.LENGTH_INDEFINITE)
+                when (it) {
+                    Status.ERROR ->
+
+                        snackbar.apply {
+                            setAction(
+                                    "Retry"
+                            ) {
+                                resultViewModel.getResults()
+                            }.show()
+                        }
+                    else -> {
+                        snackbar.dismiss()
+                    }
+                }
+            } catch (e: Exception) {
+            }
+        })
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        try {
+            snackbar.dismiss()
+        } catch (e: Exception) {
+        }
     }
 }

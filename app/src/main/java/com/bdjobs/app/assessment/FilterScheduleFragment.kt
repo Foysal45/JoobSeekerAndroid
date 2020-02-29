@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.Utilities.toEditable
 import com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel
 import com.bdjobs.app.databinding.FragmentFilterScheduleBinding
 import kotlinx.android.synthetic.main.fragment_filter_schedule.*
@@ -58,13 +59,17 @@ class FilterScheduleFragment : Fragment() {
         binding.viewModel = scheduleViewModel
 
         //might be set into xml or move to different fragment
-        try{
+        try {
             Log.d("from - ", binding.viewModel?.scheduleRequest?.fromDate)
             Log.d("to - ", binding.viewModel?.scheduleRequest?.toDate)
             binding.filterFromTv.setText(binding.viewModel?.scheduleRequest?.fromDate)
             binding.filterToTv.setText(binding.viewModel?.scheduleRequest?.toDate)
-
-        }catch (e: Exception){
+            binding.filterVenueTv.text = when (binding.viewModel?.scheduleRequest?.venue) {
+                "1" -> "Dhaka".toEditable()
+                "3" -> "Chattogram".toEditable()
+                else -> "".toEditable()
+            }
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -81,7 +86,7 @@ class FilterScheduleFragment : Fragment() {
             val venues = listOf("Dhaka", "Chattogram")
             selector("Please select your venue", venues) { dialogInterface, i ->
                 filter_venue_tv?.setText(venues[i])
-                scheduleViewModel.scheduleRequest.venue = when(venues[i]){
+                scheduleViewModel.scheduleRequest.venue = when (venues[i]) {
                     "Dhaka" -> "1"
                     "Chattogram" -> "3"
                     else -> "0"
@@ -90,7 +95,7 @@ class FilterScheduleFragment : Fragment() {
         }
 
         binding.filterSearchBtn?.setOnClickListener {
-            if(dateValidationCheck()){
+            if (dateValidationCheck()) {
                 findNavController().navigate(FilterScheduleFragmentDirections.actionScheduleFilterFragmentToChooseScheduleFragment(scheduleViewModel.scheduleRequest))
             }
         }
@@ -99,15 +104,15 @@ class FilterScheduleFragment : Fragment() {
     }
 
 
-    private fun openDialog(view: View){
+    private fun openDialog(view: View) {
 
-        when(view.id){
-            R.id.filter_from_tv->{
+        when (view.id) {
+            R.id.filter_from_tv -> {
                 activity?.apply {
                     pickDate(this, now, startDateSetListener, from = "assessment")
                 }
             }
-            R.id.filter_to_tv->{
+            R.id.filter_to_tv -> {
                 activity?.apply {
                     pickDate(this, now, endDateSetListener, from = "assessment")
                 }
@@ -133,7 +138,6 @@ class FilterScheduleFragment : Fragment() {
             scheduleViewModel.scheduleRequest.toDate = to
         }
     }
-
 
 
     private fun dateValidationCheck(): Boolean {

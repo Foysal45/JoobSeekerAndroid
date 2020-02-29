@@ -33,7 +33,7 @@ class PaymentViewModel(booking: Booking, application: Application) : AndroidView
 
     init {
         paymentRepository = PaymentRepository(application)
-        fullname = paymentRepository.bdjobsUserSession.userName
+        fullname = paymentRepository.bdjobsUserSession.fullName
         bookingRepository = BookingRepository(application, booking)
         _status.value = Status.DONE
     }

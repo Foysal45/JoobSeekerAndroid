@@ -21,7 +21,8 @@
     <fragment
         android:id="@+id/certificateListFragment"
         android:name="com.bdjobs.app.assessment.CertificateListFragment"
-        android:label="fragment_certificate_list" />
+        android:label="fragment_certificate_list"
+        tools:layout="@layout/fragment_certificate_list"/>
     <fragment
         android:id="@+id/viewPagerFragment"
         android:name="com.bdjobs.app.assessment.ViewPagerFragment"
@@ -152,7 +153,7 @@
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.bdjobs.app.assessment.ResultFragment"
-        android:label="Result"
+        android:label="Certification Overview"
         tools:layout="@layout/fragment_result">
         <argument
             android:name="CertificateData"
