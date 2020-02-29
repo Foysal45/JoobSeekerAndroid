@@ -34,27 +34,39 @@
             app:layout_constraintGuide_end="16dp" />
 
         <TextView
+            android:textSize="16sp"
             android:id="@+id/heading_tv"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:text="My Certificate List"
             android:textColor="#000"
-            app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:textSize="16sp"
+            tools:text="(26 Certificates)"
+            android:id="@+id/certificate_count_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
+            app:layout_constraintStart_toEndOf="@id/heading_tv"
+            app:layout_constraintTop_toTopOf="@id/heading_tv"
             app:totalCertificates="@{certificateViewModel.certificates}" />
 
-
         <com.facebook.shimmer.ShimmerFrameLayout
-            app:certificateShimmer="@{certificateViewModel.status}"
+
             android:id="@+id/shimmer"
             android:layout_width="0dp"
-            app:shimmer_duration="1200"
             android:layout_height="0dp"
+            app:certificateShimmer="@{certificateViewModel.status}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/heading_tv">
+            app:layout_constraintTop_toBottomOf="@id/heading_tv"
+            app:shimmer_duration="1200">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,8 +107,7 @@
             app:layout_constraintTop_toBottomOf="@id/heading_tv"
             app:layout_constraintVertical_bias="0.0"
             app:list="@{certificateViewModel.certificates}"
-            tools:itemCount="10"
-            />
+            tools:itemCount="10" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_data_cl"

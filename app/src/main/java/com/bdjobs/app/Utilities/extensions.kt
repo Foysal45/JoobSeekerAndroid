@@ -816,6 +816,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     return deviceInfo
 }
 
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
 //fun Context.showJobApplicationGuidelineDialog() {
 //

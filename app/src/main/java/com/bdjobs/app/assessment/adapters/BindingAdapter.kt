@@ -1,28 +1,35 @@
 package com.bdjobs.app.assessment.adapters
 
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Typeface.BOLD
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.assessment.enums.Status
-import com.bdjobs.app.assessment.models.*
+import com.bdjobs.app.assessment.models.CertificateData
+import com.bdjobs.app.assessment.models.ModuleWiseScore
+import com.bdjobs.app.assessment.models.ResultData
+import com.bdjobs.app.assessment.models.ScheduleData
 import com.github.mikephil.charting.charts.HorizontalBarChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import org.jetbrains.anko.textColor
+import com.github.mikephil.charting.renderer.XAxisRenderer
+import com.github.mikephil.charting.utils.MPPointF
+import com.github.mikephil.charting.utils.Transformer
+import com.github.mikephil.charting.utils.Utils
+import com.github.mikephil.charting.utils.ViewPortHandler
+
 
 @BindingAdapter("list")
 fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData?>?) {
@@ -128,7 +135,7 @@ fun bindTotalCertificatesTextView(textView: TextView, certificateList: List<Cert
         textView.visibility = View.GONE
     else {
         textView.visibility = View.VISIBLE
-        textView.text = "My Certificate List (${certificateList.size} Certificates)"
+        textView.text = if (certificateList.size > 1) "(${certificateList.size} Certificates)" else "(${certificateList.size} Certificate)"
     }
 }
 
@@ -156,8 +163,9 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         xAxis.isEnabled = true
         xAxis.setDrawAxisLine(true)
         xAxis.isAvoidFirstLastClippingEnabled
-        xAxis.gridColor = Color.parseColor("#004445")
+        xAxis.axisLineColor = Color.parseColor("#004445")
 
+        xAxis.axisLineWidth = 1.5f
 
         val yLeft = chart.axisLeft
 
@@ -166,6 +174,8 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         yLeft.axisMinimum = 0f
         yLeft.isEnabled = false
         yLeft.axisLineColor = Color.parseColor("#004445")
+
+        yLeft.gridColor = Color.parseColor("#004445")
 
         //Set label count to 5 as we are displaying 5 star rating
         xAxis.labelCount = moduleWiseScore.size
@@ -177,6 +187,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
 
         try {
             xAxis.valueFormatter = IndexAxisValueFormatter(subjectNameList)
+            //chart.setXAxisRenderer(CustomXAxisRenderer(chart.viewPortHandler, chart.xAxis, chart.getTransformer(YAxis.AxisDependency.LEFT)))
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -190,7 +201,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         yRight.isGranularityEnabled = true
         yRight.granularity = 1f
         yRight.axisLineColor = Color.parseColor("#004445")
-        yRight.zeroLineColor = Color.parseColor("#004445")
+        yRight.axisLineWidth = 1.5f
 
         yRight.setDrawZeroLine(true)
 
@@ -246,5 +257,17 @@ fun bindCertificateStatus(constraintLayout: ConstraintLayout, status: Status, ce
                 constraintLayout.visibility = View.GONE
         }
         Status.ERROR -> constraintLayout.visibility = View.GONE
+    }
+}
+
+class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) : XAxisRenderer(viewPortHandler, xAxis, trans) {
+
+    override fun drawLabel(c: Canvas?, formattedLabel: String, x: Float, y: Float, anchor: MPPointF?, angleDegrees: Float) {
+        try {
+            val line = formattedLabel.split("\n").toTypedArray()
+            Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees)
+            Utils.drawXAxisValue(c, line[1], x + mAxisLabelPaint.textSize, y + mAxisLabelPaint.textSize, mAxisLabelPaint, anchor, angleDegrees)
+        } catch (e: Exception) {
+        }
     }
 }

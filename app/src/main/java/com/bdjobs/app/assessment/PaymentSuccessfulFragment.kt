@@ -47,7 +47,6 @@ class PaymentSuccessfulFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-
         try {
             scheduleData = PaymentSuccessfulFragmentArgs.fromBundle(arguments!!).scheduleData
         } catch (e: Exception) {
@@ -64,7 +63,6 @@ class PaymentSuccessfulFragment : Fragment() {
         binding.btnCertificationHomeCl.setOnClickListener {
             findNavController().navigate(PaymentSuccessfulFragmentDirections.actionPaymentSuccessfulFragmentToViewPagerFragment("true"))
         }
-
         return binding.root
     }
 
@@ -84,6 +82,4 @@ class PaymentSuccessfulFragment : Fragment() {
         }
         return dateString
     }
-
-
 }

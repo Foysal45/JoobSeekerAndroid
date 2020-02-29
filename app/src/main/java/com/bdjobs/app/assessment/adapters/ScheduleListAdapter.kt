@@ -120,7 +120,7 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
 //            }
 
 
-            if(schedule.actionType=="U") {
+            if(schedule.strBookingStatus=="2") {
                 select(context)
             } else {
                 deselect(context)
