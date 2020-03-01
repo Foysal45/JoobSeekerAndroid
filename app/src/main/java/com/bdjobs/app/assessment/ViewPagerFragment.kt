@@ -41,8 +41,6 @@ class ViewPagerFragment : Fragment() {
             e.printStackTrace()
         }
 
-
-
         Log.d("rakibe", "$a")
 
         viewPagerAdapter = ViewPagerAdapter(this,a!!)

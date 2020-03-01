@@ -58,7 +58,7 @@
                     android:layout_marginTop="18dp"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
-                    android:text="Take Certification test"
+                    android:text="Take Certification Test"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:gravity="center"
-                    android:text="You have no pending certification test.\n
+                    android:text="You have no pending Certification Test.\n
 Take a new test"
                     android:textColor="#303030"
                     android:textSize="14sp"

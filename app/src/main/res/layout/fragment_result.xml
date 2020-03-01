@@ -207,7 +207,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="You can improve your score by retaking same certification test again. This Certificate is valid for two years."
+                    android:text="You can improve your score by retaking same Certification Test again. This Certificate is valid for two years."
                     android:textColor="#757575"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@id/guideline2"

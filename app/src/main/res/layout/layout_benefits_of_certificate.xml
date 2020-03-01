@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="bdjobs- amcat Certification Test increase "
+        android:text="bdjobs-amcat Certification Test increase "
         android:textColor="#767676"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"

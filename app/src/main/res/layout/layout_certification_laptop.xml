@@ -30,7 +30,7 @@
                 android:id="@+id/tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Certification test requires a laptop or desktop with a webcam and good internet connection"
+                android:text="Certification Test requires a laptop or desktop with a webcam and good internet connection"
                 android:textColor="#303030"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
