@@ -1,6 +1,8 @@
 package com.bdjobs.app.assessment
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -24,6 +26,7 @@ import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
 import com.bdjobs.app.databinding.FragmentPaymentBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_payment.*
+import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 import org.jetbrains.anko.startActivity
 
 /**
@@ -85,6 +88,19 @@ class PaymentFragment : Fragment() {
         paymentViewModel.navigateToSuccessful.observe(viewLifecycleOwner, Observer {
             findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentSuccessfulFragment(scheduleData))
         })
+
+        binding.needMoreCl.call_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:01844519336")
+            startActivity(intent)
+        }
+
+        binding.needMoreCl.call_helpline_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:16479")
+            startActivity(intent)
+        }
+
 
         return binding.root
     }
