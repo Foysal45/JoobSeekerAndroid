@@ -72,6 +72,10 @@ class Constants {
         var appliedJobsThreshold = 25
         var appliedJobLimit = 50
 
+        var totalContacted = 0
+        var totalNotContacted = 0
+        var totalHired = 0
+
         var calendar = Calendar.getInstance()
         var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
 //        val warningmsgThrsldDate = "31/10/2019" //dd/mm/yyyy

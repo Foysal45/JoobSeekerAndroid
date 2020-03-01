@@ -472,6 +472,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
+
                                     removeItem(position, holder?.cancelBTN)
                                     Constants.appliedJobsCount--
                                     session?.decrementJobsApplied()
@@ -536,6 +537,15 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     fun removeItem(position: Int, view: View) {
         try {
             if (appliedJobsLists?.size != 0) {
+
+                Log.d("rakib", "${appliedJobsLists?.get(position)?.title} ${appliedJobsLists?.get(position)?.status}")
+
+                when(appliedJobsLists?.get(position)?.status){
+                    "3" -> Constants.totalHired--
+                    "2" -> Constants.totalContacted--
+                    "1" -> Constants.totalNotContacted--
+                }
+
                 val deletedItem = appliedJobsLists?.get(position)
                 val jobid = appliedJobsLists?.get(position)?.jobId
                 val companyName = appliedJobsLists?.get(position)?.companyName

@@ -51,6 +51,10 @@ class AppliedJobsFragment : Fragment() {
     var jobApplyLimit = 50
     var availableJobs = 30
 
+    var totalContacted = 0
+    var totalNotContacted = 0
+    var totalHired = 0
+
     lateinit var messageValidDate: Date
     lateinit var currentDate: Date
 
@@ -226,9 +230,13 @@ class AppliedJobsFragment : Fragment() {
 
                             status_card_ll?.show()
 
-                            not_contacted_count_tv?.text = "${response?.body()?.activity?.get(0)?.totalNotContacted}"
-                            contacted_count_tv?.text = "${response?.body()?.activity?.get(0)?.totalContacted}"
-                            hired_count_tv?.text = "${response?.body()?.activity?.get(0)?.totalHired}"
+                            Constants.totalContacted = response?.body()?.activity?.get(0)?.totalContacted!!.toInt()
+                            Constants.totalNotContacted = response?.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
+                            Constants.totalHired = response?.body()?.activity?.get(0)?.totalHired!!.toInt()
+
+                            not_contacted_count_tv?.text = "${Constants.totalNotContacted}"
+                            contacted_count_tv?.text = "${Constants.totalContacted}"
+                            hired_count_tv?.text = "${Constants.totalHired}"
 
                             appliedJobsRV?.show()
                             var value = response.body()?.data
@@ -405,9 +413,16 @@ class AppliedJobsFragment : Fragment() {
     fun decrementCounter() {
         jobsAppliedSize--
         //Log.d("jobiiii", "decrementCounter = ${jobsAppliedSize}")
+        not_contacted_count_tv?.text = "${Constants.totalNotContacted}"
+        contacted_count_tv?.text = "${Constants.totalContacted}"
+        hired_count_tv?.text = "${Constants.totalHired}"
+
         if (jobsAppliedSize > 1) {
             val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Jobs Applied"
             favCountTV?.text = Html.fromHtml(styledText)
+
+
+
         } else {
             val styledText = "<b><font color='#13A10E'>$jobsAppliedSize</font></b> Job Applied"
             favCountTV?.text = Html.fromHtml(styledText)

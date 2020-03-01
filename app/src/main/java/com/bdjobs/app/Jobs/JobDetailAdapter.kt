@@ -580,7 +580,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 }
 
-                                if (salaryData.isBlank() && otherBenifitsData.isBlank()) {
+                                if (salaryData.equals("--") && otherBenifitsData.isBlank()) {
 
                                     jobsVH.tvSalaryRange.visibility = View.GONE
                                     jobsVH.tvSalaryRangeData.visibility = View.GONE
