@@ -1,19 +1,14 @@
 package com.bdjobs.app.assessment
 
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-
-import com.bdjobs.app.R
 import com.bdjobs.app.assessment.adapters.CertificateListAdapter
 import com.bdjobs.app.assessment.adapters.ClickListener
 import com.bdjobs.app.assessment.enums.Status
@@ -21,7 +16,6 @@ import com.bdjobs.app.assessment.viewmodels.CertificateViewModel
 import com.bdjobs.app.databinding.FragmentCertificateListBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_certificate_list.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * A simple [Fragment] subclass.
@@ -56,7 +50,7 @@ class CertificateListFragment : Fragment() {
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
             try {
-                snackbar = Snackbar.make(certificate_list_cl, "Something went wrong", Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(certificate_list_cl, "Something went wrong", Snackbar.LENGTH_LONG)
                 when (it) {
                     Status.ERROR ->
 

@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/modulesViewFragment"
-        android:name="com.bdjobs.app.Assessment.ModulesViewFragment"
+        android:name="com.bdjobs.app.assessment.ModulesViewFragment"
         android:label="View Test Instruction\"
         tools:layout="@layout/fragment_module_view">
         <action

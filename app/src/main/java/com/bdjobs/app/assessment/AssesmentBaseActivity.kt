@@ -26,8 +26,6 @@ class AssesmentBaseActivity : AppCompatActivity() {
 
         val graph = inflater.inflate(R.navigation.assessment_navigation)
 
-//        graph.startDestination = R.id.testInstructionFragment
-
         navHostFragment.navController.graph = graph
 
         val appBarConfiguration =
@@ -41,7 +39,6 @@ class AssesmentBaseActivity : AppCompatActivity() {
             setupActionBarWithNavController(navController, appBarConfiguration)
         }
 
-//        NavigationUI.setupActionBarWithNavController(this, navController)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 

@@ -2,15 +2,13 @@ package com.bdjobs.app.assessment
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
-import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.ResultViewModel
@@ -58,7 +56,7 @@ class ResultFragment : Fragment() {
 
         resultViewModel.status.observe(viewLifecycleOwner, Observer {
             try {
-                snackbar = Snackbar.make(result_sv, "Something went wrong", Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(result_sv, "Something went wrong", Snackbar.LENGTH_LONG)
                 when (it) {
                     Status.ERROR ->
 

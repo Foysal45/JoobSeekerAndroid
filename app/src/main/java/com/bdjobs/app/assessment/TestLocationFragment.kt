@@ -1,26 +1,17 @@
 package com.bdjobs.app.assessment
 
 
-import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.openUrlInBrowser
-import com.bdjobs.app.Web.WebActivity
-import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.assessment.viewmodels.TestLocationViewModel
 import com.bdjobs.app.databinding.FragmentTestLocationBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_test_location.*
-import org.jetbrains.anko.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -43,17 +34,8 @@ class TestLocationFragment : Fragment() {
         binding.viewModel = testLocationViewModel
 
         binding.testHomeCard?.setOnClickListener {
-//            findNavController().navigate(TestLocationFragmentDirections.actionTestLocationFragmentToPaymentFragment(testLocationViewModel.booking, ScheduleData()))
-            snackbar = Snackbar.make(binding.testLocationCl, "Take test from Home With a laptop or desktop", Snackbar.LENGTH_INDEFINITE)
-//            snackbar.apply {
-//                setAction("Go To Website") {
-////                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
-//                    context.openUrlInBrowser(Constants.base_url_assessment_web)
-//
-//                }.show()
-//            }
+            snackbar = Snackbar.make(binding.testLocationCl, getString(R.string.assessment_requirement_instruction), Snackbar.LENGTH_LONG)
             snackbar.show()
-
         }
 
         binding.testCenterCard?.setOnClickListener {

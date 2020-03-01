@@ -118,11 +118,6 @@ class FilterScheduleFragment : Fragment() {
                 }
             }
         }
-
-//        Log.d("rakib", "callllllll")
-//        activity?.apply{
-//            pickDate(this, now, startDateSetListener,from = "assessment")
-//        }
     }
 
     private fun updateDateInView(c: Int) {

@@ -16,14 +16,12 @@ import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.openUrlInBrowser
-import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 import kotlinx.android.synthetic.main.layout_what_is_employability_certification.view.*
-import org.jetbrains.anko.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -71,14 +69,13 @@ class HomeFragment : Fragment() {
 
             when (viewModel.homeData.value?.resumeTestBtnFormat) {
                 "1" -> {
-                    snackbar = Snackbar.make(binding.homeCl, "Start test from a laptop or desktop with ", Snackbar.LENGTH_INDEFINITE)
+                    snackbar = Snackbar.make(binding.homeCl, getString(R.string.assessment_requirement_instruction), Snackbar.LENGTH_LONG)
                     snackbar.show()
                 }
                 "4" -> {
-                    snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
+                    snackbar = Snackbar.make(binding.homeCl, "Action needs to complete from website", Snackbar.LENGTH_LONG)
                     snackbar.apply {
                         setAction("Go To Website") {
-                            //context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
                             context.openUrlInBrowser(Constants.base_url_assessment_web)
                         }.show()
                     }
@@ -88,13 +85,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.startTest.startBtn.setOnClickListener {
-            snackbar = Snackbar.make(binding.homeCl, "Start test from a laptop or desktop with ", Snackbar.LENGTH_INDEFINITE)
-//            snackbar.apply {
-//                setAction("Go To Website") {
-////                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
-//                    context.openUrlInBrowser(Constants.base_url_assessment_web)
-//                }.show()
-//            }
+            snackbar = Snackbar.make(binding.homeCl, getString(R.string.assessment_requirement_instruction), Snackbar.LENGTH_LONG)
             snackbar.show()
 
         }
@@ -128,7 +119,7 @@ class HomeFragment : Fragment() {
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
             try {
-                snackbar = Snackbar.make(binding.homeCl, "Something went wrong", Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(binding.homeCl, "Something went wrong", Snackbar.LENGTH_LONG)
                 when (it) {
                     Status.ERROR ->
                         snackbar.apply {

@@ -5,29 +5,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
-
-import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.openUrlInBrowser
-import com.bdjobs.app.Web.WebActivity
-import com.bdjobs.app.assessment.models.Booking
-import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
-import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
 import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
+import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
 import com.bdjobs.app.databinding.FragmentPaymentBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.android.synthetic.main.layout_need_more_information.view.*
-import org.jetbrains.anko.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -76,10 +68,9 @@ class PaymentFragment : Fragment() {
         }
 
         binding.testHomeCard.setOnClickListener {
-            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from website", Snackbar.LENGTH_INDEFINITE)
+            snackbar = Snackbar.make(binding.testLocationCl, "Action needs to complete from website", Snackbar.LENGTH_LONG)
             snackbar.apply {
                 setAction("Go To Website") {
-//                    context.startActivity<WebActivity>("url" to Constants.base_url_assessment_web, "from" to "assessment")
                     context.openUrlInBrowser(Constants.base_url_assessment_web)
                 }.show()
             }
