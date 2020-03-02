@@ -1051,8 +1051,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
             Log.d("rakib", "$minSalary $maxSalary ")
 
-
-
             try {
                 if (minSalary != "0" && maxSalary != "0") {
                     if (text.toString().toInt() > maxSalary.toInt()) {
