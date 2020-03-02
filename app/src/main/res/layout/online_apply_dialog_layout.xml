@@ -78,7 +78,7 @@
             app:gnt_template_type="@layout/gnt_small_template_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/salaryAmountTIL" />
+            app:layout_constraintTop_toBottomOf="@+id/salary_limit_exceeded_tv" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -145,6 +145,20 @@
                 android:typeface="normal"
                 app:fontFamily="@font/roboto" />
         </com.google.android.material.textfield.TextInputLayout>
+        
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/salary_limit_exceeded_tv"
+            android:layout_marginTop="10dp"
+            android:textColor="#767676"
+            app:layout_constraintStart_toStartOf="@+id/salaryAmountTIL"
+            app:layout_constraintEnd_toEndOf="@+id/salaryAmountTIL"
+            app:layout_constraintTop_toBottomOf="@+id/salaryAmountTIL"
+            android:text="Expected salary is higher for this position.
+It may affect your match to this job. It is
+suggested to revise your salary."
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

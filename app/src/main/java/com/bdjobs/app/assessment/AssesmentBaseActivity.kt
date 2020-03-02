@@ -31,7 +31,7 @@ class AssesmentBaseActivity : AppCompatActivity() {
         navHostFragment.navController.graph = graph
 
         val appBarConfiguration =
-                AppBarConfiguration.Builder()
+                AppBarConfiguration.Builder(R.id.paymentSuccessfulFragment)
                         .setFallbackOnNavigateUpListener { onNavigateUp() }
                         .build()
 
