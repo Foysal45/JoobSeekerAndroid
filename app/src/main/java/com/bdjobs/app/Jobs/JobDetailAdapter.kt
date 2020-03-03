@@ -15,6 +15,7 @@ import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -447,7 +448,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                             logException(e)
                                         }
                                     } else {
-                                        showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!, jobDetailResponseAll.minSalary!!,jobDetailResponseAll.maxSalary!!)
+                                        showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!, jobDetailResponseAll.minSalary!!, jobDetailResponseAll.maxSalary!!)
                                         //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                     }
                                 }
@@ -934,7 +935,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
-    private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String, minSalary : String, maxSalary : String) {
+    private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String, minSalary: String, maxSalary: String) {
         try {
             val dialog = Dialog(context)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1001,18 +1002,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
-    private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String,minSalary: String, maxSalary: String) {
+    private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String, minSalary: String, maxSalary: String) {
         dialog = Dialog(activity)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         dialog?.setCancelable(true)
         dialog?.setContentView(R.layout.online_apply_dialog_layout)
         val cancelButton = dialog?.findViewById<Button>(R.id.onlineApplyCancelBTN)
         val okButton = dialog?.findViewById<Button>(R.id.onlineApplyOkBTN)
+        val applyAnywayButton = dialog?.findViewById<Button>(R.id.applyAnywayBTN)
         val salaryTIET = dialog?.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
         val salaryTIL = dialog?.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        val salaryExceededTextView : TextView = dialog?.findViewById(R.id.salary_limit_exceeded_tv) as TextView
-
+        val salaryExceededTextView: TextView = dialog?.findViewById(R.id.salary_limit_exceeded_tv) as TextView
+        val scrollView = dialog?.findViewById(R.id.scroll) as ScrollView
 
         val jobApplicationStatusCard = dialog?.findViewById<ConstraintLayout>(R.id.job_detail_job_application_status_card)
         val appliedJobsCountTV = dialog?.findViewById<TextView>(R.id.job_detail_job_application_count_tv)
@@ -1043,68 +1047,23 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             jobApplicationStatusCard?.hide()
         }
 
+        salaryTIET.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+            } else {
+                salaryExceededTextView?.hide()
+                okButton?.show()
+                applyAnywayButton?.hide()
+                salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+            }
+        }
 
+        applyAnywayButton?.setOnClickListener {
+            applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+        }
 
         salaryTIET?.easyOnTextChangedListener { text ->
             validateFilterName(text.toString(), salaryTIL)
             okButton?.isEnabled = text.isNotEmpty()
-
-            Log.d("rakib", "$minSalary $maxSalary ")
-
-            try {
-                if (minSalary != "0" && maxSalary != "0") {
-                    if (text.toString().toInt() > maxSalary.toInt()) {
-                        Log.d("rakib", "beshi")
-                        salaryExceededTextView?.show()
-                        okButton?.text = "Apply anyway"
-                        salaryTIL.boxStrokeColor = Color.parseColor("#f1c40f")
-                    } else {
-                        salaryExceededTextView?.hide()
-                        Log.d("rakib", "kom")
-                        okButton?.text = "Ok"
-                        salaryTIL.boxStrokeColor = ContextCompat.getColor(context,R.color.colorPrimary)
-
-                    }
-                } else {
-                    if(maxSalary != "0" && minSalary == "0"){
-                        if (text.toString().toInt() > maxSalary.toInt()) {
-                            Log.d("rakib", "beshi")
-                            salaryExceededTextView?.show()
-                            okButton?.text = "Apply anyway"
-                            salaryTIL.boxStrokeColor = Color.parseColor("#f1c40f")
-
-                        } else {
-                            salaryExceededTextView?.hide()
-                            Log.d("rakib", "kom")
-                            okButton?.text = "Ok"
-                            salaryTIL.boxStrokeColor = ContextCompat.getColor(context,R.color.colorPrimary)
-
-                        }
-                    } else if (maxSalary == "0" && minSalary != "0"){
-                        if (text.toString().toInt() > minSalary.toInt()) {
-                            Log.d("rakib", "beshi")
-                            salaryExceededTextView?.show()
-                            okButton?.text = "Apply anyway"
-                            salaryTIL.boxStrokeColor = Color.parseColor("#f1c40f")
-
-                        } else {
-                            Log.d("rakib", "kom")
-                            salaryExceededTextView?.hide()
-                            okButton?.text = "Ok"
-                            salaryTIL.boxStrokeColor = ContextCompat.getColor(context,R.color.colorPrimary)
-
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                okButton?.text = "Ok"
-                salaryExceededTextView?.hide()
-                salaryTIL.boxStrokeColor = ContextCompat.getColor(context,R.color.colorPrimary)
-
-            }
-
-
-            Log.d("rakib salary", "$text")
         }
 
         cancelButton?.setOnClickListener {
@@ -1115,18 +1074,83 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
             d("applyTest in ok button $applyStatus")
 
-            if (validateFilterName(salaryTIET.getString(), salaryTIL) && !applyStatus) {
-                applyStatus = true
-                applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
-                d("applyTest validate $applyStatus")
+            try {
+                if (minSalary != "0" && maxSalary != "0") {
+                    if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
+                        //disableSalaryText(salaryTIET,salaryTIL,dialog)
+                        salaryExceededTextView?.show()
+                        applyAnywayButton?.show()
+                        okButton?.hide()
+                        scrollView?.post {
+                            scrollView.fullScroll(View.FOCUS_DOWN)
+                        }
+                        salaryTIET.clearFocus()
+                        salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
+                    } else {
+                        salaryExceededTextView?.hide()
+                        applyAnywayButton?.hide()
+                        okButton?.show()
+                        salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                    }
+                } else {
+                    if (maxSalary != "0" && minSalary == "0") {
+                        if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
+                            salaryExceededTextView?.show()
+                            okButton?.hide()
+                            applyAnywayButton?.show()
+                            salaryTIET.clearFocus()
+                            salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
+                            scrollView?.post {
+                                scrollView.fullScroll(View.FOCUS_DOWN)
+                            }
+                        } else {
+                            salaryExceededTextView?.hide()
+                            okButton?.show()
+                            applyAnywayButton?.hide()
+                            salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                        }
+                    } else if (maxSalary == "0" && minSalary != "0") {
+                        if (salaryTIET.text.toString().toInt() > minSalary.toInt()) {
+                            salaryExceededTextView?.show()
+                            okButton?.hide()
+                            applyAnywayButton?.show()
+                            salaryTIET.clearFocus()
+                            salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
+                            scrollView?.post {
+                                scrollView.fullScroll(View.FOCUS_DOWN)
+                            }
+                        } else {
+                            salaryExceededTextView?.hide()
+                            okButton?.show()
+                            applyAnywayButton?.hide()
+                            salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                applyAnywayButton?.hide()
+                okButton?.show()
+                salaryExceededTextView?.hide()
+                salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
 
             }
 
+            if (validateFilterName(salaryTIET.getString(), salaryTIL) && !applyStatus) {
+                applyStatus = true
+
+                if (okButton.isVisible)
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+
+                d("applyTest validate $applyStatus")
+
+            } else {
+                if (okButton.isVisible)
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+            }
 
         }
         dialog?.show()
     }
-
 
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
