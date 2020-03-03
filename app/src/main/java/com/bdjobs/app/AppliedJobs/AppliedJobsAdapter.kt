@@ -17,8 +17,6 @@ import androidx.work.*
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.Ads.Ads
-//import com.bdjobs.app.BackgroundJob.CancelAppliedJob
-import com.bdjobs.app.Workmanager.ExpectedSalaryWorker
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -27,6 +25,7 @@ import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.getString
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Workmanager.CancelAppliedJobWorker
+import com.bdjobs.app.Workmanager.ExpectedSalaryWorker
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -47,6 +46,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private var errorMsg: String? = null
     private var session: BdjobsUserSession = BdjobsUserSession(context)
     private var communicator: AppliedJobsCommunicator = activity as AppliedJobsCommunicator
+    private val deadlinePattern = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+    private val todaysPattern = SimpleDateFormat("E MMM dd yyyy", Locale.ENGLISH)
+
 
     companion object {
         // View Types
@@ -148,33 +150,23 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         // holder?.cancelBTN?.visibility = View.VISIBLE
                         holder?.employerViewIcon.visibility = View.GONE
                         try {
-                            val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
-                            val todaysDate = Date()
 
-                            /*       //Log.d("date", "$deadline - $todaysDate")
-                                   //Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
-                                           "jobid = " + appliedJobsLists!![position].jobId
-                                           + "deadline=$deadline + \"todays=$todaysDate ")*/
+                            val deadline = deadlinePattern.parse(appliedJobsLists?.get(position)?.deadLine)
+                            val todayDate = todaysPattern.parse(todaysPattern.format(Date()))
 
-                            val compare = deadline.compareTo(todaysDate)
-                            //Log.d("date", "compare = $compare")
-                            /*  if (compare.equals("1")){
-                                  //Log.d("date","$compare visible")
-                                  holder?.cancelBTN?.visibility = View.VISIBLE
-                              }*/
-                            if (deadline > todaysDate) {
+//                            Log.d("date", "deadline - $deadline")
+//                            Log.d("date", "todays date - $todayDate")
+
+                            if (deadline >= todayDate) {
                                 holder?.cancelBTN?.visibility = View.VISIBLE
                                 holder?.edit_SalaryIcon?.visibility = View.VISIBLE
-                            } else if (deadline < todaysDate) {
+                            } else if (deadline < todayDate) {
                                 holder?.cancelBTN?.visibility = View.GONE
                                 holder?.edit_SalaryIcon?.visibility = View.GONE
                             }
 
-
                         } catch (e: Exception) {
                             logException(e)
-                            //Log.d("date", "e")
-
                         }
                     } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
                         holder?.employerViewIcon?.visibility = View.VISIBLE
@@ -220,11 +212,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             expected_salary_ET.setText(expectedSalary.toString())
                             expected_salary_ET.setSelection(expected_salary_ET?.getText()?.length!!)
                             expected_salary_ET?.easyOnTextChangedListener {
-                                if (expected_salary_ET?.text?.length!! > 0) {
-                                    updateBTN?.isEnabled = true
-                                } else {
-                                    updateBTN?.isEnabled = false
-                                }
+                                updateBTN?.isEnabled = expected_salary_ET?.text?.length!! > 0
                             }
 
                             cancelBTN?.setOnClickListener {
@@ -351,24 +339,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         // holder?.cancelBTN?.visibility = View.VISIBLE
                         holder?.employerViewIcon.visibility = View.GONE
                         try {
-                            val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
-                            val todaysDate = Date()
+                            val deadline = deadlinePattern.parse(appliedJobsLists?.get(position)?.deadLine)
+                            val todayDate = todaysPattern.parse(todaysPattern.format(Date()))
 
-                            /*       //Log.d("date", "$deadline - $todaysDate")
-                                   //Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
-                                           "jobid = " + appliedJobsLists!![position].jobId
-                                           + "deadline=$deadline + \"todays=$todaysDate ")*/
 
-                            val compare = deadline.compareTo(todaysDate)
-                            //Log.d("date", "compare = $compare")
-                            /*  if (compare.equals("1")){
-                                  //Log.d("date","$compare visible")
-                                  holder?.cancelBTN?.visibility = View.VISIBLE
-                              }*/
-                            if (deadline > todaysDate) {
+                            if (deadline >= todayDate)  {
                                 holder?.cancelBTN?.visibility = View.VISIBLE
                                 holder?.edit_SalaryIcon?.visibility = View.VISIBLE
-                            } else if (deadline < todaysDate) {
+                            } else if (deadline < todayDate) {
                                 holder?.cancelBTN?.visibility = View.GONE
                                 holder?.edit_SalaryIcon?.visibility = View.GONE
                             }
@@ -376,7 +354,6 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                         } catch (e: Exception) {
                             logException(e)
-                            //Log.d("date", "e")
 
                         }
                     } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
@@ -423,11 +400,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             expected_salary_ET.setText(expectedSalary.toString())
                             expected_salary_ET.setSelection(expected_salary_ET?.getText()?.length!!)
                             expected_salary_ET?.easyOnTextChangedListener {
-                                if (expected_salary_ET?.text?.length!! > 0) {
-                                    updateBTN?.isEnabled = true
-                                } else {
-                                    updateBTN?.isEnabled = false
-                                }
+                                updateBTN?.isEnabled = expected_salary_ET?.text?.length!! > 0
                             }
 
                             cancelBTN?.setOnClickListener {
