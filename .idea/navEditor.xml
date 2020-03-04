@@ -104,6 +104,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_modulesViewFragment_to_testInstructionFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_modulesViewFragment_to_testLocationFragment">
                               <value>
                                 <LayoutPositions />
@@ -161,8 +166,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="744" />
-                            <option name="y" value="66" />
+                            <option name="x" value="779" />
+                            <option name="y" value="112" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -197,6 +202,15 @@
                             <option name="x" value="744" />
                             <option name="y" value="778" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_testInstructionFragment_to_homeFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
