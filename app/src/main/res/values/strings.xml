@@ -142,9 +142,9 @@
     <string name="chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
     <string name="charsWithSpace">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz</string>
     <string name="hint.objective_v">Objective</string>
-    <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
+    <string name="hint.present_salary_tk_month">Present Salary (Tk / Month)</string>
     <string name="hint.present_salary_tk_month_v">Present Salary</string>
-    <string name="hint.expected_salary_tk_month">Expected Salary (TK / Month)</string>
+    <string name="hint.expected_salary_tk_month">Expected Salary (Tk / Month)</string>
     <string name="hint.expected_salary_tk_month_v">Expected Salary</string>
     <string name="hint.looking_for">Looking for</string>
     <string name="hint.available_for">Available for</string>
@@ -428,8 +428,8 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="tv_successful_txt">Successful</string>
     <string name="tv_test_date_txt">Test Date</string>
     <string name="tv_test_time_txt">Test Time</string>
-    <string name="assessment_requirement_instruction">Certification Test requires a laptop or desktop with a webcam and good internet connection</string>
-    <string name="assessment_payment_success_instruction"><b>Now you can Take Test from Home only TK 300!!</b>\n\nPay 500 TK to attend test at venue. (Test fee 300 TK + Venue cost 200 TK)</string>
+    <string name="assessment_requirement_instruction">Certification Test requires a laptop or desktop with a webcam and good internet.</string>
+    <string name="assessment_payment_success_instruction"><b>Now you can Take Test from Home only Tk 300!!</b>\n\nPay 500 Tk to attend test at center. (Test fee 300 Tk + center cost 200 Tk)</string>
     <string name="tv_instructions_do_webcam_text">A laptop/desktop with a webcam is required</string>
 
 </resources>

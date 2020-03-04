@@ -261,7 +261,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="Test fee 300 TK + Center cost 200 TK"
+                    android:text="Test cost 300 Tk + Center cost 200 Tk"
                     android:textColor="#595959"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/test_center_iv"

@@ -71,8 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:gravity="center"
-                    android:text="You have no pending Certification Test.\n
-Take a new test"
+                    android:text="You have no pending Certification Test."
                     android:textColor="#303030"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
