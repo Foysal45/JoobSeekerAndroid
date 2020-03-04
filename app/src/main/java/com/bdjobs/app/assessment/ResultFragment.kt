@@ -1,6 +1,8 @@
 package com.bdjobs.app.assessment
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import com.bdjobs.app.assessment.viewmodels.ResultViewModelFactory
 import com.bdjobs.app.databinding.FragmentResultBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result.*
+import kotlinx.android.synthetic.main.layout_need_more_information.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -52,6 +55,18 @@ class ResultFragment : Fragment() {
 
         binding.btnCl.setOnClickListener {
             activity?.openUrlInBrowser(resultViewModel.downloadLink)
+        }
+
+        binding.needMoreCl.call_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:01844519336")
+            startActivity(intent)
+        }
+
+        binding.needMoreCl.call_helpline_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:16479")
+            startActivity(intent)
         }
 
         resultViewModel.status.observe(viewLifecycleOwner, Observer {
