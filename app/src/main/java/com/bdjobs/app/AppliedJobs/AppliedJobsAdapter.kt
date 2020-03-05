@@ -48,6 +48,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
     private var errorMsg: String? = null
     private var session: BdjobsUserSession = BdjobsUserSession(context)
     private var communicator: AppliedJobsCommunicator = activity as AppliedJobsCommunicator
+    private val deadlinePattern = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+    private val todaysPattern = SimpleDateFormat("E MMM dd yyyy", Locale.ENGLISH)
+
 
     companion object {
         // View Types
@@ -154,24 +157,16 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         // holder?.cancelBTN?.visibility = View.VISIBLE
                         holder?.employerViewIcon.visibility = View.GONE
                         try {
-                            val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
-                            val todaysDate = Date()
+                            val deadline = deadlinePattern.parse(appliedJobsLists?.get(position)?.deadLine)
+                            val todayDate = todaysPattern.parse(todaysPattern.format(Date()))
 
-                            /*       //Log.d("date", "$deadline - $todaysDate")
-                                   //Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
-                                           "jobid = " + appliedJobsLists!![position].jobId
-                                           + "deadline=$deadline + \"todays=$todaysDate ")*/
+//                            Log.d("date", "deadline - $deadline")
+//                            Log.d("date", "todays date - $todayDate")
 
-                            val compare = deadline.compareTo(todaysDate)
-                            //Log.d("date", "compare = $compare")
-                            /*  if (compare.equals("1")){
-                                  //Log.d("date","$compare visible")
-                                  holder?.cancelBTN?.visibility = View.VISIBLE
-                              }*/
-                            if (deadline > todaysDate) {
+                            if (deadline >= todayDate) {
                                 holder?.cancelBTN?.visibility = View.VISIBLE
                                 holder?.edit_SalaryIcon?.visibility = View.VISIBLE
-                            } else if (deadline < todaysDate) {
+                            } else if (deadline < todayDate) {
                                 holder?.cancelBTN?.visibility = View.GONE
                                 holder?.edit_SalaryIcon?.visibility = View.GONE
                             }
@@ -475,24 +470,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         // holder?.cancelBTN?.visibility = View.VISIBLE
                         holder?.employerViewIcon.visibility = View.GONE
                         try {
-                            val deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(appliedJobsLists?.get(position)?.deadLine)
-                            val todaysDate = Date()
+                            val deadline = deadlinePattern.parse(appliedJobsLists?.get(position)?.deadLine)
+                            val todayDate = todaysPattern.parse(todaysPattern.format(Date()))
 
-                            /*       //Log.d("date", "$deadline - $todaysDate")
-                                   //Log.d("jobtitle", "jobtitle = " + appliedJobsLists!![position].companyName +
-                                           "jobid = " + appliedJobsLists!![position].jobId
-                                           + "deadline=$deadline + \"todays=$todaysDate ")*/
 
-                            val compare = deadline.compareTo(todaysDate)
-                            //Log.d("date", "compare = $compare")
-                            /*  if (compare.equals("1")){
-                                  //Log.d("date","$compare visible")
-                                  holder?.cancelBTN?.visibility = View.VISIBLE
-                              }*/
-                            if (deadline > todaysDate) {
+                            if (deadline >= todayDate) {
                                 holder?.cancelBTN?.visibility = View.VISIBLE
                                 holder?.edit_SalaryIcon?.visibility = View.VISIBLE
-                            } else if (deadline < todaysDate) {
+                            } else if (deadline < todayDate) {
                                 holder?.cancelBTN?.visibility = View.GONE
                                 holder?.edit_SalaryIcon?.visibility = View.GONE
                             }
