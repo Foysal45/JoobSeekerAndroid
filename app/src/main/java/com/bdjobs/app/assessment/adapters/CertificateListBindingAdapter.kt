@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment.adapters
 
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.assessment.enums.Status
@@ -22,18 +23,33 @@ fun bindProgressBarStatus(shimmerFrameLayout: ShimmerFrameLayout, status: Status
     status?.let {
         when (status) {
             Status.LOADING ->  {
-                Log.d("rakib", "loading")
                 shimmerFrameLayout.visibility = View.VISIBLE
                 shimmerFrameLayout.startShimmer()
             }
             Status.DONE -> {
-                Log.d("rakib", "not loading")
                 shimmerFrameLayout.visibility = View.GONE
                 shimmerFrameLayout.stopShimmer()
             }
             Status.ERROR -> {
                 shimmerFrameLayout.visibility = View.GONE
                 shimmerFrameLayout.stopShimmer()
+            }
+        }
+    }
+}
+
+@BindingAdapter("visibility")
+fun bindTextViewVisibility(textView: TextView,status: Status?) {
+    status?.let {
+        when (status) {
+            Status.LOADING ->  {
+                textView.visibility = View.GONE
+            }
+            Status.DONE -> {
+                textView.visibility = View.VISIBLE
+            }
+            Status.ERROR -> {
+                textView.visibility = View.GONE
             }
         }
     }
