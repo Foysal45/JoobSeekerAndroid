@@ -34,6 +34,7 @@
             app:layout_constraintGuide_end="16dp" />
 
         <TextView
+            app:visibility="@{certificateViewModel.status}"
             android:textSize="16sp"
             android:id="@+id/heading_tv"
             android:layout_width="wrap_content"
@@ -45,6 +46,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            app:visibility="@{certificateViewModel.status}"
             android:textSize="16sp"
             tools:text="(26 Certificates)"
             android:id="@+id/certificate_count_tv"
@@ -65,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/heading_tv"
+            app:layout_constraintTop_toTopOf="parent"
             app:shimmer_duration="1200">
 
             <LinearLayout
