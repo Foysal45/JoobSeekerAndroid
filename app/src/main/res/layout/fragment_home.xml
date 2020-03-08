@@ -43,6 +43,7 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <ScrollView
+            android:scrollbars="none"
             android:id="@+id/main_sv"
             android:visibility="gone"
             android:layout_width="match_parent"
