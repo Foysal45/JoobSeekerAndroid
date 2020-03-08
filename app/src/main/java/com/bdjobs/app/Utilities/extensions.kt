@@ -818,6 +818,12 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
 
 fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+
 //fun Context.showJobApplicationGuidelineDialog() {
 //
 //    val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)

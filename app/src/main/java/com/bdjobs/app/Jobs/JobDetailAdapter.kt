@@ -1075,15 +1075,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             d("applyTest in ok button $applyStatus")
 
             try {
+                salaryTIET?.hideKeyboard()
+            } catch (e:Exception){
+
+            }
+
+            try {
                 if (minSalary != "0" && maxSalary != "0") {
                     if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
                         //disableSalaryText(salaryTIET,salaryTIL,dialog)
                         salaryExceededTextView?.show()
                         applyAnywayButton?.show()
                         okButton?.hide()
-                        scrollView?.post {
-                            scrollView.fullScroll(View.FOCUS_DOWN)
-                        }
+//                        scrollView?.post {
+//                            scrollView.fullScroll(View.FOCUS_DOWN)
+//                        }
                         salaryTIET.clearFocus()
                         salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
                     } else {
@@ -1100,9 +1106,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             applyAnywayButton?.show()
                             salaryTIET.clearFocus()
                             salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
-                            scrollView?.post {
-                                scrollView.fullScroll(View.FOCUS_DOWN)
-                            }
+//                            scrollView?.post {
+//                                scrollView.fullScroll(View.FOCUS_DOWN)
+//                            }
                         } else {
                             salaryExceededTextView?.hide()
                             okButton?.show()
@@ -1116,9 +1122,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             applyAnywayButton?.show()
                             salaryTIET.clearFocus()
                             salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
-                            scrollView?.post {
-                                scrollView.fullScroll(View.FOCUS_DOWN)
-                            }
+//                            scrollView?.post {
+//                                scrollView.fullScroll(View.FOCUS_DOWN)
+//                            }
                         } else {
                             salaryExceededTextView?.hide()
                             okButton?.show()

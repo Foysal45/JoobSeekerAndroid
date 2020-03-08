@@ -346,7 +346,11 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
                                             } else{
+                                                Log.d("rakib","came here")
                                                 canSubmit = true
+                                                salaryLimitExceedTV?.hide()
+                                                updateBTN?.show()
+                                                updateAnyWayBTN?.hide()
                                             }
                                         }
 
@@ -655,19 +659,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                                     updateAnyWayBTN?.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
-                                            } else{
-                                                Log.d("rakib","came here")
-                                                if (salary.toInt() > minSalary.toInt()) {
-                                                    salaryLimitExceedTV?.show()
-                                                    updateBTN?.hide()
-                                                    updateAnyWayBTN?.show()
-                                                    expected_salary_ET.clearFocus()
-                                                    expected_salary_ET?.hideKeyboard()
-                                                    expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
-//                                                        scrollView?.post {
-//                                                            scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                        }
-                                                } else {
+                                            }  else {
                                                     salaryLimitExceedTV?.hide()
                                                     updateBTN?.show()
                                                     canSubmit = true
@@ -676,7 +668,6 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
                                             }
-                                        }
 
                                         if (canSubmit) {
 
