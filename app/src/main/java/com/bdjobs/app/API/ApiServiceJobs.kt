@@ -20,6 +20,38 @@ interface ApiServiceJobs {
                   @Query("appId") appId :String? = Constants.APP_ID
                   ): Call<DatabaseUpdateModel>
 
+//    @GET("joblist.asp")
+//    fun getJobList(
+//            @Query("jobLevel") jobLevel: String? = "",
+//            @Query("Newspaper") Newspaper: String? = "",
+//            @Query("armyp") armyp: String? = "",
+//            @Query("bc") bc: String? = "",
+//            @Query("category") category: String? = "",
+//            @Query("deadline") deadline: String? = "",
+//            @Query("encoded") encoded: String? = "",
+//            @Query("experience") experience: String? = "",
+//            @Query("gender") gender: String? = "",
+//            @Query("genderB") genderB: String? = "",
+//            @Query("industry") industry: String? = "",
+//            @Query("isFirstRequest") isFirstRequest: String? = "",
+//            @Query("jobNature") jobNature: String? = "",
+//            @Query("jobType") jobType: String? = "",
+//            @Query("keyword") keyword: String? = "",
+//            @Query("lastJPD") lastJPD: String? = "",
+//            @Query("location") location: String? = "",
+//            @Query("org") org: String? = "",
+//            @Query("pageid") pageid: String? = "",
+//            @Query("pg") pg: Int? = 1,
+//            @Query("postedWithin") postedWithin: String? = "",
+//            @Query("qAge") qAge: String? = "",
+//            @Query("rpp") rpp: String? = "",
+//            @Query("slno") slno: String? = "",
+//            @Query("version") version: String? = "",
+//            @Query("appId") appId :String? = Constants.APP_ID
+//
+//
+//    ): Call<JobListModel>
+
     @GET("joblist.asp")
     fun getJobList(
             @Query("jobLevel") jobLevel: String? = "",
@@ -50,7 +82,7 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID
 
 
-    ): Call<JobListModel>
+    ): Call<ResponseBody>
 
 
     @GET("storedjobsDetailsPagination.asp")
@@ -258,7 +290,34 @@ interface ApiServiceJobs {
     ): Call<String>
 
 
+    @FormUrlEncoded
+    @POST("ResponseBroken.asp")
+    fun responseBroken(
+            @Field("RURL") url : String? = "",
+            @Field("RParameters") params : String? = "",
+            @Field("encoded") encoded : String? = "",
+            @Field("RUserID") userId : String? = "",
+            @Field("RResponse") response : String? = "",
+            @Field("appId") appId: String? = ""
+    ) : Call<ResponseBody>
 
+//    @FormUrlEncoded
+//    @POST("ResponseBroken_TestCase.asp")
+//    fun responseBrokenTestCase(
+//            @Field("encoded") encoded : String? = "",
+//            @Field("param1") param1 : String? = "",
+//            @Field("param2") param2 : String? = ""
+//
+//    ) : Call<TestJsonModel>
+
+    @FormUrlEncoded
+    @POST("ResponseBroken_TestCase.asp")
+    fun responseBrokenTestCase(
+            @Field("encoded") encoded : String? = "",
+            @Field("param1") param1 : String? = "",
+            @Field("param2") param2 : String? = ""
+
+    ) : Call<ResponseBody>
 
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")

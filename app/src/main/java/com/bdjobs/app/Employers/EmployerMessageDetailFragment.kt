@@ -103,7 +103,7 @@ class EmployerMessageDetailFragment : Fragment() {
         try {
 
             shimmer_view_container_employerMessageDetail?.show()
-            shimmer_view_container_employerMessageDetail?.startShimmerAnimation()
+            shimmer_view_container_employerMessageDetail?.startShimmer()
 
 
             ApiServiceMyBdjobs.create().getMessageDetail(bdjobsUserSession.userId, bdjobsUserSession.decodId, employersCommunicator!!.getMessageId()
@@ -112,7 +112,7 @@ class EmployerMessageDetailFragment : Fragment() {
                     try {
                         activity?.toast("${t.message}")
                         shimmer_view_container_employerMessageDetail?.hide()
-                        shimmer_view_container_employerMessageDetail?.stopShimmerAnimation()
+                        shimmer_view_container_employerMessageDetail?.stopShimmer()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -143,7 +143,7 @@ class EmployerMessageDetailFragment : Fragment() {
                             messageBodyTV?.text = messageBody
                             lastContentTV?.text = response?.body()!!.data!![0]!!.lastcontent
                             shimmer_view_container_employerMessageDetail?.hide()
-                            shimmer_view_container_employerMessageDetail?.stopShimmerAnimation()
+                            shimmer_view_container_employerMessageDetail?.stopShimmer()
                             linearLayoutMain.show()
                             if (response?.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
 
@@ -198,7 +198,7 @@ class EmployerMessageDetailFragment : Fragment() {
 
 
                     shimmer_view_container_employerMessageDetail?.hide()
-                    shimmer_view_container_employerMessageDetail?.stopShimmerAnimation()
+                    shimmer_view_container_employerMessageDetail?.stopShimmer()
                 }
 
             })

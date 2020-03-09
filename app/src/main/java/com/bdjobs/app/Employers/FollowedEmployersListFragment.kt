@@ -74,7 +74,7 @@ class FollowedEmployersListFragment : Fragment() {
 
             if (employersCommunicator.getFollowedEmployerList().isNullOrEmpty()) {
                 shimmer_view_container_JobList?.show()
-                shimmer_view_container_JobList?.startShimmerAnimation()
+                shimmer_view_container_JobList?.startShimmer()
                 loadData(1)
             } else {
                 try {
@@ -203,7 +203,7 @@ class FollowedEmployersListFragment : Fragment() {
                     followedEmployersAdapter?.addAll(followedEmployerList!!)
 
                     shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                    shimmer_view_container_JobList?.stopShimmer()
 
                     TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
                     if (currentPage <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {

@@ -52,7 +52,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
         getMybdjobsCountData("0")
         getMybdjobsCountData("1")
         getIsCvUploaded()
-        updateExternalDatabase()
+//        updateExternalDatabase()
         getUnSeenNotificationsCount()
 
         return Result.success()
@@ -206,7 +206,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     logException(e)
                 }
             }
-
         })
 
     }

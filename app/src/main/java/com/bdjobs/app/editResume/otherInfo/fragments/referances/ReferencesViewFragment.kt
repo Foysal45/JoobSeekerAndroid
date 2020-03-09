@@ -85,7 +85,7 @@ class ReferencesViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_reference?.show()
-            shimmer_view_container_reference?.startShimmerAnimation()
+            shimmer_view_container_reference?.startShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -95,7 +95,7 @@ class ReferencesViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_reference?.hide()
-            shimmer_view_container_reference?.stopShimmerAnimation()
+            shimmer_view_container_reference?.stopShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

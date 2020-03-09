@@ -40,6 +40,8 @@ data class LoginSessionModel(
 data class DataLoginPasswordModel(
         @SerializedName("AppsDate")
         val appsDate: String?,
+        @SerializedName("postingDate")
+        val posingDate: String?,
         @SerializedName("IsResumeUpdate")
         val isResumeUpdate: String?,
         @SerializedName("age")

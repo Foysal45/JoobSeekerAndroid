@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="homeViewModel"
+            type="com.bdjobs.app.assessment.viewmodels.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/home_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:homeStatus="@{homeViewModel.status}"
+            app:shimmer_duration="1200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <ScrollView
+            android:id="@+id/main_sv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_cl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:notFirstTime="@{homeViewModel.homeData}">
+
+            <LinearLayout
+                android:id="@+id/main_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/start_test"
+                    layout="@layout/layout_assessment_start_test"
+                    android:visibility="gone"
+                    bind:data="@{homeViewModel.homeData}" />
+
+
+                <include
+                    android:id="@+id/no_pending_test"
+                    layout="@layout/layout_assessment_no_pending_test"
+                    android:visibility="gone"
+                    bind:data="@{homeViewModel.homeData}" />
+
+                <include
+                    android:id="@+id/ongoing_test"
+                    layout="@layout/layout_assessment_ongoing_test"
+                    android:visibility="gone"
+                    bind:data="@{homeViewModel.homeData}" />
+
+
+                <include
+                    android:id="@+id/assessment_info"
+                    layout="@layout/layout_assessment_test_info"
+                    android:visibility="gone"
+                    bind:data="@{homeViewModel.homeData}" />
+
+                <include layout="@layout/layout_steps_to_get_the_certification" />
+
+                <include layout="@layout/layout_benefits_of_certificate" />
+
+                <include
+                    android:id="@+id/what_is_employability_certification_cl"
+                    layout="@layout/layout_what_is_employability_certification" />
+
+                <include
+                    android:id="@+id/need_more_info_cl"
+                    layout="@layout/layout_need_more_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/what_is_employability_certification_cl" />
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/first_time_sv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:firstTime="@{homeViewModel.homeData}"
+            app:layout_constraintBottom_toTopOf="@id/btn_cl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/first_time_main_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/layout_benefits_of_certificate" />
+
+                <include
+                    android:id="@+id/what_is_employability_certification_first_time_cl"
+                    layout="@layout/layout_what_is_employability_certification" />
+
+                <include layout="@layout/layout_steps_to_get_the_certification" />
+
+                <include
+                    android:id="@+id/certification_laptop_cl"
+                    layout="@layout/layout_certification_laptop" />
+
+                <include
+                    android:id="@+id/need_more_info_first_time_cl"
+                    layout="@layout/layout_need_more_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/certification_laptop_cl" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_cl"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:background="@drawable/button_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:visibility="gone"
+            app:firstTimeButtonVisibility="@{homeViewModel.homeData}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/btn_txt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Take Test (FREE for 1st test)"
+                android:textColor="#FFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="9dp"
+                android:src="@drawable/ic_arrow_floating_white"
+                app:layout_constraintBottom_toBottomOf="@id/btn_txt_tv"
+                app:layout_constraintStart_toEndOf="@id/btn_txt_tv"
+                app:layout_constraintTop_toTopOf="@id/btn_txt_tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

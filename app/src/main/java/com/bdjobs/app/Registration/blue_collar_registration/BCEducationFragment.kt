@@ -304,9 +304,12 @@ class BCEducationFragment : Fragment() {
         val eduLevels = dataStorage.allEduLevels
         setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))
 
-        val allBoards = dataStorage.allBoards
+        val allBoards =  dataStorage.allBoards
 
-        setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf<String>(allBoards, allBoards.size - 1))
+        try {
+            setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf(allBoards, allBoards.size-1))
+        } catch (e: Exception) {
+        }
 
         if (!TextUtils.isEmpty(bcEduLevelTIET.getString())) {
             var queryValue = bcEduLevelTIET.getString()
@@ -315,7 +318,7 @@ class BCEducationFragment : Fragment() {
             //Log.d("rakib", "edu level id $edulevelID")
             setDialog("পরীক্ষা/ডিগ্রীর নাম", bcEduDegreeTIET, dataStorage.getEducationDegreesByEduLevelID(edulevelID))
 
-            if (edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
+            if (edulevelID == "3" || edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
                 bcEduBoardTIET?.clear()
                 bcEduBoardTIL?.visibility = View.GONE
                 bcEduDegreeTIL.isErrorEnabled = false
@@ -377,7 +380,7 @@ class BCEducationFragment : Fragment() {
                             var queryValue = editText.text.toString()
                             queryValue = queryValue.replace("'", "''")
                             val edulevelID = dataStorage.getEduIDByEduLevel(queryValue)
-                            if (edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
+                            if (edulevelID == "3" || edulevelID == "4" || edulevelID == "5" || edulevelID == "6") {
                                 bcEduBoardTIL?.visibility = View.GONE
                                 bcEduDegreeTIL.isErrorEnabled = false
                                 bcEduBoardTIET?.clear()

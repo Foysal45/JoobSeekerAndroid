@@ -86,7 +86,7 @@ class HotJobsFragmentNew : Fragment() {
         hotjobList_RV?.hide()
         favCountTV?.hide()
         shimmer_view_container_hotJobList?.show()
-        shimmer_view_container_hotJobList?.startShimmerAnimation()
+        shimmer_view_container_hotJobList?.startShimmer()
 
         if (Constants.hotjobs.isNullOrEmpty()) {
             ApiServiceJobs.create().getHotJobs().enqueue(object : Callback<HotJobs> {
@@ -120,7 +120,7 @@ class HotJobsFragmentNew : Fragment() {
                         hotjobList_RV?.show()
                         favCountTV?.show()
                         shimmer_view_container_hotJobList?.hide()
-                        shimmer_view_container_hotJobList?.stopShimmerAnimation()
+                        shimmer_view_container_hotJobList?.stopShimmer()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -145,7 +145,7 @@ class HotJobsFragmentNew : Fragment() {
                 hotjobList_RV?.show()
                 favCountTV?.show()
                 shimmer_view_container_hotJobList?.hide()
-                shimmer_view_container_hotJobList?.stopShimmerAnimation()
+                shimmer_view_container_hotJobList?.stopShimmer()
             } catch (e: Exception) {
                 logException(e)
             }

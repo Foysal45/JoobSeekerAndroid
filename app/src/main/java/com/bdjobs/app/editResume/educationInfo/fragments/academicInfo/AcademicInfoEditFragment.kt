@@ -533,7 +533,7 @@ class AcademicInfoEditFragment : Fragment() {
                     etExamOtherTitle?.hide()
                     etExamOtherTitle?.clear()
                 }
-                if (eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5") || eduLevel.equalIgnoreCase("6")) {
+                if (eduLevel.equalIgnoreCase("3") || eduLevel.equalIgnoreCase("4") || eduLevel.equalIgnoreCase("5") || eduLevel.equalIgnoreCase("6")) {
                     boardTIL?.hide()
                     etBoard.setText("")
                 } else {
@@ -551,7 +551,6 @@ class AcademicInfoEditFragment : Fragment() {
                     majorSubACTV?.clearFocus()
                     mejorTIL?.show()
                     majorSubACTV?.show()
-
 
                 }
 

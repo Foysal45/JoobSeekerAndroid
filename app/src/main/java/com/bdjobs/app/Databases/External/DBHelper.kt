@@ -304,5 +304,15 @@ internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myCon
         val TABLE_NAME_KEYWORD_SUGGESYIONS = "keyword_suggestions"
         val KEYWORD_SUGGESYIONS_COL_KEYWORDS = "keyword"
 
+        //---------------------------------DegreeWiseModule-----------------------------------------------------//
+        val TABLE_DEGREE_WISE_MODULE = "DegreeWiseModule"
+        val DEGREE_ID = "DegreeId"
+        val AM_DEGREE_NAME = "AM_DegreeName"
+        val REQUIRED_DEGREE = "Required"
+        val MODULE_NAME = "ModuleName"
+        val EXAM_DURATION = "Duration"
+        val MODULE_SAMPLE_LINK = "SampleLink"
+        val DEGREE_SUBJECTS = "Subjects"
+
     }
 }

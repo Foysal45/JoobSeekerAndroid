@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/job_detail_cl"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,7 +19,7 @@
         android:elevation="1dp"
         android:orientation="vertical"
         android:visibility="gone"
-        shimmer:duration="10"
+        shimmer:shimmer_duration="1200"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">
@@ -519,7 +521,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="Salary Range"
+                android:text="Salary"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/salaryAndCompensation" />
@@ -549,7 +551,7 @@
                 android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/salaryRangeTV"
-                tools:text="Other Benefits" />
+                android:text="Other Benefits" />
 
             <TextView
                 android:id="@+id/otherBenefitsTV"

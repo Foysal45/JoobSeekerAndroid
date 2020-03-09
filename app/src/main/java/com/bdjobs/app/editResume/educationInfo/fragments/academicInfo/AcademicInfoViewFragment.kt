@@ -118,7 +118,7 @@ class AcademicInfoViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_JobList?.show()
-            shimmer_view_container_JobList?.startShimmerAnimation()
+            shimmer_view_container_JobList?.startShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -128,7 +128,7 @@ class AcademicInfoViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_JobList?.hide()
-            shimmer_view_container_JobList?.stopShimmerAnimation()
+            shimmer_view_container_JobList?.stopShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

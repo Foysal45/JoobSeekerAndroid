@@ -217,24 +217,27 @@ class EmpHistoryEditFragment : Fragment() {
         experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
                 val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
+                Log.d("rakib","$workExperineceList")
                 val expsAdapter = ArrayAdapter<String>(activity!!,
                         android.R.layout.simple_dropdown_item_1line, workExperineceList)
                 experiencesMACTV.setAdapter(expsAdapter)
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
-                    d("Array size : pos : $position id : $id")
-                    //activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
-                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+//                    d("Array size : pos : $position id : $id")
+//                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+//                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
                     workExperienceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
 
                     if (idArr.size in 0..2) {
                         //experiencesMACTV.isEnabled = true
                         if (idArr.contains(workExperienceID)) {
+//                            Log.d("rakib", "if called")
                             experiencesMACTV.closeKeyboard(activity)
                             activity.toast("Experience already added")
                             experiencesMACTV.setText("")
                             experiencesMACTV.clearFocus()
                         } else {
+//                            Log.d("rakib", "else called")
                             addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
                         }
                         experiencesTIL.hideError()

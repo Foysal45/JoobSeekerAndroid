@@ -149,8 +149,14 @@ class NotificationListFragment : Fragment() {
                                             doAsync {
                                                 bdjobsDB.notificationDao().insertNotification(notification)
                                                 uiThread {
-                                                    notificationListAdapter.restoreItem(position, notification)
-                                                    notificationsRV!!.scrollToPosition(position)
+                                                    try {
+                                                        notificationListAdapter.restoreItem(position, notification)
+                                                    } catch (e: Exception) {
+                                                    }
+                                                    try {
+                                                        notificationsRV!!.scrollToPosition(position)
+                                                    } catch (e: Exception) {
+                                                    }
                                                     if (!notification.seen!!) {
                                                         bdjobsUserSession = BdjobsUserSession(activity)
                                                         bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)

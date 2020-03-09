@@ -17,8 +17,11 @@ import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,6 +59,7 @@ class JobDetailsFragment : Fragment() {
     var shareJobPosition = 0
 
     lateinit var bdjobsDB: BdjobsDB
+    lateinit var session: BdjobsUserSession
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -65,6 +69,8 @@ class JobDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdjobsDB = BdjobsDB.getInstance(activity)
+        session = BdjobsUserSession(activity)
+
         alertTV?.isSelected = true
         communicator = activity as JobCommunicator
 
@@ -261,38 +267,53 @@ class JobDetailsFragment : Fragment() {
                 rpp = rpp,
                 slno = slno,
                 version = version)
-        call.enqueue(object : Callback<JobListModel> {
+        call.enqueue(object : Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
                 try {
                     if (response.isSuccessful) {
 
                         //Log.d("ArrayTestJobdetail", " response.isSuccessful")
+                        val responseData = response.body()?.string()
 
-                        val resp_jobs = response.body()
+                        try {
 
-                        jobDetailAdapter?.removeLoadingFooter()
-                        isLoadings = false
+                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
 
-                        val results = response.body()?.data
+                            val resp_jobs = response.body()
 
-                        if (!results.isNullOrEmpty()) {
+                            jobDetailAdapter?.removeLoadingFooter()
+                            isLoadings = false
 
-                            jobDetailAdapter?.addAll(results)
-                            jobDetailAdapter?.showHideShortListedIcon(position = currentJobPosition)
+                            val results = jobListModel?.data
+
+                            if (!results.isNullOrEmpty()) {
+
+                                jobDetailAdapter?.addAll(results)
+                                jobDetailAdapter?.showHideShortListedIcon(position = currentJobPosition)
+                            }
+
+                            TOTAL_PAGES = jobListModel?.common?.totalpages
+                            if (currentPage >= TOTAL_PAGES!!) {
+                                isLastPages = true
+                            } else {
+                                jobDetailAdapter?.addLoadingFooter()
+                            }
+                            communicator.setTotalPage(jobListModel?.common?.totalpages)
+                            communicator.setIsLoading(isLoadings)
+                            communicator.setLastPasge(isLastPages)
+                            communicator.setTotalJob(jobListModel?.common?.totalRecordsFound!!)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = Constants.ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+
+                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                }
+
+                            })
                         }
-
-                        TOTAL_PAGES = resp_jobs?.common?.totalpages
-                        if (currentPage >= TOTAL_PAGES!!) {
-                            isLastPages = true
-                        } else {
-                            jobDetailAdapter?.addLoadingFooter()
-                        }
-                        communicator.setTotalPage(resp_jobs?.common?.totalpages)
-                        communicator.setIsLoading(isLoadings)
-                        communicator.setLastPasge(isLastPages)
-                        communicator.setTotalJob(resp_jobs?.common?.totalRecordsFound!!)
 
                     } else {
                         //Log.d("TAG", "not successful: ")
@@ -302,7 +323,7 @@ class JobDetailsFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 //Log.d("TAG", "not successful!! onFail")
             }
         })

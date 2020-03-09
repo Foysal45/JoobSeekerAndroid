@@ -116,6 +116,10 @@ class WebActivity : Activity() {
                     //Log.d("reportJob","loadUrlWithoutCookie")
                 }
             }
+            "assessment"-> {
+                suggestiveSearchET.text = "Assessment"
+                loadUrlWithCookie(url)
+            }
             else -> {
                 loadUrlWithoutCookie(url)
             }
@@ -135,7 +139,7 @@ class WebActivity : Activity() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 bdjobsWeb?.hide()
                 shimmer_view_container_JobList?.show()
-                shimmer_view_container_JobList?.startShimmerAnimation()
+                shimmer_view_container_JobList?.startShimmer()
                 super.onPageStarted(view, url, favicon)
             }
 
@@ -153,7 +157,7 @@ class WebActivity : Activity() {
                 super.onPageFinished(view, url)
                 bdjobsWeb?.show()
                 shimmer_view_container_JobList?.hide()
-                shimmer_view_container_JobList?.stopShimmerAnimation()
+                shimmer_view_container_JobList?.stopShimmer()
             }
         }
         url?.let { ur ->
@@ -169,7 +173,7 @@ class WebActivity : Activity() {
 
         bdjobsWeb?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
 
         ApiServiceMyBdjobs.create().getCookies(
                 userId = bdjobsUserSession.userId,
@@ -208,7 +212,7 @@ class WebActivity : Activity() {
                             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                                 bdjobsWeb?.hide()
                                 shimmer_view_container_JobList?.show()
-                                shimmer_view_container_JobList?.startShimmerAnimation()
+                                shimmer_view_container_JobList?.startShimmer()
 
                                 super.onPageStarted(view, url, favicon)
                             }
@@ -228,7 +232,7 @@ class WebActivity : Activity() {
                                 super.onPageFinished(view, url)
                                 bdjobsWeb?.show()
                                 shimmer_view_container_JobList?.hide()
-                                shimmer_view_container_JobList?.stopShimmerAnimation()
+                                shimmer_view_container_JobList?.stopShimmer()
                             }
                         }
 

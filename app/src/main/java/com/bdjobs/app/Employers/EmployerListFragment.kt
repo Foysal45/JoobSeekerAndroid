@@ -11,14 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
 import com.bdjobs.app.API.ModelClasses.EmployerListModelData
+import com.bdjobs.app.API.ModelClasses.TestJsonModel
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_employer_list.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class EmployerListFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -33,6 +37,8 @@ class EmployerListFragment : Fragment() {
     private lateinit var listCommunicator: EmployersCommunicator
     private lateinit var employerListAdapter: EmployerListAdapter
 
+    lateinit var bdjobsUserSession: BdjobsUserSession
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,6 +50,8 @@ class EmployerListFragment : Fragment() {
         listCommunicator = activity as EmployersCommunicator
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
+
+        bdjobsUserSession = BdjobsUserSession(activity)
 
         backIV.setOnClickListener {
             listCommunicator?.backButtonPressed()
@@ -68,7 +76,7 @@ class EmployerListFragment : Fragment() {
 
         searchBTN?.isEnabled = false
 
-        suggestiveSearch_ET?.easyOnTextChangedListener {text ->
+        suggestiveSearch_ET?.easyOnTextChangedListener { text ->
             if (text.isBlank()) {
                 searchBTN?.isEnabled = false
                 orgName = suggestiveSearch_ET?.getString()!!
@@ -77,8 +85,7 @@ class EmployerListFragment : Fragment() {
                 isLastPages = false
                 isLoadings = false
                 initPagination()
-            }
-            else {
+            } else {
                 searchBTN?.setEnabled(true);
             }
         }
@@ -118,7 +125,55 @@ class EmployerListFragment : Fragment() {
         employerList_RV?.hide()
         favCountTV?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
+
+
+//        ApiServiceJobs.create().responseBrokenTestCase(encoded = "02041526JSBJ2",param1 = "test1").enqueue(object : Callback<ResponseBody> {
+//
+//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                Log.d("rakib first onResponse", response.raw().toString())
+//
+//                if (response.isSuccessful)
+//                {
+//                    val responseData = response.body()?.string()
+//                    Log.d("rakib responseData",responseData)
+//                    Log.d("rakib url","${call.request().url()}")
+//                    Log.d("rakib params","${Gson().toJson(call.request().body())}")
+//
+//                    try{
+//                        val testJsonModel = Gson().fromJson(responseData, TestJsonModel::class.java)
+//                        Log.d("rakib testJsonModel",testJsonModel.message)
+//
+//                    } catch (e : java.lang.Exception) {
+//                        e.printStackTrace()
+//                        ApiServiceJobs.create().responseBroken(url = "${call.request().url()}", params = "${Gson().toJson(call.request().body())}", encoded = Constants.ENCODED_JOBS, userId = bdjobsUserSession.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+//                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+//
+//                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                            }
+//
+//                        })
+//                    }
+//                }
+//                else{
+//                    Log.d("rakib","sss")
+//                }
+//            }
+//
+//
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                Log.d("rakib first onFailure", call.request().body().toString())
+//                t?.printStackTrace()
+//                if (t is IOException) {
+//                    Log.d("rakib first net failure", t.toString())
+//                }
+//                else {
+//                    Log.d("rakib first converstion", Gson().toJson(call.request().body()))
+// //                }
+//            }
+//
+//
+//        })
 
         ApiServiceJobs.create().getEmpLists(encoded = Constants.ENCODED_JOBS, orgName = orgname, page = pgNo.toString()).enqueue(object : Callback<EmployerListModelClass> {
             override fun onFailure(call: Call<EmployerListModelClass>, t: Throwable) {
@@ -126,6 +181,7 @@ class EmployerListFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<EmployerListModelClass>, response: Response<EmployerListModelClass>) {
+
 
                 try {
                     //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
@@ -159,7 +215,7 @@ class EmployerListFragment : Fragment() {
                     employerList_RV?.show()
                     favCountTV?.show()
                     shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                    shimmer_view_container_JobList?.stopShimmer()
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -167,9 +223,6 @@ class EmployerListFragment : Fragment() {
             }
 
         })
-
-
-
 
 
     }

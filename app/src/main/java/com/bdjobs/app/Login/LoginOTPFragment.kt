@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LoginSessionModel
+import com.bdjobs.app.API.ModelClasses.ResendOtpModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -16,6 +17,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.counterTimeLimit
 import com.bdjobs.app.Utilities.Constants.Companion.timer_countDownInterval
 import kotlinx.android.synthetic.main.fragment_login_otp.*
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -78,6 +80,9 @@ class LoginOTPFragment : Fragment() {
         }
 
 
+        resendOtpTV?.setOnClickListener {
+            resendOTP()
+        }
 
         rootView?.viewTreeObserver.addOnGlobalLayoutListener {
             try {
@@ -101,6 +106,40 @@ class LoginOTPFragment : Fragment() {
             doLogin()
         }
 
+    }
+
+    private fun resendOTP()
+    {
+//        toast("clicked")
+        setTime()
+        counterTV?.show()
+        resendOtpTV?.hide()
+
+        loadingProgressBar.visibility = View.VISIBLE
+
+        ApiServiceMyBdjobs.create().resendOtp(loginCommunicator.getUserId(), loginCommunicator.getUserName(), "2").enqueue(object : Callback<ResendOtpModel> {
+            override fun onFailure(call: Call<ResendOtpModel>, t: Throwable) {
+
+                //Log.d("resendOtp", " sjkafhsakfljh failuere")
+            }
+
+            override fun onResponse(call: Call<ResendOtpModel>, response: Response<ResendOtpModel>) {
+
+                try {
+                    //Log.d("resendOtp", " sjkafhsakfljh ${response.message()}")
+                    /*  toast(response.message())*/
+                    loadingProgressBar.visibility = View.GONE
+
+                } catch (e: Exception) {
+
+                    logException(e)
+                }
+
+
+            }
+
+
+        })
     }
 
     private fun doLogin() {

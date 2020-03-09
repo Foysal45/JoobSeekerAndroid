@@ -72,6 +72,10 @@ class Constants {
         var appliedJobsThreshold = 25
         var appliedJobLimit = 50
 
+        var totalContacted = 0
+        var totalNotContacted = 0
+        var totalHired = 0
+
         var calendar = Calendar.getInstance()
         var daysAvailable = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH)
 //        val warningmsgThrsldDate = "31/10/2019" //dd/mm/yyyy
@@ -134,6 +138,9 @@ class Constants {
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
+        const val base_url_module_sample = "http://mybdjobs.bdjobs.com/mybdjobs/assessment/samples/"
+        const val base_url_assessment_web = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_home.asp?device=app"
+        const val url_assessment_help = "https://mybdjobs.bdjobs.com/mybdjobs/assessment/smnt_certification_help.asp?r=lm"
 
         const val key_go_to_home = "goToHome"
         const val BdjobsUserRequestCode = 1
@@ -145,6 +152,7 @@ class Constants {
         const val session_key_decodId = "decodId"
         const val session_key_userName = "userName"
         const val session_key_AppsDate = "AppsDate"
+        const val session_key_PostingDate = "postingDate"
         const val session_key_age = "age"
         const val session_key_exp = "exp"
         const val session_key_catagoryId = "catagoryId"

@@ -250,8 +250,8 @@ class ProfessionalQLEditFragment : Fragment() {
 
         call.enqueue(object : Callback<ProfessionalModel> {
             override fun onFailure(call: Call<ProfessionalModel>, t: Throwable) {
-                activity.stopProgressBar(professionalLoadingProgressBar)
-                activity.toast(R.string.message_common_error)
+                activity?.stopProgressBar(professionalLoadingProgressBar)
+                activity?.toast(R.string.message_common_error)
             }
 
             override fun onResponse(call: Call<ProfessionalModel>, response: Response<ProfessionalModel>) {

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="data"
+            type="com.bdjobs.app.assessment.models.HomeData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:startTestCardVisibility="@{data}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            app:testStatusHeading="@{data}"
+            android:id="@+id/heading_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#FFFDE7"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/heading_tv"
+            app:layout_constraintTop_toBottomOf="@id/heading_tv"
+            app:strokeColor="#E6E4D0"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/test_name_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="bdjobs-amcat Certification Test"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/test_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="30dp"
+                    android:gravity="end"
+                    android:text="Test Time"
+                    android:textColor="#595959"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@id/test_date_tv"
+                    app:layout_constraintTop_toBottomOf="@id/test_name_tv" />
+
+                <ImageView
+                    android:visibility="gone"
+
+                    android:id="@+id/img1"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_access_time_alert_24dp"
+                    android:tint="#000"
+                    app:layout_constraintStart_toStartOf="@id/test_time_tv"
+                    app:layout_constraintTop_toBottomOf="@id/test_time_tv" />
+
+                <TextView
+                    android:visibility="gone"
+
+                    android:id="@+id/test_time_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{data.testTime}"
+                    android:textColor="#303030"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/img1"
+                    app:layout_constraintStart_toEndOf="@id/img1"
+                    app:layout_constraintTop_toTopOf="@id/img1" />
+
+                <TextView
+                    android:visibility="gone"
+
+                    android:id="@+id/test_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test Date"
+                    android:textColor="#595959"
+                    android:textSize="13sp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintTop_toTopOf="@id/test_time_tv" />
+
+                <ImageView
+                    android:visibility="gone"
+
+                    android:id="@+id/img2"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_date_of_comission"
+                    android:tint="#000"
+                    app:layout_constraintStart_toStartOf="@id/test_date_tv"
+                    app:layout_constraintTop_toTopOf="@id/img1" />
+
+                <TextView
+                    android:visibility="gone"
+
+                    android:id="@+id/test_date_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:textColor="#303030"
+                    android:textSize="16sp"
+                    app:date="@{data.testDate}"
+                    app:layout_constraintBottom_toBottomOf="@id/img2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/img2"
+                    app:layout_constraintTop_toTopOf="@id/img2" />
+
+                <TextView
+                    android:visibility="gone"
+
+                    android:id="@+id/venue_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19dp"
+                    android:text="Test Center"
+                    android:textColor="#595959"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test_time_value_tv" />
+
+                <ImageView
+                    android:visibility="gone"
+
+                    android:id="@+id/img3"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_location_ic"
+                    android:tint="#212121"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/venue_tv" />
+
+                <TextView
+                    android:visibility="gone"
+
+                    android:id="@+id/venue_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#303030"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/img3"
+                    app:layout_constraintTop_toTopOf="@id/img3"
+                    app:venue="@{data.centerAddress}" />
+
+                <ImageView
+                    android:id="@+id/money_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19dp"
+                    android:src="@drawable/ic_salary_ic"
+                    android:tint="#000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/venue_value_tv" />
+
+                <TextView
+                    android:id="@+id/money_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#000000"
+                    app:fee="@{data.testFee}"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/money_iv"
+                    app:layout_constraintTop_toBottomOf="@id/money_iv"
+                    app:layout_constraintTop_toTopOf="@id/money_iv"
+                    tools:text="BDT 500 /-" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/pay_status_cl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintBottom_toBottomOf="@id/money_tv"
+                    app:layout_constraintEnd_toStartOf="@id/guideline11"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/money_tv"
+                    app:layout_constraintTop_toTopOf="@id/money_tv"
+                    app:paymentStatusBackground="@{data}">
+
+                    <ImageView
+                        android:id="@+id/pay_status_img"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        app:layout_constraintBottom_toBottomOf="@id/pay_status_tv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/pay_status_tv"
+                        app:paymentStatusImage="@{data}" />
+
+                    <TextView
+                        android:id="@+id/pay_status_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="#155724"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/pay_status_img"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:paymentStatusText="@{data}" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/start_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="center"
+                    android:text="Start Test from Home"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    app:backgroundTint="#4D4D4D"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/money_iv"
+                    tools:layout_editor_absoluteY="272dp" />
+
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

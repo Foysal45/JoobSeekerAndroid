@@ -66,7 +66,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
         }
 
         shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        shimmer_view_container_JobList.startShimmer()
         infoLL.hide()
 
         getUserStatus(
@@ -162,7 +162,7 @@ class InviteCodeStatusFragment : Fragment(), OnMapReadyCallback {
 
 
                                 shimmer_view_container_JobList.hide()
-                                shimmer_view_container_JobList.stopShimmerAnimation()
+                                shimmer_view_container_JobList.stopShimmer()
                                 infoLL.show()
 
 

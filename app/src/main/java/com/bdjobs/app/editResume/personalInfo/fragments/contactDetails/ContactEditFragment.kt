@@ -1172,7 +1172,10 @@ class ContactEditFragment : Fragment() {
                                 } catch (e: Exception) {
                                 }
                                 contactInfo.setPmThana(thanaId)
-                                postOfficeListPm = dataStorage.getDependentEnglishLocationByParentId(thanaListPm?.get(which)?.locationId!!)
+                                try {
+                                    postOfficeListPm = dataStorage.getDependentEnglishLocationByParentId(thanaListPm?.get(which)?.locationId!!)
+                                } catch (e: Exception) {
+                                }
                                 val pstOfficeNameList = arrayListOf<String>()
 //                                if (pstOfficeNameList.isNullOrEmpty()) {
 //                                    val otherLocation = LocationModel("Other", "-2")

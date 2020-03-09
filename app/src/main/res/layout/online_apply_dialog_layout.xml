@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -8,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView30"
@@ -32,11 +33,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto"
             android:text="Enter your expected salary"
             android:textColor="#767676"
+            android:layout_marginTop="8dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -49,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="14dp"
             app:layout_constraintBottom_toTopOf="@+id/textView32"
@@ -72,13 +73,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:visibility="visible"
+
             app:gnt_template_type="@layout/gnt_small_template_view"
+            app:layout_constraintBottom_toTopOf="@id/onlineApplyCancelBTN"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/salaryAmountTIL" />
+            app:layout_constraintTop_toBottomOf="@+id/salary_limit_exceeded_tv" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -86,17 +89,14 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_medium"
             android:text="CANCEL"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/onlineApplyOkBTN"
-            app:layout_constraintEnd_toStartOf="@+id/onlineApplyOkBTN"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/saveBTN"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.22"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/onlineApplyOkBTN"
@@ -112,7 +112,28 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/onlineApplyCancelBTN"
             app:layout_constraintTop_toBottomOf="@+id/ad_small_template" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/applyAnywayBTN"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Apply anyway"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/onlineApplyCancelBTN"
+            app:layout_constraintTop_toBottomOf="@+id/ad_small_template" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/salaryAmountTIL"
@@ -120,7 +141,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:focusableInTouchMode="true"
             app:boxCornerRadiusBottomEnd="8dp"
@@ -145,6 +166,18 @@
                 android:typeface="normal"
                 app:fontFamily="@font/roboto" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/salary_limit_exceeded_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Your expected salary is higher for this position. It may decrease chances of interview call for this job. It is suggested to revise your salary."
+            android:textColor="#c0392b"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/salaryAmountTIL"
+            app:layout_constraintStart_toStartOf="@+id/salaryAmountTIL"
+            app:layout_constraintTop_toBottomOf="@+id/salaryAmountTIL" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

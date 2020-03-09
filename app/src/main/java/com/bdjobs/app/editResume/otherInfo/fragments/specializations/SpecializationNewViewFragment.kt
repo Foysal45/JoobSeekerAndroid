@@ -243,7 +243,7 @@ class SpecializationNewViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_specialization_new?.show()
-            shimmer_view_container_specialization_new?.startShimmerAnimation()
+            shimmer_view_container_specialization_new?.startShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -253,7 +253,7 @@ class SpecializationNewViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_specialization_new?.hide()
-            shimmer_view_container_specialization_new?.stopShimmerAnimation()
+            shimmer_view_container_specialization_new?.stopShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

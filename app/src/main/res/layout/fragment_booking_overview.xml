@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/test_location_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F6F8FA"
+        tools:context=".assessment.TestLocationFragment">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <ImageView
+            android:id="@+id/first_dot_iv"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="36dp"
+            android:src="@drawable/assessment_circle"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toTopOf="@id/second_dot_iv"
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+        <ImageView
+            android:id="@+id/second_dot_iv"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/assessment_circle"
+            app:layout_constraintEnd_toStartOf="@id/third_dot_iv"
+            app:layout_constraintStart_toEndOf="@id/first_dot_iv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+        <ImageView
+            android:id="@+id/third_dot_iv"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginEnd="36dp"
+            android:src="@drawable/assessment_circle_inactive"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toTopOf="@id/second_dot_iv"
+            tools:layout_editor_absoluteX="297dp"
+            tools:layout_editor_absoluteY="23dp" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/assessment_horizontal_line"
+            app:layout_constraintBottom_toBottomOf="@id/first_dot_iv"
+            app:layout_constraintEnd_toStartOf="@id/second_dot_iv"
+            app:layout_constraintStart_toEndOf="@id/first_dot_iv"
+            app:layout_constraintTop_toTopOf="@id/first_dot_iv" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/assessment_horizontal_line"
+            android:backgroundTint="#E1E1E1"
+            app:layout_constraintBottom_toBottomOf="@id/second_dot_iv"
+            app:layout_constraintEnd_toStartOf="@id/third_dot_iv"
+            app:layout_constraintStart_toEndOf="@id/second_dot_iv"
+            app:layout_constraintTop_toTopOf="@id/second_dot_iv" />
+
+
+        <TextView
+            android:id="@+id/view_test_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="9dp"
+            android:text="View Test"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/first_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/first_dot_iv"
+            app:layout_constraintTop_toBottomOf="@id/first_dot_iv" />
+
+        <TextView
+            android:id="@+id/choose_center_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Test Center"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/view_test_tv"
+            app:layout_constraintEnd_toEndOf="@id/second_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/second_dot_iv"
+            app:layout_constraintTop_toTopOf="@id/view_test_tv" />
+
+        <TextView
+            android:id="@+id/payment_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/choose_center_tv"
+            app:layout_constraintEnd_toEndOf="@id/third_dot_iv"
+            app:layout_constraintStart_toStartOf="@id/third_dot_iv"
+            app:layout_constraintTop_toTopOf="@+id/choose_center_tv" />
+
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
+            app:layout_constraintStart_toEndOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/choose_center_tv">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <TextView
+                    android:id="@+id/heading_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="bdjobs-amcat Certificate"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/test_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Test Time"
+                    android:textColor="#595959"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/heading_tv" />
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="9dp"
+                    android:src="@drawable/ic_access_time_alert_24dp"
+                    android:tint="#000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test_time_tv" />
+
+                <TextView
+                    android:id="@+id/test_time_value_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#303030"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/img1"
+                    app:layout_constraintStart_toEndOf="@id/img1"
+                    app:layout_constraintTop_toTopOf="@id/img1"
+                    app:time="@{viewmodel.scheduleData.testTime}" />
+
+                <TextView
+                    android:id="@+id/test_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test Date"
+                    android:textColor="#595959"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.08"
+                    app:layout_constraintStart_toEndOf="@+id/heading_tv"
+                    app:layout_constraintTop_toTopOf="@id/test_time_tv" />
+
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_date_of_comission"
+                    android:tint="#000"
+                    app:layout_constraintStart_toStartOf="@id/test_date_tv"
+                    app:layout_constraintTop_toTopOf="@id/img1" />
+
+                <TextView
+                    android:id="@+id/test_date_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:textColor="#303030"
+                    android:textSize="16sp"
+                    app:date="@{viewmodel.scheduleData.testDate}"
+                    app:layout_constraintBottom_toBottomOf="@id/img2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/img2"
+                    app:layout_constraintTop_toTopOf="@id/img2" />
+
+                <TextView
+                    android:id="@+id/venue_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19dp"
+                    android:text="Test Center"
+                    android:textColor="#595959"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test_time_value_tv" />
+
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_location_ic"
+                    android:tint="#212121"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/venue_tv" />
+
+                <TextView
+                    android:id="@+id/venue_value_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text='@{viewmodel.scheduleData.testCenter.equalsIgnoreCase("Dhaka") ? "Bdjobs.com Limited 8th Floor - West Kawran Bazar C/A, Dhaka-1215 " : "1745, Sheikh Mujib Road (2nd Floor) Agrabad (Nearby Hotel Land Mark), Chittagong"}'
+                    android:textColor="#303030"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/img3"
+                    app:layout_constraintTop_toTopOf="@id/img3" />
+
+                <fragment
+                    android:id="@+id/map_view"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="182dp"
+                    android:layout_marginTop="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/venue_value_tv" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/manage_booking_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:letterSpacing="0"
+                    android:onClick="@{() -> viewmodel.setUpBookingData()}"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text='@{viewmodel.scheduleData.actionType.equals("I") ? "Confirm Booking" : "Change Booking"}'
+                    android:textAllCaps="false"
+                    app:backgroundTint="#13A10E"
+                    app:cornerRadius="4dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cancel_booking_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/map_view" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel_booking_btn"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:onClick="@{()-> viewmodel.cancelSchedule()}"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Cancel Booking"
+                    android:textAllCaps="false"
+                    android:textColor="#303030"
+                    android:visibility='@{viewmodel.scheduleData.actionType.equalsIgnoreCase("I") ?  View.GONE : View.VISIBLE}'
+                    app:backgroundTint="#D9D9D9"
+                    app:cornerRadius="4dp"
+                    app:layout_constraintBottom_toTopOf="@+id/need_more_cl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/manage_booking_btn" />
+
+
+                <include
+                    android:id="@+id/need_more_cl"
+                    layout="@layout/layout_need_more_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cancel_booking_btn" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+        <ProgressBar
+            android:id="@+id/loadingProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:theme="@style/BdjobsLinearProgress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

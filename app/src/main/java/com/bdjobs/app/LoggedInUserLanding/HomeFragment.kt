@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
@@ -171,6 +172,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
         jobInvitationView?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+            } catch (e: Exception) {
+            }
         }
         searchBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
@@ -511,6 +516,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         interviewList_MBTN?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+            } catch (e: Exception) {
+            }
         }
     }
 
@@ -576,6 +585,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateUserPicUrl(response.body()?.data?.get(0)?.userPicUrl?.trim()!!)
                         bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
                         bdjobsUserSession.updateJobApplyThreshold(response.body()?.data?.get(0)?.appliedJobsThreshold)
+                        bdjobsUserSession.updatePostingDate(response.body()?.data?.get(0)?.postingDate!!)
 //                        Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
 //                        Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
                         //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")

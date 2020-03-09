@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.text.Html
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -15,6 +14,8 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -36,7 +37,6 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -45,7 +45,6 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -81,6 +80,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var experienceData = ""
     var requirmentsData = ""
     var salaryData = ""
+    var salaryDataText = ""
     var otherBenifitsData = ""
     var jobSourceData = ""
     var readApplyData = ""
@@ -118,6 +118,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        Log.d("rakib", "created")
         var viewHolder: RecyclerView.ViewHolder? = null
         var inflater = LayoutInflater.from(parent.context)
 
@@ -140,11 +141,11 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-
         applyStatus = false
 
         when (getItemViewType(position)) {
             BASIC -> {
+
 
                 // holder.setIsRecyclable(false)
 
@@ -178,9 +179,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                    jobsVH.applyButton.visibility = View.GONE
 //                else
-                    jobsVH.applyFab.hide()
+                jobsVH.applyFab.hide()
 
-                jobsVH.shimmer_view_container.startShimmerAnimation()
+                jobsVH.shimmer_view_container.startShimmer()
+                jobsVH.constraintLayout.hide()
                 jobCommunicator?.hideShortListIcon()
 
 
@@ -197,7 +199,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             //Log.d("ApiServiceJobs", "onResponse: ${response.body()?.data?.get(0)?.jobTitle}")
                             //Log.d("ApiServiceJobs", "onResponse: " + response.body())
                             jobsVH.shimmer_view_container.hide()
-                            jobsVH.shimmer_view_container.stopShimmerAnimation()
+                            jobsVH.shimmer_view_container.stopShimmer()
+                            jobsVH.constraintLayout.show()
                             Ads.showNativeAd(jobsVH.ad_small_template, context)
                             val jobDetailResponseAll = response.body()?.data?.get(0)
 
@@ -209,6 +212,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             experienceData = jobDetailResponseAll.experience!!
                             requirmentsData = jobDetailResponseAll.additionJobRequirements!!
                             salaryData = jobDetailResponseAll.jobSalaryRange!!
+                            salaryDataText = jobDetailResponseAll.jobSalaryRangeText!!
                             otherBenifitsData = jobDetailResponseAll.jobOtherBenifits!!
                             jobSourceData = jobDetailResponseAll.jobSource!!
                             readApplyData = jobDetailResponseAll.applyInstruction!!
@@ -217,7 +221,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyLogoUrl = jobDetailResponseAll.jobLOgoName!!
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
-
+//                            minSalary = jobDetailResponseAll.minSalary!!
+//                            maxSalary = jobDetailResponseAll.maxSalary!!
+//
+//                            Log.d("rakib", "$minSalary $maxSalary ${jobDetailResponseAll.jobTitle}" )
 
                             if (applyOnline.equalIgnoreCase("True")) {
 
@@ -258,7 +265,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 //Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
 
-                                if (todayDate > deadlineDate) {
+                                if (todayDate >= deadlineDate) {
                                     jobsVH.jobexpirationBtn.show()
                                     jobCommunicator?.hideShortListIcon()
                                 } else {
@@ -320,7 +327,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                            if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                                jobsVH.applyButton.hide()
 //                            else
-                                jobsVH.applyFab.hide()
+                            jobsVH.applyFab.hide()
 
                             jobsVH.appliedBadge.hide()
 
@@ -368,7 +375,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                                            jobsVH.applyButton.visibility = View.GONE
 //                                        else
-                                            jobsVH.applyFab.hide()
+                                        jobsVH.applyFab.hide()
 
                                         jobsVH.applyLimitOverButton.setOnClickListener {
                                             showApplyLimitOverPopup(context, position)
@@ -377,7 +384,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                                            jobsVH.applyButton.visibility = View.VISIBLE
 //                                        else
-                                            jobsVH.applyFab.show()
+                                        jobsVH.applyFab.show()
                                         jobsVH.applyLimitOverButton.visibility = View.GONE
                                     }
 
@@ -386,13 +393,12 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                                    if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                                        jobsVH.applyButton.visibility = View.VISIBLE
 //                                    else
-                                        jobsVH.applyFab.show()
+                                    jobsVH.applyFab.show()
                                 }
                             } else {
 //                                jobsVH.applyButton.visibility = View.GONE
                                 jobsVH.applyFab.hide()
                             }
-
 
 
 //                                jobsVH.applyButton.setOnClickListener {
@@ -421,32 +427,32 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 //                                        }
 //                                    }
 //                                }
-                                jobsVH.applyFab.setOnClickListener {
-                                    val bdjobsUserSession = BdjobsUserSession(context)
-                                    if (!bdjobsUserSession.isLoggedIn!!) {
-                                        jobCommunicator?.setBackFrom("jobdetail")
-                                        jobCommunicator?.goToLoginPage()
-                                    } else {
-                                        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
-                                            try {
-                                                val alertd = context.alert("To Access this feature please post your resume") {
-                                                    title = "Your resume is not posted!"
-                                                    positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
-                                                    negativeButton("Cancel") { dd ->
-                                                        dd.dismiss()
-                                                    }
+                            jobsVH.applyFab.setOnClickListener {
+                                val bdjobsUserSession = BdjobsUserSession(context)
+                                if (!bdjobsUserSession.isLoggedIn!!) {
+                                    jobCommunicator?.setBackFrom("jobdetail")
+                                    jobCommunicator?.goToLoginPage()
+                                } else {
+                                    if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+                                        try {
+                                            val alertd = context.alert("To Access this feature please post your resume") {
+                                                title = "Your resume is not posted!"
+                                                positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+                                                negativeButton("Cancel") { dd ->
+                                                    dd.dismiss()
                                                 }
-                                                alertd.isCancelable = false
-                                                alertd.show()
-                                            } catch (e: Exception) {
-                                                logException(e)
                                             }
-                                        } else {
-                                            showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
-                                            //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
+                                            alertd.isCancelable = false
+                                            alertd.show()
+                                        } catch (e: Exception) {
+                                            logException(e)
                                         }
+                                    } else {
+                                        showWarningPopup(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!, jobDetailResponseAll.minSalary!!, jobDetailResponseAll.maxSalary!!)
+                                        //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                     }
                                 }
+                            }
 
                             doAsync {
                                 val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(jobList?.get(position)?.jobid!!)
@@ -576,7 +582,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 }
 
-                                if (salaryData.isBlank() && otherBenifitsData.isBlank()) {
+                                if (salaryData.equals("--") && otherBenifitsData.isBlank()) {
 
                                     jobsVH.tvSalaryRange.visibility = View.GONE
                                     jobsVH.tvSalaryRangeData.visibility = View.GONE
@@ -587,16 +593,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 } else {
 
-                                    if (salaryData.isBlank()) {
+                                    if (salaryData.equals("--")) {
 
                                         jobsVH.tvSalaryRange.visibility = View.GONE
                                         jobsVH.tvSalaryRangeData.visibility = View.GONE
+
+                                        if (!salaryDataText.isBlank()) {
+                                            jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
+                                            jobsVH.tvSalaryRangeData.text = salaryDataText
+                                        }
 
                                     } else {
 
                                         jobsVH.tvSalaryRange.visibility = View.VISIBLE
                                         jobsVH.tvSalaryRangeData.visibility = View.VISIBLE
-                                        jobsVH.tvSalaryRangeData.text = salaryData
+                                        jobsVH.tvSalaryRangeData.text = "\u2022 $salaryData" + "\n\n$salaryDataText"
                                     }
 
                                     if (otherBenifitsData.isBlank()) {
@@ -808,7 +819,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH.tvReadBefApply.hide()
                                 jobsVH.tvReadBefApplyData.hide()
 
-
                             }
                         } catch (e: Exception) {
                             logException(e)
@@ -842,7 +852,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         context.email("complain@bdjobs.com", "", "")
     }
 
-    private fun checkApplyEligibility(activity: Context, position: Int, gender: String, jobphotograph: String) {
+    private fun checkApplyEligibility(activity: Context, position: Int, gender: String, jobphotograph: String, minSalary: String, maxSalary: String) {
 
         val bdjobsUserSession = BdjobsUserSession(context)
         val loadingDialog = activity.indeterminateProgressDialog("Applying")
@@ -864,7 +874,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                         try {
                             if (response.isSuccessful) {
                                 if (response.body()?.data?.get(0)?.applyEligibility?.equalIgnoreCase("true")!!) {
-                                    showSalaryDialog(activity, position, gender, jobphotograph)
+                                    showSalaryDialog(activity, position, gender, jobphotograph, minSalary, maxSalary)
                                 } else {
                                     val plainMessage = response.body()?.data?.get(0)?.message
                                     val plainHeading = response.body()?.data?.get(0)?.title
@@ -925,7 +935,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
-    private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String) {
+    private fun showWarningPopup(context: Context, position: Int, gender: String, jobphotograph: String, minSalary: String, maxSalary: String) {
         try {
             val dialog = Dialog(context)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -979,7 +989,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             cancelBtn?.setOnClickListener { dialog.dismiss() }
             agreedBtn?.setOnClickListener {
                 dialog?.dismiss()
-                checkApplyEligibility(context, position, gender, jobphotograph)
+                checkApplyEligibility(context, position, gender, jobphotograph, minSalary, maxSalary)
             }
             dialog?.show()
         } catch (e: Exception) {
@@ -992,16 +1002,21 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     }
 
 
-    private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String) {
+    private fun showSalaryDialog(activity: Context, position: Int, gender: String, jobphotograph: String, minSalary: String, maxSalary: String) {
         dialog = Dialog(activity)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         dialog?.setCancelable(true)
         dialog?.setContentView(R.layout.online_apply_dialog_layout)
         val cancelButton = dialog?.findViewById<Button>(R.id.onlineApplyCancelBTN)
         val okButton = dialog?.findViewById<Button>(R.id.onlineApplyOkBTN)
+        val applyAnywayButton = dialog?.findViewById<Button>(R.id.applyAnywayBTN)
         val salaryTIET = dialog?.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
         val salaryTIL = dialog?.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+        val salaryExceededTextView: TextView = dialog?.findViewById(R.id.salary_limit_exceeded_tv) as TextView
+        val scrollView = dialog?.findViewById(R.id.scroll) as ScrollView
 
         val jobApplicationStatusCard = dialog?.findViewById<ConstraintLayout>(R.id.job_detail_job_application_status_card)
         val appliedJobsCountTV = dialog?.findViewById<TextView>(R.id.job_detail_job_application_count_tv)
@@ -1032,7 +1047,19 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             jobApplicationStatusCard?.hide()
         }
 
+        salaryTIET.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+            } else {
+                salaryExceededTextView?.hide()
+                okButton?.show()
+                applyAnywayButton?.hide()
+                salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+            }
+        }
 
+        applyAnywayButton?.setOnClickListener {
+            applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+        }
 
         salaryTIET?.easyOnTextChangedListener { text ->
             validateFilterName(text.toString(), salaryTIL)
@@ -1047,18 +1074,89 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
             d("applyTest in ok button $applyStatus")
 
-            if (validateFilterName(salaryTIET.getString(), salaryTIL) && !applyStatus) {
-                applyStatus = true
-                applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
-                d("applyTest validate $applyStatus")
+            try {
+                salaryTIET?.hideKeyboard()
+            } catch (e:Exception){
 
             }
 
+            try {
+                if (minSalary != "0" && maxSalary != "0") {
+                    if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
+                        //disableSalaryText(salaryTIET,salaryTIL,dialog)
+                        salaryExceededTextView?.show()
+                        applyAnywayButton?.show()
+                        okButton?.hide()
+//                        scrollView?.post {
+//                            scrollView.fullScroll(View.FOCUS_DOWN)
+//                        }
+                        salaryTIET.clearFocus()
+                        salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
+                    } else {
+                        salaryExceededTextView?.hide()
+                        applyAnywayButton?.hide()
+                        okButton?.show()
+                        salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                    }
+                } else {
+                    if (maxSalary != "0" && minSalary == "0") {
+                        if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
+                            salaryExceededTextView?.show()
+                            okButton?.hide()
+                            applyAnywayButton?.show()
+                            salaryTIET.clearFocus()
+                            salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
+//                            scrollView?.post {
+//                                scrollView.fullScroll(View.FOCUS_DOWN)
+//                            }
+                        } else {
+                            salaryExceededTextView?.hide()
+                            okButton?.show()
+                            applyAnywayButton?.hide()
+                            salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                        }
+                    } else if (maxSalary == "0" && minSalary != "0") {
+                        if (salaryTIET.text.toString().toInt() > minSalary.toInt()) {
+                            salaryExceededTextView?.show()
+                            okButton?.hide()
+                            applyAnywayButton?.show()
+                            salaryTIET.clearFocus()
+                            salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
+//                            scrollView?.post {
+//                                scrollView.fullScroll(View.FOCUS_DOWN)
+//                            }
+                        } else {
+                            salaryExceededTextView?.hide()
+                            okButton?.show()
+                            applyAnywayButton?.hide()
+                            salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                applyAnywayButton?.hide()
+                okButton?.show()
+                salaryExceededTextView?.hide()
+                salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+
+            }
+
+            if (validateFilterName(salaryTIET.getString(), salaryTIL) && !applyStatus) {
+                applyStatus = true
+
+                if (okButton.isVisible)
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+
+                d("applyTest validate $applyStatus")
+
+            } else {
+                if (okButton.isVisible)
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+            }
 
         }
         dialog?.show()
     }
-
 
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
@@ -1214,6 +1312,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val govtJobsIMGV: ImageView = viewItem?.findViewById(R.id.govtJobsIMGV) as ImageView
 
         val shimmer_view_container: ShimmerFrameLayout = viewItem?.findViewById(R.id.shimmer_view_container) as ShimmerFrameLayout
+
+        val constraintLayout: ConstraintLayout = viewItem?.findViewById(R.id.constraintLayout) as ConstraintLayout
+
         val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
         val tvPosName: TextView = viewItem?.findViewById(R.id.positionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.companyName) as TextView
@@ -1251,7 +1352,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val allJobsButtonLayout: RelativeLayout = viewItem?.findViewById(R.id.buttonLayout) as RelativeLayout
         val followTV: TextView = viewItem?.findViewById(R.id.followTV) as MaterialButton
         val viewAllJobsTV: TextView = viewItem?.findViewById(R.id.viewAllJobs) as TextView
-//        val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
+        //        val applyButton: MaterialButton = viewItem?.findViewById(R.id.applyButton) as MaterialButton
         val applyLimitOverButton: MaterialButton = viewItem?.findViewById(R.id.applyLimitBtn) as MaterialButton
 
         val wbsiteHeadingTV: TextView = viewItem?.findViewById(R.id.wbsiteHeadingTV) as TextView

@@ -31,6 +31,7 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.Databases.Internal.Notification
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,13 +62,15 @@ class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior,
     override fun onUpdateNotification() {
         //Log.d("rakib", "came in noti list")
         doAsync {
-            val item = bdjobsDB.notificationDao().getSingleItem()
+            val item : Notification? = bdjobsDB.notificationDao().getSingleItem()
 
             uiThread {
-                if (item.type == "pm"){
-                    messageListFragment.updateView(item)
-                } else{
-                    notificationListFragment.updateView(item)
+                item?.let {
+                    if (item.type == "pm"){
+                        messageListFragment.updateView(item)
+                    } else{
+                        notificationListFragment.updateView(item)
+                    }
                 }
             }
         }

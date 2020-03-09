@@ -110,7 +110,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
     private fun getInviteList(userId: String, decodeId: String, pcOwnerId: String, verifyStatus: String) {
         accountLV.hide()
         shimmer_view_container_JobList.show()
-        shimmer_view_container_JobList.startShimmerAnimation()
+        shimmer_view_container_JobList.startShimmer()
 
         ApiServiceMyBdjobs.create().getOwnerInviteList(
                 userID = userId,
@@ -127,7 +127,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                     try {
 
                         shimmer_view_container_JobList.hide()
-                        shimmer_view_container_JobList.stopShimmerAnimation()
+                        shimmer_view_container_JobList.stopShimmer()
 
                         if (!response.isSuccessful) {
 

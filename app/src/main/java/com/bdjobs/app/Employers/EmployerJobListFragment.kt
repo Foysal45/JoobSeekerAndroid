@@ -61,7 +61,7 @@ class EmployerJobListFragment : Fragment() {
         employerjobList_RV?.hide()
         favCountTV?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
         //Log.d("hello", "getCompanyID = ${communicator.getCompanyID()}\ncompanyname = ${communicator.getCompanyName()}\n")
         ApiServiceJobs.create().getEmpJobLists(id = communicator.getCompanyID(), companyname = communicator.getCompanyName(), encoded = Constants.ENCODED_JOBS, jobid = communicator.getJobId()).enqueue(object : Callback<EmployerJobListsModel> {
             override fun onFailure(call: Call<EmployerJobListsModel>, t: Throwable) {
@@ -107,7 +107,7 @@ class EmployerJobListFragment : Fragment() {
                     employerjobList_RV?.show()
                     favCountTV?.show()
                     shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmerAnimation()
+                    shimmer_view_container_JobList?.stopShimmer()
                 } catch (e: Exception) {
                     logException(e)
                 }

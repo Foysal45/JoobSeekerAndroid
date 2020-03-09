@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +32,10 @@ import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
@@ -92,21 +96,21 @@ class JoblistFragment : Fragment() {
     }
 
     private fun getData() {
-        keyword = communicator?.getKeyword()
-        location = communicator?.getLocation()
-        category = communicator?.getCategory()
-        newsPaper = communicator?.getNewsPaper()
-        industry = communicator?.getIndustry()
-        organization = communicator?.getOrganization()
-        gender = communicator?.getGender()
-        experience = communicator?.getExperience()
-        jobType = communicator?.getJobType()
-        jobLevel = communicator?.getJobLevel()
-        jobNature = communicator?.getJobNature()
-        postedWithin = communicator?.getPostedWithin()
-        deadline = communicator?.getDeadline()
-        age = communicator?.getAge()
-        army = communicator?.getArmy()
+        keyword = communicator.getKeyword()
+        location = communicator.getLocation()
+        category = communicator.getCategory()
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getOrganization()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
 
         //Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 
@@ -210,10 +214,10 @@ class JoblistFragment : Fragment() {
 
                     uiThread {
                         if (!favsearch.isNullOrEmpty()) {
-                            saveSearchBtn.text = filterName
-                            saveSearchBtn.setIconTintResource(R.color.fav_search_save)
+                            saveSearchBtn?.text = filterName
+                            saveSearchBtn?.setIconTintResource(R.color.fav_search_save)
                         }
-                        saveSearchBtn.setOnClickListener {
+                        saveSearchBtn?.setOnClickListener {
                             if (!favsearch.isNullOrEmpty()) {
                                 Snackbar.make(parentCL, "Search is already saved", Snackbar.LENGTH_LONG).show()
                             } else {
@@ -224,7 +228,7 @@ class JoblistFragment : Fragment() {
                 }
 
             } else {
-                saveSearchBtn.setOnClickListener {
+                saveSearchBtn?.setOnClickListener {
                     saveSearch()
                 }
             }
@@ -340,33 +344,33 @@ class JoblistFragment : Fragment() {
         }
 
 
-        currentPage = communicator?.getCurrentPageNumber()
-        TOTAL_PAGES = communicator?.getTotalPage()
-        isLastPages = communicator?.getLastPasge()
+        currentPage = communicator.getCurrentPageNumber()
+        TOTAL_PAGES = communicator.getTotalPage()
+        isLastPages = communicator.getLastPasge()
 
-        keyword = communicator?.getKeyword()
-        location = communicator?.getLocation()
-        category = communicator?.getCategory()
-        newsPaper = communicator?.getNewsPaper()
-        industry = communicator?.getIndustry()
-        organization = communicator?.getOrganization()
-        gender = communicator?.getGender()
-        experience = communicator?.getExperience()
-        jobType = communicator?.getJobType()
-        jobLevel = communicator?.getJobLevel()
-        jobNature = communicator?.getJobNature()
-        postedWithin = communicator?.getPostedWithin()
-        deadline = communicator?.getDeadline()
-        age = communicator?.getAge()
-        army = communicator?.getArmy()
+        keyword = communicator.getKeyword()
+        location = communicator.getLocation()
+        category = communicator.getCategory()
+        newsPaper = communicator.getNewsPaper()
+        industry = communicator.getIndustry()
+        organization = communicator.getOrganization()
+        gender = communicator.getGender()
+        experience = communicator.getExperience()
+        jobType = communicator.getJobType()
+        jobLevel = communicator.getJobLevel()
+        jobNature = communicator.getJobNature()
+        postedWithin = communicator.getPostedWithin()
+        deadline = communicator.getDeadline()
+        age = communicator.getAge()
+        army = communicator.getArmy()
 
         saveSearchDicission()
 
         suggestiveSearchET?.text = keyword
 
         suggestiveSearchET?.setOnClickListener { et ->
-            communicator?.setBackFrom("")
-            communicator?.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
+            communicator.setBackFrom("")
+            communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
         loadFirstPageFromJobDetailBackButton()
@@ -410,7 +414,7 @@ class JoblistFragment : Fragment() {
         jobListRecyclerView?.hide()
         filterLayout?.hide()
         shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmerAnimation()
+        shimmer_view_container_JobList?.startShimmer()
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
                 Newspaper = newsPaper,
@@ -437,60 +441,82 @@ class JoblistFragment : Fragment() {
                 rpp = rpp,
                 slno = slno,
                 version = version)
-        call.enqueue(object : Callback<JobListModel> {
+        call.enqueue(object : Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
+
+                Log.d("rakib", call?.request()?.url?.query.toString())
 
                 try {
                     if (response.isSuccessful) {
+
                         jobListRecyclerView?.show()
                         filterLayout.show()
                         shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmerAnimation()
+                        shimmer_view_container_JobList?.stopShimmer()
 
-                        val jobResponse = response.body()
+                        val responseData = response.body()?.string()
+                        Log.d("rakib - response", "${responseData}")
 
-                        TOTAL_PAGES = jobResponse?.common?.totalpages
+                        try {
+
+                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
+
+                            val jobResponse = response.body()
+
+                            TOTAL_PAGES = jobListModel?.common?.totalpages
 
 
-                        //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
-                        //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
+                            //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
+                            //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
-                        communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
-                        val results = response.body()?.data
+                            communicator.totalJobCount(jobListModel?.common?.totalRecordsFound)
+                            val results = jobListModel?.data
 
-                        if (!results.isNullOrEmpty()) {
-                            joblistAdapter?.addAll(results)
+                            if (!results.isNullOrEmpty()) {
+                                joblistAdapter?.addAll(results)
+                            }
+
+                            if (currentPage >= TOTAL_PAGES!!) {
+                                isLastPages = true
+                            } else {
+                                joblistAdapter?.addLoadingFooter()
+                            }
+
+                            val totalJobs = jobListModel!!.common!!.totalRecordsFound
+                            if (totalJobs?.toInt()!! > 1) {
+                                val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Jobs"
+                                jobCounterTV?.text = Html.fromHtml(styledText)
+                            } else {
+                                val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
+                                jobCounterTV?.text = Html.fromHtml(styledText)
+
+                            }
+
+                            if(totalJobs>0){
+                                jobListRecyclerView?.show()
+                                noDataLL?.hide()
+                            }else{
+                                jobListRecyclerView?.hide()
+                                noDataLL?.show()
+                            }
+                            communicator.setIsLoading(isLoadings)
+                            communicator.setLastPasge(isLastPages)
+                            communicator.setTotalJob(jobListModel.common?.totalRecordsFound!!)
+                            communicator.setTotalPage(jobListModel.common.totalpages)
+                            totalRecordsFound = jobListModel.common.totalRecordsFound
+                        } catch (e: Exception) {
+                            Log.d("rakib", "catch")
+                            e.printStackTrace()
+
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+
+                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                }
+
+                            })
                         }
-
-                        if (currentPage >= TOTAL_PAGES!!) {
-                            isLastPages = true
-                        } else {
-                            joblistAdapter?.addLoadingFooter()
-                        }
-
-                        val totalJobs = jobResponse!!.common!!.totalRecordsFound
-                        if (totalJobs?.toInt()!! > 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Jobs"
-                            jobCounterTV?.text = Html.fromHtml(styledText)
-                        } else {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Job"
-                            jobCounterTV?.text = Html.fromHtml(styledText)
-
-                        }
-
-                        if(totalJobs>0){
-                            jobListRecyclerView?.show()
-                            noDataLL?.hide()
-                        }else{
-                            jobListRecyclerView?.hide()
-                            noDataLL?.show()
-                        }
-                        communicator.setIsLoading(isLoadings)
-                        communicator.setLastPasge(isLastPages)
-                        communicator.setTotalJob(jobResponse.common?.totalRecordsFound!!)
-                        communicator.setTotalPage(jobResponse.common?.totalpages)
-                        totalRecordsFound = jobResponse.common.totalRecordsFound
 
                     } else {
                         /*//Log.d("TAG", "not successful: $TAG")*/
@@ -501,7 +527,7 @@ class JoblistFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
             }
@@ -538,21 +564,26 @@ class JoblistFragment : Fragment() {
                 rpp = rpp,
                 slno = slno,
                 version = version)
-        call.enqueue(object : Callback<JobListModel> {
+        call.enqueue(object : Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
                 try {
                     //Log.d("Paramtest", "response :   ${response.body().toString()}")
                     if (response.isSuccessful) {
 
+                        val responseData = response.body()?.string()
+
                         try {
+
+                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
+
                             val resp_jobs = response.body()
-                            TOTAL_PAGES = resp_jobs?.common?.totalpages
+                            TOTAL_PAGES = jobListModel?.common?.totalpages
                             joblistAdapter?.removeLoadingFooter()
                             isLoadings = false
 
-                            val results = response.body()?.data
+                            val results = jobListModel?.data
 
                             //Log.d(TAG, "total jobs ${results?.size}")
 
@@ -566,13 +597,13 @@ class JoblistFragment : Fragment() {
 
                             communicator.setIsLoading(isLoadings)
                             communicator.setLastPasge(isLastPages)
-                            communicator.setTotalJob(resp_jobs?.common!!.totalRecordsFound!!.toInt())
+                            communicator.setTotalJob(jobListModel?.common!!.totalRecordsFound!!.toInt())
 
 
 
-                            totalRecordsFound = resp_jobs.common.totalRecordsFound!!
+                            totalRecordsFound = jobListModel.common.totalRecordsFound!!
 
-                            communicator.setTotalPage(resp_jobs.common?.totalpages)
+                            communicator.setTotalPage(jobListModel.common.totalpages)
 
                             if (totalRecordsFound.toInt() > 1) {
                                 val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Jobs"
@@ -584,6 +615,13 @@ class JoblistFragment : Fragment() {
 
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+
+                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                }
+
+                            })
                         }
                     } else {
                         //Log.d("TAG", "not successful: ")
@@ -594,7 +632,7 @@ class JoblistFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<JobListModel>?, t: Throwable?) {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 //Log.d("TAG", "not successful!! onFail")
             }
         })
@@ -603,14 +641,14 @@ class JoblistFragment : Fragment() {
 
     private fun onClick() {
         backIV?.setOnClickListener {
-            communicator?.backButtonPressesd()
+            communicator.backButtonPressesd()
         }
         filterIMGV?.setOnClickListener {
-            communicator?.goToAdvanceSearch()
+            communicator.goToAdvanceSearch()
         }
 
         advnSearchFloatBtn?.setOnClickListener {
-            communicator?.goToAdvanceSearch()
+            communicator.goToAdvanceSearch()
         }
 
     }
@@ -653,11 +691,11 @@ class JoblistFragment : Fragment() {
                 //Log.d("FavParams", " icat = $industry, fcat = $category, location = $location, qOT = $organization, qJobNature = $jobNature, qJobLevel = $jobLevel, qPosted= $postedWithin, qDeadline= $deadline, txtsearch = $keyword, qExp = $experience, qGender = $gender, qGenderB= ,qJobSpecialSkill = $jobType, qRetiredArmy= $army,userId= ${session.userId},filterName = ${filterNameET.getString()},qAge = $age,newspaper = $newsPaper,encoded = ${Constants.ENCODED_JOBS}")
 
 
-                filterNameET?.easyOnTextChangedListener { text ->
+                filterNameET.easyOnTextChangedListener { text ->
                     validateFilterName(text.toString(), textInputLayout)
                 }
 
-                cancelBTN?.setOnClickListener {
+                cancelBTN.setOnClickListener {
                     saveSearchDialog.dismiss()
                 }
 
@@ -687,7 +725,7 @@ class JoblistFragment : Fragment() {
                     }
                 }
 
-                saveBTN?.setOnClickListener {
+                saveBTN.setOnClickListener {
 
                     if (validateFilterName(filterNameET.getString(), textInputLayout)) {
                         if (!session.isLoggedIn!!) {
@@ -808,8 +846,8 @@ class JoblistFragment : Fragment() {
                         }
 
                     } else {
-                        loadingDialog?.dismiss()
-                        saveSearchDialog?.dismiss()
+                        loadingDialog.dismiss()
+                        saveSearchDialog.dismiss()
                     }
                 } catch (e: Exception) {
                     logException(e)

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/assessment_navigation"
+    app:startDestination="@+id/viewPagerFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.bdjobs.app.assessment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_testInstructionFragment"
+            app:destination="@id/testInstructionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/certificateListFragment"
+        android:name="com.bdjobs.app.assessment.CertificateListFragment"
+        android:label="fragment_certificate_list"
+        tools:layout="@layout/fragment_certificate_list"/>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.bdjobs.app.assessment.ViewPagerFragment"
+        android:label="Employability Certification">
+        <action
+            android:id="@+id/action_viewPagerFragment_to_testInstructionFragment"
+            app:destination="@id/testInstructionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="status"
+            app:argType="string"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/action_viewPagerFragment_to_chooseScheduleFragment"
+            app:destination="@id/chooseScheduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_modulesViewFragment"
+            app:destination="@id/modulesViewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/testInstructionFragment"
+        android:name="com.bdjobs.app.assessment.TestInstructionFragment"
+        android:label="Test Instructions"
+        tools:layout="@layout/fragment_test_instruction" >
+        <action
+            android:id="@+id/action_testInstructionFragment_to_homeFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/testLocationFragment"
+        android:name="com.bdjobs.app.assessment.TestLocationFragment"
+        android:label="Choose Test Location"
+        tools:layout="@layout/fragment_test_location">
+        <action
+            android:id="@+id/action_testLocationFragment_to_chooseScheduleFragment"
+            app:destination="@id/chooseScheduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_testLocationFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseScheduleFragment"
+        android:name="com.bdjobs.app.assessment.ChooseScheduleFragment"
+        android:label="Choose Test Location"
+        tools:layout="@layout/fragment_choose_schedule">
+        <action
+            android:id="@+id/action_chooseScheduleFragment_to_bookingOverviewFragment"
+            app:destination="@id/bookingOverviewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_chooseScheduleFragment_to_scheduleFilterFragment"
+            app:destination="@id/scheduleFilterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/chooseScheduleFragment" />
+        <argument
+            android:name="scheduleRequestData"
+            app:argType="com.bdjobs.app.assessment.models.ScheduleRequest"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingOverviewFragment"
+        android:name="com.bdjobs.app.assessment.BookingOverviewFragment"
+        android:label="Choose Test Location"
+        tools:layout="@layout/fragment_booking_overview">
+        <action
+            android:id="@+id/action_bookingOverviewFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="ScheduleData"
+            app:argType="com.bdjobs.app.assessment.models.ScheduleData"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_bookingOverviewFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.bdjobs.app.assessment.ResultFragment"
+        android:label="Certification Overview"
+        tools:layout="@layout/fragment_result">
+        <argument
+            android:name="CertificateData"
+            app:argType="com.bdjobs.app.assessment.models.CertificateData" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.bdjobs.app.assessment.PaymentFragment"
+        android:label="Choose Payment"
+        tools:layout="@layout/fragment_payment">
+        <argument
+            android:name="bookingData"
+            app:argType="com.bdjobs.app.assessment.models.Booking"
+            app:nullable="true" />
+        <argument
+            android:name="scheduleData"
+            app:argType="com.bdjobs.app.assessment.models.ScheduleData"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/action_paymentFragment_to_paymentSuccessfulFragment"
+            app:destination="@id/paymentSuccessfulFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentSuccessfulFragment"
+        android:name="com.bdjobs.app.assessment.PaymentSuccessfulFragment"
+        android:label="Payment"
+        tools:layout="@layout/fragment_payment_successful">
+        <action
+            android:id="@+id/action_paymentSuccessfulFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/viewPagerFragment" />
+        <argument
+            android:name="scheduleData"
+            app:argType="com.bdjobs.app.assessment.models.ScheduleData"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/modulesViewFragment"
+        android:name="com.bdjobs.app.assessment.ModulesViewFragment"
+        android:label="View Test Instruction\"
+        tools:layout="@layout/fragment_module_view">
+        <action
+            android:id="@+id/action_modulesViewFragment_to_testLocationFragment"
+            app:destination="@id/testLocationFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_modulesViewFragment_to_testInstructionFragment"
+            app:destination="@id/testInstructionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleFilterFragment"
+        android:name="com.bdjobs.app.assessment.FilterScheduleFragment"
+        android:label="Schedule Filter"
+        tools:layout="@layout/fragment_filter_schedule">
+        <action
+            android:id="@+id/action_scheduleFilterFragment_to_chooseScheduleFragment"
+            app:destination="@id/chooseScheduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/chooseScheduleFragment" />
+    </fragment>
+</navigation>

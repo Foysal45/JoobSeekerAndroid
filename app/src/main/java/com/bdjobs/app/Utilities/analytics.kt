@@ -78,13 +78,13 @@ fun logAnalyticsForUnseenNotification(type: String, context: Context, jobID: Str
 
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
 
-//        context.doAsync {
-//            val arrivalTime = bdjobsDB.notificationDao().getNotificationArrivalTime(type, jobID)
-//            uiThread {
-//                bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime.toString())
-//                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-//            }
-//        }
+        context.doAsync {
+            val arrivalTime = bdjobsDB.notificationDao().getNotificationArrivalTime(type, jobID)
+            arrivalTime?.let {
+                bundle.putString(FirebaseAnalytics.Param.START_DATE, arrivalTime.toString())
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+            }
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }

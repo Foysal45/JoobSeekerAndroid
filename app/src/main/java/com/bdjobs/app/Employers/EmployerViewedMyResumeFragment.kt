@@ -145,7 +145,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
             viewedMyResumeRV?.hide()
             favCountTV?.hide()
             shimmer_view_container_employerViewedMyList?.show()
-            shimmer_view_container_employerViewedMyList?.startShimmerAnimation()
+            shimmer_view_container_employerViewedMyList?.startShimmer()
 
 
             ApiServiceMyBdjobs.create().getEmpVwdMyResume(
@@ -168,7 +168,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                     try {
                         activity?.toast("${t.message}")
                         shimmer_view_container_employerViewedMyList?.hide()
-                        shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                        shimmer_view_container_employerViewedMyList?.stopShimmer()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -183,7 +183,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                     //Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
                     //Log.d("callAppliURl", "url: ${response.body()?.data}")
                     shimmer_view_container_employerViewedMyList?.hide()
-                    shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                    shimmer_view_container_employerViewedMyList?.stopShimmer()
 
 
                     try {
@@ -234,7 +234,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         /*   viewedMyResumeRV?.show()*/
                         favCountTV?.show()
                         shimmer_view_container_employerViewedMyList?.hide()
-                        shimmer_view_container_employerViewedMyList?.stopShimmerAnimation()
+                        shimmer_view_container_employerViewedMyList?.stopShimmer()
 
                     } catch (exception: Exception) {
                         //Log.d("issue", exception.toString())

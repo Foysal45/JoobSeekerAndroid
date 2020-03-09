@@ -1052,6 +1052,9 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<InteractionModel>
 
+
+
+
     companion object Factory {
 
         @Volatile

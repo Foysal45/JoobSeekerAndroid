@@ -254,16 +254,39 @@ fun Activity.unsubscribeFromFCMTopic(topicName: String) {
             }
 }
 
-fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener) {
-    val dpd = DatePickerDialog(c,
-            listener,
-            // set DatePickerDialog to point to today's date when it loads up
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH))
-    dpd.datePicker.maxDate = Date().time
-    dpd.show()
+fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener, from :String? = "") {
+
+    if (from == "assessment"){
+
+        var now : Long = System.currentTimeMillis() - 1000;
+
+        val dpd = DatePickerDialog(c,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+        dpd.datePicker.minDate = now
+        //dpd.datePicker.maxDate = now+(1000*60*60*24*7)
+
+        dpd.show()
+    } else {
+        val dpd = DatePickerDialog(c,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+        dpd.datePicker.maxDate = Date().time
+        dpd.show()
+    }
+
+
 }
+
+//fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener ) {
+//    pickDate()
+//}
 
 
 fun NestedScrollView.behaveYourself(fab: FloatingActionButton) {
@@ -314,14 +337,14 @@ fun TextInputLayout.setError() {
 }
 
 
-fun Activity.showProgressBar(progressBar: ProgressBar) {
-    progressBar.show()
+fun Activity.showProgressBar(progressBar: ProgressBar?) {
+    progressBar?.show()
     disableUserInteraction()
 
 }
 
-fun Activity.stopProgressBar(progressBar: ProgressBar) {
-    progressBar.hide()
+fun Activity.stopProgressBar(progressBar: ProgressBar?) {
+    progressBar?.hide()
     enableUserInteraction()
 }
 
@@ -360,6 +383,7 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
         fragmentManager?.executePendingTransactions()
         if (!fragment?.isAdded)
         {
+            Log.d("rakib", "fragment if")
             val transaction = fragmentManager.beginTransaction()
 
             if (addToBackStack) {
@@ -368,6 +392,9 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
                 transaction.replace(holderID, fragment, simpleClassName(fragment))
             }
             transaction.commit()
+        }
+        else{
+           Log.d("rakib", "fragment else")
         }
     } catch (e: Exception) {
         logException(e)
@@ -787,6 +814,13 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     deviceInfo[Constants.KEY_DEVICE_FREE_RAM_SIZE] = availableMegs.toString()
 
     return deviceInfo
+}
+
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
 

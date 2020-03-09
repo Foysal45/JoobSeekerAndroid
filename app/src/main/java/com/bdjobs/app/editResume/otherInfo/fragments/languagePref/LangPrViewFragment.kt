@@ -80,7 +80,7 @@ class LangPrViewFragment : Fragment() {
     private fun shimmerStart() {
         try {
             shimmer_view_container_langList?.show()
-            shimmer_view_container_langList?.startShimmerAnimation()
+            shimmer_view_container_langList?.startShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)
@@ -90,7 +90,7 @@ class LangPrViewFragment : Fragment() {
     private fun shimmerStop() {
         try {
             shimmer_view_container_langList?.hide()
-            shimmer_view_container_langList?.stopShimmerAnimation()
+            shimmer_view_container_langList?.stopShimmer()
         } catch (e: Exception) {
             e.printStackTrace()
             logException(e)

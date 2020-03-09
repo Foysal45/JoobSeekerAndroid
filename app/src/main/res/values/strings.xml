@@ -142,9 +142,9 @@
     <string name="chars">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
     <string name="charsWithSpace">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz</string>
     <string name="hint.objective_v">Objective</string>
-    <string name="hint.present_salary_tk_month">Present Salary (TK / Month)</string>
+    <string name="hint.present_salary_tk_month">Present Salary (Tk / Month)</string>
     <string name="hint.present_salary_tk_month_v">Present Salary</string>
-    <string name="hint.expected_salary_tk_month">Expected Salary (TK / Month)</string>
+    <string name="hint.expected_salary_tk_month">Expected Salary (Tk / Month)</string>
     <string name="hint.expected_salary_tk_month_v">Expected Salary</string>
     <string name="hint.looking_for">Looking for</string>
     <string name="hint.available_for">Available for</string>
@@ -403,5 +403,33 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_matched_job">Matched Job</string>
 
     <string name="notification">Notifications</string>
+
+    <!-- Assessment Strings -->
+    <string name="title_activity_assesment_base">Employability Certification</string>
+
+    <string name="call"><b>01844519336</b> or </string>
+    <string name="call_helpline"><b>16479</b></string>
+
+
+    <string name="test_payment_amount"><strike>BDT 550/-</strike> Free for first time</string>
+
+    <string name="btn_certification_home_txt">Certification Home</string>
+
+    <string name="tv_instructions_do_title_txt">Do\'s</string>
+    <string name="tv_instructions_do_internet_txt">Make sure you have a good internet connection.</string>
+    <string name="tv_instructions_do_time_txt">If the test gets interrupted, just resume test within 4 hours.</string>
+    <string name="tv_instructions_do_clock_txt">Follow the clock displays the remaining duration and try to complete your test.</string>
+
+    <string name="tv_instructions_dont_title_txt">Dont\'s</string>
+    <string name="tv_instructions_dont_back_button_txt">Do not use the back button and avoid using scroll button on your mouse during the test.</string>
+    <string name="tv_instructions_dont_modify_txt">Do not try to modify your answers.</string>
+    <string name="tv_instructions_dont_browser_txt">Do not try browser usage, screen capturing, photographs, audio, video etc.</string>
+    <string name="tv_instructions_dont_record_txt">Avoid trying to record, copy, publish or share any part of the test questions or consult any third person.</string>
+    <string name="tv_successful_txt">Successful</string>
+    <string name="tv_test_date_txt">Test Date</string>
+    <string name="tv_test_time_txt">Test Time</string>
+    <string name="assessment_requirement_instruction">Certification Test requires a laptop or desktop with a webcam and good internet.</string>
+    <string name="assessment_payment_success_instruction"><b>Now you can Take Test from Home only Tk 300!!</b>\n\nPay 500 Tk to attend test at center. (Test fee 300 Tk + center cost 200 Tk)</string>
+    <string name="tv_instructions_do_webcam_text">A laptop/desktop with a webcam is required</string>
 
 </resources>

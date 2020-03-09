@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test_location_cl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F8FA">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/txt_do_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="-28dp">
+
+        <!-- Do's Text -->
+        <TextView
+            android:id="@+id/tv_instructions_do_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_do_title_txt"
+            android:textColor="#13A10E"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_do_webcam"
+            android:layout_width="12dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_green_do_right_mark"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_instructions_do_webcam"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_title"
+            app:layout_constraintTop_toTopOf="@id/tv_instructions_do_webcam" />
+
+        <TextView
+            android:id="@+id/tv_instructions_do_webcam"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_do_webcam_text"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_do_webcam"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_title" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_do_internet"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_green_do_right_mark"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_instructions_do_internet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_webcam"
+            app:layout_constraintTop_toTopOf="@id/tv_instructions_do_internet" />
+
+        <TextView
+            android:id="@+id/tv_instructions_do_internet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_do_internet_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_do_internet"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_webcam" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_do_time"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_green_do_right_mark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_internet"
+            app:layout_constraintTop_toTopOf="@id/tv_instructions_do_time" />
+
+        <TextView
+            android:id="@+id/tv_instructions_do_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_do_time_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_do_internet"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_internet" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_do_clock"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_green_do_right_mark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_time"
+            app:layout_constraintTop_toTopOf="@+id/tv_instructions_do_clock" />
+
+        <TextView
+            android:id="@+id/tv_instructions_do_clock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_do_clock_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_do_clock"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_time" />
+
+        <!--Don't Text -->
+
+        <TextView
+            android:id="@+id/tv_instructions_dont_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_dont_title_txt"
+            android:textColor="#F44336"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_do_clock" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_dont_back_button"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_red_dont_right_mark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_title"
+            app:layout_constraintTop_toTopOf="@id/tv_instructions_dont_back_button" />
+
+        <TextView
+            android:id="@+id/tv_instructions_dont_back_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_dont_back_button_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_dont_back_button"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_title" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_dont_modify"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:src="@drawable/ic_red_dont_right_mark"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_instructions_dont_modify"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_back_button"
+            app:layout_constraintTop_toTopOf="@+id/tv_instructions_dont_modify" />
+
+        <TextView
+
+            android:id="@+id/tv_instructions_dont_modify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_dont_modify_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_dont_modify"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_back_button" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_dont_browser"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_red_dont_right_mark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_modify"
+            app:layout_constraintTop_toTopOf="@+id/tv_instructions_dont_browser" />
+
+        <TextView
+            android:id="@+id/tv_instructions_dont_browser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_dont_browser_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_dont_browser"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_modify" />
+
+        <ImageView
+            android:id="@+id/iv_instructions_dont_record"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_red_dont_right_mark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_browser"
+            app:layout_constraintTop_toTopOf="@+id/tv_instructions_dont_record" />
+
+        <TextView
+            android:id="@+id/tv_instructions_dont_record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/tv_instructions_dont_record_txt"
+            android:textColor="#303030"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_instructions_dont_record"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instructions_dont_browser" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_cl"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:background="@drawable/button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/btn_txt_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_certification_home_txt"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="9dp"
+            android:src="@drawable/ic_arrow_floating_white"
+            app:layout_constraintBottom_toBottomOf="@id/btn_txt_tv"
+            app:layout_constraintStart_toEndOf="@id/btn_txt_tv"
+            app:layout_constraintTop_toTopOf="@id/btn_txt_tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

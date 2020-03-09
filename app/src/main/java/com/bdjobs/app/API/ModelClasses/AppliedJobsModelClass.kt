@@ -59,7 +59,11 @@ data class AppliedJobModelData(
         @SerializedName("title")
         val title: String?= "",
         @SerializedName("viewedByEmployer")
-        val viewedByEmployer: String?= ""
+        val viewedByEmployer: String?= "",
+        @SerializedName("minSalary")
+        val minSalary: String?= "",
+        @SerializedName("maxSalary")
+        val maxSalary: String?= ""
 )
 @Keep
 data class AppliedJobModelExprience(

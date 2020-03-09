@@ -135,6 +135,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     private var decodeId = ""
     private var userNameRPS = ""
     private var appsDate = ""
+    private var postingDate = ""
     private var ageRPS = ""
     private var experienseRPS = ""
     private var categoryIDRPS = ""
