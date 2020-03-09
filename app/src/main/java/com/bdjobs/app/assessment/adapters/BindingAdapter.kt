@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.R
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.models.ModuleWiseScore
@@ -20,7 +21,6 @@ import com.bdjobs.app.assessment.models.ScheduleData
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -36,7 +36,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<CertificateData?>?) {
     val adapter = recyclerView.adapter as CertificateListAdapter
     data?.let {
-
 
 
         adapter.submitList(data)
@@ -66,18 +65,23 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, sta
                     override fun onChanged() {
                         recyclerView.scrollToPosition(0)
                     }
+
                     override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                         recyclerView.scrollToPosition(0)
                     }
+
                     override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                         recyclerView.scrollToPosition(0)
                     }
+
                     override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                         recyclerView.scrollToPosition(0)
                     }
+
                     override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                         recyclerView.scrollToPosition(0)
                     }
+
                     override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
                         recyclerView.scrollToPosition(0)
                     }
@@ -97,7 +101,7 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, sta
 @BindingAdapter("emptyView", "status")
 fun bindEmptyView(constraintLayout: ConstraintLayout, data: List<ScheduleData?>?, status: Status?) {
 
-    Log.d("rakib","empty view called $data")
+    Log.d("rakib", "empty view called $data")
 
     when (status) {
         Status.LOADING -> {
@@ -138,7 +142,16 @@ fun bindTotalCertificatesTextView(textView: TextView, certificateList: List<Cert
         textView.visibility = View.GONE
     else {
         textView.visibility = View.VISIBLE
-        textView.text = if (certificateList.size > 1) "(${certificateList.size} Certificates)" else "(${certificateList.size} Certificate)"
+        if (textView.id != R.id.heading_tv)
+            textView.text = if (certificateList.size > 1) "(${certificateList.size} Certificates)" else "(${certificateList.size} Certificate)"
+        else
+        {
+            if (certificateList.size > 1)
+                textView.visibility = View.VISIBLE
+            else
+                textView.visibility = View.GONE
+
+        }
     }
 }
 

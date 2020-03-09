@@ -18,11 +18,11 @@
         android:layout_height="match_parent">
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:visibility="gone"
-            app:homeStatus="@{homeViewModel.status}"
             android:id="@+id/home_shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
+            app:homeStatus="@{homeViewModel.status}"
             app:shimmer_duration="1200">
 
             <LinearLayout
@@ -30,24 +30,31 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
-            <include layout="@layout/list_shimmer_layout"/>
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
 
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <ScrollView
-            android:scrollbars="none"
             android:id="@+id/main_sv"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scrollbars="none"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/btn_cl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +84,7 @@
                     android:id="@+id/ongoing_test"
                     layout="@layout/layout_assessment_ongoing_test"
                     android:visibility="gone"
-                    bind:data="@{homeViewModel.homeData}"/>
+                    bind:data="@{homeViewModel.homeData}" />
 
 
                 <include
@@ -96,16 +103,16 @@
 
                 <include
                     android:id="@+id/need_more_info_cl"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/what_is_employability_certification_cl"
-                    android:layout_height="wrap_content"
+                    layout="@layout/layout_need_more_information"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    layout="@layout/layout_need_more_information" />
+                    app:layout_constraintTop_toBottomOf="@id/what_is_employability_certification_cl" />
             </LinearLayout>
 
 
@@ -130,7 +137,9 @@
 
                 <include layout="@layout/layout_benefits_of_certificate" />
 
-                <include layout="@layout/layout_what_is_employability_certification" />
+                <include
+                    android:id="@+id/what_is_employability_certification_first_time_cl"
+                    layout="@layout/layout_what_is_employability_certification" />
 
                 <include layout="@layout/layout_steps_to_get_the_certification" />
 
@@ -140,16 +149,16 @@
 
                 <include
                     android:id="@+id/need_more_info_first_time_cl"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/certification_laptop_cl"
-                    android:layout_height="wrap_content"
+                    layout="@layout/layout_need_more_information"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    layout="@layout/layout_need_more_information" />
+                    app:layout_constraintTop_toBottomOf="@id/certification_laptop_cl" />
 
             </LinearLayout>
 

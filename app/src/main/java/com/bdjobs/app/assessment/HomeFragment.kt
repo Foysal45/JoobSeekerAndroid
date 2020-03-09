@@ -45,10 +45,14 @@ class HomeFragment : Fragment() {
 
         binding.homeViewModel = viewModel
 
-        binding.whatIsEmployabilityCertificationCl.learn_more_btn?.setOnClickListener { view ->
+        binding.whatIsEmployabilityCertificationCl.learnMoreBtn?.setOnClickListener {
+            Log.d("rakib","clicked")
             context?.openUrlInBrowser(Constants.url_assessment_help)
         }
 
+        binding.whatIsEmployabilityCertificationFirstTimeCl.learnMoreBtn?.setOnClickListener {
+            context?.openUrlInBrowser(Constants.url_assessment_help)
+        }
 
         binding.btnCl?.setOnClickListener {
             it.findNavController().navigate(R.id.action_viewPagerFragment_to_modulesViewFragment)
@@ -88,6 +92,18 @@ class HomeFragment : Fragment() {
             snackbar = Snackbar.make(binding.homeCl, getString(R.string.assessment_requirement_instruction), Snackbar.LENGTH_LONG)
             snackbar.show()
 
+        }
+
+        binding.needMoreInfoFirstTimeCl.call_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:01844519336")
+            startActivity(intent)
+        }
+
+        binding.needMoreInfoFirstTimeCl.call_helpline_tv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:16479")
+            startActivity(intent)
         }
 
         binding.needMoreInfoCl.call_tv.setOnClickListener {

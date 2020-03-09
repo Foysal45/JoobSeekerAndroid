@@ -43,7 +43,8 @@
             android:text="My Certificate List"
             android:textColor="#000"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:totalCertificates="@{certificateViewModel.certificates}"/>
 
         <TextView
             app:visibility="@{certificateViewModel.status}"
