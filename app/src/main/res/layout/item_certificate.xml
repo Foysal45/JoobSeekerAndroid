@@ -76,10 +76,6 @@
                 android:layout_marginBottom="4dp"
                 android:includeFontPadding="false"
                 android:onClick="@{()-> clickListener.onClick(certificate)}"
-                android:padding="0dp"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:paddingBottom="0dp"
                 android:text='@{certificate.res.equals("0") ? "Get Result" : "View Result"}'
                 android:textAllCaps="false"
                 android:textColor="#ac016d"

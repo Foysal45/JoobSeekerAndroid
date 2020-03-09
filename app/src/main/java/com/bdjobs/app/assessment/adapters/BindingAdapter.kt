@@ -146,7 +146,7 @@ fun bindTotalCertificatesTextView(textView: TextView, certificateList: List<Cert
             textView.text = if (certificateList.size > 1) "(${certificateList.size} Certificates)" else "(${certificateList.size} Certificate)"
         else
         {
-            if (certificateList.size > 1)
+            if (certificateList.isNotEmpty())
                 textView.visibility = View.VISIBLE
             else
                 textView.visibility = View.GONE
