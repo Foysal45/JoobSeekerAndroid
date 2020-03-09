@@ -149,7 +149,7 @@ fun bindStartTestCard(constraintLayout: ConstraintLayout, homeData: HomeData?) {
 @BindingAdapter("firstTimeButtonVisibility")
 fun bindFirstTimeTestButtonVisibility(constraintLayout: ConstraintLayout, homeData: HomeData?) {
     homeData?.let {
-        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0") || homeData.isUserPermittedForSchldBooking.equals("0")) {
+        if (homeData.isUserFirstTimeInAssessmentPanel.equals("0") || homeData.isUserPermittedForSchldBooking.equals("0") || homeData.isUserPermittedForSchldBooking.equals("")) {
             constraintLayout.visibility = View.GONE
         } else {
             constraintLayout.visibility = View.VISIBLE
