@@ -5,6 +5,7 @@ import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,6 +109,8 @@ class JoblistFragment : Fragment() {
         deadline = communicator.getDeadline()
         age = communicator.getAge()
         army = communicator.getArmy()
+
+        isLastPages = false
 
         //Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 
@@ -406,6 +409,8 @@ class JoblistFragment : Fragment() {
 
 
     private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
+
+        //Log.d("rakib","${session.userId}")
 
         //Log.d(TAG, "came here")
         //Log.d("Paramtest", "jobLevel: $jobLevel")

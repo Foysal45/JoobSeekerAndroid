@@ -23,7 +23,7 @@ abstract class PaginationScrollListener
         val totalItemCount = layoutManager.itemCount
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-        Log.d("Loading", "$visibleItemCount $totalItemCount $firstVisibleItemPosition")
+//        Log.d("Loading", "$visibleItemCount $totalItemCount $firstVisibleItemPosition")
 
         if (!isLoading && !isLastPage) {
 
@@ -34,7 +34,7 @@ abstract class PaginationScrollListener
 
 
             if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                Log.d("Loading", "loadMoreItems ")
+                //Log.d("Loading", "loadMoreItems ")
 
                 if(isLastPage != true){
 
