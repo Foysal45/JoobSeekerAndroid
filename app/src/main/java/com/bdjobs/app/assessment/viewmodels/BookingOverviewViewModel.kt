@@ -62,7 +62,7 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
             isFromHome = "0"
         }
 
-        Log.d("rakib","${booking.strActionType}")
+        //Log.d("rakib","${booking.strActionType}")
 
         _bookingData.value = booking
 
@@ -96,7 +96,7 @@ class BookingOverviewViewModel(scheduleData: ScheduleData, application: Applicat
                     displaySnackBar(bookingResponse)
                 }
             } catch (e: Exception) {
-                Log.d("rakib","catch")
+                //Log.d("rakib","catch")
                 _status.value = Status.ERROR
             }
         }

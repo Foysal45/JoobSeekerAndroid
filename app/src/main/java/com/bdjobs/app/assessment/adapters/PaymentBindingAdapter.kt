@@ -14,11 +14,11 @@ fun bindProgressBarStatus(progressBar: ProgressBar, status: Status?) {
         status?.let {
             when (status) {
                 Status.LOADING ->  {
-                    Log.d("rakib", "loading")
+                    //Log.d("rakib", "loading")
                     progressBar.visibility = View.VISIBLE
                 }
                 Status.DONE -> {
-                    Log.d("rakib", "not loading")
+                    //Log.d("rakib", "not loading")
                     progressBar.visibility = View.GONE
                 }
                 Status.ERROR -> progressBar.visibility = View.GONE

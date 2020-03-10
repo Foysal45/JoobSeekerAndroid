@@ -101,7 +101,7 @@ fun bindScheduleList(recyclerView: RecyclerView, data: List<ScheduleData?>?, sta
 @BindingAdapter("emptyView", "status")
 fun bindEmptyView(constraintLayout: ConstraintLayout, data: List<ScheduleData?>?, status: Status?) {
 
-    Log.d("rakib", "empty view called $data")
+    //Log.d("rakib", "empty view called $data")
 
     when (status) {
         Status.LOADING -> {

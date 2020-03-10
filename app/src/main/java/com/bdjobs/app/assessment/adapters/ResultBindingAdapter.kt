@@ -61,9 +61,9 @@ fun bindTestDate(textView: TextView, date:String?){
             val date = dateFormat.parse(date)
             val out = dateFormat2.format(date)
             textView.text = out
-            Log.e("Time", out)
+            //Log.e("Time", out)
         } catch (e: ParseException) {
-            Log.d("Time", e.toString())
+            //Log.d("Time", e.toString())
         }
     }
 }

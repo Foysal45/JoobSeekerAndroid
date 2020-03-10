@@ -58,7 +58,7 @@ class PaymentFragment : Fragment() {
             paymentViewModel.bookSchedule()
         }
 
-        Log.d("rakib","$bookingData")
+        //Log.d("rakib","$bookingData")
 
         if (bookingData.isFromHome == "0")
         {

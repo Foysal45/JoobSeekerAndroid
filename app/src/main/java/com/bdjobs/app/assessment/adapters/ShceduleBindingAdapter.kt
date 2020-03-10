@@ -18,16 +18,16 @@ fun bindScheduleTime(textView: TextView, time:String?){
             val date = dateFormat.parse(time)
             val out = dateFormat2.format(date)
             textView.text = out
-            Log.e("Time", out)
+            //Log.e("Time", out)
         } catch (e: ParseException) {
             try{
                 dateFormat = SimpleDateFormat("h:mm aa")
                 val date = dateFormat.parse(time)
                 val out = dateFormat2.format(date)
                 textView.text = out
-                Log.d("Time", "parse")
+                //Log.d("Time", "parse")
             }catch (e: ParseException){
-                Log.d("Time", "parse")
+               // Log.d("Time", "parse")
 
             }
             textView.text = time
@@ -44,9 +44,9 @@ fun bindScheduleDate(textView: TextView, time:String?){
             val date = dateFormat.parse(time)
             val out = dateFormat2.format(date)
             textView.text = out
-            Log.e("Time", out)
+            //Log.e("Time", out)
         } catch (e: ParseException) {
-            Log.d("Time", e.toString())
+            //Log.d("Time", e.toString())
         }
     }
 }
@@ -57,12 +57,12 @@ fun bindScheduleShimmer(shimmerFrameLayout: ShimmerFrameLayout, status : Status?
     status?.let {
         when (status) {
             Status.LOADING ->  {
-                Log.d("rakib", "loading")
+                //Log.d("rakib", "loading")
                 shimmerFrameLayout.visibility = View.VISIBLE
                 shimmerFrameLayout.startShimmer()
             }
             Status.DONE -> {
-                Log.d("rakib", "not loading")
+                //Log.d("rakib", "not loading")
                 shimmerFrameLayout.visibility = View.GONE
                 shimmerFrameLayout.stopShimmer()
             }

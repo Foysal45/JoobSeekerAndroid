@@ -37,7 +37,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 _status.value = Status.DONE
                 //_schedules.value = scheduleList
             } catch (e: Exception) {
-                Log.d("rakib catch", e.message)
+                //Log.d("rakib catch", e.message)
                 _status.value = Status.ERROR
 
             }

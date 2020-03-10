@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +33,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -57,23 +55,23 @@ class JoblistFragment : Fragment() {
     private var isLastPages = false
     private lateinit var communicator: JobCommunicator
 
-    private var keyword:String? = ""
-    private var location:String? = ""
-    private var category:String? = ""
-    private var newsPaper:String? = ""
-    private var industry:String? = ""
-    private var organization:String? = ""
-    private var gender:String? = ""
-    private var experience:String? = ""
-    private var jobType:String? = ""
-    private var jobLevel:String? = ""
-    private var jobNature:String? = ""
-    private var postedWithin:String? = ""
-    private var deadline:String? = ""
-    private var age:String? = ""
-    private var army:String? = ""
-    private var filterName:String? = ""
-    private var filterID:String? = ""
+    private var keyword: String? = ""
+    private var location: String? = ""
+    private var category: String? = ""
+    private var newsPaper: String? = ""
+    private var industry: String? = ""
+    private var organization: String? = ""
+    private var gender: String? = ""
+    private var experience: String? = ""
+    private var jobType: String? = ""
+    private var jobLevel: String? = ""
+    private var jobNature: String? = ""
+    private var postedWithin: String? = ""
+    private var deadline: String? = ""
+    private var age: String? = ""
+    private var army: String? = ""
+    private var filterName: String? = ""
+    private var filterID: String? = ""
     lateinit var bdjobsDB: BdjobsDB
 
     var totalRecordsFound = 0
@@ -81,7 +79,7 @@ class JoblistFragment : Fragment() {
     private val TAG = "JobListFragment"
 
     override fun onDestroy() {
-        Constants.nativeAdvertisement=null
+        Constants.nativeAdvertisement = null
         super.onDestroy()
     }
 
@@ -111,6 +109,8 @@ class JoblistFragment : Fragment() {
         deadline = communicator.getDeadline()
         age = communicator.getAge()
         army = communicator.getArmy()
+
+        isLastPages = false
 
         //Log.d("wtji","joblist=>\nkeyword: $keyword \nlocation: $location\n category:$category")
 
@@ -268,33 +268,35 @@ class JoblistFragment : Fragment() {
                 currentPage += 1
                 communicator.setpageNumber(currentPage)
 
-                loadNextPage(
-                        jobLevel = jobLevel,
-                        newsPaper = newsPaper,
-                        armyp = army,
-                        blueColur = "",
-                        category = category,
-                        deadline = deadline,
-                        encoded = ENCODED_JOBS,
-                        experince = experience,
-                        gender = gender,
-                        genderB = "",
-                        industry = industry,
-                        isFirstRequest = "",
-                        jobnature = jobNature,
-                        jobType = jobType,
-                        keyword = keyword,
-                        lastJPD = "",
-                        location = location,
-                        organization = organization,
-                        pageId = "",
-                        pageNumber = currentPage,
-                        postedWithIn = postedWithin,
-                        age = age,
-                        rpp = "",
-                        slno = "",
-                        version = ""
-                )
+                if (currentPage <= totalPageCount)
+
+                    loadNextPage(
+                            jobLevel = jobLevel,
+                            newsPaper = newsPaper,
+                            armyp = army,
+                            blueColur = "",
+                            category = category,
+                            deadline = deadline,
+                            encoded = ENCODED_JOBS,
+                            experince = experience,
+                            gender = gender,
+                            genderB = "",
+                            industry = industry,
+                            isFirstRequest = "",
+                            jobnature = jobNature,
+                            jobType = jobType,
+                            keyword = keyword,
+                            lastJPD = "",
+                            location = location,
+                            organization = organization,
+                            pageId = "",
+                            pageNumber = currentPage,
+                            postedWithIn = postedWithin,
+                            age = age,
+                            rpp = "",
+                            slno = "",
+                            version = ""
+                    )
             }
         })
 
@@ -334,9 +336,9 @@ class JoblistFragment : Fragment() {
                 jobCounterTV?.text = Html.fromHtml(styledText)
             }
 
-            if(totalRecordsFound>0){
+            if (totalRecordsFound > 0) {
                 noDataLL?.hide()
-            }else{
+            } else {
                 noDataLL?.show()
             }
         } catch (e: Exception) {
@@ -375,10 +377,10 @@ class JoblistFragment : Fragment() {
 
         loadFirstPageFromJobDetailBackButton()
         Handler().postDelayed({
-            jobListGet?.let{
-                if(it.size-communicator.getCurrentJobPosition()>2) {
-                    jobListRecyclerView?.scrollToPosition((communicator.getCurrentJobPosition()+1))
-                }else{
+            jobListGet?.let {
+                if (it.size - communicator.getCurrentJobPosition() > 2) {
+                    jobListRecyclerView?.scrollToPosition((communicator.getCurrentJobPosition() + 1))
+                } else {
                     jobListRecyclerView?.scrollToPosition(communicator.getCurrentJobPosition())
                 }
             }
@@ -407,6 +409,8 @@ class JoblistFragment : Fragment() {
 
 
     private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?) {
+
+        //Log.d("rakib","${session.userId}")
 
         //Log.d(TAG, "came here")
         //Log.d("Paramtest", "jobLevel: $jobLevel")
@@ -445,7 +449,7 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
-                Log.d("rakib", call?.request()?.url?.query.toString())
+                //Log.d("rakib", call?.request()?.url?.query.toString())
 
                 try {
                     if (response.isSuccessful) {
@@ -456,11 +460,11 @@ class JoblistFragment : Fragment() {
                         shimmer_view_container_JobList?.stopShimmer()
 
                         val responseData = response.body()?.string()
-                        Log.d("rakib - response", "${responseData}")
+                        //Log.d("rakib - response", "${responseData}")
 
                         try {
 
-                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
+                            val jobListModel = Gson().fromJson(responseData, JobListModel::class.java)
 
                             val jobResponse = response.body()
 
@@ -493,10 +497,10 @@ class JoblistFragment : Fragment() {
 
                             }
 
-                            if(totalJobs>0){
+                            if (totalJobs > 0) {
                                 jobListRecyclerView?.show()
                                 noDataLL?.hide()
-                            }else{
+                            } else {
                                 jobListRecyclerView?.hide()
                                 noDataLL?.show()
                             }
@@ -506,10 +510,10 @@ class JoblistFragment : Fragment() {
                             communicator.setTotalPage(jobListModel.common.totalpages)
                             totalRecordsFound = jobListModel.common.totalRecordsFound
                         } catch (e: Exception) {
-                            Log.d("rakib", "catch")
+                            //Log.d("rakib", "catch")
                             e.printStackTrace()
 
-                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody> {
                                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
 
                                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -576,7 +580,7 @@ class JoblistFragment : Fragment() {
 
                         try {
 
-                            val jobListModel = Gson().fromJson(responseData,JobListModel::class.java)
+                            val jobListModel = Gson().fromJson(responseData, JobListModel::class.java)
 
                             val resp_jobs = response.body()
                             TOTAL_PAGES = jobListModel?.common?.totalpages
@@ -615,7 +619,7 @@ class JoblistFragment : Fragment() {
 
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{
+                            ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody> {
                                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
 
                                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -675,7 +679,7 @@ class JoblistFragment : Fragment() {
             if (!session.isLoggedIn!!) {
                 communicator.goToLoginPage()
             } else {
-                var tempFilterID:String? = ""
+                var tempFilterID: String? = ""
                 val saveSearchDialog = Dialog(activity)
                 saveSearchDialog.setContentView(R.layout.save_search_dialog_layout)
                 saveSearchDialog.setCancelable(true)

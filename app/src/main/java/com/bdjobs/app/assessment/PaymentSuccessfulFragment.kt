@@ -69,9 +69,9 @@ class PaymentSuccessfulFragment : Fragment() {
                 val date = dateFormat.parse(dateString)
                 val out = dateFormat2.format(date)
                 return out
-                Log.e("Time", out)
+                //Log.e("Time", out)
             } catch (e: ParseException) {
-                Log.d("Time", e.toString())
+                //Log.d("Time", e.toString())
             }
         }
         return dateString

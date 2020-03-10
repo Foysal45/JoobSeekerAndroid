@@ -76,10 +76,10 @@ class ModulesViewFragment : Fragment() {
     }
 
     private fun upDateView(){
-        Log.d("degree Name " , et_degree_level.getString())
+        //Log.d("degree Name " , et_degree_level.getString())
         val degreeID = dataStorage.getIDbyDegreeLevel(et_degree_level.getString())
 
-        Log.d("degree ID " , degreeID.toString())
+        //Log.d("degree ID " , degreeID.toString())
 
         val degreeSubjects = dataStorage.getSubjectsbyDegreeID(degreeID.toString())
 
