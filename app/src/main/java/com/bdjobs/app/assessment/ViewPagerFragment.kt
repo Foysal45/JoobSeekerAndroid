@@ -41,7 +41,7 @@ class ViewPagerFragment : Fragment() {
             e.printStackTrace()
         }
 
-        Log.d("rakibe", "$a")
+        //Log.d("rakibe", "$a")
 
         viewPagerAdapter = ViewPagerAdapter(this,a!!)
         viewPager = view.findViewById(R.id.pager)

@@ -60,8 +60,8 @@ class FilterScheduleFragment : Fragment() {
 
         //might be set into xml or move to different fragment
         try {
-            Log.d("from - ", binding.viewModel?.scheduleRequest?.fromDate)
-            Log.d("to - ", binding.viewModel?.scheduleRequest?.toDate)
+            //Log.d("from - ", binding.viewModel?.scheduleRequest?.fromDate)
+            //Log.d("to - ", binding.viewModel?.scheduleRequest?.toDate)
             binding.filterFromTv.setText(binding.viewModel?.scheduleRequest?.fromDate)
             binding.filterToTv.setText(binding.viewModel?.scheduleRequest?.toDate)
             binding.filterVenueTv.text = when (binding.viewModel?.scheduleRequest?.venue) {

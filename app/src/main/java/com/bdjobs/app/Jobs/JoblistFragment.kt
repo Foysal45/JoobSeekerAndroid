@@ -445,7 +445,7 @@ class JoblistFragment : Fragment() {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
 
-                Log.d("rakib", call?.request()?.url?.query.toString())
+                //Log.d("rakib", call?.request()?.url?.query.toString())
 
                 try {
                     if (response.isSuccessful) {
@@ -456,7 +456,7 @@ class JoblistFragment : Fragment() {
                         shimmer_view_container_JobList?.stopShimmer()
 
                         val responseData = response.body()?.string()
-                        Log.d("rakib - response", "${responseData}")
+                        //Log.d("rakib - response", "${responseData}")
 
                         try {
 
@@ -506,7 +506,7 @@ class JoblistFragment : Fragment() {
                             communicator.setTotalPage(jobListModel.common.totalpages)
                             totalRecordsFound = jobListModel.common.totalRecordsFound
                         } catch (e: Exception) {
-                            Log.d("rakib", "catch")
+                            //Log.d("rakib", "catch")
                             e.printStackTrace()
 
                             ApiServiceJobs.create().responseBroken(url = "${call?.request()?.url}", params = "${call?.request()?.url?.query}", encoded = ENCODED_JOBS, userId = session.userId, response = responseData, appId = "1").enqueue(object : Callback<ResponseBody>{

@@ -126,7 +126,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.takeIf { it.containsKey("status") }?.apply {
-            Log.d("rakibe in home", getString("status"))
+            //Log.d("rakibe in home", getString("status"))
             if (getString("status").equals("true")) {
                 viewModel.getHomeInfo()
                 arguments?.putString("status", "false")

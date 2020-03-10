@@ -39,7 +39,7 @@ class PaymentViewModel(booking: Booking, application: Application) : AndroidView
     }
 
     fun bookSchedule() {
-        Log.d("rakib", "came here")
+        //Log.d("rakib", "came here")
         _status.value = Status.LOADING
         viewModelScope.launch {
             try {

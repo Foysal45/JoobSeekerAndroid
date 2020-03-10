@@ -43,13 +43,13 @@ class ChooseScheduleFragment : Fragment() {
             })
             binding.scheduleRv?.adapter?.notifyDataSetChanged()
         } catch (e: Exception) {
-            Log.d("rakib", e.message)
+            //Log.d("rakib", e.message)
         }
 
         try {
             scheduleRequestData = ChooseScheduleFragmentArgs.fromBundle(arguments!!).scheduleRequestData
 
-            Log.d("rakib", "schedule ${scheduleRequestData?.fromDate}")
+            //Log.d("rakib", "schedule ${scheduleRequestData?.fromDate}")
             from = "filter"
         } catch (e: Exception) {
 
@@ -68,7 +68,7 @@ class ChooseScheduleFragment : Fragment() {
         if (from == "filter")
             scheduleViewModel.filterScheduleList()
         else{
-            Log.d("rakib", "called get list")
+            //Log.d("rakib", "called get list")
             scheduleViewModel.getScheduleList()
         }
 

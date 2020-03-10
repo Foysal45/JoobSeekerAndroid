@@ -34,7 +34,7 @@ class ModuleListAdapter(private val context: Context, private val items : Array<
         viewHolder?.moduleName?.text = items.get(position)
         val sampleLink = Constants.base_url_module_sample + dataStorage.getSampleLinkbyName(items.get(position))
         viewHolder?.downloadButton?.setOnClickListener{
-            log.d("Sample link ",sampleLink )
+            //log.d("Sample link ",sampleLink )
             context.openUrlInBrowser(sampleLink)
 
         }
