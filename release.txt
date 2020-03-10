@@ -1,0 +1,13 @@
+-implmented  json broken API for Job List and Job Details
+-removed board from diploma in academics	
+-added resend otp functionality in login	
+-salary text API node implemented in Job Details
+-added applied job status (contacted/not contacted/ hired) count in applied jobs
+-Assessment Booking Feature Implemented	
+-Assessment certificate list and result view feature implemented		
+-added proguard for moshi	
+-new sql file with degree module table called and partially integrated.	
+-specialization chip view implement.	
+-salary range checking view during apply job and applied job edit pop up view
+-Bug fix - Job API pagination limited to last page no  - solved the bulk Broken Json API call
+-Bug fix - again search Lastpage set to false
