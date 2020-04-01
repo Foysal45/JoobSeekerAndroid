@@ -265,7 +265,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 //Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
 
-                                if (todayDate >= deadlineDate) {
+                                if (todayDate > deadlineDate) {
                                     jobsVH.jobexpirationBtn.show()
                                     jobCommunicator?.hideShortListIcon()
                                 } else {
