@@ -172,6 +172,7 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
                     holder.notifyRL.visibility = View.GONE
                 }
 
+
                 if (items.get(position).activity?.equalIgnoreCase("4")!!) {
                     holder.rescheduleStattusTV.visibility = View.VISIBLE
                 } else {
