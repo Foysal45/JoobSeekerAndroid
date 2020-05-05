@@ -15,27 +15,28 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
+import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
 import com.facebook.FacebookSdk.getApplicationContext
 import com.google.android.gms.ads.AdRequest
-import com.vincent.filepicker.Constant
-import com.vincent.filepicker.activity.NormalFilePickActivity
-import com.vincent.filepicker.filter.entity.NormalFile
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
+import droidninja.filepicker.models.sort.SortingTypes
 import kotlinx.android.synthetic.main.fragment_upload_resume.*
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.io.File
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 
 
 class UploadResumeFragment : Fragment() {
@@ -72,45 +73,49 @@ class UploadResumeFragment : Fragment() {
     }
 
     private fun browseFile() {
-        val wordFileTypes = arrayOf(".doc", ".docx")
-        val pdfFileTypes = arrayOf(".pdf")
-//        FilePickerBuilder.instance.setMaxCount(1)
-//                .setSelectedFiles(filePaths)
-//                .enableDocSupport(false)
-//                .sortDocumentsBy(SortingTypes.name)
-//                .showFolderView(true)
-//                .addFileSupport("MS WORD FILES", wordFileTypes, R.drawable.ic_microsoft_word)
-//                .addFileSupport("PDF FILES", pdfFileTypes, R.drawable.ic_pdf)
-//                .setActivityTheme(R.style.AppTheme)
-//                .pickFile(activity)
-        val intent4 =  Intent(activity, NormalFilePickActivity::class.java)
-        intent4.putExtra(Constant.MAX_NUMBER, 1)
-        intent4.putExtra(NormalFilePickActivity.SUFFIX,  arrayOf<String>("doc", "docx", "pdf"))
-        activity.startActivityForResult(intent4, Constant.REQUEST_CODE_PICK_FILE)
+        val wordFileTypes = arrayOf("doc", "docx")
+        val pdfFileTypes = arrayOf("pdf")
+        FilePickerBuilder.instance.setMaxCount(1)
+                .setActivityTheme(R.style.LibAppTheme)
+                .enableDocSupport(false)
+                .sortDocumentsBy(SortingTypes.name)
+                .showFolderView(true)
+                .addFileSupport("MS WORD FILES", wordFileTypes, R.drawable.ic_microsoft_word)
+                .addFileSupport("PDF FILES", pdfFileTypes, R.drawable.ic_pdf)
+                .pickFile(activity)
+//        val intent4 =  Intent(activity, NormalFilePickActivity::class.java)
+//        intent4.putExtra(Constant.MAX_NUMBER, 1)
+//        intent4.putExtra(NormalFilePickActivity.SUFFIX,  arrayOf<String>("doc", "docx", "pdf"))
+//        activity.startActivityForResult(intent4, Constant.REQUEST_CODE_PICK_FILE)
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        //Log.d("UploadResume", "requestCode=$requestCode \nresultCode=$resultCode \ndata=$data")
-        if (requestCode == Constant.REQUEST_CODE_PICK_FILE && resultCode == Activity.RESULT_OK && data != null) {
+//        if (requestCode == Constant.REQUEST_CODE_PICK_FILE && resultCode == Activity.RESULT_OK && data != null) {
+//
+//
+//            val file : List<NormalFile>? = data.getParcelableArrayListExtra(Constant.RESULT_PICK_FILE)
+//
+//            file?.forEach {
+//                //Log.d("rakib",it.path.toString())
+//            }
+//
+//            try {
+//                val uri = Uri.parse(File(file!![0].path).toString())
+//                checkFilleSize(uri)
+//            } catch (e: Exception){
+//                logException(e)
+//            }
+//        }
 
 
-            val file : List<NormalFile>? = data.getParcelableArrayListExtra(Constant.RESULT_PICK_FILE)
-
-            file?.forEach {
-                //Log.d("rakib",it.path.toString())
-            }
-
-            try {
-                val uri = Uri.parse(File(file!![0].path).toString())
+        if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
+                val uri = Uri.fromFile(File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)[0]))
                 checkFilleSize(uri)
-            } catch (e: Exception){
-                logException(e)
             }
-
-
         }
     }
 

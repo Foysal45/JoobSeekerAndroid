@@ -29,6 +29,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     private lateinit var mNotificationHelper: NotificationHelper
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var bdjobsInternalDB: BdjobsDB
+
     //    private lateinit var interviewInvitaionModel : InterviewInvitationNotificationModel
     private lateinit var commonNotificationModel: CommonNotificationModel
     lateinit var arrivalTime: Date
@@ -45,7 +46,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-//        Log.d("rakib received", remoteMessage.data.toString())
+       Log.d("rakib received", remoteMessage.data.toString())
 
         val gson = Gson()
 
@@ -77,6 +78,30 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 when (commonNotificationModel.type) {
 
                     Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                        try {
+//                            DatabaseUpdateJob.runJobImmediately()
+
+                            val constraints = Constraints.Builder()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
+
+                            val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                                    .setConstraints(constraints)
+                                    .build()
+
+                            WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
+                        } catch (e: Exception) {
+                        }
+                    }
+
+                    Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW -> {
                         try {
                             insertNotificationInToDatabase(payload)
                             showNotification(commonNotificationModel)
@@ -217,7 +242,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 
         if (commonNotificationModel.type != "pm") {
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
                 bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
@@ -227,7 +252,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             }
         } else if (commonNotificationModel.type == "pm") {
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
@@ -246,13 +271,20 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_INTERVIEW_INVITATTION, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId,commonNotificationModel.lanType,commonNotificationModel.deadlineDB))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                } catch (e: Exception) {
+                }
+            }
+            Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW -> {
+                try {
+                    mNotificationHelper.notify(Constants.NOTIFICATION_VIDEO_INTERVIEW, mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                 try {
-                    mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId,commonNotificationModel.lanType,commonNotificationModel.deadlineDB))
+                    mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
@@ -260,7 +292,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 //Log.d("rakib" ,"insdie noti")
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId,commonNotificationModel.lanType,commonNotificationModel.deadlineDB))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }

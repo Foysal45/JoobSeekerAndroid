@@ -164,7 +164,7 @@
             android:textColor="#007FE3"
             android:textSize="14sp"
             app:icon="@drawable/ic_keyboard_arrow_right_black_24dp"
-            app:iconGravity="textStart"
+            app:iconGravity="textEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
