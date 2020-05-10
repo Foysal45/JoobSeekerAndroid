@@ -50,25 +50,25 @@
             android:id="@+id/notification_time_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
             android:paddingBottom="0dp"
             android:src="@drawable/ic_notification_time"
             app:layout_constraintBottom_toBottomOf="@+id/notification_cv_viewed_time_text"
-            app:layout_constraintLeft_toLeftOf="@id/notification_cv_viewed_text"
+            app:layout_constraintEnd_toStartOf="@+id/notification_cv_viewed_time_text"
             app:layout_constraintTop_toTopOf="@+id/notification_cv_viewed_time_text" />
 
         <TextView
-            android:layout_marginStart="5dp"
             android:id="@+id/notification_cv_viewed_time_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:drawablePadding="5dp"
             android:drawableTint="#767676"
-            android:textColor="#767676"
             android:text="6 days ago"
+            android:textColor="#767676"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/notification_time_image"
+            app:layout_constraintEnd_toEndOf="@+id/notification_cv_viewed_text"
             app:layout_constraintTop_toBottomOf="@id/notification_cv_viewed_text"
             app:layout_constraintVertical_bias="0.176" />
 

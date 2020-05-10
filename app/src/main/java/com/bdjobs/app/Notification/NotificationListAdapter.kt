@@ -242,12 +242,13 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         }
                     }
                     context?.startActivity<InterviewInvitationBaseActivity>(
-                            "from" to "notificationList",
+                            "from" to "videoInterviewNotificationList",
                             "jobid" to items[position].serverId,
                             "companyname" to items[position].companyName,
                             "jobtitle" to items[position].jobTitle,
                             "seen" to items[position].seen,
-                            "nid" to items[position].notificationId
+                            "nid" to items[position].notificationId,
+                            "videoUrl" to items[position].link
                     )
                 }
 

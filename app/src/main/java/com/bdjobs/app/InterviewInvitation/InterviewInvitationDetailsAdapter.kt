@@ -253,7 +253,7 @@ class VideoInterviewInvitationViewHolder(view: View) : RecyclerView.ViewHolder(v
 
     val inviteDateTV = view.findViewById<View>(R.id.inviteDateTV) as TextView
 
-    val examDateTV = view.findViewById<View>(R.id.date_text) as TextView
+    val examDateTV = view.findViewById<View>(R.id.deadline_date_text) as TextView
     val examTimeTV = view.findViewById<View>(R.id.total_time_text) as TextView
     val examQuestionsTV = view.findViewById<View>(R.id.questions_text) as TextView
     val examAttemptsTimeTV = view.findViewById<View>(R.id.attempts_text) as TextView

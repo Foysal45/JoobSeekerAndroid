@@ -4,6 +4,7 @@ interface InterviewInvitationCommunicator {
     fun backButtonClicked()
     fun goToInvitationDetails(jobID: String, companyName: String, jobTitle: String)
     fun goToInvitationDetailsForAppliedJobs(jobID: String, companyName: String, jobTitle: String)
+    fun goToVideoInterviewDetails(jobID: String, companyName: String, jobTitle: String)
     fun goToVenueDirection(invitationDate: String, invitationTime: String, venue: String, lat: String, lan: String)
     fun getCompanyJobID(): String
     fun getCompanyJobTitle(): String
@@ -15,4 +16,5 @@ interface InterviewInvitationCommunicator {
     fun getCompanyLat(): String
     fun getCompanyLan(): String
     fun getTime() : String
+    fun getVideoUrl() : String
 }
