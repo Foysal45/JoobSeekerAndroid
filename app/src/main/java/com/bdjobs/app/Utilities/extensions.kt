@@ -31,6 +31,7 @@ import androidx.annotation.NonNull
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.R
@@ -244,21 +245,20 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
 
 fun Activity.unsubscribeFromFCMTopic(topicName: String) {
     FirebaseMessaging.getInstance()?.unsubscribeFromTopic(topicName)
-            .addOnCompleteListener {
-                task ->
+            .addOnCompleteListener { task ->
                 var msg = "Firebase topic unsubscribe on : $topicName is successful"
-                if (!task.isSuccessful){
+                if (!task.isSuccessful) {
                     var msg = "Firebase topic unsubscribe on : $topicName is not successful"
                 }
                 wtf(msg)
             }
 }
 
-fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener, from :String? = "") {
+fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener, from: String? = "") {
 
-    if (from == "assessment"){
+    if (from == "assessment") {
 
-        var now : Long = System.currentTimeMillis() - 1000;
+        var now: Long = System.currentTimeMillis() - 1000;
 
         val dpd = DatePickerDialog(c,
                 listener,
@@ -381,8 +381,7 @@ fun Context.setLanguage(localeName: String) {
 fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: Boolean) {
     try {
         fragmentManager?.executePendingTransactions()
-        if (!fragment?.isAdded)
-        {
+        if (!fragment?.isAdded) {
             Log.d("rakib", "fragment if")
             val transaction = fragmentManager.beginTransaction()
 
@@ -392,14 +391,34 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
                 transaction.replace(holderID, fragment, simpleClassName(fragment))
             }
             transaction.commit()
-        }
-        else{
-           Log.d("rakib", "fragment else")
+        } else {
+            Log.d("rakib", "fragment else")
         }
     } catch (e: Exception) {
         logException(e)
     }
 }
+
+fun FragmentActivity.transitFragment(fragment: androidx.fragment.app.Fragment, holderID: Int, addToBackStack: Boolean) {
+    try {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        if (addToBackStack) {
+            fragmentTransaction.apply {
+                replace(holderID, fragment)
+                addToBackStack(fragment::class.java.name)
+            }
+        } else {
+            fragmentTransaction.apply {
+                replace(holderID, fragment)
+            }
+        }
+        fragmentTransaction.commit()
+    } catch (e: Exception) {
+        logException(e)
+    }
+}
+
 
 fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
     try {
@@ -767,7 +786,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     var versionCode = "0"
     try {
         pInfo = packageManager.getPackageInfo(packageName, 0)
-        versionCode = pInfo!!.versionName + " (" +pInfo.versionCode+")"
+        versionCode = pInfo!!.versionName + " (" + pInfo.versionCode + ")"
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
     }
@@ -816,7 +835,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     return deviceInfo
 }
 
-fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

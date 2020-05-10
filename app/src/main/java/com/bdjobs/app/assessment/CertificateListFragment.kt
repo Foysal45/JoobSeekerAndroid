@@ -33,7 +33,7 @@ class CertificateListFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireNotNull(activity)).get(CertificateViewModel::class.java)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.certificateViewModel = viewModel
 

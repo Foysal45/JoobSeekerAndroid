@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -24,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunicator {
+class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationCommunicator {
 
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
@@ -37,6 +38,13 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         this.jobTitle = jobTitle
         this.companyName = companyName
         transitFragment(interviewInvitationDetailsFragment, R.id.interViewfragmentHolder, false)
+    }
+
+    override fun goToVideoInterviewDetails(jobID: String, companyName: String, jobTitle: String) {
+        this.jobID = jobID
+        this.jobTitle = jobTitle
+        this.companyName = companyName
+        transitFragment(videoInterviewDetailsFragment, R.id.interViewfragmentHolder, false)
     }
 
 
@@ -54,12 +62,18 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
     private var type = ""
     private var nId = ""
     private var seen = false
+    private var url = ""
 
     private val interveiwInvitationListFragment = InterveiwInvitationListFragment()
     private val interviewInvitationDetailsFragment = InterviewInvitationDetailsFragment()
+    private val videoInterviewDetailsFragment = VideoInterviewDetailsFragment()
 
     override fun getTime(): String {
         return time
+    }
+
+    override fun getVideoUrl(): String {
+        return url
     }
 
     override fun getFrom(): String {
@@ -75,8 +89,7 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        Ads.loadAdaptiveBanner(this@InterviewInvitationBaseActivity,adView)
-
+        Ads.loadAdaptiveBanner(this@InterviewInvitationBaseActivity, adView)
 
 
     }
@@ -136,11 +149,16 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
         }
 
         try {
-            seen = intent.getBooleanExtra("seen",false)
+            seen = intent.getBooleanExtra("seen", false)
         } catch (e: Exception) {
             logException(e)
         }
 
+        try {
+            url = intent.getStringExtra("videoUrl")
+        } catch (e: Exception) {
+            logException(e)
+        }
 
         //Log.d("utuytujtjtgdju56u", "$from $jobTitle $jobID $companyName")
 
@@ -157,16 +175,16 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
                     } catch (e: Exception) {
                     }
 //                    val seen = bdjobsDB.notificationDao().getNotificationSeenStatus(nId)
-                    if (!seen){
+                    if (!seen) {
 
                         try {
-                            logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID,nId)
+                            logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, applicationContext, jobID, nId)
                         } catch (e: Exception) {
                         }
 
                         try {
                             ApiServiceJobs.create().sendDataForAnalytics(
-                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, encode = Constants.ENCODED_JOBS, sentTo = "Android"
                             ).enqueue(
                                     object : Callback<String> {
                                         override fun onFailure(call: Call<String>, t: Throwable) {
@@ -188,21 +206,24 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
                         }
                     }
                 }
-                goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+                if (type == Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION)
+                    goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+                else
+                    goToVideoInterviewDetails(jobID, companyName, jobTitle)
             }
 
-            from?.equals("notificationList") ->{
+            from?.equals("notificationList") -> {
 
-                if (!seen){
+                if (!seen) {
 
                     try {
-                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION,applicationContext,jobID,nId)
+                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, applicationContext, jobID, nId)
                     } catch (e: Exception) {
                     }
 
                     try {
                         ApiServiceJobs.create().sendDataForAnalytics(
-                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION, encode = Constants.ENCODED_JOBS, sentTo = "Android"
                         ).enqueue(
                                 object : Callback<String> {
                                     override fun onFailure(call: Call<String>, t: Throwable) {
@@ -225,6 +246,42 @@ class InterviewInvitationBaseActivity : Activity(), InterviewInvitationCommunica
                 }
 
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+            }
+
+            from?.equals("videoInterviewNotificationList") -> {
+
+                if (!seen) {
+
+                    try {
+                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW, applicationContext, jobID, nId)
+                    } catch (e: Exception) {
+                    }
+
+                    try {
+                        ApiServiceJobs.create().sendDataForAnalytics(
+                                userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                        ).enqueue(
+                                object : Callback<String> {
+                                    override fun onFailure(call: Call<String>, t: Throwable) {
+
+                                    }
+
+                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                                        try {
+                                            if (response.isSuccessful) {
+                                            }
+                                        } catch (e: Exception) {
+                                            logException(e)
+                                        }
+                                    }
+                                }
+                        )
+                    } catch (e: Exception) {
+                    }
+                }
+
+                goToVideoInterviewDetails(jobID, companyName, jobTitle)
             }
 
             from?.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)

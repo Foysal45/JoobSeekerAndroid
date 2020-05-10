@@ -752,6 +752,14 @@ interface ApiServiceMyBdjobs {
     ): Call<InvitationDetailModels>
 
     @FormUrlEncoded
+    @POST("app_invite_video_interview_details.asp")
+    fun getVideoInterviewDetails(
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = "",
+            @Field("jobId") jobId: String? = ""
+    ): Call<VideoInterviewDetailsModel>
+
+    @FormUrlEncoded
     @POST("apps_salary_edit.asp")
     fun getUpdateSalaryMsg(
             @Field("userId") userId: String? = "",
@@ -1051,8 +1059,6 @@ interface ApiServiceMyBdjobs {
             @Field("jobId") jobId: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<InteractionModel>
-
-
 
 
     companion object Factory {

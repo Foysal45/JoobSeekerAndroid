@@ -200,6 +200,7 @@ class Constants {
         const val NOTIFICATION_CV_VIEWED = 101
         const val NOTIFICATION_PROMOTIONAL_MESSAGE = 102
         const val NOTIFICATION_MATCHED_JOB = 104
+        const val NOTIFICATION_VIDEO_INTERVIEW = 105
 
 
         const val internal_database_name = "BdjobsInternal.db"
@@ -230,6 +231,7 @@ class Constants {
         const val NOTIFICATION_TYPE_GENERAL = "gn"
         const val NOTIFICATION_TYPE_REMOVE_NOTIFICATION = "rn"
         const val NOTIFICATION_TYPE_REMOVE_MESSAGE = "rm"
+        const val NOTIFICATION_TYPE_VIDEO_INTERVIEW = "vi"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

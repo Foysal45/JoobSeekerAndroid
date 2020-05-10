@@ -29,6 +29,7 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.Notification
@@ -38,7 +39,7 @@ import retrofit2.Response
 import java.util.*
 
 
-class NotificationBaseActivity : AppCompatActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
 
     private var seen = false

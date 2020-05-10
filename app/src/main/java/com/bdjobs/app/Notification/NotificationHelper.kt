@@ -31,6 +31,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         const val TAG = "NotificationHelper"
         const val GENERAL_CHANNEL = "general"
         const val INTERVIEW_INVITATION_CHANNEL = "interview_invitation"
+        const val VIDEO_INTERVIEW_CHANNEL = "video_interview"
         const val CV_VIEWED_CHANNEL = "cv_viewed"
         const val MATCHED_JOB_CHANNEL = "matched_job"
         const val MESSAGE_CHANNEL = "message"
@@ -69,6 +70,19 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             // Submit the notification channel object to the notification manager
             mNotificationManager.createNotificationChannel(interviewInvitationChannel)
+
+            // Create interview invitation notification channel
+            val videoInterviewChannel = NotificationChannel(
+                    VIDEO_INTERVIEW_CHANNEL,
+                    getString(R.string.notification_channel_video_interview),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(videoInterviewChannel)
 
             // Create cv viewed notification channel
             val cvViewedChannel = NotificationChannel(
@@ -114,7 +128,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
     }
 
 
-    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?, lanType:String?, deadlineDB : String?): NotificationCompat.Builder {
+    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?, lanType: String?, deadlineDB: String?): NotificationCompat.Builder {
 
         //Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
@@ -142,7 +156,32 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(interviewInvitationPendingIntent)
-                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+            }
+
+            Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW -> {
+
+                val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    putExtra("jobid", jobid)
+                    putExtra("companyname", companyName)
+                    putExtra("jobtitle", jobTitle)
+                    putExtra("type", type)
+                    putExtra("nid", nId)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+
+                val videoInterviewPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                return NotificationCompat.Builder(applicationContext, VIDEO_INTERVIEW_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(videoInterviewPendingIntent)
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
             }
 
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
@@ -164,7 +203,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
-                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
             }
 
@@ -204,7 +243,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
-                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
             }
 
@@ -251,7 +290,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setContentIntent(pendingIntent)
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
-                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
             }
 
@@ -275,7 +314,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
-                        .setColor(ContextCompat.getColor(context,R.color.colorBdjobsMajenta))
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
             }
         }

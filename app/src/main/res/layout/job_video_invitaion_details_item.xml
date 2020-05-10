@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="16dp">
+
+    <ImageView
+        android:id="@+id/video_icon_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_video"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/video_invitation_heading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Video Interview Invitation"
+        android:textColor="#EC407A"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/invitation_date_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/video_icon_img"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:drawablePadding="3dp"
+        android:drawableStart="@drawable/ic_calender_interview_invitation"
+        app:layout_constraintBottom_toBottomOf="@id/video_invitation_heading_text"
+        tools:text="15 Sep, 2020"
+        app:layout_constraintTop_toTopOf="@id/video_invitation_heading_text"
+        android:id="@+id/invitation_date_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/video_invitation_body_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Congratulation! You have been selected for a video interview. The employer has some questions which you can see before recording the answers."
+        android:textColor="#393939"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/video_invitation_heading_text"
+        app:layout_constraintTop_toBottomOf="@id/video_invitation_heading_text" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/description_cl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/exam_details_bg"
+        android:padding="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/video_invitation_body_text"
+        app:layout_constraintTop_toBottomOf="@id/video_invitation_body_text">
+
+        <TextView
+            android:id="@+id/date_heading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/job_cal_ic"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Date"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/deadline_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:textColor="#303030"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/date_heading_text"
+            app:layout_constraintTop_toBottomOf="@id/date_heading_text"
+            tools:text="20 Sep, 2018" />
+
+        <TextView
+            android:id="@+id/time_heading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/job_time_ic"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Total Time"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deadline_date_text" />
+
+        <TextView
+            android:id="@+id/total_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:textColor="#303030"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/time_heading_text"
+            app:layout_constraintTop_toBottomOf="@id/time_heading_text"
+            tools:text="10 min" />
+
+
+        <TextView
+            android:id="@+id/questions_heading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_help"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Questions"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/questions_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:textColor="#303030"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/questions_heading_text"
+            app:layout_constraintTop_toBottomOf="@id/questions_heading_text"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/attempts_heading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableStart="@drawable/ic_attempt"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="Recording Attempt"
+            android:textColor="#7D7D7D"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/deadline_date_text" />
+
+        <TextView
+            android:id="@+id/attempts_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:textColor="#303030"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/attempts_heading_text"
+            app:layout_constraintTop_toBottomOf="@id/attempts_heading_text"
+            tools:text="3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.47" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/status_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/info_background"
+        android:gravity="center_horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="8dp"
+        android:text="You have submitted Video Interview"
+        android:textColor="#A6882E"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/description_cl"
+        app:layout_constraintTop_toBottomOf="@id/description_cl"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+        app:elevation="0dp"
+        android:id="@+id/submit_button"
+        app:iconSize="16dp"
+        android:text="Proceed for Video Interview"
+        android:textAllCaps="false"
+        android:stateListAnimator="@null"
+        app:backgroundTint="#13A10E"
+        app:iconGravity="textStart"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_cam"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/description_cl"
+        app:layout_constraintEnd_toEndOf="@id/description_cl"
+        app:layout_constraintTop_toBottomOf="@id/status_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
