@@ -23,6 +23,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationCommunicator {
@@ -98,8 +99,10 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
     override fun onResume() {
         super.onResume()
         //Log.d("rakib", "onResume")
+        //Timber.d("rakib onResume")
         try {
             from = intent.getStringExtra("from")
+            //Log.d("rakib","$from")
         } catch (e: Exception) {
             logException(e)
         }
@@ -138,6 +141,8 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
         try {
             type = intent.getStringExtra("type")
+            //Log.d("rakib","$type")
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -161,6 +166,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
         }
 
         //Log.d("utuytujtjtgdju56u", "$from $jobTitle $jobID $companyName")
+        //Timber.d("rakib $from")
 
 
         when {

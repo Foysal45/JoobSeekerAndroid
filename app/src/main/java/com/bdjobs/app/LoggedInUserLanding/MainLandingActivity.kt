@@ -533,6 +533,14 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 //                showNotification(commonNotificationModel)
 
 
+//                val payload = "{ \"jobTitle\": \"Video Interview Invitation\", \"companyName\": \"Utopia BD Limited1\" ,\"body\" : \"You have one new video Interview Invitation.\", \"type\" : \"vi\", \"jobId\" : \"904499\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
+                //logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+
+
+
                 return@OnNavigationItemSelectedListener true
 
 
@@ -541,11 +549,11 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
 
                 transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
 
-//                val payload = "{ \"jobTitle\": \"Senior web developer\", \"companyName\": \"Something Ltd\" ,\"body\" : \"You have one new Interview Invitation.\", \"type\" : \"ii\", \"jobId\" : \"795881\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val payload = "{ \"jobTitle\": \"TestingHotjob_Sumi\", \"companyName\": \"Bdjobs Test Account - Az\" ,\"body\" : \"Bdjobs Test Account - Az requested you an Interview Schedule, confirm your Interview., \", \"type\" : \"ii\", \"jobId\" : \"780303\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
 //                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
 //                insertNotificationInToDatabase(payload, commonNotificationModel)
 //                showNotification(commonNotificationModel)
-//                logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+                //logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
 
 
                 return@OnNavigationItemSelectedListener true
@@ -819,6 +827,15 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
                             Constants.NOTIFICATION_INTERVIEW_INVITATTION,
                             mNotificationHelper.prepareNotification(
                             commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                } catch (e: Exception) {
+                }
+            }
+            Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW -> {
+                try {
+                    mNotificationHelper.notify(
+                            Constants.NOTIFICATION_VIDEO_INTERVIEW,
+                            mNotificationHelper.prepareNotification(
+                                    commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
