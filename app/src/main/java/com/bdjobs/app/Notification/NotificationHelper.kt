@@ -168,6 +168,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                     putExtra("jobtitle", jobTitle)
                     putExtra("type", type)
                     putExtra("nid", nId)
+                    putExtra("videoUrl",link)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
