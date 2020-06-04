@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_interview_nav_graph"
+    app:startDestination="@id/videoInterviewListFragment">
+
+    <fragment
+        android:id="@+id/videoInterviewListFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListFragment"
+        android:label="Video Interview Invitation"
+        tools:layout="@layout/fragment_video_interview_list" />
+    <fragment
+        android:id="@+id/videoInterviewDetailsFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsFragment"
+        android:label="VideoInterviewDetailsFragment"
+        tools:layout="@layout/fragment_video_interview_details"/>
+    <fragment
+        android:id="@+id/guidelinesViewpagerFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.guidelines.GuidelinesViewpagerFragment"
+        android:label="fragment_guidelines_viewpager"
+        tools:layout="@layout/fragment_guidelines_viewpager" />
+    <fragment
+        android:id="@+id/questionDetailsFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.question_details.QuestionDetailsFragment"
+        android:label="fragment_question_details"
+        tools:layout="@layout/fragment_question_details" />
+</navigation>

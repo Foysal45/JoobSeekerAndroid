@@ -1,29 +1,23 @@
 package com.bdjobs.app.InterviewInvitation
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Notification.NotificationCommunicatior
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logDataForAnalytics
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsFragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_interview_invitation_base.*
-import kotlinx.android.synthetic.main.fragment_personal_details_edit.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 import java.util.*
 
 class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationCommunicator {

@@ -1,4 +1,4 @@
-package com.bdjobs.app.InterviewInvitation
+package com.bdjobs.app.videoInterview.ui.interview_details
 
 import android.app.Activity
 import android.app.Fragment
@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.VideoInterviewDetailsModel
 import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationCommunicator
 import com.bdjobs.app.Jobs.JobBaseActivity
 
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Web.WebActivity
 import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import kotlinx.android.synthetic.main.job_video_invitaion_details_item.*
 import org.jetbrains.anko.startActivity

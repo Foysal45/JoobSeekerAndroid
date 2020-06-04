@@ -16,6 +16,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import kotlinx.android.synthetic.main.fragment_more_layout.notificationCountTV
 import kotlinx.android.synthetic.main.fragment_more_layout.notificationIMGV
@@ -124,6 +125,9 @@ class MoreFragment : Fragment() {
         }
         interviewinvitation_MBTN?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
+        }
+        video_interviewinvitation_MBTN?.setOnClickListener {
+            startActivity<VideoInterviewActivity>()
         }
         training_MBTN?.setOnClickListener {
             startActivity<TrainingListAcitivity>()
