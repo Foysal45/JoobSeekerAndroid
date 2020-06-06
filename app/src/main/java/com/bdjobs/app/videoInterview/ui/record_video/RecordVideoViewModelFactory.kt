@@ -9,6 +9,6 @@ import com.bdjobs.app.videoInterview.ui.question_details.QuestionDetailsViewMode
 class RecordVideoViewModelFactory(private val repository: VideoInterviewRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return QuestionDetailsViewModel(repository) as T
+        return RecordVideoViewModel(repository) as T
     }
 }
