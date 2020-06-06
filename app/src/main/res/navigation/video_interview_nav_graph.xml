@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video_interview_nav_graph"
-    app:startDestination="@id/videoInterviewListFragment">
+    app:startDestination="@id/recordViedeoFragment">
 
     <fragment
         android:id="@+id/videoInterviewListFragment"
@@ -25,4 +25,9 @@
         android:name="com.bdjobs.app.videoInterview.ui.question_details.QuestionDetailsFragment"
         android:label="fragment_question_details"
         tools:layout="@layout/fragment_question_details" />
+    <fragment
+        android:id="@+id/recordViedeoFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.record_video.RecordVideoFragment"
+        android:label="Record Answer"
+        tools:layout="@layout/fragment_record_video" />
 </navigation>
