@@ -121,6 +121,12 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
+    <style name="videoSeekbar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">#E9E9E9</item>
+        <item name="android:progressTint">#FFEE58</item>
+        <item name="android:thumbTint">#FFEE58</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -174,5 +180,7 @@
         <item name="color_unchecked_stroke">@color/checkbox_unchecked_color</item>
         <item name="color_tick">@android:color/white</item>
     </style>
+
+
 
 </resources>

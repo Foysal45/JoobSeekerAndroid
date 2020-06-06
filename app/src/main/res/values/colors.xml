@@ -23,5 +23,7 @@
     <color name="colorBlack">#000000</color>
     <color name="unselected">#EFEFEF</color>
 
+    <color name="green">#13A10E</color>
+
     <color name="selected">#1565C0</color>
 </resources>
