@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.API.ModelClasses.VideoInterviewDetailsModel
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationCommunicator
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -15,6 +16,8 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databinding.FragmentVideoInterviewDetailsBinding
+import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import kotlinx.android.synthetic.main.job_video_invitaion_details_item.*
 import org.jetbrains.anko.startActivity
@@ -27,19 +30,31 @@ import retrofit2.Response
  */
 class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
+    private val videoInterviewDetailsViewModel : VideoInterviewDetailsViewModel by viewModels {
+        ViewModelFactoryUtil.provideVideoInterviewInvitationDetailsViewModelFactory(this,"") }
+
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
     lateinit var interviewInvitationCommunicator: InterviewInvitationCommunicator
 
+    lateinit var binding : FragmentVideoInterviewDetailsBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        interviewInvitationCommunicator = activity as InterviewInvitationCommunicator
-        bdjobsDB = BdjobsDB.getInstance(activity as Activity)
-        bdjobsUserSession = BdjobsUserSession(activity as Activity)
+        binding = FragmentVideoInterviewDetailsBinding.inflate(inflater).apply {
+            viewModel =  videoInterviewDetailsViewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_video_interview_details, container, false)
+        return binding.root
+
+//        interviewInvitationCommunicator = activity as InterviewInvitationCommunicator
+//        bdjobsDB = BdjobsDB.getInstance(activity as Activity)
+//        bdjobsUserSession = BdjobsUserSession(activity as Activity)
+//
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_video_interview_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,15 +93,15 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
                 jobId = interviewInvitationCommunicator.getCompanyJobID()
 
         ).enqueue(
-                object : Callback<VideoInterviewDetailsModel> {
-                    override fun onFailure(call: Call<VideoInterviewDetailsModel>, t: Throwable) {
+                object : Callback<VideoInterviewDetails> {
+                    override fun onFailure(call: Call<VideoInterviewDetails>, t: Throwable) {
                         //error("onFailure", t)
 //                        followedRV?.show()
 //                        shimmer_view_container_JobList?.hide()
 //                        shimmer_view_container_JobList?.stopShimmer()
                     }
 
-                    override fun onResponse(call: Call<VideoInterviewDetailsModel>, response: Response<VideoInterviewDetailsModel>) {
+                    override fun onResponse(call: Call<VideoInterviewDetails>, response: Response<VideoInterviewDetails>) {
                         try {
                             if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
 

@@ -8,6 +8,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.google.gson.GsonBuilder
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -757,7 +758,7 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userID: String? = "",
             @Field("decodeId") decodeID: String? = "",
             @Field("jobId") jobId: String? = ""
-    ): Call<VideoInterviewDetailsModel>
+    ): Call<VideoInterviewDetails>
 
     @FormUrlEncoded
     @POST("apps_salary_edit.asp")

@@ -1,15 +1,15 @@
-package com.bdjobs.app.API.ModelClasses
+package com.bdjobs.app.videoInterview.data.models
 
 
 import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
 
 @Keep
-data class VideoInterviewDetailsModel(
+data class VideoInterviewDetails(
         @SerializedName("common")
         var common: VideoInterviewDetailsCommon?,
         @SerializedName("data")
-        var `data`: List<VideoInterviewDetailsData?>?,
+        var data: List<VideoInterviewDetailsData?>?,
         @SerializedName("message")
         var message: String?, // Success
         @SerializedName("statuscode")
