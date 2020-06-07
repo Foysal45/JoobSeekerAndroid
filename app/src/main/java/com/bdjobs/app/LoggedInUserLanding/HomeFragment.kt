@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
@@ -29,6 +31,9 @@ import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.bdjobs.app.assessment.AssesmentBaseActivity
+
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -37,6 +42,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.material.button.MaterialButton
+import kotlinx.android.synthetic.main.applied_jobs.*
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
@@ -44,6 +50,8 @@ import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,30 +61,6 @@ import java.util.*
 
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
-
-
-    fun updateNotificationView(count: Int?) {
-        //Log.d("rakib", "in home fragment $count")
-        if (count!! > 0) {
-            notificationCountTV?.show()
-            if (count <= 99)
-                notificationCountTV?.text = "$count"
-            else
-                notificationCountTV?.text = "99+"
-        } else {
-            notificationCountTV?.hide()
-        }
-
-//        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
-//        if (bdjobsUserSession.notificationCount!! > 99){
-//            notificationCountTV?.text = "99+"
-//
-//        } else{
-//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
-//
-//        }
-    }
 
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -185,6 +169,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
+        }
+        videoInterviewButton.onClick {
+
+            startActivity<VideoInterviewActivity>()
+
+
         }
     }
 
@@ -498,7 +488,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         return allValues.removeLastComma()
     }
 
-
     private fun showInterviewInvitationPop() {
         val interviewInvitationDialog = Dialog(activity)
         interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
@@ -601,7 +590,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         })
     }
 
-
     private fun showShortListedJobsExpirationPopUP() {
 
 
@@ -665,6 +653,21 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 }
             }
         }
+
+    }
+
+    fun updateNotificationView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            notificationCountTV?.show()
+            if (count <= 99)
+                notificationCountTV?.text = "$count"
+            else
+                notificationCountTV?.text = "99+"
+        } else {
+            notificationCountTV?.hide()
+        }
+
 
     }
 
