@@ -21,6 +21,7 @@ import android.view.Window
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentActivity
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
@@ -74,7 +75,7 @@ import java.io.*
 import java.security.MessageDigest
 
 
-class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
+class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
     lateinit var pref: SharedPreferences
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -142,6 +143,8 @@ class SplashActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverList
         }
 
         agreedBtn?.setOnClickListener {
+
+
 
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()

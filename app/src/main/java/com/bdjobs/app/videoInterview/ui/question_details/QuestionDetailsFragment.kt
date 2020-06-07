@@ -1,63 +1,121 @@
 package com.bdjobs.app.videoInterview.ui.question_details
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
+import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import com.fondesa.kpermissions.*
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import timber.log.Timber
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [QuestionDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class QuestionDetailsFragment : Fragment() {
 
-    private val questionDetailsViewModel : QuestionDetailsViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewQuestionDetailsViewModelFactory(this) }
-
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val questionDetailsViewModel: QuestionDetailsViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewQuestionDetailsViewModelFactory(this) }
+    lateinit var binding: FragmentQuestionDetailsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question_details, container, false)
+        binding = FragmentQuestionDetailsBinding.inflate(inflater).apply {
+            viewModel = questionDetailsViewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment QuestionDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                QuestionDetailsFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        questionDetailsViewModel.apply {
+            onSubmitButtonClickEvent.observe(viewLifecycleOwner, EventObserver { notInterested ->
+                if (notInterested) {
+                    openWarningDialog()
+                } else {
+
                 }
+            })
+        }
+
+        binding.btnSubmitLater.setOnClickListener {
+            askForPermission()
+        }
     }
+
+    private fun openWarningDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.dialog_video_not_interested_to_submit, null)
+        view?.apply {
+            findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            findViewById<Button>(R.id.dialog_btn_yes).setOnClickListener {
+                questionDetailsViewModel.onDialogYesButtonClick()
+                dialog.dismiss()
+            }
+        }
+        dialog.setView(view)
+        dialog.show()
+    }
+
+
+    private fun askForPermission() {
+        permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build().send { result ->
+            when {
+                result.allGranted() -> {
+                    Timber.d("Granted")
+                    findNavController().navigate(R.id.recordViedeoFragment)
+                }
+                result.allDenied() || result.anyDenied() -> {
+                    //Toast.makeText(context,"Please enable this permission to record answer(s)",Toast.LENGTH_SHORT).show()
+                    openSettingsDialog()
+
+                }
+
+                result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
+                    Log.d("rakib", "permanently denied")
+                    openSettingsDialog()
+                    //openSettingsDialog()
+                }
+            }
+        }
+    }
+
+    private fun openSettingsDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.dialog_enable_video_permissions, null)
+        view?.apply {
+            findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            findViewById<Button>(R.id.dialog_btn_go_to_settings).setOnClickListener {
+                val intent = createAppSettingsIntent()
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        }
+        dialog.setView(view)
+        dialog.show()
+    }
+
+    private fun createAppSettingsIntent() = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", context?.packageName, null)
+    }
+
+
 }

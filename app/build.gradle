@@ -91,7 +91,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:2.8.0"
 
     //------permission related
-    implementation 'com.github.fondesa:kpermissions:1.0.0'
+    implementation 'com.github.fondesa:kpermissions:3.1.2'
 
 
     //-----network communicator and json parsing
