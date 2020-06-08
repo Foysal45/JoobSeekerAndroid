@@ -26,4 +26,6 @@
     <color name="green">#13A10E</color>
 
     <color name="selected">#1565C0</color>
+    <color name="vedioInterviewThemeColor">#0FABBC</color>
+
 </resources>

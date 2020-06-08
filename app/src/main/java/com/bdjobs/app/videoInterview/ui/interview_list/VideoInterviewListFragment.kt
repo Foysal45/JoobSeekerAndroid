@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoInterview.ui.interview_list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class VideoInterviewListFragment : Fragment() {
 
         val binding = FragmentVideoInterviewListBinding.inflate(inflater)
         recyclerView = binding.interviewRecyclerView
-        interviewViewModel.getInterviewList()
+      /*  interviewViewModel.getInterviewList()*/
         /*interviewListViewModel = ViewModelProvider(this,viewModelFactory).get(InterviewListViewModel::class.java)
 */
         /*interviewViewModel.getInterviewList()
@@ -64,10 +65,25 @@ class VideoInterviewListFragment : Fragment() {
      /*  var  viewModel = ViewModelProvider(requireNotNull(activity)).get(InterviewListViewModel::class.java)
 */
         binding.lifecycleOwner = this
+       val adapter = InterviewListAdapter(requireContext())
+        recyclerView.adapter = adapter
+        interviewViewModel.interviews.observe(viewLifecycleOwner, Observer {
+            Log.d("Activity", "list: ${it?.size}")
+            /*Log.d("Activity", "list: $it")*/
+            /*  showEmptyList(it?.size == 0)*/
+            adapter.submitList(it)
 
+           /* if(it.size > 0){
+                lastStatus = true
+            }*/
+
+        })
         binding.interviewListViewModel = interviewViewModel
 
-        recyclerView.adapter = InterviewListAdapter(requireNotNull(context))
+
+
+
+
 
        /* binding.interviewList.adapter = InterviewListAdapter(requireNotNull(context),ClickListenerInterViewList {
             interviewViewModel.displayInterViewDetails(it)

@@ -20,8 +20,8 @@ class InterviewListAdapter(val context: Context):
     }
 
     override fun onBindViewHolder(holder: InterviewViewHolder, position: Int) {
-        val certificate = getItem(position)
-        holder.bind(certificate)
+        val interView = getItem(position)
+        holder.bind(interView)
     }
 
 
@@ -58,6 +58,7 @@ class InterviewListAdapter(val context: Context):
 
         ) {
             binding.interview = interview
+          /*  binding.certificateNameTv.text = interview.companyName*/
 
         }
     }
