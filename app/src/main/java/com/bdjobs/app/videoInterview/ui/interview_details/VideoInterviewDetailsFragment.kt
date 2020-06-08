@@ -31,7 +31,7 @@ import retrofit2.Response
 class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
     private val videoInterviewDetailsViewModel : VideoInterviewDetailsViewModel by viewModels {
-        ViewModelFactoryUtil.provideVideoInterviewInvitationDetailsViewModelFactory(this,"") }
+        ViewModelFactoryUtil.provideVideoInterviewInvitationDetailsViewModelFactory(this,"905042") }
 
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
@@ -60,107 +60,107 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupClicks()
-        getVideoInterviewDetails()
+        //getVideoInterviewDetails()
     }
 
     private fun setupClicks() {
 
-        backIMV?.setOnClickListener {
-            interviewInvitationCommunicator.backButtonClicked()
-        }
-
-        jobDetailTv?.setOnClickListener {
-            val jobids = ArrayList<String>()
-            val lns = ArrayList<String>()
-            val deadline = ArrayList<String>()
-            jobids.add(interviewInvitationCommunicator.getCompanyJobID())
-            lns.add("0")
-            deadline.add("")
-            context?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
-        }
-    }
-
-    private fun getVideoInterviewDetails() {
-
-        shimmer_view_container_JobList?.show()
-        shimmer_view_container_JobList?.startShimmer()
-        constraintLayout3?.hide()
-        details_cl?.hide()
-
-        ApiServiceMyBdjobs.create().getVideoInterviewDetails(
-                userID = bdjobsUserSession.userId!!,
-                decodeID = bdjobsUserSession.decodId!!,
-                jobId = interviewInvitationCommunicator.getCompanyJobID()
-
-        ).enqueue(
-                object : Callback<VideoInterviewDetails> {
-                    override fun onFailure(call: Call<VideoInterviewDetails>, t: Throwable) {
-                        //error("onFailure", t)
-//                        followedRV?.show()
-//                        shimmer_view_container_JobList?.hide()
-//                        shimmer_view_container_JobList?.stopShimmer()
-                    }
-
-                    override fun onResponse(call: Call<VideoInterviewDetails>, response: Response<VideoInterviewDetails>) {
-                        try {
-                            if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
-
-                                shimmer_view_container_JobList?.stopShimmer()
-                                shimmer_view_container_JobList?.hide()
-                                constraintLayout3?.show()
-                                details_cl?.show()
-
-                                jobtitleTV?.text = interviewInvitationCommunicator.getCompanyJobTitle()
-                                companyNameTV?.text = response.body()!!.common?.companyName
-                                appliedDateTV?.text = "Applied on: " + response.body()!!.common?.applyDate
-
-                                video_invitation_body_text?.text = response.body()!!.data!![0]?.examMessage
-                                invitation_date_text?.text = response.body()!!.data!![0]?.vInvitationDate
-                                deadline_date_text?.text = response.body()!!.data!![0]?.vInvitationDeadline
-                                total_time_text?.text = response.body()!!.data!![0]?.vTotalDuration + " sec"
-                                questions_text?.text = response.body()!!.data!![0]?.vTotalQuestion
-                                attempts_text?.text = response.body()!!.data!![0]?.vTotalAttempt
-
-                                if (response.body()!!.data!![0]?.vStatus.isNullOrEmpty()) {
-                                    status_text_view?.hide()
-                                } else {
-                                    status_text_view?.show()
-                                }
-
-                                if (response.body()!!.data!![0]?.vButtonText.isNullOrEmpty()) {
-                                    submit_button?.hide()
-                                } else {
-                                    submit_button?.show()
-                                    submit_button?.text = response.body()!!.data!![0]?.vButtonText
-                                    submit_button?.setOnClickListener {
-//                                    context?.startActivity<WebActivity>(
-//                                            "from" to "videoInterview",
-//                                            "url" to interviewInvitationCommunicator.getVideoUrl()
-//                                    )
-                                        context?.openUrlInBrowser(interviewInvitationCommunicator.getVideoUrl())
-                                    }
-                                }
-                            }
-//                            constraintLayout3?.show()
-//                            followedRV?.show()
-//                            shimmer_view_container_JobList?.hide()
-//                            shimmer_view_container_JobList?.stopShimmer()
+//        backIMV?.setOnClickListener {
+//            interviewInvitationCommunicator.backButtonClicked()
+//        }
 //
-//                            //Log.d("sdofjwioapfgh", "res: ${response.body()}")
-//                            if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
-//                                appliedDateTV.text = "Applied on: ${response.body()!!.common?.applyDate}"
-//                                val interviewInvitationDetailsAdapter = InterviewInvitationDetailsAdapter(activity, (response.body()?.data!!))
-//                                followedRV?.setHasFixedSize(true)
-//                                followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-//                                followedRV?.adapter = interviewInvitationDetailsAdapter
-//                                showStickyPopUp(response.body()?.data?.get(0)!!, response.body()?.common!!)
-//                            }
-                        } catch (e: Exception) {
-                            logException(e)
-                        }
-                    }
-                }
-        )
+//        jobDetailTv?.setOnClickListener {
+//            val jobids = ArrayList<String>()
+//            val lns = ArrayList<String>()
+//            val deadline = ArrayList<String>()
+//            jobids.add(interviewInvitationCommunicator.getCompanyJobID())
+//            lns.add("0")
+//            deadline.add("")
+//            context?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+//        }
     }
+
+//    private fun getVideoInterviewDetails() {
+//
+//        shimmer_view_container_JobList?.show()
+//        shimmer_view_container_JobList?.startShimmer()
+//        constraintLayout3?.hide()
+//        details_cl?.hide()
+//
+//        ApiServiceMyBdjobs.create().getVideoInterviewDetails(
+//                userID = bdjobsUserSession.userId!!,
+//                decodeID = bdjobsUserSession.decodId!!,
+//                jobId = interviewInvitationCommunicator.getCompanyJobID()
+//
+//        ).enqueue(
+//                object : Callback<VideoInterviewDetails> {
+//                    override fun onFailure(call: Call<VideoInterviewDetails>, t: Throwable) {
+//                        //error("onFailure", t)
+////                        followedRV?.show()
+////                        shimmer_view_container_JobList?.hide()
+////                        shimmer_view_container_JobList?.stopShimmer()
+//                    }
+//
+//                    override fun onResponse(call: Call<VideoInterviewDetails>, response: Response<VideoInterviewDetails>) {
+//                        try {
+//                            if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+//
+//                                shimmer_view_container_JobList?.stopShimmer()
+//                                shimmer_view_container_JobList?.hide()
+//                                constraintLayout3?.show()
+//                                details_cl?.show()
+//
+//                                jobtitleTV?.text = interviewInvitationCommunicator.getCompanyJobTitle()
+//                                companyNameTV?.text = response.body()!!.common?.companyName
+//                                appliedDateTV?.text = "Applied on: " + response.body()!!.common?.applyDate
+//
+//                                video_invitation_body_text?.text = response.body()!!.data!![0]?.examMessage
+//                                invitation_date_text?.text = response.body()!!.data!![0]?.vInvitationDate
+//                                deadline_date_text?.text = response.body()!!.data!![0]?.vInvitationDeadline
+//                                total_time_text?.text = response.body()!!.data!![0]?.vTotalDuration + " sec"
+//                                questions_text?.text = response.body()!!.data!![0]?.vTotalQuestion
+//                                attempts_text?.text = response.body()!!.data!![0]?.vTotalAttempt
+//
+//                                if (response.body()!!.data!![0]?.vStatus.isNullOrEmpty()) {
+//                                    status_text_view?.hide()
+//                                } else {
+//                                    status_text_view?.show()
+//                                }
+//
+//                                if (response.body()!!.data!![0]?.vButtonText.isNullOrEmpty()) {
+//                                    submit_button?.hide()
+//                                } else {
+//                                    submit_button?.show()
+//                                    submit_button?.text = response.body()!!.data!![0]?.vButtonText
+//                                    submit_button?.setOnClickListener {
+////                                    context?.startActivity<WebActivity>(
+////                                            "from" to "videoInterview",
+////                                            "url" to interviewInvitationCommunicator.getVideoUrl()
+////                                    )
+//                                        context?.openUrlInBrowser(interviewInvitationCommunicator.getVideoUrl())
+//                                    }
+//                                }
+//                            }
+////                            constraintLayout3?.show()
+////                            followedRV?.show()
+////                            shimmer_view_container_JobList?.hide()
+////                            shimmer_view_container_JobList?.stopShimmer()
+////
+////                            //Log.d("sdofjwioapfgh", "res: ${response.body()}")
+////                            if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
+////                                appliedDateTV.text = "Applied on: ${response.body()!!.common?.applyDate}"
+////                                val interviewInvitationDetailsAdapter = InterviewInvitationDetailsAdapter(activity, (response.body()?.data!!))
+////                                followedRV?.setHasFixedSize(true)
+////                                followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+////                                followedRV?.adapter = interviewInvitationDetailsAdapter
+////                                showStickyPopUp(response.body()?.data?.get(0)!!, response.body()?.common!!)
+////                            }
+//                        } catch (e: Exception) {
+//                            logException(e)
+//                        }
+//                    }
+//                }
+//        )
+//    }
 
 }

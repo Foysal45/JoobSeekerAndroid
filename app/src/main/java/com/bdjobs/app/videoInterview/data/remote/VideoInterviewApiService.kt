@@ -25,7 +25,7 @@ private val moshi = Moshi.Builder()
 interface VideoInterviewApiService {
 
     @FormUrlEncoded
-    @POST("app_invite_video_interview_details.asp")
+    @POST("app_video_interview_invitation_detail.asp")
     suspend fun getVideoInterviewDetails(
             @Field("userId") userID: String?,
             @Field("decodeId") decodeID: String?,

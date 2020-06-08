@@ -432,5 +432,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="assessment_requirement_instruction">Certification Test requires a laptop or desktop with a webcam and good internet.</string>
     <string name="assessment_payment_success_instruction"><b>Now you can Take Test from Home only Tk 300!!</b>\n\nPay 500 Tk to attend test at center. (Test fee 300 Tk + center cost 200 Tk)</string>
     <string name="tv_instructions_do_webcam_text">A laptop/desktop with a webcam is required</string>
+    <string name="viewed_by_employer_by_date">Viewed by Employer, <b><big>%1$s</big></b></string>
 
 </resources>

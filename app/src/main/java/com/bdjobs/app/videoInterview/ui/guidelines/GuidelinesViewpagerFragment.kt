@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
@@ -82,6 +83,14 @@ class GuidelinesViewpagerFragment : Fragment() {
             } else {
                 Toast.makeText(context,"finished",Toast.LENGTH_SHORT).show()
             }
+        }
+
+        img_close?.setOnClickListener {
+
+        }
+
+        btn_start?.setOnClickListener {
+            findNavController().navigate(R.id.questionDetailsFragment)
         }
     }
 

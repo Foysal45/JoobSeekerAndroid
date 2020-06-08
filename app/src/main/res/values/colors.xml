@@ -26,4 +26,5 @@
     <color name="green">#13A10E</color>
 
     <color name="selected">#1565C0</color>
+    <color name="warning_red">#B71C1C</color>
 </resources>
