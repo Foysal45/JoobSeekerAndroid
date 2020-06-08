@@ -10,7 +10,7 @@ import com.bdjobs.app.databinding.ItemVedioInterviewListBinding
 import com.bdjobs.app.videoInterview.data.models.InterviewListData
 
 
-class InterviewListAdapter(val context: Context, val clickListener: ClickListener):
+class InterviewListAdapter(val context: Context):
             ListAdapter<InterviewListData,InterviewListAdapter.InterviewViewHolder>(DiffUserCallback)
 
 {
@@ -21,7 +21,7 @@ class InterviewListAdapter(val context: Context, val clickListener: ClickListene
 
     override fun onBindViewHolder(holder: InterviewViewHolder, position: Int) {
         val certificate = getItem(position)
-        holder.bind(certificate, clickListener)
+        holder.bind(certificate)
     }
 
 
@@ -54,17 +54,18 @@ class InterviewListAdapter(val context: Context, val clickListener: ClickListene
 
 
         fun bind(
-                interview: InterviewListData,
-                clickListener: ClickListener
+                interview: InterviewListData
+
         ) {
             binding.interview = interview
-            binding.executePendingBindings()
-            binding.interviewClickListener = clickListener
+
         }
     }
 
-    class ClickListener(val clickListener: (id: InterviewListData) -> Unit) {
-        fun onClick(interviewData: InterviewListData) = clickListener(interviewData)
-    }
+
+}
+
+class ClickListenerInterViewList(val clickListener: (id: InterviewListData) -> Unit) {
+    fun onClick(interviewData: InterviewListData) = clickListener(interviewData)
 }
 

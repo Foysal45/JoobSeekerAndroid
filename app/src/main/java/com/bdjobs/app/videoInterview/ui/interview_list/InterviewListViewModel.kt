@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 
 class InterviewListViewModel(val videoInterviewRepository: InterviewListRepository,application: Application):AndroidViewModel(application) {
 
-    private val interviewListRepository = InterviewListRepository(application)
+
 
     private var interviewList: List<InterviewListData?>? = null
 
     private val _interviews = MutableLiveData<List<InterviewListData?>>()
-    val certificates: LiveData<List<InterviewListData?>>
+    val interviews: LiveData<List<InterviewListData?>>
         get() = _interviews
 
    /* private val _navigateToResultDetails = MutableLiveData<Event<CertificateData>>()
@@ -36,22 +36,23 @@ class InterviewListViewModel(val videoInterviewRepository: InterviewListReposito
 
     fun getInterviewList() {
         _status.value = Status.LOADING
-        viewModelScope.launch {
-            try {
-              /*  _status.value = Status.LOADING*/
-                interviewList = interviewListRepository.getInterviewList().data
-                _interviews.value = interviewList
 
+        viewModelScope.launch {
+           /* try {*/
+                _status.value = Status.LOADING
+
+            interviewList = videoInterviewRepository.getInterviewList().data
+            _interviews.value = interviewList
                 Log.d("INTERVIEW_DATA","interviewList $interviewList")
                /* _status.value = Status.DONE*/
-            } catch (e: Exception) {
-             /*   _status.value = Status.ERROR*/
+            /*} catch (e: Exception) {
+             *//*   _status.value = Status.ERROR*//*
                 Log.d("INTERVIEW_DATA","Exception $interviewList")
-            }
+            }*/
         }
     }
 
-    fun displayResultDetails(certificateData: CertificateData) {
+    fun displayInterViewDetails(certificateData: InterviewListData) {
        /* _navigateToResultDetails.value = Event(certificateData)*/
     }
 

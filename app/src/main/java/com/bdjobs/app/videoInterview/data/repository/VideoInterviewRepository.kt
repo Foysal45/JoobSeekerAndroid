@@ -15,15 +15,12 @@ class VideoInterviewRepository(val application: Application)  {
 
 class InterviewListRepository(val application: Application)  {
 
-    val bdjobsUserSession : BdjobsUserSession = BdjobsUserSession(application)
+
 
     suspend fun getInterviewList() : VideoInterviewListModel {
+        return withContext(Dispatchers.IO){
 
-
-
-          return withContext(Dispatchers.IO){
-
-              VideoInterviewApiService.create(application).getInterviewListFromAPI("","")
+              VideoInterviewApiService.create(application).getInterviewListFromAPI("241028","T8B8Rx")
 
 
           }

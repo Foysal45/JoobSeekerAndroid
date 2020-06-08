@@ -28,8 +28,8 @@ interface VideoInterviewApiService {
     @FormUrlEncoded
     @POST("app_video_interview_invitation_home.asp")
     suspend fun getInterviewListFromAPI(
-            @Field("userId") userID: String? = "241028",
-            @Field("decodeId") decodeID: String? = "T8B8Rx"
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = ""
 
     ) : VideoInterviewListModel
 
