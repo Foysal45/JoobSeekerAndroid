@@ -8,25 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.assessment.adapters.CertificateListAdapter
-import com.bdjobs.app.assessment.adapters.ClickListener
-import com.bdjobs.app.assessment.enums.Status
-import com.bdjobs.app.assessment.models.Booking
-import com.bdjobs.app.assessment.viewmodels.PaymentViewModel
-import com.bdjobs.app.assessment.viewmodels.PaymentViewModelFactory
-import com.bdjobs.app.databinding.FragmentPaymentSuccessfulBinding
 import com.bdjobs.app.databinding.FragmentVideoInterviewListBinding
-import com.bdjobs.app.videoInterview.data.repository.InterviewListRepository
-import com.bdjobs.app.videoInterview.ui.question_details.QuestionDetailsViewModel
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_certificate_list.*
 import kotlinx.android.synthetic.main.fragment_video_interview_list.*
 
 
@@ -48,7 +37,8 @@ class VideoInterviewListFragment : Fragment() {
 
         binding.lifecycleOwner = this
         val adapter = InterviewListAdapter(requireContext(), ClickListenerInterViewList {
-            interviewViewModel.displayInterViewDetails(it)
+            //interviewViewModel.displayInterViewDetails(it)
+            findNavController().navigate(R.id.videoInterviewDetailsFragment)
         })
         recyclerView.adapter = adapter
         interviewViewModel.interviews.observe(viewLifecycleOwner, Observer {

@@ -8,11 +8,10 @@ import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.repositories.CertificateRepository
 import com.bdjobs.app.videoInterview.data.models.InterviewListData
-import com.bdjobs.app.videoInterview.data.repository.InterviewListRepository
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import kotlinx.coroutines.launch
 
-class InterviewListViewModel(val videoInterviewRepository: InterviewListRepository, application: Application) : AndroidViewModel(application) {
+class InterviewListViewModel(val videoInterviewRepository: VideoInterviewRepository, application: Application) : AndroidViewModel(application) {
 
 
     private var interviewList: List<InterviewListData?>? = null

@@ -3,6 +3,7 @@ package com.bdjobs.app.videoInterview.data.repository
 import android.app.Application
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewListModel
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,7 @@ class VideoInterviewRepository(val application: Application) {
 
     val session = BdjobsUserSession(application)
 
-    suspend fun getVideoInterviewDetailsFromRemote(jobId: String?) : VideoInterviewDetails{
+    suspend fun getVideoInterviewDetailsFromRemote(jobId: String?): VideoInterviewDetails {
         return withContext(Dispatchers.IO) {
             VideoInterviewApiService.create(application).getVideoInterviewDetails(
                     userID = session.userId,
@@ -22,8 +23,8 @@ class VideoInterviewRepository(val application: Application) {
         }
     }
 
-    suspend fun getQuestionListFromRemote(jobId: String?, applyId : String?) : VideoInterviewQuestionList{
-        return withContext(Dispatchers.IO){
+    suspend fun getQuestionListFromRemote(jobId: String?, applyId: String?): VideoInterviewQuestionList {
+        return withContext(Dispatchers.IO) {
             VideoInterviewApiService.create(application).getVideoInterviewQuestionList(
                     userID = "4161498",
                     decodeID = "8dGc7d",
@@ -33,10 +34,10 @@ class VideoInterviewRepository(val application: Application) {
         }
     }
 
-    suspend fun getInterviewList() : VideoInterviewListModel {
-        return withContext(Dispatchers.IO){
+    suspend fun getInterviewList(): VideoInterviewListModel {
+        return withContext(Dispatchers.IO) {
 
-            VideoInterviewApiService.create(application).getInterviewListFromAPI(session.userId,session.decodId)
+            VideoInterviewApiService.create(application).getInterviewListFromAPI(session.userId, session.decodId)
 
 
         }
