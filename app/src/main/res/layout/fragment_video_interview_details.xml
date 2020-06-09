@@ -469,6 +469,7 @@
             android:visibility="gone"
             android:text="View Video"
             app:viewButtonStatus="@{viewModel.detailsData}"
+            android:onClick="@{()->viewModel.onViewButtonClick()}"
             android:textAllCaps="false"
             android:textSize="16sp"
             app:backgroundTint="#303030"

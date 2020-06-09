@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.Databases.Internal.BdjobsDB
@@ -17,6 +18,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databinding.FragmentVideoInterviewDetailsBinding
+import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import kotlinx.android.synthetic.main.job_video_invitaion_details_item.*
@@ -61,6 +63,12 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupClicks()
         //getVideoInterviewDetails()
+
+        videoInterviewDetailsViewModel.apply {
+            displayQuestionListEvent.observe(viewLifecycleOwner,EventObserver{
+                findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment("854375","182982535"))
+            })
+        }
     }
 
     private fun setupClicks() {

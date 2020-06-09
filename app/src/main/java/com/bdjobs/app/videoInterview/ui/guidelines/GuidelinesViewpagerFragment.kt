@@ -1,6 +1,5 @@
 package com.bdjobs.app.videoInterview.ui.guidelines
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -90,7 +89,7 @@ class GuidelinesViewpagerFragment : Fragment() {
         }
 
         btn_start?.setOnClickListener {
-            findNavController().navigate(R.id.questionDetailsFragment)
+            findNavController().navigate(R.id.questionListFragment)
         }
     }
 

@@ -7,13 +7,13 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.bdjobs.app.videoInterview.ui.question_details.QuestionDetailsViewModel" />
+            type="com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".videoInterview.ui.question_details.QuestionDetailsFragment">
+        tools:context=".videoInterview.ui.question_list.QuestionListFragment">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:paddingBottom="70dp"
+                android:paddingBottom="160dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false">
@@ -270,7 +270,7 @@
                     tools:itemCount="1"
                     tools:listitem="@layout/item_video_interview_question" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/img_next_question"
                     android:clickable="true"
                     android:focusable="true"
@@ -281,22 +281,22 @@
                     app:layout_constraintEnd_toEndOf="@id/rv_question"
                     app:layout_constraintStart_toEndOf="@id/rv_question"
                     app:layout_constraintTop_toTopOf="@id/rv_question"
-                    app:srcCompat="@drawable/ic_next_question"
-                    tools:src="@drawable/ic_next_question" />
+                    tools:src="@drawable/ic_next_question_black"
+                    android:onClick="@{()->viewModel.onNextQuestionClick()}"/>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/img_previous_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:onClick="@{() -> viewModel.onPreviousQuestionClick()}"
                     app:layout_constraintBottom_toBottomOf="@id/rv_question"
                     app:layout_constraintEnd_toStartOf="@id/rv_question"
                     app:layout_constraintStart_toStartOf="@id/rv_question"
                     app:layout_constraintTop_toTopOf="@id/rv_question"
-                    app:srcCompat="@drawable/ic_previous_question"
-                    tools:src="@drawable/ic_previous_question" />
+                    tools:src="@drawable/ic_previous_question_grey" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:background="@drawable/background_video_interview_question_total_time"
@@ -352,7 +352,7 @@
                     android:id="@+id/cb_not_interested"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:text="Not interested to submit"
                     android:textColor="#757575"
                     app:buttonTint="#767676"
@@ -403,6 +403,8 @@
                     android:layout_marginEnd="15dp"
                     android:includeFontPadding="false"
                     android:text="User Guide"
+                    android:id="@+id/btn_guide"
+                    app:icon="@drawable/ic_guide"
                     android:textAllCaps="false"
                     android:textSize="12sp"
                     app:backgroundTint="#255691"
@@ -461,6 +463,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:background="@drawable/background_video_interview_question_remaining_time"
             android:id="@+id/cl_remaining_time"
             android:paddingBottom="10dp"

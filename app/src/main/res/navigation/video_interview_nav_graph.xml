@@ -14,20 +14,48 @@
         android:id="@+id/videoInterviewDetailsFragment"
         android:name="com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsFragment"
         android:label="VideoInterviewDetailsFragment"
-        tools:layout="@layout/fragment_video_interview_details"/>
+        tools:layout="@layout/fragment_video_interview_details">
+        <action
+            android:id="@+id/action_videoInterviewDetailsFragment_to_guidelineLandingFragment"
+            app:destination="@id/guidelineLandingFragment" />
+        <action
+            android:id="@+id/action_videoInterviewDetailsFragment_to_questionListFragment"
+            app:destination="@id/questionListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/guidelinesViewpagerFragment"
         android:name="com.bdjobs.app.videoInterview.ui.guidelines.GuidelinesViewpagerFragment"
         android:label="fragment_guidelines_viewpager"
         tools:layout="@layout/fragment_guidelines_viewpager" />
     <fragment
-        android:id="@+id/questionDetailsFragment"
-        android:name="com.bdjobs.app.videoInterview.ui.question_details.QuestionDetailsFragment"
-        android:label="fragment_question_details"
-        tools:layout="@layout/fragment_question_details" />
+        android:id="@+id/questionListFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.question_list.QuestionListFragment"
+        android:label="Video Interview"
+        tools:layout="@layout/fragment_question_details">
+        <action
+            android:id="@+id/action_questionDetailsFragment_to_recordViedeoFragment"
+            app:destination="@id/recordViedeoFragment" />
+        <argument
+            android:name="jobId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="applyId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/recordViedeoFragment"
         android:name="com.bdjobs.app.videoInterview.ui.record_video.RecordVideoFragment"
         android:label="Record Answer"
         tools:layout="@layout/fragment_record_video" />
+    <fragment
+        android:id="@+id/guidelineLandingFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.guidelines.GuidelineLandingFragment"
+        android:label="fragment_guideline_landing"
+        tools:layout="@layout/fragment_guideline_landing" >
+        <action
+            android:id="@+id/action_guidelineLandingFragment_to_guidelinesViewpagerFragment"
+            app:destination="@id/guidelinesViewpagerFragment" />
+    </fragment>
 </navigation>

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
+import com.bdjobs.app.videoInterview.util.Event
+import com.bdjobs.app.videoInterview.util.EventObserver
 import kotlinx.coroutines.launch
 
 class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepository, val jobId : String?) : ViewModel() {
@@ -15,6 +17,9 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
 
     private val _commonData = MutableLiveData<VideoInterviewDetails.Common?>()
     val commonData : LiveData<VideoInterviewDetails.Common?> = _commonData
+
+    private val _displayQuestionListEvent = MutableLiveData<Event<Boolean>>()
+    val displayQuestionListEvent : LiveData<Event<Boolean>> = _displayQuestionListEvent
 
     init {
         getVideoInterviewDetails()
@@ -30,5 +35,13 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
 
             }
         }
+    }
+
+    fun onViewButtonClick(){
+        _displayQuestionListEvent.value = Event(true)
+    }
+
+    fun onStartButtonClick(){
+        _displayQuestionListEvent.value = Event(true)
     }
 }
