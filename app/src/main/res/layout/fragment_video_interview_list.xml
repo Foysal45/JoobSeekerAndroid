@@ -145,7 +145,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-
+                android:paddingBottom="50dp"
                 android:id="@+id/interviewRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
