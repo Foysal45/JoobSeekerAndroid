@@ -46,7 +46,13 @@
         android:id="@+id/guidelinesViewpagerFragment"
         android:name="com.bdjobs.app.videoInterview.ui.guidelines.GuidelinesViewpagerFragment"
         android:label="fragment_guidelines_viewpager"
-        tools:layout="@layout/fragment_guidelines_viewpager" />
+        tools:layout="@layout/fragment_guidelines_viewpager" >
+        <action
+            android:id="@+id/action_guidelinesViewpagerFragment_to_questionListFragment"
+            app:destination="@id/questionListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/videoInterviewDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/questionListFragment"
         android:name="com.bdjobs.app.videoInterview.ui.question_list.QuestionListFragment"
