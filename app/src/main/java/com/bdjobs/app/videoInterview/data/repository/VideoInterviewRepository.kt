@@ -26,8 +26,8 @@ class VideoInterviewRepository(val application: Application) {
     suspend fun getQuestionListFromRemote(jobId: String?, applyId: String?): VideoInterviewQuestionList {
         return withContext(Dispatchers.IO) {
             VideoInterviewApiService.create(application).getVideoInterviewQuestionList(
-                    userID = "4161498",
-                    decodeID = "8dGc7d",
+                    userID = session.userId,
+                    decodeID = session.decodId,
                     jobId = jobId,
                     applyId = applyId
             )

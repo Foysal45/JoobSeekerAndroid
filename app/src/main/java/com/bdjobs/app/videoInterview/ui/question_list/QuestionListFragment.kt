@@ -16,12 +16,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
+import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.fondesa.kpermissions.*
@@ -29,12 +33,15 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_question_details.*
+import kotlinx.android.synthetic.main.fragment_question_details.tool_bar
+import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import timber.log.Timber
 
 class QuestionListFragment : Fragment() {
 
     private val args: QuestionListFragmentArgs by navArgs()
-    private val questionListViewModel: QuestionListViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this, args.jobId, args.applyId) }
+    private val questionListViewModel: QuestionListViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this) }
+    private val questionDetailsViewModel : VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
     lateinit var binding: FragmentQuestionDetailsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +56,13 @@ class QuestionListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        tool_bar?.setupWithNavController(navController, appBarConfiguration)
+
+
+        questionListViewModel.getQuestionList(questionDetailsViewModel.jobId.value,questionDetailsViewModel.applyId.value)
 
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
             askForPermission()
@@ -191,6 +205,36 @@ class QuestionListFragment : Fragment() {
                 line_view_question4?.hide()
                 img_question4?.hide()
                 tv_q4.hide()
+            }
+            2 ->{
+                line_view_question5?.hide()
+                img_question5?.hide()
+                tv_q5?.hide()
+
+                line_view_question4?.hide()
+                img_question4?.hide()
+                tv_q4.hide()
+
+                line_view_question3?.hide()
+                img_question3?.hide()
+                tv_q3.hide()
+            }
+            1 ->{
+                line_view_question5?.hide()
+                img_question5?.hide()
+                tv_q5?.hide()
+
+                line_view_question4?.hide()
+                img_question4?.hide()
+                tv_q4.hide()
+
+                line_view_question3?.hide()
+                img_question3?.hide()
+                tv_q3.hide()
+
+                line_view_question2?.hide()
+                img_question2?.hide()
+                tv_q2.hide()
             }
         }
     }
