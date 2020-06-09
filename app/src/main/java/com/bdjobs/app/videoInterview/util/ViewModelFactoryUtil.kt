@@ -10,9 +10,9 @@ import com.bdjobs.app.videoInterview.ui.record_video.RecordVideoViewModelFactory
 
 object ViewModelFactoryUtil {
 
-    fun provideVideoInterviewQuestionListViewModelFactory(fragment: Fragment,jobId: String?,applyId: String?): QuestionListViewModelFactory {
+    fun provideVideoInterviewQuestionListViewModelFactory(fragment: Fragment): QuestionListViewModelFactory {
         val repository = VideoInterviewRepository(fragment.requireContext().applicationContext as Application)
-        return QuestionListViewModelFactory(repository,jobId,applyId)
+        return QuestionListViewModelFactory(repository)
     }
 
     fun provideVideoInterviewRecordVideoViewModelFactory(fragment: Fragment): RecordVideoViewModelFactory {

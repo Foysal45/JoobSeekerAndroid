@@ -36,9 +36,9 @@ class VideoInterviewListFragment : Fragment() {
         recyclerView = binding.interviewRecyclerView
 
         binding.lifecycleOwner = this
-        val adapter = InterviewListAdapter(requireContext(), ClickListenerInterViewList {
+        val adapter = InterviewListAdapter(requireContext(), ClickListenerInterViewList {jobId,jobTitle->
             //interviewViewModel.displayInterViewDetails(it)
-            findNavController().navigate(R.id.videoInterviewDetailsFragment)
+            findNavController().navigate(VideoInterviewListFragmentDirections.actionVideoInterviewListFragmentToVideoInterviewDetailsFragment(jobId,jobTitle))
         })
         recyclerView.adapter = adapter
         interviewViewModel.interviews.observe(viewLifecycleOwner, Observer {
