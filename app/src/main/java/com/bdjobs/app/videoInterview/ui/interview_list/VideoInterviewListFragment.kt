@@ -30,11 +30,9 @@ import kotlinx.android.synthetic.main.fragment_certificate_list.*
 import kotlinx.android.synthetic.main.fragment_video_interview_list.*
 
 
-
-
 class VideoInterviewListFragment : Fragment() {
 
-    private val interviewViewModel : InterviewListViewModel by viewModels { ViewModelFactoryUtil.provideInterViewListModelFactory(this) }
+    private val interviewViewModel: InterviewListViewModel by viewModels { ViewModelFactoryUtil.provideInterViewListModelFactory(this) }
     lateinit var snackbar: Snackbar
     private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,72 +45,23 @@ class VideoInterviewListFragment : Fragment() {
 
         val binding = FragmentVideoInterviewListBinding.inflate(inflater)
         recyclerView = binding.interviewRecyclerView
-      /*  interviewViewModel.getInterviewList()*/
-        /*interviewListViewModel = ViewModelProvider(this,viewModelFactory).get(InterviewListViewModel::class.java)
-*/
-        /*interviewViewModel.getInterviewList()
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.interviewListViewModel = interviewViewModel
-      *//*  binding.interviewList.adapter = InterviewListAdapter(requireNotNull(context), ClickListener {
-            interviewListViewModel.displayResultDetails(it)
-        })*//*
-        binding.interviewList.adapter = InterviewListAdapter(requireNotNull(context),ClickListenerInterViewList {
-            interviewViewModel.displayInterViewDetails(it)
-        })*/
 
-       /* binding.interviewListViewModel*/
-
-     /*  var  viewModel = ViewModelProvider(requireNotNull(activity)).get(InterviewListViewModel::class.java)
-*/
         binding.lifecycleOwner = this
-       val adapter = InterviewListAdapter(requireContext())
+        val adapter = InterviewListAdapter(requireContext(), ClickListenerInterViewList {
+            interviewViewModel.displayInterViewDetails(it)
+        })
         recyclerView.adapter = adapter
         interviewViewModel.interviews.observe(viewLifecycleOwner, Observer {
             Log.d("Activity", "list: ${it?.size}")
-            /*Log.d("Activity", "list: $it")*/
-            /*  showEmptyList(it?.size == 0)*/
-            adapter.submitList(it)
 
-           /* if(it.size > 0){
-                lastStatus = true
-            }*/
+            adapter.submitList(it)
 
         })
         binding.interviewListViewModel = interviewViewModel
 
 
-
-
-
-
-       /* binding.interviewList.adapter = InterviewListAdapter(requireNotNull(context),ClickListenerInterViewList {
-            interviewViewModel.displayInterViewDetails(it)
-        })*/
-      /*  interviewViewModel.status.observe(viewLifecycleOwner, Observer {
-            try {
-                snackbar = Snackbar.make(vedioInterviewCL, "Something went wrong", Snackbar.LENGTH_LONG)
-                when (it) {
-                    Status.ERROR ->
-
-                        snackbar.apply {
-                            setAction(
-                                    "Retry"
-                            ) {
-                                interviewViewModel.getInterviewList()
-                            }.show()
-
-                        }
-                    else -> {
-                        snackbar.dismiss()
-                    }
-                }
-            } catch (e: Exception) {
-            }
-        })*/
-
         return binding.root
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 import com.bdjobs.app.databinding.ItemVedioInterviewListBinding
 import com.bdjobs.app.videoInterview.data.models.InterviewListData
 
 
-class InterviewListAdapter(val context: Context):
+class InterviewListAdapter(val context: Context, val clickListener: ClickListenerInterViewList):
             ListAdapter<InterviewListData,InterviewListAdapter.InterviewViewHolder>(DiffUserCallback)
 
 {
@@ -21,7 +22,7 @@ class InterviewListAdapter(val context: Context):
 
     override fun onBindViewHolder(holder: InterviewViewHolder, position: Int) {
         val interView = getItem(position)
-        holder.bind(interView)
+        holder.bind(interView,clickListener)
     }
 
 
@@ -54,10 +55,13 @@ class InterviewListAdapter(val context: Context):
 
 
         fun bind(
-                interview: InterviewListData
+                interview: InterviewListData,
+                clickListener: ClickListenerInterViewList
 
         ) {
             binding.interview = interview
+            binding.executePendingBindings()
+            binding.clickListener = clickListener
           /*  binding.certificateNameTv.text = interview.companyName*/
 
         }
@@ -65,8 +69,8 @@ class InterviewListAdapter(val context: Context):
 
 
 }
-
-class ClickListenerInterViewList(val clickListener: (id: InterviewListData) -> Unit) {
-    fun onClick(interviewData: InterviewListData) = clickListener(interviewData)
+class ClickListenerInterViewList(val clickListener: (jobId: String) -> Unit) {
+    fun onClick(jobId: String) = clickListener(jobId)
 }
+
 
