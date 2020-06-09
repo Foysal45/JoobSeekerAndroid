@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
@@ -16,36 +17,25 @@ import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.videoInterview.data.models.Guideline
 import kotlinx.android.synthetic.main.fragment_guidelines_viewpager.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GuidelinesViewpagerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GuidelinesViewpagerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    private val guidelines = listOf(
-            Guideline("Guideline 1"),
-            Guideline("Guideline 2"),
-            Guideline("Guideline 3"),
-            Guideline("Guideline 4"),
-            Guideline("Guideline 5")
+    val images = listOf<Int>(
+            R.drawable.ic_video_guideline1,
+            R.drawable.ic_video_guideline2,
+            R.drawable.ic_video_guideline3,
+            R.drawable.ic_video_guideline4
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    val instructionsInBangla = listOf<String>(
+            "ভিডিও রেকর্ডিং এর শুরুতে ডিভাইস এর মাইক্রোফোন এবং ক্যামেরা পারমিশন দিতে হবে।",
+            "উত্তর রেকর্ড এর সময় মাউথ পিস / হেডফোন ব্যবহার করা অপরিহার্য, যেন নিয়োগকর্তা আপনার কথা সহজেই বুঝতে পারে",
+            "রেকর্ড করা উত্তরগুলো ১ ঘন্টার মধ্যে জমা দিন।",
+            "উত্তর রেকর্ডটি আগেই শেষ হয়ে গেলে “সম্পন্ন হয়েছে” বাটনে ক্লিক করুন।"
+    )
+
+    val instructionsInEnglish = listOf<String>()
+
+    private val guidelines = mutableListOf<Guideline>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,30 +43,13 @@ class GuidelinesViewpagerFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_guidelines_viewpager, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GuidelinesViewpagerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                GuidelinesViewpagerFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        for(i in 0 until 4){
+            guidelines.add(Guideline(images[i],instructionsInBangla[i]))
+        }
 
         view_pager_guideline.adapter = GuidelineAdapter(requireContext(), guidelines)
         setupIndicators()
@@ -89,12 +62,14 @@ class GuidelinesViewpagerFragment : Fragment() {
                     btn_next.hide()
                     btn_skip.hide()
                     btn_start.show()
-                    ll_indicators.hide()
+                    ll_indicators.visibility = View.INVISIBLE
+                    tv_click_instruction?.show()
                 } else{
                     btn_start.hide()
                     btn_next.show()
                     btn_skip.show()
                     ll_indicators.show()
+                    tv_click_instruction?.hide()
                 }
 
                 setCurrentIndicator(position)
@@ -107,6 +82,14 @@ class GuidelinesViewpagerFragment : Fragment() {
             } else {
                 Toast.makeText(context,"finished",Toast.LENGTH_SHORT).show()
             }
+        }
+
+        img_close?.setOnClickListener {
+
+        }
+
+        btn_start?.setOnClickListener {
+            findNavController().navigate(R.id.questionListFragment)
         }
     }
 

@@ -50,7 +50,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_touch_app_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/rakib/.local/share/JetBrains/Toolbox/apps/AndroidStudio/ch-0/193.6514223/plugins/android/lib/android.jar!/images/material/icons/materialicons/arrow_forward_ios/baseline_arrow_forward_ios_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -63,8 +63,8 @@
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_group_5371" />
-                            <entry key="sourceFile" value="E:\images\assessment\Group 5371.svg" />
+                            <entry key="outputName" value="ic_video_done" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../../../../D/ui/video interview/Group 6248.svg" />
                           </map>
                         </option>
                       </PersistentState>
