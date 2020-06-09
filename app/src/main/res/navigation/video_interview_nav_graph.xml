@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video_interview_nav_graph"
-    app:startDestination="@id/videoInterviewDetailsFragment">
+    app:startDestination="@id/videoInterviewListFragment">
 
     <fragment
         android:id="@+id/videoInterviewListFragment"

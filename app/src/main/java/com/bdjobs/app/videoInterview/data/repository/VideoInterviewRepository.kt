@@ -32,4 +32,14 @@ class VideoInterviewRepository(val application: Application) {
             )
         }
     }
+
+    suspend fun getInterviewList() : VideoInterviewListModel {
+        return withContext(Dispatchers.IO){
+
+            VideoInterviewApiService.create(application).getInterviewListFromAPI(session.userId,session.decodId)
+
+
+        }
+
+    }
 }

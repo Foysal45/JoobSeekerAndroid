@@ -174,12 +174,12 @@
         <item name="tabMaxWidth">0dp</item>
     </style>
 
-    <style name="SmoothCheckBoxStyle">
+   <!-- <style name="SmoothCheckBoxStyle">
         <item name="color_checked">@color/checkbox_color</item>
         <item name="color_unchecked">@android:color/white</item>
         <item name="color_unchecked_stroke">@color/checkbox_unchecked_color</item>
         <item name="color_tick">@android:color/white</item>
-    </style>
+    </style>-->
 
 
 

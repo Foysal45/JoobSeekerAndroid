@@ -6,3 +6,5 @@ data class Guideline(
         var image : Int,
         var text: String
 )
+
+
