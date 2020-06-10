@@ -170,7 +170,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
         }
-        videoInterviewButton.onClick {
+        videoInterviewTV.isSelected = true
+        videoInvitationLayout.onClick {
 
             startActivity<VideoInterviewActivity>()
 

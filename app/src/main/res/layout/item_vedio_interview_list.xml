@@ -60,7 +60,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
                 android:text="@{interview.jobTitle}"
-                android:textColor="@color/vedioInterviewThemeColor"
+                android:textColor="@color/videoInterviewThemeColor"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView29"
                 app:layout_constraintTop_toTopOf="@+id/guideline12" />

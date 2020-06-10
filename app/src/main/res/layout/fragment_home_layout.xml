@@ -9,21 +9,10 @@
     android:background="#F2F2F2"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/videoInterviewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.32"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97" />
 
 
 
-            <RelativeLayout
+    <RelativeLayout
                 android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="138dp"
@@ -118,24 +107,28 @@
 
             </RelativeLayout>
 
+
     <ScrollView
         android:id="@+id/scrollView8"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/videoInterviewButton"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/mainLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="70dp"
                 android:orientation="vertical"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -187,6 +180,14 @@
                     android:visibility="gone" />
 
                 <include
+
+                    android:id="@+id/videoInterviewInvitationView"
+                    layout="@layout/my_video_interview_invitations_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <include
                     android:id="@+id/assesmentView"
                     layout="@layout/my_assessment_filter_layout"
                     android:layout_width="match_parent"
@@ -194,11 +195,13 @@
                     android:visibility="gone" />
 
                 <include
+
                     android:id="@+id/followedEmployerView"
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
+
 
 
             </LinearLayout>
@@ -270,6 +273,86 @@
 
     </ScrollView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/videoInvitationLayout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/video_interview_rounded_corner"
+        app:layout_constraintBottom_toBottomOf="@+id/newSearchBTN"
+        app:layout_constraintEnd_toStartOf="@+id/newSearchBTN"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/newSearchBTN">
+
+        <ImageView
+            android:id="@+id/start_arrow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_arrow_video_interview_start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/videoInterviewTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/videoIconIV"
+            app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintStart_toEndOf="@+id/start_arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_video_camera_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/endArrowTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_video_interview_end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </ImageView>
+
+
+        <TextView
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            android:textColor="@color/gnt_white"
+            android:id="@+id/videoInterviewTV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Congratulation! You have been selected for video interview invitations Congratulation! You have been selected for video interview invitations"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/endArrowTV"
+            app:layout_constraintStart_toEndOf="@+id/videoIconIV" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newSearchBTN"
@@ -287,8 +370,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/videoInterviewButton"
+         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_search_white_24dp"
         app:tint="#FFF" />
 
