@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
+import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
@@ -40,9 +41,11 @@ import timber.log.Timber
 class QuestionListFragment : Fragment() {
 
     private val args: QuestionListFragmentArgs by navArgs()
-    private val questionListViewModel: QuestionListViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this) }
+    private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment) { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this) }
     private val questionDetailsViewModel : VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
+    private var permissionGranted : Boolean = true
     lateinit var binding: FragmentQuestionDetailsBinding
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -65,7 +68,25 @@ class QuestionListFragment : Fragment() {
         questionListViewModel.getQuestionList(questionDetailsViewModel.jobId.value,questionDetailsViewModel.applyId.value)
 
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
-            askForPermission()
+            val isPermissionGranted = askForPermission()
+            if (isPermissionGranted){
+                val videoManager = VideoManager(
+                        jobId = questionDetailsViewModel.jobId.value,
+                        applyId = questionDetailsViewModel.applyId.value,
+                        questionId = it.questionId,
+                        questionSerial = it.questionSerialNo,
+                        questionText = it.questionText,
+                        questionDuration = it.questionDuration,
+                        totalQuestion = questionListViewModel.questionListData.value?.size
+                )
+
+                questionListViewModel._videoManagerData.postValue(videoManager)
+
+                findNavController().navigate(R.id.recordViedeoFragment)
+
+            } else{
+                openSettingsDialog()
+            }
         })
 
         rv_question?.adapter = adapter
@@ -256,26 +277,30 @@ class QuestionListFragment : Fragment() {
     }
 
 
-    private fun askForPermission() {
+    private fun askForPermission() : Boolean{
+
         permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build().send { result ->
             when {
                 result.allGranted() -> {
-                    Timber.d("Granted")
-                    findNavController().navigate(R.id.recordViedeoFragment)
+                    //Timber.d("Granted")
+                    //findNavController().navigate(R.id.recordViedeoFragment)
+                    permissionGranted =  true
                 }
                 result.allDenied() || result.anyDenied() -> {
                     //Toast.makeText(context,"Please enable this permission to record answer(s)",Toast.LENGTH_SHORT).show()
-                    openSettingsDialog()
-
+                    //openSettingsDialog()
+                    permissionGranted =  false
                 }
 
                 result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
                     Log.d("rakib", "permanently denied")
-                    openSettingsDialog()
                     //openSettingsDialog()
+                    //openSettingsDialog()
+                    permissionGranted =  false
                 }
             }
         }
+        return permissionGranted!!
     }
 
     private fun openSettingsDialog() {

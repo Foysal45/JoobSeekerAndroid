@@ -1,14 +1,15 @@
 package com.bdjobs.app.Utilities
 
 
-import android.app.*
+import android.app.Activity
+import android.app.ActivityManager
+import android.app.DatePickerDialog
+import android.app.Fragment
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.net.wifi.WifiManager
@@ -23,23 +24,18 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
-import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.annotation.NonNull
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
 import com.crashlytics.android.Crashlytics
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -866,4 +862,21 @@ fun View.hideKeyboard() {
 //
 //    dialog?.show()
 //}
+
+fun String.toFormattedSeconds(): String {
+
+    val totalSeconds = this.toInt()
+    var formattedTime = ""
+    return if (totalSeconds <= 60){
+        formattedTime = String.format("%02d:%02d", 0, totalSeconds)
+        formattedTime
+    } else {
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+        formattedTime = String.format("%02d:%02d", minutes, seconds)
+        formattedTime
+    }
+
+
+}
 
