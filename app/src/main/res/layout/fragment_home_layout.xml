@@ -302,12 +302,12 @@
 
         <ImageView
             android:id="@+id/videoIconIV"
-            app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintStart_toEndOf="@+id/start_arrow"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_video_camera_white"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_video_camera_white"
+            app:layout_constraintBottom_toBottomOf="@+id/start_arrow"
+            app:layout_constraintStart_toEndOf="@+id/start_arrow"
+            app:layout_constraintTop_toTopOf="@+id/start_arrow">
 
         </ImageView>
 
@@ -315,6 +315,7 @@
             android:id="@+id/endArrowTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_arrow_video_interview_end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -325,23 +326,25 @@
 
 
         <TextView
-            android:fontFamily="@font/roboto"
-            android:textSize="14sp"
-            android:textColor="@color/gnt_white"
             android:id="@+id/videoInterviewTV"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
+            android:fontFamily="@font/roboto"
             android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="Congratulation! You have been selected for video interview invitations Congratulation! You have been selected for video interview invitations"
+            android:textColor="@color/gnt_white"
 
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/endArrowTV"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/videoIconIV" />
 
 
