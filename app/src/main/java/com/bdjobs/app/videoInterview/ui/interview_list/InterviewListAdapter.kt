@@ -69,8 +69,8 @@ class InterviewListAdapter(val context: Context, val clickListener: ClickListene
 
 
 }
-class ClickListenerInterViewList(val clickListener: (jobId: String) -> Unit) {
-    fun onClick(jobId: String) = clickListener(jobId)
+class ClickListenerInterViewList(val clickListener: (jobId: String, jobTitle : String) -> Unit) {
+    fun onClick(jobId: String, jobTitle: String) = clickListener(jobId,jobTitle)
 }
 
 

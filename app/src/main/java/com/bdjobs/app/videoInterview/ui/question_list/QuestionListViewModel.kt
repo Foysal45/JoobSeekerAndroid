@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
+import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
 
-class QuestionListViewModel(val videoInterviewRepository: VideoInterviewRepository, val jobId : String? , val applyId : String?) : ViewModel() {
+class QuestionListViewModel(val videoInterviewRepository: VideoInterviewRepository) : ViewModel() {
 
     val _isNotInterestedToSubmitChecked = MutableLiveData<Boolean>().apply {
         value = false
@@ -35,18 +36,21 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     private val _questionCommonData = MutableLiveData<VideoInterviewQuestionList.Common?>()
     val questionCommonData : LiveData<VideoInterviewQuestionList.Common?> = _questionCommonData
 
+    val _videoManagerData = MutableLiveData<VideoManager?>()
+    var videoManagerData : LiveData<VideoManager?> = _videoManagerData
+
     fun onDialogYesButtonClick() {
 
     }
 
     init {
-        getQuestionList()
+        //getQuestionList()
     }
 
-    fun getQuestionList(){
+    fun getQuestionList(a : String?, b : String?){
         viewModelScope.launch {
             try {
-                val response = videoInterviewRepository.getQuestionListFromRemote(jobId,applyId)
+                val response = videoInterviewRepository.getQuestionListFromRemote(a,b)
                 _questionListData.value = response.data
                 _questionCommonData.value = response.common
             } catch (e:Exception){

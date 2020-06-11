@@ -10,7 +10,7 @@ import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoInterview.util.EventObserver
 import kotlinx.coroutines.launch
 
-class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepository, val jobId : String?) : ViewModel() {
+class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepository, val jobID : String?) : ViewModel() {
 
     private val _detailsData = MutableLiveData<VideoInterviewDetails.Data?>()
     val detailsData : LiveData<VideoInterviewDetails.Data?> = _detailsData
@@ -21,6 +21,17 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
     private val _displayQuestionListEvent = MutableLiveData<Event<Boolean>>()
     val displayQuestionListEvent : LiveData<Event<Boolean>> = _displayQuestionListEvent
 
+    private val _displayGuidelineEvent = MutableLiveData<Event<Boolean>>()
+    val displayGuidelineEvent : LiveData<Event<Boolean>> = _displayGuidelineEvent
+
+    private val _jobId = MutableLiveData<String>().apply {
+        value = jobID
+    }
+    val jobId : LiveData<String> = _jobId
+
+    private val _applyId = MutableLiveData<String>()
+    val applyId : LiveData<String> = _applyId
+
     init {
         getVideoInterviewDetails()
     }
@@ -28,9 +39,10 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
      private fun getVideoInterviewDetails() {
         viewModelScope.launch {
             try {
-                val response = repository.getVideoInterviewDetailsFromRemote(jobId)
+                val response = repository.getVideoInterviewDetailsFromRemote(jobID)
                 _detailsData.value = response.data?.get(0)
                 _commonData.value = response.common
+                _applyId.value = response.common?.applyId
             } catch (e:Exception){
 
             }
@@ -42,6 +54,7 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
     }
 
     fun onStartButtonClick(){
-        _displayQuestionListEvent.value = Event(true)
+        //_displayQuestionListEvent.value = Event(true)
+        _displayGuidelineEvent.value = Event(true)
     }
 }

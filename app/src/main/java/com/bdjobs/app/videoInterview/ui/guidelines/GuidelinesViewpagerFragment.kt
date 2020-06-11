@@ -89,7 +89,7 @@ class GuidelinesViewpagerFragment : Fragment() {
         }
 
         btn_start?.setOnClickListener {
-            findNavController().navigate(R.id.questionListFragment)
+            findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
         }
     }
 
