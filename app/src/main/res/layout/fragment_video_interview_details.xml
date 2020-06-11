@@ -237,20 +237,20 @@
                         android:id="@+id/img_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@id/tv_status" />
 
                     <TextView
+                        android:id="@+id/tv_status"
                         app:status="@{viewModel.detailsData}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:gravity="start"
-                        app:layout_constraintBottom_toBottomOf="@id/img_status"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/img_status"
-                        app:layout_constraintTop_toTopOf="@id/img_status" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -442,6 +442,7 @@
             android:paddingTop="12dp"
             app:submitButtonStatus="@{viewModel.detailsData}"
             android:paddingBottom="12dp"
+            android:letterSpacing="0"
             android:text="Submit Video Interview"
             android:onClick="@{()->viewModel.onStartButtonClick()}"
             android:textAllCaps="false"
