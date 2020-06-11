@@ -1,142 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".videoInterview.ui.guidelines.GuidelineLandingFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/img_close"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="10dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/account_cross_icon"
-                android:tint="#CCCCCC"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
-        app:srcCompat="@drawable/ic_guideline_landing" />
-
-
-    <TextView
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:text="ভিডিও ইন্টারভিউ এর গাইডলাইনগুলো"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="25dp"
-        app:layout_constraintTop_toBottomOf="@id/img"
-        android:id="@+id/tv_guideline_heading"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="16sp"
-        android:textColor="#4D4D4D"
-        android:text="ভিডিও রেকর্ডিং শুরু করার আগে প্রয়োজনীয় ডিভাইসগুলো এবং নির্দেশনাগুলো সম্পর্কে প্রথমেই জেনে নিন"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_guideline_heading"
-        android:id="@+id/tv_guideline_body"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.videoInterview.ui.guidelines.GuidelineVIewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/guideline_middle"
-        app:layout_constraintGuide_percent=".5"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".videoInterview.ui.guidelines.GuidelineLandingFragment">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/cb_view_in_bangla"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="বাংলাতে দেখুন"
-        android:textColor="@color/colorBlack"
-        android:checked="true"
-        app:buttonTint="@color/colorBlack"
-        app:layout_constraintEnd_toStartOf="@id/guideline_middle"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="@id/tv_guideline_body"
-        app:layout_constraintTop_toBottomOf="@id/tv_guideline_body" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/cb_view_in_english"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="View in English"
-        android:textColor="@color/colorBlack"
-        android:fontFamily="@font/roboto_bold"
-        app:buttonTint="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="@id/tv_guideline_body"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toEndOf="@id/guideline_middle"
-        app:layout_constraintTop_toBottomOf="@id/tv_guideline_body" />
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_start"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:paddingLeft="55dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:text="শুরু করুন"
-        android:textAllCaps="false"
-        app:backgroundTint="@android:color/black"
-        app:cornerRadius="23dp"
-        app:elevation="0dp"
-        app:icon="@drawable/ic_baseline_arrow_forward_ios"
-        app:iconGravity="end"
-        app:iconPadding="30dp"
-        android:textSize="16sp"
-        app:iconSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/img_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/account_cross_icon"
+                    android:tint="#CCCCCC"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            app:srcCompat="@drawable/ic_guideline_landing" />
+
+
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="ভিডিও ইন্টারভিউ এর গাইডলাইনগুলো"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/img"
+            android:id="@+id/tv_guideline_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="16sp"
+            android:textColor="#4D4D4D"
+            android:text="ভিডিও রেকর্ডিং শুরু করার আগে প্রয়োজনীয় ডিভাইসগুলো এবং নির্দেশনাগুলো সম্পর্কে প্রথমেই জেনে নিন"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_guideline_heading"
+            android:id="@+id/tv_guideline_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/guideline_middle"
+            app:layout_constraintGuide_percent=".5"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_view_in_bangla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="বাংলাতে দেখুন"
+            android:textColor="@color/colorBlack"
+            android:checked="@={viewModel._viewInBangla}"
+            app:buttonTint="@color/colorBlack"
+            app:layout_constraintEnd_toStartOf="@id/guideline_middle"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="@id/tv_guideline_body"
+            app:layout_constraintTop_toBottomOf="@id/tv_guideline_body" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_view_in_english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="View in English"
+            android:checked="@={viewModel._viewInEnglish}"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/roboto_bold"
+            app:buttonTint="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="@id/tv_guideline_body"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@id/guideline_middle"
+            app:layout_constraintTop_toBottomOf="@id/tv_guideline_body" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingLeft="55dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="শুরু করুন"
+            android:textAllCaps="false"
+            app:backgroundTint="@android:color/black"
+            app:cornerRadius="23dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_baseline_arrow_forward_ios"
+            app:iconGravity="end"
+            app:iconPadding="30dp"
+            android:textSize="16sp"
+            app:iconSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
