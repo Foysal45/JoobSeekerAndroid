@@ -23,7 +23,11 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
+import com.otaliastudios.cameraview.VideoResult
 import kotlinx.android.synthetic.main.fragment_record_video.*
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RecordVideoFragment : Fragment() {
 
@@ -56,6 +60,7 @@ class RecordVideoFragment : Fragment() {
         recordVideoViewModel.apply {
             onVideoRecordingStartedEvent.observe(viewLifecycleOwner, EventObserver {
                 updateUI(it)
+                captureVideo()
             })
             progressPercentage.observe(viewLifecycleOwner, Observer {
                 seekbar_video_duration.progress = it.toInt()
@@ -70,7 +75,20 @@ class RecordVideoFragment : Fragment() {
                 else
                     btn_done?.hide()
             })
+
+            onVideoDoneEvent.observe(viewLifecycleOwner,EventObserver{
+                if (it){
+                    camera_view?.close()
+                }
+            })
         }
+    }
+
+    private fun captureVideo() {
+        val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile,"video_interview")
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoViewModel.videoManagerData.value?.applyId}_${recordVideoViewModel.videoManagerData.value?.questionId}_$timeStamp.mp4")
+        camera_view?.takeVideoSnapshot(newFile)
     }
 
 
@@ -87,10 +105,12 @@ class RecordVideoFragment : Fragment() {
         camera_view?.addCameraListener(object : CameraListener() {
             override fun onVideoRecordingStart() {
                 super.onVideoRecordingStart()
+                Log.d("rakib","recording start")
             }
 
             override fun onVideoRecordingEnd() {
                 super.onVideoRecordingEnd()
+                Log.d("rakib","recording end")
             }
 
             override fun onCameraOpened(options: CameraOptions) {
@@ -99,6 +119,12 @@ class RecordVideoFragment : Fragment() {
 
             override fun onCameraClosed() {
                 super.onCameraClosed()
+            }
+
+            override fun onVideoTaken(result: VideoResult) {
+                super.onVideoTaken(result)
+                Log.d("rakib","${result.file.name}")
+
             }
 
         })

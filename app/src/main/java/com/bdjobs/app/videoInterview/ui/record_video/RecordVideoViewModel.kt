@@ -33,6 +33,12 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     }
     val shouldShowDoneButton : LiveData<Boolean> = _shouldShowDoneButton
 
+    private val _onVideoDoneEvent = MutableLiveData<Event<Boolean>>().apply {
+        value = Event(false)
+    }
+    val onVideoDoneEvent : LiveData<Event<Boolean>> = _onVideoDoneEvent
+
+
     var secondsRemaining = 0L
 
     val elapsedTimeInString = Transformations.map(currentTime){ time->
@@ -47,7 +53,9 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     }
 
     fun onDoneButtonClick(){
-        sendVideoStartedInfoToRemote()
+        //sendVideoStartedInfoToRemote()
+        timer.cancel()
+        _onVideoDoneEvent.value = Event(true)
     }
 
     private fun sendVideoStartedInfoToRemote() {
@@ -66,6 +74,7 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
         timer = object : CountDownTimer(videoManagerData.value!!.questionDuration!!.toLong().times(1000), 1000) {
             override fun onFinish() {
                 _progressPercentage.value = 100.toDouble()
+                _onVideoDoneEvent.value = Event(true)
             }
 
             override fun onTick(millisUntilFinished: Long) {
