@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.storage.StorageManager
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -37,6 +39,10 @@ import kotlinx.android.synthetic.main.fragment_question_details.*
 import kotlinx.android.synthetic.main.fragment_question_details.tool_bar
 import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import timber.log.Timber
+import java.io.File
+import java.util.*
+
+const val  NUM_BYTES_NEEDED = 1024 * 1024 * 500L
 
 class QuestionListFragment : Fragment() {
 
@@ -81,6 +87,8 @@ class QuestionListFragment : Fragment() {
                 )
 
                 questionListViewModel._videoManagerData.postValue(videoManager)
+
+                createDirectory()
 
                 findNavController().navigate(R.id.recordViedeoFragment)
 
@@ -151,6 +159,13 @@ class QuestionListFragment : Fragment() {
 
         binding.btnSubmitLater.setOnClickListener {
             askForPermission()
+        }
+    }
+
+    private fun createDirectory() {
+        val storageDir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile,"video_interview")
+        if (!storageDir.exists()){
+            storageDir.mkdir()
         }
     }
 
