@@ -181,12 +181,17 @@ class Constants {
         const val session_key_mybdjobscount_employers_followed_lastmonth = "employers_followed_lastmonth"
         const val session_key_mybdjobscount_interview_invitation_lastmonth = "interview_invitation_lastmonth"
         const val session_key_mybdjobscount_message_by_employers_lastmonth = "message_by_employers_lastmonth"
+        const val session_key_mybdjobscount_video_invitation_lastmonth = "video_invitation_lastmonth"
+
+
+
         const val session_key_mybdjobscount_jobs_applied_alltime = "jobs_applied_alltime"
         const val session_key_mybdjobscount_times_emailed_resume_alltime = "times_emailed_resume_alltime"
         const val session_key_mybdjobscount_employers_viwed_resume_alltime= "employers_viwed_resume_alltime"
         const val session_key_mybdjobscount_employers_followed_alltime = "employers_followed_alltime"
         const val session_key_mybdjobscount_interview_invitation_alltime = "interview_invitation_alltime"
         const val session_key_mybdjobscount_message_by_employers_alltime = "message_by_employers_alltime"
+        const val session_key_mybdjobscount_video_invitation_alltime = "video_invitation_alltime"
 
         const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
         const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"

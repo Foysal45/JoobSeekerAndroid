@@ -106,7 +106,7 @@
 
 
             <ImageView
-                seenVisibility="@{interview.invitationSeenDate}"
+                seenVisibility="@{interview.employerSeenDate}"
                 android:id="@+id/imageView32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 app:srcCompat="@drawable/ic_seen" />
 
             <TextView
-                seenVisibility="@{interview.invitationSeenDate}"
+                seenVisibility="@{interview.employerSeenDate}"
                 android:id="@+id/textView65"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{interview.invitationSeenDate}"
+                android:text="@{interview.employerSeenDate}"
                 android:textColor="@color/gnt_black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
@@ -212,7 +212,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:newBannerVisibility="@{interview.isToday()}"
+
                 app:srcCompat="@drawable/ic_new_bg" />
 
 

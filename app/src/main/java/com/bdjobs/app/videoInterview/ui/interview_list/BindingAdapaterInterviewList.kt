@@ -133,7 +133,7 @@ fun bindNoData(linearLayout: LinearLayout, data: List<InterviewListData?>?) {
 
 @BindingAdapter("inviteAndSubmit")
 fun bindInviteAndSubmitView(view: View, data: InterviewListData) {
-    when (view) {
+   /* when (view) {
         is ImageView -> {
             if (data.invitationSubmitedDate.isNullOrEmpty()) {
                 //Log.d("rakib", "empty view called $data")
@@ -152,12 +152,12 @@ fun bindInviteAndSubmitView(view: View, data: InterviewListData) {
                 view.text = "SubmittedOn: ${data.invitationSubmitedDate}"
                 view.setTextColor(Color.parseColor("#388E3C"))
             }
-        }
+        }*/
 
         /* Status.ERROR -> {
              constraintLayout.visibility = View.VISIBLE
-         }*/
-    }
+         }
+    }*/
 }
 
 
@@ -165,31 +165,30 @@ fun bindInviteAndSubmitView(view: View, data: InterviewListData) {
 
 @BindingAdapter("interviewItemBackground")
 fun bindInterviewItemBackground(view: View, data: InterviewListData) {
-    when (view) {
+   /* when (view) {
         is ImageView -> {
-            if (data.invitationSubmitedDate.isNullOrEmpty()) {
+            if (data.dateString.isNullOrEmpty()) {
                 //Log.d("rakib", "empty view called $data")
                 view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_calender_interview_invitation)
-            } else if (data.invitationSubmitedDate.isNotEmpty()) {
+            } else if (data.dateString.isNotEmpty()) {
                 view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_submitted)
             }
         }
 
 
         is TextView -> {
-            if (data.invitationSubmitedDate.isNullOrEmpty()) {
-                view.text = "InvitedOn: ${data.inviteDate}"
+            if (data.dateString.isNullOrEmpty()) {
+                view.text = "InvitedOn: ${data.dateString}"
                 view.setTextColor(Color.parseColor("#393939"))
-            } else if (data.invitationSubmitedDate.isNotEmpty()) {
-                view.text = "SubmittedOn: ${data.invitationSubmitedDate}"
+            } else if (data.dateString.isNotEmpty()) {
+                view.text = "SubmittedOn: ${data.dateString}"
                 view.setTextColor(Color.parseColor("#388E3C"))
             }
         }
-
-        /* Status.ERROR -> {
+        *//* Status.ERROR -> {
              constraintLayout.visibility = View.VISIBLE
-         }*/
-    }
+         }*//*
+    }*/
 }
 
 
