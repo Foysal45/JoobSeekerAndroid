@@ -22,6 +22,7 @@ import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.otaliastudios.cameraview.CameraListener
+import com.otaliastudios.cameraview.CameraOptions
 import kotlinx.android.synthetic.main.fragment_record_video.*
 
 class RecordVideoFragment : Fragment() {
@@ -90,6 +91,14 @@ class RecordVideoFragment : Fragment() {
 
             override fun onVideoRecordingEnd() {
                 super.onVideoRecordingEnd()
+            }
+
+            override fun onCameraOpened(options: CameraOptions) {
+                super.onCameraOpened(options)
+            }
+
+            override fun onCameraClosed() {
+                super.onCameraClosed()
             }
 
         })
