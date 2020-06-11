@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
 import com.bdjobs.app.videoInterview.data.models.VideoManager
@@ -74,27 +75,35 @@ class QuestionListFragment : Fragment() {
         questionListViewModel.getQuestionList(questionDetailsViewModel.jobId.value,questionDetailsViewModel.applyId.value)
 
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
-            val isPermissionGranted = askForPermission()
-            if (isPermissionGranted){
-                val videoManager = VideoManager(
-                        jobId = questionDetailsViewModel.jobId.value,
-                        applyId = questionDetailsViewModel.applyId.value,
-                        questionId = it.questionId,
-                        questionSerial = it.questionSerialNo,
-                        questionText = it.questionText,
-                        questionDuration = it.questionDuration,
-                        totalQuestion = questionListViewModel.questionListData.value?.size
-                )
 
-                questionListViewModel._videoManagerData.postValue(videoManager)
+            if (it.buttonName!!.equalIgnoreCase("Record Video"))
+            {
+                val isPermissionGranted = askForPermission()
+                if (isPermissionGranted){
+                    val videoManager = VideoManager(
+                            jobId = questionDetailsViewModel.jobId.value,
+                            applyId = questionDetailsViewModel.applyId.value,
+                            questionId = it.questionId,
+                            questionSerial = it.questionSerialNo,
+                            questionText = it.questionText,
+                            questionDuration = it.questionDuration,
+                            totalQuestion = questionListViewModel.questionListData.value?.size
+                    )
 
-                createDirectory()
+                    questionListViewModel._videoManagerData.postValue(videoManager)
 
-                findNavController().navigate(R.id.recordViedeoFragment)
+                    createDirectory()
 
+                    findNavController().navigate(R.id.recordViedeoFragment)
+
+                } else{
+                    openSettingsDialog()
+                }
             } else{
-                openSettingsDialog()
+                findNavController().navigate(R.id.viewVideoFragment)
             }
+
+
         })
 
         rv_question?.adapter = adapter
