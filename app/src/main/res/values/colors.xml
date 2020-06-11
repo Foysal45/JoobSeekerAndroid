@@ -23,7 +23,12 @@
     <color name="colorBlack">#000000</color>
     <color name="unselected">#EFEFEF</color>
 
+    <color name="inactive_question_text_color">#999999</color>
+
     <color name="green">#13A10E</color>
 
     <color name="selected">#1565C0</color>
+    <color name="warning_red">#B71C1C</color>
+    <color name="vedioInterviewThemeColor">#0FABBC</color>
+
 </resources>

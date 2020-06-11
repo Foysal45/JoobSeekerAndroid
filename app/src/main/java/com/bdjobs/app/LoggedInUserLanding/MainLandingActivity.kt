@@ -76,7 +76,6 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
             mybdjobsFragment.updateNotificationView(count)
             moreFragment.updateNotificationView(count)
         }
-
     }
 
     override fun showManageResumePopup() {
