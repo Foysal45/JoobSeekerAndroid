@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
+import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
@@ -34,6 +35,9 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
 
     private val _questionCommonData = MutableLiveData<VideoInterviewQuestionList.Common?>()
     val questionCommonData : LiveData<VideoInterviewQuestionList.Common?> = _questionCommonData
+
+    val _videoManagerData = MutableLiveData<VideoManager?>()
+    var videoManagerData : LiveData<VideoManager?> = _videoManagerData
 
     fun onDialogYesButtonClick() {
 
