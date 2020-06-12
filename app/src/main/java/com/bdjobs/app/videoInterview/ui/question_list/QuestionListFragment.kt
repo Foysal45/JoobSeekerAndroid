@@ -141,18 +141,22 @@ class QuestionListFragment : Fragment() {
         questionListViewModel.apply {
 
             questionListData.observe(viewLifecycleOwner, Observer {
-                it?.let { updateSteppers(it.size) }
-                updateIndicators()
-                adapter.submitList(it)
-                Log.d("rakib", "${adapter.itemCount}")
-
+                it?.let {
+                    updateSteppers(it.size)
+                    updateIndicators(it.size)
+                    adapter.submitList(it)
+                }
             })
 
             onSubmitButtonClickEvent.observe(viewLifecycleOwner, EventObserver { notInterested ->
                 if (notInterested) {
+                    binding.btnSubmit.apply {
+                        text = "Submit"
+                        isEnabled = true
+                    }
                     openWarningDialog()
                 } else {
-
+                    questionListViewModel.sendInterviewResultToServer()
                 }
             })
 
@@ -168,6 +172,10 @@ class QuestionListFragment : Fragment() {
 
         binding.btnSubmitLater.setOnClickListener {
             askForPermission()
+        }
+
+        binding.btnGuide.setOnClickListener {
+            findNavController().navigate(R.id.action_questionListFragment_to_guidelineLandingFragment)
         }
     }
 
@@ -228,11 +236,19 @@ class QuestionListFragment : Fragment() {
 
     }
 
-    private fun updateIndicators() {
-        img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
-        img_previous_question?.isEnabled = false
-        img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_black)
-        img_next_question?.isEnabled = true
+    private fun updateIndicators(size : Int) {
+        if (size > 1){
+            img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
+            img_previous_question?.isEnabled = false
+            img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_black)
+            img_next_question?.isEnabled = true
+        } else {
+            img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
+            img_previous_question?.isEnabled = false
+            img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_grey)
+            img_next_question?.isEnabled = true
+        }
+
     }
 
     private fun updateSteppers(totalQuestions: Int) {
@@ -292,7 +308,7 @@ class QuestionListFragment : Fragment() {
                 dialog.dismiss()
             }
             findViewById<Button>(R.id.dialog_btn_yes).setOnClickListener {
-                questionListViewModel.onDialogYesButtonClick()
+                questionListViewModel.sendNotInterestedResultToServer()
                 dialog.dismiss()
             }
         }

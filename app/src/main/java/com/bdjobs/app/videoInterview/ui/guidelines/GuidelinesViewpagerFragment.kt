@@ -91,6 +91,9 @@ class GuidelinesViewpagerFragment : Fragment() {
         btn_start?.setOnClickListener {
             findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
         }
+        btn_skip?.setOnClickListener {
+            findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
+        }
     }
 
     private fun setupIndicators() {

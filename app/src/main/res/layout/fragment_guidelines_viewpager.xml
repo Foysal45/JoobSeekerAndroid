@@ -76,11 +76,14 @@
         app:layout_constraintVertical_bias="0.85" />
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:id="@+id/btn_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Skip"
+        android:textAllCaps="false"
+        android:letterSpacing="0"
         app:elevation="0dp"
         android:paddingBottom="13dp"
         android:paddingTop="13dp"
@@ -94,11 +97,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:id="@+id/btn_next"
-        style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
+        android:letterSpacing="0"
         android:gravity="center"
         android:includeFontPadding="false"
         android:paddingLeft="55dp"

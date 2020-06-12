@@ -45,12 +45,15 @@
     <fragment
         android:id="@+id/guidelinesViewpagerFragment"
         android:name="com.bdjobs.app.videoInterview.ui.guidelines.GuidelinesViewpagerFragment"
-        android:label="fragment_guidelines_viewpager"
-        tools:layout="@layout/fragment_guidelines_viewpager" >
+        tools:layout="@layout/fragment_guidelines_viewpager">
         <action
             android:id="@+id/action_guidelinesViewpagerFragment_to_questionListFragment"
             app:destination="@id/questionListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/videoInterviewDetailsFragment" />
     </fragment>
     <fragment
@@ -72,6 +75,9 @@
         <action
             android:id="@+id/action_questionListFragment_to_viewVideoFragment"
             app:destination="@id/viewVideoFragment" />
+        <action
+            android:id="@+id/action_questionListFragment_to_guidelineLandingFragment"
+            app:destination="@id/guidelineLandingFragment" />
     </fragment>
     <fragment
         android:id="@+id/recordViedeoFragment"
@@ -81,8 +87,7 @@
     <fragment
         android:id="@+id/guidelineLandingFragment"
         android:name="com.bdjobs.app.videoInterview.ui.guidelines.GuidelineLandingFragment"
-        android:label="fragment_guideline_landing"
-        tools:layout="@layout/fragment_guideline_landing" >
+        tools:layout="@layout/fragment_guideline_landing">
         <action
             android:id="@+id/action_guidelineLandingFragment_to_guidelinesViewpagerFragment"
             app:destination="@id/guidelinesViewpagerFragment"

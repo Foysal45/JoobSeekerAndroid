@@ -1,5 +1,6 @@
 package com.bdjobs.app.videoInterview.ui.question_list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,10 +27,6 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     private val _onPreviousQuestionClickEvent = MutableLiveData<Event<Boolean>>()
     val onPreviousQuestionClickEvent: LiveData<Event<Boolean>> = _onPreviousQuestionClickEvent
 
-    fun onSubmitButtonClick() {
-        _onSubmitButtonClickEvent.value = Event(isNotInterestedToSubmitChecked.value!!)
-    }
-
     private val _questionListData = MutableLiveData<List<VideoInterviewQuestionList.Data?>?>()
     val questionListData : LiveData<List<VideoInterviewQuestionList.Data?>?> = _questionListData
 
@@ -39,9 +36,6 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     val _videoManagerData = MutableLiveData<VideoManager?>()
     var videoManagerData : LiveData<VideoManager?> = _videoManagerData
 
-    fun onDialogYesButtonClick() {
-
-    }
 
     init {
         //getQuestionList()
@@ -65,5 +59,17 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
 
     fun onNextQuestionClick(){
         _onNextQuestionClickEvent.value = Event(true)
+    }
+
+    fun onSubmitButtonClick() {
+        _onSubmitButtonClickEvent.value = Event(isNotInterestedToSubmitChecked.value!!)
+    }
+
+    fun sendNotInterestedResultToServer(){
+
+    }
+
+    fun sendInterviewResultToServer(){
+
     }
 }
