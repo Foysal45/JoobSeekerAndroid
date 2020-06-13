@@ -4,9 +4,12 @@ import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.work.*
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
+import com.bdjobs.app.videoInterview.worker.UploadVideoWorker
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -56,6 +59,20 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
         //sendVideoStartedInfoToRemote()
         timer.cancel()
         _onVideoDoneEvent.value = Event(true)
+        //uploadSingleVideoToServer()
+    }
+
+    fun uploadSingleVideoToServer(videoManager: VideoManager?) {
+        Log.d("rakib","$videoManager")
+        //repository.setDataForUpload(videoManager)
+        Constants.createVideoManagerDataForUpload(videoManager)
+        viewModelScope.launch {
+            val constraints = androidx.work.Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            val request = OneTimeWorkRequestBuilder<UploadVideoWorker>().setConstraints(constraints).build()
+            WorkManager.getInstance().enqueue(request)
+        }
     }
 
     private fun sendVideoStartedInfoToRemote() {
@@ -83,9 +100,12 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
                 Timber.d("$secondsRemaining")
                 _progressPercentage.value = (numberOfSeconds - secondsRemaining) * factor
 
-                if (numberOfSeconds -  secondsRemaining >= numberOfSeconds / 3){
-                    _shouldShowDoneButton.value = true
-                }
+//                if (numberOfSeconds -  secondsRemaining >= numberOfSeconds / 3){
+//                    _shouldShowDoneButton.value = true
+//                }
+
+                _shouldShowDoneButton.value = true
+
 
             }
 

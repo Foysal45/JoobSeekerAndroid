@@ -1,5 +1,6 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -21,13 +23,18 @@ import com.bdjobs.app.databinding.FragmentRecordVideoBinding
 import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import com.bdjobs.app.videoInterview.worker.UploadVideoWorker
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import kotlinx.android.synthetic.main.fragment_record_video.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class RecordVideoFragment : Fragment() {
 
@@ -123,8 +130,9 @@ class RecordVideoFragment : Fragment() {
 
             override fun onVideoTaken(result: VideoResult) {
                 super.onVideoTaken(result)
-                Log.d("rakib","${result.file.name}")
-
+                Log.d("rakib","${result.file.path} ${result.file}")
+                recordVideoViewModel.videoManagerData.value?.file = result.file
+                recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
             }
 
         })

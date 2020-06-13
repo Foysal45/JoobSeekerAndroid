@@ -76,8 +76,8 @@ class QuestionListFragment : Fragment() {
 
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
 
-            if (it.buttonName!!.equalIgnoreCase("Record Video"))
-            {
+//            if (it.buttonName!!.equalIgnoreCase("Record Video"))
+//            {
                 val isPermissionGranted = askForPermission()
                 if (isPermissionGranted){
                     val videoManager = VideoManager(
@@ -99,9 +99,9 @@ class QuestionListFragment : Fragment() {
                 } else{
                     openSettingsDialog()
                 }
-            } else{
-                findNavController().navigate(R.id.viewVideoFragment)
-            }
+//            } else{
+//                findNavController().navigate(R.id.viewVideoFragment)
+//            }
 
 
         })

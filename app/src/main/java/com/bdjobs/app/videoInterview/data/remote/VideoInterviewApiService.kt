@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoInterview.data.remote
 
 import android.content.Context
+import android.util.Log
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewListModel
@@ -8,14 +9,13 @@ import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Multipart
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.io.File
 
 // TODO: 6/4/20 create the base url
@@ -28,17 +28,17 @@ private val moshi = Moshi.Builder()
 
 interface VideoInterviewApiService {
 
-    @FormUrlEncoded @Multipart
-    @POST("app_video_interview_invitation_upload_answer.asp")
+    @Multipart
+    @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_interview_invitation_upload_answer.asp")
     suspend fun uploadVideo(
-            @Field("userId") userID: String?,
-            @Field("decodeId") decodeID: String?,
-            @Field("jobId") jobId: String?,
-            @Field("applyId") applyId: String?,
-            @Field("quesId") quesId: String?,
-            @Field("duration") duration: String?,
-            @Field("questionSerialNo") questionSerialNo: String?,
-            @Field("file") file : File?
+            @Part("userId") userID: RequestBody?,
+            @Part("decodeId") decodeID: RequestBody?,
+            @Part("jobId") jobId: RequestBody?,
+            @Part("applyId") applyId: RequestBody?,
+            @Part("quesId") quesId: RequestBody?,
+            @Part("duration") duration: RequestBody?,
+            @Part("questionSerialNo") questionSerialNo: RequestBody?,
+            @Part file : MultipartBody.Part?
     ): CommonResponse
 
     @FormUrlEncoded
@@ -92,6 +92,8 @@ interface VideoInterviewApiService {
         }
 
         private fun buildRetrofit(context: Context, type: Int? = 0): Retrofit {
+
+            Log.d("rakib type ", "$type")
 
             val loginInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY

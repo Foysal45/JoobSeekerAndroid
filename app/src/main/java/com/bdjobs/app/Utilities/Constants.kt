@@ -15,10 +15,12 @@ import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -361,6 +363,23 @@ class Constants {
                     return hashMap
                 }
             }
+        }
+
+
+        var jobId : String? = ""
+        var applyId :String? = ""
+        var quesId : String? = ""
+        var quesSerialNo : String? = ""
+        var duration : String? = ""
+        var file : File? = null
+
+        fun createVideoManagerDataForUpload(videoManager: VideoManager?){
+            jobId = videoManager?.jobId
+            applyId = videoManager?.applyId
+            quesId = videoManager?.questionId
+            quesSerialNo = videoManager?.questionSerial
+            duration = videoManager?.questionDuration
+            file = videoManager?.file
         }
     }
 }
