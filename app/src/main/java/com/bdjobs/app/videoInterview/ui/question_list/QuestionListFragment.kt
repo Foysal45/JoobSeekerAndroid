@@ -156,7 +156,7 @@ class QuestionListFragment : Fragment() {
                     }
                     openWarningDialog()
                 } else {
-                    questionListViewModel.sendInterviewResultToServer()
+                    questionListViewModel.submitAnswerToServer()
                 }
             })
 
@@ -308,7 +308,7 @@ class QuestionListFragment : Fragment() {
                 dialog.dismiss()
             }
             findViewById<Button>(R.id.dialog_btn_yes).setOnClickListener {
-                questionListViewModel.sendNotInterestedResultToServer()
+                questionListViewModel.submitAnswerToServer()
                 dialog.dismiss()
             }
         }

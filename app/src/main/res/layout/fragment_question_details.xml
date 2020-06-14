@@ -219,6 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:text="@{viewModel.questionCommonData.companyName}"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/guideline_start"
@@ -233,6 +234,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
+                    android:text="@{viewModel.questionCommonData.jobTitle}"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/guideline_start"
@@ -308,7 +310,8 @@
                     app:layout_constraintTop_toBottomOf="@id/rv_question"
                     android:layout_width="0dp"
                     android:padding="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.shouldShowOneHourInfo ? View.VISIBLE : View.GONE}">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:drawablePadding="5dp"
@@ -353,7 +356,7 @@
                     android:id="@+id/cb_not_interested"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="Not interested to submit"
                     android:textColor="#757575"
                     app:buttonTint="#767676"
@@ -444,7 +447,9 @@
             android:id="@+id/btn_submit"
             android:layout_width="0dp"
             android:textColor="@android:color/white"
-            android:enabled="@{viewModel.isNotInterestedToSubmitChecked ? true : false}"
+            app:submitButtonTotalAnswers="@{viewModel.questionCommonData.VUserTotalAnswerequestion}"
+            app:submitButtonIsInterested="@{viewModel.isNotInterestedToSubmitChecked}"
+            app:submitButtonEnableAfterTimer="@{viewModel.shouldEnableSubmitButtonAfterTimerEnd}"
             android:onClick="@{()->viewModel.onSubmitButtonClick()}"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -487,7 +492,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="gone"
+            android:visibility="@{viewModel.shouldShowRemainingTime ? View.VISIBLE : View.GONE}"
             android:background="@drawable/background_video_interview_question_remaining_time"
             android:id="@+id/cl_remaining_time"
             android:paddingBottom="10dp"
@@ -510,6 +515,7 @@
             <TextView
                 android:textColor="#0D47A1"
                 tools:text="Submit within: 55 min 40 sec"
+                android:text="@{`Submit within: ` + viewModel.remainingTimeInString}"
                 android:id="@+id/tv_remaining_submit_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -517,8 +523,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

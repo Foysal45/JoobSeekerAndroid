@@ -2,10 +2,7 @@ package com.bdjobs.app.videoInterview.data.remote
 
 import android.content.Context
 import android.util.Log
-import com.bdjobs.app.videoInterview.data.models.CommonResponse
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewListModel
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
+import com.bdjobs.app.videoInterview.data.models.*
 import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -16,7 +13,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
-import java.io.File
 
 // TODO: 6/4/20 create the base url
 private const val VIDEO_INTERVIEW_BASE_URL = "https://my.bdjobs.com/apps/mybdjobs/v1/"
@@ -28,6 +24,16 @@ private val moshi = Moshi.Builder()
 
 interface VideoInterviewApiService {
 
+    @POST("app_video_interview_invitation_delete_submit.asp")
+    suspend fun submitAnswer(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("jobId") jobId: String?,
+            @Field("applyId") applyId: String?,
+            @Field("type") type: String?,
+            @Field("totalAnsCount") totalAnswerCount: String?
+    ) : CommonResponse
+
     @Multipart
     @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_interview_invitation_upload_answer.asp")
     suspend fun uploadVideo(
@@ -38,7 +44,7 @@ interface VideoInterviewApiService {
             @Part("quesId") quesId: RequestBody?,
             @Part("duration") duration: RequestBody?,
             @Part("questionSerialNo") questionSerialNo: RequestBody?,
-            @Part file : MultipartBody.Part?
+            @Part file: MultipartBody.Part?
     ): CommonResponse
 
     @FormUrlEncoded

@@ -50,107 +50,111 @@ fun bindViewButton(button: Button, videoDetails: VideoInterviewDetails.Data?) {
 @BindingAdapter("status")
 fun bindStatus(view: View, videoDetails: VideoInterviewDetails.Data?) {
     videoDetails?.let {
-        when (videoDetails.vStatuCode) {
-            "0" -> {
-                when (view) {
-                    is ConstraintLayout -> view.visibility = View.GONE
-                }
-            }
-            "1" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
-                    }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_warning)
-                    }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#B71C1C"))
+        if (videoDetails.vStatus.isNullOrEmpty()) {
+            view.visibility = View.GONE
+        } else {
+            when (videoDetails.vStatuCode) {
+                "0" -> {
+                    when (view) {
+                        is ConstraintLayout -> view.visibility = View.GONE
                     }
                 }
-            }
-            "2" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
-                    }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_clock_red)
-                    }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#B71C1C"))
-                    }
-                }
-            }
-            "3" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
-                    }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_warning)
-                    }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#B71C1C"))
+                "1" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_warning)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#B71C1C"))
+                        }
                     }
                 }
-            }
-            "4" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_green)
-                    }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_check_circle)
-                    }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#1B5E20"))
-                    }
-                }
-            }
-            "5" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
-                    }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_delete_red)
-                    }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#B71C1C"))
+                "2" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_clock_red)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#B71C1C"))
+                        }
                     }
                 }
-            }
-            "6" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
-                    }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_warning)
-                    }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#B71C1C"))
+                "3" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_warning)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#B71C1C"))
+                        }
                     }
                 }
-            }
-            "7" -> {
-                when (view) {
-                    is ConstraintLayout -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                "4" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_green)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_check_circle)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#1B5E20"))
+                        }
                     }
-                    is ImageView -> {
-                        view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_clock_red)
+                }
+                "5" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_delete_red)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#B71C1C"))
+                        }
                     }
-                    is TextView -> {
-                        view.text = videoDetails.vStatus
-                        view.setTextColor(Color.parseColor("#B71C1C"))
+                }
+                "6" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_warning)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#B71C1C"))
+                        }
+                    }
+                }
+                "7" -> {
+                    when (view) {
+                        is ConstraintLayout -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.background_red)
+                        }
+                        is ImageView -> {
+                            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_clock_red)
+                        }
+                        is TextView -> {
+                            view.text = videoDetails.vStatus
+                            view.setTextColor(Color.parseColor("#B71C1C"))
+                        }
                     }
                 }
             }
@@ -172,4 +176,18 @@ fun bindQuestionViewButtonVisibility(button: MaterialButton, text: String) {
         button.show()
     } else
         button.hide()
+}
+
+@BindingAdapter("submitButtonTotalAnswers", "submitButtonIsInterested", "submitButtonEnableAfterTimer")
+fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean) {
+    totalAnswers?.let {
+
+        if (totalAnswers.toInt() > 0) {
+            button.isEnabled = true
+        } else {
+            button.isEnabled = isInterested || enableAfterTimer
+        }
+
+
+    }
 }
