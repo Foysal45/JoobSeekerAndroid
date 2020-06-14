@@ -79,6 +79,7 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
         viewModelScope.launch {
             try {
                 val response = repository.postVideoStartedInformationToRemote(videoManagerData.value!!)
+                Constants.recordingStarted = true
             } catch (e:Exception){
 
             }
