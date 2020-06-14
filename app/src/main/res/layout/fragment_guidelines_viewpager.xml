@@ -108,7 +108,7 @@
         android:paddingLeft="55dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="Next Guide"
+        android:text="শুরু করুন"
         android:textAllCaps="false"
         app:backgroundTint="@android:color/black"
         app:cornerRadius="23dp"
@@ -126,6 +126,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_start"
         android:layout_width="0dp"
+        android:letterSpacing="0"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
