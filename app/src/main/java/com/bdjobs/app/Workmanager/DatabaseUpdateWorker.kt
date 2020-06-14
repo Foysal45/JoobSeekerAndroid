@@ -319,6 +319,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     var followedEmployers: String? = ""
                     var interviewInvitation: String? = ""
                     var employerMessage: String? = ""
+                    var videoInvitation: String? = ""
+
 
                     response?.body()?.data?.forEach { itt ->
                         when (itt?.title) {
@@ -340,6 +342,9 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             Constants.session_key_mybdjobscount_message_by_employers -> {
                                 employerMessage = itt?.count
                             }
+                            Constants.session_key_mybdjobscount_video_invitation -> {
+                                videoInvitation = itt?.count
+                            }
                         }
 
                     }
@@ -352,7 +357,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
-                                messageByEmployers = employerMessage
+                                messageByEmployers = employerMessage,
+                                videoInvitation = videoInvitation
                         )
                     } else if (activityDate == "1") {
                         //last_moth
@@ -362,7 +368,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
-                                messageByEmployers = employerMessage
+                                messageByEmployers = employerMessage,
+                                videoInvitation = videoInvitation
                         )
                     }
 
