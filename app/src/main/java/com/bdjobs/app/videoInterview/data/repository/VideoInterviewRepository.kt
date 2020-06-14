@@ -6,21 +6,17 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoInterview.data.models.*
 import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
-import com.squareup.okhttp.MediaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.MultipartBody.Part.Companion.create
-import okhttp3.MultipartBody.Part.Companion
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.File
 
 class VideoInterviewRepository(val application: Application) {
 
     val session = BdjobsUserSession(application)
-    var videoManager: VideoManager ? = null
+    var videoManager: VideoManager? = null
 
     suspend fun getVideoInterviewDetailsFromRemote(jobId: String?): VideoInterviewDetails {
         return withContext(Dispatchers.IO) {
@@ -61,14 +57,14 @@ class VideoInterviewRepository(val application: Application) {
         }
     }
 
-    suspend fun postVideoToRemote() : CommonResponse {
-       // val videoManagerData = getDataForUpload()
+    suspend fun postVideoToRemote(): CommonResponse {
+        // val videoManagerData = getDataForUpload()
 
         //Log.d("rakib video data", "$videoManagerData")
 
-        val file : File? = Constants?.file?.absoluteFile
+        val file: File? = Constants?.file?.absoluteFile
 
-        Log.d("rakib","$file")
+        Log.d("rakib", "$file")
 
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()
@@ -77,7 +73,8 @@ class VideoInterviewRepository(val application: Application) {
         val questionId = Constants.quesId?.toRequestBody()
         val questionSerialNo = Constants.quesSerialNo?.toRequestBody()
         val questionDuration = Constants.duration?.toRequestBody()
-        val requestFile = MultipartBody.Part.createFormData("file",file!!.name)
+        val requestFileBody = file?.asRequestBody()
+        val requestFile = MultipartBody.Part.createFormData("file", file!!.name, requestFileBody!!)
 
         return withContext(Dispatchers.IO) {
             VideoInterviewApiService.create(application, 1).uploadVideo(
@@ -94,8 +91,8 @@ class VideoInterviewRepository(val application: Application) {
     }
 
     fun setDataForUpload(videoManager: VideoManager?) {
-        Log.d("rakib video repo ","$videoManager")
-        Log.d("rakib video repo set","$videoManager")
+        Log.d("rakib video repo ", "$videoManager")
+        Log.d("rakib video repo set", "$videoManager")
         this.videoManager = videoManager!!
     }
 
