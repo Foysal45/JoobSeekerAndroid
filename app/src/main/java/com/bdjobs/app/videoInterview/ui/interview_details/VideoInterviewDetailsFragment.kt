@@ -13,12 +13,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationCommunicator
+import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentVideoInterviewDetailsBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_video_interview_details.*
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -58,6 +60,9 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
         //getVideoInterviewDetails()
 
         videoInterviewDetailsViewModel.apply {
+
+            getVideoInterviewDetails()
+
             displayQuestionListEvent.observe(viewLifecycleOwner, EventObserver {
                 //findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment("854375", "182982535"))
                 findNavController().navigate(R.id.questionListFragment)
@@ -66,6 +71,16 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
             displayGuidelineEvent.observe(viewLifecycleOwner,EventObserver{
                 findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
             })
+        }
+
+        btn_job_detail?.setOnClickListener {
+            val jobids = ArrayList<String>()
+            val lns = ArrayList<String>()
+            val deadline = ArrayList<String>()
+            jobids.add(args.jobId!!)
+            lns.add("0")
+            deadline.add("")
+            startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
         }
     }
 }
