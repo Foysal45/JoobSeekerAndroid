@@ -173,18 +173,18 @@
                     android:visibility="gone" />
 
                 <include
+                    android:id="@+id/videoInvitationView"
+                    layout="@layout/my_video_interview_invitations_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+
+                <include
                     android:id="@+id/jobInvitationView"
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
-
-                <include
-
-                    android:id="@+id/videoInterviewInvitationView"
-                    layout="@layout/my_video_interview_invitations_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
 
 
                 <include
@@ -274,7 +274,7 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/videoInvitationLayout"
+        android:id="@+id/videoInvitationSliderLayout"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -284,6 +284,7 @@
         app:layout_constraintEnd_toStartOf="@+id/newSearchBTN"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="@+id/newSearchBTN">
 
         <ImageView
@@ -331,16 +332,17 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:fontFamily="@font/roboto"
             android:gravity="center"
+            android:text="Congratulations for the video interview. Please record videos"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="Congratulation! You have been selected for video interview invitations Congratulation! You have been selected for video interview invitations"
             android:textColor="@color/gnt_white"
-
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/endArrowTV"

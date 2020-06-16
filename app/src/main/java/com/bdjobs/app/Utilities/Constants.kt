@@ -35,11 +35,6 @@ class Constants {
         var nativeAdvertisement : UnifiedNativeAd? = null
 
 
-
-
-
-
-
         var hotjobs: List<HotJobsData?>? = listOf()
 
 
@@ -67,6 +62,7 @@ class Constants {
         var cvUploadStatus = ""
         var favSearchFiltersSynced = false
         var jobInvitationSynced = false
+        var videoInvitationSynced = false
         var certificationSynced = false
         var followedEmployerSynced = false
         var isDirectCall = false

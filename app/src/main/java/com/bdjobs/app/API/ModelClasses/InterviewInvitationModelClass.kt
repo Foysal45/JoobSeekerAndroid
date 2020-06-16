@@ -26,8 +26,12 @@ data class LastUpdateModelData(
         val email: String?,
         @SerializedName("hasAssmnt")
         val hasAssmnt: String?,
+
         @SerializedName("inviteInterviview")
         val inviteInterviview: String?,
+        @SerializedName("videoInterviview")
+        val videoInterviview: String?,
+
         @SerializedName("name")
         val name: String?,
         @SerializedName("pendingTest")

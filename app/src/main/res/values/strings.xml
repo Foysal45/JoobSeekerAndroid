@@ -434,4 +434,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="tv_instructions_do_webcam_text">A laptop/desktop with a webcam is required</string>
     <string name="viewed_by_employer_by_date">Viewed by Employer, <b><big>%1$s</big></b></string>
 
+    <!-- Video Interview -->
+    <string name="homepage.slider_text">You have been selected for %1$s Video Interview. The employer has some question(s). You are requested to record yourself while you give the answer(s).</string>
+
 </resources>

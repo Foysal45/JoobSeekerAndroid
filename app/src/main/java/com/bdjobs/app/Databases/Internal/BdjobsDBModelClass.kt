@@ -136,6 +136,30 @@ data class JobInvitation(@ColumnInfo(name = "companyName")
     var id: Int? = null
 }
 
+@Entity(tableName = "VideoInvitation", indices = [(Index(value = ["jobId"], unique = true))])
+@Keep
+data class VideoInvitation(@ColumnInfo(name = "companyName")
+                           val companyName: String?,
+                           @ColumnInfo(name = "jobTitle")
+                           val jobTitle: String? = null,
+                           @ColumnInfo(name = "jobId")
+                           val jobId: String? = null,
+                           @ColumnInfo(name = "videoStatusCode")
+                           val videoStatusCode: String? = null,
+                           @ColumnInfo(name = "videoStatus")
+                           val videoStatus: String? = null,
+                           @ColumnInfo(name = "userSeenInterview")
+                           val userSeenInterview: String? = null,
+                           @ColumnInfo(name = "employerSeenDate")
+                           val employerSeenDate: Date?,
+                           @ColumnInfo(name = "dateStringForSubmission")
+                           val dateStringForSubmission: Date?,
+                           @ColumnInfo(name = "dateStringForInvitaion")
+                           val dateStringForInvitaion: Date?
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
 
 @Entity(tableName = "B2CCertification", indices = [(Index(value = ["aid"], unique = true))])
 @Keep

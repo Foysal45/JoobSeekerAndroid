@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewListModel
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
 import com.squareup.moshi.Moshi
@@ -74,7 +74,7 @@ interface VideoInterviewApiService {
             @Field("userId") userID: String? = "",
             @Field("decodeId") decodeID: String? = ""
 
-    ): VideoInterviewListModel
+    ): VideoInterviewList
 
     companion object Factory {
         @Volatile

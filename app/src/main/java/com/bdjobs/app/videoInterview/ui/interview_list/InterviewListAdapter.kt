@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 import com.bdjobs.app.databinding.ItemVedioInterviewListBinding
-import com.bdjobs.app.videoInterview.data.models.InterviewListData
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 
 
 class InterviewListAdapter(val context: Context, val clickListener: ClickListenerInterViewList):
-            ListAdapter<InterviewListData,InterviewListAdapter.InterviewViewHolder>(DiffUserCallback)
+            ListAdapter<VideoInterviewList.Data,InterviewListAdapter.InterviewViewHolder>(DiffUserCallback)
 
 {
 
@@ -26,12 +26,12 @@ class InterviewListAdapter(val context: Context, val clickListener: ClickListene
     }
 
 
-    companion object DiffUserCallback : DiffUtil.ItemCallback<InterviewListData>() {
-        override fun areItemsTheSame(oldItem: InterviewListData, newItem: InterviewListData): Boolean {
+    companion object DiffUserCallback : DiffUtil.ItemCallback<VideoInterviewList.Data>() {
+        override fun areItemsTheSame(oldItem: VideoInterviewList.Data, newItem: VideoInterviewList.Data): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: InterviewListData, newItem: InterviewListData): Boolean {
+        override fun areContentsTheSame(oldItem: VideoInterviewList.Data, newItem: VideoInterviewList.Data): Boolean {
             return oldItem?.jobId == newItem?.jobId
         }
     }
@@ -55,7 +55,7 @@ class InterviewListAdapter(val context: Context, val clickListener: ClickListene
 
 
         fun bind(
-                interview: InterviewListData,
+                interview: VideoInterviewList.Data,
                 clickListener: ClickListenerInterViewList
 
         ) {

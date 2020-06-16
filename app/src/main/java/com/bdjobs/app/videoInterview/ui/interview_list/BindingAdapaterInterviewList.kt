@@ -1,7 +1,6 @@
 package com.bdjobs.app.videoInterview.ui.interview_list
 
 import android.graphics.Color
-import android.media.Image
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -14,15 +13,13 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.assessment.enums.Status
-import com.bdjobs.app.assessment.models.ScheduleData
 
-import com.bdjobs.app.videoInterview.data.models.InterviewListData
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.facebook.shimmer.ShimmerFrameLayout
 import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.textColor
 
 @BindingAdapter("InterviewList")
-fun bindInterviewListRecyclerView(recyclerView: RecyclerView, data: List<InterviewListData?>?) {
+fun bindInterviewListRecyclerView(recyclerView: RecyclerView, data: List<VideoInterviewList.Data?>?) {
     val adapter = recyclerView.adapter as InterviewListAdapter
 
     Log.d("INTERVIEW_DATA", "bindInterviewListRecyclerView size ${data!!.size}")
@@ -48,7 +45,7 @@ fun bindBannerNew(imageView: ImageView, status: String) {
 
 
 @BindingAdapter("interviewEmptyView", "interviewStatus")
-fun bindInterviewEmptyView(constraintLayout: ConstraintLayout, data: List<InterviewListData?>?, status: Status?) {
+fun bindInterviewEmptyView(constraintLayout: ConstraintLayout, data: List<VideoInterviewList.Data?>?, status: Status?) {
 
     //Log.d("rakib", "empty view called $data")
 
@@ -121,7 +118,7 @@ fun bindInterviewListShimmer(constraintLayout: ConstraintLayout, status: Status?
 
 
 @BindingAdapter("interviewNoDataVisibility")
-fun bindNoData(linearLayout: LinearLayout, data: List<InterviewListData?>?) {
+fun bindNoData(linearLayout: LinearLayout, data: List<VideoInterviewList.Data?>?) {
 
     data?.let {
         if (data.isEmpty()) {
@@ -132,7 +129,7 @@ fun bindNoData(linearLayout: LinearLayout, data: List<InterviewListData?>?) {
 }
 
 @BindingAdapter("inviteAndSubmit")
-fun bindInviteAndSubmitView(view: View, data: InterviewListData) {
+fun bindInviteAndSubmitView(view: View, data: VideoInterviewList.Data) {
    /* when (view) {
         is ImageView -> {
             if (data.invitationSubmitedDate.isNullOrEmpty()) {
@@ -164,7 +161,7 @@ fun bindInviteAndSubmitView(view: View, data: InterviewListData) {
 
 
 @BindingAdapter("interviewItemBackground")
-fun bindInterviewItemBackground(view: View, data: InterviewListData) {
+fun bindInterviewItemBackground(view: View, data: VideoInterviewList.Data) {
    /* when (view) {
         is ImageView -> {
             if (data.dateString.isNullOrEmpty()) {

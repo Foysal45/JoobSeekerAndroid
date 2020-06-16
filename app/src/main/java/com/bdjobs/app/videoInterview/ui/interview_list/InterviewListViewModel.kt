@@ -3,20 +3,17 @@ package com.bdjobs.app.videoInterview.ui.interview_list
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.bdjobs.app.assessment.Event
 import com.bdjobs.app.assessment.enums.Status
-import com.bdjobs.app.assessment.models.CertificateData
-import com.bdjobs.app.assessment.repositories.CertificateRepository
-import com.bdjobs.app.videoInterview.data.models.InterviewListData
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import kotlinx.coroutines.launch
 
 class InterviewListViewModel(val videoInterviewRepository: VideoInterviewRepository, application: Application) : AndroidViewModel(application) {
 
 
-    private var interviewList: List<InterviewListData?>? = null
+    private var interviewList: List<VideoInterviewList.Data?>? = null
 
-    private val _interviews = MutableLiveData<List<InterviewListData?>>()
+    private val _interviews = MutableLiveData<List<VideoInterviewList.Data?>>()
     private val _interviewCount = MutableLiveData<String>()
     private val _status = MutableLiveData<Status>()
     private val _inviteDate = MutableLiveData<String>()
@@ -25,7 +22,7 @@ class InterviewListViewModel(val videoInterviewRepository: VideoInterviewReposit
 
 
 
-    val interviews: LiveData<List<InterviewListData?>>
+    val interviews: LiveData<List<VideoInterviewList.Data?>>
         get() = _interviews
     val status: LiveData<Status>
         get() = _status
