@@ -1,11 +1,13 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -24,7 +26,9 @@ import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
+import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_record_video.*
+import kotlinx.coroutines.delay
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -81,6 +85,18 @@ class RecordVideoFragment : Fragment() {
                     camera_view?.close()
                 }
             })
+
+            onUploadStartEvent.observe(viewLifecycleOwner,EventObserver{uploadStarted->
+                if (uploadStarted){
+                    Toast.makeText(requireContext(),"Your video is being uploaded",Toast.LENGTH_SHORT).show()
+                    val runnable = object : Runnable{
+                        override fun run() {
+                            Handler().postDelayed(this,5000)
+                        }
+                    }
+                }
+                findNavController().popBackStack()
+            })
         }
     }
 
@@ -101,6 +117,14 @@ class RecordVideoFragment : Fragment() {
 
     private fun initializeCamera() {
         camera_view?.setLifecycleOwner(viewLifecycleOwner)
+
+        try {
+            camera_view?.facing = Facing.FRONT
+        } catch (e : Exception){
+            camera_view?.facing = Facing.BACK
+        } finally {
+
+        }
 
         camera_view?.addCameraListener(object : CameraListener() {
             override fun onVideoRecordingStart() {

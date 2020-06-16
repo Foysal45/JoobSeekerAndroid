@@ -4,17 +4,15 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.storage.StorageManager
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -28,6 +26,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -37,20 +36,16 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_question_details.*
-import kotlinx.android.synthetic.main.fragment_question_details.tool_bar
-import kotlinx.android.synthetic.main.fragment_video_interview_details.*
-import timber.log.Timber
 import java.io.File
-import java.util.*
 
-const val  NUM_BYTES_NEEDED = 1024 * 1024 * 500L
+const val NUM_BYTES_NEEDED = 1024 * 1024 * 500L
 
 class QuestionListFragment : Fragment() {
 
     private val args: QuestionListFragmentArgs by navArgs()
     private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment) { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this) }
-    private val questionDetailsViewModel : VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
-    private var permissionGranted : Boolean = true
+    private val questionDetailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
+    private var permissionGranted: Boolean = false
     lateinit var binding: FragmentQuestionDetailsBinding
 
 
@@ -72,36 +67,31 @@ class QuestionListFragment : Fragment() {
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
 
-        questionListViewModel.getQuestionList(questionDetailsViewModel.jobId.value,questionDetailsViewModel.applyId.value)
+        questionListViewModel.getQuestionList(questionDetailsViewModel.jobId.value, questionDetailsViewModel.applyId.value)
 
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
 
-//            if (it.buttonName!!.equalIgnoreCase("Record Video"))
-//            {
-                val isPermissionGranted = askForPermission()
-                if (isPermissionGranted){
-                    val videoManager = VideoManager(
-                            jobId = questionDetailsViewModel.jobId.value,
-                            applyId = questionDetailsViewModel.applyId.value,
-                            questionId = it.questionId,
-                            questionSerial = it.questionSerialNo,
-                            questionText = it.questionText,
-                            questionDuration = it.questionDuration,
-                            totalQuestion = questionListViewModel.questionListData.value?.size
-                    )
+            if (it.buttonName!!.equalIgnoreCase("Record Video") || it.buttonName!!.equalIgnoreCase("Record Again") || it.buttonName!!.equalIgnoreCase("")) {
+//                 permissionGranted =
+                askForPermission(it)
+//                if (permissionGranted){
+//
+//
+//                }
+            } else {
+                val videoManager = VideoManager(
+                        jobId = questionDetailsViewModel.jobId.value,
+                        applyId = questionDetailsViewModel.applyId.value,
+                        questionId = it.questionId,
+                        questionSerial = it.questionSerialNo,
+                        questionText = it.questionText,
+                        questionDuration = it.questionDuration,
+                        totalQuestion = questionListViewModel.questionListData.value?.size
+                )
 
-                    questionListViewModel._videoManagerData.postValue(videoManager)
-
-                    createDirectory()
-
-                    findNavController().navigate(R.id.recordViedeoFragment)
-
-                } else{
-                    openSettingsDialog()
-                }
-//            } else{
-//                findNavController().navigate(R.id.viewVideoFragment)
-//            }
+                questionListViewModel._videoManagerData.postValue(videoManager)
+                findNavController().navigate(QuestionListFragmentDirections.actionQuestionListFragmentToViewVideoFragment(it.videoUrl))
+            }
 
 
         })
@@ -144,6 +134,7 @@ class QuestionListFragment : Fragment() {
                 it?.let {
                     updateSteppers(it.size)
                     updateIndicators(it.size)
+                    updateQuestionStatus(it.size)
                     adapter.submitList(it)
                 }
             })
@@ -168,10 +159,22 @@ class QuestionListFragment : Fragment() {
                 rv_question?.smoothScrollToPosition(layoutManager.findFirstCompletelyVisibleItemPosition() - 1)
             })
 
+            onSubmissionDoneEvent.observe(viewLifecycleOwner, EventObserver { submitted ->
+                if (submitted) {
+                    cb_not_interested?.hide()
+                    btn_submit?.hide()
+                    btn_submit_later?.hide()
+                }
+            })
+
+            onNotInterestedSubmissionDoneEvent.observe(viewLifecycleOwner,EventObserver{
+                findNavController().navigate(QuestionListFragmentDirections.actionQuestionListFragmentToVideoInterviewListFragment())
+            })
+
         }
 
         binding.btnSubmitLater.setOnClickListener {
-            askForPermission()
+            findNavController().popBackStack()
         }
 
         binding.btnGuide.setOnClickListener {
@@ -180,64 +183,94 @@ class QuestionListFragment : Fragment() {
     }
 
     private fun createDirectory() {
-        val storageDir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile,"video_interview")
-        if (!storageDir.exists()){
+        val storageDir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_interview")
+        if (!storageDir.exists()) {
             storageDir.mkdir()
         }
     }
 
-    private fun updateStepperText(position : Int) {
-        when(position){
-            0 ->{
-                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorBlack))
+    private fun updateQuestionStatus(size: Int) {
+        if (size > 0) {
+            for (i in 0 until size) {
+                when {
+                    questionListViewModel.questionListData.value?.get(i)?.questionStatus.equals("2") -> {
+                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                    }
+                    questionListViewModel.questionListData.value?.get(i)?.questionStatus.equals("3") -> {
+                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                    }
+                    else -> {
+                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+                }
+            }
+        }
+    }
 
-                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
+    private fun updateStepperText(position: Int) {
+        when (position) {
+            0 -> {
+                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
+
+                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
             }
 
             1 -> {
-                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorBlack))
+                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
 
-                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
+                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
             }
 
-            2->{
-                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorBlack))
+            2 -> {
+                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
 
-                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
+                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
             }
 
-            3 ->{
-                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorBlack))
+            3 -> {
+                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
 
-                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
+                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
             }
 
-            4 ->{
-                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorBlack))
+            4 -> {
+                tv_q5?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
 
-                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
-                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(),R.color.inactive_question_text_color))
+                tv_q1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q3?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
+                tv_q4?.setTextColor(ContextCompat.getColor(requireContext(), R.color.inactive_question_text_color))
             }
         }
 
     }
 
-    private fun updateIndicators(size : Int) {
-        if (size > 1){
+    private fun updateIndicators(size: Int) {
+        if (size > 1) {
             img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
             img_previous_question?.isEnabled = false
             img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_black)
@@ -258,7 +291,7 @@ class QuestionListFragment : Fragment() {
                 img_question5?.hide()
                 tv_q5?.hide()
             }
-            3->{
+            3 -> {
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()
@@ -267,7 +300,7 @@ class QuestionListFragment : Fragment() {
                 img_question4?.hide()
                 tv_q4.hide()
             }
-            2 ->{
+            2 -> {
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()
@@ -280,7 +313,7 @@ class QuestionListFragment : Fragment() {
                 img_question3?.hide()
                 tv_q3.hide()
             }
-            1 ->{
+            1 -> {
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()
@@ -304,6 +337,12 @@ class QuestionListFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext()).create()
         val view = layoutInflater.inflate(R.layout.dialog_video_not_interested_to_submit, null)
         view?.apply {
+
+            findViewById<TextView>(R.id.dialog_tv_body).text = if (questionListViewModel.questionCommonData.value?.vUserTotalAnswerequestion!!.toInt() > 0)
+                getText(R.string.dialog_body_when_answered)
+            else
+                getText(R.string.dialog_body_when_not_answered)
+
             findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
                 dialog.dismiss()
             }
@@ -316,27 +355,43 @@ class QuestionListFragment : Fragment() {
         dialog.show()
     }
 
-
-    private fun askForPermission() : Boolean{
+    private fun askForPermission(data: VideoInterviewQuestionList.Data): Boolean {
 
         permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build().send { result ->
             when {
                 result.allGranted() -> {
                     //Timber.d("Granted")
                     //findNavController().navigate(R.id.recordViedeoFragment)
-                    permissionGranted =  true
+                    permissionGranted = true
+
+                    val videoManager = VideoManager(
+                            jobId = questionDetailsViewModel.jobId.value,
+                            applyId = questionDetailsViewModel.applyId.value,
+                            questionId = data.questionId,
+                            questionSerial = data.questionSerialNo,
+                            questionText = data.questionText,
+                            questionDuration = data.questionDuration,
+                            totalQuestion = questionListViewModel.questionListData.value?.size
+                    )
+
+                    questionListViewModel._videoManagerData.postValue(videoManager)
+
+                    createDirectory()
+
+                    findNavController().navigate(R.id.recordViedeoFragment)
+
                 }
                 result.allDenied() || result.anyDenied() -> {
                     //Toast.makeText(context,"Please enable this permission to record answer(s)",Toast.LENGTH_SHORT).show()
-                    //openSettingsDialog()
-                    permissionGranted =  false
+                    openSettingsDialog()
+                    //permissionGranted =  false
                 }
 
                 result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
                     Log.d("rakib", "permanently denied")
                     //openSettingsDialog()
-                    //openSettingsDialog()
-                    permissionGranted =  false
+                    openSettingsDialog()
+                    //permissionGranted =  false
                 }
             }
         }
@@ -364,6 +419,5 @@ class QuestionListFragment : Fragment() {
         action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
         data = Uri.fromParts("package", context?.packageName, null)
     }
-
 
 }

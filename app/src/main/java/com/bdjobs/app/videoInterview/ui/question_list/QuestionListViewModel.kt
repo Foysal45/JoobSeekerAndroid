@@ -15,6 +15,9 @@ import kotlinx.coroutines.launch
 
 class QuestionListViewModel(val videoInterviewRepository: VideoInterviewRepository) : ViewModel() {
 
+    private val _dataLoading = MutableLiveData<Boolean>()
+    val dataLoading: LiveData<Boolean> = _dataLoading
+
     val _isNotInterestedToSubmitChecked = MutableLiveData<Boolean>().apply {
         value = false
     }
@@ -46,6 +49,12 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     private val _remainingTimeInString = MutableLiveData<String>()
     val remainingTimeInString = _remainingTimeInString
 
+    private val _onSubmissionDoneEvent = MutableLiveData<Event<Boolean>>()
+    val onSubmissionDoneEvent : LiveData<Event<Boolean>> = _onSubmissionDoneEvent
+
+    private val _onNotInterestedSubmissionDoneEvent = MutableLiveData<Event<Boolean>>()
+    val onNotInterestedSubmissionDoneEvent : LiveData<Event<Boolean>> = _onNotInterestedSubmissionDoneEvent
+
     lateinit var answerManagerData: AnswerManager
 
     private lateinit var timer: CountDownTimer
@@ -70,13 +79,14 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     }
 
     fun getQuestionList(jobId: String?, applyId: String?) {
+        _dataLoading.value = true
         viewModelScope.launch {
             try {
                 val response = videoInterviewRepository.getQuestionListFromRemote(jobId, applyId)
                 _questionListData.value = response.data
                 _questionCommonData.value = response.common
 
-                var remainingTime = "10" //response.common?.remaingTime!!
+                var remainingTime = response.common?.remaingTime!! //"10" //
 
                 if (remainingTime.toInt() > 0) {
                     _shouldShowRemainingTime.value = true
@@ -86,6 +96,7 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
                     _shouldShowRemainingTime.value = false
                     //_remainingTime.value = response.common?.remaingTime
                 }
+                _dataLoading.value = false
             } catch (e: Exception) {
 
             }
@@ -111,8 +122,15 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
         viewModelScope.launch {
             try {
                 val response = videoInterviewRepository.submitAnswerToRemote(answerManagerData)
-            } catch (e:Exception){
-
+                if (response.statuscode == "4" || response.statuscode == 4)
+                {
+                    if (answerManagerData.type == "S")
+                        _onSubmissionDoneEvent.value = Event(true)
+                    else
+                       _onNotInterestedSubmissionDoneEvent.value = Event(true)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -122,7 +140,7 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
                 jobId = questionCommonData.value?.jobId,
                 applyId = questionCommonData.value?.applyId,
                 totalAnswerCount = questionCommonData.value?.vUserTotalAnswerequestion,
-                type = if (isNotInterestedToSubmitChecked.value!!) "I" else "S"
+                type = if (isNotInterestedToSubmitChecked.value!!) "D" else "S"
         )
     }
 
@@ -150,6 +168,10 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
 
     override fun onCleared() {
         super.onCleared()
-        timer.cancel()
+        try {
+            timer.cancel()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

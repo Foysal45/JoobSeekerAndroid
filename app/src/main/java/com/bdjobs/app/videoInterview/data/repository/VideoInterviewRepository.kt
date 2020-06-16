@@ -8,6 +8,7 @@ import com.bdjobs.app.videoInterview.data.models.*
 import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -67,7 +68,7 @@ class VideoInterviewRepository(val application: Application) {
         val questionId = Constants.quesId?.toRequestBody()
         val questionSerialNo = Constants.quesSerialNo?.toRequestBody()
         val questionDuration = Constants.duration?.toRequestBody()
-        val requestFileBody = file?.asRequestBody()
+        val requestFileBody = file?.asRequestBody("file/*".toMediaType())
         val requestFile = MultipartBody.Part.createFormData("file", file!!.name, requestFileBody!!)
 
         return withContext(Dispatchers.IO) {

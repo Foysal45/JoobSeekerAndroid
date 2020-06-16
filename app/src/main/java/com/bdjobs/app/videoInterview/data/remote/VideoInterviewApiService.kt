@@ -2,7 +2,10 @@ package com.bdjobs.app.videoInterview.data.remote
 
 import android.content.Context
 import android.util.Log
-import com.bdjobs.app.videoInterview.data.models.*
+import com.bdjobs.app.videoInterview.data.models.CommonResponse
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewListModel
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -13,6 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
+import java.util.concurrent.TimeUnit
 
 // TODO: 6/4/20 create the base url
 private const val VIDEO_INTERVIEW_BASE_URL = "https://my.bdjobs.com/apps/mybdjobs/v1/"
@@ -24,6 +28,7 @@ private val moshi = Moshi.Builder()
 
 interface VideoInterviewApiService {
 
+    @FormUrlEncoded
     @POST("app_video_interview_invitation_delete_submit.asp")
     suspend fun submitAnswer(
             @Field("userId") userID: String?,
@@ -32,7 +37,7 @@ interface VideoInterviewApiService {
             @Field("applyId") applyId: String?,
             @Field("type") type: String?,
             @Field("totalAnsCount") totalAnswerCount: String?
-    ) : CommonResponse
+    ): CommonResponse
 
     @Multipart
     @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_interview_invitation_upload_answer.asp")
@@ -108,6 +113,8 @@ interface VideoInterviewApiService {
             val loginOkHttpClient = OkHttpClient.Builder()
                     .addInterceptor(loginInterceptor)
                     .addInterceptor(NetworkConnectionInterceptor(context))
+                    .readTimeout(600, TimeUnit.SECONDS)
+                    .connectTimeout(600, TimeUnit.SECONDS)
                     .build()
 
             return Retrofit.Builder().apply {

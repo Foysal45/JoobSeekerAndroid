@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/dialog_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -32,13 +33,14 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:gravity="center"
         android:id="@+id/dialog_tv_body"
         android:textSize="16sp"
         android:layout_marginTop="15dp"
         android:textColor="@android:color/black"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:text="If you are not interested to submit Video Interview, then the employer will not be able to see your recorded video(S). Also you will not be able to attend Video Interview for this job anymore. Are you sure you want to continue?"
+        tools:text="If you are not interested to submit Video Interview, then the employer will not be able to see your recorded video(S). Also you will not be able to attend Video Interview for this job anymore. Are you sure you want to continue?"
         app:layout_constraintTop_toBottomOf="@id/dialog_tv_heading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
