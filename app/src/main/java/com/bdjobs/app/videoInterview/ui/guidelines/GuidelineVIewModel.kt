@@ -14,4 +14,6 @@ class GuidelineVIewModel() : ViewModel() {
     val _viewInEnglish = MutableLiveData<Boolean>()
     val viewInEnglish: LiveData<Boolean> = _viewInEnglish
 
+
+
 }

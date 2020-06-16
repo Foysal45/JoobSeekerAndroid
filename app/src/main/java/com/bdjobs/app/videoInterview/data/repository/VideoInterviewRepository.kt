@@ -8,6 +8,7 @@ import com.bdjobs.app.videoInterview.data.models.*
 import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -58,14 +59,8 @@ class VideoInterviewRepository(val application: Application) {
     }
 
     suspend fun postVideoToRemote(): CommonResponse {
-        // val videoManagerData = getDataForUpload()
-
-        //Log.d("rakib video data", "$videoManagerData")
-
         val file: File? = Constants?.file?.absoluteFile
-
         Log.d("rakib", "$file")
-
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()
         val applyId = Constants.applyId?.toRequestBody()
@@ -73,7 +68,7 @@ class VideoInterviewRepository(val application: Application) {
         val questionId = Constants.quesId?.toRequestBody()
         val questionSerialNo = Constants.quesSerialNo?.toRequestBody()
         val questionDuration = Constants.duration?.toRequestBody()
-        val requestFileBody = file?.asRequestBody()
+        val requestFileBody = file?.asRequestBody("file/*".toMediaType())
         val requestFile = MultipartBody.Part.createFormData("file", file!!.name, requestFileBody!!)
 
         return withContext(Dispatchers.IO) {
@@ -90,15 +85,18 @@ class VideoInterviewRepository(val application: Application) {
         }
     }
 
-    fun setDataForUpload(videoManager: VideoManager?) {
-        Log.d("rakib video repo ", "$videoManager")
-        Log.d("rakib video repo set", "$videoManager")
-        this.videoManager = videoManager!!
+    suspend fun submitAnswerToRemote(answerManager: AnswerManager?) : CommonResponse
+    {
+        return withContext(Dispatchers.IO){
+            VideoInterviewApiService.create(application).submitAnswer(
+                    userID = session.userId,
+                    decodeID = session.decodId,
+                    jobId = answerManager?.jobId,
+                    applyId = answerManager?.applyId,
+                    type = answerManager?.type,
+                    totalAnswerCount = answerManager?.totalAnswerCount
+            )
+        }
     }
-
-    fun getDataForUpload(): VideoManager? {
-        return this.videoManager
-    }
-
 
 }

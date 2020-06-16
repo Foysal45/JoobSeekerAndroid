@@ -362,6 +362,7 @@ class Constants {
             }
         }
 
+        var recordingStarted = false
 
         var jobId : String? = ""
         var applyId :String? = ""
