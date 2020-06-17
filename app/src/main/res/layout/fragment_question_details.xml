@@ -436,7 +436,15 @@
 
             </ScrollView>
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="cl_remaining_time,cl_submission_date"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                tools:visibility="gone"
                 android:id="@+id/cl_remaining_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -470,6 +478,42 @@
                     tools:text="Submit within: 55 min 40 sec" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                tools:visibility="gone"
+                android:id="@+id/cl_submission_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_video_interview_question_remaining_time"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:visibility='@{viewModel.questionCommonData.submissionDate.equals("") ? View.GONE : View.VISIBLE}'
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_calender_interview_invitation"
+                    android:tint="#0D47A1"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_submission_date"
+                    app:layout_constraintEnd_toStartOf="@id/tv_submission_date"
+                    app:layout_constraintTop_toTopOf="@id/tv_submission_date"
+                    tools:tint="#0D47A1" />
+
+                <TextView
+                    android:id="@+id/tv_submission_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{Html.fromHtml(String.format(@string/submission_info,viewModel.questionCommonData.submissionDate))}"
+                    android:textColor="#0D47A1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Submit within: 55 min 40 sec" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_middle"
                 android:layout_width="wrap_content"
@@ -496,7 +540,7 @@
                 app:backgroundTint="#E6E6E6"
                 app:cornerRadius="23dp"
                 app:elevation="0dp"
-                app:layout_constraintBottom_toTopOf="@id/cl_remaining_time"
+                app:layout_constraintBottom_toTopOf="@id/barrier"
                 app:layout_constraintEnd_toStartOf="@id/guideline_middle"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -577,6 +621,7 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="android.text.Html"/>
 
         <variable
             name="viewModel"

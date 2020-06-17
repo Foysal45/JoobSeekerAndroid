@@ -77,6 +77,41 @@
         app:iconTint="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        tools:visibility="gone"
+        android:id="@+id/cl_submission_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_video_interview_question_remaining_time"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_calender_interview_invitation"
+            android:tint="#0D47A1"
+            app:layout_constraintBottom_toBottomOf="@id/tv_submission_date"
+            app:layout_constraintEnd_toStartOf="@id/tv_submission_date"
+            app:layout_constraintTop_toTopOf="@id/tv_submission_date"
+            tools:tint="#0D47A1" />
+
+        <TextView
+            android:id="@+id/tv_submission_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Html.fromHtml(String.format(@string/submission_info,viewModel.questionCommonData.videoInterviewDeadline))}"
+            android:textColor="#0D47A1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Submit within: 55 min 40 sec" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
