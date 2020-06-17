@@ -15,7 +15,6 @@ class UploadVideoWorker(context: Context, params : WorkerParameters) : Coroutine
     override suspend fun doWork(): Result {
         Log.d("rakib", " in worker")
         try {
-            delay(2000)
             VideoInterviewRepository(applicationContext as Application).postVideoToRemote()
         } catch (e: HttpException){
             Result.retry()

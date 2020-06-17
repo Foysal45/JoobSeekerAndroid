@@ -306,7 +306,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:gravity="start"
-                            android:text="@{String.format(@string/viewed_by_employer_by_date,viewModel.commonData.applyDate)}"
+                            android:text="@{viewModel.detailsData.VEmployerStatus}"
                             android:textColor="#0D47A1"
                             app:layout_constraintBottom_toBottomOf="@id/img_employer_status"
                             app:layout_constraintEnd_toEndOf="parent"

@@ -32,7 +32,11 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_videoInterviewDetailsFragment_to_questionListFragment"
-            app:destination="@id/questionListFragment" />
+            app:destination="@id/questionListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <argument
             android:name="jobId"
             app:argType="string"
@@ -72,14 +76,6 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
-        <argument
-            android:name="jobId"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="applyId"
-            app:argType="string"
-            app:nullable="true" />
         <action
             android:id="@+id/action_questionListFragment_to_viewVideoFragment"
             app:destination="@id/viewVideoFragment"
@@ -139,8 +135,10 @@
             app:destination="@id/recordViedeoFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/questionListFragment" />
         <argument
             android:name="url"
             app:argType="string"
