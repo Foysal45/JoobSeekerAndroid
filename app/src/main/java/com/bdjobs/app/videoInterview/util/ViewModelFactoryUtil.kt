@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModelFactory
 import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModelFactory
-import com.bdjobs.app.videoInterview.ui.interview_list.InterviewListViewModelFactory
+import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListModelFactory
 import com.bdjobs.app.videoInterview.ui.record_video.RecordVideoViewModelFactory
 
 object ViewModelFactoryUtil {
@@ -25,10 +25,8 @@ object ViewModelFactoryUtil {
         return VideoInterviewDetailsViewModelFactory(repository,jobId)
     }
 
-    fun provideInterViewListModelFactory(fragment: Fragment) : InterviewListViewModelFactory{
+    fun provideVideoInterviewListModelFactory(fragment: Fragment) : VideoInterviewListModelFactory{
         val repository = VideoInterviewRepository(fragment.requireContext().applicationContext as Application)
-         val application = fragment.requireContext().applicationContext as Application
-
-        return InterviewListViewModelFactory(repository,application)
+        return VideoInterviewListModelFactory(repository)
     }
 }

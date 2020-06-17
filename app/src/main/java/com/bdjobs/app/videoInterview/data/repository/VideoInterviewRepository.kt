@@ -40,9 +40,12 @@ class VideoInterviewRepository(val application: Application) {
         }
     }
 
-    suspend fun getInterviewList(): VideoInterviewList {
+    suspend fun getVideoInterviewListFromRemote(): VideoInterviewList {
         return withContext(Dispatchers.IO) {
-            VideoInterviewApiService.create(application).getInterviewListFromAPI(session.userId, session.decodId)
+            VideoInterviewApiService.create(application).getVideoInterviewList(
+                    userID = session.userId,
+                    decodeID = session.decodId
+            )
         }
 
     }

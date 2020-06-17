@@ -81,10 +81,11 @@ interface VideoInterviewApiService {
 
     @FormUrlEncoded
     @POST("app_video_interview_invitation_home.asp")
-    suspend fun getInterviewListFromAPI(
-            @Field("userId") userID: String? = "",
-            @Field("decodeId") decodeID: String? = ""
-
+    suspend fun getVideoInterviewList(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("pageNumber") pageNumber: String? = "1",
+            @Field("itemsPerPage") itemsPerPage: String? = "100"
     ): VideoInterviewList
 
     companion object Factory {

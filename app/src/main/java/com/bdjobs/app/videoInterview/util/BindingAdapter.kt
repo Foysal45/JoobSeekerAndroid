@@ -13,7 +13,10 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
+import org.jetbrains.anko.backgroundColor
 
 @BindingAdapter("submitButtonStatus")
 fun bindSubmitButton(button: Button, videoDetails: VideoInterviewDetails.Data?) {
@@ -190,4 +193,126 @@ fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested
 
 
     }
+}
+
+// Video Interview List
+
+@BindingAdapter("videoItemCardColor")
+fun bindVideoItemCardColor(view: View, userSeenInterview: String) {
+    if (userSeenInterview.equalIgnoreCase("True")) {
+        when (view) {
+            is MaterialCardView -> {
+                view.backgroundColor = Color.parseColor("#F8F6EA")
+            }
+            is ConstraintLayout ->{
+                view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_shape_yello)
+            }
+        }
+    } else{
+        when (view) {
+            is MaterialCardView -> {
+                view.backgroundColor = Color.parseColor("#FFFFFF")
+            }
+            is ConstraintLayout ->{
+                view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_shape_white)
+            }
+        }
+    }
+}
+
+@BindingAdapter("newBadgeVisibility")
+fun bindVideoItemCardColor(imageView: ImageView, userSeenInterview: String) {
+    if (userSeenInterview.equalIgnoreCase("True")) {
+        imageView.hide()
+    } else{
+        imageView.show()
+    }
+}
+
+@BindingAdapter("inviteStatus")
+fun bindInviteStatus(view: View, videoInvitationData: VideoInterviewList.Data) {
+    if (videoInvitationData.dateStringForSubmission != "") {
+        when (view) {
+            is ImageView -> {
+                view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_submitted)
+            }
+            is TextView ->{
+                view.text = "Submitted on: ${videoInvitationData.dateStringForSubmission}"
+                view.setTextColor(Color.parseColor("#388E3C"))
+            }
+        }
+    } else if(videoInvitationData.dateStringForInvitaion != ""){
+        when (view) {
+            is ImageView -> {
+                view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_calender_interview_invitation)
+            }
+            is TextView ->{
+                view.text = "Invited on: ${videoInvitationData.dateStringForInvitaion}"
+                view.setTextColor(Color.parseColor("#393939"))
+            }
+        }
+    }
+}
+
+@BindingAdapter("employerSeenStatus")
+fun bindEmployerSeenStatus(view: View, employerSeenDate: String) {
+    if (employerSeenDate == "") {
+        when (view) {
+            is ImageView -> {
+                view.hide()
+            }
+            is TextView -> {
+                view.hide()
+            }
+        }
+    } else{
+        when (view) {
+            is ImageView -> {
+                view.show()
+            }
+            is TextView -> {
+                view.show()
+                view.text = "Seen by: ${employerSeenDate}"
+                view.setTextColor(Color.parseColor("#393939"))
+            }
+        }
+    }
+}
+
+@BindingAdapter("interviewProcessStatus")
+fun bindInterviewProcessStatus(view: View, videoInterviewData: VideoInterviewList.Data) {
+    when (videoInterviewData.videoStatusCode) {
+        "2" ->
+            when (view) {
+                is ImageView -> {
+                    view.show()
+                    view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_due_submission)
+                }
+                is TextView -> {
+                    view.show()
+                    view.text = videoInterviewData.videoStatus
+                    view.setTextColor(Color.parseColor("#B71C1C"))                }
+            }
+        "1" ->
+            when (view) {
+                is ImageView -> {
+                    view.show()
+                    view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_on_process)
+                }
+                is TextView -> {
+                    view.show()
+                    view.text = videoInterviewData.videoStatus
+                    view.setTextColor(Color.parseColor("#F57F17"))                  }
+            }
+        "0", "4", "" ->
+            when (view) {
+                is ImageView -> {
+                    view.hide()
+                }
+                is TextView -> {
+                    view.hide()
+                }
+            }
+    }
+
 }
