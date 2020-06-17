@@ -62,7 +62,7 @@
             android:fontFamily="@font/roboto_medium"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
-            app:questionSubmitButtonVisibility='@{question.buttonName}'
+            app:questionSubmitButtonVisibility='@{question.buttonStatus}'
             android:onClick="@{()->clickListener.onClick(question)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
             app:elevation="0dp"
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"
-            app:questionViewButtonVisibility='@{question.buttonName}'
+            app:questionViewButtonVisibility='@{question.buttonStatus}'
             app:icon="@drawable/ic_play_video"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
@@ -95,6 +95,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_question_details"
             tools:text="View Video" />
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            app:strokeColor="#FFCDD2"
+            app:strokeWidth="1dp"
+            app:backgroundTint="#FFEBEE"
+            android:id="@+id/btn_not_answered"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Not Answered"
+            app:cornerRadius="8dp"
+            android:letterSpacing="0"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_warning"
+            app:iconTint="#B71C1C"
+            app:iconSize="18dp"
+            android:textColor="#B71C1C"
+            app:elevation="0dp"
+            app:questionNotAnsweredButtonVisibility='@{question.buttonStatus}'
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            app:iconGravity="textStart"
+            android:enabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_question_details" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_question_time"
