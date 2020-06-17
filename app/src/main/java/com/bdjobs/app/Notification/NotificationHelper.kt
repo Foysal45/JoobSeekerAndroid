@@ -21,6 +21,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.lang.Exception
@@ -161,16 +162,18 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW -> {
 
-                val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
-                    putExtra("from", "notification")
-                    putExtra("jobid", jobid)
-                    putExtra("companyname", companyName)
-                    putExtra("jobtitle", jobTitle)
-                    putExtra("type", type)
-                    putExtra("nid", nId)
-                    putExtra("videoUrl",link)
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
+//                val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
+//                    putExtra("from", "notification")
+//                    putExtra("jobid", jobid)
+//                    putExtra("companyname", companyName)
+//                    putExtra("jobtitle", jobTitle)
+//                    putExtra("type", type)
+//                    putExtra("nid", nId)
+//                    putExtra("videoUrl",link)
+//                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                }
+
+                val intent = Intent(this,VideoInterviewActivity::class.java)
 
                 val videoInterviewPendingIntent: PendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
