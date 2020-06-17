@@ -12,7 +12,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toDp
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.android.material.button.MaterialButton
