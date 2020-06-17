@@ -44,6 +44,7 @@ import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -260,6 +261,9 @@ class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcast
         startActivity<InterviewInvitationBaseActivity>("from" to from, "time" to time)
     }
 
+    override fun goToVideoInvitation(from: String) {
+        startActivity<VideoInterviewActivity>("from" to from, "time" to time)
+    }
 
     override fun backButtonClicked() {
         onBackPressed()

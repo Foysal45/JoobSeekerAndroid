@@ -7,53 +7,57 @@ import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
-import com.bdjobs.app.videoInterview.util.EventObserver
 import kotlinx.coroutines.launch
 
-class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepository, val jobID : String?) : ViewModel() {
+class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepository, val jobID: String?) : ViewModel() {
+
+    private val _dataLoading = MutableLiveData<Boolean>()
+    val dataLoading: LiveData<Boolean> = _dataLoading
 
     private val _detailsData = MutableLiveData<VideoInterviewDetails.Data?>()
-    val detailsData : LiveData<VideoInterviewDetails.Data?> = _detailsData
+    val detailsData: LiveData<VideoInterviewDetails.Data?> = _detailsData
 
     private val _commonData = MutableLiveData<VideoInterviewDetails.Common?>()
-    val commonData : LiveData<VideoInterviewDetails.Common?> = _commonData
+    val commonData: LiveData<VideoInterviewDetails.Common?> = _commonData
 
     private val _displayQuestionListEvent = MutableLiveData<Event<Boolean>>()
-    val displayQuestionListEvent : LiveData<Event<Boolean>> = _displayQuestionListEvent
+    val displayQuestionListEvent: LiveData<Event<Boolean>> = _displayQuestionListEvent
 
     private val _displayGuidelineEvent = MutableLiveData<Event<Boolean>>()
-    val displayGuidelineEvent : LiveData<Event<Boolean>> = _displayGuidelineEvent
+    val displayGuidelineEvent: LiveData<Event<Boolean>> = _displayGuidelineEvent
 
     private val _jobId = MutableLiveData<String>().apply {
         value = jobID
     }
-    val jobId : LiveData<String> = _jobId
+    val jobId: LiveData<String> = _jobId
 
     private val _applyId = MutableLiveData<String>()
-    val applyId : LiveData<String> = _applyId
+    val applyId: LiveData<String> = _applyId
 
-    init {
-        getVideoInterviewDetails()
-    }
+//    init {
+//        getVideoInterviewDetails()
+//    }
 
-     private fun getVideoInterviewDetails() {
+    fun getVideoInterviewDetails() {
+        _dataLoading.value = true
         viewModelScope.launch {
             try {
                 val response = repository.getVideoInterviewDetailsFromRemote(jobID)
                 _detailsData.value = response.data?.get(0)
                 _commonData.value = response.common
                 _applyId.value = response.common?.applyId
-            } catch (e:Exception){
-
+                _dataLoading.value = false
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
 
-    fun onViewButtonClick(){
+    fun onViewButtonClick() {
         _displayQuestionListEvent.value = Event(true)
     }
 
-    fun onStartButtonClick(){
+    fun onStartButtonClick() {
         //_displayQuestionListEvent.value = Event(true)
         _displayGuidelineEvent.value = Event(true)
     }

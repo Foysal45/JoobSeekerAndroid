@@ -9,6 +9,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinproce
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -529,6 +530,14 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<JobInvitationListModel>
 
+    @FormUrlEncoded
+    @POST("app_video_interview_invitation_home.asp")
+    fun getVideoInvitationList(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("pageNumber") pageNumber: String? = "1",
+            @Field("itemsPerPage") itemsPerPage: String? = "100"
+    ): Call<VideoInterviewList>
 
     @FormUrlEncoded
     @POST("assessment/apps_smnt_certification_complete_examlist.asp")

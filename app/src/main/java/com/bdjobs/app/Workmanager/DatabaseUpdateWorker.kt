@@ -20,9 +20,11 @@ import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -46,6 +48,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
         insertFavouriteSearchFilter()
         insertJobInvitation()
+        insertVideoInvitation()
         //insertCertificationList()
         insertFollowedEmployers()
         insertShortListedJobs()
@@ -174,6 +177,82 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
         })
 
     }
+
+    private fun insertVideoInvitation() {
+
+        ApiServiceMyBdjobs.create().getVideoInvitationList(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<VideoInterviewList> {
+            override fun onFailure(call: Call<VideoInterviewList>, t: Throwable) {
+                error("onFailure", t)
+            }
+
+            override fun onResponse(call: Call<VideoInterviewList>, response: Response<VideoInterviewList>) {
+                response.body()?.statuscode?.let { status ->
+                    if (status == api_request_result_code_ok) {
+                        response.body()?.data?.let { items ->
+                            doAsync {
+                                for (item in items) {
+                                    var dateStringForInvitaion: Date? = null
+                                    try {
+                                        if(item?.dateStringForInvitaion != ""){
+                                            dateStringForInvitaion = SimpleDateFormat("dd MMM yyyy").parse(item?.dateStringForInvitaion)
+                                        }
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
+                                    var employerSeenDate: Date? = null
+                                    try {
+                                        if(item?.employerSeenDate != ""){
+                                            employerSeenDate = SimpleDateFormat("dd MMM yyyy").parse(item?.employerSeenDate)
+                                        }
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+
+                                    }
+
+                                    var dateStringForSubmission: Date? = null
+                                    try {
+                                        if(item?.dateStringForSubmission != ""){
+                                            dateStringForSubmission = SimpleDateFormat("dd MMM yyyy").parse(item?.dateStringForSubmission)
+                                        }
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
+
+                                    val videoInvitation = VideoInvitation(companyName = item?.companyName,
+                                            jobTitle = item?.jobTitle,
+                                            jobId = item?.jobId,
+                                            videoStatusCode = item?.videoStatusCode,
+                                            videoStatus = item?.videoStatus,
+                                            userSeenInterview = item?.userSeenInterview,
+                                            employerSeenDate = employerSeenDate,
+                                            dateStringForSubmission = dateStringForSubmission,
+                                            dateStringForInvitaion = dateStringForInvitaion)
+
+                                    bdjobsInternalDB.videoInvitationDao().insertVideoInvitation(videoInvitation)
+
+                                }
+                                uiThread {
+                                    val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
+                                    intent.putExtra("job", "insertVideoInvitation")
+                                    appContext.sendBroadcast(intent)
+                                    //Log.d("DatabaseUpdateJob", "insertJobInvitation Finish : ${Calendar.getInstance().time}")
+                                    videoInvitationSynced = true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
+
+    }
+
 
     fun updateExternalDatabase() {
 
@@ -319,6 +398,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     var followedEmployers: String? = ""
                     var interviewInvitation: String? = ""
                     var employerMessage: String? = ""
+                    var videoInvitation: String? = ""
+
 
                     response?.body()?.data?.forEach { itt ->
                         when (itt?.title) {
@@ -340,6 +421,9 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             Constants.session_key_mybdjobscount_message_by_employers -> {
                                 employerMessage = itt?.count
                             }
+                            Constants.session_key_mybdjobscount_video_invitation -> {
+                                videoInvitation = itt?.count
+                            }
                         }
 
                     }
@@ -352,7 +436,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
-                                messageByEmployers = employerMessage
+                                messageByEmployers = employerMessage,
+                                videoInvitation = videoInvitation
                         )
                     } else if (activityDate == "1") {
                         //last_moth
@@ -362,7 +447,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
-                                messageByEmployers = employerMessage
+                                messageByEmployers = employerMessage,
+                                videoInvitation = videoInvitation
                         )
                     }
 

@@ -252,6 +252,7 @@ finish()
                     var followedEmployers:String?=""
                     var interviewInvitation:String?=""
                     var employerMessage:String?=""
+                    var videoInvitation:String?=""
 
                     response?.body()?.data?.forEach {itt ->
                         when(itt?.title){
@@ -261,6 +262,8 @@ finish()
                             Constants.session_key_mybdjobscount_employers_followed->{followedEmployers = itt?.count}
                             Constants.session_key_mybdjobscount_interview_invitation->{interviewInvitation = itt?.count}
                             Constants.session_key_mybdjobscount_message_by_employers->{employerMessage = itt?.count}
+                            Constants.session_key_mybdjobscount_video_invitation->{videoInvitation = itt?.count}
+
                         }
 
                     }
@@ -273,7 +276,8 @@ finish()
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
-                                messageByEmployers = employerMessage
+                                messageByEmployers = employerMessage,
+                                videoInvitation = videoInvitation
                         )
                     } else if (activityDate == "1") {
                         //last_moth
@@ -287,7 +291,8 @@ finish()
                                 employerViewdResume = viewdResume,
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
-                                messageByEmployers = employerMessage
+                                messageByEmployers = employerMessage,
+                                videoInvitation = videoInvitation
                         )
                     }
                     finish()

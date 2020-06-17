@@ -6,12 +6,12 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="interviewListViewModel"
-            type="com.bdjobs.app.videoInterview.ui.interview_list.InterviewListViewModel" />
+            name="viewModel"
+            type="com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/vedioInterviewCL"
+        android:id="@+id/videoInterviewCL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".videoInterview.ui.interview_list.VideoInterviewListFragment">
@@ -28,14 +28,13 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-
         <com.facebook.shimmer.ShimmerFrameLayout
+            android:visibility="@{viewModel.dataLoading ? View.VISIBLE : View.GONE}"
             android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:interviewShimmer="@{interviewListViewModel.status}"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,12 +67,11 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            interviewCLVisibility="@{interviewListViewModel.status}"
+            android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="#F2F2F2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,22 +80,21 @@
                 android:elevation="8dp"
                 android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
+                android:paddingStart="16dp"
                 android:layout_height="40dp"
                 android:background="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-
                 <TextView
                     android:id="@+id/textView61"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@{interviewListViewModel.interviewCount}"
                     android:textColor="#13A10E"
                     android:textSize="14sp"
+                    android:text="@{viewModel.commonData.totalVideoInterview}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -106,9 +103,8 @@
                     android:id="@+id/textView63"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Interview Invitations Found"
+                    android:text=" Interview Invitations Found"
                     android:textColor="@color/gnt_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -117,15 +113,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
             <LinearLayout
+                android:visibility="@{viewModel.videoInterviewListData.size() > 0 ? View.GONE : View.VISIBLE}"
                 android:id="@+id/invitationNoDataLL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:interviewNoDataVisibility="@{interviewListViewModel.interviews}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -139,24 +133,20 @@
 
             </LinearLayout>
 
-
-
-
-
-
             <androidx.recyclerview.widget.RecyclerView
-                android:paddingBottom="50dp"
-                android:id="@+id/interviewRecyclerView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/rv_video_interview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

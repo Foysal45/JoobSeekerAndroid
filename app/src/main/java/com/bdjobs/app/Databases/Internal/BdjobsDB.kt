@@ -16,10 +16,11 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     ShortListedJobs::class,
     AppliedJobs::class,
     JobInvitation::class,
+    VideoInvitation::class,
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 11, exportSchema = false)
+    Notification::class], version = 12, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -29,6 +30,7 @@ abstract class BdjobsDB : RoomDatabase() {
     abstract fun shortListedJobDao(): ShortListedJobDao
     abstract fun appliedJobDao(): AppliedJobDao
     abstract fun jobInvitationDao(): JobInvitationDao
+    abstract fun videoInvitationDao(): VideoInvitationDao
     abstract fun b2CCertificationDao(): B2CCertificationDao
     abstract fun lastSearchDao(): LastSearchDao
     abstract fun inviteCodeUserInfoDao(): InviteCodeUserInfoDao
@@ -107,12 +109,19 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_11_12 = object : Migration(11, 12) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE VideoInvitation (id INTEGER, companyName TEXT, jobTitle TEXT, jobId TEXT, videoStatusCode TEXT, videoStatus TEXT, userSeenInterview TEXT, employerSeenDate INTEGER, dateStringForSubmission INTEGER, dateStringForInvitaion INTEGER, PRIMARY KEY(id))")
+                database.execSQL("CREATE UNIQUE INDEX `index_VideoInvitation_jobId` ON `VideoInvitation` (`jobId`)")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11).build()
+                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11,MIGRATION_11_12).build()
     }
 }

@@ -38,7 +38,7 @@ class MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_lastmonth!!, Constants.session_key_mybdjobscount_employers_followed, background_resources[3], icon_resources[3]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_lastmonth!!, Constants.session_key_mybdjobscount_interview_invitation, background_resources[4], icon_resources[4]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_lastmonth!!,  Constants.session_key_mybdjobscount_message_by_employers, background_resources[5], icon_resources[5]))
-            bdjobsList.add(MybdjobsData("7","Video Interview Invitations",background_resources[6],icon_resources[6]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
 
             mybdjobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
@@ -55,7 +55,7 @@ class MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_alltime!!, Constants.session_key_mybdjobscount_employers_followed, background_resources[3], icon_resources[3]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_alltime!!, Constants.session_key_mybdjobscount_interview_invitation, background_resources[4], icon_resources[4]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_alltime!!,  Constants.session_key_mybdjobscount_message_by_employers, background_resources[5], icon_resources[5]))
-            bdjobsList.add(MybdjobsData("7","Video Interview Invitations",background_resources[6],icon_resources[6]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_alltime!!,Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
             mybdjobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }

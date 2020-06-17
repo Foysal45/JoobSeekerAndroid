@@ -25,7 +25,7 @@ class QuestionListAdapter(val context: Context, val clickListener: ClickListener
     }
 
     override fun onBindViewHolder(holder: QuestionViewHolder, position: Int) {
-        holder.bind(getItem(position),clickListener)
+        holder.bind(getItem(position), clickListener)
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<VideoInterviewQuestionList.Data>() {
@@ -58,9 +58,7 @@ class QuestionListAdapter(val context: Context, val clickListener: ClickListener
 
     override fun getItemCount(): Int {
         return super.getItemCount()
-
     }
-
 }
 
 

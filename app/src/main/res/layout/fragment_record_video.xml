@@ -31,8 +31,14 @@
             android:id="@+id/camera_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:cameraFacing="front"
+            app:cameraSnapshotMaxWidth="300"
+            app:cameraSnapshotMaxHeight="500"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/view_intermediate"
@@ -115,7 +121,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_marginBottom="20dp"
             app:icon="@drawable/ic_record_video"
             app:iconGravity="textStart"
@@ -125,6 +131,7 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:textSize="16sp"
+            android:letterSpacing="0"
             android:fontFamily="@font/roboto_medium"
             android:text="Start Recording"
             app:cornerRadius="23dp"
@@ -213,6 +220,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:visibility="gone"
             android:id="@+id/btn_done"
             android:text="Done"
@@ -224,6 +232,7 @@
             android:onClick="@{()->viewModel.onDoneButtonClick()}"
             app:iconGravity="textStart"
             app:icon="@drawable/ic_video_done"
+            android:letterSpacing="0"
             android:includeFontPadding="false"
             app:backgroundTint="@color/colorPrimary"
             android:layout_marginBottom="20dp"

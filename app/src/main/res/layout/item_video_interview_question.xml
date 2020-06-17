@@ -43,6 +43,7 @@
             tools:text="Why do you think this job is a good fit for you?" />
 
         <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
             android:id="@+id/btn_record_video"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,17 +51,50 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:text="Record Video"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             app:backgroundTint="#CC2428"
             app:cornerRadius="23dp"
+            android:letterSpacing="0"
+            android:textAllCaps="false"
             app:elevation="0dp"
             app:icon="@drawable/ic_record_video"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:questionSubmitButtonVisibility='@{question.buttonName}'
+            android:onClick="@{()->clickListener.onClick(question)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_question_details"
+            tools:text="Record Video" />
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            android:id="@+id/btn_view_video"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="View Video"
+            app:backgroundTint="@android:color/black"
+            app:cornerRadius="23dp"
+            android:letterSpacing="0"
+            android:textAllCaps="false"
+            app:elevation="0dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            app:questionViewButtonVisibility='@{question.buttonName}'
+            app:icon="@drawable/ic_play_video"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
             android:onClick="@{()->clickListener.onClick(question)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_question_details"
-            tools:text="Record Video" />
+            tools:text="View Video" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_question_time"
