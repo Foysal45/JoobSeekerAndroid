@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -46,6 +47,7 @@ class ViewVideoFragment : Fragment() {
             video_view?.setVideoURI(Uri.parse(args.url))
         } catch (e: Exception) {
             e.printStackTrace()
+            video_view?.stopPlayback()
         }
 
         img_play?.setOnClickListener {
@@ -84,20 +86,38 @@ class ViewVideoFragment : Fragment() {
 
     private fun setupData() {
         try {
-            if (questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt().minus(questionListViewModel.questionCommonData.value?.totalQuestion!!.toInt()) > 0) {
-                btn_record_again?.show()
-            } else {
-                btn_record_again?.hide()
-            }
-
             var remainingAttempts = questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt().minus(questionListViewModel.questionCommonData.value?.remainingExtraAttempt!!.toInt())
             if (remainingAttempts < 0) remainingAttempts = 0
 
-            tv_extra_attempts_value?.text="$remainingAttempts/${questionListViewModel.questionCommonData.value?.totalAttempt}"
+            if (questionListViewModel.questionCommonData.value?.remaingTime!!.toInt() > 0) {
+                if (remainingAttempts > 0) {
+                    btn_record_again?.show()
+                } else {
+                    btn_record_again?.hide()
+                }
+            } else
+                btn_record_again?.hide()
+
+            tv_extra_attempts_value?.text = "$remainingAttempts/${questionListViewModel.questionCommonData.value?.totalAttempt}"
+
+            if (questionListViewModel.questionCommonData.value!!.submissionDate.isNullOrEmpty())
+            {
+                cl_submission_date?.hide()
+                btn_record_again?.hide()
+                cl_extra_attempts?.hide()
+            }else{
+                cl_submission_date?.show()
+                tv_submission_date?.text = HtmlCompat.fromHtml(getString(R.string.submission_info,questionListViewModel.questionCommonData.value!!.submissionDate),HtmlCompat.FROM_HTML_MODE_COMPACT)
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        video_view?.stopPlayback()
     }
 }

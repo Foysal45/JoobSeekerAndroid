@@ -220,8 +220,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:visibility="gone"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:id="@+id/btn_done"
             android:text="Done"
             android:paddingTop="12dp"
@@ -231,10 +231,10 @@
             android:textAllCaps="false"
             android:onClick="@{()->viewModel.onDoneButtonClick()}"
             app:iconGravity="textStart"
-            app:icon="@drawable/ic_video_done"
+            app:icon="@drawable/ic_baseline_check_circle_24"
             android:letterSpacing="0"
             android:includeFontPadding="false"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/green"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@id/view_timeline"
             app:layout_constraintStart_toStartOf="parent"

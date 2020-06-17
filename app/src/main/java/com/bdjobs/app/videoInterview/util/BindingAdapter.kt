@@ -12,7 +12,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toDp
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.android.material.button.MaterialButton
@@ -167,16 +166,24 @@ fun bindStatus(view: View, videoDetails: VideoInterviewDetails.Data?) {
 }
 
 @BindingAdapter("questionSubmitButtonVisibility")
-fun bindQuestionRecordButtonVisibility(button: MaterialButton, text: String) {
-    if (text.equalIgnoreCase("Record Video")) {
+fun bindQuestionRecordButtonVisibility(button: MaterialButton, status: String) {
+    if (status == "1") {
         button.show()
     } else
         button.hide()
 }
 
 @BindingAdapter("questionViewButtonVisibility")
-fun bindQuestionViewButtonVisibility(button: MaterialButton, text: String) {
-    if (!text.equalIgnoreCase("Record Video")) {
+fun bindQuestionViewButtonVisibility(button: MaterialButton, status: String) {
+    if (status == "2") {
+        button.show()
+    } else
+        button.hide()
+}
+
+@BindingAdapter("questionNotAnsweredButtonVisibility")
+fun bindQuestionNotAnsweredButtonVisibility(button: MaterialButton, status: String) {
+    if (status != "2" && status != "1") {
         button.show()
     } else
         button.hide()
@@ -202,7 +209,7 @@ fun bindVideoItemCardBackground(constraintLayout: ConstraintLayout, userSeenInte
     if (userSeenInterview.equalIgnoreCase("True")) {
         constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.interview_invitatiion_card_unseen)
     }
-    else{
+     else {
         constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.ic_home_card)
     }
 }
@@ -211,7 +218,7 @@ fun bindVideoItemCardBackground(constraintLayout: ConstraintLayout, userSeenInte
 fun bindVideoItemCardColor(imageView: ImageView, userSeenInterview: String) {
     if (userSeenInterview.equalIgnoreCase("True")) {
         imageView.hide()
-    } else{
+    } else {
         imageView.show()
     }
 }
@@ -223,17 +230,17 @@ fun bindInviteStatus(view: View, videoInvitationData: VideoInterviewList.Data) {
             is ImageView -> {
                 view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_submitted)
             }
-            is TextView ->{
+            is TextView -> {
                 view.text = "Submitted on: ${videoInvitationData.dateStringForSubmission}"
                 view.setTextColor(Color.parseColor("#388E3C"))
             }
         }
-    } else if(videoInvitationData.dateStringForInvitaion != ""){
+    } else if (videoInvitationData.dateStringForInvitaion != "") {
         when (view) {
             is ImageView -> {
                 view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_calender_interview_invitation)
             }
-            is TextView ->{
+            is TextView -> {
                 view.text = "Invited on: ${videoInvitationData.dateStringForInvitaion}"
                 view.setTextColor(Color.parseColor("#393939"))
             }
@@ -252,7 +259,7 @@ fun bindEmployerSeenStatus(view: View, employerSeenDate: String) {
                 view.hide()
             }
         }
-    } else{
+    } else {
         when (view) {
             is ImageView -> {
                 view.show()
@@ -278,7 +285,8 @@ fun bindInterviewProcessStatus(view: View, videoInterviewData: VideoInterviewLis
                 is TextView -> {
                     view.show()
                     view.text = videoInterviewData.videoStatus
-                    view.setTextColor(Color.parseColor("#B71C1C"))                }
+                    view.setTextColor(Color.parseColor("#B71C1C"))
+                }
             }
         "1" ->
             when (view) {
@@ -289,7 +297,8 @@ fun bindInterviewProcessStatus(view: View, videoInterviewData: VideoInterviewLis
                 is TextView -> {
                     view.show()
                     view.text = videoInterviewData.videoStatus
-                    view.setTextColor(Color.parseColor("#F57F17"))                  }
+                    view.setTextColor(Color.parseColor("#F57F17"))
+                }
             }
         "0", "4", "" ->
             when (view) {

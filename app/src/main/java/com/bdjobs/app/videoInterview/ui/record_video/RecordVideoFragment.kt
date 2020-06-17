@@ -80,22 +80,19 @@ class RecordVideoFragment : Fragment() {
                     btn_done?.hide()
             })
 
-            onVideoDoneEvent.observe(viewLifecycleOwner,EventObserver{
-                if (it){
+            onVideoDoneEvent.observe(viewLifecycleOwner, Observer{
+               // if (it){
                     camera_view?.close()
-                }
+               // }
             })
 
             onUploadStartEvent.observe(viewLifecycleOwner,EventObserver{uploadStarted->
                 if (uploadStarted){
                     Toast.makeText(requireContext(),"Your video is being uploaded",Toast.LENGTH_SHORT).show()
-                    val runnable = object : Runnable{
-                        override fun run() {
-                            Handler().postDelayed(this,5000)
-                        }
-                    }
                 }
-                findNavController().popBackStack()
+                Handler().postDelayed({
+                    findNavController().popBackStack()
+                },5000)
             })
         }
     }
@@ -147,9 +144,13 @@ class RecordVideoFragment : Fragment() {
 
             override fun onVideoTaken(result: VideoResult) {
                 super.onVideoTaken(result)
-                Log.d("rakib","${result.file.path} ${result.file}")
-                recordVideoViewModel.videoManagerData.value?.file = result.file
-                recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
+                if (recordVideoViewModel.onVideoDoneEvent.value == true){
+                    Log.d("rakib","${result.file.path} ${result.file}")
+                    recordVideoViewModel.videoManagerData.value?.file = result.file
+                    recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
+                    //result.file.delete()
+                }
+
             }
 
         })
@@ -173,8 +174,15 @@ class RecordVideoFragment : Fragment() {
                 }
             })
 
+            tool_bar?.title = "Recording Question ${recordVideoViewModel.videoManagerData.value?.questionSerial}"
+
         } else {
 
         }
     }
+
+//    override fun onPause() {
+//        super.onPause()
+//        camera_view?.close()
+//    }
 }

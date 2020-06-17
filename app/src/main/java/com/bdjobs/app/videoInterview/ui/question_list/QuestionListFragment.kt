@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -42,7 +41,6 @@ const val NUM_BYTES_NEEDED = 1024 * 1024 * 500L
 
 class QuestionListFragment : Fragment() {
 
-    private val args: QuestionListFragmentArgs by navArgs()
     private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment) { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this) }
     private val questionDetailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
     private var permissionGranted: Boolean = false
@@ -71,13 +69,8 @@ class QuestionListFragment : Fragment() {
 
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
 
-            if (it.buttonName!!.equalIgnoreCase("Record Video") || it.buttonName!!.equalIgnoreCase("Record Again") || it.buttonName!!.equalIgnoreCase("")) {
-//                 permissionGranted =
+            if (it.buttonStatus == "1") {
                 askForPermission(it)
-//                if (permissionGranted){
-//
-//
-//                }
             } else {
                 val videoManager = VideoManager(
                         jobId = questionDetailsViewModel.jobId.value,
@@ -167,7 +160,7 @@ class QuestionListFragment : Fragment() {
                 }
             })
 
-            onNotInterestedSubmissionDoneEvent.observe(viewLifecycleOwner,EventObserver{
+            onNotInterestedSubmissionDoneEvent.observe(viewLifecycleOwner, EventObserver {
                 findNavController().navigate(QuestionListFragmentDirections.actionQuestionListFragmentToVideoInterviewListFragment())
             })
 
@@ -190,32 +183,142 @@ class QuestionListFragment : Fragment() {
     }
 
     private fun updateQuestionStatus(size: Int) {
+        Log.d("rakib size ", "$size")
         if (size > 0) {
-            for (i in 0 until size) {
-                when {
-                    questionListViewModel.questionListData.value?.get(i)?.questionStatus.equals("2") -> {
-                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
-                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
-                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
-                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
-                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+
+            when (size) {
+                1 -> {
+                    when (questionListViewModel.questionListData.value?.get(0)?.questionStatus) {
+                        "2" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
                     }
-                    questionListViewModel.questionListData.value?.get(i)?.questionStatus.equals("3") -> {
-                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
-                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
-                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
-                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
-                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                }
+                2 -> {
+                    when (questionListViewModel.questionListData.value?.get(0)?.questionStatus) {
+                        "2" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
                     }
-                    else -> {
-                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
-                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
-                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
-                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
-                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+
+                    when (questionListViewModel.questionListData.value?.get(1)?.questionStatus) {
+                        "2" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+                }
+                3 -> {
+                    when (questionListViewModel.questionListData.value?.get(0)?.questionStatus) {
+                        "2" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(1)?.questionStatus) {
+                        "2" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(2)?.questionStatus) {
+                        "2" -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+                }
+                4 -> {
+                    when (questionListViewModel.questionListData.value?.get(0)?.questionStatus) {
+                        "2" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(1)?.questionStatus) {
+                        "2" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(2)?.questionStatus) {
+                        "2" -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(3)?.questionStatus) {
+                        "2" -> img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                }
+                5 -> {
+                    when (questionListViewModel.questionListData.value?.get(0)?.questionStatus) {
+                        "2" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(1)?.questionStatus) {
+                        "2" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(2)?.questionStatus) {
+                        "2" -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(3)?.questionStatus) {
+                        "2" -> img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+                    }
+
+                    when (questionListViewModel.questionListData.value?.get(4)?.questionStatus) {
+                        "2" -> img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+                        "3" -> img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+                        else -> img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
                     }
                 }
             }
+
+
+//            for (i in 0 until size) {
+//                Log.d("rakib size ", "${questionListViewModel.questionListData.value?.get(i)}")
+//
+//                var questionStatus = questionListViewModel.questionListData.value?.get(i)
+//
+//                if (i == 0) {
+//
+//                }
+//
+//                when (questionListViewModel.questionListData.value?.get(i)?.questionStatus) {
+//                    "2" -> {
+//                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+//                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+//                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+//                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+//                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_submitted)
+//                    }
+//                    "3" -> {
+//                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+//                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+//                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+//                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+//                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_video_not_submitted)
+//                    }
+//                    else -> {
+////                        img_question1.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+////                        img_question2.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+////                        img_question3.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+////                        img_question4.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+////                        img_question5.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_not_recorded)
+//                    }
+//                }
+//            }
         }
     }
 

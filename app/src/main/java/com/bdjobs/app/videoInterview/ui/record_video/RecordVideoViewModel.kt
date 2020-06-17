@@ -38,10 +38,13 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     }
     val shouldShowDoneButton: LiveData<Boolean> = _shouldShowDoneButton
 
-    private val _onVideoDoneEvent = MutableLiveData<Event<Boolean>>().apply {
-        value = Event(false)
-    }
-    val onVideoDoneEvent: LiveData<Event<Boolean>> = _onVideoDoneEvent
+    private val _onVideoDoneEvent = MutableLiveData<Boolean>()
+    val onVideoDoneEvent : LiveData<Boolean> = _onVideoDoneEvent
+
+//    private val _onVideoDoneEvent = MutableLiveData<Event<Boolean>>().apply {
+//        value = Event(false)
+//    }
+//    val onVideoDoneEvent: LiveData<Event<Boolean>> = _onVideoDoneEvent
 
     private val _onUploadStartEvent = MutableLiveData<Event<Boolean>>()
     val onUploadStartEvent : LiveData<Event<Boolean>> = _onUploadStartEvent
@@ -60,13 +63,12 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     }
 
     fun onDoneButtonClick() {
-        //sendVideoStartedInfoToRemote()
         timer.cancel()
-        _onVideoDoneEvent.value = Event(true)
-        //uploadSingleVideoToServer()
+        _onVideoDoneEvent.value = true
     }
 
     fun uploadSingleVideoToServer(videoManager: VideoManager?) {
+        _onVideoDoneEvent.value = false
         Log.d("rakib", "$videoManager")
         //repository.setDataForUpload(videoManager)
         Constants.createVideoManagerDataForUpload(videoManager)
@@ -102,7 +104,7 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
         timer = object : CountDownTimer(videoManagerData.value!!.questionDuration!!.toLong().times(1000), 1000) {
             override fun onFinish() {
                 _progressPercentage.value = 100.toDouble()
-                _onVideoDoneEvent.value = Event(true)
+                _onVideoDoneEvent.value = (true)
             }
 
             override fun onTick(millisUntilFinished: Long) {
