@@ -11,32 +11,33 @@
             name="clickListener"
             type="com.bdjobs.app.videoInterview.ui.interview_list.ClickListener" />
     </data>
+    <!--        videoItemCardColor="@{videoInterview.userSeenInterview}"-->
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_video_interview"
-        videoItemCardColor="@{videoInterview.userSeenInterview}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
         android:onClick="@{()-> clickListener.onClick(videoInterview)}"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="8dp"
+        app:strokeColor="#EAEAEA"
+        app:strokeWidth="0.1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            videoItemCardBackground="@{videoInterview.userSeenInterview}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_shape_white">
+            android:paddingStart="5dp">
 
             <TextView
                 android:id="@+id/company_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="@font/roboto"
                 android:maxLines="1"
                 android:text="@{videoInterview.companyName}"
@@ -51,7 +52,8 @@
                 android:id="@+id/positionTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
                 android:text="@{videoInterview.jobTitle}"
@@ -61,7 +63,6 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
             <ImageView
-
                 android:id="@+id/imageView29"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,8 +85,9 @@
                 inviteStatus="@{videoInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/roboto"
                 android:textColor="#393939"
                 android:textSize="12sp"
@@ -100,7 +102,7 @@
                 employerSeenStatus="@{videoInterview.employerSeenDate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="15dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView66"
                 app:layout_constraintStart_toEndOf="@+id/invitationStatusTV"
                 app:layout_constraintTop_toTopOf="@+id/textView66"
@@ -135,7 +137,6 @@
                 interviewProcessStatus="@{videoInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:fontFamily="@font/roboto"
                 android:text="@{videoInterview.videoStatus}"
                 android:textColor="#B71C1C"
