@@ -12,6 +12,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.toDp
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.android.material.button.MaterialButton
@@ -196,27 +197,13 @@ fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested
 }
 
 // Video Interview List
-
-@BindingAdapter("videoItemCardColor")
-fun bindVideoItemCardColor(view: View, userSeenInterview: String) {
+@BindingAdapter("videoItemCardBackground")
+fun bindVideoItemCardBackground(constraintLayout: ConstraintLayout, userSeenInterview: String) {
     if (userSeenInterview.equalIgnoreCase("True")) {
-        when (view) {
-            is MaterialCardView -> {
-                view.backgroundColor = Color.parseColor("#F8F6EA")
-            }
-            is ConstraintLayout ->{
-                view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_shape_yello)
-            }
-        }
-    } else{
-        when (view) {
-            is MaterialCardView -> {
-                view.backgroundColor = Color.parseColor("#FFFFFF")
-            }
-            is ConstraintLayout ->{
-                view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_shape_white)
-            }
-        }
+        constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.interview_invitatiion_card_unseen)
+    }
+    else{
+        constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.ic_home_card)
     }
 }
 
