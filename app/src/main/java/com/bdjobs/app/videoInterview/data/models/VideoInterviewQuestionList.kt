@@ -45,7 +45,10 @@ data class VideoInterviewQuestionList(
             @Json(name = "vUserTotalAnswerequestion")
             var vUserTotalAnswerequestion: String?, // 2
             @Json(name = "videoInterviewDeadline")
-            var videoInterviewDeadline: String? // 30 Jun 2020
+            var videoInterviewDeadline: String?, // 30 Jun 2020
+            @Json(name = "submissionDate")
+            var submissionDate: String? // 30 Jun 2020
+
     )
 
     @Keep
