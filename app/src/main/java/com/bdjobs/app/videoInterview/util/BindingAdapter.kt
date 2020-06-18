@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoInterview.util
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -15,8 +16,6 @@ import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
-import org.jetbrains.anko.backgroundColor
 
 @BindingAdapter("submitButtonStatus")
 fun bindSubmitButton(button: Button, videoDetails: VideoInterviewDetails.Data?) {
@@ -189,17 +188,28 @@ fun bindQuestionNotAnsweredButtonVisibility(button: MaterialButton, status: Stri
         button.hide()
 }
 
-@BindingAdapter("submitButtonTotalAnswers", "submitButtonIsInterested", "submitButtonEnableAfterTimer")
-fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean) {
+@BindingAdapter("submitButtonTotalAnswers", "submitButtonIsInterested", "submitButtonEnableAfterTimer", "submitButtonTotalQuestions")
+fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean, totalQuestions: Int?) {
     totalAnswers?.let {
+        totalQuestions?.let {
+            Log.d("rakib", "total answers $totalAnswers total questions $totalQuestions")
+            try {
+                if (totalAnswers.toInt() >= totalQuestions) {
+                    button.alpha = 1f
+                    button.isEnabled = true
+                } else {
+                    button.isEnabled = (isInterested || enableAfterTimer).also { enabled ->
+                        if (enabled)
+                            button.alpha = 1f
+                        else
+                            button.alpha = .5f
 
-        if (totalAnswers.toInt() > 0) {
-            button.isEnabled = true
-        } else {
-            button.isEnabled = isInterested || enableAfterTimer
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-
-
     }
 }
 
@@ -208,8 +218,7 @@ fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested
 fun bindVideoItemCardBackground(constraintLayout: ConstraintLayout, userSeenInterview: String) {
     if (userSeenInterview.equalIgnoreCase("True")) {
         constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.interview_invitatiion_card_unseen)
-    }
-     else {
+    } else {
         constraintLayout.background = ContextCompat.getDrawable(constraintLayout.context, R.drawable.ic_home_card)
     }
 }

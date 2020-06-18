@@ -26,6 +26,9 @@ class ViewVideoFragment : Fragment() {
     val args: ViewVideoFragmentArgs by navArgs()
     private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment)
 
+    lateinit var medialController : MediaController
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -39,9 +42,57 @@ class ViewVideoFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        setupData()
+        medialController = MediaController(requireContext())
 
-        val medialController = MediaController(requireContext())
+        btn_record_again?.setOnClickListener {
+            findNavController().navigate(ViewVideoFragmentDirections.actionViewVideoFragmentToRecordViedeoFragment())
+        }
+    }
+
+    private fun setupData() {
+        try {
+//            var remainingAttempts = questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt().minus(questionListViewModel.questionCommonData.value?.remainingExtraAttempt!!.toInt())
+//            if (remainingAttempts < 0) remainingAttempts = 0
+
+            if (questionListViewModel.questionCommonData.value?.remaingTime!!.toInt() > 0) {
+                if (questionListViewModel.questionCommonData.value?.remainingExtraAttempt!!.toInt() < questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt()) {
+                    btn_record_again?.show()
+                } else {
+                    btn_record_again?.hide()
+                }
+            } else
+                btn_record_again?.hide()
+
+            val extraAttempts = if (questionListViewModel.questionCommonData.value?.remainingExtraAttempt!!.toInt() >= questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt())
+                questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt()
+            else
+                questionListViewModel.questionCommonData.value?.remainingExtraAttempt!!.toInt()
+
+            tv_extra_attempts_value?.text = "$extraAttempts/${questionListViewModel.questionCommonData.value?.totalAttempt}"
+
+            if (questionListViewModel.questionCommonData.value!!.submissionDate == "") {
+                cl_submission_date?.hide()
+//                btn_record_again?.hide()
+//                cl_extra_attempts?.hide()
+            } else {
+                cl_submission_date?.show()
+                tv_submission_date?.text = HtmlCompat.fromHtml(getString(R.string.submission_info, questionListViewModel.questionCommonData.value!!.submissionDate), HtmlCompat.FROM_HTML_MODE_COMPACT)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        video_view?.stopPlayback()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupData()
 
         try {
             video_view?.setVideoURI(Uri.parse(args.url))
@@ -78,46 +129,5 @@ class ViewVideoFragment : Fragment() {
             }
             return@setOnInfoListener false
         }
-
-        btn_record_again?.setOnClickListener {
-            findNavController().navigate(ViewVideoFragmentDirections.actionViewVideoFragmentToRecordViedeoFragment())
-        }
-    }
-
-    private fun setupData() {
-        try {
-            var remainingAttempts = questionListViewModel.questionCommonData.value?.totalAttempt!!.toInt().minus(questionListViewModel.questionCommonData.value?.remainingExtraAttempt!!.toInt())
-            if (remainingAttempts < 0) remainingAttempts = 0
-
-            if (questionListViewModel.questionCommonData.value?.remaingTime!!.toInt() > 0) {
-                if (remainingAttempts > 0) {
-                    btn_record_again?.show()
-                } else {
-                    btn_record_again?.hide()
-                }
-            } else
-                btn_record_again?.hide()
-
-            tv_extra_attempts_value?.text = "$remainingAttempts/${questionListViewModel.questionCommonData.value?.totalAttempt}"
-
-            if (questionListViewModel.questionCommonData.value!!.submissionDate.isNullOrEmpty())
-            {
-                cl_submission_date?.hide()
-                btn_record_again?.hide()
-                cl_extra_attempts?.hide()
-            }else{
-                cl_submission_date?.show()
-                tv_submission_date?.text = HtmlCompat.fromHtml(getString(R.string.submission_info,questionListViewModel.questionCommonData.value!!.submissionDate),HtmlCompat.FROM_HTML_MODE_COMPACT)
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        video_view?.stopPlayback()
     }
 }

@@ -18,9 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/roboto_bold"
+            android:text="@{`Question ` + question.questionSerialNo}"
             android:textColor="#AC016D"
             android:textSize="12sp"
-            android:text="@{`Question ` + question.questionSerialNo}"
             app:layout_constraintEnd_toStartOf="@+id/tv_question_time"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,9 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_medium"
+            android:text="@{question.questionText}"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            android:text="@{question.questionText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/tv_question_heading"
@@ -43,88 +43,91 @@
             tools:text="Why do you think this job is a good fit for you?" />
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
             android:id="@+id/btn_record_video"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:fontFamily="@font/roboto_medium"
+            android:letterSpacing="0"
+            android:onClick="@{()->clickListener.onClick(question)}"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:text="Record Video"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:visibility="gone"
             app:backgroundTint="#CC2428"
             app:cornerRadius="23dp"
-            android:letterSpacing="0"
-            android:textAllCaps="false"
             app:elevation="0dp"
             app:icon="@drawable/ic_record_video"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
-            app:questionSubmitButtonVisibility='@{question.buttonStatus}'
-            android:onClick="@{()->clickListener.onClick(question)}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_question_details"
+            app:questionSubmitButtonVisibility='@{question.buttonStatus}'
             tools:text="Record Video" />
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
             android:id="@+id/btn_view_video"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:fontFamily="@font/roboto_medium"
+            android:letterSpacing="0"
+            android:onClick="@{()->clickListener.onClick(question)}"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:text="View Video"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:visibility="gone"
             app:backgroundTint="@android:color/black"
             app:cornerRadius="23dp"
-            android:letterSpacing="0"
-            android:textAllCaps="false"
             app:elevation="0dp"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            app:questionViewButtonVisibility='@{question.buttonStatus}'
             app:icon="@drawable/ic_play_video"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
-            android:onClick="@{()->clickListener.onClick(question)}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_question_details"
+            app:questionViewButtonVisibility='@{question.buttonStatus}'
             tools:text="View Video" />
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            app:strokeColor="#FFCDD2"
-            app:strokeWidth="1dp"
-            app:backgroundTint="#FFEBEE"
             android:id="@+id/btn_not_answered"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:enabled="false"
+            android:fontFamily="@font/roboto_medium"
+            android:letterSpacing="0"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="Not Answered"
-            app:cornerRadius="8dp"
-            android:letterSpacing="0"
             android:textAllCaps="false"
-            app:icon="@drawable/ic_warning"
-            app:iconTint="#B71C1C"
-            app:iconSize="18dp"
             android:textColor="#B71C1C"
-            app:elevation="0dp"
-            app:questionNotAnsweredButtonVisibility='@{question.buttonStatus}'
             android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
+            android:visibility="gone"
+            app:backgroundTint="#FFEBEE"
+            app:cornerRadius="8dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_warning"
             app:iconGravity="textStart"
-            android:enabled="false"
+            app:iconSize="18dp"
+            app:iconTint="#B71C1C"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_question_details" />
+            app:layout_constraintTop_toBottomOf="@id/tv_question_details"
+            app:questionNotAnsweredButtonVisibility='@{question.buttonStatus}'
+            app:strokeColor="#FFCDD2"
+            app:strokeWidth="1dp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_question_time"
@@ -132,10 +135,10 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_clock_grey"
             android:drawablePadding="3dp"
+            android:text="@{question.questionDuration + ` sec`}"
             android:textColor="#767676"
             android:textSize="12sp"
             app:drawableTint="#767676"
-            android:text="@{question.questionDuration + ` sec`}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="60 sec" />
@@ -144,9 +147,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
+
         <variable
             name="question"
             type="com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList.Data" />
+
         <variable
             name="clickListener"
             type="com.bdjobs.app.videoInterview.ui.question_list.ClickListener" />
