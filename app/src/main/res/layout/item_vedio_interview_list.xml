@@ -4,48 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-
         <variable
-            name="interview"
-            type="com.bdjobs.app.videoInterview.data.models.InterviewListData" />
-
-
+            name="videoInterview"
+            type="com.bdjobs.app.videoInterview.data.models.VideoInterviewList.Data" />
         <variable
             name="clickListener"
-            type="com.bdjobs.app.videoInterview.ui.interview_list.ClickListenerInterViewList" />
-
-
+            type="com.bdjobs.app.videoInterview.ui.interview_list.ClickListener" />
     </data>
+    <!--        videoItemCardColor="@{videoInterview.userSeenInterview}"-->
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_video_interview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:onClick="@{()-> clickListener.onClick(interview.jobId,interview.jobTitle)}"
+        android:layout_marginBottom="8dp"
+        android:onClick="@{()-> clickListener.onClick(videoInterview)}"
         app:cardCornerRadius="8dp"
+        app:strokeColor="#EAEAEA"
+        app:strokeWidth="0.1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            videoItemCardBackground="@{videoInterview.userSeenInterview}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_shape_white">
+            android:paddingStart="5dp">
 
             <TextView
                 android:id="@+id/company_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto"
                 android:maxLines="1"
-                android:text="@{interview.companyName}"
+                android:text="@{videoInterview.companyName}"
                 android:textColor="#303030"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
@@ -55,17 +52,17 @@
                 android:id="@+id/positionTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
-                android:text="@{interview.jobTitle}"
-                android:textColor="@color/vedioInterviewThemeColor"
+                android:text="@{videoInterview.jobTitle}"
+                android:textColor="@color/videoInterviewThemeColor"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView29"
                 app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
             <ImageView
-
                 android:id="@+id/imageView29"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,86 +72,73 @@
                 app:srcCompat="@drawable/ic_video_camera" />
 
             <ImageView
-                inviteAndSubmit="@{interview}"
                 android:id="@+id/imageView30"
+                inviteStatus="@{videoInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/invitationStatusTV"
                 app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toTopOf="@+id/invitationStatusTV"
-                app:srcCompat="@drawable/ic_calender_interview_invitation" />
+                app:layout_constraintTop_toTopOf="@+id/invitationStatusTV" />
 
             <TextView
-                inviteAndSubmit="@{interview}"
                 android:id="@+id/invitationStatusTV"
+                inviteStatus="@{videoInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/roboto"
-                android:text="InvitedOn :"
                 android:textColor="#393939"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline16"
                 app:layout_constraintStart_toEndOf="@+id/imageView30"
                 app:layout_constraintTop_toBottomOf="@+id/company_name_tv"
                 app:layout_constraintVertical_bias="0.0" />
 
 
-
-
-
             <ImageView
                 android:id="@+id/imageView32"
+                employerSeenStatus="@{videoInterview.employerSeenDate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView65"
+                android:layout_marginStart="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView66"
                 app:layout_constraintStart_toEndOf="@+id/invitationStatusTV"
-                app:layout_constraintTop_toTopOf="@+id/textView65"
+                app:layout_constraintTop_toTopOf="@+id/textView66"
                 app:layout_constraintVertical_bias="0.53"
                 app:srcCompat="@drawable/ic_seen" />
 
             <TextView
-                android:id="@+id/textView65"
+                android:id="@+id/textView66"
+                employerSeenStatus="@{videoInterview.employerSeenDate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="SeenBy"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView32"
-                app:layout_constraintTop_toTopOf="@+id/invitationStatusTV" />
-
-            <TextView
-                android:id="@+id/textView66"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@{interview.invitationSeenDate}"
                 android:textColor="@color/gnt_black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView65"
-                app:layout_constraintTop_toTopOf="@+id/textView65" />
+                app:layout_constraintStart_toEndOf="@+id/imageView32"
+                app:layout_constraintTop_toTopOf="@+id/invitationStatusTV" />
 
             <ImageView
                 android:id="@+id/imageView33"
+                interviewProcessStatus="@{videoInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView67"
                 app:layout_constraintEnd_toStartOf="@+id/textView67"
-                app:layout_constraintTop_toTopOf="@+id/textView67"
-                app:srcCompat="@drawable/ic_due_submission" />
+                app:layout_constraintTop_toTopOf="@+id/textView67" />
 
             <TextView
                 android:id="@+id/textView67"
+                interviewProcessStatus="@{videoInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto"
-                android:text="@{interview.videoStatus}"
+                android:text="@{videoInterview.videoStatus}"
                 android:textColor="#B71C1C"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline16"
@@ -167,14 +151,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="16dp" />
+                app:layout_constraintGuide_begin="10dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="16dp" />
+                app:layout_constraintGuide_begin="10dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline14"
@@ -188,17 +172,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="16dp" />
+                app:layout_constraintGuide_end="10dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_end="16dp" />
+                app:layout_constraintGuide_end="10dp" />
 
             <ImageView
-                android:id="@+id/imageView34"
+                android:id="@+id/iv_new_badge"
+                newBadgeVisibility="@{videoInterview.userSeenInterview}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -207,7 +192,6 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:newBannerVisibility="@{interview.isToday()}"
                 app:srcCompat="@drawable/ic_new_bg" />
 
 

@@ -6,6 +6,7 @@ import java.util.*
 interface HomeCommunicator {
     fun goToKeywordSuggestion()
     fun goToInterviewInvitation(from:String)
+    fun goToVideoInvitation(from:String)
     fun goToEmployerViewedMyResume(from:String)
     fun goToFollowedEmployerList(from:String)
     fun goToFavSearchFilters()

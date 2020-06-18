@@ -9,7 +9,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
@@ -18,6 +21,10 @@ import com.bdjobs.app.videoInterview.data.models.Guideline
 import kotlinx.android.synthetic.main.fragment_guidelines_viewpager.*
 
 class GuidelinesViewpagerFragment : Fragment() {
+
+    val args : GuidelinesViewpagerFragmentArgs by navArgs()
+    private val guidelineVIewModel: GuidelineVIewModel by navGraphViewModels(R.id.video_interview_nav_graph)
+
 
     val images = listOf<Int>(
             R.drawable.ic_video_guideline1,
@@ -33,7 +40,12 @@ class GuidelinesViewpagerFragment : Fragment() {
             "উত্তর রেকর্ডটি আগেই শেষ হয়ে গেলে “সম্পন্ন হয়েছে” বাটনে ক্লিক করুন।"
     )
 
-    val instructionsInEnglish = listOf<String>()
+    val instructionsInEnglish = listOf<String>(
+            "Enable microphone and camera permissions before start recording.",
+            "While recording answers, using headphones with the attached microphone is recommended so that the employer can clearly understand you.",
+            "Submit all recorded answers within 1hour.",
+            "If answer recording is complete, click on Done button"
+    )
 
     private val guidelines = mutableListOf<Guideline>()
 
@@ -47,8 +59,21 @@ class GuidelinesViewpagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        for(i in 0 until 4){
-            guidelines.add(Guideline(images[i],instructionsInBangla[i]))
+        args.language?.let {
+            when(it){
+                "bangla"->{
+                    for (i in 0 until 4) {
+                        guidelines.add(Guideline(images[i], instructionsInBangla[i]))
+                    }
+                    btn_next.text = "পরবর্তী নির্দেশনা"
+                }
+                else ->{
+                    for (i in 0 until 4) {
+                        guidelines.add(Guideline(images[i], instructionsInEnglish[i]))
+                    }
+                    btn_next.text = "Next Guideline"
+                }
+            }
         }
 
         view_pager_guideline.adapter = GuidelineAdapter(requireContext(), guidelines)
@@ -58,13 +83,13 @@ class GuidelinesViewpagerFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
-                if (position == guidelines.size-1){
+                if (position == guidelines.size - 1) {
                     btn_next.hide()
                     btn_skip.hide()
                     btn_start.show()
                     ll_indicators.visibility = View.INVISIBLE
                     tv_click_instruction?.show()
-                } else{
+                } else {
                     btn_start.hide()
                     btn_next.show()
                     btn_skip.show()
@@ -76,19 +101,21 @@ class GuidelinesViewpagerFragment : Fragment() {
             }
         })
 
+        img_close?.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         btn_next?.setOnClickListener {
-            if (view_pager_guideline.currentItem + 1 < guidelines.size){
+            if (view_pager_guideline.currentItem + 1 < guidelines.size) {
                 view_pager_guideline.currentItem = view_pager_guideline.currentItem + 1
             } else {
-                Toast.makeText(context,"finished",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "finished", Toast.LENGTH_SHORT).show()
             }
         }
-
-        img_close?.setOnClickListener {
-
-        }
-
         btn_start?.setOnClickListener {
+            findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
+        }
+        btn_skip?.setOnClickListener {
             findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
         }
     }

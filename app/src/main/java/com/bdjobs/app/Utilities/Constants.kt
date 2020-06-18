@@ -15,10 +15,12 @@ import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -31,11 +33,6 @@ class Constants {
         val ADMOB_APP_ID = "ca-app-pub-5130888087776673~6094744346"
         val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-5130888087776673/3622884741"
         var nativeAdvertisement : UnifiedNativeAd? = null
-
-
-
-
-
 
 
         var hotjobs: List<HotJobsData?>? = listOf()
@@ -65,6 +62,7 @@ class Constants {
         var cvUploadStatus = ""
         var favSearchFiltersSynced = false
         var jobInvitationSynced = false
+        var videoInvitationSynced = false
         var certificationSynced = false
         var followedEmployerSynced = false
         var isDirectCall = false
@@ -181,12 +179,17 @@ class Constants {
         const val session_key_mybdjobscount_employers_followed_lastmonth = "employers_followed_lastmonth"
         const val session_key_mybdjobscount_interview_invitation_lastmonth = "interview_invitation_lastmonth"
         const val session_key_mybdjobscount_message_by_employers_lastmonth = "message_by_employers_lastmonth"
+        const val session_key_mybdjobscount_video_invitation_lastmonth = "video_invitation_lastmonth"
+
+
+
         const val session_key_mybdjobscount_jobs_applied_alltime = "jobs_applied_alltime"
         const val session_key_mybdjobscount_times_emailed_resume_alltime = "times_emailed_resume_alltime"
         const val session_key_mybdjobscount_employers_viwed_resume_alltime= "employers_viwed_resume_alltime"
         const val session_key_mybdjobscount_employers_followed_alltime = "employers_followed_alltime"
         const val session_key_mybdjobscount_interview_invitation_alltime = "interview_invitation_alltime"
         const val session_key_mybdjobscount_message_by_employers_alltime = "message_by_employers_alltime"
+        const val session_key_mybdjobscount_video_invitation_alltime = "video_invitation_alltime"
 
         const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
         const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"
@@ -194,6 +197,7 @@ class Constants {
         const val session_key_mybdjobscount_employers_followed = "Employers\nFollowed"
         const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
+        const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
 
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
@@ -356,6 +360,24 @@ class Constants {
                     return hashMap
                 }
             }
+        }
+
+        var recordingStarted = false
+
+        var jobId : String? = ""
+        var applyId :String? = ""
+        var quesId : String? = ""
+        var quesSerialNo : String? = ""
+        var duration : String? = ""
+        var file : File? = null
+
+        fun createVideoManagerDataForUpload(videoManager: VideoManager?){
+            jobId = videoManager?.jobId
+            applyId = videoManager?.applyId
+            quesId = videoManager?.questionId
+            quesSerialNo = videoManager?.questionSerial
+            duration = videoManager?.questionDuration
+            file = videoManager?.file
         }
     }
 }

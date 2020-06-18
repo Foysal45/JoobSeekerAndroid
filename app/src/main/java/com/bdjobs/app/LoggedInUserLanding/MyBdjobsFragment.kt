@@ -24,8 +24,8 @@ class MyBdjobsFragment : Fragment() {
     private lateinit var communicator: HomeCommunicator
     private var lastMonthStatsData: List<StatsModelClassData?>? = null
     private var allStatsData: List<StatsModelClassData?>? = null
-    val background_resources = intArrayOf(R.drawable.online_application, R.drawable.times_emailed, R.drawable.viewed_resume, R.drawable.employer_followed, R.drawable.interview_invitation, R.drawable.message_employers)
-    val icon_resources = intArrayOf(R.drawable.ic_online_application, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_employers_followed, R.drawable.ic_interview_invitation_1, R.drawable.ic_messages_by_employer)
+    val background_resources = intArrayOf(R.drawable.online_application, R.drawable.times_emailed, R.drawable.viewed_resume, R.drawable.employer_followed, R.drawable.interview_invitation, R.drawable.message_employers,R.drawable.video_interview)
+    val icon_resources = intArrayOf(R.drawable.ic_online_application, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_employers_followed, R.drawable.ic_interview_invitation_1, R.drawable.ic_messages_by_employer,R.drawable.ic_video_camera_gray)
     private lateinit var session: BdjobsUserSession
     private fun populateDataModel() {
         try {
@@ -38,6 +38,8 @@ class MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_lastmonth!!, Constants.session_key_mybdjobscount_employers_followed, background_resources[3], icon_resources[3]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_lastmonth!!, Constants.session_key_mybdjobscount_interview_invitation, background_resources[4], icon_resources[4]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_lastmonth!!,  Constants.session_key_mybdjobscount_message_by_employers, background_resources[5], icon_resources[5]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
+
             mybdjobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
@@ -53,6 +55,7 @@ class MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_alltime!!, Constants.session_key_mybdjobscount_employers_followed, background_resources[3], icon_resources[3]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_alltime!!, Constants.session_key_mybdjobscount_interview_invitation, background_resources[4], icon_resources[4]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_alltime!!,  Constants.session_key_mybdjobscount_message_by_employers, background_resources[5], icon_resources[5]))
+            bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_alltime!!,Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
             mybdjobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
@@ -75,7 +78,7 @@ class MyBdjobsFragment : Fragment() {
         session = BdjobsUserSession(activity)
         initializeViews()
         onClick()
-        getCountData()
+
         showNotificationCount()
     }
 
@@ -98,22 +101,7 @@ class MyBdjobsFragment : Fragment() {
         }
     }
 
-    private fun getCountData() {
-        /*Log.d("\nmybdjobsCountTest","mybdjobscount_jobs_applied_lastmonth: ${session.mybdjobscount_jobs_applied_lastmonth}\n" +
-                "mybdjobscount_times_emailed_resume_lastmonth: ${session.mybdjobscount_times_emailed_resume_lastmonth}\n" +
-                "mybdjobscount_employers_viwed_resume_lastmonth: ${session.mybdjobscount_employers_viwed_resume_lastmonth}\n" +
-                "mybdjobscount_employers_followed_lastmonth: ${session.mybdjobscount_employers_followed_lastmonth}\n" +
-                "mybdjobscount_interview_invitation_lastmonth: ${session.mybdjobscount_interview_invitation_lastmonth}\n" +
-                "mybdjobscount_message_by_employers_lastmonth: ${session.mybdjobscount_message_by_employers_lastmonth}\n\n\n" +
 
-                "mybdjobscount_jobs_applied_alltime: ${session.mybdjobscount_jobs_applied_alltime}\n" +
-                "mybdjobscount_times_emailed_resume_alltime: ${session.mybdjobscount_times_emailed_resume_alltime}\n" +
-                "mybdjobscount_employers_viwed_resume_alltime: ${session.mybdjobscount_employers_viwed_resume_alltime}\n" +
-                "mybdjobscount_employers_followed_alltime: ${session.mybdjobscount_employers_followed_alltime}\n" +
-                "mybdjobscount_interview_invitation_lastmonth: ${session.mybdjobscount_interview_invitation_alltime}\n" +
-                "mybdjobscount_message_by_employers_alltime: ${session.mybdjobscount_message_by_employers_alltime}\n"
-        )*/
-    }
 
     private fun initializeViews() {
         mybdjobsAdapter = MybdjobsAdapter(activity)

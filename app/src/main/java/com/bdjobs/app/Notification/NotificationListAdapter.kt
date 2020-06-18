@@ -29,6 +29,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JO
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
@@ -241,19 +242,16 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             }
                         }
                     }
-                    context?.startActivity<InterviewInvitationBaseActivity>(
-                            "from" to "videoInterviewNotificationList",
-                            "jobid" to items[position].serverId,
-                            "companyname" to items[position].companyName,
-                            "jobtitle" to items[position].jobTitle,
-                            "seen" to items[position].seen,
-                            "nid" to items[position].notificationId,
-                            "videoUrl" to items[position].link
-                    )
-                }
-
-                videoInterviewViewHolder.notificationRecordButton.setOnClickListener {
-                    Toast.makeText(context,"Record will start now",Toast.LENGTH_SHORT).show()
+//                    context?.startActivity<InterviewInvitationBaseActivity>(
+//                            "from" to "videoInterviewNotificationList",
+//                            "jobid" to items[position].serverId,
+//                            "companyname" to items[position].companyName,
+//                            "jobtitle" to items[position].jobTitle,
+//                            "seen" to items[position].seen,
+//                            "nid" to items[position].notificationId,
+//                            "videoUrl" to items[position].link
+//                    )
+                    context.startActivity<VideoInterviewActivity>()
                 }
             }
 

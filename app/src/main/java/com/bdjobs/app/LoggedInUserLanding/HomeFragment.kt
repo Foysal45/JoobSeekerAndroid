@@ -31,6 +31,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
 import com.bdjobs.app.assessment.AssesmentBaseActivity
 
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
@@ -49,6 +50,7 @@ import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
+import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -69,11 +71,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
     private var followedEmployerList: List<FollowedEmployer>? = null
     private var jobInvitations: List<JobInvitation>? = null
+    private var videoInvitations: List<VideoInvitation>? = null
     private var favouriteSearchFilters: List<FavouriteSearch>? = null
     private var b2CCertificationList: List<B2CCertification>? = null
     private var lastSearch: List<LastSearch>? = null
     private lateinit var homeCommunicator: HomeCommunicator
     private var inviteInterviview: String? = ""
+    private var videoInterviview: String? = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -161,6 +165,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             } catch (e: Exception) {
             }
         }
+        videoInvitationView?.setOnClickListener {
+            homeCommunicator.goToVideoInvitation("homePage")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+            } catch (e: Exception) {
+            }
+        }
         searchBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
@@ -170,12 +181,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
         }
-        videoInterviewButton.onClick {
 
-            startActivity<VideoInterviewActivity>()
-
-
-        }
     }
 
     private fun showData() {
@@ -184,6 +190,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             showFavouriteSearchFilters()
         if (jobInvitationSynced)
             showJobInvitation()
+        if (videoInvitationSynced)
+            showVideoInvitation()
         /* if (certificationSynced)
              showCertificationInfo()*/
         if (followedEmployerSynced)
@@ -231,6 +239,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     override fun jobInvitationSyncComplete() {
         //Log.d("broadCastCheck", "jobInvitationSyncComplete")
         showJobInvitation()
+    }
+
+    override fun videoInvitationSyncComplete() {
+//        Log.d("broadCastCheck", "videoInvitationSyncComplete")
+        showVideoInvitation()
     }
 
     override fun certificationSyncComplete() {
@@ -291,6 +304,32 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         mainLL?.show()
                         newSearchBTN?.show()
                         jobInvitationView?.show()
+                    }
+                } catch (e: Exception) {
+                }
+            }
+        }
+    }
+
+    private fun showVideoInvitation() {
+        doAsync {
+            videoInvitations = bdjobsDB.videoInvitationDao().getAllVideoInvitation()
+            uiThread {
+                try {
+                    showBlankLayout()
+                    videoInvitationView?.hide()
+                    if (!videoInvitations.isNullOrEmpty()) {
+                        var companyNames = ""
+                        videoInvitations?.forEach { item ->
+                            companyNames += item.companyName + ","
+                        }
+
+                        videoInvitationCompanyNameTV?.text = companyNames.removeLastComma()
+                        videoInvitationCounterTV?.text = videoInvitations?.size.toString()
+                        blankCL?.hide()
+                        mainLL?.show()
+                        newSearchBTN?.show()
+                        videoInvitationView?.show()
                     }
                 } catch (e: Exception) {
                 }
@@ -512,6 +551,20 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
     }
 
+    private fun showVideoInterviewSlider() {
+
+        videoInvitationSliderLayout.show()
+        videoInterviewTV.isSelected = true
+        videoInterviewTV.text = getString(R.string.homepage_slider_text, videoInterviview)
+        videoInvitationSliderLayout.onClick {
+            homeCommunicator.goToVideoInvitation("slider")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
     private fun getLastUpdateFromServer() {
         ApiServiceMyBdjobs.create().getLastUpdate(
                 userId = bdjobsUserSession.userId,
@@ -560,6 +613,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     if (inviteInterviview?.toInt()!! > 0) {
                         showInterviewInvitationPop()
+                    }
+
+                    videoInterviview = response.body()?.data?.get(0)?.videoInterviview
+                    if (videoInterviview?.toInt()!! > 0) {
+                        showVideoInterviewSlider()
                     }
 
                     try {
