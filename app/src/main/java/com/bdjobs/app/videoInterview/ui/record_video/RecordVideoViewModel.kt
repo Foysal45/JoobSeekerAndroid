@@ -104,6 +104,7 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
             override fun onFinish() {
                 _progressPercentage.value = 100.toDouble()
                 _onVideoDoneEvent.value = (true)
+                _currentTime.value = 0L
             }
 
             override fun onTick(millisUntilFinished: Long) {
