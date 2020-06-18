@@ -88,7 +88,7 @@ class RecordVideoFragment : Fragment() {
 
             onUploadStartEvent.observe(viewLifecycleOwner,EventObserver{uploadStarted->
                 if (uploadStarted){
-                    Toast.makeText(requireContext(),"Your video is being uploaded",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"Your Video Interview is uploading",Toast.LENGTH_SHORT).show()
                 }
                 Handler().postDelayed({
                     findNavController().popBackStack()

@@ -10,7 +10,6 @@ import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoInterview.worker.UploadVideoWorker
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -113,12 +112,11 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
                 Timber.d("$secondsRemaining")
                 _progressPercentage.value = (numberOfSeconds - secondsRemaining) * factor
 
-//                if (numberOfSeconds -  secondsRemaining >= numberOfSeconds / 3){
-//                    _shouldShowDoneButton.value = true
-//                }
+                if (numberOfSeconds -  secondsRemaining >= numberOfSeconds / 3){
+                    _shouldShowDoneButton.value = true
+                }
 
-                _shouldShowDoneButton.value = true
-
+//                _shouldShowDoneButton.value = true
 
             }
 
