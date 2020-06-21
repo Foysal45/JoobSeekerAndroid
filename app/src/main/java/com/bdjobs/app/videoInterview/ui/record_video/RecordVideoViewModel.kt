@@ -48,6 +48,9 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     private val _onUploadStartEvent = MutableLiveData<Event<Boolean>>()
     val onUploadStartEvent : LiveData<Event<Boolean>> = _onUploadStartEvent
 
+    private val _onUploadDoneEvent = MutableLiveData<Event<Boolean>>()
+    val onUploadDoneEvent : LiveData<Event<Boolean>> = _onUploadDoneEvent
+
     var secondsRemaining = 0L
 
     val elapsedTimeInString = Transformations.map(currentTime) { time ->
@@ -72,17 +75,22 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
         //repository.setDataForUpload(videoManager)
         Constants.createVideoManagerDataForUpload(videoManager)
         viewModelScope.launch {
-            val constraints = androidx.work.Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
-            val request = OneTimeWorkRequestBuilder<UploadVideoWorker>()
-                    .setConstraints(constraints)
-                    .setBackoffCriteria(BackoffPolicy.LINEAR,
-                            OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-                            TimeUnit.MILLISECONDS)
-                    .build()
-            WorkManager.getInstance().enqueue(request)
+//            val constraints = androidx.work.Constraints.Builder()
+//                    .setRequiredNetworkType(NetworkType.CONNECTED)
+//                    .build()
+//            val request = OneTimeWorkRequestBuilder<UploadVideoWorker>()
+//                    .setConstraints(constraints)
+//                    .setBackoffCriteria(BackoffPolicy.LINEAR,
+//                            OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+//                            TimeUnit.MILLISECONDS)
+//                    .build()
+//            WorkManager.getInstance().enqueue(request)
             _onUploadStartEvent.value = Event(true)
+            val response = repository.postVideoToRemote()
+            if (response.statuscode == "4" || response.statuscode == 4)
+            {
+                _onUploadDoneEvent.value = Event(true)
+            }
         }
     }
 
@@ -100,7 +108,7 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     private fun startTimer() {
         val numberOfSeconds = videoManagerData.value!!.questionDuration!!.toLong().times(1000).div(1000)
         val factor: Double = (100.0 / numberOfSeconds.toDouble())
-        timer = object : CountDownTimer(videoManagerData.value!!.questionDuration!!.toLong().times(1000), 1000) {
+        timer = object : CountDownTimer(videoManagerData.value!!.questionDuration!!.toLong().times(1000).plus(1000), 1000) {
             override fun onFinish() {
                 _progressPercentage.value = 100.toDouble()
                 _onVideoDoneEvent.value = (true)

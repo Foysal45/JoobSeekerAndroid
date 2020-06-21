@@ -42,7 +42,6 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        videoInterviewDetailsViewModel.getVideoInterviewDetails()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +67,7 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
         videoInterviewDetailsViewModel.apply {
 
-            //getVideoInterviewDetails()
+            getVideoInterviewDetails()
 
             displayQuestionListEvent.observe(viewLifecycleOwner, EventObserver {
                 //findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment("854375", "182982535"))

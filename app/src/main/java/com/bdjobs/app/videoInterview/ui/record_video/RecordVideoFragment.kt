@@ -23,6 +23,7 @@ import com.bdjobs.app.databinding.FragmentRecordVideoBinding
 import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import com.google.android.material.snackbar.Snackbar
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
@@ -88,11 +89,24 @@ class RecordVideoFragment : Fragment() {
 
             onUploadStartEvent.observe(viewLifecycleOwner,EventObserver{uploadStarted->
                 if (uploadStarted){
-                    Toast.makeText(requireContext(),"Your Video Interview is uploading",Toast.LENGTH_SHORT).show()
+                    btn_done.isEnabled = false
+                    showSnackbar()
+                    //Toast.makeText(requireContext(),"Your Video Interview is uploading",Toast.LENGTH_SHORT).show()
                 }
-                Handler().postDelayed({
+//                Handler().postDelayed({
+//                    findNavController().popBackStack()
+//                },5000)
+            })
+
+            onUploadDoneEvent.observe(viewLifecycleOwner,EventObserver{uploadDone->
+                if (uploadDone){
+                    Toast.makeText(context,"Video uploaded successfully", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
-                },5000)
+                }
+                else{
+                    Toast.makeText(context,"There was an error", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
             })
         }
     }
@@ -148,12 +162,17 @@ class RecordVideoFragment : Fragment() {
                     Log.d("rakib","${result.file.path} ${result.file}")
                     recordVideoViewModel.videoManagerData.value?.file = result.file
                     recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
+                    showSnackbar()
                     //result.file.delete()
                 }
 
             }
 
         })
+    }
+
+    private fun showSnackbar() {
+        Snackbar.make(cl_timeline,"Your video is being uploaded. Please wait", Snackbar.LENGTH_INDEFINITE).show()
     }
 
     private fun updateUI(recordingStarted: Boolean) {

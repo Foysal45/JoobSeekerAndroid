@@ -30,6 +30,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
         <action
             android:id="@+id/action_videoInterviewDetailsFragment_to_questionListFragment"
             app:destination="@id/questionListFragment"
@@ -100,6 +101,7 @@
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
     <fragment
         android:id="@+id/recordViedeoFragment"
