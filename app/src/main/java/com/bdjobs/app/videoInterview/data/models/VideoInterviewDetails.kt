@@ -24,6 +24,8 @@ data class VideoInterviewDetails(
         var applyDate: String?, // 19 Dec 2019
         @Json(name = "applyId")
         var applyId: String?, // 175024003
+        @Json(name = "jobId")
+        var jobId: String?, // 175024003
         @Json(name = "companyName")
         var companyName: String?, // Utopia Test Company
         @Json(name = "showUndo")

@@ -13,7 +13,7 @@ import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
 
-class QuestionListViewModel(val videoInterviewRepository: VideoInterviewRepository) : ViewModel() {
+class QuestionListViewModel(val videoInterviewRepository: VideoInterviewRepository, val jobId: String?, val applyId: String?) : ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -55,6 +55,11 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     private val _onNotInterestedSubmissionDoneEvent = MutableLiveData<Event<Boolean>>()
     val onNotInterestedSubmissionDoneEvent : LiveData<Event<Boolean>> = _onNotInterestedSubmissionDoneEvent
 
+    val _selectedItemPosition = MutableLiveData<Int>().apply {
+        value = 0
+    }
+    val selectedItemPosition : LiveData<Int> = _selectedItemPosition
+
     lateinit var answerManagerData: AnswerManager
 
     private lateinit var timer: CountDownTimer
@@ -78,7 +83,7 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
         //getQuestionList()
     }
 
-    fun getQuestionList(jobId: String?, applyId: String?) {
+    fun getQuestionList() {
         _dataLoading.value = true
         viewModelScope.launch {
             try {

@@ -46,6 +46,7 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
                 _detailsData.value = response.data?.get(0)
                 _commonData.value = response.common
                 _applyId.value = response.common?.applyId
+                _jobId.value = response.common?.jobId
                 _dataLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()
