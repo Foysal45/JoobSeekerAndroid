@@ -77,6 +77,8 @@ class ViewVideoFragment : Fragment() {
             } else {
                 cl_submission_date?.show()
                 tv_submission_date?.text = HtmlCompat.fromHtml(getString(R.string.submission_info, questionListViewModel.questionCommonData.value!!.submissionDate), HtmlCompat.FROM_HTML_MODE_COMPACT)
+                btn_record_again?.hide()
+                cl_extra_attempts?.hide()
             }
 
         } catch (e: Exception) {

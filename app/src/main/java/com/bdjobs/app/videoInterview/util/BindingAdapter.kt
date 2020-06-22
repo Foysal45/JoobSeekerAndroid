@@ -182,7 +182,7 @@ fun bindQuestionViewButtonVisibility(button: MaterialButton, status: String) {
 
 @BindingAdapter("questionNotAnsweredButtonVisibility")
 fun bindQuestionNotAnsweredButtonVisibility(button: MaterialButton, status: String) {
-    if (status != "2" && status != "1") {
+    if (status == "3") {
         button.show()
     } else
         button.hide()
