@@ -586,7 +586,7 @@
                 android:onClick="@{()->viewModel.onSubmitButtonClick()}"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text='@{viewModel.isNotInterestedToSubmitChecked ? "Submit" : "Submit(All Videos)"}'
+                android:text='@{viewModel.isNotInterestedToSubmitChecked ? "Submit" :  Html.fromHtml(@string/submit_all_videos)}'
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:visibility='@{viewModel.questionCommonData.userSubmittedAnswer.equalsIgnoreCase("True") ? View.GONE : View.VISIBLE}'

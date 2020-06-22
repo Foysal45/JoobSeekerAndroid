@@ -438,5 +438,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="submission_info">Submitted on &lt;b>%1$s&lt;/b></string>
     <!-- Video Interview -->
     <string name="homepage.slider_text">You have been selected for %1$s Video Interview. The employer has some question(s). You are requested to record yourself while you give the answer(s).</string>
+    <string name="submit_all_videos">Submit&lt;small>(All videos)&lt;/small></string>
 
 </resources>

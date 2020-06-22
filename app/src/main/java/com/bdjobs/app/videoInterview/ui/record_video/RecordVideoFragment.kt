@@ -1,7 +1,6 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -29,12 +28,13 @@ import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_record_video.*
-import kotlinx.coroutines.delay
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RecordVideoFragment : Fragment() {
+
+    lateinit var snackbar: Snackbar
 
     private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment)
     private val recordVideoViewModel: RecordVideoViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewRecordVideoViewModelFactory(this) }
@@ -81,14 +81,14 @@ class RecordVideoFragment : Fragment() {
                     btn_done?.hide()
             })
 
-            onVideoDoneEvent.observe(viewLifecycleOwner, Observer{
-               // if (it){
-                    camera_view?.close()
-               // }
+            onVideoDoneEvent.observe(viewLifecycleOwner, Observer {
+                // if (it){
+                camera_view?.close()
+                // }
             })
 
-            onUploadStartEvent.observe(viewLifecycleOwner,EventObserver{uploadStarted->
-                if (uploadStarted){
+            onUploadStartEvent.observe(viewLifecycleOwner, EventObserver { uploadStarted ->
+                if (uploadStarted) {
                     btn_done.isEnabled = false
                     showSnackbar()
                     //Toast.makeText(requireContext(),"Your Video Interview is uploading",Toast.LENGTH_SHORT).show()
@@ -98,13 +98,12 @@ class RecordVideoFragment : Fragment() {
 //                },5000)
             })
 
-            onUploadDoneEvent.observe(viewLifecycleOwner,EventObserver{uploadDone->
-                if (uploadDone){
-                    Toast.makeText(context,"Video uploaded successfully", Toast.LENGTH_SHORT).show()
+            onUploadDoneEvent.observe(viewLifecycleOwner, EventObserver { uploadDone ->
+                if (uploadDone) {
+                    Toast.makeText(context, "Video uploaded successfully", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
-                }
-                else{
-                    Toast.makeText(context,"There was an error", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "There was an error", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 }
             })
@@ -112,7 +111,7 @@ class RecordVideoFragment : Fragment() {
     }
 
     private fun captureVideo() {
-        val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile,"video_interview")
+        val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_interview")
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoViewModel.videoManagerData.value?.applyId}_${recordVideoViewModel.videoManagerData.value?.questionId}_$timeStamp.mp4")
         camera_view?.takeVideoSnapshot(newFile)
@@ -131,7 +130,7 @@ class RecordVideoFragment : Fragment() {
 
         try {
             camera_view?.facing = Facing.FRONT
-        } catch (e : Exception){
+        } catch (e: Exception) {
             camera_view?.facing = Facing.BACK
         } finally {
 
@@ -140,12 +139,12 @@ class RecordVideoFragment : Fragment() {
         camera_view?.addCameraListener(object : CameraListener() {
             override fun onVideoRecordingStart() {
                 super.onVideoRecordingStart()
-                Log.d("rakib","recording start")
+                Log.d("rakib", "recording start")
             }
 
             override fun onVideoRecordingEnd() {
                 super.onVideoRecordingEnd()
-                Log.d("rakib","recording end")
+                Log.d("rakib", "recording end")
             }
 
             override fun onCameraOpened(options: CameraOptions) {
@@ -158,8 +157,8 @@ class RecordVideoFragment : Fragment() {
 
             override fun onVideoTaken(result: VideoResult) {
                 super.onVideoTaken(result)
-                if (recordVideoViewModel.onVideoDoneEvent.value == true){
-                    Log.d("rakib","${result.file.path} ${result.file}")
+                if (recordVideoViewModel.onVideoDoneEvent.value == true) {
+                    Log.d("rakib", "${result.file.path} ${result.file}")
                     recordVideoViewModel.videoManagerData.value?.file = result.file
                     recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
                     showSnackbar()
@@ -172,7 +171,9 @@ class RecordVideoFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        Snackbar.make(cl_timeline,"Your video is being uploaded. Please wait", Snackbar.LENGTH_INDEFINITE).show()
+        snackbar = Snackbar.make(cl_timeline, "Your video is being uploaded. Please wait", Snackbar.LENGTH_INDEFINITE).also {
+            it.show()
+        }
     }
 
     private fun updateUI(recordingStarted: Boolean) {
@@ -197,6 +198,15 @@ class RecordVideoFragment : Fragment() {
 
         } else {
 
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        try {
+            snackbar.dismiss()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
