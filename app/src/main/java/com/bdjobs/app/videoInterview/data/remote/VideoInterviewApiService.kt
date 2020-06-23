@@ -85,7 +85,8 @@ interface VideoInterviewApiService {
             @Field("userId") userID: String?,
             @Field("decodeId") decodeID: String?,
             @Field("pageNumber") pageNumber: String? = "1",
-            @Field("itemsPerPage") itemsPerPage: String? = "50"
+            @Field("itemsPerPage") itemsPerPage: String? = "100",
+            @Field("isActivityDate") isActivityDate : String?
     ): VideoInterviewList
 
     companion object Factory {

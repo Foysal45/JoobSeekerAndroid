@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".videoInterview.ui.question_list.QuestionListFragment">
@@ -366,8 +367,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:clipToPadding="false"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/guideline_end"
                         app:layout_constraintStart_toEndOf="@id/guideline_start"

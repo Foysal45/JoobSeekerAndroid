@@ -89,6 +89,10 @@ class WebActivity : Activity() {
                 loadUrlWithCookie(url)
                 onClick()
             }
+            "video"->{
+                suggestiveSearchET.text = "Video Interview"
+                loadUrlWithCookie(url)
+            }
             "hotjobs" -> {
                 suggestiveSearchET.text = "Hot Jobs"
                 try {
