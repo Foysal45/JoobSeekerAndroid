@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,12 +22,15 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
+import com.bdjobs.app.videoInterview.util.CustomLinearLayoutManager
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.fondesa.kpermissions.*
@@ -34,6 +38,7 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_question_details.*
+import org.jetbrains.anko.startActivity
 import java.io.File
 
 const val NUM_BYTES_NEEDED = 1024 * 1024 * 500L
@@ -92,13 +97,14 @@ class QuestionListFragment : Fragment() {
         })
 
         rv_question?.adapter = adapter
+        rv_question?.requestLayout()
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(rv_question)
 
-        val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        layoutManager.initialPrefetchItemCount = 5
+        val layoutManager =  /*CustomLinearLayoutManager(requireContext(),RecyclerView.HORIZONTAL,false)*/ LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         rv_question?.layoutManager = layoutManager
         rv_question?.isNestedScrollingEnabled = false
+        rv_question?.setHasFixedSize(false)
 
         rv_question?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -108,27 +114,13 @@ class QuestionListFragment : Fragment() {
                 questionListViewModel._selectedItemPosition.value = snapPosition
                 updateStepperText(snapPosition)
                 updateIndicators(snapPosition)
-//                when (snapPosition) {
-//                    0 -> {
-//                        img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
-//                        img_previous_question?.isEnabled = false
-//                    }
-//                    adapter.itemCount - 1 -> {
-//                        img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_grey)
-//                        img_next_question?.isEnabled = false
-//                    }
-//                    else -> {
-//                        img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_black)
-//                        img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_black)
-//                        img_previous_question?.isEnabled = true
-//                        img_next_question?.isEnabled = true
-//                    }
-//                }
+
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 //layoutManager?.requestLayout()
+                //cl_root.invalidate()
             }
         })
 
@@ -165,9 +157,11 @@ class QuestionListFragment : Fragment() {
 
             onSubmissionDoneEvent.observe(viewLifecycleOwner, EventObserver { submitted ->
                 if (submitted) {
-                    cb_not_interested?.hide()
-                    btn_submit?.hide()
-                    btn_submit_later?.hide()
+                    Toast.makeText(requireContext(),"Your video interview has been submitted successfully",Toast.LENGTH_SHORT).show()
+//                    cb_not_interested?.hide()
+//                    btn_submit?.hide()
+//                    btn_submit_later?.hide()
+                    findNavController().popBackStack()
                 }
             })
 
@@ -192,7 +186,8 @@ class QuestionListFragment : Fragment() {
         }
 
         binding.btnGuide.setOnClickListener {
-            findNavController().navigate(R.id.action_questionListFragment_to_guidelineLandingFragment)
+            //findNavController().navigate(R.id.action_questionListFragment_to_guidelineLandingFragment)
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/UserGuideFor_videoInterview.asp","from" to "video")
         }
     }
 

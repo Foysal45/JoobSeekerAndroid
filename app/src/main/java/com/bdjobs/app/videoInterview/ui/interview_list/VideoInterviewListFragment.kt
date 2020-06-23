@@ -35,14 +35,16 @@ class VideoInterviewListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("rakib activity date " ,"$arguments")
+        val time : String = requireArguments().getString("activityDate","0")
+
+        Log.d("rakib activity date " ,"${arguments?.get("activityDate")}")
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
         //setSupportActionBar(tool_bar)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        videoInterviewListViewModel.getVideoInterviewList()
+        videoInterviewListViewModel.getVideoInterviewList(time)
 
         val adapter = VideoInterviewListAdapter(requireContext(), ClickListener {
             findNavController().navigate(VideoInterviewListFragmentDirections.actionVideoInterviewListFragmentToVideoInterviewDetailsFragment(it.jobId, it.jobTitle))

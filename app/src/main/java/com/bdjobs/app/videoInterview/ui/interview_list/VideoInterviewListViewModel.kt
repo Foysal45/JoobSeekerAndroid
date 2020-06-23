@@ -20,14 +20,14 @@ class VideoInterviewListViewModel(private val repository: VideoInterviewReposito
     val commonData: LiveData<VideoInterviewList.Common?> = _commonData
 
     init {
-        getVideoInterviewList()
+        //getVideoInterviewList()
     }
 
-    fun getVideoInterviewList() {
+    fun getVideoInterviewList(time : String) {
         _dataLoading.value = true
         viewModelScope.launch {
             try {
-                val response = repository.getVideoInterviewListFromRemote()
+                val response = repository.getVideoInterviewListFromRemote(time)
                 _videoInterviewListData.value = response.data
                 _commonData.value = response.common
                 _dataLoading.value = false
