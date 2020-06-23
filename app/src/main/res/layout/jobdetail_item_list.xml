@@ -697,6 +697,51 @@
 
 
             <TextView
+                android:id="@+id/postedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="Published On"
+                android:textColor="#2F64A3"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/readBeforeApplyCL"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/postedDateCL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/layout_bg"
+                android:paddingStart="15dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postedDate">
+
+                <TextView
+                    android:id="@+id/postedDateTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="#000000"
+                    android:textIsSelectable="true"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Please read the circular carefully. If you think you are qualified only then apply." />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
                 android:id="@+id/companyInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -706,7 +751,7 @@
                 android:text="Company Information"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/readBeforeApplyCL" />
+                app:layout_constraintTop_toBottomOf="@+id/postedDateCL" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutCompanyAddress"
