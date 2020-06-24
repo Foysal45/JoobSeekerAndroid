@@ -80,7 +80,7 @@
                     android:paddingTop="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="100dp">
+                    android:paddingBottom="110dp">
 
 
                     <RelativeLayout
@@ -447,8 +447,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toEndOf="@id/img_warning"
+                            tools:text="@string/video_not_interested_none_answered"
                             android:layout_marginStart="8dp"
-                            android:text='If you checked "Not interested to submit" Video Interview, then you will not be able to record answer(s) for this invitation'
+                            app:warningText="@{viewModel.questionCommonData.VUserTotalAnswerequestion}"
                             android:textColor="#B71C1C"
                             android:visibility="@{viewModel.isNotInterestedToSubmitChecked ? View.VISIBLE : View.GONE}"
                             />

@@ -76,7 +76,7 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
             displayGuidelineEvent.observe(viewLifecycleOwner, EventObserver {
                 videoInterListViewModel.commonData.value?.totalVideoInterview?.toInt()?.let {
-                    if (it < 4)
+                    if (it < 40)
                         if (videoInterviewDetailsViewModel.detailsData.value?.vStatuCode == "3")
                             findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
                         else

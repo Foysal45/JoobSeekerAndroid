@@ -67,7 +67,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/background_blue"
         android:padding="15dp"
-        android:text='By clicking "Done" you can view the question(s) and record answer(s). You will get 1 hour to submit all the answer(s) after starting recording.'
+        tools:text="@string/by_clicking_lets_start_now"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@id/ll_indicators"
         app:layout_constraintEnd_toEndOf="parent"

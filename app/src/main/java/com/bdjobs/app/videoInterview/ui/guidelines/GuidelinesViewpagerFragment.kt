@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -89,6 +90,7 @@ class GuidelinesViewpagerFragment : Fragment() {
                     btn_start.show()
                     ll_indicators.visibility = View.INVISIBLE
                     tv_click_instruction?.show()
+                    tv_click_instruction.text = getText(R.string.by_clicking_lets_start_now)
                 } else {
                     btn_start.hide()
                     btn_next.show()

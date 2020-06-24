@@ -1,12 +1,15 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
+import android.content.Context
 import android.os.Bundle
+import android.os.PowerManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -100,7 +103,7 @@ class RecordVideoFragment : Fragment() {
 
             onUploadDoneEvent.observe(viewLifecycleOwner, EventObserver { uploadDone ->
                 if (uploadDone) {
-                    Toast.makeText(context, "Video uploaded successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Your video has been uploaded uploaded successfully", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 } else {
                     Toast.makeText(context, "There was an error", Toast.LENGTH_SHORT).show()
@@ -171,7 +174,7 @@ class RecordVideoFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        snackbar = Snackbar.make(cl_timeline, "Your video is being uploaded. Please wait", Snackbar.LENGTH_INDEFINITE).also {
+        snackbar = Snackbar.make(cl_timeline, "Your recorded video is uploading. Please wait", Snackbar.LENGTH_INDEFINITE).also {
             it.show()
         }
     }
@@ -203,11 +206,22 @@ class RecordVideoFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+        Log.d("rakib", "record onPause called ")
         try {
             snackbar.dismiss()
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        try {
+            findNavController().popBackStack(R.id.questionListFragment,false)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("rakib", "record onStop called ")
     }
 
 //    override fun onPause() {

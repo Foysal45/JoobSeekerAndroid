@@ -119,7 +119,7 @@ class QuestionListFragment : Fragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                //layoutManager?.requestLayout()
+                layoutManager?.requestLayout()
                 //cl_root.invalidate()
             }
         })

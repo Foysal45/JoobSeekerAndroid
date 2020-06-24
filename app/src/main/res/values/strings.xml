@@ -433,11 +433,14 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="assessment_payment_success_instruction"><b>Now you can Take Test from Home only Tk 300!!</b>\n\nPay 500 Tk to attend test at center. (Test fee 300 Tk + center cost 200 Tk)</string>
     <string name="tv_instructions_do_webcam_text">A laptop/desktop with a webcam is required</string>
     <string name="viewed_by_employer_by_date">Viewed by Employer, <b><big>%1$s</big></b></string>
-    <string name="dialog_body_when_answered">If you are <b>Not interested to submit</b> Video Interview, then the employer will be informed that you are not interested to submit it and they will not see your recorded video(s). Also you will not be able to attend Video Interview for this job anymore.</string>
-    <string name="dialog_body_when_not_answered">If you click on <b>Yes, Continue</b> then the employer will be informed that you are not interested to submit the Video Interview. Also you will not be able to record the answer(s) for this invitation anymore. Do you really want to continue?</string>
+    <string name="dialog_body_when_answered">If you are <b>Not interested to submit</b> Video Interview, then the employer will be informed that you are not interested to submit it and they will not see your recorded video(s). Also you will not be able to attend Video Interview for this job anymore. Do you still want to continue?</string>
+    <string name="dialog_body_when_not_answered">If you are <b>Not interested to submit</b> Video Interview, then the employer will be informed that you are not interested to submit it. Also you will not be able to attend Video Interview for this job anymore. Do you still want to continue?</string>
     <string name="submission_info">Submitted on &lt;b>%1$s&lt;/b></string>
     <!-- Video Interview -->
     <string name="homepage.slider_text">You have been selected for %1$s Video Interview. The employer has some question(s). You are requested to record yourself while you give the answer(s).</string>
     <string name="submit_all_videos">Submit&lt;small>(All videos)&lt;/small></string>
+    <string name="by_clicking_lets_start_now">By clicking <b>\"Let\'s Start Now\"</b> you can view the question(s) and record answer(s). You will get 1 hour to submit all the answer(s) after starting recording.</string>
+    <string name="video_not_interested_none_answered">If you checked <b>\"Not interested to submit\"</b> Video Interview, then you will not able to record answer(s) for this invitation anymore.</string>
+    <string name="video_not_interested_some_answered">If you checked <b>\"Not interested to submit\"</b> Video Interview, then you will not able to attend Video Interview for this job anymore.</string>
 
 </resources>
