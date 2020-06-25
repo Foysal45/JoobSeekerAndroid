@@ -1,7 +1,6 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View

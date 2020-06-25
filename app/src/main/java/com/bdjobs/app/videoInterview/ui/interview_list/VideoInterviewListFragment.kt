@@ -37,7 +37,7 @@ class VideoInterviewListFragment : Fragment() {
 
         val time : String = requireArguments().getString("activityDate","0")
 
-        Log.d("rakib activity date " ,"${arguments?.get("activityDate")}")
+        //Log.d("rakib activity date " ,"${arguments?.get("activityDate")}")
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()

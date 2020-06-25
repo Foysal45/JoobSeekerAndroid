@@ -71,7 +71,7 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
 
     fun uploadSingleVideoToServer(videoManager: VideoManager?) {
         _onVideoDoneEvent.value = false
-        Log.d("rakib", "$videoManager")
+        //Log.d("rakib", "$videoManager")
         //repository.setDataForUpload(videoManager)
         Constants.createVideoManagerDataForUpload(videoManager)
         viewModelScope.launch {

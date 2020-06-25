@@ -13,7 +13,7 @@ import retrofit2.HttpException
 class UploadVideoWorker(context: Context, params : WorkerParameters) : CoroutineWorker(context,params) {
 
     override suspend fun doWork(): Result {
-        Log.d("rakib", " in worker")
+        //Log.d("rakib", " in worker")
         try {
             VideoInterviewRepository(applicationContext as Application).postVideoToRemote()
         } catch (e: HttpException){

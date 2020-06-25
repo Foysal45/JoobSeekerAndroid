@@ -123,7 +123,7 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
 
     fun submitAnswerToServer() {
         prepareAnswers()
-        Log.d("rakib", "$answerManagerData")
+        //Log.d("rakib", "$answerManagerData")
         viewModelScope.launch {
             try {
                 val response = videoInterviewRepository.submitAnswerToRemote(answerManagerData)

@@ -12,7 +12,7 @@ class VideoInterviewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video_interview)
 
         val activityDate = intent.getStringExtra("time")
-        Log.d("rakib", "activity date $activityDate")
+        //Log.d("rakib", "activity date $activityDate")
 
         val navController = findNavController(R.id.videoInterviewNavHostFragment)
         val bundle = Bundle().also {

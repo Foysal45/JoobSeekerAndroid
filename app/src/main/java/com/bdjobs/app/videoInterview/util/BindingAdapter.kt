@@ -192,14 +192,14 @@ fun bindQuestionNotAnsweredButtonVisibility(button: MaterialButton, status: Stri
 fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean, totalQuestions: Int?, remainingTime: String?) {
     totalAnswers?.let {
         totalQuestions?.let {
-            Log.d("rakib", "total answers $totalAnswers total questions $totalQuestions")
+            //Log.d("rakib", "total answers $totalAnswers total questions $totalQuestions")
             try {
                 if (totalAnswers.toInt() >= totalQuestions) {
                     button.alpha = 1f
                     button.isEnabled = true
                 } else {
                     button.isEnabled = (isInterested || enableAfterTimer).also { enabled ->
-                        Log.d("rakib", "is Interested $isInterested enable after timer $enableAfterTimer")
+                        //Log.d("rakib", "is Interested $isInterested enable after timer $enableAfterTimer")
                         if (enabled)
                             button.alpha = 1f
                         else

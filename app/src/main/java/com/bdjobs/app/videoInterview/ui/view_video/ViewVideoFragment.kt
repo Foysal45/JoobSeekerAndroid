@@ -111,7 +111,7 @@ class ViewVideoFragment : Fragment() {
 
         video_view?.setOnPreparedListener(object : MediaPlayer.OnPreparedListener {
             override fun onPrepared(mp: MediaPlayer?) {
-                Log.d("rakib", "on Prepared called")
+                //Log.d("rakib", "on Prepared called")
                 progress_bar?.hide()
                 video_view?.setMediaController(medialController)
                 medialController.setAnchorView(video_view)

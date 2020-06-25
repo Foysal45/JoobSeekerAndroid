@@ -500,7 +500,7 @@ class QuestionListFragment : Fragment() {
                 }
 
                 result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
-                    Log.d("rakib", "permanently denied")
+                    //Log.d("rakib", "permanently denied")
                     //openSettingsDialog()
                     openSettingsDialog()
                     //permissionGranted =  false
@@ -534,12 +534,12 @@ class QuestionListFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("rakib", "onPause called")
+        //Log.d("rakib", "onPause called")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("rakib position value " ,"${questionListViewModel.selectedItemPosition.value!!}")
+        //Log.d("rakib position value " ,"${questionListViewModel.selectedItemPosition.value!!}")
         updateStepperText(questionListViewModel.selectedItemPosition.value!!)
         updateIndicators(questionListViewModel.selectedItemPosition.value!!)
 
