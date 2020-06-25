@@ -329,15 +329,6 @@ fun bindInterviewProcessStatus(view: View, videoInterviewData: VideoInterviewLis
 
 }
 
-@BindingAdapter("warningText")
-fun bindWarningText(textView: TextView, totalAnswers: String?) {
-
-//    totalAnswers?.let {
-//        textView.text = if (it.toInt() > 0) textView.context.getText(R.string.video_not_interested_some_answered) else textView.context.getText(R.string.video_not_interested_none_answered)
-//    }
-    textView.context.getText(R.string.video_not_interested_generic_text)
-}
-
 @BindingAdapter("visibilityWhenTimerShowing", "visibilityWhenSubmitted")
 fun bindOneHourInfoVisibility(view: ConstraintLayout, remainingTime: String?, userSubmittedAnswer: String?) {
     userSubmittedAnswer?.let {

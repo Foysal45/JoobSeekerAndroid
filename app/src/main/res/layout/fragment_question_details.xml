@@ -448,9 +448,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toEndOf="@id/img_warning"
-                            tools:text="@string/video_not_interested_none_answered"
+                            tools:text="@string/video_not_interested_generic_text"
                             android:layout_marginStart="8dp"
-                            app:warningText="@{viewModel.questionCommonData.VUserTotalAnswerequestion}"
+                            android:text="@string/video_not_interested_generic_text"
                             android:textColor="#B71C1C"
                             android:visibility="@{viewModel.isNotInterestedToSubmitChecked ? View.VISIBLE : View.GONE}"
                             />
