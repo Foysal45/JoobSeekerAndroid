@@ -442,5 +442,5 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="by_clicking_lets_start_now">Instruction: By clicking <b>\"Let\'s Start Now\"</b> you can view the question(s) and record answer(s). You will get 1 hour to submit all the answer(s) after starting recording.</string>
     <string name="video_not_interested_none_answered">If you checked <b>\"Not interested to submit\"</b> Video Interview, then you will not able to record answer(s) for this invitation anymore.</string>
     <string name="video_not_interested_some_answered">If you checked <b>\"Not interested to submit\"</b> Video Interview, then you will not able to attend Video Interview for this job anymore.</string>
-
+    <string name="video_not_interested_generic_text">If you submit <b>\"Not interested\"</b>, you will no longer be able to participate in this video interview.</string>
 </resources>

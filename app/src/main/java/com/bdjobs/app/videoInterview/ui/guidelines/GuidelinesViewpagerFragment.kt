@@ -38,14 +38,14 @@ class GuidelinesViewpagerFragment : Fragment() {
             "ভিডিও রেকর্ডিং এর শুরুতে ডিভাইস এর মাইক্রোফোন এবং ক্যামেরা পারমিশন দিতে হবে।",
             "উত্তর রেকর্ড এর সময় মাউথ পিস / হেডফোন ব্যবহার করা অপরিহার্য, যেন নিয়োগকর্তা আপনার কথা সহজেই বুঝতে পারে",
             "রেকর্ড করা উত্তরগুলো ১ ঘন্টার মধ্যে জমা দিন।",
-            "উত্তর রেকর্ডটি আগেই শেষ হয়ে গেলে “সম্পন্ন হয়েছে” বাটনে ক্লিক করুন।"
+            "উত্তর রেকর্ডটি আগেই শেষ হয়ে গেলে “Submit(all Videos)” বাটনে ক্লিক করুন।"
     )
 
     val instructionsInEnglish = listOf<String>(
             "Enable microphone and camera permissions before start recording.",
             "While recording answers, using headphones with the attached microphone is recommended so that the employer can clearly understand you.",
             "Submit all recorded answers within 1hour.",
-            "If answer recording is complete, click on Done button"
+            "If answer recording is complete, click on “Submit(all Videos)” button"
     )
 
     private val guidelines = mutableListOf<Guideline>()
