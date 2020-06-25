@@ -170,7 +170,7 @@ class RecordVideoFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        snackbar = Snackbar.make(cl_timeline, "Your recorded video is uploading. Please wait.", Snackbar.LENGTH_INDEFINITE).also {
+        snackbar = Snackbar.make(cl_timeline, "Your recorded video is uploading, please wait...", Snackbar.LENGTH_INDEFINITE).also {
             it.show()
         }
     }
