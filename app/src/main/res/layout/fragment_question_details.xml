@@ -303,7 +303,8 @@
                         android:layout_marginTop="20dp"
                         android:background="@drawable/background_video_interview_question_total_time"
                         android:padding="15dp"
-                        android:visibility="@{viewModel.shouldShowOneHourInfo ? View.VISIBLE : View.GONE}"
+                        app:visibilityWhenTimerShowing="@{viewModel.shouldShowOneHourInfo}"
+                        app:visibilityWhenSubmitted="@{viewModel.questionCommonData.userSubmittedAnswer}"
                         app:layout_constraintEnd_toStartOf="@id/guideline_end"
                         app:layout_constraintStart_toEndOf="@id/guideline_start"
                         app:layout_constraintTop_toBottomOf="@id/rv_question">

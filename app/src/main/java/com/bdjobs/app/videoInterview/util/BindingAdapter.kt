@@ -189,7 +189,7 @@ fun bindQuestionNotAnsweredButtonVisibility(button: MaterialButton, status: Stri
 }
 
 @BindingAdapter("submitButtonTotalAnswers", "submitButtonIsInterested", "submitButtonEnableAfterTimer", "submitButtonTotalQuestions", "submitButtonRemainingTime")
-fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean, totalQuestions: Int?, remainingTime : String?) {
+fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean, totalQuestions: Int?, remainingTime: String?) {
     totalAnswers?.let {
         totalQuestions?.let {
             Log.d("rakib", "total answers $totalAnswers total questions $totalQuestions")
@@ -213,8 +213,7 @@ fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested
         }
     }
     remainingTime?.let {
-        if (it.toInt() == 0 && totalAnswers!!.toInt() > 0)
-        {
+        if (it.toInt() == 0 && totalAnswers!!.toInt() > 0) {
             button.alpha = 1f
             button.isEnabled = true
         }
@@ -331,9 +330,25 @@ fun bindInterviewProcessStatus(view: View, videoInterviewData: VideoInterviewLis
 }
 
 @BindingAdapter("warningText")
-fun bindWarningText(textView: TextView,totalAnswers: String?)
-{
+fun bindWarningText(textView: TextView, totalAnswers: String?) {
     totalAnswers?.let {
-            textView.text = if (it.toInt() > 0) textView.context.getText(R.string.video_not_interested_some_answered) else textView.context.getText(R.string.video_not_interested_none_answered)
+        textView.text = if (it.toInt() > 0) textView.context.getText(R.string.video_not_interested_some_answered) else textView.context.getText(R.string.video_not_interested_none_answered)
+    }
+}
+
+@BindingAdapter("visibilityWhenTimerShowing", "visibilityWhenSubmitted")
+fun bindOneHourInfoVisibility(view: ConstraintLayout, oneHourRunning: Boolean?, userSubmittedAnswer: String?) {
+    userSubmittedAnswer?.let {
+        if (userSubmittedAnswer.equalIgnoreCase("True")) {
+            view.visibility = View.GONE
+        }else{
+            oneHourRunning?.let {
+                if (oneHourRunning){
+                    view.visibility = View.GONE
+                }else{
+                    view.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 }
