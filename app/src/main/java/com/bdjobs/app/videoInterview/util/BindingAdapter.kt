@@ -339,15 +339,15 @@ fun bindWarningText(textView: TextView, totalAnswers: String?) {
 }
 
 @BindingAdapter("visibilityWhenTimerShowing", "visibilityWhenSubmitted")
-fun bindOneHourInfoVisibility(view: ConstraintLayout, oneHourRunning: Boolean?, userSubmittedAnswer: String?) {
+fun bindOneHourInfoVisibility(view: ConstraintLayout, remainingTime: String?, userSubmittedAnswer: String?) {
     userSubmittedAnswer?.let {
         if (userSubmittedAnswer.equalIgnoreCase("True")) {
             view.visibility = View.GONE
-        }else{
-            oneHourRunning?.let {
-                if (oneHourRunning){
+        } else {
+            remainingTime?.let {
+                if (it.toInt() > 0) {
                     view.visibility = View.GONE
-                }else{
+                } else {
                     view.visibility = View.VISIBLE
                 }
             }
