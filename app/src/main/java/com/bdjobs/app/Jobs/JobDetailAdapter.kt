@@ -89,6 +89,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var companyLogoUrl = ""
     var companyOtherJobs = ""
     var applyOnline = ""
+    var postedDate = ""
     var applyStatus = false
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
@@ -221,6 +222,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyLogoUrl = jobDetailResponseAll.jobLOgoName!!
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
+                            postedDate = jobDetailResponseAll.postedOn!!
 //                            minSalary = jobDetailResponseAll.minSalary!!
 //                            maxSalary = jobDetailResponseAll.maxSalary!!
 //
@@ -694,7 +696,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
 
                                 jobsVH.tvCompanyName.text = companyName
-
+                                jobsVH.tvPostedDate.text = postedDate
 
                                 if (jobDetailResponseAll.companyOtherJ0bs.equalIgnoreCase("0")) {
                                     jobsVH.allJobsButtonLayout.hide()
@@ -1346,6 +1348,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val tvReadBefApplyData: TextView = viewItem?.findViewById(R.id.readAndApplyTV) as TextView
         val tvReadBefApply: TextView = viewItem?.findViewById(R.id.readAndApply) as TextView
         val tvCompanyName: TextView = viewItem?.findViewById(R.id.companyAddressNameTV) as TextView
+        val tvPostedDate: TextView = viewItem?.findViewById(R.id.postedDateTV) as TextView
         val tvCompanyAddress: TextView = viewItem?.findViewById(R.id.companyAddressTV) as TextView
         val keyPonits: TextView = viewItem?.findViewById(R.id.keyPoints) as TextView
         val companyLogo: ImageView = viewItem?.findViewById(R.id.company_icon) as ImageView
