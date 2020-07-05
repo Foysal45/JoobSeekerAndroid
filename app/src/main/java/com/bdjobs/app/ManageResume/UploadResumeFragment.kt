@@ -1,8 +1,8 @@
 package com.bdjobs.app.ManageResume
 
-//import droidninja.filepicker.FilePickerBuilder
-//import droidninja.filepicker.FilePickerConst
-//import droidninja.filepicker.models.sort.SortingTypes
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
+import droidninja.filepicker.models.sort.SortingTypes
 import android.app.Activity
 import android.app.Fragment
 import android.app.ProgressDialog
@@ -73,14 +73,14 @@ class UploadResumeFragment : Fragment() {
     private fun browseFile() {
         val wordFileTypes = arrayOf("doc", "docx")
         val pdfFileTypes = arrayOf("pdf")
-       /* FilePickerBuilder.instance.setMaxCount(1)
+        FilePickerBuilder.instance.setMaxCount(1)
                 .setActivityTheme(R.style.LibAppTheme)
                 .enableDocSupport(false)
                 .sortDocumentsBy(SortingTypes.name)
                 .showFolderView(true)
                 .addFileSupport("MS WORD FILES", wordFileTypes, R.drawable.ic_microsoft_word)
                 .addFileSupport("PDF FILES", pdfFileTypes, R.drawable.ic_pdf)
-                .pickFile(activity)*/
+                .pickFile(activity)
 //        val intent4 =  Intent(activity, NormalFilePickActivity::class.java)
 //        intent4.putExtra(Constant.MAX_NUMBER, 1)
 //        intent4.putExtra(NormalFilePickActivity.SUFFIX,  arrayOf<String>("doc", "docx", "pdf"))
@@ -109,12 +109,12 @@ class UploadResumeFragment : Fragment() {
 //        }
 
 
-       /* if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
+       if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
                 val uri = Uri.fromFile(File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)[0]))
                 checkFilleSize(uri)
             }
-        }*/
+        }
     }
 
 
