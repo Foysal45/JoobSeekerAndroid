@@ -295,4 +295,9 @@ class BCBirthDateFragment : Fragment() {
         return years
     }
 
+    override fun onPause() {
+        super.onPause()
+        bcBirthDateTIL?.hideKeyboard()
+    }
+
 }

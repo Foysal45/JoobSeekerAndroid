@@ -24,6 +24,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
+import kotlinx.android.synthetic.main.fragment_bc_experience.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.bcExperinceFAButton
 import kotlinx.android.synthetic.main.fragment_bc_experience.categoryTV
 import kotlinx.android.synthetic.main.fragment_bc_new_experience.*
@@ -793,5 +794,9 @@ class BCNewExperienceFragment : Fragment() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        bcExperienceTIL?.hideKeyboard()
+    }
 
 }

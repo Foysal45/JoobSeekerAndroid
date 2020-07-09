@@ -105,6 +105,7 @@ class BCEducationFragment : Fragment() {
                 }
             }
         }
+
         bcPassingYearTIET?.setOnClickListener {
             for (item in 1964..2024) {
                 yearList.add(item.toString())
@@ -302,12 +303,18 @@ class BCEducationFragment : Fragment() {
 
         bcInstituteNameTIL?.isErrorEnabled = false
         val eduLevels = dataStorage.allEduLevels
-        setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size - 1))
+        setDialog("সর্বশেষ শিক্ষা পর্যায়", bcEduLevelTIET, Arrays.copyOf<String>(eduLevels, eduLevels.size))
 
-        val allBoards =  dataStorage.allBoards
+        val allBoards =  dataStorage.allBoards.apply {
+            this.forEach {
+                it.trim()
+                Log.d("rakib","$it\n")
+            }
+        }
+
 
         try {
-            setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf(allBoards, allBoards.size-1))
+            setDialog("বোর্ড", bcEduBoardTIET, Arrays.copyOf(allBoards, allBoards.size))
         } catch (e: Exception) {
         }
 
@@ -353,7 +360,7 @@ class BCEducationFragment : Fragment() {
             builder.setTitle(title)
                     .setItems(data
                     ) { dialog, which ->
-                        editText.setText(data[which])
+                        editText.setText(data[which].trim())
 
                         if (data[which].equals("Other", ignoreCase = true)) {
                             bcEduDegreeOtherTIET?.show()

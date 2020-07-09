@@ -352,7 +352,7 @@ class LoginUserNameFragment : Fragment() {
                 if (requestCode == RC_SIGN_IN) {
 
                     val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-                    if (result.isSuccess) {
+                    if (result!!.isSuccess) {
                         // Google Sign In was successful, authenticate with Firebase
                         val account = result.signInAccount
                         val sid = account?.id

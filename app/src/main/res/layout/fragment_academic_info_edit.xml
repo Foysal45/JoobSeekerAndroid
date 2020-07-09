@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragAcaInfoEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -219,6 +219,7 @@
                         android:textSize="16sp" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        app:endIconMode="clear_text"
                         android:id="@+id/marksTIL"
                         style="@style/EHTextInputLayout"
                         android:layout_width="match_parent"
@@ -226,7 +227,6 @@
                         android:textColorHint="#757575">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:importantForAutofill="noExcludeDescendants"
                             android:id="@+id/marksTIET"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -316,14 +316,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                app:endIconMode="clear_text"
                 android:id="@+id/tilDuration"
+                app:endIconDrawable="@drawable/ic_close_ash"
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="#757575">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:importantForAutofill="noExcludeDescendants"
                     android:id="@+id/etDuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -175,4 +175,9 @@ class BCMobileNumberFragment : Fragment() {
         val inputData = bcCountryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
         return inputData[inputData.size - 1].trim({ it <= ' ' })
     }
+
+    override fun onPause() {
+        super.onPause()
+        bcCountryCodeTIL?.hideKeyboard()
+    }
 }

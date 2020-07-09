@@ -231,4 +231,9 @@ class BCAddressFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        bcDistrictTIL?.hideKeyboard()
+    }
+
 }

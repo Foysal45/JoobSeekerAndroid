@@ -81,7 +81,7 @@ class DataStorage(context: Context) {
             try {
                 dbHelper.openDataBase()
                 val selectQuery = "SELECT " + DBHelper.EDU_LEVELS_COL_EDU_LEVEL + " FROM " + DBHelper.TABLE_NAME_EDU_LEVELS
-                //Log.d("selectQuery", selectQuery)
+                Log.d("selectQuery", selectQuery)
                 val cursor = dbHelper.getCursor(selectQuery)
 
                 if (cursor != null && cursor.count > 0) {
@@ -99,6 +99,7 @@ class DataStorage(context: Context) {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            Log.d("selectQuery value ", "${OrgTypes.toTypedArray()}")
 
             return OrgTypes.toTypedArray()
         }
@@ -1876,8 +1877,8 @@ class DataStorage(context: Context) {
         val OrgTypes = ArrayList<String>()
         try {
             dbHelper.openDataBase()
-            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_Sub_NAME_BNG + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + bluCollarCategoryID + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'"
-            //Log.d("selectQuery", selectQuery)
+            val selectQuery = "SELECT " + DBHelper.SUB_CATEGORY_COL_Sub_NAME_BNG + " FROM " + DBHelper.TABLE_NAME_SUB_CATEGORY + " WHERE " + DBHelper.SUB_CATEGORY_COL_CAT_ID + " = '" + bluCollarCategoryID + "' AND " + DBHelper.SUB_CATEGORY_COL_SUB_TYPE + " = 'Skill'" + " AND NOT " + DBHelper.SUB_CATEGORY_COL_Sub_NAME_BNG + " = ''"
+            Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
 
             if (cursor != null && cursor.count > 0) {
@@ -2130,7 +2131,7 @@ class DataStorage(context: Context) {
         try {
             dbHelper.openDataBase()
             val selectQuery = "SELECT " + DBHelper.BOARDS_COL_VALUE + " FROM " + DBHelper.TABLE_NAME_BOARDS + " WHERE " + DBHelper.BOARDS_COL_NAME + " = '" + value + "'"
-            //Log.d("selectQuery", selectQuery)
+            Log.d("selectQuery", selectQuery)
             val cursor = dbHelper.getCursor(selectQuery)
             s = -1
 
@@ -2145,7 +2146,7 @@ class DataStorage(context: Context) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
+        Log.d("selectQuery value ", "$s")
         return s
     }
 

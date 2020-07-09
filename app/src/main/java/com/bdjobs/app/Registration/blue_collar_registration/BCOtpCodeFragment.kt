@@ -128,5 +128,10 @@ class BCOtpCodeFragment : Fragment() {
         }.start()
     }
 
+    override fun onPause() {
+        super.onPause()
+        bcOTPCodeTIL?.hideKeyboard()
+    }
+
 
 }

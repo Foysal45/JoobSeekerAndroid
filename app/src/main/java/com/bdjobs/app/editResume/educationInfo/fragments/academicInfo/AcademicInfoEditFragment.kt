@@ -436,7 +436,7 @@ class AcademicInfoEditFragment : Fragment() {
         etExamTitle?.addTextChangedListener(TW.CrossIconBehave(etExamTitle))
         etExamOtherTitle?.addTextChangedListener(TW.CrossIconBehave(etExamOtherTitle))
         etResults?.addTextChangedListener(TW.CrossIconBehave(etResults))
-        marksTIET?.addTextChangedListener(TW.CrossIconBehave(marksTIET))
+        //marksTIET?.addTextChangedListener(TW.CrossIconBehave(marksTIET))
         cgpaTIET?.addTextChangedListener(TW.CrossIconBehave(cgpaTIET))
         etScaleTIET?.addTextChangedListener(TW.CrossIconBehave(etScaleTIET))
         etPassignYear?.addTextChangedListener(TW.CrossIconBehave(etPassignYear))
@@ -447,7 +447,7 @@ class AcademicInfoEditFragment : Fragment() {
 
 
         etAchievement?.addTextChangedListener(TW.CrossIconBehave(etAchievement))
-        etDuration?.addTextChangedListener(TW.CrossIconBehave(etDuration))
+        //etDuration?.addTextChangedListener(TW.CrossIconBehave(etDuration))
 
 
     }

@@ -33,6 +33,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_base.*
@@ -1164,11 +1165,11 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                 // LISessionManager.getInstance(this@RegistrationBaseActivity).onActivityResult(this@RegistrationBaseActivity, requestCode, resultCode, data)
                 if (requestCode == Constants.RC_SIGN_IN) {
 
-                    val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+                    val result : GoogleSignInResult? = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
 
                     //Log.d("GoffleSignIn", " isSuccess ${result.isSuccess}")
                     //Log.d("GoffleSignIn", " signInAccount ${result.signInAccount}")
-                    if (result.isSuccess) {
+                    if (result!!.isSuccess) {
                         // Google Sign In was successful, authenticate with Firebase
                         val account = result.signInAccount
                         val sid = account?.id
