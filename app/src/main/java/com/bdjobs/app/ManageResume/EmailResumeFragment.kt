@@ -69,7 +69,8 @@ class EmailResumeFragment : Fragment() {
                 logException(e)
             }
         } else {
-            et_from.setText(bdjobsUserSession.email)
+            val emailText = "${bdjobsUserSession.fullName} <${bdjobsUserSession.email}>"
+            et_from.setText(emailText)
             et_Subject?.setText("Application for the post of $subject")
             et_to?.setText(toEmail)
 
@@ -237,7 +238,12 @@ class EmailResumeFragment : Fragment() {
     }
 
     fun isValidEmail(target: CharSequence): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(target).matches()
+        Log.d("rakib","$target")
+        val startIndex = target.toString().indexOf("<")
+        val endIndex = target.toString().indexOf(">")
+        val email = target.toString().substringAfter("<").substringBefore(">")
+        Log.d("rakib","$target $startIndex $endIndex $email")
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
 }
