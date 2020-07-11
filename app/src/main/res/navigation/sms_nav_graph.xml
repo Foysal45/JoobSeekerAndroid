@@ -10,5 +10,33 @@
         android:id="@+id/smsHomeFragment"
         android:name="com.bdjobs.app.sms.ui.home.SmsHomeFragment"
         android:label="SMS Package Services"
-        tools:layout="@layout/fragment_sms_home" />
+        tools:layout="@layout/fragment_sms_home" >
+        <action
+            android:id="@+id/action_smsHomeFragment_to_paymentFragment3"
+            app:destination="@id/smsPaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/smsPaymentFragment"
+        android:name="com.bdjobs.app.sms.ui.payment.PaymentFragment"
+        android:label="Payment"
+        tools:layout="@layout/fragment_payment_sms" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.bdjobs.app.sms.ui.settings.SettingsFragment"
+        android:label="SMS Settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/paymentSuccessSmsFragment"
+        android:name="com.bdjobs.app.sms.ui.payment.PaymentSuccessFragment"
+        android:label="Payment Confirmation"
+        tools:layout="@layout/fragment_payment_success">
+        <action
+            android:id="@+id/action_paymentSuccessFragment_to_guidelineSmsFragment"
+            app:destination="@id/guidelineSmsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/guidelineSmsFragment"
+        android:name="com.bdjobs.app.sms.ui.guideline.GuidelineSmsFragment"
+        android:label="How to"
+        tools:layout="@layout/fragment_guideline_sms"/>
 </navigation>

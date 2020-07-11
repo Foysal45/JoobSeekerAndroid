@@ -21,8 +21,10 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.sms.BaseActivity
 //import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_followed_employers_list.*
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -127,6 +129,9 @@ class FollowedEmployersListFragment : Fragment() {
             logException(e)
         }
 
+        btn_sms_settings?.setOnClickListener {
+            startActivity<BaseActivity>("from" to "employer")
+        }
 
     }
 

@@ -73,9 +73,9 @@
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        shimmer:shimmer_duration="1200"
         shimmer:layout_constraintEnd_toEndOf="parent"
-        shimmer:layout_constraintStart_toStartOf="parent">
+        shimmer:layout_constraintStart_toStartOf="parent"
+        shimmer:shimmer_duration="1200">
 
         <!-- Adding 7 rows of placeholders -->
         <LinearLayout
@@ -104,23 +104,49 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-
-    <TextView
-        android:id="@+id/favCountTV"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_total_count"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:fontFamily="@font/roboto"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:textColor="#767676"
-        android:textSize="14sp"
-        android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        tools:text="150 Employers now offering Jobs" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        ads:layout_constraintTop_toBottomOf="@id/toolbar2">
+
+        <TextView
+            android:id="@+id/favCountTV"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:elevation="8dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:textColor="#767676"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toStartOf="@id/btn_sms_settings"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="150 Followed Employers" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sms_settings"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:letterSpacing="0"
+            android:minHeight="5dp"
+            android:text="SMS Settings"
+            android:textAllCaps="false"
+            android:textColor="#767676"
+            android:textSize="12sp"
+            ads:icon="@drawable/ic_sms_settings"
+            ads:iconTint="#767676"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintTop_toTopOf="parent"
+            ads:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
@@ -150,10 +176,10 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favCountTV" />
+        app:layout_constraintTop_toBottomOf="@+id/cl_total_count" />
 
 
     <!-- <com.google.android.gms.ads.doubleclick.PublisherAdView

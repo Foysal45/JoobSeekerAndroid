@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
     android:id="@+id/follwEmp_cardview"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
     android:layout_marginBottom="15dp"
     app:cardCornerRadius="8dp"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +53,7 @@
 
         <TextView
             android:id="@+id/offering_jobs_number_TV"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
@@ -64,22 +64,62 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/followedCompanyNameTV"
-            app:layout_constraintTop_toBottomOf="@+id/followedCompanyNameTV" />
+            app:layout_constraintTop_toBottomOf="@+id/followedCompanyNameTV"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/follow_unfollow_BTN"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="0"
             android:text="@string/unfollow"
             android:textAllCaps="false"
-            android:letterSpacing="0"
-            android:fontFamily="@font/roboto"
             android:textColor="#979797"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_subscribe_sms"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="3dp"
+            android:letterSpacing="0"
+            android:text="Subscribe SMS"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            app:icon="@drawable/ic_notifications_white_24dp"
+            app:iconSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/offering_jobs_number_TV" />
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            android:id="@+id/btn_unsubscribe_sms"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="3dp"
+            android:letterSpacing="0"
+            android:text="Unsubscribe SMS"
+            android:textAllCaps="false"
+            android:textColor="#B92D00"
+            app:iconTint="#B92D00"
+            android:textSize="12sp"
+            app:icon="@drawable/ic_notifications_off"
+            app:iconSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/offering_jobs_number_TV" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
+import kotlinx.android.synthetic.main.fragment_sms_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,5 +57,16 @@ class SmsHomeFragment : Fragment() {
                         putString(ARG_PARAM2, param2)
                     }
                 }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        img_buy?.setOnClickListener {
+            findNavController().navigate(R.id.smsPaymentFragment)
+        }
+
+        btn_start_trial?.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
     }
 }
