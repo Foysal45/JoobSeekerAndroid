@@ -1,0 +1,22 @@
+<vector android:autoMirrored="true" android:height="84dp"
+    android:viewportHeight="84" android:viewportWidth="69.111"
+    android:width="69.111dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillAlpha="0.4" android:fillColor="#303030"
+        android:pathData="M50.446,23.52L18.029,23.52a2.561,2.561 0,0 0,-2.561 2.561v49.1a2.561,2.561 0,0 0,2.561 2.56h32.418a2.56,2.56 0,0 0,2.56 -2.561L53.007,26.081A2.56,2.56 0,0 0,50.446 23.52Z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#e7eced"
+        android:pathData="M50.446,84L18.029,84a2.56,2.56 0,0 1,-2.561 -2.561v-9.952h37.539v9.952A2.56,2.56 0,0 1,50.446 84Z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#afb6bb"
+        android:pathData="M34.237,77.743m-3.128,0a3.128,3.128 0,1 1,6.256 0a3.128,3.128 0,1 1,-6.256 0" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#ffc107"
+        android:pathData="M25.421,34.193a23.068,23.068 0,0 1,-2.662 -13.2,23.231 23.231,0 1,1 12.083,22.68 9.433,9.433 0,0 1,-8.318 4.725,12.414 12.414,0 0,0 0.815,-2.513A16.882,16.882 0,0 0,25.421 34.193Z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#fff"
+        android:pathData="M32.332,19.359h7.743v7.743h-7.743z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#fff"
+        android:pathData="M51.69,19.359h7.743v7.743h-7.743z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#13a10e"
+        android:pathData="M23.536,46.268A12.425,12.425 0,0 0,24.973 39.154,12.515 12.515,0 1,0 18.46,51.368a5.086,5.086 0,0 0,4.482 2.544,6.681 6.681,0 0,1 -0.439,-1.353A9.1,9.1 0,0 1,23.536 46.268Z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#fff"
+        android:pathData="M5.214,38.275h4.171v4.171h-4.171z" android:strokeAlpha="0.4"/>
+    <path android:fillAlpha="0.4" android:fillColor="#fff"
+        android:pathData="M15.642,38.275h4.171v4.171h-4.171z" android:strokeAlpha="0.4"/>
+</vector>
