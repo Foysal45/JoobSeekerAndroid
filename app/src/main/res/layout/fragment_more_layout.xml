@@ -253,17 +253,17 @@
                 android:background="#E0E0E0"
                 android:visibility="visible" />
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/jobApplicationStatus_MBTN"
                 style="@style/more.button"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:layout_marginTop="20dp"
                 android:text="Job Application Guideline"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:icon="@drawable/ic_job_application_status_image" />
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/emailResume_MBTN"
@@ -329,6 +329,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Settings"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_settings" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sms_package_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SMS Package Service"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_settings" />
 
