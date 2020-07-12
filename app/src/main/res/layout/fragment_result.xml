@@ -20,6 +20,7 @@
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/home_shimmer"
+            tools:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:resultShimmerVisibility="@{resultViewModel.status}"
@@ -56,6 +57,7 @@
             android:layout_height="0dp"
             android:scrollbars="none"
             android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/btn_cl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

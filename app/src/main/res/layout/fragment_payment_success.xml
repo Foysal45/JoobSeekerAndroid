@@ -1,152 +1,163 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/img_payment_success"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/ic_right_sign"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_payment_success_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Payment Success"
-        android:textColor="#393939"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_payment_success" />
-
-    <TextView
-        android:id="@+id/tv_payment_success_body"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="58dp"
-        android:gravity="center"
-        android:textColor="#767676"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_payment_success_heading"
-        tools:text="Dear John Doe, your payment was processed successfully." />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_download_invoice"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#F2F2F2"
-        android:letterSpacing="0"
-        android:padding="14dp"
-        android:text="Download Payment Invoice"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        app:icon="@drawable/ic_cloud_download"
-        app:iconTint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_payment_success_body" />
-
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.sms.ui.payment_success.PaymentSuccessViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/background_white_blue"
-        android:padding="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_download_invoice"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_info"
-            android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/img_payment_success"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:text="You can get SMS alert from following feature"
-            android:textColor="@color/colorBlack"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_right_sign"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_following_employer"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="start|center_vertical"
-            android:letterSpacing="0"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="Following Employer"
-            android:textAllCaps="false"
-            android:textColor="@color/colorBlack"
-            app:backgroundTint="#E1F6FF"
-            app:cornerRadius="4dp"
-            app:icon="@drawable/ic_building_plus"
-            app:iconTint="@color/colorBlack"
-            app:layout_constraintTop_toBottomOf="@id/tv_info"
-            app:strokeColor="#BFE4FF"
-            app:strokeWidth="1dp" />
-
-        <ImageView
+        <TextView
+            android:id="@+id/tv_payment_success_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_arrow_forward_black_24dp"
-            android:tint="#1565C0"
-            app:layout_constraintBottom_toBottomOf="@id/btn_following_employer"
-            app:layout_constraintEnd_toEndOf="@id/btn_following_employer"
-            app:layout_constraintTop_toTopOf="@id/btn_following_employer" />
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Payment Success"
+            android:textColor="#393939"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_payment_success" />
+
+        <TextView
+            android:id="@+id/tv_payment_success_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="58dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="58dp"
+            android:gravity="center"
+            android:textColor="#767676"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{`Dear ` + viewModel.fullName + `,your payment was processed successfully.`}"
+            app:layout_constraintTop_toBottomOf="@id/tv_payment_success_heading"
+            tools:text="Dear John Doe, your payment was processed successfully." />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_favourite_search"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start|center_vertical"
-            android:letterSpacing="0"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="Favorite Search"
-            android:textAllCaps="false"
-            android:textColor="@color/colorBlack"
-            app:backgroundTint="#E1F6FF"
-            app:cornerRadius="4dp"
-            app:icon="@drawable/ic_heart"
-            app:iconTint="@color/colorBlack"
-            app:layout_constraintTop_toBottomOf="@id/btn_following_employer"
-            app:strokeColor="#BFE4FF"
-            app:strokeWidth="1dp" />
-
-        <ImageView
+            android:id="@+id/btn_download_invoice"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_arrow_forward_black_24dp"
-            android:tint="#1565C0"
-            app:layout_constraintBottom_toBottomOf="@id/btn_favourite_search"
-            app:layout_constraintEnd_toEndOf="@id/btn_favourite_search"
-            app:layout_constraintTop_toTopOf="@id/btn_favourite_search" />
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#F2F2F2"
+            android:letterSpacing="0"
+            android:padding="14dp"
+            android:text="Download Payment Invoice"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            app:icon="@drawable/ic_cloud_download"
+            app:iconTint="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_payment_success_body" />
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/background_white_blue"
+            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_download_invoice"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="You can get SMS alert from following feature"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_following_employer"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="start|center_vertical"
+                android:letterSpacing="0"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Following Employer"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack"
+                app:backgroundTint="#E1F6FF"
+                app:cornerRadius="4dp"
+                app:icon="@drawable/ic_building_plus"
+                app:iconTint="@color/colorBlack"
+                app:layout_constraintTop_toBottomOf="@id/tv_info"
+                app:strokeColor="#BFE4FF"
+                app:strokeWidth="1dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_arrow_forward_black_24dp"
+                android:tint="#1565C0"
+                app:layout_constraintBottom_toBottomOf="@id/btn_following_employer"
+                app:layout_constraintEnd_toEndOf="@id/btn_following_employer"
+                app:layout_constraintTop_toTopOf="@id/btn_following_employer" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_favourite_search"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start|center_vertical"
+                android:letterSpacing="0"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Favorite Search"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack"
+                app:backgroundTint="#E1F6FF"
+                app:cornerRadius="4dp"
+                app:icon="@drawable/ic_heart"
+                app:iconTint="@color/colorBlack"
+                app:layout_constraintTop_toBottomOf="@id/btn_following_employer"
+                app:strokeColor="#BFE4FF"
+                app:strokeWidth="1dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_arrow_forward_black_24dp"
+                android:tint="#1565C0"
+                app:layout_constraintBottom_toBottomOf="@id/btn_favourite_search"
+                app:layout_constraintEnd_toEndOf="@id/btn_favourite_search"
+                app:layout_constraintTop_toTopOf="@id/btn_favourite_search" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

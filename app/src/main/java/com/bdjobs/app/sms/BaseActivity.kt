@@ -2,13 +2,11 @@ package com.bdjobs.app.sms
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import kotlinx.android.synthetic.main.activity_base.*
-import kotlinx.android.synthetic.main.activity_invite_code_base.*
 
 class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +24,7 @@ class BaseActivity : AppCompatActivity() {
                 graph.startDestination = R.id.settingsFragment
             }
             else -> {
-                graph.startDestination = R.id.smsHomeFragment
+                graph.startDestination = R.id.smsFreeTrialHomeFragment
             }
         }
 
