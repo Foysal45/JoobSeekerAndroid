@@ -203,6 +203,7 @@ class LoginBaseActivity : Activity(), LoginCommunicator, ConnectivityReceiver.Co
             override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
                 try {
                     Constants.changePassword_Eligibility = response.body()?.data?.get(0)?.changePassword_Eligibility!!
+                    Constants.isSMSFree = response.body()?.data?.get(0)?.isSmsFree!!
                     bdjobsUserSession.updateIsResumeUpdate(response.body()?.data?.get(0)?.isResumeUpdate!!)
                     bdjobsUserSession.updateIsCvPosted(response.body()?.data?.get(0)?.isCVPosted!!)
                     bdjobsUserSession.updateTrainingId(response.body()?.data?.get(0)?.trainingId!!)

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.fragment.app.Fragment
 import com.bdjobs.app.BackgroundJob.App
 import com.bdjobs.app.sms.data.repository.SMSRepository
+import com.bdjobs.app.sms.ui.payment.PaymentFragment
 import com.bdjobs.app.sms.ui.payment.PaymentViewModelFactory
 import com.bdjobs.app.sms.ui.payment_success.PaymentSuccessViewModelFactory
 import com.bdjobs.app.sms.ui.settings.SettingsViewModelFactory
@@ -45,7 +46,7 @@ object ViewModelFactoryUtil {
 
     fun provideSMSPaymentViewModelFactory(fragment: Fragment, totalSMS : Int, totalTaka : Int) : PaymentViewModelFactory{
         val repository = SMSRepository(fragment.requireContext().applicationContext as Application)
-        return PaymentViewModelFactory(repository,totalSMS,totalTaka)
+        return PaymentViewModelFactory(repository,totalSMS,totalTaka,fragment as PaymentFragment)
     }
 
     fun provideSMSPaymentSuccessViewModelFactory(fragment: Fragment) : PaymentSuccessViewModelFactory{

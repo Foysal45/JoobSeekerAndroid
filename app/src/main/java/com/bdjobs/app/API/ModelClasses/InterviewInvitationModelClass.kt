@@ -64,5 +64,8 @@ data class LastUpdateModelData(
         val appliedJobsThreshold: String?,
 
         @SerializedName("subscriptionType")
-        val subscriptionType: String?
+        val subscriptionType: String?,
+
+        @SerializedName("isSmsFree")
+        val isSmsFree : String?
 )

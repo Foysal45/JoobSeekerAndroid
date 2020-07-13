@@ -37,10 +37,17 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/smsFreeTrialHomeFragment" />
+            app:popUpTo="@id/smsPaymentFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_smsPaymentFragment_to_paymentCancelFragment"
-            app:destination="@id/paymentCancelFragment" />
+            app:destination="@id/paymentCancelFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/smsPaymentFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -50,6 +57,13 @@
         <action
             android:id="@+id/action_settingsFragment_to_smsFreeTrialHomeFragment"
             app:destination="@id/smsFreeTrialHomeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settingsFragment_to_smsHomeFragment"
+            app:destination="@id/smsHomeFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -76,7 +90,7 @@
     <fragment
         android:id="@+id/smsHomeFragment"
         android:name="com.bdjobs.app.sms.ui.home.HomeFragment"
-        android:label="HomeFragment"
+        android:label="SMS Package Services"
         tools:layout="@layout/fragment_sms_home">
         <action
             android:id="@+id/action_smsHomeFragment_to_smsPaymentFragment"
@@ -89,6 +103,6 @@
     <fragment
         android:id="@+id/paymentCancelFragment"
         android:name="com.bdjobs.app.sms.ui.payment_cancel.PaymentCancelFragment"
-        android:label="PaymentCancelFragment"
+        android:label="Payment Confirmation"
         tools:layout="@layout/fragment_payment_cancel"/>
 </navigation>
