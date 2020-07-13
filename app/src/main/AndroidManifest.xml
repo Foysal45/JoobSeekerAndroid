@@ -24,7 +24,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".sms.BaseActivity"></activity>
+        <activity android:name=".transaction.TransactionBaseActivity"></activity>
+        <activity android:name=".sms.BaseActivity" />
         <activity
             android:name=".videoInterview.VideoInterviewActivity"
             android:screenOrientation="portrait" />

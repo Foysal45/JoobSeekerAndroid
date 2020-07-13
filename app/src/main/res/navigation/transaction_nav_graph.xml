@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_nav_graph"
+    android:label="Transaction Overview"
+    app:startDestination="@id/transactionListFragment">
+
+    <fragment
+        android:id="@+id/transactionListFragment"
+        android:name="com.bdjobs.app.transaction.ui.TransactionListFragment"
+        android:label="Transaction Overview"
+        tools:layout="@layout/fragment_transaction_list" />
+</navigation>

@@ -17,6 +17,7 @@ import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.transaction.TransactionBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import kotlinx.android.synthetic.main.fragment_more_layout.*
 import kotlinx.android.synthetic.main.fragment_more_layout.notificationCountTV
@@ -162,6 +163,10 @@ class MoreFragment : Fragment() {
 
         sms_package_MBTN?.setOnClickListener {
             startActivity<BaseActivity>()
+        }
+
+        transaction_overview_MBTN?.setOnClickListener {
+            startActivity<TransactionBaseActivity>()
         }
     }
 

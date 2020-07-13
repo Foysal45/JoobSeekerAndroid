@@ -341,6 +341,15 @@
                 android:textSize="14sp"
                 app:icon="@drawable/ic_settings" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/transaction_overview_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transaction Overview"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_settings" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
