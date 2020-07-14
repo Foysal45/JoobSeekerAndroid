@@ -136,8 +136,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     val holder = vHolder as AppliedjobsViewHolder
                     holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
                     holder?.PositionName?.text = appliedJobsLists?.get(position)?.title
-                    holder?.appliedOn?.text = appliedJobsLists?.get(position)?.appliedOn
-                    holder?.deadline?.text = appliedJobsLists?.get(position)?.deadLine
+
+                    try{
+                        holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.appliedOn).toSimpleDateString()
+                        holder?.deadline?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.deadLine).toSimpleDateString()
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+
                     holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
 
                     //Log.d("activity", appliedjobsActitivityLists?.toString())
@@ -345,8 +351,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                                     updateAnyWayBTN?.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
-                                            } else{
-                                                Log.d("rakib","came here")
+                                            } else {
+                                                Log.d("rakib", "came here")
                                                 canSubmit = true
                                                 salaryLimitExceedTV?.hide()
                                                 updateBTN?.show()
@@ -453,8 +459,12 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                     val holder = vHolder as AppliedjobsAdViewHolder
                     holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
                     holder?.PositionName?.text = appliedJobsLists?.get(position)?.title
-                    holder?.appliedOn?.text = appliedJobsLists?.get(position)?.appliedOn
-                    holder?.deadline?.text = appliedJobsLists?.get(position)?.deadLine
+                    try{
+                        holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.appliedOn).toSimpleDateString()
+                        holder?.deadline?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.deadLine).toSimpleDateString()
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
                     holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
 
                     //Log.d("activity", appliedjobsActitivityLists?.toString())
@@ -514,7 +524,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                     holder?.edit_SalaryIcon?.setOnClickListener {
                         try {
-                               Log.d("huhu", "huhu")
+                            Log.d("huhu", "huhu")
                             var salary = ""
                             var canSubmit = false
                             val saveSearchDialog = Dialog(context)
@@ -659,15 +669,15 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                                     updateAnyWayBTN?.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
-                                            }  else {
-                                                    salaryLimitExceedTV?.hide()
-                                                    updateBTN?.show()
-                                                    canSubmit = true
+                                            } else {
+                                                salaryLimitExceedTV?.hide()
+                                                updateBTN?.show()
+                                                canSubmit = true
 
-                                                    updateAnyWayBTN?.hide()
-                                                    expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
-                                                }
+                                                updateAnyWayBTN?.hide()
+                                                expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                             }
+                                        }
 
                                         if (canSubmit) {
 

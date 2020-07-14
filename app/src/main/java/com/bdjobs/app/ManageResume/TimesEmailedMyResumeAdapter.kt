@@ -18,8 +18,10 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.toSimpleDateString
 import com.google.android.ads.nativetemplates.TemplateView
 import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
 
 class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var timesEmailedList: ArrayList<TimesEmailedData>? = ArrayList()
@@ -188,14 +190,14 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
-                holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
+                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
             }
             ITEM_WITH_AD -> {
                 val holder = viewHolder as TimesEmailedMyResumeWithAdViewHolder
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
-                holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
+                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
             }
         }
 
@@ -230,7 +232,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
-                holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
+                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
                     holder?.itemView?.setOnClickListener {
@@ -256,7 +258,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
-                holder?.appliedDateTV?.text = timesEmailedList?.get(position)?.emailedOn?.trim()
+                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
                     holder?.itemView?.setOnClickListener {

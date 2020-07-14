@@ -14,6 +14,8 @@ import com.bdjobs.app.AppliedJobs.LoadingVH
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.d
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.toSimpleDateString
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -104,7 +106,7 @@ class EmployerMessageListAdapter(private val context: Context) :RecyclerView.Ada
         try {
             holder.jobTitle.text = employerMessageList?.get(position)?.jobTite
             holder.companyName.text = employerMessageList?.get(position)?.companyName
-            holder.date.text = employerMessageList?.get(position)?.mailedOn
+            holder.date.text = SimpleDateFormat("M/d/yyyy").parse(employerMessageList?.get(position)?.mailedOn).toSimpleDateString()
             holder.dateHeading.text = "Mailed on:"
 
             //Log.d("activity", appliedjobsActitivityLists?.toString())

@@ -192,7 +192,7 @@ fun String.countCommas(): Int {
 }
 
 fun Date.toSimpleDateString(): String {
-    val format = SimpleDateFormat("dd/MM/yyy")
+    val format = SimpleDateFormat("d MMM yyyy")
     return format.format(this)
 }
 
