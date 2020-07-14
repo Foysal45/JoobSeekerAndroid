@@ -1,23 +1,24 @@
 package com.bdjobs.app.FavouriteSearch
 
+//import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
+import com.bdjobs.app.API.ModelClasses.SMSSubscribeModel
 import com.bdjobs.app.Ads.Ads
-//import com.bdjobs.app.BackgroundJob.FavSearchDeleteJob
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.FavouriteSearch
@@ -28,12 +29,11 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Workmanager.FavouriteSearchDeleteWorker
+import com.bdjobs.app.sms.BaseActivity
 import com.google.android.ads.nativetemplates.TemplateView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.yesButton
+import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,6 +48,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
     val activity = context as Activity
     var favCommunicator: FavCommunicator? = null
     var homeCommunicator: HomeCommunicator? = null
+
+    var isNewPurchaseNeeded: String? = ""
 
 
     companion object {
@@ -206,6 +208,22 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         logException(e)
                     }
                 }
+
+                holder?.subscribeButton?.setOnClickListener {
+
+                    makeSubscribeUnsubscribeApiCall(items[position],1)
+
+                    holder.unsubscribeButton.show()
+                    it.hide()
+                }
+
+                holder?.unsubscribeButton?.setOnClickListener {
+
+                    makeSubscribeUnsubscribeApiCall(items[position],0)
+
+                    holder.subscribeButton.show()
+                    it.hide()
+                }
             }
 
             ITEM_WITH_AD -> {
@@ -325,12 +343,97 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         logException(e)
                     }
                 }
+                holder?.subscribeButton?.setOnClickListener {
+
+                    makeSubscribeUnsubscribeApiCall(items[position],1)
+
+                    holder.unsubscribeButton.show()
+                    it.hide()
+                }
+
+                holder?.unsubscribeButton?.setOnClickListener {
+
+                    makeSubscribeUnsubscribeApiCall(items[position],0)
+
+                    holder.subscribeButton.show()
+                    it.hide()
+                }
             }
         }
     }
 
+    private fun makeSubscribeUnsubscribeApiCall(item: FavouriteSearch, type: Int) {
+        try {
+            //0 -> unsubscribe
+            //1 -> subscribe
+
+            val type = type
+
+            ApiServiceMyBdjobs.create().subscribeOrUnsubscribeSMSFromFavouriteSearch(
+                    userId = bdjobsUserSession.userId,
+                    decodeId = bdjobsUserSession.decodId,
+                    filterId = item.filterid,
+                    filterName = item.filtername,
+                    action = type,
+                    appId = Constants.APP_ID
+
+            ).enqueue(object : Callback<SMSSubscribeModel> {
+                override fun onFailure(call: Call<SMSSubscribeModel>, t: Throwable) {
+                    error("onFailure", t)
+                }
+
+                override fun onResponse(call: Call<SMSSubscribeModel>, response: Response<SMSSubscribeModel>) {
+                    try {
+                        response.body()?.statuscode?.let { status ->
+                            if (status.equalIgnoreCase(api_request_result_code_ok)) {
+                                isNewPurchaseNeeded = response.body()?.data?.get(0)?.isNewSMSPurchaseNeeded
+                                if (type == 1)
+                                    openSubscribeInfoDialog()
+                                else
+                                    Toast.makeText(context, "Successfully unsubscribed", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+                }
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun openSubscribeInfoDialog() {
+        val builder = AlertDialog.Builder(context)
+        val inflater = context.layoutInflater
+        builder.setView(inflater.inflate(R.layout.dialog_subscribe_sms, null))
+        builder.create().apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            show()
+            findViewById<ImageView>(R.id.img_close).setOnClickListener {
+                this.cancel()
+            }
+            findViewById<MaterialButton>(R.id.btn_purchase).apply {
+                text = if (isNewPurchaseNeeded!!.equalIgnoreCase("True")) "Purchase SMS Package" else "SMS Settings"
+            }.setOnClickListener {
+                if (isNewPurchaseNeeded!!.equalIgnoreCase("False")) {
+                    context.startActivity<BaseActivity>("from" to "favourite")
+                    this.cancel()
+                } else {
+                    context.startActivity<BaseActivity>()
+                    this.cancel()
+                }
+            }
+            findViewById<TextView>(R.id.tv_body).text =
+                    if (isNewPurchaseNeeded!!.equalIgnoreCase("True"))
+                        "You have successfully subscribed to get SMS job alert for this employer. Purchase an SMS package to get job alert!"
+                    else
+                        "You have successfully subscribed to get SMS job alert for this employer. You will get sms alert based on subscription."
+        }
+    }
+
     override fun getItemViewType(position: Int): Int {
-        return if (position % 3 == 0 && position != 0){
+        return if (position % 3 == 0 && position != 0) {
             ITEM_WITH_AD
         } else {
             ITEM
@@ -454,6 +557,8 @@ class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
     val favcounter1BTN = view?.findViewById(R.id.favcounter1BTN) as Button
     val progressBar = view?.findViewById(R.id.progressBar2) as ProgressBar
     val parentView = view?.findViewById(R.id.itemView) as ConstraintLayout
+    val subscribeButton = view?.findViewById(R.id.btn_subscribe) as MaterialButton
+    val unsubscribeButton = view?.findViewById(R.id.btn_unsubscribe) as MaterialButton
 }
 
 class ViewHolderWithAd(view: View?) : RecyclerView.ViewHolder(view!!) {
@@ -467,5 +572,7 @@ class ViewHolderWithAd(view: View?) : RecyclerView.ViewHolder(view!!) {
     val progressBar = view?.findViewById(R.id.progressBar2) as ProgressBar
     val parentView = view?.findViewById(R.id.itemView) as ConstraintLayout
     val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
-
+    val subscribeButton = view?.findViewById(R.id.btn_subscribe) as MaterialButton
+    val unsubscribeButton = view?.findViewById(R.id.btn_unsubscribe) as MaterialButton
 }
+

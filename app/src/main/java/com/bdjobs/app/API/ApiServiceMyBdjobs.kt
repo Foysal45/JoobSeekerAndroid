@@ -91,6 +91,16 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<FavouriteSearchCountModel>
 
+    @FormUrlEncoded
+    @POST("apps_subscribe_sms_favourite_search.asp")
+    fun subscribeOrUnsubscribeSMSFromFavouriteSearch(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("savefilterid") filterId: String? = "",
+            @Field("filterName") filterName: String? = "",
+            @Field("action") action: Int?,
+            @Field("appId") appId: String? = Constants.APP_ID
+    ) : Call<SMSSubscribeModel>
 
     @FormUrlEncoded
     @POST("apps_step_03_view_exp.asp")

@@ -14,9 +14,11 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.sms.BaseActivity
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
 class FavouriteSearchFilterListFragment : Fragment() {
@@ -42,6 +44,9 @@ class FavouriteSearchFilterListFragment : Fragment() {
             favCommunicator.backButtonPressed()
         }
 
+        btn_sms_settings?.setOnClickListener {
+            startActivity<BaseActivity>("from" to "favourite")
+        }
 
         doAsync {
             val favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
