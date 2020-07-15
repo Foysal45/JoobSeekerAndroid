@@ -8,6 +8,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import com.bdjobs.app.transaction.data.model.Transaction
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
@@ -1069,6 +1070,21 @@ interface ApiServiceMyBdjobs {
             @Field("jobId") jobId: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<InteractionModel>
+
+
+
+    @FormUrlEncoded
+    @POST("apps_transaction_overview_list.asp")
+    fun get_transaction_list(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("startDate") startDate: String? = "",
+            @Field("endDate") endDate: String? = "",
+            @Field("packageTypeId") packageTypeId: String? = "",
+            @Field("pageNumber") pageNumber: String? = "",
+            @Field("itemsPerPage") itemsPerPage: String? = ""
+    ): Call<Transaction>
 
 
     companion object Factory {

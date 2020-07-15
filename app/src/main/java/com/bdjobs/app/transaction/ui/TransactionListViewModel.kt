@@ -9,7 +9,7 @@ import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import kotlinx.coroutines.launch
 
-class TransactionListViewModel(private val repository: VideoInterviewRepository) : ViewModel() {
+class TransactionListViewModel(private val repository: TransactionRepository) : ViewModel() {
 
 
     private val _dataLoading = MutableLiveData<Boolean>()
