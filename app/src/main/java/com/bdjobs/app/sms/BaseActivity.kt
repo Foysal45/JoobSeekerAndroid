@@ -6,6 +6,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import kotlinx.android.synthetic.main.activity_base.*
 
 class BaseActivity : AppCompatActivity() {
@@ -24,7 +26,10 @@ class BaseActivity : AppCompatActivity() {
                 graph.startDestination = R.id.settingsFragment
             }
             else -> {
-                graph.startDestination = R.id.smsFreeTrialHomeFragment
+                if (Constants.isSMSFree.equalIgnoreCase("True"))
+                    graph.startDestination = R.id.smsFreeTrialHomeFragment
+                else
+                    graph.startDestination = R.id.smsHomeFragment
             }
         }
 

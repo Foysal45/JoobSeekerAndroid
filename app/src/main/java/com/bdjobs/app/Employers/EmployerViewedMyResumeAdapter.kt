@@ -12,7 +12,9 @@ import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.toSimpleDateString
 import com.google.android.ads.nativetemplates.TemplateView
+import java.text.SimpleDateFormat
 
 class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -108,7 +110,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                 val holder = viewHolder as EmployerViewedMyResumeVH
                 try {
                     holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
-                    holder?.appliedOn?.text = vwdResumeList?.get(position)?.viewedOn
+                    holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(vwdResumeList?.get(position)?.viewedOn).toSimpleDateString()
                     //  //Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
                     if (vwdResumeList?.get(position)?.summaryView == "yes") {
@@ -127,7 +129,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                 val holder = viewHolder as EmployerViewedMyResumeVHWithAd
                 try {
                     holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
-                    holder?.appliedOn?.text = vwdResumeList?.get(position)?.viewedOn
+                    holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(vwdResumeList?.get(position)?.viewedOn).toSimpleDateString()
                     //  //Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
                     if (vwdResumeList?.get(position)?.summaryView == "yes") {

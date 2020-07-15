@@ -91,11 +91,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:text="01"
+                android:text="@{viewModel.quantityString}"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@id/tv_quantity"
-                app:layout_constraintTop_toTopOf="@id/tv_total_sms_value" />
+                app:layout_constraintTop_toTopOf="@id/tv_total_sms_value"
+                tools:text="01" />
 
             <TextView
                 android:id="@+id/tv_unit_price_value"
@@ -187,6 +188,7 @@
             android:focusable="true"
             android:fontFamily="@font/roboto_medium"
             android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{()->viewModel.onConfirmPaymentClick()}"
             android:paddingStart="23dp"
             android:paddingTop="15dp"
             android:paddingEnd="23dp"

@@ -9,9 +9,13 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinproce
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.transaction.data.model.Transaction
+import com.bdjobs.app.sms.data.model.SMSSettings
+import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -19,11 +23,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
+private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
 interface ApiServiceMyBdjobs {
-
 
     @FormUrlEncoded
     @POST(api_mybdjobs_app_signinprocess)
@@ -92,6 +99,16 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<FavouriteSearchCountModel>
 
+    @FormUrlEncoded
+    @POST("apps_subscribe_sms_favourite_search.asp")
+    fun subscribeOrUnsubscribeSMSFromFavouriteSearch(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("savefilterid") filterId: String? = "",
+            @Field("filterName") filterName: String? = "",
+            @Field("action") action: Int?,
+            @Field("appId") appId: String? = Constants.APP_ID
+    ): Call<SMSSubscribeModel>
 
     @FormUrlEncoded
     @POST("apps_step_03_view_exp.asp")
@@ -1071,6 +1088,23 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<InteractionModel>
 
+    @FormUrlEncoded
+    @POST("apps_sms_settings_view.asp")
+    suspend fun getSMSSetting(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("appId") appId: String?
+    ) : SMSSettings
+
+    @FormUrlEncoded
+    @POST("apps_sms_settings_update.asp")
+    suspend fun updateSMSSettings(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("appId") appId: String?,
+            @Field("dailySmsLimit") dailySMSLimit: Int?,
+            @Field("smsAlertOn") alertOn: Int?
+    ) : CommonResponse
 
 
     @FormUrlEncoded
@@ -1088,7 +1122,6 @@ interface ApiServiceMyBdjobs {
 
 
     companion object Factory {
-
         @Volatile
         private var retrofit: Retrofit? = null
 
@@ -1118,6 +1151,7 @@ interface ApiServiceMyBdjobs {
             return Retrofit.Builder().apply {
                 baseUrl(Constants.baseUrlMyBdjobs)
                 addConverterFactory(GsonConverterFactory.create(gson))
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
                 if (BuildConfig.DEBUG) {
                     client(okHttpClient)
                 }

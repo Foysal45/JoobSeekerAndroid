@@ -56,6 +56,12 @@ android {
     dataBinding {
         enabled true
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
@@ -179,6 +185,10 @@ dependencies {
 
     //camera view
     implementation 'com.otaliastudios:cameraview:2.6.2'
+
+    //ssl commerz
+    implementation(name: 'sslCommerzSdk', ext: 'aar')
+
 
 }
 apply plugin: 'com.google.gms.google-services'

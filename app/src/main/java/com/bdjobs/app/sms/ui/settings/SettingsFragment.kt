@@ -5,13 +5,16 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
@@ -44,6 +47,12 @@ class SettingsFragment : Fragment() {
 
             navigateToHome.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
+                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmsHomeFragment())
+                }
+            })
+
+            navigateToHomeFreeTrial.observe(viewLifecycleOwner,EventObserver{
+                if (it){
                     findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmsFreeTrialHomeFragment())
                 }
             })
@@ -57,6 +66,10 @@ class SettingsFragment : Fragment() {
                 if (it) {
                     openTurnOffSMSDialog()
                 }
+            })
+
+            showToastMessage.observe(viewLifecycleOwner, EventObserver {message->
+                Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
             })
         }
     }

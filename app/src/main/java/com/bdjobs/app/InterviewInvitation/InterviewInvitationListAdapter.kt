@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.Databases.Internal.JobInvitation
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.toSimpleDateString
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,10 +39,7 @@ class InterviewInvitationListAdapter(private val context: Context, private val i
         holder?.companyNameTV?.text = items[position].companyName
 
         try {
-            val formatter = SimpleDateFormat("M/dd/yyyy", Locale.ENGLISH)
-            val inviteDate = formatter.format(items[position].inviteDate!!)
-
-            holder?.appliedDateTV?.text = inviteDate
+            holder?.appliedDateTV?.text = items[position].inviteDate!!.toSimpleDateString()
         } catch (e: Exception) {
         }
 
