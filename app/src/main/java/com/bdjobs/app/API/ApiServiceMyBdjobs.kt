@@ -1109,7 +1109,7 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("apps_transaction_overview_list.asp")
-    fun get_transaction_list(
+    suspend fun getTransactionList(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID,
@@ -1118,7 +1118,7 @@ interface ApiServiceMyBdjobs {
             @Field("packageTypeId") packageTypeId: String? = "",
             @Field("pageNumber") pageNumber: String? = "",
             @Field("itemsPerPage") itemsPerPage: String? = ""
-    ): Call<Transaction>
+    ): Transaction
 
 
     companion object Factory {

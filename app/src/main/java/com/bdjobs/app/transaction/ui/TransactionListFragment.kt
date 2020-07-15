@@ -1,24 +1,17 @@
 package com.bdjobs.app.transaction.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.databinding.FragmentTransactionListBinding
-import com.bdjobs.app.databinding.FragmentVideoInterviewListBinding
-import com.bdjobs.app.videoInterview.ui.interview_list.ClickListener
-import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListAdapter
-import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListViewModel
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_transaction_list.*
-import kotlinx.android.synthetic.main.fragment_video_interview_list.*
-import kotlinx.android.synthetic.main.fragment_video_interview_list.tool_bar
 import java.util.Observer
 
 class TransactionListFragment : Fragment() {
@@ -50,7 +43,7 @@ class TransactionListFragment : Fragment() {
      */   //setSupportActionBar(tool_bar)
      /*   tool_bar?.setupWithNavController(navController, appBarConfiguration)*/
 
-        transactionListViewModel.getVideoInterviewList(time)
+        transactionListViewModel.getTransactionList()
 
         val adapter = TransactionListAdapter(requireContext())
         rv_sms_transaction?.adapter = adapter
@@ -59,8 +52,8 @@ class TransactionListFragment : Fragment() {
             this.adapter = adapter
         }
 
-       /* transactionListViewModel.apply {
-            videoInterviewListData.observe(viewLifecycleOwner, Observer {
+        /*transactionListViewModel.apply {
+            transactionListData.observe(viewLifecycleOwner, Observer {
                 adapter.submitList(it)
             })
         }*/

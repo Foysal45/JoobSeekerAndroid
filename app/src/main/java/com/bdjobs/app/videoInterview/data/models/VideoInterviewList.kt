@@ -14,7 +14,9 @@ data class VideoInterviewList(
         var message: String?, // Success
         @Json(name = "statuscode")
         var statuscode: String? // 0
-) {
+)
+
+{
         @Keep
         @JsonClass(generateAdapter = true)
         data class Common(

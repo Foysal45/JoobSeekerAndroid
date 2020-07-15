@@ -16,13 +16,17 @@ class TransactionRepository(val application: Application) {
     val session = BdjobsUserSession(application)
     var videoManager: VideoManager? = null
 
-    suspend fun getTransactionList(jobId: String?): Call<Transaction> {
+    suspend fun getTransactionList(): Transaction {
         return withContext(Dispatchers.IO) {
-            ApiServiceMyBdjobs.create(application).get_transaction_list(
-                   session.userId,
-                    session.decodId,
-                     jobId,
-                    "","","",""
+            ApiServiceMyBdjobs.create().getTransactionList(
+                  userId =  session.userId,
+                  decodeId =   session.decodId,
+                    appId = "",
+                    startDate = "",
+                    endDate = "",
+                    packageTypeId = "1",
+                    pageNumber = "1",
+                    itemsPerPage = "20"
             )
         }
     }
