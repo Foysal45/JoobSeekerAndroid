@@ -385,6 +385,36 @@
                 tools:text="Contractual" />
 
             <TextView
+                android:id="@+id/tv_working_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="Working Place"
+                android:textColor="#2F64A3"
+                android:textIsSelectable="true"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/jobNatureTv" />
+
+
+            <TextView
+                android:id="@+id/tv_working_place_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000000"
+                android:textIsSelectable="true"
+                android:textSize="13sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_working_place"
+                tools:text="Work at office, work from home" />
+
+
+            <TextView
                 android:id="@+id/requirements"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -396,20 +426,21 @@
                 android:textColor="#2F64A3"
                 android:textIsSelectable="true"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/jobNatureTv" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_working_place_value" />
 
             <TextView
                 android:id="@+id/education"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Educational"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/requirements" />
+                app:layout_constraintTop_toBottomOf="@+id/requirements"
+                tools:layout_editor_absoluteX="0dp" />
 
             <TextView
                 android:id="@+id/educationTV"

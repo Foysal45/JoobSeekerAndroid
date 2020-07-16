@@ -822,6 +822,14 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 jobsVH.tvReadBefApplyData.hide()
 
                             }
+
+                            if (jobDetailResponseAll.jobWorkPlace.equals("--") || jobDetailResponseAll.jobWorkPlace.equals("-") || jobDetailResponseAll.jobWorkPlace.isNullOrBlank()){
+                                jobsVH.workingPlaceTV?.hide()
+                                jobsVH.workingPlaceValueTV?.hide()
+                            } else{
+                                jobsVH.workingPlaceTV?.show()
+                                jobsVH.workingPlaceValueTV?.show()
+                            }
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -1382,6 +1390,9 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val jobApplicationRemainingTV: TextView = viewItem?.findViewById(R.id.job_detail_job_application_remaining_tv) as TextView
 
         val applyFab: ExtendedFloatingActionButton = viewItem?.findViewById(R.id.apply_now_fab) as ExtendedFloatingActionButton
+
+        val workingPlaceTV : TextView = viewItem?.findViewById(R.id.tv_working_place) as TextView
+        val workingPlaceValueTV : TextView = viewItem?.findViewById(R.id.tv_working_place_value) as TextView
 
 
     }
