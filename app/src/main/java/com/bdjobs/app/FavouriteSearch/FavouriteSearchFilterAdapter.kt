@@ -153,6 +153,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 } else {
                     holder.deleteTV.hide()
                     holder.editTV.hide()
+                    holder.subscribeButton.hide()
+                    holder.unsubscribeButton.hide()
                 }
 
 
@@ -288,6 +290,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 } else {
                     holder.deleteTV.hide()
                     holder.editTV.hide()
+                    holder.subscribeButton.hide()
+                    holder.unsubscribeButton.hide()
                 }
 
 
