@@ -6,223 +6,215 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/drawable_sms_guideline"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/img3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_heading1" />
 
             <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/tv1"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="13dp"
+                android:id="@+id/tv_heading1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
+                android:text="Steps to get Follow Employer Job alert"
+                android:textColor="#000000"
                 android:textSize="16sp"
-                android:textColor="#000000"
-                android:text="Steps to get Follow Employer Job alert"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/img_cl"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_group_5282"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv1"
-                android:layout_width="50dp"
-                android:layout_height="195dp">
-
-                <ImageView
-                    android:id="@+id/img1"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_how_to_img1"/>
-
-                <ImageView
-                    android:id="@+id/img2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="43dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_how_to_img2"/>
-
-                <ImageView
-                    android:id="@+id/img3"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@id/img2"
-                    android:src="@drawable/ic_how_to_img3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-            <TextView
-                android:fontFamily="@font/roboto"
-                android:textSize="14sp"
-                android:textColor="#000000"
-                android:id="@+id/tv2"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/img_cl"
-                app:layout_constraintTop_toBottomOf="@id/tv1"
-                android:layout_marginEnd="19dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="20dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Step 1:  You can follow your referred employers by clicking on Follow from Employer List or Job Details page"/>
-
-
-            <TextView
-                android:textColor="#000000"
-                android:id="@+id/tv3"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/img_cl"
-                app:layout_constraintTop_toBottomOf="@id/tv2"
-                android:layout_marginEnd="19dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="25dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Step 2: Click on Get SMS to subscribe your preferred employer job alert by SMS"/>
-
-
-
-            <TextView
-                android:textColor="#000000"
-                android:id="@+id/tv4"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/img_cl"
-                app:layout_constraintTop_toBottomOf="@id/tv3"
-                android:layout_marginEnd="19dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="25dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Step 3: Click on Get SMS to subscribe your preferred employer job alert by SMS"/>
-
-            <TextView
-                android:id="@+id/header2_tv"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp"
-                android:textColor="#000000"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="18dp"
-                app:layout_constraintTop_toBottomOf="@id/img_cl"
-                android:text="Steps to get Favorite Search Job alert"
+            <ImageView
+                android:id="@+id/img1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/img_cl2"
-                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/ic_group_5282"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/header2_tv"
-                android:layout_width="50dp"
-                android:layout_height="195dp">
+                android:src="@drawable/ic_how_to_img1"
+                app:layout_constraintEnd_toEndOf="@id/view1"
+                app:layout_constraintStart_toStartOf="@id/view1"
+                app:layout_constraintTop_toTopOf="@id/view1" />
 
-                <ImageView
-                    android:id="@+id/img4"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_how_to_img1"/>
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:src="@drawable/ic_how_to_img2"
+                app:layout_constraintEnd_toEndOf="@id/view1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/view1"
+                app:layout_constraintTop_toBottomOf="@id/img1" />
 
-                <ImageView
-                    android:id="@+id/img5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="43dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_how_to_img2"/>
-
-                <ImageView
-                    android:id="@+id/img6"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@id/img5"
-                    android:src="@drawable/ic_how_to_img3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/img3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_how_to_img3"
+                app:layout_constraintEnd_toEndOf="@id/view1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/view1"
+                app:layout_constraintTop_toBottomOf="@id/img2" />
 
 
             <TextView
+                android:id="@+id/tv_guideline1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:fontFamily="@font/roboto"
+                android:text="@string/sms_guideline_emp1"
+                android:textColor="#000000"
                 android:textSize="14sp"
-                android:textColor="#000000"
-                android:id="@+id/tv5"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/img_cl2"
-                app:layout_constraintTop_toBottomOf="@id/header2_tv"
-                android:layout_marginEnd="19dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="20dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Step 1:  You can follow your referred employers by clicking on Follow from Employer List or Job Details page"/>
+                app:layout_constraintStart_toEndOf="@id/img1"
+                app:layout_constraintTop_toTopOf="@id/img1" />
 
 
             <TextView
-                android:textColor="#000000"
-                android:id="@+id/tv6"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/img_cl2"
-                app:layout_constraintTop_toBottomOf="@id/tv5"
-                android:layout_marginEnd="19dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="25dp"
+                android:id="@+id/tv_guideline2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Step 2: Click on Get SMS to subscribe your preferred employer job alert by SMS"/>
-
+                android:layout_marginStart="16dp"
+                android:text="@string/sms_guideline_emp2"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img2"
+                app:layout_constraintTop_toTopOf="@id/img2" />
 
 
             <TextView
-                android:textColor="#000000"
-                android:id="@+id/tv7"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/img_cl2"
-                app:layout_constraintTop_toBottomOf="@id/tv6"
-                android:layout_marginEnd="19dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="25dp"
+                android:id="@+id/tv_guideline3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Step 3: Click on Get SMS to subscribe your preferred employer job alert by SMS"/>
+                android:layout_marginStart="16dp"
+                android:text="@string/sms_guideline_emp3"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img3"
+                app:layout_constraintTop_toTopOf="@+id/img3" />
+
+
+            <TextView
+                android:id="@+id/tv_heading2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Steps to get Favorite Search Job alert"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view1"
+                android:layout_marginTop="18dp"/>
+
+
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/drawable_sms_guideline"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/img6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_heading2" />
+
+
+
+            <ImageView
+                android:id="@+id/img4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_fav_guide"
+                app:layout_constraintEnd_toEndOf="@id/view2"
+                app:layout_constraintStart_toStartOf="@id/view2"
+                app:layout_constraintTop_toTopOf="@id/view2" />
+
+            <ImageView
+                android:id="@+id/img5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:src="@drawable/ic_how_to_img2"
+                app:layout_constraintEnd_toEndOf="@id/view1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/view1"
+                app:layout_constraintTop_toBottomOf="@id/img4" />
+
+            <ImageView
+                android:id="@+id/img6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_how_to_img3"
+                app:layout_constraintEnd_toEndOf="@id/view1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/view1"
+                app:layout_constraintTop_toBottomOf="@id/img5" />
+
+
+            <TextView
+                android:id="@+id/tv_guideline4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/sms_guideline_fav1"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img4"
+                app:layout_constraintTop_toTopOf="@id/img4" />
+
+
+            <TextView
+                android:id="@+id/tv_guideline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/sms_guideline_fav2"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img5"
+                app:layout_constraintTop_toTopOf="@id/img5" />
+
+
+            <TextView
+                android:id="@+id/tv_guideline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/sms_guideline_fav3"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img6"
+                app:layout_constraintTop_toTopOf="@+id/img6" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     </ScrollView>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
