@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.bdjobs.app.sms.ui.settings.SettingsViewModel" />
@@ -71,7 +73,18 @@
                     app:layout_constraintBottom_toBottomOf="@id/slash"
                     app:layout_constraintEnd_toStartOf="@id/slash"
                     app:layout_constraintTop_toTopOf="@id/slash"
-                    tools:text="5" />
+                    tools:text="12" />
+
+                <View
+                    android:id="@+id/view_remaining_sms"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="#EBEBEB"
+                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/slash"
+                    app:layout_constraintEnd_toStartOf="@id/slash"
+                    app:layout_constraintTop_toTopOf="@id/slash"
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/slash"
@@ -103,6 +116,17 @@
                     app:layout_constraintStart_toEndOf="@id/slash"
                     app:layout_constraintTop_toTopOf="@id/slash"
                     tools:text="20" />
+
+                <View
+                    android:id="@+id/view_total_sms"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="#EBEBEB"
+                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/slash"
+                    app:layout_constraintStart_toEndOf="@id/slash"
+                    app:layout_constraintTop_toTopOf="@id/slash"
+                    tools:visibility="gone" />
 
 
                 <androidx.constraintlayout.widget.Guideline
@@ -170,6 +194,20 @@
                     app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
                     tools:text="5" />
 
+                <View
+                    android:id="@+id/view_btn_limit"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#EBEBEB"
+                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
+                    app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
+                    tools:visibility="gone" />
+
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,6 +222,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/limit_sms_tv"
                     tools:checked="true" />
 
+                <View
+                    android:id="@+id/view_swicth"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#EBEBEB"
+                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_btn_limit"
+                    tools:visibility="gone" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
@@ -197,23 +247,24 @@
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_medium"
             android:letterSpacing="0"
+            android:onClick="@{()->viewModel.onSaveButtonClick()}"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="Save"
             android:textAllCaps="false"
+            android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
             app:backgroundTint="#13A10E"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="@{()->viewModel.onSaveButtonClick()}"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ProgressBar
-            android:backgroundTint="@color/green"
-            visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
-            app:layout_constraintTop_toTopOf="parent"
-            android:indeterminate="true"
             android:id="@+id/progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            visibility="@{viewModel.isSubmitDataLoading() ? View.VISIBLE : View.GONE}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
