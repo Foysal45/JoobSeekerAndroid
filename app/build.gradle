@@ -17,6 +17,7 @@ android {
         versionName "701.1.0"  //701.0.4 internal test // 2.4.0.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
