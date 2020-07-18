@@ -20,7 +20,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 12, exportSchema = false)
+    Notification::class], version = 14, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -116,12 +116,37 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_12_13 = object : Migration(12,13){
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+        }
+
+        val MIGRATION_13_14 = object : Migration(13,14){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE FavouriteSearch ADD COLUMN `isSubscribed` TEXT")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11,MIGRATION_11_12).build()
+                Room.databaseBuilder(context.applicationContext, BdjobsDB::class.java, internal_database_name).addMigrations(
+                        MIGRATION_1_2,
+                        MIGRATION_2_3,
+                        MIGRATION_3_4,
+                        MIGRATION_4_5,
+                        MIGRATION_5_6,
+                        MIGRATION_6_7,
+                        MIGRATION_7_8,
+                        MIGRATION_8_9,
+                        MIGRATION_9_10,
+                        MIGRATION_10_11,
+                        MIGRATION_11_12,
+                        MIGRATION_12_13,
+                        MIGRATION_13_14
+                ).build()
     }
 }
