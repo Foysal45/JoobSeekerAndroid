@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="transaction"
+            type="com.bdjobs.app.transaction.data.model.TransactionData" />
+
+
+           </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_video_interview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+         app:cardCornerRadius="8dp"
+        app:strokeColor="#EAEAEA"
+        app:strokeWidth="0.1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+             android:layout_width="match_parent"
+            android:background="@drawable/ic_home_card"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="15dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="15dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="-79dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="15dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="15dp" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{transaction.packageName}"
+                android:textColor="@color/gnt_black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+            <TextView
+                android:textColor="@color/view_color"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                android:id="@+id/textViewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/ic_amount"
+                android:drawablePadding="5dp"
+                android:text="@{transaction.amount}"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+            <TextView
+                android:textColor="@color/view_color"
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/ic_calender_interview_invitation"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{transaction.purchasedDate}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewAmount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewAmount"
+                app:layout_constraintTop_toTopOf="@+id/textViewAmount" />
+
+            <TextView
+                android:textColor="@color/view_color"
+                android:id="@+id/textViewTransactionType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_baseline_credit_card_24"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{transaction.paymentMethod}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline16"
+                app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAmount" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

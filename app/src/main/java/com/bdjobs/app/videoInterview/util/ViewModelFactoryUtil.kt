@@ -8,6 +8,8 @@ import com.bdjobs.app.sms.ui.payment.PaymentFragment
 import com.bdjobs.app.sms.ui.payment.PaymentViewModelFactory
 import com.bdjobs.app.sms.ui.payment_success.PaymentSuccessViewModelFactory
 import com.bdjobs.app.sms.ui.settings.SettingsViewModelFactory
+import com.bdjobs.app.transaction.data.TransactionRepository
+import com.bdjobs.app.transaction.ui.TransactionListModelFactory
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModelFactory
 import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModelFactory
@@ -60,5 +62,15 @@ object ViewModelFactoryUtil {
     }
 
     //-----SMS Package-----//
+
+
+
+
+    //-------Transaction List-------//
+
+    fun provideTransactionListViewModelFactory(fragment: Fragment) : TransactionListModelFactory{
+        val repository = TransactionRepository(fragment.requireContext().applicationContext as Application)
+        return TransactionListModelFactory(repository)
+    }
 
 }
