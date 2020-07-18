@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databinding.ItemTransactionListBinding
+import com.bdjobs.app.transaction.data.model.TransactionData
+import com.bdjobs.app.transaction.data.model.TransactionList
 
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 
 class TransactionListAdapter(val context: Context) :
-        ListAdapter<VideoInterviewList.Data, TransactionListAdapter.TransactionListViewHolder>(
+        ListAdapter<TransactionData, TransactionListAdapter.TransactionListViewHolder>(
                 DiffUtilCallback
         ) {
 
@@ -29,13 +31,13 @@ class TransactionListAdapter(val context: Context) :
         holder.bind(getItem(position))
     }
 
-    companion object DiffUtilCallback : DiffUtil.ItemCallback<VideoInterviewList.Data>() {
-        override fun areItemsTheSame(oldItem: VideoInterviewList.Data, newItem: VideoInterviewList.Data): Boolean {
+    companion object DiffUtilCallback : DiffUtil.ItemCallback<TransactionData>() {
+        override fun areItemsTheSame(oldItem: TransactionData, newItem: TransactionData): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: VideoInterviewList.Data, newItem: VideoInterviewList.Data): Boolean {
-            return oldItem.jobId == newItem.jobId
+        override fun areContentsTheSame(oldItem: TransactionData, newItem: TransactionData): Boolean {
+            return oldItem.packageName == newItem.packageName
         }
     }
 
@@ -50,8 +52,8 @@ class TransactionListAdapter(val context: Context) :
             }
         }
 
-        fun bind(videoInterviewData: VideoInterviewList.Data) {
-            binding.videoInterview = videoInterviewData
+        fun bind(transactionData: TransactionData) {
+            binding.transaction = transactionData
             binding.executePendingBindings()
 
         }
@@ -59,9 +61,4 @@ class TransactionListAdapter(val context: Context) :
 }
 
 
-/*
-class ClickListener(val clickListener: (videoInterviewData: VideoInterviewList.Data) -> Unit) {
-    fun onClick(videoInterviewData: VideoInterviewList.Data) {
-        clickListener(videoInterviewData)
-    }
-}*/
+

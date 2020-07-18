@@ -395,7 +395,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
             lastName = lastName.trim { it <= ' ' }
         }
 
-        /*Log.d("ResponseTesrt",
+        Log.d("ResponseTesrt",
                 "Name: " + name + "\n" +
                         "First Name: " + firstName + "\n" +
                         "Last Name: " + lastName + "\n" +
@@ -414,7 +414,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         "sMediatype " + socialMediaType + "\n" +
                         "isSMLogin " + isSMediaLogin + "\n" +
                         "sMid " + "" + socialMediaId + "\n"
-        )*/
+        )
 
         ApiServiceMyBdjobs.create().createAccount(firstName, lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin, categoryType, userNameType, socialMediaType, categoryId, wcCountryCode, "", "").enqueue(object : Callback<CreateAccountModel> {
             override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {

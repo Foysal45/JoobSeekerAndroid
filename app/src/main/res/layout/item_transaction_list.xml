@@ -5,20 +5,18 @@
 
     <data>
         <variable
-            name="videoInterview"
-            type="com.bdjobs.app.videoInterview.data.models.VideoInterviewList.Data" />
-        <variable
-            name="clickListener"
-            type="com.bdjobs.app.videoInterview.ui.interview_list.ClickListener" />
-    </data>
+            name="transaction"
+            type="com.bdjobs.app.transaction.data.model.TransactionData" />
+
+
+           </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_video_interview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:onClick="@{()-> clickListener.onClick(videoInterview)}"
-        app:cardCornerRadius="8dp"
+         app:cardCornerRadius="8dp"
         app:strokeColor="#EAEAEA"
         app:strokeWidth="0.1dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,152 +24,25 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            videoItemCardBackground="@{videoInterview.userSeenInterview}"
-            android:layout_width="match_parent"
+             android:layout_width="match_parent"
+            android:background="@drawable/ic_home_card"
             android:layout_height="wrap_content"
             android:paddingStart="5dp">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_video_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/guideline12"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/tv_company_name">
-
-                <ImageView
-                    android:id="@+id/iv_video_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_video_camera"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_job_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@{videoInterview.jobTitle}"
-                    android:textSize="16sp"
-                    android:textColor="@color/videoInterviewThemeColor"
-                    android:fontFamily="@font/roboto_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_video_icon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <TextView
-                android:id="@+id/tv_company_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:fontFamily="@font/roboto"
-                android:maxLines="2"
-                android:text="@{videoInterview.companyName}"
-                android:textColor="#303030"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/cl_video_title" />
-
-            <ImageView
-                android:id="@+id/iv_vi_status_date"
-                inviteStatus="@{videoInterview}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_vi_status_date"
-                app:layout_constraintStart_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toTopOf="@+id/tv_vi_status_date" />
-
-            <TextView
-                android:id="@+id/tv_vi_status_date"
-                inviteStatus="@{videoInterview}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="2dp"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/roboto"
-                android:textColor="#393939"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline16"
-                app:layout_constraintStart_toEndOf="@+id/iv_vi_status_date"
-                app:layout_constraintTop_toBottomOf="@+id/tv_company_name"
-                app:layout_constraintVertical_bias="0.0" />
-
-
-            <ImageView
-                android:id="@+id/iv_vi_seen_date"
-                employerSeenStatus="@{videoInterview.employerSeenDate}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_vi_seen_date"
-                app:layout_constraintStart_toEndOf="@+id/tv_vi_status_date"
-                app:layout_constraintTop_toTopOf="@+id/tv_vi_seen_date"
-                app:layout_constraintVertical_bias="0.53"
-                app:srcCompat="@drawable/ic_seen" />
-
-            <TextView
-                android:id="@+id/tv_vi_seen_date"
-                employerSeenStatus="@{videoInterview.employerSeenDate}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/gnt_black"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/iv_vi_seen_date"
-                app:layout_constraintTop_toTopOf="@+id/tv_vi_status_date" />
-
-            <ImageView
-                android:id="@+id/iv_vi_process_status"
-                interviewProcessStatus="@{videoInterview}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_vi_process_status"
-                app:layout_constraintEnd_toStartOf="@+id/tv_vi_process_status"
-                app:layout_constraintTop_toTopOf="@+id/tv_vi_process_status" />
-
-            <TextView
-                android:id="@+id/tv_vi_process_status"
-                interviewProcessStatus="@{videoInterview}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="@{videoInterview.videoStatus}"
-                android:textColor="#B71C1C"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline16"
-                app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                app:layout_constraintTop_toBottomOf="@+id/tv_vi_status_date"
-                app:layout_constraintVertical_bias="0.923" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="10dp" />
+                app:layout_constraintGuide_begin="15dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="10dp" />
+                app:layout_constraintGuide_begin="15dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline14"
@@ -185,27 +56,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="10dp" />
+                app:layout_constraintGuide_end="15dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_end="10dp" />
+                app:layout_constraintGuide_end="15dp" />
 
-            <ImageView
-                android:id="@+id/iv_new_badge"
-                newBadgeVisibility="@{videoInterview.userSeenInterview}"
+            <TextView
+                android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{transaction.packageName}"
+                android:textColor="@color/gnt_black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+            <TextView
+                android:textColor="@color/view_color"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                android:id="@+id/textViewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/ic_amount"
+                android:drawablePadding="5dp"
+                android:text="@{transaction.amount}"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+            <TextView
+                android:textColor="@color/view_color"
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/ic_calender_interview_invitation"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{transaction.purchasedDate}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewAmount"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline14"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_new_bg" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewAmount"
+                app:layout_constraintTop_toTopOf="@+id/textViewAmount" />
+
+            <TextView
+                android:textColor="@color/view_color"
+                android:id="@+id/textViewTransactionType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_baseline_credit_card_24"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{transaction.paymentMethod}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline16"
+                app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAmount" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,5 +10,50 @@
         android:id="@+id/transactionListFragment"
         android:name="com.bdjobs.app.transaction.ui.TransactionListFragment"
         android:label="Transaction Overview"
-        tools:layout="@layout/fragment_transaction_list" />
+        tools:layout="@layout/fragment_transaction_list" >
+
+        <action
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_transactionListFragment_to_transactionFilterFragment"
+            app:destination="@id/transactionFilterFragment" />
+        <argument
+            android:name="from"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+        <argument
+            android:name="startDate"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+        <argument
+            android:name="endDate"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+        <argument
+            android:name="transactionType"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/transactionFilterFragment"
+        android:name="com.bdjobs.app.transaction.ui.TransactionFilterFragment"
+        android:label="Transaction Filter"
+        tools:layout="@layout/transaction_filter_fragment" >
+        <action
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            android:id="@+id/action_transactionFilterFragment_to_transactionListFragment"
+            app:destination="@id/transactionListFragment" />
+    </fragment>
 </navigation>

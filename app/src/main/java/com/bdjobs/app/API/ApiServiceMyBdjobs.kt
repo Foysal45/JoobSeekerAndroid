@@ -8,7 +8,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
-import com.bdjobs.app.transaction.data.model.Transaction
+import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
@@ -1112,13 +1112,13 @@ interface ApiServiceMyBdjobs {
     suspend fun getTransactionList(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("appId") appId: String? = "",
             @Field("startDate") startDate: String? = "",
             @Field("endDate") endDate: String? = "",
             @Field("packageTypeId") packageTypeId: String? = "",
             @Field("pageNumber") pageNumber: String? = "",
             @Field("itemsPerPage") itemsPerPage: String? = ""
-    ): Transaction
+    ): TransactionList
 
 
     companion object Factory {

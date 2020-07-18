@@ -6,19 +6,19 @@ import com.squareup.moshi.Json
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Transaction(
+data class TransactionList(
     @Json(name = "common")
-    val common: Common?,
+    val common: TransactionCommon?,
     @Json(name = "data")
     val `data`: List<TransactionData>?,
     @Json(name = "message")
     val message: String?,
     @Json(name = "statuscode")
     val statuscode: String?
-) {
+)
     @Keep
     @JsonClass(generateAdapter = true)
-    data class Common(
+    data class TransactionCommon(
             @Json(name = "TotalTransaction")
             val totalTransaction: String?
     )
@@ -37,7 +37,7 @@ data class Transaction(
             val purchasedDate: String?
     )
 
-}
+
 
 
 

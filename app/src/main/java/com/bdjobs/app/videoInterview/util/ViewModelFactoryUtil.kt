@@ -69,7 +69,7 @@ object ViewModelFactoryUtil {
     //-------Transaction List-------//
 
     fun provideTransactionListViewModelFactory(fragment: Fragment) : TransactionListModelFactory{
-        val repository = VideoInterviewRepository(fragment.requireContext().applicationContext as Application)
+        val repository = TransactionRepository(fragment.requireContext().applicationContext as Application)
         return TransactionListModelFactory(repository)
     }
 

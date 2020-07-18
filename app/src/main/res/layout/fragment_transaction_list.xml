@@ -6,39 +6,26 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="viewModel"
+            name="transactionViewModel"
             type="com.bdjobs.app.transaction.ui.TransactionListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/videoInterviewCL"
+        android:id="@+id/transactionCL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".videoInterview.ui.interview_list.VideoInterviewListFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="match_parent"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:layout_height="?attr/actionBarSize" >
-
-        </androidx.appcompat.widget.Toolbar>
-
-       <!-- <com.facebook.shimmer.ShimmerFrameLayout
-            android:visibility="@{viewModel.dataLoading ? View.VISIBLE : View.GONE}"
+        <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            android:visibility="@{transactionViewModel.dataLoading ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintTop_toTopOf="parent"
             app:shimmer_duration="1200">
 
             <LinearLayout
@@ -63,26 +50,30 @@
                 <include layout="@layout/list_shimmer_layout" />
 
                 <include layout="@layout/list_shimmer_layout" />
+
+
             </LinearLayout>
 
-        </com.facebook.shimmer.ShimmerFrameLayout>-->
-      <!--  android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}"
--->
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
-             android:layout_width="match_parent"
+            android:id="@+id/constraintLayout5"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="#F2F2F2"
+            android:visibility="@{transactionViewModel.dataLoading ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:elevation="8dp"
                 android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
-                android:paddingStart="16dp"
                 android:layout_height="40dp"
                 android:background="#FFFFFF"
+                android:elevation="8dp"
+                android:paddingStart="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -92,9 +83,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
+                    android:text="@{transactionViewModel.totalTransaction}"
                     android:textColor="#13A10E"
                     android:textSize="14sp"
-                    android:text="@{viewModel.commonData.totalVideoInterview}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -104,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text=" Interview Invitations Found"
+                    android:text=" Transaction(s)"
                     android:textColor="@color/gnt_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -112,14 +103,33 @@
                     app:layout_constraintStart_toEndOf="@+id/textView61"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_transaction_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:src="@drawable/ic_baseline_filter_list_24"
+                    android:text="Filter"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView63"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/textView63"
+                    app:layout_constraintTop_toTopOf="@+id/textView63">
+
+
+                </ImageView>
+
+                     </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
-                android:visibility="@{viewModel.videoInterviewListData.size() > 0 ? View.GONE : View.VISIBLE}"
                 android:id="@+id/invitationNoDataLL"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:visibility="@{transactionViewModel.transactionListData.size() > 0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,8 +147,9 @@
                 android:id="@+id/rv_sms_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="16dp"
+                android:visibility="@{transactionViewModel.transactionListData.size() > 0 ? View.VISIBLE :View.GONE }"
                 android:clipToPadding="false"
+                android:padding="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
