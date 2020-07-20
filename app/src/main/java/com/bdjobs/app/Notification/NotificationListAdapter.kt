@@ -27,6 +27,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JOB
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
+import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
@@ -48,6 +49,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
         private const val TYPE_MATCHED_JOB = 4
         private const val TYPE_PROMOTIONAL_MESSAGE = 3
         private const val TYPE_VIDEO_INTERVIEW = 5
+        private const val TYPE_SMS = 6
     }
 
     private val notificationCommunicatior = context as NotificationCommunicatior
@@ -91,6 +93,12 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 viewHolder = VideoInterviewViewHolder(view)
             }
 
+            TYPE_SMS -> {
+                val view = inflater.inflate(R.layout.notification_item_sms, parent, false)
+                viewHolder = VideoInterviewViewHolder(view)
+            }
+
+
         }
         return viewHolder!!
     }
@@ -107,6 +115,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
             NOTIFICATION_TYPE_MATCHED_JOB-> TYPE_MATCHED_JOB
             NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> TYPE_PROMOTIONAL_MESSAGE
             NOTIFICATION_TYPE_VIDEO_INTERVIEW-> TYPE_VIDEO_INTERVIEW
+            NOTIFICATION_TYPE_SMS-> TYPE_SMS
             else -> TYPE_INTERVIEW_INVITATION
         }
 
@@ -326,6 +335,75 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
             }
 
+            TYPE_SMS->{
+                val smsViewedViewHolder = holder as SMSViewHolder
+
+                val str = Html.fromHtml(items[position].body)
+                smsViewedViewHolder.notificationTitleTV.text = str
+                val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
+
+                try {
+                    when {
+                        hashMap.containsKey("seconds") -> smsViewedViewHolder.notificationTimeTV.text = "just now"
+                        hashMap.containsKey("minutes") -> {
+                            if (hashMap["minutes"]!! > 1)
+                                smsViewedViewHolder.notificationTimeTV.text = "${hashMap["minutes"]} minutes ago"
+                            else
+                                smsViewedViewHolder.notificationTimeTV.text = "${hashMap["minutes"]} minute ago"
+                        }
+                        hashMap.containsKey("hours") -> {
+                            if (hashMap["hours"]!! > 1)
+                                smsViewedViewHolder.notificationTimeTV.text = "${hashMap["hours"]} hours ago"
+                            else
+                                smsViewedViewHolder.notificationTimeTV.text = "${hashMap["hours"]} hour ago"
+                        }
+                        else -> {
+                            if (hashMap["days"]!! > 1)
+                                smsViewedViewHolder.notificationTimeTV.text = "${hashMap["days"]} days ago"
+                            else
+                                smsViewedViewHolder.notificationTimeTV.text = "${hashMap["days"]} day ago"
+                        }
+                    }
+                } catch (e: Exception) {
+                }
+
+                try {
+                    if (items[position].seen!!) {
+                        smsViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    } else
+                        smsViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                } catch (e : Exception){
+
+                }
+
+
+                smsViewedViewHolder?.notificationButton?.setOnClickListener {
+                    smsViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+
+
+                    try {
+                        if (!items[position].seen!!) {
+                            doAsync {
+                                bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                val count = bdjobsDB.notificationDao().getNotificationCount()
+                                bdjobsUserSession.updateNotificationCount(count)
+                            }
+                        }
+                    } catch (e : Exception){
+                        logException(e)
+                    }
+
+                    notificationCommunicatior.positionClicked(position)
+
+                    context.startActivity<EmployersBaseActivity>(
+                            "seen" to items[position].seen,
+                            "from" to "notificationList"
+                    )
+
+
+                }
+            }
+
             TYPE_MATCHED_JOB->{
 
                 val matchedJobViewHolder = holder as MatchedJobViewHolder
@@ -515,6 +593,15 @@ class CVViewedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val notificationIMG = view?.findViewById(R.id.notification_cv_viewed_img) as ImageView
     val notificationCL = view?.findViewById(R.id.notification_cv_viewed_cl) as ConstraintLayout
     val notificationCV = view?.findViewById(R.id.notification_cv_viewed_card_view) as CardView
+}
+
+class SMSViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val notificationTitleTV = view?.findViewById(R.id.notification_cv_viewed_text) as TextView
+    val notificationTimeTV = view?.findViewById(R.id.notification_cv_viewed_time_text) as TextView
+    val notificationIMG = view?.findViewById(R.id.notification_cv_viewed_img) as ImageView
+    val notificationCL = view?.findViewById(R.id.notification_cv_viewed_cl) as ConstraintLayout
+    val notificationCV = view?.findViewById(R.id.notification_cv_viewed_card_view) as CardView
+    val notificationButton = view?.findViewById(R.id.btn_purchase_new_plan) as MaterialButton
 }
 
 class MatchedJobViewHolder(view: View) : RecyclerView.ViewHolder(view) {

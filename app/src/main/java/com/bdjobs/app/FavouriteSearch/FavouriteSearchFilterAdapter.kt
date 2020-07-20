@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -143,6 +144,31 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         }.show()
                     }
 
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True"))
+                    {
+                        holder.subscribeButton.hide()
+                        holder.unsubscribeButton.show()
+                    } else{
+                        holder.subscribeButton.show()
+                        holder.unsubscribeButton.hide()
+                    }
+
+                    holder?.subscribeButton?.setOnClickListener {
+
+                        makeSubscribeUnsubscribeApiCall(items[position], 1)
+
+                        holder.unsubscribeButton.show()
+                        it.hide()
+                    }
+
+                    holder?.unsubscribeButton?.setOnClickListener {
+
+                        makeSubscribeUnsubscribeApiCall(items[position], 0)
+
+                        holder.subscribeButton.show()
+                        it.hide()
+                    }
+
                     holder.editTV.setOnClickListener {
                         try {
                             favCommunicator?.goToEditMode(items[position].filterid!!)
@@ -153,6 +179,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 } else {
                     holder.deleteTV.hide()
                     holder.editTV.hide()
+                    holder.subscribeButton.hide()
+                    holder.unsubscribeButton.hide()
                 }
 
 
@@ -209,21 +237,29 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     }
                 }
 
-                holder?.subscribeButton?.setOnClickListener {
+//                if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
+//                    holder.subscribeButton.show()
+//                    holder.unsubscribeButton.hide()
+//                } else {
+//                    holder.subscribeButton.hide()
+//                    holder.unsubscribeButton.show()
+//                }
 
-                    makeSubscribeUnsubscribeApiCall(items[position],1)
-
-                    holder.unsubscribeButton.show()
-                    it.hide()
-                }
-
-                holder?.unsubscribeButton?.setOnClickListener {
-
-                    makeSubscribeUnsubscribeApiCall(items[position],0)
-
-                    holder.subscribeButton.show()
-                    it.hide()
-                }
+//                holder?.subscribeButton?.setOnClickListener {
+//
+//                    makeSubscribeUnsubscribeApiCall(items[position], 1)
+//
+//                    holder.unsubscribeButton.show()
+//                    it.hide()
+//                }
+//
+//                holder?.unsubscribeButton?.setOnClickListener {
+//
+//                    makeSubscribeUnsubscribeApiCall(items[position], 0)
+//
+//                    holder.subscribeButton.show()
+//                    it.hide()
+//                }
             }
 
             ITEM_WITH_AD -> {
@@ -285,9 +321,37 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                             logException(e)
                         }
                     }
+
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True"))
+                    {
+                        holder.subscribeButton.hide()
+                        holder.unsubscribeButton.show()
+                    } else{
+                        holder.subscribeButton.show()
+                        holder.unsubscribeButton.hide()
+                    }
+
+                    holder?.subscribeButton?.setOnClickListener {
+
+                        makeSubscribeUnsubscribeApiCall(items[position], 1)
+
+                        holder.unsubscribeButton.show()
+                        it.hide()
+                    }
+
+                    holder?.unsubscribeButton?.setOnClickListener {
+
+                        makeSubscribeUnsubscribeApiCall(items[position], 0)
+
+                        holder.subscribeButton.show()
+                        it.hide()
+                    }
+
                 } else {
                     holder.deleteTV.hide()
                     holder.editTV.hide()
+                    holder.subscribeButton.hide()
+                    holder.unsubscribeButton.hide()
                 }
 
 
@@ -343,21 +407,6 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         logException(e)
                     }
                 }
-                holder?.subscribeButton?.setOnClickListener {
-
-                    makeSubscribeUnsubscribeApiCall(items[position],1)
-
-                    holder.unsubscribeButton.show()
-                    it.hide()
-                }
-
-                holder?.unsubscribeButton?.setOnClickListener {
-
-                    makeSubscribeUnsubscribeApiCall(items[position],0)
-
-                    holder.subscribeButton.show()
-                    it.hide()
-                }
             }
         }
     }
@@ -387,10 +436,20 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         response.body()?.statuscode?.let { status ->
                             if (status.equalIgnoreCase(api_request_result_code_ok)) {
                                 isNewPurchaseNeeded = response.body()?.data?.get(0)?.isNewSMSPurchaseNeeded
-                                if (type == 1)
+                                if (type == 1){
                                     openSubscribeInfoDialog()
-                                else
+                                    item.isSubscribed = "True"
+                                    doAsync {
+                                        bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(item)
+                                    }
+                                }
+                                else{
+                                    item.isSubscribed = "False"
                                     Toast.makeText(context, "Successfully unsubscribed", Toast.LENGTH_SHORT).show()
+                                    doAsync {
+                                        bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(item)
+                                    }
+                                }
                             }
                         }
                     } catch (e: Exception) {

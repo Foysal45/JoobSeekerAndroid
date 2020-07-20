@@ -57,7 +57,9 @@ data class FavouritSearchFilterData(
         @SerializedName("totaljobs")
         val totaljobs: String?,
         @SerializedName("updatedon")
-        val updatedon: String?=""
+        val updatedon: String?="",
+        @SerializedName("isSubscribed")
+        val isSubscribed: String?=""
 
 )
 @Keep

@@ -56,6 +56,8 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
     private val _isDataLoading = MutableLiveData<Boolean>()
     val isDataLoading: LiveData<Boolean> = _isDataLoading
 
+    private val _isSubmitDataLoading = MutableLiveData<Boolean>()
+    val isSubmitDataLoading : LiveData<Boolean> =_isSubmitDataLoading
 
     private val _showToastMessage = MutableLiveData<Event<String?>>()
     val showToastMessage : LiveData<Event<String?>> = _showToastMessage
@@ -97,6 +99,7 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
     }
 
     private fun getSMSSettings() {
+        _isDataLoading.value = true
         viewModelScope.launch {
             try {
                 val response = repository.getSMSSettings()
@@ -110,6 +113,8 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
                 _totalProgress.value = remainingSMS.value?.toInt()
                 _maxProgress.value = totalSMS.value?.toInt()
                 // }
+                _isDataLoading.value = false
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -117,7 +122,7 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
     }
 
     private fun updateSMSSettings() {
-        _isDataLoading.value = true
+        _isSubmitDataLoading.value = true
         viewModelScope.launch {
             try {
                 val response = repository.updateSMSSettings(
@@ -125,7 +130,7 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
                         alertOn = if (isAlertOn.value!!.equalIgnoreCase("True")) 1 else 0
                 )
                 _showToastMessage.value = Event(response.message as String)
-                _isDataLoading.value = false
+                _isSubmitDataLoading.value = false
             } catch (e:Exception){
                e.printStackTrace()
             }

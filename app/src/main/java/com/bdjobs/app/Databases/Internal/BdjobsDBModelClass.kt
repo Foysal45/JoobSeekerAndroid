@@ -112,7 +112,9 @@ data class FavouriteSearch(
         @ColumnInfo(name = "updatedon")
         val updatedon: Date?,
         @ColumnInfo(name = "totaljobs")
-        val totaljobs: String? = ""
+        val totaljobs: String? = "",
+        @ColumnInfo(name = "isSubscribed")
+        var isSubscribed : String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

@@ -48,7 +48,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@{`Dear ` + viewModel.fullName + `,your payment was processed successfully.`}"
+            android:text="@{`Dear ` + viewModel.fullName + `, your payment was processed successfully.`}"
             app:layout_constraintTop_toBottomOf="@id/tv_payment_success_heading"
             tools:text="Dear John Doe, your payment was processed successfully." />
 

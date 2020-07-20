@@ -404,6 +404,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_cv_viewed">CV Viewed</string>
     <string name="notification_channel_message">Message</string>
     <string name="notification_channel_matched_job">Matched Job</string>
+    <string name="notification_channel_sms">SMS</string>
 
     <string name="notification">Notifications</string>
 
@@ -451,4 +452,10 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="select_transaction_type">Select </string>
 
 
+    <string name="sms_guideline_emp1"><b>Step 1:</b> You can follow your referred employers by clicking on Follow from Employer List or Job Details page</string>
+    <string name="sms_guideline_emp2"><b>Step 2:</b> Click on Get SMS to subscribe your preferred employer job alert by SMS</string>
+    <string name="sms_guideline_emp3"><b>Step 3:</b> Click on Get SMS to subscribe your preferred employer job alert by SMS</string>
+    <string name="sms_guideline_fav1"><b>Step 1:</b> You can follow your referred employers by clicking on Follow from Employer List or Job Details page</string>
+    <string name="sms_guideline_fav2"><b>Step 2:</b> Click on Get SMS to subscribe your preferred employer job alert by SMS</string>
+    <string name="sms_guideline_fav3"><b>Step 3:</b> You can cancel SMS alert for any employer anytime.</string>
 </resources>

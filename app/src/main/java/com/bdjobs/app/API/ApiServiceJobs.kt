@@ -108,7 +108,8 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<JobDetailJsonModel>
 
-    @GET("viewfilters.asp")
+    //@GET("viewfilters.asp")
+    @GET("viewfilters_smsalert.asp")
     fun getFavouriteSearchFilters(
             @Query("encoded") encoded: String? = "",
             @Query("user") userID: String? = "",

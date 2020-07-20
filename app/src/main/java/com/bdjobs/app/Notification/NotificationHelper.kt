@@ -21,6 +21,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
@@ -36,6 +37,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         const val CV_VIEWED_CHANNEL = "cv_viewed"
         const val MATCHED_JOB_CHANNEL = "matched_job"
         const val MESSAGE_CHANNEL = "message"
+        const val SMS_CHANNEL = "sms"
     }
 
     val mNotificationManager: NotificationManagerCompat by lazy {
@@ -124,6 +126,19 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             // Submit the notification channel object to the notification manager
             mNotificationManager.createNotificationChannel(matchedJobChannel)
 
+            // Create sms notification channel
+            val smsChannel = NotificationChannel(
+                    SMS_CHANNEL,
+                    getString(R.string.notification_channel_matched_job),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(smsChannel)
+
         }
 
     }
@@ -147,7 +162,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
-                val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT)
+                val interviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 return NotificationCompat.Builder(applicationContext, INTERVIEW_INVITATION_CHANNEL)
                         .setContentTitle(title)
@@ -173,7 +188,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 //                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //                }
 
-                val intent = Intent(this,VideoInterviewActivity::class.java)
+                val intent = Intent(this, VideoInterviewActivity::class.java)
 
                 val videoInterviewPendingIntent: PendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -251,20 +266,38 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             }
 
-
-            Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
-
-                val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
-                    putExtra("from", "notification")
-                    putExtra("id", jobid)
-                    putExtra("nid", nId)
-                    putExtra("seen", true)
-
+            Constants.NOTIFICATION_TYPE_SMS -> {
+                val intent = Intent(this, BaseActivity::class.java)?.apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
+                val smsPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                return NotificationCompat.Builder(applicationContext, SMS_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(smsPendingIntent)
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+            }
+
+
+        Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+
+            val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
+                putExtra("from", "notification")
+                putExtra("id", jobid)
+                putExtra("nid", nId)
+                putExtra("seen", true)
+
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
 //                var imageBitmap: Bitmap? = null
 //
@@ -286,61 +319,61 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
 //                //Log.d("rakib outside", "$imageBitmap $imageLink")
 
-                return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
-                        .setContentTitle(title)
-                        .setContentText(body)
-                        .setSmallIcon(smallIcon)
-                        .setAutoCancel(true)
-                        .setContentIntent(pendingIntent)
-                        .setStyle(NotificationCompat.BigTextStyle()
-                                .bigText(body))
-                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+            return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setSmallIcon(smallIcon)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setStyle(NotificationCompat.BigTextStyle()
+                            .bigText(body))
+                    .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
-            }
-
-            else -> {
-
-                val intent = Intent(this, MainLandingActivity::class.java)?.apply {
-                }
-
-                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-                val stackBuilder = TaskStackBuilder.create(this)
-                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
-                stackBuilder.addNextIntent(intent)
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
-
-                return NotificationCompat.Builder(applicationContext, GENERAL_CHANNEL)
-                        .setContentTitle(title)
-                        .setContentText(body)
-                        .setSmallIcon(smallIcon)
-                        .setAutoCancel(true)
-                        .setStyle(NotificationCompat.BigTextStyle()
-                                .bigText(body))
-                        .setContentIntent(pendingIntent)
-                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
-
-            }
         }
 
+        else -> {
 
-    }
+            val intent = Intent(this, MainLandingActivity::class.java)?.apply {
+            }
 
-    private val pendingIntent: PendingIntent
-        get() {
-            val intent = Intent(this, NotificationBaseActivity::class.java)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
             val stackBuilder = TaskStackBuilder.create(this)
-            stackBuilder.addParentStack(NotificationBaseActivity::class.java)
+            stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
             stackBuilder.addNextIntent(intent)
-            return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+
+            return NotificationCompat.Builder(applicationContext, GENERAL_CHANNEL)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setSmallIcon(smallIcon)
+                    .setAutoCancel(true)
+                    .setStyle(NotificationCompat.BigTextStyle()
+                            .bigText(body))
+                    .setContentIntent(pendingIntent)
+                    .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+
         }
-
-
-    fun notify(id: Int, notification: NotificationCompat.Builder) {
-        mNotificationManager.notify(id, notification.build())
     }
 
-    private val smallIcon: Int
-        get() = R.drawable.bdjobs_app_logo
+
+}
+
+private val pendingIntent: PendingIntent
+    get() {
+        val intent = Intent(this, NotificationBaseActivity::class.java)
+        val stackBuilder = TaskStackBuilder.create(this)
+        stackBuilder.addParentStack(NotificationBaseActivity::class.java)
+        stackBuilder.addNextIntent(intent)
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+    }
+
+
+fun notify(id: Int, notification: NotificationCompat.Builder) {
+    mNotificationManager.notify(id, notification.build())
+}
+
+private val smallIcon: Int
+    get() = R.drawable.bdjobs_app_logo
 
 }
