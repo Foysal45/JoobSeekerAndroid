@@ -71,7 +71,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filter1TV" />
-
         <com.google.android.material.button.MaterialButton
             android:visibility="gone"
             android:id="@+id/btn_unsubscribe"
@@ -92,6 +91,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filter1TV" />
+
 
 
         <com.google.android.material.button.MaterialButton

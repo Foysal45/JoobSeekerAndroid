@@ -3,7 +3,11 @@ package com.bdjobs.app.API.ModelClasses
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-@Keep
+
+
+
+
+/*@Keep
 data class FollowEmployerListModelClass(
         @SerializedName("common")
         val common: Common?,
@@ -30,12 +34,88 @@ data class Common(
 @Keep
 data class FollowEmployerListData(
         @SerializedName("CompanyID")
-        val companyID: String?="",
+        val companyID: String? = "",
         @SerializedName("CompanyName")
-        val companyName: String?="",
+        val companyName: String? = "",
         @SerializedName("FollowedOn")
-        val followedOn: String?="",
+        val followedOn: String? = "",
+        @SerializedName("isSubscribed")
+        val isSubscribed: String ="",
         @SerializedName("JobCount")
-        val jobCount: String?=""
+        val jobCount: String? = ""
 
+)*/
+/*
+@Keep
+data class FollowEmployerListModelClass(
+    @SerializedName("common")
+    val common: Common?,
+    @SerializedName("data")
+    val `data`: List<FollowEmployerListData>?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("statuscode")
+    val statuscode: String?
+)
+
+@Keep
+data class Common(
+    @SerializedName("TotalJobCount")
+    val totalJobCount: String?,
+    @SerializedName("total_records_found")
+    val totalRecordsFound: String?,
+    @SerializedName("totalpages")
+    val totalpages: String?
+)
+
+@Keep
+data class FollowEmployerListData(
+    @SerializedName("CompanyID")
+    val companyID: String?,
+    @SerializedName("CompanyName")
+    val companyName: String?,
+    @SerializedName("FollowedOn")
+    val followedOn: String?,
+    @SerializedName("isSubscribed")
+    val isSubscribed: String?,
+    @SerializedName("JobCount")
+    val jobCount: String?
+)*/
+
+@Keep
+data class FollowEmployerListModelClass(
+    @SerializedName("common")
+    val common: Common?,
+    @SerializedName("data")
+    val `data`: List<FollowEmployerListData>?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("statuscode")
+    val statuscode: String?
+)
+
+@Keep
+data class Common(
+    @SerializedName("TotalJobCount")
+    val totalJobCount: String?,
+    @SerializedName("total_records_found")
+    val totalRecordsFound: String?,
+    @SerializedName("totalpages")
+    val totalpages: String?
+)
+
+@Keep
+data class FollowEmployerListData(
+    @SerializedName("CompanyID")
+    val companyID: String? = "",
+    @SerializedName("CompanyName")
+    val companyName: String?= "",
+    @SerializedName("EmployerId")
+    val employerId: String?= "",
+    @SerializedName("FollowedOn")
+    val followedOn: String?= "",
+    @SerializedName("isSubscribed")
+    val isSubscribed: String?= "",
+    @SerializedName("JobCount")
+    val jobCount: String?= ""
 )

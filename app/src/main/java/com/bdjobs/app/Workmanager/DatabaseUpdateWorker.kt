@@ -3,7 +3,6 @@ package com.bdjobs.app.Workmanager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.edit
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -549,7 +548,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             //Log.d("followedOn", "followedOn on: $followedOn")
 
                             val followedEmployer = FollowedEmployer(
-                                    CompanyID = item?.companyID,
+                                    CompanyID = item.companyID,
                                     CompanyName = item?.companyName,
                                     FollowedOn = followedOn,
                                     JobCount = item?.jobCount)

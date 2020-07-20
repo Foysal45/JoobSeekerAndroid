@@ -3,10 +3,12 @@ package com.bdjobs.app.transaction.ui
 import android.app.DatePickerDialog
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,10 +16,13 @@ import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import kotlinx.android.synthetic.main.fragment_professional_ql_edit.*
 import kotlinx.android.synthetic.main.transaction_filter_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
+import org.jetbrains.anko.toast
 import java.nio.channels.Selector
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -88,10 +93,10 @@ class TransactionFilterFragment : Fragment() {
         et_ts_start_date?.setOnClickListener {
 
 
-            if (et_ts_start_date.text.toString().isNullOrEmpty())
+            if (et_ts_start_date.text.toString().isEmpty())
                 pickDate(requireContext(), cal, startDateSetListener)
             else {
-                date = formatter.parse(et_ts_start_date.text.toString())
+                date = formatter.parse(startDate)
                 cal.time = date
                 pickDate(requireContext(), cal, startDateSetListener)
             }
@@ -100,8 +105,8 @@ class TransactionFilterFragment : Fragment() {
         et_ts_end_date?.setOnClickListener {
 
 
-            if (!et_ts_end_date.text.toString().isNullOrEmpty()) {
-                date = formatter.parse(et_ts_end_date.text.toString())
+            if (et_ts_end_date.text.toString().isNotEmpty()) {
+                date = formatter.parse(endDate)
                 cal.time = date
                 pickDate(requireContext(), cal, endDateSetListener)
             } else {
@@ -112,14 +117,16 @@ class TransactionFilterFragment : Fragment() {
         }
         fab_transaction_filter?.setOnClickListener {
 
+              if (dateValidationCheck()){
+                  val action = TransactionFilterFragmentDirections.actionTransactionFilterFragmentToTransactionListFragment()
+                  action.from = "filter"
+                  action.startDate = startDate
+                  action.endDate = endDate
+                  action.transactionType = et_package_type.text.toString()
 
-            val action = TransactionFilterFragmentDirections.actionTransactionFilterFragmentToTransactionListFragment()
-            action.from = "filter"
-            action.startDate = startDate
-            action.endDate = endDate
-            action.transactionType = et_package_type.text.toString()
+                  findNavController().navigate(action)
+              }
 
-            findNavController().navigate(action)
         }
 
 
@@ -146,5 +153,53 @@ class TransactionFilterFragment : Fragment() {
     private fun onNavigateUp(): Boolean {
         activity?.onBackPressed()
         return true
+    }
+
+    private fun dateValidationCheck(): Boolean {
+        val sdf1 = SimpleDateFormat("MM/dd/yyyy")
+        try {
+
+
+            if (startDate.isNotEmpty() && endDate.isNotEmpty() ){
+                Log.d("tttttt","In checked Condiiton")
+
+                Log.d("tttttt","In ${et_ts_start_date.getString()}  ${et_ts_end_date.getString()}")
+                val date1 = sdf1.parse(startDate)
+                val date2 = sdf1.parse(endDate)
+                Log.d("tttttt","date1 $date1 date2 $date2 ")
+
+                if (date1.after(date2)) {
+
+                  /*  context!!.toast("Start Date cannot be greater than End Date!")*/
+                    Log.d("tttttt","In First Condiiton")
+                    Toast.makeText(requireContext(),"Start Date cannot be greater than End Date!",Toast.LENGTH_LONG).show()
+                } else {
+
+                    Log.d("tttttt","In First second Condiiton")
+                    return if (date1 == date2) {
+                        Log.d("tttttt","In second Condiiton")
+                       /* requireContext().toast("Start Date and End Date cannot be equal!")*/
+                        Toast.makeText(requireContext(),"Start Date and End Date cannot be equal!",Toast.LENGTH_LONG).show()
+
+                        false
+                    } else {
+                        true
+                    }
+
+
+                }
+            } else
+                return true
+
+
+
+
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        return false
+
     }
 }
