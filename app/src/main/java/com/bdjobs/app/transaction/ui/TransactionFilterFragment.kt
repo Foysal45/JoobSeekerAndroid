@@ -32,7 +32,7 @@ class TransactionFilterFragment : Fragment() {
         fun newInstance() = TransactionFilterFragment()
     }
 
-    private val typeArray = arrayOf("Online Application", "Employability Assessment", "SMS Job Alert")
+    private val typeArray = arrayOf("Employability Assessment", "SMS Job Alert")
     private lateinit var now: Calendar
     private lateinit var viewModel: TransactionFilterViewModel
     private var date: Date? = null
@@ -56,10 +56,7 @@ class TransactionFilterFragment : Fragment() {
     var startDate = ""
     var endDate = ""
 
-    // Use the 'by activityViewModels()' Kotlin property delegate
-    // from the fragment-ktx artifact
-    private val sharedViewModel: SharedViewModel by activityViewModels()
-    private val transactionListViewModel: TransactionListViewModel by navGraphViewModels(R.id.transactionListFragment){ ViewModelFactoryUtil.provideTransactionListViewModelFactory(this) }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -83,7 +80,7 @@ class TransactionFilterFragment : Fragment() {
 
             requireContext().selector("Select Transaction type", typeArray.toList()) { _, i ->
                 et_package_type.setText(typeArray[i])
-                sharedViewModel.setType(et_package_type.text.toString())
+
                 til_package_type.requestFocus()
 
 
@@ -141,11 +138,11 @@ class TransactionFilterFragment : Fragment() {
         if (c == 0) {
             et_ts_start_date.setText(viewSdf.format(now.time))
             startDate = apiSdf.format(now.time)
-            sharedViewModel.setStartDate(et_ts_start_date.text.toString())
+
         } else {
             et_ts_end_date.setText(viewSdf.format(now.time))
             endDate = apiSdf.format(now.time)
-            sharedViewModel.setEndDate(et_ts_end_date.text.toString())
+
         }
     }
 
@@ -161,25 +158,19 @@ class TransactionFilterFragment : Fragment() {
 
 
             if (startDate.isNotEmpty() && endDate.isNotEmpty() ){
-                Log.d("tttttt","In checked Condiiton")
-
-                Log.d("tttttt","In ${et_ts_start_date.getString()}  ${et_ts_end_date.getString()}")
-                val date1 = sdf1.parse(startDate)
+                  val date1 = sdf1.parse(startDate)
                 val date2 = sdf1.parse(endDate)
-                Log.d("tttttt","date1 $date1 date2 $date2 ")
 
-                if (date1.after(date2)) {
 
-                  /*  context!!.toast("Start Date cannot be greater than End Date!")*/
-                    Log.d("tttttt","In First Condiiton")
-                    Toast.makeText(requireContext(),"Start Date cannot be greater than End Date!",Toast.LENGTH_LONG).show()
-                } else {
+                if (date1!!.after(date2)) {
 
-                    Log.d("tttttt","In First second Condiiton")
+                    requireContext().toast("Start Date cannot be greater than End Date!")
+                      } else {
+
+
                     return if (date1 == date2) {
-                        Log.d("tttttt","In second Condiiton")
-                       /* requireContext().toast("Start Date and End Date cannot be equal!")*/
-                        Toast.makeText(requireContext(),"Start Date and End Date cannot be equal!",Toast.LENGTH_LONG).show()
+
+                        requireContext().toast("Start Date and End Date cannot be equal!")
 
                         false
                     } else {

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.EmployerSubscribeModel
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.SMSSubscribeModel
 import com.bdjobs.app.Ads.Ads
@@ -120,11 +121,12 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         when (getItemViewType(position)) {
             ITEM -> {
                 val holder = viewHolder as FollowedEmployerViewHolder
+                val item = followedEmployerList?.get(position)
                 try {
-                    holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
-                    holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
-                    company_name = followedEmployerList?.get(position)?.companyName!!
-                    company_ID = followedEmployerList?.get(position)?.companyID!!
+                    holder?.employerCompany.text = item!!.companyName
+                    holder?.offeringJobs.text = item!!.jobCount
+                    company_name = item!!.companyName!!
+                    company_ID = item!!.companyID!!
                     holder.followUunfollow?.setOnClickListener {
                         try {
                             activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
@@ -143,25 +145,19 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         }
                     }
 
-                    var jobCount = followedEmployerList?.get(position)?.jobCount
+                    var jobCount = item.jobCount
                     if (jobCount == null) {
                         jobCount = "0"
                     }
-                    var jobCountint = jobCount?.toInt()
-                    //      //Log.d("crash", "crash $jobCount")
+                    val jobCountInt = jobCount?.toInt()
 
-
-                    holder?.itemView?.setOnClickListener {
-                        if (jobCountint > 0) {
+                    holder.itemView.setOnClickListener {
+                        if (jobCountInt > 0) {
                             try {
                                 if (position < followedEmployerList?.size!!) {
-                                    //Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
-                                    var company_name_1 = followedEmployerList?.get(position)?.companyName!!
-                                    var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
-                                    employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+                                    employersCommunicator?.gotoJobListFragment(item.companyName!!, item.companyID!!)
                                     employersCommunicator?.positionClicked(position)
-                                    //Log.d("companyid", company_ID_1)
-                                    //Log.d("companyid", company_name_1)
+
                                 }
                             } catch (e: Exception) {
                                 logException(e)
@@ -170,21 +166,20 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     }
 
 
-                    if (followedEmployerList?.get(position)!!.isSubscribed == "True"){
-                        holder.buttonSubscribe.visibility = View.VISIBLE
-                        holder.buttonUnsubscribe.visibility = View.GONE
-                    }
-
-                    if(followedEmployerList?.get(position)!!.isSubscribed == "False"){
-                        holder.buttonSubscribe.visibility = View.GONE
-                        holder.buttonUnsubscribe.visibility = View.VISIBLE
+                    if (item.isSubscribed!!.equalIgnoreCase("True"))
+                    {
+                        holder.buttonSubscribe.hide()
+                        holder.buttonUnsubscribe.show()
+                    } else{
+                        holder.buttonSubscribe.show()
+                        holder.buttonUnsubscribe.hide()
                     }
 
 
 
                     holder?.buttonSubscribe?.setOnClickListener {
 
-                        makeSubscribeUnsubscribeApiCall(followedEmployerList?.get(position)!!,1)
+                        makeSubscribeUnsubscribeApiCallEmployer(item,1)
 
                         holder.buttonUnsubscribe.show()
                         it.hide()
@@ -192,7 +187,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
                     holder?.buttonUnsubscribe?.setOnClickListener {
 
-                        makeSubscribeUnsubscribeApiCall(followedEmployerList?.get(position)!!,0)
+                        makeSubscribeUnsubscribeApiCallEmployer(item,0)
 
                         holder.buttonSubscribe.show()
                         it.hide()
@@ -202,15 +197,12 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     logException(e)
                 }
             }
-
             ITEM_WITH_AD -> {
                 val holder = viewHolder as FollowedEmployerViewHolderWithAd
+                val item = followedEmployerList?.get(position)
                 try {
-                    holder?.employerCompany.text = followedEmployerList?.get(position)?.companyName
-                    holder?.offeringJobs.text = followedEmployerList?.get(position)?.jobCount
-                    company_name = followedEmployerList?.get(position)?.companyName!!
-                    company_ID = followedEmployerList?.get(position)?.companyID!!
-
+                    holder?.employerCompany.text = item!!.companyName
+                    holder?.offeringJobs.text = item.jobCount
 
                     holder.followUunfollow?.setOnClickListener {
 
@@ -231,25 +223,19 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         }
                     }
 
-                    var jobCount = followedEmployerList?.get(position)?.jobCount
+                    var jobCount = item!!.jobCount
                     if (jobCount == null) {
                         jobCount = "0"
                     }
-                    var jobCountint = jobCount?.toInt()
-                    //      //Log.d("crash", "crash $jobCount")
-
-
+                    val jobCountInt = jobCount?.toInt()
                     holder?.itemView?.setOnClickListener {
-                        if (jobCountint > 0) {
+                        if (jobCountInt > 0) {
                             try {
                                 if (position < followedEmployerList?.size!!) {
-                                    //Log.d("flwd", "position = ${position} list = ${followedEmployerList!!.size}")
-                                    var company_name_1 = followedEmployerList?.get(position)?.companyName!!
-                                    var company_ID_1 = followedEmployerList?.get(position)?.companyID!!
-                                    employersCommunicator?.gotoJobListFragment(company_ID_1, company_name_1)
+
+                                    employersCommunicator?.gotoJobListFragment(item!!.companyID!!, item!!.companyName!!)
                                     employersCommunicator?.positionClicked(position)
-                                    //Log.d("companyid", company_ID_1)
-                                    //Log.d("companyid", company_name_1)
+
                                 }
                             } catch (e: Exception) {
                                 logException(e)
@@ -258,19 +244,20 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     }
 
 
-                    if (followedEmployerList?.get(position)!!.isSubscribed == "True"){
-                        holder.buttonSubscribe.visibility = View.VISIBLE
-                        holder.buttonUnsubscribe.visibility = View.GONE
+                    if (item?.isSubscribed!!.equalIgnoreCase("True"))
+                    {
+                        holder.buttonSubscribe.hide()
+                        holder.buttonUnsubscribe.show()
                     } else{
-                        holder.buttonSubscribe.visibility = View.GONE
-                        holder.buttonUnsubscribe.visibility = View.VISIBLE
+                        holder.buttonSubscribe.show()
+                        holder.buttonUnsubscribe.hide()
                     }
 
 
 
                     holder?.buttonSubscribe?.setOnClickListener {
 
-                        makeSubscribeUnsubscribeApiCall(followedEmployerList?.get(position)!!,1)
+                        makeSubscribeUnsubscribeApiCallEmployer(item,1)
 
                         holder.buttonUnsubscribe.show()
                         it.hide()
@@ -278,7 +265,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
                     holder?.buttonUnsubscribe?.setOnClickListener {
 
-                        makeSubscribeUnsubscribeApiCall(followedEmployerList?.get(position)!!,0)
+                        makeSubscribeUnsubscribeApiCallEmployer(item,0)
 
                         holder.buttonSubscribe.show()
                         it.hide()
@@ -295,14 +282,11 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
 
 
 
-    private fun makeSubscribeUnsubscribeApiCall(item: FollowEmployerListData, type: Int) {
-        try {
+    private fun makeSubscribeUnsubscribeApiCallEmployer(item: FollowEmployerListData, type: Int) {
+       /* try {*/
             //0 -> unsubscribe
             //1 -> subscribe
-
-            val type = type
-
-            ApiServiceJobs.create().subscribeOrUnsubscribeSMSFromFollowedEmployers(
+            ApiServiceMyBdjobs.create().subscribeOrUnsubscribeSMSFromFollowedEmployers(
                     userId = bdjobsUserSession.userId,
                     decodeId = bdjobsUserSession.decodId,
                     companyId = item.companyID,
@@ -310,12 +294,12 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     action = type,
                     appId = Constants.APP_ID
 
-            ).enqueue(object : Callback<SMSSubscribeModel> {
-                override fun onFailure(call: Call<SMSSubscribeModel>, t: Throwable) {
+            ).enqueue(object : Callback<EmployerSubscribeModel> {
+                override fun onFailure(call: Call<EmployerSubscribeModel>, t: Throwable) {
                     error("onFailure", t)
                 }
 
-                override fun onResponse(call: Call<SMSSubscribeModel>, response: Response<SMSSubscribeModel>) {
+                override fun onResponse(call: Call<EmployerSubscribeModel>, response: Response<EmployerSubscribeModel>) {
                     try {
                         response.body()?.statuscode?.let { status ->
                             if (status.equalIgnoreCase(Constants.api_request_result_code_ok)) {
@@ -331,9 +315,9 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     }
                 }
             })
-        } catch (e: Exception) {
+        /*} catch (e: Exception) {
             e.printStackTrace()
-        }
+        }*/
     }
 
     private fun openSubscribeInfoDialog() {
@@ -350,7 +334,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 text = if (isNewPurchaseNeeded!!.equalIgnoreCase("True")) "Purchase SMS Package" else "SMS Settings"
             }.setOnClickListener {
                 if (isNewPurchaseNeeded!!.equalIgnoreCase("False")) {
-                    context.startActivity<BaseActivity>("from" to "favourite")
+                    context.startActivity<BaseActivity>("from" to "employer")
                     this.cancel()
                 } else {
                     context.startActivity<BaseActivity>()
@@ -382,7 +366,6 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                 val deletedItem = followedEmployerList?.get(position)
                 val companyid = followedEmployerList?.get(position)?.companyID
                 val companyName = followedEmployerList?.get(position)?.companyName
-                //Log.d("werywirye", "companyid = $companyid companyname = $companyName")
                 followedEmployerList?.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeRemoved(position, followedEmployerList?.size!!)
@@ -397,9 +380,8 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     val followUnfollowRequest = OneTimeWorkRequestBuilder<FollowUnfollowWorker>().setInputData(followUnfollowData).setConstraints(constraints).build()
                     WorkManager.getInstance(context).enqueue(followUnfollowRequest)
 
-//                    val deleteJobID = FollowUnfollowJob.scheduleAdvancedJob(companyid!!, companyName!!)
-                    bdjobsUserSession?.deccrementFollowedEmployer()
-                    //undoRemove(view, deletedItem, position, deleteJobID)
+                   bdjobsUserSession?.deccrementFollowedEmployer()
+
                     employersCommunicator.decrementCounter(position)
                 } catch (e: Exception) {
 
@@ -413,27 +395,8 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
         }
     }
 
-    private fun undoRemove(v: View, deletedItem: FollowEmployerListData?, deletedIndex: Int, deleteJobID: Int) {
-        // here we show snackbar and undo option
 
-        val msg = Html.fromHtml("<font color=\"#ffffff\"> This item has been removed! </font>")
-        val snack = Snackbar.make(v, "$msg", Snackbar.LENGTH_LONG)
-                .setAction("UNDO") {
-//                    FollowUnfollowJob.cancelJob(deleteJobID)
-                    restoreMe(deletedItem!!, deletedIndex)
-                    employersCommunicator?.scrollToUndoPosition(deletedIndex)
-                    //Log.d("comid", "comid = ${deletedItem} ccc = ${deletedIndex}")
-                }
 
-        snack?.show()
-        //Log.d("swipe", "dir to LEFT")
-    }
-
-    private fun restoreMe(item: FollowEmployerListData, pos: Int) {
-        followedEmployerList?.add(pos, item)
-        notifyItemInserted(pos)
-        undoButtonPressed = true
-    }
 
     fun add(r: FollowEmployerListData) {
         followedEmployerList?.add(r)
@@ -479,7 +442,7 @@ class FollowedEmployerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
     val followUunfollow = view?.findViewById(R.id.follow_unfollow_BTN) as MaterialButton
     val buttonSubscribe = view?.findViewById(R.id.btn_subscribe_sms) as MaterialButton
-    val buttonUnsubscribe = view?.findViewById(R.id.btn_subscribe_sms) as MaterialButton
+    val buttonUnsubscribe = view?.findViewById(R.id.btn_unsubscribe_sms) as MaterialButton
     val followemployersCard = view?.findViewById(R.id.follwEmp_cardview) as CardView
 }
 
@@ -489,7 +452,7 @@ class FollowedEmployerViewHolderWithAd(view: View) : RecyclerView.ViewHolder(vie
     val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
     val followUunfollow = view?.findViewById(R.id.follow_unfollow_BTN) as MaterialButton
     val buttonSubscribe = view?.findViewById(R.id.btn_subscribe_sms) as MaterialButton
-    val buttonUnsubscribe = view?.findViewById(R.id.btn_subscribe_sms) as MaterialButton
+    val buttonUnsubscribe = view?.findViewById(R.id.btn_unsubscribe_sms) as MaterialButton
     val followemployersCard = view?.findViewById(R.id.follwEmp_cardview) as CardView
     val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
 }

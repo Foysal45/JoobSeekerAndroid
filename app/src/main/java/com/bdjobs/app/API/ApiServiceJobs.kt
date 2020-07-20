@@ -337,17 +337,7 @@ interface ApiServiceJobs {
     action:0
     appId:1*/
 
-    @FormUrlEncoded
-    @POST("apps_subscribe_sms_follow_employer.asp")
-    fun subscribeOrUnsubscribeSMSFromFollowedEmployers(
-            @Field("userId") userId: String? = "",
-            @Field("decodeId") decodeId: String? = "",
-            @Field("followId") followId: String? = "",
-            @Field("companyId") companyId: String? = "",
-            @Field("action") action: Int?,
-            @Field("appId") appId: String? = Constants.APP_ID
 
-    ) : Call<SMSSubscribeModel>
 
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")

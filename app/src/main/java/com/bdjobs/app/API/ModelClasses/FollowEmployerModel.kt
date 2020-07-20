@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName
 
 
 
+
+
 /*@Keep
 data class FollowEmployerListModelClass(
         @SerializedName("common")
@@ -118,4 +120,23 @@ data class FollowEmployerListData(
     val isSubscribed: String?= "",
     @SerializedName("JobCount")
     val jobCount: String?= ""
+)
+
+
+@Keep
+data class EmployerSubscribeModel(
+    @SerializedName("common")
+    val common: Any?,
+    @SerializedName("data")
+    val `data`: List<EmployerSubscribeData>?,
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("statuscode")
+    val statuscode: String?
+)
+
+@Keep
+data class EmployerSubscribeData(
+    @SerializedName("isNewSMSPurchaseNeeded")
+    val isNewSMSPurchaseNeeded: String?
 )
