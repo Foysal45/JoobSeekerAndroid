@@ -63,11 +63,13 @@
 
 
         <TextView
+            android:gravity="center"
             android:id="@+id/notificationCountTV"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:background="@drawable/notification_count_circle"
-            android:text="20"
+            android:text="2"
+            android:paddingBottom="1dp"
             android:textColor="#FFF"
             android:textSize="12sp"
             android:visibility="visible"
@@ -263,15 +265,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
 
                 <include
+                    android:layout_marginTop="5dp"
                     android:id="@+id/favSearchView"
                     layout="@layout/my_favourite_search_filter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
 
                 <include
                     android:id="@+id/videoInvitationView"

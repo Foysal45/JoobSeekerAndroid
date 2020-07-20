@@ -269,37 +269,37 @@ data class InviteCodeInfo(@ColumnInfo(name = "userId")
 @Entity(tableName = "Notification")
 @Keep
 data class Notification(@ColumnInfo(name = "type")
-                        val type: String?,
+                        val type: String? = "",
                         @ColumnInfo(name = "server_id")
-                        val serverId: String?,
+                        val serverId: String? = "",
                         @ColumnInfo(name = "seen")
-                        val seen: Boolean?,
+                        val seen: Boolean? = false,
                         @ColumnInfo(name = "img_link")
-                        val imageLink: String?,
+                        val imageLink: String? = "",
                         @ColumnInfo(name = "link")
-                        val link: String?,
+                        val link: String? = "",
                         @ColumnInfo(name = "is_deleted")
-                        val isDeleted: Boolean?,
+                        val isDeleted: Boolean? = false,
                         @ColumnInfo(name = "arrival_time")
-                        val arrivalTime: Date?,
+                        val arrivalTime: Date? = null,
                         @ColumnInfo(name = "seen_time")
-                        val seenTime: Date?,
+                        val seenTime: Date? = null,
                         @ColumnInfo(name = "payload")
-                        val payload: String?,
+                        val payload: String? = "",
                         @ColumnInfo(name = "job_title")
-                        val jobTitle: String?,
+                        val jobTitle: String? = "",
                         @ColumnInfo(name = "title")
-                        val title: String?,
+                        val title: String? = "",
                         @ColumnInfo(name = "body")
-                        val body: String?,
+                        val body: String? = "",
                         @ColumnInfo(name = "company_name")
-                        val companyName: String?,
+                        val companyName: String? = "",
                         @ColumnInfo(name = "notification_id")
-                        val notificationId: String?,
+                        val notificationId: String? = "",
                         @ColumnInfo(name = "lan_type")
-                        val lanType: String?,
+                        val lanType: String? = "",
                         @ColumnInfo(name = "deadline")
-                        val deadline: String?
+                        val deadline: String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

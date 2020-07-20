@@ -32,16 +32,16 @@ class Constants {
         val ADMOB_NATIVE_AD_UNIT_ID = "ca-app-pub-5130888087776673/8613851148"
         val ADMOB_APP_ID = "ca-app-pub-5130888087776673~6094744346"
         val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-5130888087776673/3622884741"
-        var nativeAdvertisement : UnifiedNativeAd? = null
+        var nativeAdvertisement: UnifiedNativeAd? = null
 
 
         var hotjobs: List<HotJobsData?>? = listOf()
 
 
-        fun deleteFavCount(filterId:String?){
+        fun deleteFavCount(filterId: String?) {
             try {
                 Favcounts.forEachIndexed { index, favouriteSearchCountDataModelWithID ->
-                    if(favouriteSearchCountDataModelWithID.id == filterId){
+                    if (favouriteSearchCountDataModelWithID.id == filterId) {
                         Favcounts.removeAt(index)
                     }
                 }
@@ -50,9 +50,9 @@ class Constants {
         }
 
 
-        val Favcounts:ArrayList<FavouriteSearchCountDataModelWithID> = ArrayList<FavouriteSearchCountDataModelWithID>()
+        val Favcounts: ArrayList<FavouriteSearchCountDataModelWithID> = ArrayList<FavouriteSearchCountDataModelWithID>()
 
-        const val GOOGLE_SIGN_IN_CLIENT_ID ="538810570838-2u4ecb19a0kl7789girooesoq9rsfhdn.apps.googleusercontent.com"
+        const val GOOGLE_SIGN_IN_CLIENT_ID = "538810570838-2u4ecb19a0kl7789girooesoq9rsfhdn.apps.googleusercontent.com"
 
         var isSMSFree = "False"
 
@@ -168,6 +168,7 @@ class Constants {
         const val api_jobs_db_update = "dbupdate.asp"
         const val api_mybdjobs_app_favouritejob_count = "app_favouritejob_count.asp"
         const val session_key_cvuploadstatus = "cvuploadstatus"
+
         //const val session_key_job_apply_count = "jobApplyCount"
         //const val session_key_available_job_count = "availableJobCount"
         const val session_job_apply_limit = "jobApplyLimit"
@@ -177,17 +178,16 @@ class Constants {
 
         const val session_key_mybdjobscount_jobs_applied_thismonth = "jobs_applied_thismonth"
         const val session_key_mybdjobscount_times_emailed_resume_lastmonth = "times_emailed_resume_lastmonth"
-        const val session_key_mybdjobscount_employers_viwed_resume_lastmonth= "employers_viwed_resume_lastmonth"
+        const val session_key_mybdjobscount_employers_viwed_resume_lastmonth = "employers_viwed_resume_lastmonth"
         const val session_key_mybdjobscount_employers_followed_lastmonth = "employers_followed_lastmonth"
         const val session_key_mybdjobscount_interview_invitation_lastmonth = "interview_invitation_lastmonth"
         const val session_key_mybdjobscount_message_by_employers_lastmonth = "message_by_employers_lastmonth"
         const val session_key_mybdjobscount_video_invitation_lastmonth = "video_invitation_lastmonth"
 
 
-
         const val session_key_mybdjobscount_jobs_applied_alltime = "jobs_applied_alltime"
         const val session_key_mybdjobscount_times_emailed_resume_alltime = "times_emailed_resume_alltime"
-        const val session_key_mybdjobscount_employers_viwed_resume_alltime= "employers_viwed_resume_alltime"
+        const val session_key_mybdjobscount_employers_viwed_resume_alltime = "employers_viwed_resume_alltime"
         const val session_key_mybdjobscount_employers_followed_alltime = "employers_followed_alltime"
         const val session_key_mybdjobscount_interview_invitation_alltime = "interview_invitation_alltime"
         const val session_key_mybdjobscount_message_by_employers_alltime = "message_by_employers_alltime"
@@ -195,7 +195,7 @@ class Constants {
 
         const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
         const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"
-        const val session_key_mybdjobscount_employers_viwed_resume= "Employers Viewed\nResume"
+        const val session_key_mybdjobscount_employers_viwed_resume = "Employers Viewed\nResume"
         const val session_key_mybdjobscount_employers_followed = "Employers\nFollowed"
         const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
@@ -240,6 +240,9 @@ class Constants {
         const val NOTIFICATION_TYPE_VIDEO_INTERVIEW = "vi"
         const val NOTIFICATION_TYPE_SMS = "sms"
         const val NOTIFICATION_TYPE_APPLIED_JOBS = "aj"
+
+        const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"
+
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)
@@ -336,46 +339,50 @@ class Constants {
             dialog?.show()
         }
 
-        fun getDateTimeAsAgo(date: Date?) : HashMap<String,Long>{
+        fun getDateTimeAsAgo(date: Date?): HashMap<String, Long> {
+            val hashMap = HashMap<String, Long>()
+            try {
 
-           val hashMap = HashMap<String,Long>()
+                val seconds = TimeUnit.MILLISECONDS.toSeconds(Date().time - date!!.time)
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date!!.time)
+                val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date!!.time)
+                val days = TimeUnit.MILLISECONDS.toDays(Date().time - date!!.time)
 
+                when {
+                    seconds < 60 -> {
+                        hashMap["seconds"] = seconds
+                        return hashMap
+                    }
+                    minutes < 60 -> {
+                        hashMap["minutes"] = minutes
+                        return hashMap
+                    }
+                    hours < 24 -> {
+                        hashMap["hours"] = hours
+                        return hashMap
+                    }
+                    else -> {
+                        hashMap["days"] = days
+                        return hashMap
+                    }
+                }
 
-            val seconds = TimeUnit.MILLISECONDS.toSeconds(Date().time - date!!.time)
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date!!.time)
-            val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date!!.time)
-            val days = TimeUnit.MILLISECONDS.toDays(Date().time - date!!.time)
+            } catch (e: Exception) {
 
-            when {
-                seconds < 60 -> {
-                    hashMap["seconds"] = seconds
-                    return  hashMap
-                }
-                minutes < 60 -> {
-                    hashMap["minutes"] = minutes
-                    return hashMap
-                }
-                hours < 24 -> {
-                    hashMap["hours"] = hours
-                    return hashMap
-                }
-                else -> {
-                    hashMap["days"] = days
-                    return hashMap
-                }
             }
+            return hashMap
         }
 
         var recordingStarted = false
 
-        var jobId : String? = ""
-        var applyId :String? = ""
-        var quesId : String? = ""
-        var quesSerialNo : String? = ""
-        var duration : String? = ""
-        var file : File? = null
+        var jobId: String? = ""
+        var applyId: String? = ""
+        var quesId: String? = ""
+        var quesSerialNo: String? = ""
+        var duration: String? = ""
+        var file: File? = null
 
-        fun createVideoManagerDataForUpload(videoManager: VideoManager?){
+        fun createVideoManagerDataForUpload(videoManager: VideoManager?) {
             jobId = videoManager?.jobId
             applyId = videoManager?.applyId
             quesId = videoManager?.questionId

@@ -23,6 +23,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JOB
@@ -50,6 +51,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
         private const val TYPE_PROMOTIONAL_MESSAGE = 3
         private const val TYPE_VIDEO_INTERVIEW = 5
         private const val TYPE_SMS = 6
+        private const val TYPE_BANNER_PROMOTIONAL_MESSAGE = 7
     }
 
     private val notificationCommunicatior = context as NotificationCommunicatior
@@ -88,6 +90,11 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 viewHolder = PromotionalMessageViewHolder(view)
             }
 
+            TYPE_BANNER_PROMOTIONAL_MESSAGE -> {
+                val view = inflater.inflate(R.layout.notification_item_msg, parent, false)
+                viewHolder = BannerPromotionalViewHolder(view)
+            }
+
             TYPE_VIDEO_INTERVIEW ->{
                 val view = inflater.inflate(R.layout.notification_item_video_interview, parent, false)
                 viewHolder = VideoInterviewViewHolder(view)
@@ -116,6 +123,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
             NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> TYPE_PROMOTIONAL_MESSAGE
             NOTIFICATION_TYPE_VIDEO_INTERVIEW-> TYPE_VIDEO_INTERVIEW
             NOTIFICATION_TYPE_SMS-> TYPE_SMS
+            NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE-> TYPE_BANNER_PROMOTIONAL_MESSAGE
             else -> TYPE_INTERVIEW_INVITATION
         }
 
@@ -263,7 +271,6 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     context.startActivity<VideoInterviewActivity>()
                 }
             }
-
 
             TYPE_CV_VIEWED -> {
 
@@ -548,6 +555,87 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     promotionalMessageViewHolder?.messageImage.hide()
                 }
             }
+
+            TYPE_BANNER_PROMOTIONAL_MESSAGE -> {
+                val promotionalMessageViewHolder = holder as BannerPromotionalViewHolder
+
+                val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
+
+
+                try {
+                    when {
+                        hashMap.containsKey("seconds") -> promotionalMessageViewHolder.messageTime.text = "just now"
+                        hashMap.containsKey("minutes") -> {
+                            if (hashMap["minutes"]!! > 1)
+                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minutes ago"
+                            else
+                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minute ago"
+                        }
+                        hashMap.containsKey("hours") -> {
+                            if (hashMap["hours"]!! > 1)
+                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hours ago"
+                            else
+                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hour ago"
+                        }
+                        else -> {
+                            if (hashMap["days"]!! > 1)
+                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} days ago"
+                            else
+                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} day ago"
+                        }
+                    }
+                } catch (e: Exception) {
+                }
+
+
+                val title = Html.fromHtml(items[position].title)
+                if (!items[position].title.isNullOrEmpty()) {
+                    promotionalMessageViewHolder.messageTitle?.show()
+                    promotionalMessageViewHolder.messageTitle?.text = title
+                } else {
+                    promotionalMessageViewHolder.messageTitle?.hide()
+                }
+
+                val body = Html.fromHtml(items[position].body)
+                if (!items[position].body.isNullOrEmpty()) {
+                    promotionalMessageViewHolder.messageText?.show()
+                    promotionalMessageViewHolder.messageText?.text = body
+                } else {
+                    promotionalMessageViewHolder.messageText?.hide()
+                }
+
+                if (!items[position].link.isNullOrEmpty()) {
+                    promotionalMessageViewHolder?.messageButton?.show()
+                    promotionalMessageViewHolder?.messageButton?.onClick {
+                        try {
+                            context?.openUrlInBrowser(items[position].link)
+                        } catch (e: Exception) {
+                        }
+                        notificationCommunicatior.positionClickedMessage(position)
+                    }
+                } else {
+                    promotionalMessageViewHolder?.messageButton?.hide()
+                }
+
+                if (!items[position].imageLink.isNullOrEmpty()) {
+                    promotionalMessageViewHolder?.card?.show()
+                    promotionalMessageViewHolder?.messageImage.show()
+                    try {
+                        Picasso.get().load(R.drawable.banner_sms).into(promotionalMessageViewHolder?.messageImage)
+                    } catch (e: Exception) {
+                    }
+                } else {
+                    promotionalMessageViewHolder?.card?.show()
+                    promotionalMessageViewHolder?.messageImage.show()
+                    try {
+                        Picasso.get().load(R.drawable.banner_sms).into(promotionalMessageViewHolder?.messageImage)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+//                    promotionalMessageViewHolder?.card?.hide()
+//                    promotionalMessageViewHolder?.messageImage.hide()
+                }
+            }
         }
 
     }
@@ -613,6 +701,16 @@ class MatchedJobViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 }
 
 class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val messageTitle = view?.findViewById(R.id.message_title) as TextView
+    val messageText = view?.findViewById(R.id.message_text) as TextView
+    val messageButton = view?.findViewById(R.id.message_btn) as MaterialButton
+    val messageTime = view?.findViewById(R.id.message_time_text) as TextView
+    val messageImage = view?.findViewById(R.id.message_image) as ImageView
+    val card = view?.findViewById(R.id.card) as CardView
+
+}
+
+class BannerPromotionalViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val messageTitle = view?.findViewById(R.id.message_title) as TextView
     val messageText = view?.findViewById(R.id.message_text) as TextView
     val messageButton = view?.findViewById(R.id.message_btn) as MaterialButton

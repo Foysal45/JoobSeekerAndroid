@@ -8,6 +8,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import kotlinx.android.synthetic.main.activity_base.*
 
 class BaseActivity : AppCompatActivity() {

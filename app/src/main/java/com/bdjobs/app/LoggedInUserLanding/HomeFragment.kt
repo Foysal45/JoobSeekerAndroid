@@ -156,6 +156,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToFavSearchFilters()
         }
         lastSearchView?.setOnClickListener {
+            Log.d("rakib","clicked")
             homeCommunicator.goToJoblistFromLastSearch()
         }
         jobInvitationView?.setOnClickListener {

@@ -3,6 +3,7 @@ package com.bdjobs.app.Notification
 
 import android.os.Bundle
 import android.app.Fragment
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,9 +29,9 @@ class MessageListFragment : Fragment() {
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter : NotificationListAdapter
+    private lateinit var adapter: NotificationListAdapter
 
-    var notificationList: List<Notification>? = null
+    var notificationList: MutableList<Notification>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -48,7 +49,13 @@ class MessageListFragment : Fragment() {
 
     private fun showDataFromDB() {
         doAsync {
-            notificationList = bdjobsDB.notificationDao().getMessage()
+            notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
+            notificationList?.add(0, Notification(
+                    title = "SMS Job Alert",
+                    body = "You can get personalized job alert daily in pocket",
+                    type = "bpm",
+                    imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
+                    link = "www.google.com"))
             uiThread {
                 adapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                 notificationsRV?.also {
@@ -73,7 +80,7 @@ class MessageListFragment : Fragment() {
         }
     }
 
-    fun updateView(item : Notification){
+    fun updateView(item: Notification) {
         adapter?.addItem(item)
         adapter?.notifyDataSetChanged()
     }

@@ -187,7 +187,7 @@ class QuestionListFragment : Fragment() {
 
         binding.btnGuide.setOnClickListener {
             //findNavController().navigate(R.id.action_questionListFragment_to_guidelineLandingFragment)
-            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/UserGuideFor_videoInterview.asp","from" to "video")
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/AppUserGuideFor_videoInterview.asp","from" to "video")
         }
     }
 
