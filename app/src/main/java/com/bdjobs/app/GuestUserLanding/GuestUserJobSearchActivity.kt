@@ -31,7 +31,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_loacationET
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
-import kotlinx.android.synthetic.main.activity_guest_user_job_search.version_name_tv
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
@@ -48,7 +47,7 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_user_job_search)
-        version_name_tv.text = "v${getAppVersion()} (${getAppVersionCode()})"
+        //version_name_tv.text = "v${getAppVersion()} (${getAppVersionCode()})"
         dataStorage = DataStorage(applicationContext)
         initialization()
         onClicks()
