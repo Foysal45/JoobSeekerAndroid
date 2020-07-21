@@ -228,6 +228,7 @@ class Constants {
         const val KEY_APP_VERSION = "appVersion"
         const val KEY_SCREEN_SIZE = "screensize"
         const val APP_ID = "1"
+        const val SMS_SERVICE_ID = 78
 
         const val NOTIFICATION_TYPE_INTERVIEW_INVITATION = "ii"
         const val NOTIFICATION_TYPE_CV_VIEWED = "cv"

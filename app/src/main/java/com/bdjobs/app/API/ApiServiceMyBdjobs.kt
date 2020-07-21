@@ -8,6 +8,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
@@ -1120,6 +1121,32 @@ interface ApiServiceMyBdjobs {
             @Field("itemsPerPage") itemsPerPage: String? = ""
     ): TransactionList
 
+    @FormUrlEncoded
+    @POST("apps_payment_info_before_entering_gateway.asp")
+    suspend fun paymentInfoBeforeEnteringGateway(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("appId") appId: String? = "",
+            @Field("totalQuantity") totalQuantity: String? = "",
+            @Field("totalAmount") totalAmount: String? = "",
+            @Field("serviceId") serviceId: Int? ,
+            @Field("isFree") isFree: String? = ""
+    ): PaymentInfoBeforeGateway
+
+    @FormUrlEncoded
+    @POST("apps_payment_info_after_returning_gateway.asp")
+    suspend fun paymentInfoAfterReturningGateway(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("appId") appId: String? = "",
+            @Field("tran_id") tranId: String? = "",
+            @Field("card_type") cardType: String? = "",
+            @Field("store_amount") storeAmount: String? ,
+            @Field("val_id") valId: String? = "",
+            @Field("status") status: String? = "",
+            @Field("currency_type") currencyType: String? = "",
+            @Field("tran_date") tranDate: String? = ""
+    )
 
     companion object Factory {
         @Volatile
@@ -1150,8 +1177,7 @@ interface ApiServiceMyBdjobs {
 
             return Retrofit.Builder().apply {
                 baseUrl(Constants.baseUrlMyBdjobs)
-                addConverterFactory(GsonConverterFactory.create(gson))
-                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(MoshiConverterFactory.create(moshi))
                 if (BuildConfig.DEBUG) {
                     client(okHttpClient)
                 }
