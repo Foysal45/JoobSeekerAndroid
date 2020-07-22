@@ -24,6 +24,7 @@ data class TransactionList(
     )
 
 
+
     @Keep
     @JsonClass(generateAdapter = true)
     data class TransactionData(

@@ -126,7 +126,19 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
 
-    @GET("CompanyListFollowEmployerForAll.asp")
+   /* @GET("CompanyListFollowEmployerForAll.asp")
+    fun getFollowEmployerListLazy(
+            @Query("userID") userID: String? = "",
+            @Query("decodeId") decodeId: String? = "",
+            @Query("Apstyp") Apstyp: String? = "M", // M for all list and j for only live job
+            @Query("encoded") encoded: String? = "",
+            @Query("isActivityDate") isActivityDate: String? = "0",
+            @Query("pg") pg: String? = "1",
+            @Query("appId") appId :String? = Constants.APP_ID
+    ): Call<FollowEmployerListModelClass>*/
+
+
+    @GET("CompanyListFollowEmployerForAll_smsalert.asp")
     fun getFollowEmployerListLazy(
             @Query("userID") userID: String? = "",
             @Query("decodeId") decodeId: String? = "",
@@ -136,7 +148,6 @@ interface ApiServiceJobs {
             @Query("pg") pg: String? = "1",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
-
 
     @GET("storedjobsDeadlines.asp")  // @GET("storedjobsDetails.asp")
     fun getShortListedJobs(
@@ -319,6 +330,14 @@ interface ApiServiceJobs {
             @Field("param2") param2 : String? = ""
 
     ) : Call<ResponseBody>
+   /* userId:241028
+    decodeId:T8B8Rx
+    followId:5077132
+    companyId:61065
+    action:0
+    appId:1*/
+
+
 
 
     @GET("HOTJOBXMLAutoTemplateNewOnline.asp")

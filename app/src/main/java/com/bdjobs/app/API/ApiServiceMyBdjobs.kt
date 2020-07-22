@@ -1148,6 +1148,29 @@ interface ApiServiceMyBdjobs {
             @Field("tran_date") tranDate: String? = ""
     ) : CommonResponse
 
+   /* @FormUrlEncoded
+    @POST("apps_subscribe_sms_follow_employer.asp")
+    fun subscribeOrUnsubscribeSMSFromFollowedEmployers(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("followId") followId: String? = "",
+            @Field("companyId") companyId: String? = "",
+            @Field("action") action: Int?,
+            @Field("appId") appId: String? = Constants.APP_ID
+
+    ) : Call<EmployerSubscribeModel>*/
+
+
+    @FormUrlEncoded
+    @POST("apps_subscribe_sms_follow_employer.asp")
+    fun subscribeOrUnsubscribeSMSFromFollowedEmployers(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("followId") followId: String? = "",
+            @Field("companyId") companyId: String? = "",
+            @Field("action") action: Int?,
+            @Field("appId") appId: String? = Constants.APP_ID
+    ): Call<EmployerSubscribeModel>
     companion object Factory {
         @Volatile
         private var retrofit: Retrofit? = null

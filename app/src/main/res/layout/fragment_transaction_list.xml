@@ -126,7 +126,7 @@
             <LinearLayout
                 android:id="@+id/invitationNoDataLL"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="@{transactionViewModel.transactionListData.size() > 0 ? View.GONE : View.VISIBLE}"

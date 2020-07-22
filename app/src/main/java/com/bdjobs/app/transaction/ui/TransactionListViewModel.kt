@@ -30,31 +30,25 @@ class TransactionListViewModel(private val repository: TransactionRepository) : 
         _dataLoading.value = true
         viewModelScope.launch {
             try {
-                Log.d("saklnflsan"," View Model $startDate,endDate $endDate,type $type")
-
-                val response = repository.getTransactionList(startDate,endDate ,type)
-
-                when (response.statuscode) {
-                    "0" -> {
-                        _transactionListData.value = response.data
-                        _totalTransaction.value = response.data!!.size.toString()
-                        Log.d("slknaslns"," FROM API ${response.common!!.totalTransaction.toString()}")
-
-                        _dataLoading.value = false
+                    val response = repository.getTransactionList(startDate,endDate ,type)
+                    when (response.statuscode) {
+                        "0" -> {
+                               _transactionListData.value = response.data
+                             _totalTransaction.value = response.data!!.size.toString()
+                            _dataLoading.value = false
+                        }
+                        "3" -> {
+                            _transactionListData.value = response.data
+                            _totalTransaction.value = "0"
+                            _dataLoading.value = false
+                        }
                     }
-                    "3" -> {
-                        _dataLoading.value = false
-                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+
                 }
 
 
-                Log.d("slknaslns","${response.common!!.totalTransaction.toString()}")
-                Log.d("slknaslns","$totalTransaction")
-
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
         }
     }
 

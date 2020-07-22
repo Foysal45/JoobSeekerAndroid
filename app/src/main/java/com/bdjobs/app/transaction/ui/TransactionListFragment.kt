@@ -24,18 +24,14 @@ import kotlinx.android.synthetic.main.fragment_transaction_list.*
 class TransactionListFragment : Fragment() {
 
 
-    private val transactionListViewModel: TransactionListViewModel by navGraphViewModels(R.id.transactionListFragment){ ViewModelFactoryUtil.provideTransactionListViewModelFactory(this) }
+    private val transactionListViewModel: TransactionListViewModel by navGraphViewModels(R.id.transactionListFragment) { ViewModelFactoryUtil.provideTransactionListViewModelFactory(this) }
     lateinit var binding: FragmentTransactionListBinding
-     var startDate = ""
-     var endDate = ""
-     var type = ""
+    var startDate = ""
+    var endDate = ""
+    var type = ""
     val args: TransactionListFragmentArgs by navArgs()
 
-    /* private val args: TransactionListFragmentArgs by navArgs()*/
 
-    // Use the 'by activityViewModels()' Kotlin property delegate
-    // from the fragment-ktx artifact
-    private val sharedViewModel: SharedViewModel by activityViewModels()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -47,28 +43,20 @@ class TransactionListFragment : Fragment() {
         return binding.root
 
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = TransactionListAdapter(requireContext())
-
-
-
         try {
-            if (arguments != null){
-                Log.d("saklnflsan"," Argument ${args.from} ${args.startDate} ${args.endDate} ${args.transactionType}")
+            if (arguments != null) {
 
-                if (args.from == "default"){
-                    transactionListViewModel.getTransactionList("","","0")
+                if (args.from == "default") {
+                    transactionListViewModel.getTransactionList("", "", "0")
                 } else {
-
-
                     when {
                         args.transactionType.equals("Online Application") -> {
-                                type = "3"
+                            type = "3"
                         }
                         args.transactionType.equals("Employability Assessment") -> {
                             type = "1"
@@ -81,18 +69,18 @@ class TransactionListFragment : Fragment() {
                         }
                     }
 
-                    transactionListViewModel.getTransactionList(args.startDate!!,args.endDate!!,type)
+                    transactionListViewModel.getTransactionList(args.startDate!!, args.endDate!!, type)
                 }
 
 
             }
         } catch (e: Exception) {
-            Log.d("saklnflsan"," In Exception ")
+
         }
 
+        val adapter = TransactionListAdapter(requireContext())
 
 
-        Log.d("saklnflsan"," all startDate $startDate,endDate $endDate,type $type")
         binding.lifecycleOwner = this
 
 
@@ -102,7 +90,7 @@ class TransactionListFragment : Fragment() {
         }
 
         transactionListViewModel.apply {
-            transactionListData.observe(viewLifecycleOwner,Observer {
+            transactionListData.observe(viewLifecycleOwner, Observer {
                 adapter.submitList(it)
             })
         }
@@ -113,10 +101,7 @@ class TransactionListFragment : Fragment() {
         }
 
 
-
     }
-
-
 
 
 }

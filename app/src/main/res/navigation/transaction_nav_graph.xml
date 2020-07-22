@@ -13,7 +13,7 @@
         tools:layout="@layout/fragment_transaction_list" >
 
         <action
-
+            app:popUpTo="@id/transactionListFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -49,6 +49,8 @@
         android:label="Transaction Filter"
         tools:layout="@layout/transaction_filter_fragment" >
         <action
+            app:launchSingleTop="true"
+            app:popUpTo="@id/transactionListFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"

@@ -204,7 +204,7 @@ class FollowedEmployersListFragment : Fragment() {
 
                     followedEmployerList = response.body()?.data as List<FollowEmployerListData>?
 
-                    followedListSize = response.body()?.common?.total_records_found?.toInt()!!
+                    followedListSize = response.body()?.common?.totalRecordsFound?.toInt()!!
                     followedEmployersAdapter?.addAll(followedEmployerList!!)
 
                     shimmer_view_container_JobList?.hide()

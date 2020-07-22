@@ -3,10 +3,12 @@ package com.bdjobs.app.transaction.ui
 import android.app.DatePickerDialog
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,10 +16,13 @@ import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import kotlinx.android.synthetic.main.fragment_professional_ql_edit.*
 import kotlinx.android.synthetic.main.transaction_filter_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
+import org.jetbrains.anko.toast
 import java.nio.channels.Selector
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,7 +32,7 @@ class TransactionFilterFragment : Fragment() {
         fun newInstance() = TransactionFilterFragment()
     }
 
-    private val typeArray = arrayOf("Online Application", "Employability Assessment", "SMS Job Alert")
+    private val typeArray = arrayOf("Employability Assessment", "SMS Job Alert")
     private lateinit var now: Calendar
     private lateinit var viewModel: TransactionFilterViewModel
     private var date: Date? = null
@@ -51,10 +56,7 @@ class TransactionFilterFragment : Fragment() {
     var startDate = ""
     var endDate = ""
 
-    // Use the 'by activityViewModels()' Kotlin property delegate
-    // from the fragment-ktx artifact
-    private val sharedViewModel: SharedViewModel by activityViewModels()
-    private val transactionListViewModel: TransactionListViewModel by navGraphViewModels(R.id.transactionListFragment){ ViewModelFactoryUtil.provideTransactionListViewModelFactory(this) }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -78,7 +80,7 @@ class TransactionFilterFragment : Fragment() {
 
             requireContext().selector("Select Transaction type", typeArray.toList()) { _, i ->
                 et_package_type.setText(typeArray[i])
-                sharedViewModel.setType(et_package_type.text.toString())
+
                 til_package_type.requestFocus()
 
 
@@ -88,10 +90,10 @@ class TransactionFilterFragment : Fragment() {
         et_ts_start_date?.setOnClickListener {
 
 
-            if (et_ts_start_date.text.toString().isNullOrEmpty())
+            if (et_ts_start_date.text.toString().isEmpty())
                 pickDate(requireContext(), cal, startDateSetListener)
             else {
-                date = formatter.parse(et_ts_start_date.text.toString())
+                date = formatter.parse(startDate)
                 cal.time = date
                 pickDate(requireContext(), cal, startDateSetListener)
             }
@@ -100,8 +102,8 @@ class TransactionFilterFragment : Fragment() {
         et_ts_end_date?.setOnClickListener {
 
 
-            if (!et_ts_end_date.text.toString().isNullOrEmpty()) {
-                date = formatter.parse(et_ts_end_date.text.toString())
+            if (et_ts_end_date.text.toString().isNotEmpty()) {
+                date = formatter.parse(endDate)
                 cal.time = date
                 pickDate(requireContext(), cal, endDateSetListener)
             } else {
@@ -112,14 +114,16 @@ class TransactionFilterFragment : Fragment() {
         }
         fab_transaction_filter?.setOnClickListener {
 
+              if (dateValidationCheck()){
+                  val action = TransactionFilterFragmentDirections.actionTransactionFilterFragmentToTransactionListFragment()
+                  action.from = "filter"
+                  action.startDate = startDate
+                  action.endDate = endDate
+                  action.transactionType = et_package_type.text.toString()
 
-            val action = TransactionFilterFragmentDirections.actionTransactionFilterFragmentToTransactionListFragment()
-            action.from = "filter"
-            action.startDate = startDate
-            action.endDate = endDate
-            action.transactionType = et_package_type.text.toString()
+                  findNavController().navigate(action)
+              }
 
-            findNavController().navigate(action)
         }
 
 
@@ -134,11 +138,11 @@ class TransactionFilterFragment : Fragment() {
         if (c == 0) {
             et_ts_start_date.setText(viewSdf.format(now.time))
             startDate = apiSdf.format(now.time)
-            sharedViewModel.setStartDate(et_ts_start_date.text.toString())
+
         } else {
             et_ts_end_date.setText(viewSdf.format(now.time))
             endDate = apiSdf.format(now.time)
-            sharedViewModel.setEndDate(et_ts_end_date.text.toString())
+
         }
     }
 
@@ -146,5 +150,47 @@ class TransactionFilterFragment : Fragment() {
     private fun onNavigateUp(): Boolean {
         activity?.onBackPressed()
         return true
+    }
+
+    private fun dateValidationCheck(): Boolean {
+        val sdf1 = SimpleDateFormat("MM/dd/yyyy")
+        try {
+
+
+            if (startDate.isNotEmpty() && endDate.isNotEmpty() ){
+                  val date1 = sdf1.parse(startDate)
+                val date2 = sdf1.parse(endDate)
+
+
+                if (date1!!.after(date2)) {
+
+                    requireContext().toast("Start Date cannot be greater than End Date!")
+                      } else {
+
+
+                    return if (date1 == date2) {
+
+                        requireContext().toast("Start Date and End Date cannot be equal!")
+
+                        false
+                    } else {
+                        true
+                    }
+
+
+                }
+            } else
+                return true
+
+
+
+
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        return false
+
     }
 }
