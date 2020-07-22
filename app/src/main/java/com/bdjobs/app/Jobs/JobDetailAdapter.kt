@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.text.Html
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +44,7 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -91,6 +91,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var applyOnline = ""
     var postedDate = ""
     var applyStatus = false
+    var workPlace = ""
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
     private var language = ""
@@ -223,6 +224,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             companyOtherJobs = jobDetailResponseAll.companyOtherJ0bs!!
                             applyOnline = jobDetailResponseAll.onlineApply!!
                             postedDate = jobDetailResponseAll.postedOn!!
+                            workPlace = jobDetailResponseAll.jobWorkPlace!!
 //                            minSalary = jobDetailResponseAll.minSalary!!
 //                            maxSalary = jobDetailResponseAll.maxSalary!!
 //
@@ -537,6 +539,18 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 }
 
+                                if (workPlace.isBlank()){
+                                    Timber.d("workplace if")
+                                    jobsVH.workingPlaceTV.visibility = View.GONE
+                                    jobsVH.workingPlaceValueTV.visibility = View.GONE
+                                } else{
+                                    Timber.d("workplace else")
+                                    jobsVH.workingPlaceValueTV.text = workPlace
+                                    jobsVH.workingPlaceTV.visibility = View.VISIBLE
+                                    jobsVH.workingPlaceValueTV.visibility = View.VISIBLE
+                                }
+
+
 
                                 if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()) {
 
@@ -626,6 +640,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     }
 
                                 }
+
 
                                 if (readApplyData.isNullOrBlank()) {
                                     jobsVH.tvReadBefApply.visibility = View.GONE
@@ -823,13 +838,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                             }
 
-                            if (jobDetailResponseAll.jobWorkPlace.equals("--") || jobDetailResponseAll.jobWorkPlace.equals("-") || jobDetailResponseAll.jobWorkPlace.isNullOrBlank()){
-                                jobsVH.workingPlaceTV?.hide()
-                                jobsVH.workingPlaceValueTV?.hide()
-                            } else{
-                                jobsVH.workingPlaceTV?.show()
-                                jobsVH.workingPlaceValueTV?.show()
-                            }
+
                         } catch (e: Exception) {
                             logException(e)
                         }
