@@ -12,7 +12,7 @@
         android:label="SMS Package Services"
         tools:layout="@layout/fragment_sms_home_free_trial" >
         <action
-            android:id="@+id/action_smsHomeFragment_to_paymentFragment"
+            android:id="@+id/action_smsHomeFreeTrialFragment_to_paymentFragment"
             app:destination="@id/smsPaymentFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

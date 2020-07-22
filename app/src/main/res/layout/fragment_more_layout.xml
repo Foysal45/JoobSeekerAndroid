@@ -348,7 +348,7 @@
                 android:layout_height="wrap_content"
                 android:text="Transaction Overview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_sms_settings" />
+                app:icon="@drawable/ic_transaction" />
 
             <View
                 android:layout_width="match_parent"

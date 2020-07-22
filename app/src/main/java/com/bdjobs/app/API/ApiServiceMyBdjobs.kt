@@ -1130,7 +1130,8 @@ interface ApiServiceMyBdjobs {
             @Field("totalQuantity") totalQuantity: String? = "",
             @Field("totalAmount") totalAmount: String? = "",
             @Field("serviceId") serviceId: Int? ,
-            @Field("isFree") isFree: String? = ""
+            @Field("isFree") isFree: String? = "",
+            @Field("ip") ip : String? = ""
     ): PaymentInfoBeforeGateway
 
     @FormUrlEncoded
@@ -1145,7 +1146,8 @@ interface ApiServiceMyBdjobs {
             @Field("val_id") valId: String? = "",
             @Field("status") status: String? = "",
             @Field("currency_type") currencyType: String? = "",
-            @Field("tran_date") tranDate: String? = ""
+            @Field("tran_date") tranDate: String? = "",
+            @Field("ip") ip : String? = ""
     ) : CommonResponse
 
    /* @FormUrlEncoded

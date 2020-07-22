@@ -41,15 +41,15 @@ class SMSRepository(private val application: Application) {
         }
     }
 
-    suspend fun callPaymentInfoBeforeGatewayApi() : PaymentInfoBeforeGateway{
+    suspend fun callPaymentInfoBeforeGatewayApi(totalSMS : Int? , totalTaka : Int?) : PaymentInfoBeforeGateway{
         return withContext(Dispatchers.IO){
             ApiServiceMyBdjobs.create().paymentInfoBeforeEnteringGateway(
                     userId = session.userId,
                     decodeId = session.decodId,
                     appId = Constants.APP_ID,
                     serviceId = Constants.SMS_SERVICE_ID,
-                    totalQuantity = "100",
-                    totalAmount = "50",
+                    totalQuantity = totalSMS.toString(),
+                    totalAmount = totalTaka.toString(),
                     isFree = Constants.isSMSFree
             )
         }

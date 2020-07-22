@@ -44,11 +44,11 @@ class PaymentViewModel(val repository: SMSRepository,
 
     init {
         Timber.d("called payment viewModel init")
-        getPaymentInfoBeforeGateway()
+        //getPaymentInfoBeforeGateway()
     }
 
     private val storeIdTest = "bdjob5f0ad29f35834"
-    private val storePasswordTest = "bdjob5f0ad29f35834"
+    private val storePasswordTest = "bdjob5f0ad29f35834@ssl"
 
     private val storeIdLive = "mybdjob02live"
     private val storePasswordLive = "5B4C5502A877419363"
@@ -56,9 +56,14 @@ class PaymentViewModel(val repository: SMSRepository,
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
             try {
-                val response = repository.callPaymentInfoBeforeGatewayApi()
+                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS,totalAmountIntTaka.value)
                 if (response.statuscode == "0"){
                     paymentInfoData = response.data?.get(0)!!
+                    if (totalAmountIntTaka.value!! == 0){
+                        _paymentStatus.value = Status.SUCCESS
+                    } else{
+                        makePayment()
+                    }
 //                    paymentInfoData?.apply{
 //                        serviceId = response.data?.get(0)?.serviceId
 //                        smsSubscribedId = response.data?.get(0)?.smsSubscribedId
@@ -77,7 +82,7 @@ class PaymentViewModel(val repository: SMSRepository,
     }
 
     fun onConfirmPaymentClick() {
-        makePayment()
+        getPaymentInfoBeforeGateway()
     }
 
     private fun makePayment() {
@@ -113,7 +118,7 @@ class PaymentViewModel(val repository: SMSRepository,
 
         val sslCommerzInitialization = SSLCommerzInitialization(
                 storeIdTest, storePasswordTest,
-                10.0, CurrencyType.BDT, paymentInfoData.transactionId,
+                totalAmountIntTaka.value!!.toDouble(), CurrencyType.BDT, paymentInfoData.transactionId,
                 "Payment", SdkType.TESTBOX
         )
 
@@ -138,6 +143,9 @@ class PaymentViewModel(val repository: SMSRepository,
         viewModelScope.launch {
             try {
                 val response = repository.callPaymentAfterReturningGatewayApi(data)
+                if (response.statuscode == "0"){
+                    _paymentStatus.value = Status.SUCCESS
+                }
                 Timber.d("after payment response $response")
             } catch (e:Exception){
                 e.printStackTrace()

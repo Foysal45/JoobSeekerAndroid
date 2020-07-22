@@ -53,6 +53,7 @@
             tools:text="Dear John Doe, your payment was processed successfully." />
 
         <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
             android:id="@+id/btn_download_invoice"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
