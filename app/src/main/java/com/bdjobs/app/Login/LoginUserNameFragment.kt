@@ -65,7 +65,7 @@ class LoginUserNameFragment : Fragment() {
     private var callbackManager: CallbackManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         rootView = inflater.inflate(R.layout.fragment_login_username, container, false)!!
         rootView.view.isEnabled = true
         return rootView
@@ -74,7 +74,7 @@ class LoginUserNameFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         loginCommunicator = activity as LoginCommunicator
         initializeGoogleSignIN()
         initializeFacebookSignIN()
