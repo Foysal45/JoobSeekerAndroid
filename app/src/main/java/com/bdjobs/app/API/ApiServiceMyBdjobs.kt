@@ -1146,7 +1146,7 @@ interface ApiServiceMyBdjobs {
             @Field("status") status: String? = "",
             @Field("currency_type") currencyType: String? = "",
             @Field("tran_date") tranDate: String? = ""
-    )
+    ) : CommonResponse
 
     companion object Factory {
         @Volatile

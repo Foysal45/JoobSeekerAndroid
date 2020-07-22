@@ -1,6 +1,5 @@
 package com.bdjobs.app.sms.ui.payment
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
@@ -38,34 +37,38 @@ class PaymentViewModel(val repository: SMSRepository,
     }
     val totalAmountIntTaka = _totalAmountIntTaka
 
-
     private val _paymentStatus = MutableLiveData<Status>()
     val paymentStatus = _paymentStatus
 
-    private val paymentInfoData : PaymentInfoBeforeGateway.PaymentInfoBeforeGatewayData? = null
+    lateinit var paymentInfoData : PaymentInfoBeforeGateway.PaymentInfoBeforeGatewayData
 
     init {
-        Timber.d("called payment viewmodel init")
+        Timber.d("called payment viewModel init")
         getPaymentInfoBeforeGateway()
     }
+
+    private val storeIdTest = "bdjob5f0ad29f35834"
+    private val storePasswordTest = "bdjob5f0ad29f35834"
+
+    private val storeIdLive = "mybdjob02live"
+    private val storePasswordLive = "5B4C5502A877419363"
 
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
             try {
                 val response = repository.callPaymentInfoBeforeGatewayApi()
-                if (response.statusCode == "0"){
-                    //paymentInfoData = PaymentInfoBeforeGateway.PaymentInfoBeforeGatewayData()
-                    //paymentInfoData = response.data?.get(0)!!
-                    paymentInfoData?.apply{
-                        serviceId = response.data?.get(0)?.serviceId
-                        smsSubscribedId = response.data?.get(0)?.smsSubscribedId
-                        totalAmount = response.data?.get(0)?.totalAmount
-                        totalQuantity = response.data?.get(0)?.totalQuantity
-                        transactionId = response.data?.get(0)?.transactionId
-                        userEmail = response.data?.get(0)?.userEmail
-                        userFullName = response.data?.get(0)?.userFullName
-                        userMobileNo = response.data?.get(0)?.userMobileNo
-                    }
+                if (response.statuscode == "0"){
+                    paymentInfoData = response.data?.get(0)!!
+//                    paymentInfoData?.apply{
+//                        serviceId = response.data?.get(0)?.serviceId
+//                        smsSubscribedId = response.data?.get(0)?.smsSubscribedId
+//                        totalAmount = response.data?.get(0)?.totalAmount
+//                        totalQuantity = response.data?.get(0)?.totalQuantity
+//                        transactionId = response.data?.get(0)?.transactionId
+//                        userEmail = response.data?.get(0)?.userEmail
+//                        userFullName = response.data?.get(0)?.userFullName
+//                        userMobileNo = response.data?.get(0)?.userMobileNo
+//                    }
                 }
             } catch (e:Exception){
                 e.printStackTrace()
@@ -78,6 +81,9 @@ class PaymentViewModel(val repository: SMSRepository,
     }
 
     private fun makePayment() {
+
+        Timber.d("${paymentInfoData.transactionId}")
+
 
         val transactionResponseListener = object : TransactionResponseListener{
             override fun transactionFail(p0: String?) {
@@ -106,19 +112,19 @@ class PaymentViewModel(val repository: SMSRepository,
         }
 
         val sslCommerzInitialization = SSLCommerzInitialization(
-                "mybdjob02live", "5B4C5502A877419363",
-                10.0, CurrencyType.BDT, paymentInfoData?.transactionId,
-                "Payment", SdkType.LIVE
+                storeIdTest, storePasswordTest,
+                10.0, CurrencyType.BDT, paymentInfoData.transactionId,
+                "Payment", SdkType.TESTBOX
         )
 
         val customerInfoInitializer = CustomerInfoInitializer(
-                paymentInfoData?.userFullName,
-                paymentInfoData?.userEmail,
-                "Dhaka",
-                "Dhaka",
-                "1200",
-                "Bangladesh",
-                paymentInfoData?.userMobileNo
+                paymentInfoData.userFullName,
+                paymentInfoData.userEmail,
+                "",
+                "",
+                "",
+                "",
+                paymentInfoData.userMobileNo
         )
 
         IntegrateSSLCommerz
@@ -129,7 +135,6 @@ class PaymentViewModel(val repository: SMSRepository,
     }
 
     fun callAfterPaymentApi(data : TransactionInfoModel?){
-        Timber.d("data ${data.toString()}")
         viewModelScope.launch {
             try {
                 val response = repository.callPaymentAfterReturningGatewayApi(data)

@@ -55,7 +55,7 @@ class SMSRepository(private val application: Application) {
         }
     }
 
-    suspend fun callPaymentAfterReturningGatewayApi(data : TransactionInfoModel?) {
+    suspend fun callPaymentAfterReturningGatewayApi(data : TransactionInfoModel?) : CommonResponse{
         return withContext(Dispatchers.IO){
             ApiServiceMyBdjobs.create().paymentInfoAfterReturningGateway(
                     userId = session.userId,

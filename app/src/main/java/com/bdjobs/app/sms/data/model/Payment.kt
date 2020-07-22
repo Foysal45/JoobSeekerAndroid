@@ -3,6 +3,7 @@ package com.bdjobs.app.sms.data.model
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
+
 @Keep
 data class PaymentInfoBeforeGateway(
         @Json(name = "common")
@@ -12,7 +13,7 @@ data class PaymentInfoBeforeGateway(
         @Json(name = "message")
         val message: String?, // Success
         @Json(name = "statuscode")
-        val statusCode: String? // 0
+        val statuscode: String? // 0
 ) {
     @Keep
     data class PaymentInfoBeforeGatewayData(

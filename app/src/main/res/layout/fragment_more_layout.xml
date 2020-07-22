@@ -339,7 +339,7 @@
                 android:layout_height="wrap_content"
                 android:text="SMS Package Service"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_settings" />
+                app:icon="@drawable/ic_sms_settings" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transaction_overview_MBTN"
@@ -348,7 +348,7 @@
                 android:layout_height="wrap_content"
                 android:text="Transaction Overview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_settings" />
+                app:icon="@drawable/ic_sms_settings" />
 
             <View
                 android:layout_width="match_parent"
