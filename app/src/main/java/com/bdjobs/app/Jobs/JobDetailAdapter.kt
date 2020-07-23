@@ -30,6 +30,7 @@ import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants.Companion.appliedJobsCount
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -1055,7 +1056,13 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
             jobApplicationStatusCard.show()
 
-            appliedJobsCountTV.text = "You have already applied for $appliedJobCount jobs in the current month."
+
+            if (appliedJobsCount != Constants.appliedJobLimit){
+                appliedJobsCountTV.text = "You have already applied for $appliedJobCount jobs in the current month."
+            } else{
+                appliedJobsCountTV.text = "You have already applied to $appliedJobCount jobs this month! To continue applying to jobs, purchase additional online application package from web."
+
+            }
 
             remainingJobsCountTV.text = if (availableJobs <= 0) "Only 0 remaining" else "Only $availableJobs remaining"
 
