@@ -240,6 +240,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/new_sms_plan_btn"
+            android:enabled='@{viewModel.statusCode.equals("3") ? false : true}'
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

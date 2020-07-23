@@ -12,13 +12,19 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
 
-    private val _limit = MutableLiveData<String?>()
+    private val _limit = MutableLiveData<String?>().apply {
+        value = "1"
+    }
     val limit: LiveData<String?> = _limit
 
-    private val _remainingSMS = MutableLiveData<String?>()
+    private val _remainingSMS = MutableLiveData<String?>().apply {
+        value = "0"
+    }
     val remainingSMS: LiveData<String?> = _remainingSMS
 
-    private val _totalSMS = MutableLiveData<String?>()
+    private val _totalSMS = MutableLiveData<String?>().apply {
+        value = "0"
+    }
     val totalSMS: LiveData<String?> = _totalSMS
 
     private val _isAlertOn = MutableLiveData<String?>()
@@ -62,9 +68,8 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
     private val _showToastMessage = MutableLiveData<Event<String?>>()
     val showToastMessage : LiveData<Event<String?>> = _showToastMessage
 
-    init {
-        getSMSSettings()
-    }
+    private val _statusCode = MutableLiveData<String>()
+    val statusCode : LiveData<String> = _statusCode
 
 
     fun onViewSMSJobAlertButtonClick() {
@@ -88,22 +93,26 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
 
     fun onCheckedChanged(checked: Boolean) {
 
-        if (!checked) {
-            _isAlertOn.value = "False"
-            if (remainingSMS.value!!.toInt() > 5) {
-                _openTurnOffSMSDialogEvent.value = Event(true)
+        try {
+            if (!checked) {
+                _isAlertOn.value = "False"
+                if (remainingSMS.value!!.toInt() > 5) {
+                    _openTurnOffSMSDialogEvent.value = Event(true)
+                }
+            } else {
+                _isAlertOn.value = "True"
             }
-        } else {
-            _isAlertOn.value = "True"
+        } catch (e:Exception){
+            e.printStackTrace()
         }
+
     }
 
-    private fun getSMSSettings() {
+    fun getSMSSettings() {
         _isDataLoading.value = true
         viewModelScope.launch {
             try {
                 val response = repository.getSMSSettings()
-                //if (response.statusCode == "0"){
                 val data = response.data?.get(0)
                 _totalSMS.value = data?.totalSMSAmount
                 _remainingSMS.value = data?.remainingSMSAmount
@@ -112,7 +121,9 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
 
                 _totalProgress.value = remainingSMS.value?.toInt()
                 _maxProgress.value = totalSMS.value?.toInt()
-                // }
+
+                _statusCode.value = response.statuscode
+
                 _isDataLoading.value = false
 
             } catch (e: Exception) {

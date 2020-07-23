@@ -45,6 +45,8 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel.apply {
 
+            getSMSSettings()
+
             navigateToHome.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmsHomeFragment())

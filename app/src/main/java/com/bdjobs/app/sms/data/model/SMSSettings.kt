@@ -13,7 +13,7 @@ data class SMSSettings(
     @Json(name = "message")
     val message: String?, // Success
     @Json(name = "statuscode")
-    val statusCode: String? // 0
+    val statuscode: String? // 0
 )
 
 @Keep
