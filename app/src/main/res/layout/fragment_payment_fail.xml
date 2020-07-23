@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Payment Cancel"
+        android:text="Payment Failed"
         android:textColor="#393939"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_heading"
-        tools:text="Dear John Doe, your payment was processed cancel." />
+        tools:text="Dear John Doe, your payment was processed fail." />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_sms_job_alert"

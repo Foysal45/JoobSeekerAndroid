@@ -1,5 +1,6 @@
 package com.bdjobs.app.sms.ui.payment
 
+import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
@@ -42,16 +43,14 @@ class PaymentViewModel(val repository: SMSRepository,
 
     lateinit var paymentInfoData : PaymentInfoBeforeGateway.PaymentInfoBeforeGatewayData
 
-    init {
-        Timber.d("called payment viewModel init")
-        //getPaymentInfoBeforeGateway()
-    }
+
 
     private val storeIdTest = "bdjob5f0ad29f35834"
     private val storePasswordTest = "bdjob5f0ad29f35834@ssl"
 
     private val storeIdLive = "mybdjob02live"
     private val storePasswordLive = "5B4C5502A877419363"
+
 
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
@@ -62,18 +61,10 @@ class PaymentViewModel(val repository: SMSRepository,
                     if (totalAmountIntTaka.value!! == 0){
                         _paymentStatus.value = Status.SUCCESS
                     } else{
-                        makePayment()
+                        makePaymentToSSL()
                     }
-//                    paymentInfoData?.apply{
-//                        serviceId = response.data?.get(0)?.serviceId
-//                        smsSubscribedId = response.data?.get(0)?.smsSubscribedId
-//                        totalAmount = response.data?.get(0)?.totalAmount
-//                        totalQuantity = response.data?.get(0)?.totalQuantity
-//                        transactionId = response.data?.get(0)?.transactionId
-//                        userEmail = response.data?.get(0)?.userEmail
-//                        userFullName = response.data?.get(0)?.userFullName
-//                        userMobileNo = response.data?.get(0)?.userMobileNo
-//                    }
+                } else{
+                    _paymentStatus.value = Status.FAILURE
                 }
             } catch (e:Exception){
                 e.printStackTrace()
@@ -85,19 +76,20 @@ class PaymentViewModel(val repository: SMSRepository,
         getPaymentInfoBeforeGateway()
     }
 
-    private fun makePayment() {
+    private fun makePaymentToSSL() {
 
         Timber.d("${paymentInfoData.transactionId}")
 
 
         val transactionResponseListener = object : TransactionResponseListener{
+
             override fun transactionFail(p0: String?) {
                 //_paymentStatus.value = Status.FAILURE
                 Timber.d("payment failure : $p0")
-
             }
 
             override fun merchantValidationError(p0: String?) {
+                _paymentStatus.value = Status.CANCEL
             }
 
             override fun transactionSuccess(p0: TransactionInfoModel?) {
@@ -117,9 +109,9 @@ class PaymentViewModel(val repository: SMSRepository,
         }
 
         val sslCommerzInitialization = SSLCommerzInitialization(
-                storeIdTest, storePasswordTest,
+                storeIdLive, storePasswordLive,
                 totalAmountIntTaka.value!!.toDouble(), CurrencyType.BDT, paymentInfoData.transactionId,
-                "Payment", SdkType.TESTBOX
+                "Payment", SdkType.LIVE
         )
 
         val customerInfoInitializer = CustomerInfoInitializer(
@@ -143,10 +135,11 @@ class PaymentViewModel(val repository: SMSRepository,
         viewModelScope.launch {
             try {
                 val response = repository.callPaymentAfterReturningGatewayApi(data)
-                if (response.statuscode == "0"){
+                if (response.statuscode == "4"){
                     _paymentStatus.value = Status.SUCCESS
+                } else{
+                    _paymentStatus.value = Status.CANCEL
                 }
-                Timber.d("after payment response $response")
             } catch (e:Exception){
                 e.printStackTrace()
             }
@@ -154,7 +147,7 @@ class PaymentViewModel(val repository: SMSRepository,
     }
 
     enum class Status {
-        SUCCESS, FAILURE
+        SUCCESS, CANCEL, FAILURE
     }
 
 }
