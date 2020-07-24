@@ -3,21 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sms_nav_graph"
-    android:label="SMS Package Services">
+    android:label="SMS Package Services"
+    app:startDestination="@id/smsHomeFragment">
 
-    <fragment
-        android:id="@+id/smsFreeTrialHomeFragment"
-        android:name="com.bdjobs.app.sms.ui.home.HomeFreeTrialFragment"
-        android:label="SMS Package Services"
-        tools:layout="@layout/fragment_sms_home_free_trial" >
-        <action
-            android:id="@+id/action_smsHomeFreeTrialFragment_to_paymentFragment"
-            app:destination="@id/smsPaymentFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
     <fragment
         android:id="@+id/smsPaymentFragment"
         android:name="com.bdjobs.app.sms.ui.payment.PaymentFragment"
@@ -36,7 +24,8 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/sms_nav_graph" />
+            app:popUpTo="@id/smsPaymentFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_smsPaymentFragment_to_paymentCancelFragment"
             app:destination="@id/paymentCancelFragment"
@@ -61,13 +50,6 @@
         android:name="com.bdjobs.app.sms.ui.settings.SettingsFragment"
         android:label="SMS Settings"
         tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/action_settingsFragment_to_smsFreeTrialHomeFragment"
-            app:destination="@id/smsFreeTrialHomeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_settingsFragment_to_smsHomeFragment"
             app:destination="@id/smsHomeFragment"

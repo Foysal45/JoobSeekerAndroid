@@ -74,28 +74,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_payment_success_body" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_sms_job_alert"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="10dp"
-            android:letterSpacing="0"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:onClick="@{()->viewModel.onSMSJobAlertButtonClick()}"
-            android:text="SMS Job Alert"
-            android:textAllCaps="false"
-            app:backgroundTint="@color/green"
-            app:layout_constraintBottom_toTopOf="@id/cl_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_sms_settings"
-            app:layout_constraintVertical_bias="1.0" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_guideline"
             android:layout_width="match_parent"

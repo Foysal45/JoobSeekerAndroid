@@ -17,21 +17,4 @@ class PaymentSuccessViewModel(private val repository: SMSRepository) : ViewModel
         value = this.value.toString().trim()
     }
 
-    private val _navigateToSMSHome = MutableLiveData<Event<Boolean>>()
-    val navigateToSMSHome: LiveData<Event<Boolean>> = _navigateToSMSHome
-
-    private val _navigateToSMSFreeTrialHome = MutableLiveData<Event<Boolean>>()
-    val navigateToSMSFreeTrialHome: LiveData<Event<Boolean>> = _navigateToSMSFreeTrialHome
-
-    init {
-        Constants.isSMSFree = "False"
-    }
-
-    fun onSMSJobAlertButtonClick() {
-        if (Constants.isSMSFree.equalIgnoreCase("True")) {
-            _navigateToSMSFreeTrialHome.value = Event(true)
-        } else {
-            _navigateToSMSHome.value = Event(true)
-        }
-    }
 }

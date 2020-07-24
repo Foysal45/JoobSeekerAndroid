@@ -53,12 +53,6 @@ class SettingsFragment : Fragment() {
                 }
             })
 
-            navigateToHomeFreeTrial.observe(viewLifecycleOwner,EventObserver{
-                if (it){
-                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmsFreeTrialHomeFragment())
-                }
-            })
-
             openDialogEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it)
                     openChooseLimitDialog()

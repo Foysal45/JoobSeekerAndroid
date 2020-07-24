@@ -46,20 +46,4 @@
         app:layout_constraintTop_toBottomOf="@id/tv_heading"
         tools:text="Dear John Doe, your payment was processed fail." />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_sms_job_alert"
-        style="@style/Widget.MaterialComponents.Button"
-        android:text="SMS Job Alert"
-        android:letterSpacing="0"
-        app:backgroundTint="@color/green"
-        android:textAllCaps="false"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_margin="16dp"
-        android:layout_height="wrap_content"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

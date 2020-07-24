@@ -36,8 +36,5 @@ class PaymentSuccessFragment : Fragment() {
             findNavController().navigate(PaymentSuccessFragmentDirections.actionPaymentSuccessFragmentToGuidelineSmsFragment())
         }
 
-        btn_sms_job_alert?.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 }

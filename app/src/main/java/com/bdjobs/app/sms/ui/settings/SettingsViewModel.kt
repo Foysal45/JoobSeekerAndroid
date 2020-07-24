@@ -42,12 +42,6 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
     }
     val navigateToHome: LiveData<Event<Boolean>> = _navigateToHome
 
-    private val _navigateToHomeFreeTrial = MutableLiveData<Event<Boolean>>().apply {
-        value = Event(false)
-    }
-    val navigateToHomeFreeTrial: LiveData<Event<Boolean>> = _navigateToHomeFreeTrial
-
-
     private val _openDialogEvent = MutableLiveData<Event<Boolean>>().apply {
         value = Event(false)
     }
@@ -73,10 +67,7 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
 
 
     fun onViewSMSJobAlertButtonClick() {
-        if (Constants.isSMSFree.equalIgnoreCase("False"))
             _navigateToHome.value = Event(true)
-        else
-            _navigateToHomeFreeTrial.value = Event(true)
     }
 
     fun onChooseLimitButtonClick() {

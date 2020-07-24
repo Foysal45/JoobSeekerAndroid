@@ -22,10 +22,6 @@ class PaymentFailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val session = BdjobsUserSession(requireContext())
         tv_body?.text = "Dear ${session.fullName?.trim()}, your payment was processed fail."
-
-        btn_sms_job_alert?.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 
 }

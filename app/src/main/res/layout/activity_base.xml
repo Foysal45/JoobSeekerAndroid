@@ -25,6 +25,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/sms_nav_graph"
             />
 
 

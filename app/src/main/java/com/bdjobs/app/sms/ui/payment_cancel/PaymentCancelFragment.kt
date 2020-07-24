@@ -24,8 +24,5 @@ class PaymentCancelFragment : Fragment() {
         val session = BdjobsUserSession(requireContext())
         tv_body?.text = "Dear ${session.fullName?.trim()}, your payment was processed cancel."
 
-        btn_sms_job_alert?.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 }
