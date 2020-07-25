@@ -19,6 +19,11 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
 //        }
 //    }
 
+    private val _price = MutableLiveData<Int>().apply {
+        value = 10
+    }
+    val price : LiveData<Int> = _price
+
     private val _isSMSFree = MutableLiveData<Boolean>()
     val isSMSFree : LiveData<Boolean> = _isSMSFree
 

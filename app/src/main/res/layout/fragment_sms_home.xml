@@ -277,8 +277,9 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginTop="3dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="50 BDT"
+                            android:text="@{viewModel.price.toString() + ` BDT`}"
                             android:textColor="#4D4D4D"
+                            tools:text="50 BDT"
                             app:layout_constraintStart_toEndOf="@id/img_sms"
                             app:layout_constraintTop_toBottomOf="@id/tv_total_sms" />
 
