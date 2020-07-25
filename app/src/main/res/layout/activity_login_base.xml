@@ -9,6 +9,7 @@
     tools:context=".Login.LoginBaseActivity">
 
     <FrameLayout
+        android:fitsSystemWindows="true"
         android:id="@+id/loginFragmentHolderFL"
         android:layout_width="0dp"
         android:layout_height="0dp"
