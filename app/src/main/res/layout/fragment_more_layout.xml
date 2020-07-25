@@ -142,8 +142,24 @@
             android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/assessment_MBTN"
+                android:id="@+id/sms_package_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:text="SMS Package Service"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_sms_settings" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#E0E0E0"
+                android:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/assessment_MBTN"
                 style="@style/more.button"
                 android:visibility="visible"
                 android:layout_width="match_parent"
@@ -301,7 +317,7 @@
                 android:layout_height="wrap_content"
                 android:text="Video Interview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_interview_invitation" />
+                app:icon="@drawable/ic_cam" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/training_MBTN"
@@ -331,15 +347,6 @@
                 android:text="Settings"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_settings" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/sms_package_MBTN"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SMS Package Service"
-                android:textSize="14sp"
-                app:icon="@drawable/ic_sms_settings" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transaction_overview_MBTN"
