@@ -117,7 +117,7 @@ data class FollowEmployerListData(
     @SerializedName("FollowedOn")
     val followedOn: String?= "",
     @SerializedName("isSubscribed")
-    val isSubscribed: String?= "",
+    var isSubscribed: String?= "",
     @SerializedName("JobCount")
     val jobCount: String?= ""
 )

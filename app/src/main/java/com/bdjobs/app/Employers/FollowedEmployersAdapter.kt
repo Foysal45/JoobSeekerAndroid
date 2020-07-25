@@ -303,6 +303,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     try {
                         response.body()?.statuscode?.let { status ->
                             if (status.equalIgnoreCase(Constants.api_request_result_code_ok)) {
+                                item.isSubscribed = if (type == 1) "True" else "False"
                                 isNewPurchaseNeeded = response.body()?.data?.get(0)?.isNewSMSPurchaseNeeded
                                 if (type == 1)
                                     openSubscribeInfoDialog()
