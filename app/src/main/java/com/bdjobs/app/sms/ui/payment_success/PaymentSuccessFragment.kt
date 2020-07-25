@@ -36,5 +36,9 @@ class PaymentSuccessFragment : Fragment() {
             findNavController().navigate(PaymentSuccessFragmentDirections.actionPaymentSuccessFragmentToGuidelineSmsFragment())
         }
 
+        btn_sms_settings?.setOnClickListener {
+            findNavController().navigate(PaymentSuccessFragmentDirections.actionPaymentSuccessSmsFragmentToSettingsFragment())
+        }
+
     }
 }
