@@ -108,8 +108,7 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<JobDetailJsonModel>
 
-    //@GET("viewfilters.asp")
-    @GET("viewfilters_smsalert.asp")
+    @GET("viewfilters.asp")
     fun getFavouriteSearchFilters(
             @Query("encoded") encoded: String? = "",
             @Query("user") userID: String? = "",
@@ -126,19 +125,7 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
 
-   /* @GET("CompanyListFollowEmployerForAll.asp")
-    fun getFollowEmployerListLazy(
-            @Query("userID") userID: String? = "",
-            @Query("decodeId") decodeId: String? = "",
-            @Query("Apstyp") Apstyp: String? = "M", // M for all list and j for only live job
-            @Query("encoded") encoded: String? = "",
-            @Query("isActivityDate") isActivityDate: String? = "0",
-            @Query("pg") pg: String? = "1",
-            @Query("appId") appId :String? = Constants.APP_ID
-    ): Call<FollowEmployerListModelClass>*/
-
-
-    @GET("CompanyListFollowEmployerForAll_smsalert.asp")
+    @GET("CompanyListFollowEmployerForAll.asp")
     fun getFollowEmployerListLazy(
             @Query("userID") userID: String? = "",
             @Query("decodeId") decodeId: String? = "",
@@ -148,6 +135,18 @@ interface ApiServiceJobs {
             @Query("pg") pg: String? = "1",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<FollowEmployerListModelClass>
+
+
+//    @GET("CompanyListFollowEmployerForAll_smsalert.asp")
+//    fun getFollowEmployerListLazy(
+//            @Query("userID") userID: String? = "",
+//            @Query("decodeId") decodeId: String? = "",
+//            @Query("Apstyp") Apstyp: String? = "M", // M for all list and j for only live job
+//            @Query("encoded") encoded: String? = "",
+//            @Query("isActivityDate") isActivityDate: String? = "0",
+//            @Query("pg") pg: String? = "1",
+//            @Query("appId") appId :String? = Constants.APP_ID
+//    ): Call<FollowEmployerListModelClass>
 
     @GET("storedjobsDeadlines.asp")  // @GET("storedjobsDetails.asp")
     fun getShortListedJobs(
