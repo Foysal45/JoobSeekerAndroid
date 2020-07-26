@@ -23,6 +23,7 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
+#noinspection ShrinkerUnresolvedReference
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
 
@@ -140,3 +141,11 @@
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }
 -keep public class android.support.design.R$* { *; }
+
+# ----------------------------------------------------------------
+# SSLCommerz
+# ----------------------------------------------------------------
+-keep class com.sslwireless.sslcommerzlibrary.model.response.** { *; }
+-keep class com.sslwireless.sslcommerzlibrary.model.** { *; }
+-keep class com.sslwireless.sslcommerzlibrary.** { *; }
+-keep class com.sslwireless.*
