@@ -147,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
-                android:text="SMS Package Service"
+                android:text="SMS Job Alert"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_sms_settings" />
 

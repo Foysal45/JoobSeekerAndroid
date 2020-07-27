@@ -105,6 +105,7 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
             try {
                 val response = repository.getSMSSettings()
                 val data = response.data?.get(0)
+                _isDataLoading.value = false
                 _totalSMS.value = data?.totalSMSAmount
                 _remainingSMS.value = data?.remainingSMSAmount
                 _limit.value = data?.dailySmsLimit
@@ -115,7 +116,6 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
 
                 _statusCode.value = response.statuscode
 
-                _isDataLoading.value = false
 
             } catch (e: Exception) {
                 e.printStackTrace()

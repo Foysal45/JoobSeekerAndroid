@@ -27,7 +27,8 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
     private val _isSMSFree = MutableLiveData<Boolean>()
     val isSMSFree : LiveData<Boolean> = _isSMSFree
 
-    init {
+
+    fun checkIfSMSFree() {
         _isSMSFree.value = Constants.isSMSFree.equalIgnoreCase("True")
     }
 }
