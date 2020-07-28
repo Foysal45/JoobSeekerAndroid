@@ -2,6 +2,7 @@ package com.bdjobs.app.Notification
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.graphics.Color
 import android.text.Html
 import android.util.Log
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Databases.Internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
@@ -31,6 +33,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONA
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
+import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
@@ -39,7 +42,9 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class NotificationListAdapter(private val context: Context, private val items: MutableList<Notification>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -80,7 +85,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 viewHolder = CVViewedViewHolder(view)
             }
 
-            TYPE_MATCHED_JOB->{
+            TYPE_MATCHED_JOB -> {
                 val view = inflater.inflate(R.layout.notification_item_matched_job, parent, false)
                 viewHolder = MatchedJobViewHolder(view)
             }
@@ -95,7 +100,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 viewHolder = BannerPromotionalViewHolder(view)
             }
 
-            TYPE_VIDEO_INTERVIEW ->{
+            TYPE_VIDEO_INTERVIEW -> {
                 val view = inflater.inflate(R.layout.notification_item_video_interview, parent, false)
                 viewHolder = VideoInterviewViewHolder(view)
             }
@@ -119,11 +124,11 @@ class NotificationListAdapter(private val context: Context, private val items: M
         return when (items[position].type) {
             NOTIFICATION_TYPE_INTERVIEW_INVITATION -> TYPE_INTERVIEW_INVITATION
             NOTIFICATION_TYPE_CV_VIEWED -> TYPE_CV_VIEWED
-            NOTIFICATION_TYPE_MATCHED_JOB-> TYPE_MATCHED_JOB
+            NOTIFICATION_TYPE_MATCHED_JOB -> TYPE_MATCHED_JOB
             NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> TYPE_PROMOTIONAL_MESSAGE
-            NOTIFICATION_TYPE_VIDEO_INTERVIEW-> TYPE_VIDEO_INTERVIEW
-            NOTIFICATION_TYPE_SMS-> TYPE_SMS
-            NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE-> TYPE_BANNER_PROMOTIONAL_MESSAGE
+            NOTIFICATION_TYPE_VIDEO_INTERVIEW -> TYPE_VIDEO_INTERVIEW
+            NOTIFICATION_TYPE_SMS -> TYPE_SMS
+            NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE -> TYPE_BANNER_PROMOTIONAL_MESSAGE
             else -> TYPE_INTERVIEW_INVITATION
         }
 
@@ -310,7 +315,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         cvViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     } else
                         cvViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFF2FA"))
-                } catch (e : Exception){
+                } catch (e: Exception) {
 
                 }
 
@@ -327,7 +332,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                                 bdjobsUserSession.updateNotificationCount(count)
                             }
                         }
-                    } catch (e : Exception){
+                    } catch (e: Exception) {
                         logException(e)
                     }
 
@@ -342,7 +347,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
             }
 
-            TYPE_SMS->{
+            TYPE_SMS -> {
                 val smsViewedViewHolder = holder as SMSViewHolder
 
                 val str = Html.fromHtml(items[position].body)
@@ -379,7 +384,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         smsViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     } else
                         smsViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFF2FA"))
-                } catch (e : Exception){
+                } catch (e: Exception) {
 
                 }
 
@@ -396,7 +401,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                                 bdjobsUserSession.updateNotificationCount(count)
                             }
                         }
-                    } catch (e : Exception){
+                    } catch (e: Exception) {
                         logException(e)
                     }
 
@@ -411,7 +416,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
             }
 
-            TYPE_MATCHED_JOB->{
+            TYPE_MATCHED_JOB -> {
 
                 val matchedJobViewHolder = holder as MatchedJobViewHolder
 
@@ -559,33 +564,43 @@ class NotificationListAdapter(private val context: Context, private val items: M
             TYPE_BANNER_PROMOTIONAL_MESSAGE -> {
                 val promotionalMessageViewHolder = holder as BannerPromotionalViewHolder
 
-                val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
+                promotionalMessageViewHolder.headerImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_sms_msg))
+
+//                val packageManager = context.packageManager
+//                val appInfo: ApplicationInfo = packageManager.getApplicationInfo("com.bdjobs.app", 0)
+//                val appFile = appInfo.sourceDir
+//                val installed = File(appFile).lastModified()
+//
+//
+//                val hashMap = getDateTimeAsAgo(Date(TimeUnit.SECONDS.toMillis(installed)))
 
 
-                try {
-                    when {
-                        hashMap.containsKey("seconds") -> promotionalMessageViewHolder.messageTime.text = "just now"
-                        hashMap.containsKey("minutes") -> {
-                            if (hashMap["minutes"]!! > 1)
-                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minutes ago"
-                            else
-                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minute ago"
-                        }
-                        hashMap.containsKey("hours") -> {
-                            if (hashMap["hours"]!! > 1)
-                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hours ago"
-                            else
-                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hour ago"
-                        }
-                        else -> {
-                            if (hashMap["days"]!! > 1)
-                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} days ago"
-                            else
-                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} day ago"
-                        }
-                    }
-                } catch (e: Exception) {
-                }
+//                try {
+//                    when {
+//                        hashMap.containsKey("seconds") -> promotionalMessageViewHolder.messageTime.text = "just now"
+//                        hashMap.containsKey("minutes") -> {
+//                            if (hashMap["minutes"]!! > 1)
+//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minutes ago"
+//                            else
+//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minute ago"
+//                        }
+//                        hashMap.containsKey("hours") -> {
+//                            if (hashMap["hours"]!! > 1)
+//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hours ago"
+//                            else
+//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hour ago"
+//                        }
+//                        else -> {
+//                            if (hashMap["days"]!! > 1)
+//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} days ago"
+//                            else
+//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} day ago"
+//                        }
+//                    }
+//                } catch (e: Exception) {
+//                }
+                promotionalMessageViewHolder.messageTime.hide()
+                promotionalMessageViewHolder.timeImage.hide()
 
 
                 val title = Html.fromHtml(items[position].title)
@@ -604,18 +619,10 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     promotionalMessageViewHolder.messageText?.hide()
                 }
 
-                if (!items[position].link.isNullOrEmpty()) {
-                    promotionalMessageViewHolder?.messageButton?.show()
-                    promotionalMessageViewHolder?.messageButton?.onClick {
-                        try {
-                            context?.openUrlInBrowser(items[position].link)
-                        } catch (e: Exception) {
-                        }
-                        notificationCommunicatior.positionClickedMessage(position)
-                    }
-                } else {
-                    promotionalMessageViewHolder?.messageButton?.hide()
+                promotionalMessageViewHolder.messageButton.setOnClickListener {
+                    context.startActivity<BaseActivity>()
                 }
+
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
                     promotionalMessageViewHolder?.card?.show()
@@ -632,8 +639,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-//                    promotionalMessageViewHolder?.card?.hide()
-//                    promotionalMessageViewHolder?.messageImage.hide()
+                    promotionalMessageViewHolder?.card?.hide()
+                    promotionalMessageViewHolder?.messageImage.hide()
                 }
             }
         }
@@ -666,9 +673,10 @@ class NotificationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val notificationCV = view?.findViewById(R.id.notification_interview_card_view) as CardView
 }
 
-class VideoInterviewViewHolder(view: View) : RecyclerView.ViewHolder(view){
+class VideoInterviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val notificationTitleTV = view?.findViewById(R.id.notification_video_interview_text) as TextView
     val notificationTimeTV = view?.findViewById(R.id.notification_video_interview_time_text) as TextView
+
     //val notificationIMG = view?.findViewById(R.id.notification_interview_img) as ImageView
     val notificationCL = view?.findViewById(R.id.notification_video__cl) as ConstraintLayout
     val notificationCV = view?.findViewById(R.id.notification_interview_video_card_view) as CardView
@@ -710,12 +718,14 @@ class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 }
 
-class BannerPromotionalViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class BannerPromotionalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val messageTitle = view?.findViewById(R.id.message_title) as TextView
     val messageText = view?.findViewById(R.id.message_text) as TextView
     val messageButton = view?.findViewById(R.id.message_btn) as MaterialButton
     val messageTime = view?.findViewById(R.id.message_time_text) as TextView
     val messageImage = view?.findViewById(R.id.message_image) as ImageView
     val card = view?.findViewById(R.id.card) as CardView
+    val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
+    val timeImage = view?.findViewById(R.id.notification_time_image) as ImageView
 
 }

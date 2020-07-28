@@ -211,7 +211,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="18dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Buy following SMS Packages"
+                    android:text="Buy following SMS Package"
                     android:textColor="#393939"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -285,8 +285,8 @@
 
                         <ImageView
                             android:id="@+id/img_buy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_marginEnd="12dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"

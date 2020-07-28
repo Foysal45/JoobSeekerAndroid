@@ -239,7 +239,7 @@ class Constants {
         const val NOTIFICATION_TYPE_REMOVE_NOTIFICATION = "rn"
         const val NOTIFICATION_TYPE_REMOVE_MESSAGE = "rm"
         const val NOTIFICATION_TYPE_VIDEO_INTERVIEW = "vi"
-        const val NOTIFICATION_TYPE_SMS = "sms"
+        const val NOTIFICATION_TYPE_SMS = "sj"
         const val NOTIFICATION_TYPE_APPLIED_JOBS = "aj"
 
         const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"

@@ -149,14 +149,9 @@
                 android:layout_height="wrap_content"
                 android:text="SMS Job Alert"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_sms_settings" />
+                app:icon="@drawable/ic_sms_alert" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="#E0E0E0"
-                android:visibility="visible" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/assessment_MBTN"
@@ -351,6 +346,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transaction_overview_MBTN"
                 style="@style/more.button"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Transaction Overview"
