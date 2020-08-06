@@ -94,7 +94,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="#13A10E"
                     android:textSize="14sp"
-                    android:text="@{viewModel.commonData.totalVideoInterview}"
+                    android:text='@{viewModel.commonData.totalVideoInterview ?? "0"}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text=" Interview Invitations Found"
+                    android:text='@{viewModel.commonData.totalVideoInterview == null || viewModel.commonData.totalVideoInterview == "1" ? " Interview Invitation Found" : "Interview Invitations Found"}'
                     android:textColor="@color/gnt_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
