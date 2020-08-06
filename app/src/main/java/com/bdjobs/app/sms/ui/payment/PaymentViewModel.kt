@@ -18,12 +18,12 @@ import timber.log.Timber
 class PaymentViewModel(val repository: SMSRepository,
                        private val totalSMS: Int?,
                        private val totalTaka: Int?,
-                       val fragment: Fragment) : ViewModel(){
+                       val fragment: Fragment) : ViewModel() {
 
     private val _quantity = MutableLiveData<Int>().apply {
         value = 1
     }
-    val quantityString = Transformations.map(_quantity){quantity->
+    val quantityString = Transformations.map(_quantity) { quantity ->
         String.format("%02d", quantity)
     }
 
@@ -41,8 +41,7 @@ class PaymentViewModel(val repository: SMSRepository,
     private val _paymentStatus = MutableLiveData<Status>()
     val paymentStatus = _paymentStatus
 
-    lateinit var paymentInfoData : PaymentInfoBeforeGateway.PaymentInfoBeforeGatewayData
-
+    lateinit var paymentInfoData: PaymentInfoBeforeGateway.PaymentInfoBeforeGatewayData
 
 
     private val storeIdTest = "bdjob5f0ad29f35834"
@@ -55,18 +54,18 @@ class PaymentViewModel(val repository: SMSRepository,
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
             try {
-                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS,totalAmountIntTaka.value)
-                if (response.statuscode == "0"){
+                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS, totalAmountIntTaka.value)
+                if (response.statuscode == "0") {
                     paymentInfoData = response.data?.get(0)!!
-                    if (totalAmountIntTaka.value!! == 0){
+                    if (totalAmountIntTaka.value!! == 0) {
                         _paymentStatus.value = Status.SUCCESS
-                    } else{
+                    } else {
                         makePaymentToSSL()
                     }
-                } else{
+                } else {
                     _paymentStatus.value = Status.FAILURE
                 }
-            } catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -81,15 +80,13 @@ class PaymentViewModel(val repository: SMSRepository,
         Timber.d("${paymentInfoData.transactionId}")
 
 
-        val transactionResponseListener = object : TransactionResponseListener{
+        val transactionResponseListener = object : TransactionResponseListener {
 
             override fun transactionFail(p0: String?) {
-                //_paymentStatus.value = Status.FAILURE
-                Timber.d("payment failure : $p0")
+                _paymentStatus.value = Status.PENDING
             }
 
             override fun merchantValidationError(p0: String?) {
-                _paymentStatus.value = Status.CANCEL
             }
 
             override fun transactionSuccess(p0: TransactionInfoModel?) {
@@ -100,7 +97,7 @@ class PaymentViewModel(val repository: SMSRepository,
                         "store_amount : ${p0?.storeAmount} \n" +
                         "val_id : ${p0?.valId} \n" +
                         "status : ${p0?.status} \n" +
-                        "currency_type : ${p0?.currencyType} \n"+
+                        "currency_type : ${p0?.currencyType} \n" +
                         "tran_date : ${p0?.tranDate}"
                 )
                 callAfterPaymentApi(p0)
@@ -131,23 +128,23 @@ class PaymentViewModel(val repository: SMSRepository,
                 .buildApiCall(transactionResponseListener)
     }
 
-    fun callAfterPaymentApi(data : TransactionInfoModel?){
+    fun callAfterPaymentApi(data: TransactionInfoModel?) {
         viewModelScope.launch {
             try {
                 val response = repository.callPaymentAfterReturningGatewayApi(data)
-                if (response.statuscode == "4"){
+                if (response.statuscode == "4") {
                     _paymentStatus.value = Status.SUCCESS
-                } else{
-                    _paymentStatus.value = Status.CANCEL
+                } else {
+                    _paymentStatus.value = Status.FAILURE
                 }
-            } catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
     enum class Status {
-        SUCCESS, CANCEL, FAILURE
+        SUCCESS, FAILURE, PENDING
     }
 
 }

@@ -35,7 +35,6 @@ class PaymentFragment : Fragment() {
             paymentStatus.observe(viewLifecycleOwner, Observer {status ->
                 when(status){
                     PaymentViewModel.Status.SUCCESS -> findNavController().navigate(PaymentFragmentDirections.actionSmsPaymentFragmentToPaymentSuccessSmsFragment())
-                    PaymentViewModel.Status.CANCEL -> findNavController().navigate(PaymentFragmentDirections.actionSmsPaymentFragmentToPaymentCancelFragment())
                     PaymentViewModel.Status.FAILURE -> findNavController().navigate(PaymentFragmentDirections.actionSmsPaymentFragmentToPaymentFailFragment())
                 }
             })

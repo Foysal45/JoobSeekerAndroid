@@ -103,6 +103,6 @@
     <fragment
         android:id="@+id/paymentFailFragment"
         android:name="com.bdjobs.app.sms.ui.payment_fail.PaymentFailFragment"
-        android:label="fragment_payment_fail"
+        android:label="Payment Fail"
         tools:layout="@layout/fragment_payment_fail" />
 </navigation>
