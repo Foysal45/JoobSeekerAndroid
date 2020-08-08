@@ -13,8 +13,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 716 //715 //100
-        versionName "702.2.0"  //702.1.0 internal test // 2.4.0.0
+        versionCode 101 //716 //100
+        versionName "2.5.0.0"  //702.2.0 internal test // 2.4.0.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
