@@ -79,9 +79,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_step3"
+                app:srcCompat="@drawable/ic_step3"
                 app:layout_constraintStart_toStartOf="@id/step2_iv"
                 app:layout_constraintTop_toBottomOf="@id/step2_iv"
                 android:id="@+id/step3_iv"

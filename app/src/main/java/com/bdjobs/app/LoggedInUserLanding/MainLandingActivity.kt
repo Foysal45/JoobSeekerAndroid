@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
@@ -65,7 +66,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class MainLandingActivity : Activity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
     override fun onUpdateNotification() {
         //Log.d("rakib", "in Main Landing Activity")

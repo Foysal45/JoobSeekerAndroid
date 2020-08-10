@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.InviteCode.InviteCodeBaseActivity
@@ -30,7 +33,12 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
     override fun onBindViewHolder(holder: HorizontalViewHolder, position: Int) {
         setFadeAnimation(holder.itemView)
        // holder.resourceID_Value.background = context.getDrawable(moreItems!![position].resourceID)
-        holder.resourceID_Value.setBackgroundResource(moreItems!![position].resourceID)
+        try {
+            holder.resourceID_Value.background = AppCompatResources.getDrawable(context, moreItems?.get(position)?.resourceID!!)
+
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
         holder.resourceName_Value.text = moreItems!![position].resourceName
         holder.itemView.setOnClickListener {
             when(moreItems!![position].resourceName){
@@ -98,7 +106,7 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
 }
 class HorizontalViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    var resourceID_Value: View = itemView.findViewById(R.id.resourceID)
+    var resourceID_Value: ImageView = itemView.findViewById(R.id.resourceID)
     var resourceName_Value: TextView = itemView.findViewById(R.id.resourceName)
 
 
