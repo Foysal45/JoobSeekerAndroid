@@ -155,7 +155,7 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                         if (jobCountInt > 0) {
                             try {
                                 if (position < followedEmployerList?.size!!) {
-                                    employersCommunicator?.gotoJobListFragment(item.companyName!!, item.companyID!!)
+                                    employersCommunicator?.gotoJobListFragment(item.companyID!!, item.companyName!!)
                                     employersCommunicator?.positionClicked(position)
 
                                 }
