@@ -169,26 +169,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
-        <Button
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lastmonth_MBTN"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/left_rounded_background"
             android:gravity="center_horizontal|center_vertical"
             android:lineSpacingExtra="0sp"
+            android:textColor="@color/colorWhite"
             android:text="This Month"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
-        <Button
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/all_MBTN"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="40dp"
             android:background="@drawable/right_rounded_background"
             android:gravity="center_horizontal|center_vertical"
             android:lineSpacingExtra="0sp"
             android:text="All Time"
+            android:textColor="@color/black"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
