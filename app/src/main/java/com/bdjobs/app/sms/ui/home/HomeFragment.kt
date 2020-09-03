@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.databinding.FragmentSmsHomeBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_sms_home.*
@@ -31,11 +32,14 @@ class HomeFragment : Fragment() {
         homeViewModel.checkIfSMSFree()
 
         img_buy?.setOnClickListener {
+            Constants.isSMSFree = "False"
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!))
         }
 
         btn_start_trial?.setOnClickListener {
+            Constants.isSMSFree = "True"
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0))
         }
     }
+
 }
