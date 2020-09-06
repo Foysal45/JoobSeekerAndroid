@@ -293,7 +293,8 @@
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
 
 
                 <include
