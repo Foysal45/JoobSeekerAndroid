@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/invDetailsRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@id/bottom_info"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar">
+
+            <ScrollView
+                android:id="@+id/view_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_company_info">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="80dp">
+
+                    <ImageView
+                        android:id="@+id/video_icon_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_video"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/video_invitation_heading_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Video Interview Invitation"
+                        android:textColor="@color/colorLiveInterview"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@id/invitation_date_text"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@id/video_icon_img"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/invitation_date_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_calender_interview_invitation"
+                        android:drawablePadding="3dp"
+                        android:text="@{viewModel.detailsData.VInvitationDate}"
+                        app:layout_constraintBottom_toBottomOf="@id/video_invitation_heading_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/video_invitation_heading_text"
+                        app:layout_constraintTop_toTopOf="@id/video_invitation_heading_text"
+                        tools:text="15 Sep, 2020" />
+
+                    <TextView
+                        android:id="@+id/video_invitation_body_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#393939"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/video_invitation_heading_text"
+                        app:layout_constraintTop_toBottomOf="@id/video_invitation_heading_text"
+                        tools:text="An employer has invited you to an Live Interview on the following time.
+" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_interview_details"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/exam_details_bg"
+                        android:padding="14dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/video_invitation_body_text"
+                        app:layout_constraintTop_toBottomOf="@id/video_invitation_body_text"
+                        app:layout_constraintVertical_bias="0.0">
+
+                        <TextView
+                            android:id="@+id/date_heading_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/job_cal_ic"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:text="Deadline"
+                            android:textColor="#7D7D7D"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toStartOf="@+id/guideline"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/deadline_date_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="@{viewModel.detailsData.VInvitationDeadline}"
+                            android:textColor="#303030"
+                            app:layout_constraintEnd_toStartOf="@id/guideline"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@id/date_heading_text"
+                            app:layout_constraintTop_toBottomOf="@id/date_heading_text"
+                            tools:text="20 Sep, 2018" />
+
+                        <TextView
+                            android:id="@+id/time_heading_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableStart="@drawable/job_time_ic"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:text="Contact No"
+                            android:textColor="#7D7D7D"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toStartOf="@+id/guideline"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/deadline_date_text" />
+
+                        <TextView
+                            android:id="@+id/total_time_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="@{viewModel.detailsData.VTotalDuration}"
+                            android:textColor="#303030"
+                            app:layout_constraintEnd_toStartOf="@id/guideline"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@id/time_heading_text"
+                            app:layout_constraintTop_toBottomOf="@id/time_heading_text"
+                            tools:text="+88 01234 556 778 " />
+
+
+                        <TextView
+                            android:id="@+id/questions_heading_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/job_time_ic"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:text="Time"
+                            android:textColor="#7D7D7D"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@id/guideline"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/questions_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="@{viewModel.detailsData.VTotalQuestion}"
+                            android:textColor="#303030"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@id/questions_heading_text"
+                            app:layout_constraintTop_toBottomOf="@id/questions_heading_text"
+                            tools:text="12.30pm" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="23dp"
+                            android:background="@drawable/background_red"
+                            android:padding="10dp"
+                            android:text="This is a live interview, no need to visit the company office. You can attend this interview from home or any convenient place"
+                            android:textColor="#B71C1C"
+                            app:layout_constraintTop_toBottomOf="@id/total_time_text"
+                            tools:layout_editor_absoluteX="14dp" />
+
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.47" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_confirmation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/background_green"
+                        android:paddingStart="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="15dp"
+                        app:layout_constraintEnd_toEndOf="@id/cl_interview_details"
+                        app:layout_constraintStart_toStartOf="@id/cl_interview_details"
+                        app:layout_constraintTop_toBottomOf="@id/cl_interview_details">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="6dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Confirmed"
+                            android:textColor="#1B5E20"
+                            android:textSize="16sp"
+                            app:drawableStartCompat="@drawable/ic_available_for"
+                            app:drawableTint="#1B5E20"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0"
+                            android:text="Change"
+                            android:textAllCaps="false"
+                            android:textColor="#6F7570"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/background_white_grey"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="18dp"
+                        app:layout_constraintEnd_toEndOf="@id/cl_interview_details"
+                        app:layout_constraintStart_toStartOf="@id/video_icon_img"
+                        app:layout_constraintTop_toBottomOf="@id/cl_confirmation">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:drawablePadding="3dp"
+                            android:text=" 30 Aug 2020"
+                            android:textColor="#333333"
+                            app:drawableStartCompat="@drawable/job_cal_ic"
+                            app:drawableTint="#333333"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0"
+                            android:minHeight="0dp"
+                            android:text="Add to Calendar"
+                            android:textAllCaps="false"
+                            android:textColor="#007FE3"
+                            app:icon="@drawable/ic_add_white"
+                            app:iconTint="#007FE3"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_date"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_date" />
+
+                        <TextView
+                            android:id="@+id/tv_time_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="23dp"
+                            android:text="Time left"
+                            android:textColor="#333333"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/drawable_time_left"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_time_left">
+
+                            <TextView
+                                android:id="@+id/remaining_days_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:textColor="@android:color/white"
+                                android:textSize="34sp"
+                                app:layout_constraintEnd_toStartOf="@+id/remaining_hours_value"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:layout_editor_absoluteY="8dp"
+                                tools:text="02" />
+
+                            <TextView
+                                android:id="@+id/remaining_hours_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:textColor="@android:color/white"
+                                android:textSize="34sp"
+                                app:layout_constraintEnd_toStartOf="@+id/remaining_minutes_value"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/remaining_days_value"
+                                app:layout_constraintTop_toTopOf="@id/remaining_days_value"
+                                tools:layout_editor_absoluteY="8dp"
+                                tools:text="17" />
+
+                            <TextView
+                                android:id="@+id/remaining_minutes_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:textColor="@android:color/white"
+                                android:textSize="34sp"
+                                app:layout_constraintEnd_toStartOf="@+id/remaining_seconds_value"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/remaining_hours_value"
+                                app:layout_constraintTop_toTopOf="@id/remaining_days_value"
+                                tools:layout_editor_absoluteY="8dp"
+                                tools:text="20" />
+
+                            <TextView
+                                android:id="@+id/remaining_seconds_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:textColor="@android:color/white"
+                                android:textSize="34sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/remaining_minutes_value"
+                                app:layout_constraintTop_toTopOf="@id/remaining_days_value"
+                                tools:layout_editor_absoluteY="8dp"
+                                tools:text="18" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                app:layout_constraintTop_toTopOf="@id/remaining_days_value"
+                                app:layout_constraintStart_toEndOf="@id/remaining_days_value"
+                                app:layout_constraintEnd_toStartOf="@id/remaining_hours_value"
+                                app:srcCompat="@drawable/ic_time_dot"
+                                android:layout_width="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
+                                android:layout_height="wrap_content"/>
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                app:layout_constraintTop_toTopOf="@id/remaining_days_value"
+                                app:layout_constraintStart_toEndOf="@id/remaining_hours_value"
+                                app:layout_constraintEnd_toStartOf="@id/remaining_minutes_value"
+                                app:srcCompat="@drawable/ic_time_dot"
+                                android:layout_width="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
+                                android:layout_height="wrap_content"/>
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                app:layout_constraintTop_toTopOf="@id/remaining_days_value"
+                                app:layout_constraintStart_toEndOf="@id/remaining_minutes_value"
+                                app:layout_constraintEnd_toStartOf="@id/remaining_seconds_value"
+                                app:srcCompat="@drawable/ic_time_dot"
+                                android:layout_width="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="Days"
+                                app:layout_constraintEnd_toEndOf="@id/remaining_days_value"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/remaining_days_value"
+                                app:layout_constraintTop_toBottomOf="@id/remaining_days_value" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="Hours"
+                                app:layout_constraintEnd_toEndOf="@id/remaining_hours_value"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/remaining_hours_value"
+                                app:layout_constraintTop_toBottomOf="@id/remaining_hours_value" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="Minutes"
+                                app:layout_constraintEnd_toEndOf="@id/remaining_minutes_value"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/remaining_minutes_value"
+                                app:layout_constraintTop_toBottomOf="@id/remaining_minutes_value" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="Seconds"
+                                app:layout_constraintEnd_toEndOf="@id/remaining_seconds_value"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/remaining_seconds_value"
+                                app:layout_constraintTop_toBottomOf="@id/remaining_seconds_value" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_company_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_home_card"
+                android:elevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/companyNameTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@{viewModel.commonData.companyName}"
+                    android:textColor="#000000"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_job_detail"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Bdjobs.com Limited  " />
+
+                <TextView
+                    android:id="@+id/appliedDateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{`Applied on: ` + viewModel.commonData.applyDate}"
+                    android:textColor="#767676"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/jobDetailTv"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/companyNameTV"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="Applied on: 10 Aug, 2018" />
+
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#E6E6E6"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appliedDateTV"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_job_detail"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center_vertical"
+                    android:letterSpacing="0"
+                    android:text="View Job Details"
+                    android:textAllCaps="false"
+                    android:textColor="#007FE3"
+                    android:textSize="14sp"
+                    app:icon="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    app:iconGravity="textEnd"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_submit"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:includeFontPadding="false"
+                android:letterSpacing="0"
+                android:onClick="@{()->viewModel.onStartButtonClick()}"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Submit Video Interview"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:backgroundTint="@color/green"
+                app:cornerRadius="23dp"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_cam"
+                app:iconGravity="textStart"
+                app:iconSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:submitButtonStatus="@{viewModel.detailsData}" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_video"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:includeFontPadding="false"
+                android:onClick="@{()->viewModel.onViewButtonClick()}"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="View Video"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:backgroundTint="#303030"
+                app:cornerRadius="23dp"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_play_video"
+                app:iconGravity="textStart"
+                app:iconSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:viewButtonStatus="@{viewModel.detailsData}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/view_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.dataLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1200"
+            tools:visibility="gone">
+
+            <!-- Adding 7 rows of placeholders -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/view_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/ic_rating_show_company_bg_shape"
+            android:layout_width="match_parent"
+            android:layout_height="130dp">
+
+            <ImageView
+                android:id="@+id/img_info"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_error"
+                android:tint="@color/white"
+                android:layout_marginTop="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="To participate in the Live interview please use the Chrome browser on the web or mobile."
+                app:layout_constraintTop_toBottomOf="@id/img_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel" />
+    </data>
+</layout>
