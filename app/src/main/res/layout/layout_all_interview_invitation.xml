@@ -76,6 +76,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -103,6 +106,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
                     app:layout_constraintStart_toStartOf="@id/tv_live_interview"
                     app:layout_constraintTop_toBottomOf="@id/tv_live_interview"
                     tools:text="02" />
@@ -114,6 +118,9 @@
                 android:id="@+id/cl_video_interview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cl_general_interview"
                 app:layout_constraintStart_toEndOf="@id/cl_live_interview"
@@ -145,6 +152,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
                     app:layout_constraintStart_toStartOf="@id/tv_video_interview"
                     app:layout_constraintTop_toBottomOf="@id/tv_video_interview"
                     tools:text="02" />
@@ -153,6 +161,9 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:id="@+id/cl_general_interview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -186,6 +197,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textStyle="bold"
+                    android:fontFamily="@font/roboto_bold"
                     app:layout_constraintStart_toStartOf="@id/tv_general_interview"
                     app:layout_constraintTop_toBottomOf="@id/tv_general_interview"
                     tools:text="02" />

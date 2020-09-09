@@ -17,7 +17,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
 
-class MyBdjobsFragment : Fragment() {
+class  MyBdjobsFragment : Fragment() {
     private lateinit var bdjobsUserSession : BdjobsUserSession
     private var mybdjobsAdapter: MybdjobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()

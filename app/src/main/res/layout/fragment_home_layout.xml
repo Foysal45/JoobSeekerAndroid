@@ -41,9 +41,9 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="5dp"
-            app:srcCompat="@drawable/ic_search_white_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_search_white_24dp" />
 
         <ImageView
             android:id="@+id/notificationIMGV"
@@ -63,13 +63,13 @@
 
 
         <TextView
-            android:gravity="center"
             android:id="@+id/notificationCountTV"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="@drawable/notification_count_circle"
-            android:text="2"
+            android:gravity="center"
             android:paddingBottom="1dp"
+            android:text="2"
             android:textColor="#FFF"
             android:textSize="12sp"
             android:visibility="visible"
@@ -223,10 +223,10 @@
         app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingBottom="70dp"
-            android:layout_gravity="top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:paddingBottom="70dp">
 
             <LinearLayout
                 android:id="@+id/mainLL"
@@ -266,27 +266,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <include
-                    android:layout_marginTop="5dp"
                     android:id="@+id/favSearchView"
                     layout="@layout/my_favourite_search_filter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <include
                     android:id="@+id/videoInvitationView"
-                    android:clickable="true"
-                    android:focusable="true"
                     layout="@layout/my_video_interview_invitations_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
                 <include
                     android:id="@+id/jobInvitationView"
@@ -294,8 +294,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
+                <include
+                    android:id="@+id/allInterview"
+                    layout="@layout/layout_all_interview_invitation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <include
                     android:id="@+id/assesmentView"

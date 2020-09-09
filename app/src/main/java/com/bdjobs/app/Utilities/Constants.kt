@@ -56,6 +56,10 @@ class Constants {
 
         var isSMSFree = "False"
 
+        var generalInvitation = ""
+        var videoInvitation = ""
+        var liveInvitation = ""
+
         var isDeviceInfromationSent = false
         var changePassword_Eligibility = "0"
         var myBdjobsStatsLastMonth = true
@@ -65,6 +69,7 @@ class Constants {
         var favSearchFiltersSynced = false
         var jobInvitationSynced = false
         var videoInvitationSynced = false
+        var liveInvitationSynced = false
         var certificationSynced = false
         var followedEmployerSynced = false
         var isDirectCall = false

@@ -45,6 +45,7 @@ import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
+import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.ads.nativetemplates.TemplateView
@@ -264,6 +265,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToVideoInvitation(from: String) {
         startActivity<VideoInterviewActivity>("from" to from, "time" to time)
+    }
+
+    override fun goToLiveInvitation(from: String) {
+        startActivity<LiveInterviewActivity>("from" to from, "time" to "1")
     }
 
     override fun backButtonClicked() {

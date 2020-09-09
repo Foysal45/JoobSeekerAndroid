@@ -141,7 +141,7 @@
                 android:paddingBottom="16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                tools:listitem="@layout/layout_item_live_interview"
+                tools:listitem="@layout/item_vedio_interview_list"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"

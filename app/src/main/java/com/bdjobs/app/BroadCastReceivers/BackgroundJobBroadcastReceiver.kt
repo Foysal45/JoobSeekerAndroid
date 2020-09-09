@@ -36,6 +36,9 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
                 if(job=="insertCertificationList"){
                     backgroundJobListener!!.certificationSyncComplete()
                 }
+                if (job == "insertLiveInvitation"){
+                    backgroundJobListener!!.liveInvitationSyncComplete()
+                }
 //                if (job == "insertNotifications"){
 //                    backgroundJobListener!!.onUpdateNotification()
 //                }
@@ -58,6 +61,7 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
         fun favSearchFilterSyncComplete()
         fun jobInvitationSyncComplete()
         fun videoInvitationSyncComplete()
+        fun liveInvitationSyncComplete()
         fun certificationSyncComplete()
         fun followedEmployerSyncComplete()
 

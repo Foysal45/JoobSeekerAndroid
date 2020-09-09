@@ -8,6 +8,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
+import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
+import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
@@ -557,6 +559,16 @@ interface ApiServiceMyBdjobs {
             @Field("pageNumber") pageNumber: String? = "1",
             @Field("itemsPerPage") itemsPerPage: String? = "100"
     ): Call<VideoInterviewList>
+
+    @FormUrlEncoded
+    @POST("app_live_interview_invitation_home.asp")
+    fun getLiveInvitationListHome(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("isActivityDate") isActivityDate: String? = "1",
+            @Field("pageNumber") pageNumber: String? = "1",
+            @Field("itemsPerPage") itemsPerPage: String? = "100"
+    ): Call<LiveInterviewList>
 
     @FormUrlEncoded
     @POST("assessment/apps_smnt_certification_complete_examlist.asp")
@@ -1162,7 +1174,6 @@ interface ApiServiceMyBdjobs {
 
     ) : Call<EmployerSubscribeModel>*/
 
-
     @FormUrlEncoded
     @POST("apps_subscribe_sms_follow_employer.asp")
     fun subscribeOrUnsubscribeSMSFromFollowedEmployers(
@@ -1173,6 +1184,27 @@ interface ApiServiceMyBdjobs {
             @Field("action") action: Int?,
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<EmployerSubscribeModel>
+
+
+    //Live Interview
+    @FormUrlEncoded
+    @POST("app_live_interview_invitation_home.asp")
+    suspend fun getLiveInterviewList(
+            @Field("userId") userId: String? = "",
+            @Field("decodeId") decodeId: String? = "",
+            @Field("isActivityDate") isActivityDate: String? = "",
+            @Field("pageNumber") pageNumber: String? = "",
+            @Field("itemsPerPage") itemsPerPage: String? = ""
+    ): LiveInterviewList
+
+    @FormUrlEncoded
+    @POST("app_live_invite_interview_details.asp")
+    suspend fun getLiveInterviewDetails(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("jobId") jobId: String?
+    ): LiveInterviewDetails
+
     companion object Factory {
         @Volatile
         private var retrofit: Retrofit? = null
