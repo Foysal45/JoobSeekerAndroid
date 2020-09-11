@@ -25,12 +25,20 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".liveInterview.LiveInterviewActivity"></activity>
-        <activity android:name=".transaction.TransactionBaseActivity" />
-        <activity android:name=".sms.BaseActivity" />
+        <activity android:name=".liveInterview.LiveInterviewActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".transaction.TransactionBaseActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".sms.BaseActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".videoInterview.VideoInterviewActivity"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".assessment.AssesmentBaseActivity"
             android:label="@string/title_activity_assesment_base"

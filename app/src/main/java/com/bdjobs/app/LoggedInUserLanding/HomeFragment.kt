@@ -281,11 +281,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 //        Log.d("broadCastCheck", "videoInvitationSyncComplete")
         //showVideoInvitation()
         Timber.tag("home").d("video complete override")
+        showAllInvitations()
 
     }
 
     override fun liveInvitationSyncComplete() {
         Timber.tag("home").d("live complete override")
+        showAllInvitations()
     }
 
     override fun certificationSyncComplete() {

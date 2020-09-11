@@ -181,6 +181,12 @@
         <item name="color_tick">@android:color/white</item>
     </style>-->
 
+    <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
+    </style>
 
+    <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
+        <item name="cornerSize">14dp</item>
+    </style>
 
 </resources>

@@ -19,7 +19,8 @@
         android:paddingStart="16dp"
         android:paddingTop="20dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="80dp">
+        android:paddingBottom="10dp"
+        >
 
         <ImageView
             android:id="@+id/video_icon_img"
@@ -64,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColor="#393939"
+            android:text='@{data.confirmationMessage.empty ? data.examMessage : data.confirmationMessage}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/video_invitation_heading_text"
             app:layout_constraintTop_toBottomOf="@id/video_invitation_heading_text"
@@ -209,6 +211,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_confirmation"
             android:layout_width="0dp"
+            android:visibility='@{data.confimationStatus.equalsIgnoreCase("1") ? View.VISIBLE : View.GONE}'
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/background_green"
@@ -240,6 +243,7 @@
                 android:layout_height="wrap_content"
                 android:letterSpacing="0"
                 android:text="Change"
+                android:onClick="@{()->clickListener.onClick(data)}"
                 android:textAllCaps="false"
                 android:textColor="#6F7570"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -248,209 +252,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_countdown_timer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/background_white_grey"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="18dp"
-            app:layout_constraintEnd_toEndOf="@id/cl_interview_details"
-            app:layout_constraintStart_toStartOf="@id/video_icon_img"
-            app:layout_constraintTop_toBottomOf="@id/cl_confirmation">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:drawablePadding="3dp"
-                tools:text=" 30 Aug 2020"
-                android:text="@{data.examDate}"
-                android:textColor="#333333"
-                app:drawableStartCompat="@drawable/job_cal_ic"
-                app:drawableTint="#333333"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0"
-                android:minHeight="0dp"
-                android:text="Add to Calendar"
-                android:textAllCaps="false"
-                android:textColor="#007FE3"
-                app:icon="@drawable/ic_add_white"
-                app:iconTint="#007FE3"
-                app:layout_constraintBottom_toBottomOf="@id/tv_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_date" />
-
-            <TextView
-                android:id="@+id/tv_time_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="23dp"
-                android:text="Time left"
-                android:textColor="#333333"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_date" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/drawable_time_left"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_time_left">
-
-                <TextView
-                    android:id="@+id/remaining_days_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@android:color/white"
-                    android:textSize="34sp"
-                    app:layout_constraintEnd_toStartOf="@+id/remaining_hours_value"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteY="8dp"
-                    tools:text="02" />
-
-                <TextView
-                    android:id="@+id/remaining_hours_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@android:color/white"
-                    android:textSize="34sp"
-                    app:layout_constraintEnd_toStartOf="@+id/remaining_minutes_value"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/remaining_days_value"
-                    app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                    tools:layout_editor_absoluteY="8dp"
-                    tools:text="17" />
-
-                <TextView
-                    android:id="@+id/remaining_minutes_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@android:color/white"
-                    android:textSize="34sp"
-                    app:layout_constraintEnd_toStartOf="@+id/remaining_seconds_value"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/remaining_hours_value"
-                    app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                    tools:layout_editor_absoluteY="8dp"
-                    tools:text="20" />
-
-                <TextView
-                    android:id="@+id/remaining_seconds_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@android:color/white"
-                    android:textSize="34sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/remaining_minutes_value"
-                    app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                    tools:layout_editor_absoluteY="8dp"
-                    tools:text="18" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                    app:layout_constraintStart_toEndOf="@id/remaining_days_value"
-                    app:layout_constraintEnd_toStartOf="@id/remaining_hours_value"
-                    app:srcCompat="@drawable/ic_time_dot"
-                    android:layout_width="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
-                    android:layout_height="wrap_content" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                    app:layout_constraintStart_toEndOf="@id/remaining_hours_value"
-                    app:layout_constraintEnd_toStartOf="@id/remaining_minutes_value"
-                    app:srcCompat="@drawable/ic_time_dot"
-                    android:layout_width="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
-                    android:layout_height="wrap_content" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                    app:layout_constraintStart_toEndOf="@id/remaining_minutes_value"
-                    app:layout_constraintEnd_toStartOf="@id/remaining_seconds_value"
-                    app:srcCompat="@drawable/ic_time_dot"
-                    android:layout_width="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Days"
-                    app:layout_constraintEnd_toEndOf="@id/remaining_days_value"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/remaining_days_value"
-                    app:layout_constraintTop_toBottomOf="@id/remaining_days_value" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Hours"
-                    app:layout_constraintEnd_toEndOf="@id/remaining_hours_value"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/remaining_hours_value"
-                    app:layout_constraintTop_toBottomOf="@id/remaining_hours_value" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Minutes"
-                    app:layout_constraintEnd_toEndOf="@id/remaining_minutes_value"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/remaining_minutes_value"
-                    app:layout_constraintTop_toBottomOf="@id/remaining_minutes_value" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Seconds"
-                    app:layout_constraintEnd_toEndOf="@id/remaining_seconds_value"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/remaining_seconds_value"
-                    app:layout_constraintTop_toBottomOf="@id/remaining_seconds_value" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <ImageView
             android:layout_marginTop="15dp"
             android:layerType="software"
             android:scaleType="fitXY"
-            app:layout_constraintTop_toBottomOf="@id/cl_countdown_timer"
+            app:layout_constraintTop_toBottomOf="@id/cl_confirmation"
             android:src="@drawable/job_divider_bg"
             android:layout_width="match_parent"
             android:layout_height="5dp" />

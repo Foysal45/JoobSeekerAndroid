@@ -1205,6 +1205,20 @@ interface ApiServiceMyBdjobs {
             @Field("jobId") jobId: String?
     ): LiveInterviewDetails
 
+    @FormUrlEncoded
+    @POST("app_invite_interview_confirmation.asp")
+    suspend fun sendInterviewConfirmationLive(
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = "",
+            @Field("applyId") applyId: String? = "",
+            @Field("activity") activity: String? = "",
+            @Field("cancleReason") cancleReason: String? = "",
+            @Field("otherComment") otherComment: String? = "",
+            @Field("invitationId") invitationId: String? = "",
+            @Field("rescheduleComment") rescheduleComment: String? = "",
+            @Field("appId") appId: String? = Constants.APP_ID
+    ): LiveInterviewDetails
+
     companion object Factory {
         @Volatile
         private var retrofit: Retrofit? = null

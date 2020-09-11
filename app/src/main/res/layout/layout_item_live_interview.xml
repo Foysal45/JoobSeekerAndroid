@@ -27,13 +27,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_angular_bg" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility='@{data.userSeenLiveInterview.equalsIgnoreCase("True") ? View.GONE : View.VISIBLE}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_new_live" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_position"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@{data.jobTitle}"
@@ -44,11 +62,11 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="UI Designer Sketch" />
+                tools:text="UI Designer Sketch UI Designer Sketch UI Designer Sketch" />
 
             <TextView
                 android:id="@+id/tv_company_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="15dp"
@@ -88,21 +106,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_interview_status"
                 tools:text="Invited on: 4 Apr, 2020" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_angular_bg" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility='@{data.userSeenLiveInterview.equalsIgnoreCase("True") ? View.GONE : View.VISIBLE}'
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_new_live" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

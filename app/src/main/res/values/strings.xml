@@ -458,4 +458,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="sms_guideline_fav1"><b>Step 1:</b> You can follow your referred employers by clicking on Follow from Employer List or Job Details page</string>
     <string name="sms_guideline_fav2"><b>Step 2:</b> Click on Get SMS to subscribe your preferred employer job alert by SMS</string>
     <string name="sms_guideline_fav3"><b>Step 3:</b> You can cancel SMS alert for any employer anytime.</string>
+
+    <!-- Live Interview -->
+    <string name="live_interview_date_time">Do you want to present in the live interview on %1$s, at %2$s?</string>
 </resources>

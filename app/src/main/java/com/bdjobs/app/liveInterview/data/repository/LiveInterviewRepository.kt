@@ -10,6 +10,7 @@ import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class LiveInterviewRepository(val application: Application)  {
 
@@ -35,7 +36,28 @@ class LiveInterviewRepository(val application: Application)  {
                     itemsPerPage = "100"
             )
         }
-
     }
 
+    suspend fun sendLiveInterviewConfirmation(
+            applyId : String,
+            activity: String,
+            cancelReason : String = "",
+            invitationId : String,
+            otherComment : String = "",
+            rescheduleComment : String= ""
+    ) : LiveInterviewDetails{
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().sendInterviewConfirmationLive(
+                    userID = session.userId,
+                    decodeID = session.decodId,
+                    applyId = applyId,
+                    activity = activity,
+                    cancleReason = cancelReason,
+                    invitationId = invitationId,
+                    otherComment = otherComment,
+                    rescheduleComment = rescheduleComment
+            )
+
+        }
+    }
 }
