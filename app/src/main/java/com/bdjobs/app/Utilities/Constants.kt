@@ -212,6 +212,7 @@ class Constants {
         const val NOTIFICATION_PROMOTIONAL_MESSAGE = 102
         const val NOTIFICATION_MATCHED_JOB = 104
         const val NOTIFICATION_VIDEO_INTERVIEW = 105
+        const val NOTIFICATION_LIVE_INTERVIEW = 106
 
 
         const val internal_database_name = "BdjobsInternal.db"
@@ -246,6 +247,7 @@ class Constants {
         const val NOTIFICATION_TYPE_VIDEO_INTERVIEW = "vi"
         const val NOTIFICATION_TYPE_SMS = "sj"
         const val NOTIFICATION_TYPE_APPLIED_JOBS = "aj"
+        const val NOTIFICATION_TYPE_LIVE_INTERVIEW = "li"
 
         const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"
 

@@ -28,11 +28,13 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
+import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_LIVE_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JOB
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
+import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.google.android.material.button.MaterialButton
@@ -57,6 +59,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
         private const val TYPE_VIDEO_INTERVIEW = 5
         private const val TYPE_SMS = 6
         private const val TYPE_BANNER_PROMOTIONAL_MESSAGE = 7
+        private const val TYPE_LIVE_INTERVIEW = 8
     }
 
     private val notificationCommunicatior = context as NotificationCommunicatior
@@ -110,6 +113,11 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 viewHolder = VideoInterviewViewHolder(view)
             }
 
+            TYPE_LIVE_INTERVIEW ->{
+                val view = inflater.inflate(R.layout.notification_item_live_interview, parent, false)
+                viewHolder = LiveInterviewViewHolder(view)
+            }
+
 
         }
         return viewHolder!!
@@ -129,6 +137,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
             NOTIFICATION_TYPE_VIDEO_INTERVIEW -> TYPE_VIDEO_INTERVIEW
             NOTIFICATION_TYPE_SMS -> TYPE_SMS
             NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE -> TYPE_BANNER_PROMOTIONAL_MESSAGE
+            NOTIFICATION_TYPE_LIVE_INTERVIEW -> TYPE_LIVE_INTERVIEW
             else -> TYPE_INTERVIEW_INVITATION
         }
 
@@ -276,6 +285,76 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     context.startActivity<VideoInterviewActivity>()
                 }
             }
+
+            TYPE_LIVE_INTERVIEW -> {
+
+                val liveInterviewViewHolder = holder as LiveInterviewViewHolder
+                val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
+
+                try {
+                    when {
+                        hashMap.containsKey("seconds") -> liveInterviewViewHolder.notificationTimeTV.text = "just now"
+                        hashMap.containsKey("minutes") -> {
+                            if (hashMap["minutes"]!! > 1)
+                                liveInterviewViewHolder.notificationTimeTV.text = "${hashMap["minutes"]} minutes ago"
+                            else
+                                liveInterviewViewHolder.notificationTimeTV.text = "${hashMap["minutes"]} minute ago"
+                        }
+                        hashMap.containsKey("hours") -> {
+                            if (hashMap["hours"]!! > 1)
+                                liveInterviewViewHolder.notificationTimeTV.text = "${hashMap["hours"]} hours ago"
+                            else
+                                liveInterviewViewHolder.notificationTimeTV.text = "${hashMap["hours"]} hour ago"
+                        }
+                        else -> {
+                            if (hashMap["days"]!! > 1)
+                                liveInterviewViewHolder.notificationTimeTV.text = "${hashMap["days"]} days ago"
+                            else
+                                liveInterviewViewHolder.notificationTimeTV.text = "${hashMap["days"]} day ago"
+                        }
+                    }
+                } catch (e: Exception) {
+                }
+
+                liveInterviewViewHolder.notificationTitleTV.text = Html.fromHtml(items[position].body)
+
+                try {
+                    if (items[position].seen!!) {
+                        liveInterviewViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    } else
+                        liveInterviewViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                } catch (e: Exception) {
+                }
+
+
+                liveInterviewViewHolder?.notificationCV?.setOnClickListener {
+                    NotificationManagerCompat.from(context).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                    notificationCommunicatior.positionClicked(position)
+                    if (!items[position].seen!!) {
+                        liveInterviewViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+
+                        doAsync {
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                            val count = bdjobsDB.notificationDao().getNotificationCount()
+                            bdjobsUserSession.updateNotificationCount(count)
+                            uiThread {
+
+                            }
+                        }
+                    }
+//                    context?.startActivity<InterviewInvitationBaseActivity>(
+//                            "from" to "notificationList",
+//                            "jobid" to items[position].serverId,
+//                            "companyname" to items[position].companyName,
+//                            "jobtitle" to items[position].jobTitle,
+//                            "seen" to items[position].seen,
+//                            "nid" to items[position].notificationId
+//
+//                    )
+                    context.startActivity<LiveInterviewActivity>()
+                }
+            }
+
 
             TYPE_CV_VIEWED -> {
 
@@ -681,6 +760,15 @@ class VideoInterviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val notificationCL = view?.findViewById(R.id.notification_video__cl) as ConstraintLayout
     val notificationCV = view?.findViewById(R.id.notification_interview_video_card_view) as CardView
     val notificationRecordButton = view?.findViewById(R.id.record_button) as MaterialButton
+}
+
+class LiveInterviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val notificationTitleTV = view?.findViewById(R.id.notification_live_interview_text) as TextView
+    val notificationTimeTV = view?.findViewById(R.id.notification_live_interview_time_text) as TextView
+
+    //val notificationIMG = view?.findViewById(R.id.notification_interview_img) as ImageView
+    val notificationCL = view?.findViewById(R.id.notification_live_cl) as ConstraintLayout
+    val notificationCV = view?.findViewById(R.id.notification_interview_live_card_view) as CardView
 }
 
 class CVViewedViewHolder(view: View) : RecyclerView.ViewHolder(view) {

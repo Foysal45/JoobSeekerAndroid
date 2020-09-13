@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/notification_interview_live_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:outlineProvider="none"
+    card_view:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notification_live_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF2FA"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/notification_live_interview_img"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_noti_live"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/notification_time_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_notification_time"
+            app:layout_constraintBottom_toBottomOf="@+id/notification_live_interview_time_text"
+            app:layout_constraintEnd_toStartOf="@+id/notification_live_interview_time_text"
+            app:layout_constraintTop_toTopOf="@+id/notification_live_interview_time_text" />
+
+        <TextView
+            android:id="@+id/notification_live_interview_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="A Group of Company requested you a Interview Schedule, confirm your Interview."
+            android:textColor="#000"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/notification_live_interview_img"
+            app:layout_constraintTop_toTopOf="@id/notification_live_interview_img"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/notification_live_interview_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:drawablePadding="5dp"
+            android:drawableTint="#767676"
+            android:text="6 days ago"
+            android:textColor="#767676"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/notification_live_interview_text"
+            app:layout_constraintTop_toBottomOf="@id/notification_live_interview_text"
+            app:layout_constraintVertical_bias="0.19" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

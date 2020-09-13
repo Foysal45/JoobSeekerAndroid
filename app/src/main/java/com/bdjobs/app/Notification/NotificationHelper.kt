@@ -21,6 +21,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.squareup.picasso.Picasso
@@ -34,6 +35,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         const val GENERAL_CHANNEL = "general"
         const val INTERVIEW_INVITATION_CHANNEL = "interview_invitation"
         const val VIDEO_INTERVIEW_CHANNEL = "video_interview"
+        const val LIVE_INTERVIEW_CHANNEL = "live_interview"
         const val CV_VIEWED_CHANNEL = "cv_viewed"
         const val MATCHED_JOB_CHANNEL = "matched_job"
         const val MESSAGE_CHANNEL = "message"
@@ -74,7 +76,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             // Submit the notification channel object to the notification manager
             mNotificationManager.createNotificationChannel(interviewInvitationChannel)
 
-            // Create interview invitation notification channel
+            // Create video invitation notification channel
             val videoInterviewChannel = NotificationChannel(
                     VIDEO_INTERVIEW_CHANNEL,
                     getString(R.string.notification_channel_video_interview),
@@ -86,6 +88,19 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             // Submit the notification channel object to the notification manager
             mNotificationManager.createNotificationChannel(videoInterviewChannel)
+
+            // Create interview invitation notification channel
+            val liveInvitationChannel = NotificationChannel(
+                    LIVE_INTERVIEW_CHANNEL,
+                    getString(R.string.notification_channel_live_interview),
+                    NotificationManager.IMPORTANCE_HIGH)
+
+            // Configure the channel's initial settings
+            generalChannel.lightColor = Color.GREEN
+            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+
+            // Submit the notification channel object to the notification manager
+            mNotificationManager.createNotificationChannel(liveInvitationChannel)
 
             // Create cv viewed notification channel
             val cvViewedChannel = NotificationChannel(
@@ -200,6 +215,33 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(videoInterviewPendingIntent)
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+            }
+
+            Constants.NOTIFICATION_TYPE_LIVE_INTERVIEW -> {
+
+//                val intent = Intent(this, LiveInterviewActivity::class.java)?.apply {
+//                    putExtra("from", "notification")
+//                    putExtra("jobid", jobid)
+//                    putExtra("companyname", companyName)
+//                    putExtra("jobtitle", jobTitle)
+//                    putExtra("type", type)
+//                    putExtra("nid", nId)
+//                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                }
+
+                val intent = Intent(this, LiveInterviewActivity::class.java)
+
+                val liveInterviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                return NotificationCompat.Builder(applicationContext, LIVE_INTERVIEW_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(liveInterviewInvitationPendingIntent)
                         .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
             }
 
