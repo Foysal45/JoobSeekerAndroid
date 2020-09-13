@@ -48,6 +48,8 @@ class MybdjobsAdapter(val context: Context) : RecyclerView.Adapter<MyBdjobsViewH
                             Constants.session_key_mybdjobscount_employers_followed -> communicator?.goToFollowedEmployerList("follow")
                             Constants.session_key_mybdjobscount_interview_invitation -> communicator?.goToInterviewInvitation("mybdjobs")
                             Constants.session_key_mybdjobscount_video_invitation -> communicator?.goToVideoInvitation("mybdjobs")
+                            Constants.session_key_mybdjobscount_live_invitation -> communicator?.goToLiveInvitation("mybdjobs")
+
                             Constants.session_key_mybdjobscount_employers_viwed_resume -> {
                                 if (Constants.myBdjobsStatsLastMonth) {
                                     communicator?.setTime("1")
