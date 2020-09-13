@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/cl_countdown_timer"
+            app:layout_constraintBottom_toTopOf="@id/cl_confirmation"
             app:layout_constraintTop_toBottomOf="@id/cl_company_info"
             app:layout_constraintVertical_bias="0.0"
             tools:itemCount="5"
@@ -159,6 +159,51 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_confirmation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/background_green"
+            android:paddingStart="15dp"
+            android:paddingTop="15dp"
+            android:layout_marginBottom="16dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="15dp"
+            android:visibility='@{viewModel.commonData.showUndo.equalsIgnoreCase("1") ? View.VISIBLE : View.GONE}'
+            app:layout_constraintEnd_toEndOf="@id/cl_countdown_timer"
+            app:layout_constraintStart_toStartOf="@id/cl_countdown_timer"
+            app:layout_constraintBottom_toTopOf="@id/cl_countdown_timer">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Confirmed"
+                android:textColor="#1B5E20"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_available_for"
+                app:drawableTint="#1B5E20"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0"
+                android:text="Change"
+                android:textAllCaps="false"
+                android:textColor="#6F7570"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_countdown_timer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -166,6 +211,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/background_white_grey"
             android:paddingStart="15dp"
+            android:layout_marginBottom="16dp"
             android:paddingEnd="15dp"
             android:paddingBottom="18dp"
             android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"
@@ -192,6 +238,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0"
+                android:visibility="gone"
                 android:minHeight="0dp"
                 android:text="Add to Calendar"
                 android:textAllCaps="false"
@@ -367,7 +414,7 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:background="@drawable/ic_rating_show_company_bg_shape"
-            android:visibility="gone"
+            android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

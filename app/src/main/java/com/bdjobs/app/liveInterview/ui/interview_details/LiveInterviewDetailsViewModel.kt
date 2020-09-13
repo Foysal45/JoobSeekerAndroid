@@ -74,7 +74,7 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                 showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0"
 
                 //for black section
-                showBlackInfoSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1"
+                showBlackInfoSection.value = liveInterviewDetailsData.value?.get(0)?.activity == "3"
 
                 //exam date and time
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
@@ -167,7 +167,6 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
             if (response.statuscode == "4"){
                 showToast.value = Event(response.message.toString())
                 getLiveInterviewDetails()
-                //showUndoSnackbar.value = Event(true)
                 showConfirmationSection.value = false
             } else{
                 showToast.value = Event(response.message.toString())
@@ -183,29 +182,65 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
         openReschedulePopup.value = Event(true)
     }
 
-    fun onUndoButtonClick(){
-        showConfirmationSection.value = true
-    }
-
     fun onCancelSubmitButtonClick() {
 
         Timber.d("applyId $applyId activity 2 cancelReason $cancelReason otherReason $otherReason rescheduleComment $rescheduleComment invitationId $invitationId")
 
-//        viewModelScope.launch {
-//            val response = repository.sendLiveInterviewConfirmation(
-//                    applyId = applyId,
-//                    invitationId = invitationId,
-//                    activity = "2",
-//                    cancelReason = cancelReason,
-//                    otherComment = otherReason
-//            )
-//            if (response.statuscode == "4") {
-//                showToast.value = Event(response.message.toString())
-//                getLiveInterviewDetails()
-//            } else {
-//                showToast.value = Event(response.message.toString())
-//            }
-//        }
+        viewModelScope.launch {
+            val response = repository.sendLiveInterviewConfirmation(
+                    applyId = applyId,
+                    invitationId = invitationId,
+                    activity = "2",
+                    cancelReason = cancelReason,
+                    otherComment = otherReason
+            )
+            if (response.statuscode == "4") {
+                showToast.value = Event(response.message.toString())
+                getLiveInterviewDetails()
+            } else {
+                showToast.value = Event(response.message.toString())
+            }
+        }
+    }
+
+    fun onChangeButtonClick(){
+        Timber.d("applyId $applyId activity 6 cancelReason $cancelReason otherReason $otherReason rescheduleComment $rescheduleComment invitationId $invitationId")
+        viewModelScope.launch {
+            val response = repository.sendLiveInterviewConfirmation(
+                    applyId = applyId,
+                    invitationId = invitationId,
+                    activity = "6",
+                    cancelReason = "",
+                    otherComment = ""
+            )
+            if (response.statuscode == "4") {
+                showToast.value = Event(response.message.toString())
+                _dataLoading.value = true
+                getLiveInterviewDetails()
+            } else {
+                showToast.value = Event(response.message.toString())
+            }
+        }
+    }
+
+    fun onRescheduleSubmitClick() {
+        Timber.d("applyId $applyId activity 4 cancelReason $cancelReason otherReason $otherReason rescheduleComment $rescheduleComment invitationId $invitationId")
+        viewModelScope.launch {
+            val response = repository.sendLiveInterviewConfirmation(
+                    applyId = applyId,
+                    invitationId = invitationId,
+                    activity = "4",
+                    otherComment = "",
+                    rescheduleComment = rescheduleComment
+            )
+            if (response.statuscode == "4") {
+                showToast.value = Event(response.message.toString())
+                _dataLoading.value = true
+                getLiveInterviewDetails()
+            } else {
+                showToast.value = Event(response.message.toString())
+            }
+        }
     }
 
 }
