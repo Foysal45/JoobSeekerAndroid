@@ -70,6 +70,7 @@ data class LiveInterviewDetails(
             @Json(name = "previousScheduleTime")
             val previousScheduleTime: String?, // 16:30:00
             @Json(name = "testType")
-            val testType: String? // video
+            val testType: String?, // video
+            var showUndo: String?
     )
 }

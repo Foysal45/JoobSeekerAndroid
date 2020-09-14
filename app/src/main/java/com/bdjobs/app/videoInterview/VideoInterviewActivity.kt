@@ -11,7 +11,7 @@ class VideoInterviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_interview)
 
-        val activityDate = intent.getStringExtra("time")
+        val activityDate = if (intent.getStringExtra("from") == "homePage") "0" else intent.getStringExtra("time")
         //Log.d("rakib", "activity date $activityDate")
 
         val navController = findNavController(R.id.videoInterviewNavHostFragment)

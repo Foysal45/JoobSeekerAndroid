@@ -22,8 +22,8 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _liveInterviewDetailsData = MutableLiveData<List<LiveInterviewDetails.Data?>>()
-    val liveInterviewDetailsData: LiveData<List<LiveInterviewDetails.Data?>> = _liveInterviewDetailsData
+    private val _liveInterviewDetailsData = MutableLiveData<MutableList<LiveInterviewDetails.Data?>>()
+    val liveInterviewDetailsData: LiveData<MutableList<LiveInterviewDetails.Data?>> = _liveInterviewDetailsData
 
     private val _commonData = MutableLiveData<LiveInterviewDetails.Common?>()
     val commonData: LiveData<LiveInterviewDetails.Common?> = _commonData
@@ -71,9 +71,13 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
         viewModelScope.launch {
             try {
                 val response = repository.getLiveInterviewDetailsFromRemote(jobId)
-                _liveInterviewDetailsData.value = response.data
+                _liveInterviewDetailsData.value = response.data?.toMutableList()
                 _commonData.value = response.common
                 _dataLoading.value = false
+
+                response.data?.let {
+                    _liveInterviewDetailsData.value?.get(0)?.showUndo = _commonData.value?.showUndo
+                }
 
                 //for green section
                 showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"

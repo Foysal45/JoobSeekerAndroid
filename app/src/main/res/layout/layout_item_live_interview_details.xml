@@ -213,10 +213,11 @@
 
         <RelativeLayout
             android:id="@+id/notifyRL"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
+            app:layout_constraintEnd_toEndOf="@+id/cl_interview_details"
+            app:layout_constraintStart_toStartOf="@id/cl_interview_details"
             android:visibility='@{data.confimationStatus.equals("0") || data.confimationStatus.equals("5")? View.GONE : View.VISIBLE}'
             app:layout_constraintTop_toBottomOf="@id/cl_interview_details"
             tools:visibility="visible">
@@ -270,10 +271,11 @@
         <RelativeLayout
 
             android:id="@+id/prevSchRL"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
             android:layout_marginBottom="15dp"
+            app:layout_constraintStart_toStartOf="@id/cl_interview_details"
+            app:layout_constraintEnd_toEndOf="@id/cl_interview_details"
             android:background="@drawable/previous_sch_details_bg"
             android:padding="10dp"
             android:visibility="@{data.previousScheduleDate.empty ? View.GONE : View.VISIBLE}"
@@ -324,10 +326,11 @@
 
         <TextView
             android:id="@+id/msgTV"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
             android:layout_marginTop="14dp"
+            app:layout_constraintStart_toStartOf="@id/cl_interview_details"
+            app:layout_constraintEnd_toEndOf="@id/cl_interview_details"
             android:background="@drawable/msg_bg"
             android:fontFamily="@font/roboto"
             android:text="@{data.alertMessage}"
@@ -347,21 +350,22 @@
             android:paddingTop="15dp"
             android:paddingEnd="15dp"
             android:paddingBottom="15dp"
-            android:visibility='@{data.confimationStatus.equalsIgnoreCase("1") ? View.VISIBLE : View.GONE}'
+            android:visibility='@{data.showUndo.equalsIgnoreCase("1") ? View.VISIBLE : View.GONE}'
             app:layout_constraintEnd_toEndOf="@id/cl_interview_details"
             app:layout_constraintStart_toStartOf="@id/cl_interview_details"
             app:layout_constraintTop_toBottomOf="@id/msgTV">
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/btn_change"
                 android:drawablePadding="6dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Confirmed"
+                android:text="Your request has been sent to the employer."
                 android:textColor="#1B5E20"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_available_for"
+                android:textSize="14sp"
                 app:drawableTint="#1B5E20"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -371,6 +375,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0"
+                android:id="@+id/btn_change"
                 android:onClick="@{()->clickListener.onClick(data)}"
                 android:text="Change"
                 android:textAllCaps="false"

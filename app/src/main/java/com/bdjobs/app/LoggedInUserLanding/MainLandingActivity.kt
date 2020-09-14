@@ -268,7 +268,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     }
 
     override fun goToLiveInvitation(from: String) {
-        startActivity<LiveInterviewActivity>("from" to from, "time" to "1")
+        startActivity<LiveInterviewActivity>("from" to from, "time" to time)
     }
 
     override fun backButtonClicked() {
