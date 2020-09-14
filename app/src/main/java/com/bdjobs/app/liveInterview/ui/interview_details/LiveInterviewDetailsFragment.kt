@@ -64,8 +64,7 @@ class LiveInterviewDetailsFragment : Fragment() {
 
         val adapter = LiveInterviewDetailsAdapter(requireContext(), ClickListener {
             liveInterviewDetailsViewModel.apply {
-                showConfirmationSection.value = true
-                showBlackInfoSection.value = false
+                liveInterviewDetailsViewModel.onChangeButtonClick()
             }
         })
 
@@ -213,6 +212,11 @@ class LiveInterviewDetailsFragment : Fragment() {
                 TextUtils.isEmpty(reason) -> Toast.makeText(activity, "Please write your reason for rescheduling.", Toast.LENGTH_SHORT).show()
                 reason.trim { it <= ' ' }.isEmpty() -> Toast.makeText(activity, "Please write your reason for rescheduling.", Toast.LENGTH_SHORT).show()
                 else -> {
+
+                    liveInterviewDetailsViewModel.apply {
+                        rescheduleComment = reason
+                        onRescheduleSubmitClick()
+                    }
                     dialog.dismiss()
 //                    sendInterviewConfirmation(
 //                            applyID = applyID,
@@ -226,6 +230,8 @@ class LiveInterviewDetailsFragment : Fragment() {
         dialog.setView(view)
         dialog.show()
     }
+
+
 
     override fun onPause() {
         super.onPause()
