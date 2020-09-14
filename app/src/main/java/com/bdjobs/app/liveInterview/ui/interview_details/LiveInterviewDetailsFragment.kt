@@ -10,17 +10,22 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.BalloonFactory
 import com.bdjobs.app.databinding.FragmentLiveInterviewDetailsBinding
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.skydoves.balloon.ArrowConstraints
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.createBalloon
 import kotlinx.android.synthetic.main.fragment_live_interview_details.*
 import kotlinx.android.synthetic.main.fragment_live_interview_details.btn_job_detail
 import kotlinx.android.synthetic.main.fragment_live_interview_details.tool_bar
@@ -30,6 +35,27 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 
 class LiveInterviewDetailsFragment : Fragment() {
+
+    private val balloon by lazy { BalloonFactory().create(context = requireContext(), lifecycle = viewLifecycleOwner) }
+
+
+//    val balloon = createBalloon(requireContext()) {
+//        setArrowSize(10)
+//        setWidthRatio(1.0f)
+//        setArrowPosition(0.0f)
+//        setCornerRadius(4f)
+//        setHeight(100)
+//        setMarginLeft(8)
+//        setMarginRight(20)
+//        setPadding(16)
+//        setAlpha(0.9f)
+//        setText("To participate in the online interview please use updated mobile browser(Chrome, Mozilla) or you can access web from desktop / laptop.")
+//        setTextColorResource(R.color.colorWhite)
+//        arrowConstraints = ArrowConstraints.ALIGN_ANCHOR
+//        setBackgroundColorResource(R.color.black)
+//        setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+//        setLifecycleOwner(lifecycleOwner)
+//    }
 
     var snackbar: Snackbar? = null
 
@@ -106,6 +132,22 @@ class LiveInterviewDetailsFragment : Fragment() {
 //                }
 //            })
 
+            showTooltip.observe(viewLifecycleOwner, EventObserver {
+                if (it)
+                    try {
+                        balloon.showAlignTop(img_web_info)
+                    } catch (e:Exception){
+                        e.printStackTrace()
+                    }
+            })
+        }
+
+        img_web_info?.setOnClickListener {
+            try {
+                balloon.showAlignTop(it)
+            } catch (e:Exception){
+                e.printStackTrace()
+            }
         }
 
         btn_job_detail?.setOnClickListener {
@@ -230,7 +272,6 @@ class LiveInterviewDetailsFragment : Fragment() {
         dialog.setView(view)
         dialog.show()
     }
-
 
 
     override fun onPause() {

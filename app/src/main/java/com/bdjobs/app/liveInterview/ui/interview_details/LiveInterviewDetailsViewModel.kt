@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.DecimalFormat
@@ -33,6 +34,10 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
 
     val showBlackInfoSection = MutableLiveData<Boolean>().apply {
         value = false
+    }
+
+    val showTooltip = MutableLiveData<Event<Boolean>>().apply {
+        value = Event(false)
     }
 
     val examDate = MutableLiveData<String>()
@@ -71,7 +76,7 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                 _dataLoading.value = false
 
                 //for green section
-                showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0"
+                showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
 
                 //for black section
                 showBlackInfoSection.value = liveInterviewDetailsData.value?.get(0)?.activity == "3"
@@ -89,6 +94,10 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
 
 //                if (commonData.value?.showUndo == "1")
 //                    showUndoSnackbar.value = Event(true)
+                delay(1000)
+
+                if (liveInterviewDetailsData.value?.get(0)?.activity == "3")
+                    showTooltip.value = Event(true)
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -164,11 +173,11 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                     invitationId = invitationId,
                     activity = "3"
             )
-            if (response.statuscode == "4"){
+            if (response.statuscode == "4") {
                 showToast.value = Event(response.message.toString())
                 getLiveInterviewDetails()
                 showConfirmationSection.value = false
-            } else{
+            } else {
                 showToast.value = Event(response.message.toString())
             }
         }
@@ -203,7 +212,7 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
         }
     }
 
-    fun onChangeButtonClick(){
+    fun onChangeButtonClick() {
         Timber.d("applyId $applyId activity 6 cancelReason $cancelReason otherReason $otherReason rescheduleComment $rescheduleComment invitationId $invitationId")
         viewModelScope.launch {
             val response = repository.sendLiveInterviewConfirmation(
