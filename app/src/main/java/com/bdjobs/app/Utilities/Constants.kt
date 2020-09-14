@@ -206,8 +206,8 @@ class Constants {
         const val session_key_mybdjobscount_employers_followed = "Employers\nFollowed"
         const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
-        const val session_key_mybdjobscount_video_invitation = "Video Interview\n(Recorded)"
-        const val session_key_mybdjobscount_live_invitation = "LIVE Interview\nInvitations"
+        const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
+        const val session_key_mybdjobscount_live_invitation = "Live Interview\nInvitations"
 
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
