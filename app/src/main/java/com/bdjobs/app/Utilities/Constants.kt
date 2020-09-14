@@ -188,6 +188,7 @@ class Constants {
         const val session_key_mybdjobscount_interview_invitation_lastmonth = "interview_invitation_lastmonth"
         const val session_key_mybdjobscount_message_by_employers_lastmonth = "message_by_employers_lastmonth"
         const val session_key_mybdjobscount_video_invitation_lastmonth = "video_invitation_lastmonth"
+        const val session_key_mybdjobscount_live_invitation_lastmonth = "live_invitation_lastmonth"
 
 
         const val session_key_mybdjobscount_jobs_applied_alltime = "jobs_applied_alltime"
@@ -197,6 +198,7 @@ class Constants {
         const val session_key_mybdjobscount_interview_invitation_alltime = "interview_invitation_alltime"
         const val session_key_mybdjobscount_message_by_employers_alltime = "message_by_employers_alltime"
         const val session_key_mybdjobscount_video_invitation_alltime = "video_invitation_alltime"
+        const val session_key_mybdjobscount_live_invitation_alltime = "live_invitation_alltime"
 
         const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
         const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"
@@ -205,6 +207,7 @@ class Constants {
         const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
         const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
+        const val session_key_mybdjobscount_live_invitation = "Live Interview\nInvitations"
 
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100

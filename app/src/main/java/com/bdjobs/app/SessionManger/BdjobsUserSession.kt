@@ -303,7 +303,9 @@ class BdjobsUserSession(val context: Context) {
             followedEmployers: String?,
             interviewInvitation: String?,
             messageByEmployers: String?,
-            videoInvitation: String?
+            videoInvitation: String?,
+            liveInvitation: String?
+
 
     ) {
 
@@ -315,6 +317,8 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, interviewInvitation)
             putString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, messageByEmployers)
             putString(Constants.session_key_mybdjobscount_video_invitation_lastmonth, videoInvitation)
+            putString(Constants.session_key_mybdjobscount_live_invitation_lastmonth, liveInvitation)
+
 
         }
 
@@ -326,7 +330,9 @@ class BdjobsUserSession(val context: Context) {
                                        followedEmployers: String?,
                                        interviewInvitation: String?,
                                        messageByEmployers: String?,
-                                       videoInvitation: String?
+                                       videoInvitation: String?,
+                                       liveInvitation: String?
+
     ) {
 
         pref?.edit {
@@ -337,6 +343,8 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_mybdjobscount_interview_invitation_alltime, interviewInvitation)
             putString(Constants.session_key_mybdjobscount_message_by_employers_alltime, messageByEmployers)
             putString(Constants.session_key_mybdjobscount_video_invitation_alltime, videoInvitation)
+            putString(Constants.session_key_mybdjobscount_live_invitation_alltime, liveInvitation)
+
 
         }
 
@@ -349,6 +357,7 @@ class BdjobsUserSession(val context: Context) {
     val mybdjobscount_interview_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, "0")
     val mybdjobscount_message_by_employers_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, "0")
     val mybdjobscount_video_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_video_invitation_lastmonth, "0")
+    val mybdjobscount_live_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_live_invitation_lastmonth, "0")
 
 
     val mybdjobscount_jobs_applied_alltime = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_alltime, "0")
@@ -358,6 +367,7 @@ class BdjobsUserSession(val context: Context) {
     val mybdjobscount_interview_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_alltime, "0")
     val mybdjobscount_message_by_employers_alltime = pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_alltime, "0")
     val mybdjobscount_video_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_video_invitation_alltime, "0")
+    val mybdjobscount_live_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_live_invitation_alltime, "0")
 
 
 

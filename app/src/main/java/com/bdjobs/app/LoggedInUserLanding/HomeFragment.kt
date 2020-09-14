@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
@@ -81,6 +82,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private lateinit var homeCommunicator: HomeCommunicator
     private var inviteInterviview: String? = ""
     private var videoInterviview: String? = ""
+    private var liveInterview: String? = ""
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -573,19 +576,38 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showInterviewInvitationPop() {
         val interviewInvitationDialog = Dialog(activity)
-        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
+
+        interviewInvitationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         interviewInvitationDialog?.setCancelable(true)
-        interviewInvitationDialog?.show()
+
+        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
+        val InterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView2)
+        val VideoInterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView3)
+        val LiveInterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView4)
+
+
+
         val InterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv)
+        val VideoInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_3)
+        val LiveInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_4)
+
         val cancelBTN = interviewInvitationDialog?.findViewById(R.id.cancel) as ImageView
-        val interviewList_MBTN = interviewInvitationDialog?.findViewById(R.id.viewList_MBTN) as MaterialButton
 
         InterviewTVCount?.text = inviteInterviview
+        VideoInterviewTVCount?.text = videoInterviview
+        LiveInterviewTVCount?.text = liveInterview
+
+        if(inviteInterviview.equals("0")) InterviewCV.visibility = View.GONE
+        if(videoInterviview.equals("0")) VideoInterviewCV.visibility = View.GONE
+        if(liveInterview.equals("0")) LiveInterviewCV.visibility = View.GONE
+
+
 
         cancelBTN?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
         }
-        interviewList_MBTN?.setOnClickListener {
+
+        InterviewCV?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
             try {
@@ -593,6 +615,28 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             } catch (e: Exception) {
             }
         }
+
+        VideoInterviewCV?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
+            homeCommunicator.goToVideoInvitation("popup")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+            } catch (e: Exception) {
+            }
+        }
+
+        LiveInterviewCV?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
+            homeCommunicator.goToLiveInvitation("popup")
+//            try {
+//                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+//            } catch (e: Exception) {
+//            }
+        }
+
+
+        interviewInvitationDialog?.show()
+
     }
 
     private fun showVideoInterviewSlider() {
@@ -653,15 +697,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     //Log.d("rakib cat id", "${catIds?.size}")
 
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
+                    videoInterviview = response.body()?.data?.get(0)?.videoInterviview
+                    liveInterview = response.body()?.data?.get(0)?.liveInterview
+
                     //Log.d("google", "google = $inviteInterviview")
 
-                    if (inviteInterviview?.toInt()!! > 0) {
+                    if (inviteInterviview?.toInt()!! > 0 || videoInterviview?.toInt()!! > 0 || liveInterview?.toInt()!! > 0) {
                         showInterviewInvitationPop()
-                    }
-
-                    videoInterviview = response.body()?.data?.get(0)?.videoInterviview
-                    if (videoInterviview?.toInt()!! > 0) {
-                        //showVideoInterviewSlider()
                     }
 
                     try {

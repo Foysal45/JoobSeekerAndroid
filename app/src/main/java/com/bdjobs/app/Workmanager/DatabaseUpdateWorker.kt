@@ -484,6 +484,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     var interviewInvitation: String? = ""
                     var employerMessage: String? = ""
                     var videoInvitation: String? = ""
+                    var liveInvitation: String? = ""
 
 
                     response?.body()?.data?.forEach { itt ->
@@ -509,6 +510,9 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             Constants.session_key_mybdjobscount_video_invitation -> {
                                 videoInvitation = itt?.count
                             }
+                            Constants.session_key_mybdjobscount_live_invitation -> {
+                                liveInvitation = itt?.count
+                            }
                         }
 
                     }
@@ -522,7 +526,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
                                 messageByEmployers = employerMessage,
-                                videoInvitation = videoInvitation
+                                videoInvitation = videoInvitation,
+                                liveInvitation = liveInvitation
                         )
                     } else if (activityDate == "1") {
                         //last_moth
@@ -533,7 +538,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 followedEmployers = followedEmployers,
                                 interviewInvitation = interviewInvitation,
                                 messageByEmployers = employerMessage,
-                                videoInvitation = videoInvitation
+                                videoInvitation = videoInvitation,
+                                liveInvitation = liveInvitation
                         )
                     }
 

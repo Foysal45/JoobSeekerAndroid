@@ -31,6 +31,8 @@ data class LastUpdateModelData(
         val inviteInterviview: String?,
         @SerializedName("videoInterviview")
         val videoInterviview: String?,
+        @SerializedName("liveInterview")
+        val liveInterview: String?,
 
         @SerializedName("name")
         val name: String?,
