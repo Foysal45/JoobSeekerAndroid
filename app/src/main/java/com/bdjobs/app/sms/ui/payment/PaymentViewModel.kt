@@ -3,6 +3,7 @@ package com.bdjobs.app.sms.ui.payment
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.sms.data.repository.SMSRepository
 import com.sslwireless.sslcommerzlibrary.model.initializer.CustomerInfoInitializer
@@ -18,6 +19,7 @@ import timber.log.Timber
 class PaymentViewModel(val repository: SMSRepository,
                        private val totalSMS: Int?,
                        private val totalTaka: Int?,
+                       private val isFree: String?,
                        val fragment: Fragment) : ViewModel() {
 
     private val _quantity = MutableLiveData<Int>().apply {
@@ -54,9 +56,10 @@ class PaymentViewModel(val repository: SMSRepository,
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
             try {
-                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS, totalAmountIntTaka.value)
+                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS, totalAmountIntTaka.value, isFree)
                 if (response.statuscode == "0") {
                     paymentInfoData = response.data?.get(0)!!
+                    Constants.isSMSFree = paymentInfoData.isSMSFree.toString()
                     if (totalAmountIntTaka.value!! == 0) {
                         _paymentStatus.value = Status.SUCCESS
                     } else {
@@ -132,6 +135,7 @@ class PaymentViewModel(val repository: SMSRepository,
         viewModelScope.launch {
             try {
                 val response = repository.callPaymentAfterReturningGatewayApi(data)
+                Constants.isSMSFree = response.data?.get(0)?.isSMSFree.toString()
                 if (response.statuscode == "4") {
                     _paymentStatus.value = Status.SUCCESS
                 } else {

@@ -4,6 +4,7 @@ import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.sms.data.model.SMSSettings
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
@@ -41,7 +42,7 @@ class SMSRepository(private val application: Application) {
         }
     }
 
-    suspend fun callPaymentInfoBeforeGatewayApi(totalSMS : Int? , totalTaka : Int?) : PaymentInfoBeforeGateway{
+    suspend fun callPaymentInfoBeforeGatewayApi(totalSMS : Int? , totalTaka : Int?, isFree : String?) : PaymentInfoBeforeGateway{
         return withContext(Dispatchers.IO){
             ApiServiceMyBdjobs.create().paymentInfoBeforeEnteringGateway(
                     userId = session.userId,
@@ -50,12 +51,12 @@ class SMSRepository(private val application: Application) {
                     serviceId = Constants.SMS_SERVICE_ID,
                     totalQuantity = totalSMS.toString(),
                     totalAmount = totalTaka.toString(),
-                    isFree = Constants.isSMSFree
+                    isFree = isFree
             )
         }
     }
 
-    suspend fun callPaymentAfterReturningGatewayApi(data : TransactionInfoModel?) : CommonResponse{
+    suspend fun callPaymentAfterReturningGatewayApi(data : TransactionInfoModel?) : PaymentInfoAfterGateway{
         return withContext(Dispatchers.IO){
             ApiServiceMyBdjobs.create().paymentInfoAfterReturningGateway(
                     userId = session.userId,

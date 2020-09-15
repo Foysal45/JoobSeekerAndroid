@@ -32,6 +32,26 @@ data class PaymentInfoBeforeGateway(
             @Json(name = "userFullName")
             var userFullName: String? = "", // Rahim Islam
             @Json(name = "userMobileNo")
-            var userMobileNo: String? = ""// 01878130561
+            var userMobileNo: String? = "",// 01878130561
+            @Json(name = "isSMSFree")
+            var isSMSFree: String? = ""
+    )
+}
+
+@Keep
+data class PaymentInfoAfterGateway(
+        @Json(name = "common")
+        val common: Any?, // null
+        @Json(name = "data")
+        val `data`: List<PaymentInfoAfterGatewayData>?,
+        @Json(name = "message")
+        val message: String?, // Success
+        @Json(name = "statuscode")
+        val statuscode: String? // 0
+) {
+    @Keep
+    data class PaymentInfoAfterGatewayData(
+            @Json(name = "isSMSFree")
+            var isSMSFree: String? = ""
     )
 }
