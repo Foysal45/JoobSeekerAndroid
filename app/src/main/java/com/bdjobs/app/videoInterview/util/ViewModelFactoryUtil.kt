@@ -51,9 +51,9 @@ object ViewModelFactoryUtil {
         return HomeViewModelFactory(repository)
     }
 
-    fun provideSMSPaymentViewModelFactory(fragment: Fragment, totalSMS : Int, totalTaka : Int) : PaymentViewModelFactory{
+    fun provideSMSPaymentViewModelFactory(fragment: Fragment, totalSMS : Int, totalTaka : Int, isFree : String?) : PaymentViewModelFactory{
         val repository = SMSRepository(fragment.requireContext().applicationContext as Application)
-        return PaymentViewModelFactory(repository,totalSMS,totalTaka,fragment as PaymentFragment)
+        return PaymentViewModelFactory(repository,totalSMS,totalTaka,isFree,fragment as PaymentFragment)
     }
 
     fun provideSMSPaymentSuccessViewModelFactory(fragment: Fragment) : PaymentSuccessViewModelFactory{

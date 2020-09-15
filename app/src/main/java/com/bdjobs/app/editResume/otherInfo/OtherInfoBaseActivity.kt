@@ -209,8 +209,8 @@ class OtherInfoBaseActivity : Activity(), OtherInfo,
 
     private fun getIntentValues() {
         try {
-            name = intent.getStringExtra("name")
-            gotToAddOtherInfo = intent.getStringExtra("other_info_add")
+            name = intent.getStringExtra("name").toString()
+            gotToAddOtherInfo = intent.getStringExtra("other_info_add").toString()
             goToEditInfo(gotToAddOtherInfo)
         } catch (e: Exception) {
             logException(e)

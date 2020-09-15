@@ -768,12 +768,14 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     try {
         val connManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-        if (networkInfo.isConnected) {
-            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            val connectionInfo = wifiManager.connectionInfo
-            if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.ssid)) {
-                ssid = connectionInfo.ssid
+        if (networkInfo != null) {
+            if (networkInfo.isConnected) {
+                val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val connectionInfo = wifiManager.connectionInfo
+                if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.ssid)) {
+                    ssid = connectionInfo.ssid
 
+                }
             }
         }
     } catch (e: Exception) {

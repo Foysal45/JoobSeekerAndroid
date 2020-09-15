@@ -95,7 +95,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
         //Log.d("rakib", "onResume")
         //Timber.d("rakib onResume")
         try {
-            from = intent.getStringExtra("from")
+            from = intent.getStringExtra("from").toString()
             //Log.d("rakib","$from")
         } catch (e: Exception) {
             logException(e)
@@ -103,7 +103,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
         try {
-            time = intent.getStringExtra("time")
+            time = intent.getStringExtra("time").toString()
         } catch (e: Exception) {
             logException(e)
         }
@@ -111,7 +111,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
         try {
-            jobID = intent.getStringExtra("jobid")
+            jobID = intent.getStringExtra("jobid").toString()
 
         } catch (e: Exception) {
             logException(e)
@@ -120,7 +120,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
         try {
-            companyName = intent.getStringExtra("companyname")
+            companyName = intent.getStringExtra("companyname").toString()
         } catch (e: Exception) {
             logException(e)
         }
@@ -128,13 +128,13 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
         try {
-            jobTitle = intent.getStringExtra("jobtitle")
+            jobTitle = intent.getStringExtra("jobtitle").toString()
         } catch (e: Exception) {
             logException(e)
         }
 
         try {
-            type = intent.getStringExtra("type")
+            type = intent.getStringExtra("type").toString()
             //Log.d("rakib","$type")
 
         } catch (e: Exception) {
@@ -142,7 +142,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
         }
 
         try {
-            nId = intent.getStringExtra("nid")
+            nId = intent.getStringExtra("nid").toString()
         } catch (e: Exception) {
             logException(e)
         }
@@ -154,7 +154,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
         }
 
         try {
-            url = intent.getStringExtra("videoUrl")
+            url = intent.getStringExtra("videoUrl").toString()
         } catch (e: Exception) {
             logException(e)
         }

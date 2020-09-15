@@ -119,9 +119,9 @@ class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, 
         setupClickListeners()
 
         try {
-            from = intent.getStringExtra("from")
-            id = intent.getStringExtra("id")
-            nId = intent.getStringExtra("nid")
+            from = intent.getStringExtra("from").toString()
+            id = intent.getStringExtra("id").toString()
+            nId = intent.getStringExtra("nid").toString()
 
         } catch (e: Exception) {
             logException(e)

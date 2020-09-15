@@ -115,8 +115,8 @@ class AcademicBaseActivity : Activity(), EduInfo, ConnectivityReceiver.Connectiv
     }
 
     private fun getIntentValues() {
-        name = intent.getStringExtra("name")
-        gotToAddEmployment = intent.getStringExtra("education_info_add")
+        name = intent.getStringExtra("name").toString()
+        gotToAddEmployment = intent.getStringExtra("education_info_add").toString()
         goToEditInfo(gotToAddEmployment)
     }
 

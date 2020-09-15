@@ -33,22 +33,22 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
         try {
-            from = intent.getStringExtra("from")
+            from = intent.getStringExtra("from").toString()
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            subject  = intent.getStringExtra("subject")
+            subject  = intent.getStringExtra("subject").toString()
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            toEmail  = intent.getStringExtra("emailAddress")
+            toEmail  = intent.getStringExtra("emailAddress").toString()
         } catch (e: Exception) {
             logException(e)
         }
         try {
-            jobID  = intent.getStringExtra("jobid")
+            jobID  = intent.getStringExtra("jobid").toString()
         } catch (e: Exception) {
             logException(e)
         }

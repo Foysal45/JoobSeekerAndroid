@@ -159,11 +159,11 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
 
     private fun getIntentData() {
         try {
-            from = intent.getStringExtra(key_from)
+            from = intent.getStringExtra(key_from).toString()
         } catch (e: Exception) {
         }
         try {
-            textData = intent.getStringExtra(key_typedData)
+            textData = intent.getStringExtra(key_typedData).toString()
         } catch (e: Exception) {
         }
     }
@@ -309,7 +309,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             REQ_CODE_SPEECH_INPUT -> {
                 if (resultCode == Activity.RESULT_OK && null != data) {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    suggestiveSearchET.setText(result[0])
+                    suggestiveSearchET.setText(result?.get(0))
                     suggestiveSearchET.setSelection(suggestiveSearchET?.text?.length!!)
                     takeDecision()
                 }
