@@ -185,8 +185,8 @@ class EmploymentHistoryActivity : Activity(), ConnectivityReceiver.ConnectivityR
     }
 
     private fun getIntentValues() {
-        name = intent.getStringExtra("name")
-        gotToAddEmployment = intent.getStringExtra("emp_his_add")
+        name = intent.getStringExtra("name").toString()
+        gotToAddEmployment = intent.getStringExtra("emp_his_add").toString()
         goToEditInfo(gotToAddEmployment)
     }
 
