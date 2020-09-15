@@ -107,11 +107,12 @@ class BdjobsUserSession(val context: Context) {
     val isLoggedIn = pref?.getBoolean(Constants.session_key_loggedIn, false)
     val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
+
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
-    val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit,"50")
-    val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold,"25")
-    var notificationCount = pref?.getInt(Constants.notification_count,0)
+    val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit, "50")
+    val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold, "25")
+    var notificationCount = pref?.getInt(Constants.notification_count, 0)
 
 
     private fun killCurrentApp(context: Context) {
@@ -125,7 +126,7 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    fun logoutUser(exitApp : Boolean = false) {
+    fun logoutUser(exitApp: Boolean = false) {
 
         pref?.edit()?.clear()?.apply()
         val bdjobsDB = BdjobsDB.getInstance(context = context)
@@ -142,9 +143,13 @@ class BdjobsUserSession(val context: Context) {
             bdjobsDB.suggestionDAO().deleteAllSuggestion()
             bdjobsDB.notificationDao().deleteAllNotifications()
 
+            Constants.generalInvitation = "0"
+            Constants.videoInvitation = "0"
+            Constants.liveInvitation = "0"
+
             uiThread {
                 // loadingDialog.dismiss()
-                if (!exitApp){
+                if (!exitApp) {
                     val intent = Intent(context, GuestUserJobSearchActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
@@ -278,19 +283,19 @@ class BdjobsUserSession(val context: Context) {
 //        }
 //    }
 
-    fun updateJobApplyLimit(count: String?){
+    fun updateJobApplyLimit(count: String?) {
         pref?.edit {
             putString(Constants.session_job_apply_limit, count)
         }
     }
 
-    fun updateJobApplyThreshold(count: String?){
+    fun updateJobApplyThreshold(count: String?) {
         pref?.edit {
             putString(Constants.session_job_apply_threshold, count)
         }
     }
 
-    fun updateNotificationCount(count: Int?){
+    fun updateNotificationCount(count: Int?) {
         pref?.edit {
             putInt(Constants.notification_count, count!!)
         }
@@ -370,11 +375,10 @@ class BdjobsUserSession(val context: Context) {
     val mybdjobscount_live_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_live_invitation_alltime, "0")
 
 
-
-    protected fun incrementCount(key:String){
+    protected fun incrementCount(key: String) {
         try {
             val value = pref?.getString(key, "0")
-            val count = (value?.toInt()!!+1).toString()
+            val count = (value?.toInt()!! + 1).toString()
             //Log.d("rakib", "$key -> $count")
             pref?.edit() {
                 putString(key, count)
@@ -384,10 +388,10 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    protected  fun decrementCount(key:String){
+    protected fun decrementCount(key: String) {
         try {
             val value = pref?.getString(key, "0")
-            if(value?.toInt()!!>0) {
+            if (value?.toInt()!! > 0) {
                 val count = (value.toInt() - 1).toString()
                 //Log.d("rakib", "$key -> $count")
                 pref?.edit() {
@@ -399,39 +403,39 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    fun incrementJobsApplied(){
+    fun incrementJobsApplied() {
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_thismonth)
         incrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
         //incrementCount(Constants.session_key_job_apply_count)
 
     }
 
-    fun decrementJobsApplied(){
+    fun decrementJobsApplied() {
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_thismonth)
         decrementCount(Constants.session_key_mybdjobscount_jobs_applied_alltime)
         //decrementCount(Constants.session_key_job_apply_count)
 
     }
 
-    fun incrementAvailableJobs(){
+    fun incrementAvailableJobs() {
         //incrementCount(Constants.session_key_available_job_count)
     }
 
-    fun decrementAvailableJobs(){
+    fun decrementAvailableJobs() {
         //decrementCount(Constants.session_key_available_job_count)
     }
 
-    fun incrementTimesEmailedRessume(){
+    fun incrementTimesEmailedRessume() {
         incrementCount(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth)
         incrementCount(Constants.session_key_mybdjobscount_times_emailed_resume_alltime)
     }
 
-    fun incrementFollowedEmployer(){
+    fun incrementFollowedEmployer() {
         incrementCount(Constants.session_key_mybdjobscount_employers_followed_lastmonth)
         incrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
     }
 
-    fun deccrementFollowedEmployer(){
+    fun deccrementFollowedEmployer() {
         decrementCount(Constants.session_key_mybdjobscount_employers_followed_lastmonth)
         decrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
     }

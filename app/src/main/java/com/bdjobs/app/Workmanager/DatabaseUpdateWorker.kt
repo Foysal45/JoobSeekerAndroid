@@ -164,8 +164,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     val jobInvitation = JobInvitation(companyName = item?.companyName,
                                             inviteDate = inviteDate,
                                             jobId = item?.jobId,
-                                            jobTitle = item?.jobTitle,
-                                            seen = item?.seen)
+                                            jobTitle = item?.jobTitle)
 
                                     bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
 
@@ -337,7 +336,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
         })
 
     }
-
 
     fun updateExternalDatabase() {
 

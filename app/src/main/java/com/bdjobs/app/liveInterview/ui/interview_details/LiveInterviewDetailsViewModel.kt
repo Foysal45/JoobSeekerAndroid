@@ -82,8 +82,8 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                 //for green section
                 showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
 
-                //for black section
-                showBlackInfoSection.value = liveInterviewDetailsData.value?.get(0)?.activity == "3"
+
+
 
                 //exam date and time
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
@@ -98,10 +98,25 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
 
 //                if (commonData.value?.showUndo == "1")
 //                    showUndoSnackbar.value = Event(true)
-                delay(1000)
 
-                if (liveInterviewDetailsData.value?.get(0)?.activity == "3")
+                //for black section
+
+                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "7"){
+                    showBlackInfoSection.value = false
+                    delay(1000)
+                    showTooltip.value = Event(false)
+                }
+
+                else if (liveInterviewDetailsData.value?.get(0)?.activity == "3" && (liveInterviewDetailsData.value?.get(0)?.confimationStatus != "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus != "7")){
+                    showBlackInfoSection.value = true
+                    delay(1000)
                     showTooltip.value = Event(true)
+                }
+                else{
+                    showBlackInfoSection.value = false
+                    delay(1000)
+                    showTooltip.value = Event(false)
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()

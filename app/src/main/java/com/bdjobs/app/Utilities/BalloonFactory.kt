@@ -21,7 +21,7 @@ class BalloonFactory : Balloon.Factory() {
             setMarginRight(20)
             setPadding(16)
             setAlpha(0.9f)
-            setText("To participate in the online interview please use updated mobile browser(Chrome, Mozilla) or you can access web from desktop / laptop.")
+            setText("To participate in the online interview please use updated mobile browser(Chrome) or you can access web from desktop / laptop.")
             setTextColorResource(R.color.colorWhite)
             arrowConstraints = ArrowConstraints.ALIGN_ANCHOR
             setBackgroundColorResource(R.color.black)

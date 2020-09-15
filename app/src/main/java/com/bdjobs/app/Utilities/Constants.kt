@@ -56,9 +56,9 @@ class Constants {
 
         var isSMSFree = "False"
 
-        var generalInvitation = ""
-        var videoInvitation = ""
-        var liveInvitation = ""
+        var generalInvitation = "0"
+        var videoInvitation = "0"
+        var liveInvitation = "0"
 
         var isDeviceInfromationSent = false
         var changePassword_Eligibility = "0"

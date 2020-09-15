@@ -85,7 +85,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var liveInterview: String? = ""
 
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home_layout, container, false)!!
     }
@@ -162,7 +161,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToFavSearchFilters()
         }
         lastSearchView?.setOnClickListener {
-            Log.d("rakib","clicked")
+            Log.d("rakib", "clicked")
             homeCommunicator.goToJoblistFromLastSearch()
         }
         cl_general_interview?.setOnClickListener {
@@ -200,19 +199,20 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         Log.i("DatabaseUpdateJob", "Home Fragment Start: ${Calendar.getInstance().time}")
         if (favSearchFiltersSynced)
             showFavouriteSearchFilters()
-        if (jobInvitationSynced){
+        if (jobInvitationSynced) {
             Timber.tag("home").d("general complete")
+            showAllInvitations()
         }
-            //showJobInvitation()
-        if (videoInvitationSynced){
+        //showJobInvitation()
+        if (videoInvitationSynced) {
             Timber.tag("home").d("video complete")
-
+            showAllInvitations()
         }
-            //showVideoInvitation()
+        //showVideoInvitation()
 
-        if (liveInvitationSynced){
+        if (liveInvitationSynced) {
             Timber.tag("home").d("live complete")
-
+            showAllInvitations()
         }
 
         /* if (certificationSynced)
@@ -222,15 +222,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         showLastSearch()
 
-        if (jobInvitationSynced && videoInvitationSynced && liveInvitationSynced){
+        if (jobInvitationSynced && videoInvitationSynced && liveInvitationSynced) {
             Timber.tag("home").d("all complete")
 
-            showAllInvitations()
+            //showAllInvitations()
         }
 
     }
 
     private fun showAllInvitations() {
+        blankCL?.hide()
+        mainLL?.show()
         allInterview?.show()
         allInterview.findViewById<TextView>(R.id.tv_live_interview_count).text = Constants.liveInvitation
         allInterview.findViewById<TextView>(R.id.tv_video_interview_count).text = Constants.videoInvitation
@@ -441,6 +443,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 && favouriteSearchFilters.isNullOrEmpty()
                 && b2CCertificationList.isNullOrEmpty()
                 && lastSearch.isNullOrEmpty()
+                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
         ) {
             mainLL?.hide()
             blankCL?.show()
@@ -586,7 +589,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val LiveInterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView4)
 
 
-
         val InterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv)
         val VideoInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_3)
         val LiveInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_4)
@@ -597,9 +599,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         VideoInterviewTVCount?.text = videoInterviview
         LiveInterviewTVCount?.text = liveInterview
 
-        if(inviteInterviview.equals("0")) InterviewCV.visibility = View.GONE
-        if(videoInterviview.equals("0")) VideoInterviewCV.visibility = View.GONE
-        if(liveInterview.equals("0")) LiveInterviewCV.visibility = View.GONE
+        if (inviteInterviview.equals("0")) InterviewCV.visibility = View.GONE
+        if (videoInterviview.equals("0")) VideoInterviewCV.visibility = View.GONE
+        if (liveInterview.equals("0")) LiveInterviewCV.visibility = View.GONE
 
 
 
@@ -667,7 +669,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
 
-                    if (response.body()?.data?.get(0)?.subscriptionType == "1"){
+                    if (response.body()?.data?.get(0)?.subscriptionType == "1") {
                         catIds?.let {
                             try {
                                 for (item in it) {
@@ -679,7 +681,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             } catch (e: Exception) {
                             }
                         }
-                    } else if (response.body()?.data?.get(0)?.subscriptionType == "0"){
+                    } else if (response.body()?.data?.get(0)?.subscriptionType == "0") {
                         catIds?.let {
                             try {
                                 for (item in it) {

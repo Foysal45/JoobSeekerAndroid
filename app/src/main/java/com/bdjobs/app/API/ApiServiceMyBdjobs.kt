@@ -10,6 +10,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agen
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
+import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
@@ -565,7 +566,7 @@ interface ApiServiceMyBdjobs {
     fun getLiveInvitationListHome(
             @Field("userId") userId: String? = "",
             @Field("decodeId") decodeId: String? = "",
-            @Field("isActivityDate") isActivityDate: String? = "1",
+            @Field("isActivityDate") isActivityDate: String? = "0",
             @Field("pageNumber") pageNumber: String? = "1",
             @Field("itemsPerPage") itemsPerPage: String? = "100"
     ): Call<LiveInterviewList>
@@ -1160,7 +1161,7 @@ interface ApiServiceMyBdjobs {
             @Field("currency_type") currencyType: String? = "",
             @Field("tran_date") tranDate: String? = "",
             @Field("ip") ip : String? = ""
-    ) : CommonResponse
+    ) : PaymentInfoAfterGateway
 
    /* @FormUrlEncoded
     @POST("apps_subscribe_sms_follow_employer.asp")
