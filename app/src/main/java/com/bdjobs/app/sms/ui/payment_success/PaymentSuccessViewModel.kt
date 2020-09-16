@@ -17,8 +17,8 @@ class PaymentSuccessViewModel(private val repository: SMSRepository) : ViewModel
         value = this.value.toString().trim()
     }
 
-    init {
-        Constants.isSMSFree = "False"
-    }
+//    init {
+//        Constants.isSMSFree = "False"
+//    }
 
 }

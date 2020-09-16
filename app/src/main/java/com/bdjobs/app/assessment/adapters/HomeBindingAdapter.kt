@@ -127,7 +127,7 @@ fun bindTestDataVisibility(constraintLayout: ConstraintLayout, homeData: HomeDat
         }else if (homeData.isUserPermittedForSchldBooking.equals("1") && homeData.isProceedForNewTest.equals("0") && !homeData.resumeTestBtnFormat.equals("2")) {
             constraintLayout.visibility = View.VISIBLE
         } else {
-            Log.d("assessment info", homeData.resumeTestBtnFormat)
+            homeData.resumeTestBtnFormat?.let { it1 -> Log.d("assessment info", it1) }
             constraintLayout.visibility = View.GONE
         }
     }

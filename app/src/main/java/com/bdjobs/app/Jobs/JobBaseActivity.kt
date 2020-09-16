@@ -283,7 +283,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         }
 
         try {
-            nId = intent.getStringExtra("nid")
+            nId = intent.getStringExtra("nid").toString()
         } catch (e: Exception) {
             logException(e)
         }
@@ -387,7 +387,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     //Log.d("shortListedJob", "shortListedJob: $clickedPosition")
                     var shortListFilter = ""
                     try {
-                        shortListFilter = intent.getStringExtra("shortListFilter")
+                        shortListFilter = intent.getStringExtra("shortListFilter").toString()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -436,20 +436,22 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     //Log.d("rakib", "job id ${jobids[0]}")
                     val lns = intent.getStringArrayListExtra("lns")
                     val deadline = intent.getStringArrayListExtra("deadline")
-                    for (i in 0 until jobids.size) {
-                        val jobListModelData = JobListModelData(
-                                jobid = jobids[i],
-                                jobTitle = "",
-                                companyName = "",
-                                deadline = "",
-                                eduRec = "",
-                                experience = "",
-                                standout = "0",
-                                logo = "",
-                                lantype = lns[i]
-                        )
-                        jobList.add(jobListModelData)
-                        //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                    if (jobids != null) {
+                        for (i in 0 until jobids.size) {
+                            val jobListModelData = JobListModelData(
+                                    jobid = jobids?.get(i),
+                                    jobTitle = "",
+                                    companyName = "",
+                                    deadline = "",
+                                    eduRec = "",
+                                    experience = "",
+                                    standout = "0",
+                                    logo = "",
+                                    lantype = lns?.get(i)
+                            )
+                            jobList.add(jobListModelData)
+                            //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                        }
                     }
 
                     setJobList(jobList)
@@ -466,20 +468,22 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     val jobids = intent.getStringArrayListExtra("jobids")
                     val lns = intent.getStringArrayListExtra("lns")
                     val deadline = intent.getStringArrayListExtra("deadline")
-                    for (i in 0 until jobids.size) {
-                        val jobListModelData = JobListModelData(
-                                jobid = jobids[i],
-                                jobTitle = "",
-                                companyName = "",
-                                deadline = "",
-                                eduRec = "",
-                                experience = "",
-                                standout = "0",
-                                logo = "",
-                                lantype = lns[i]
-                        )
-                        jobList.add(jobListModelData)
-                        //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                    if (jobids != null) {
+                        for (i in 0 until jobids.size) {
+                            val jobListModelData = JobListModelData(
+                                    jobid = jobids?.get(i),
+                                    jobTitle = "",
+                                    companyName = "",
+                                    deadline = "",
+                                    eduRec = "",
+                                    experience = "",
+                                    standout = "0",
+                                    logo = "",
+                                    lantype = lns?.get(i)
+                            )
+                            jobList.add(jobListModelData)
+                            //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                        }
                     }
 
                     setJobList(jobList)
@@ -489,7 +493,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     isLastPage = true
 
                     if (!seen) {
-                        logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
+                        jobids?.get(0)?.let { logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, it,nId) }
 
                         try {
                             ApiServiceJobs.create().sendDataForAnalytics(
@@ -531,26 +535,28 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     val jobids = intent.getStringArrayListExtra("jobids")
                     val lns = intent.getStringArrayListExtra("lns")
                     val deadline = intent.getStringArrayListExtra("deadline")
-                    for (i in 0 until jobids.size) {
-                        val jobListModelData = JobListModelData(
-                                jobid = jobids[i],
-                                jobTitle = "",
-                                companyName = "",
-                                deadline = "",
-                                eduRec = "",
-                                experience = "",
-                                standout = "0",
-                                logo = "",
-                                lantype = lns[i]
-                        )
-                        jobList.add(jobListModelData)
-                        //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                    if (jobids != null) {
+                        for (i in 0 until jobids.size) {
+                            val jobListModelData = JobListModelData(
+                                    jobid = jobids?.get(i),
+                                    jobTitle = "",
+                                    companyName = "",
+                                    deadline = "",
+                                    eduRec = "",
+                                    experience = "",
+                                    standout = "0",
+                                    logo = "",
+                                    lantype = lns?.get(i)
+                            )
+                            jobList.add(jobListModelData)
+                            //Log.d("employerJobid", "jobid: ${jobids[i]} ln: ${lns[i]}")
+                        }
                     }
 
 
                     if (!seen) {
                         try {
-                            logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, jobids[0],nId)
+                            jobids?.get(0)?.let { logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, it,nId) }
                         } catch (e: Exception) {
                         }
 

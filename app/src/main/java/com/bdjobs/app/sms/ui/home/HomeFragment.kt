@@ -32,13 +32,11 @@ class HomeFragment : Fragment() {
         homeViewModel.checkIfSMSFree()
 
         img_buy?.setOnClickListener {
-            Constants.isSMSFree = "False"
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
         }
 
         btn_start_trial?.setOnClickListener {
-            Constants.isSMSFree = "True"
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True"))
         }
     }
 

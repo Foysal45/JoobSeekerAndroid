@@ -45,6 +45,7 @@ import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
+import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.crashlytics.android.Crashlytics
 import com.google.android.ads.nativetemplates.TemplateView
@@ -264,6 +265,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToVideoInvitation(from: String) {
         startActivity<VideoInterviewActivity>("from" to from, "time" to time)
+    }
+
+    override fun goToLiveInvitation(from: String) {
+        startActivity<LiveInterviewActivity>("from" to from, "time" to time)
     }
 
     override fun backButtonClicked() {
@@ -544,6 +549,12 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                 //logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
 
 
+//                val payload = "{ \"jobTitle\": \"Live Interview Invitation\", \"companyName\": \"Utopia BD Limited1\" ,\"body\" : \"You have one new video Interview Invitation.\", \"type\" : \"li\", \"jobId\" : \"904499\", \"title\" : \"Interview Invitation.\", \"notificationId\" : \"123456\", \"lanType\" : \"2\", \"deadlineDB\" : \"12/23/2019\"}"
+//                val commonNotificationModel = Gson().fromJson(payload, CommonNotificationModel::class.java)
+//                insertNotificationInToDatabase(payload, commonNotificationModel)
+//                showNotification(commonNotificationModel)
+                //logAnalyticsForUnseenNotification(commonNotificationModel.type!!, applicationContext, commonNotificationModel.jobId!!, commonNotificationModel.notificationId!!)
+
 
                 return@OnNavigationItemSelectedListener true
 
@@ -785,7 +796,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         if (commonNotificationModel.type != "pm") {
             doAsync {
-                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType,deadline = commonNotificationModel.deadlineDB))
+                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
                 session.updateNotificationCount(session.notificationCount!! + 1)
                 uiThread {
                     //Log.d("rakib", "FirebaseMessagingService")
@@ -796,7 +807,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             }
         } else if (commonNotificationModel.type == "pm") {
             doAsync {
-                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName,notificationId = commonNotificationModel.notificationId,lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
+                bdjobsDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
@@ -830,7 +841,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                     mNotificationHelper.notify(
                             Constants.NOTIFICATION_INTERVIEW_INVITATTION,
                             mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                                    commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
@@ -839,22 +850,31 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                     mNotificationHelper.notify(
                             Constants.NOTIFICATION_VIDEO_INTERVIEW,
                             mNotificationHelper.prepareNotification(
-                                    commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                                    commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                } catch (e: Exception) {
+                }
+            }
+            Constants.NOTIFICATION_TYPE_LIVE_INTERVIEW -> {
+                try {
+                    mNotificationHelper.notify(
+                            Constants.NOTIFICATION_LIVE_INTERVIEW,
+                            mNotificationHelper.prepareNotification(
+                                    commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_CV_VIEWED, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }
 
-            Constants.NOTIFICATION_TYPE_MATCHED_JOB->{
+            Constants.NOTIFICATION_TYPE_MATCHED_JOB -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_MATCHED_JOB, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId, commonNotificationModel.lanType,commonNotificationModel.deadlineDB))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -863,7 +883,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink,commonNotificationModel.notificationId,commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }
             }

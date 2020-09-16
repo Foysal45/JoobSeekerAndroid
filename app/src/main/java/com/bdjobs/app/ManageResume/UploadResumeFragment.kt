@@ -111,7 +111,7 @@ class UploadResumeFragment : Fragment() {
 
        if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
-                val uri = Uri.fromFile(File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)[0]))
+                val uri = Uri.fromFile(File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)?.get(0)))
                 checkFilleSize(uri)
             }
         }

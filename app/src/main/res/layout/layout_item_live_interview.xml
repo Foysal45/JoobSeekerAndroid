@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="com.bdjobs.app.liveInterview.data.models.LiveInterviewList.Data" />
+        <variable
+            name="clickListener"
+            type="com.bdjobs.app.liveInterview.ui.interview_list.ClickListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/colorWhite"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()->clickListener.onClick(data)}"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_angular_bg" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility='@{data.userSeenLiveInterview.equalsIgnoreCase("True") ? View.GONE : View.VISIBLE}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_new_live" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_position"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{data.jobTitle}"
+                android:textColor="@color/colorLiveInterview"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_live"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="UI Designer Sketch UI Designer Sketch UI Designer Sketch" />
+
+            <TextView
+                android:id="@+id/tv_company_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="15dp"
+                android:text="@{data.companyName}"
+                android:textColor="#393939"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/tv_position"
+                app:layout_constraintTop_toBottomOf="@id/tv_position"
+                tools:text="Google" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_interview_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="#F57F17"
+                android:textSize="13sp"
+                android:text="@{data.liveInterviewStatus}"
+                app:liveInterviewItemStatusCode="@{data.liveInterviewStatusCode}"
+                app:layout_constraintStart_toStartOf="@id/tv_company_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_name"
+                tools:text="Due Tomorrow" />
+
+            <TextView
+                android:id="@+id/tv_invitation_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="15dp"
+                android:text="@{`Invited on: ` + data.dateStringForInvitaion}"
+                android:textColor="#767676"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_position"
+                app:layout_constraintTop_toBottomOf="@id/tv_interview_status"
+                tools:text="Invited on: 4 Apr, 2020" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

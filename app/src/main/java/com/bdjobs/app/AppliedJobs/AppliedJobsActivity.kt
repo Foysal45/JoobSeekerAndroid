@@ -124,7 +124,7 @@ class AppliedJobsActivity : Activity(), AppliedJobsCommunicator {
 
 
         try {
-            time = intent.getStringExtra("time")
+            time = intent.getStringExtra("time").toString()
         } catch (e: Exception) {
             logException(e)
         }

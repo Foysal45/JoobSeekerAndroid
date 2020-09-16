@@ -52,9 +52,9 @@ class InviteCodeBaseActivity : FragmentActivity(), InviteCodeCommunicator{
 
 
         try {
-            inviteCodeStatus = intent.getStringExtra("inviteCodeStatus")
-            pcOwnerID = intent.getStringExtra("pcOwnerID")
-            inviteCodeuserType = intent.getStringExtra("userType")
+            inviteCodeStatus = intent.getStringExtra("inviteCodeStatus").toString()
+            pcOwnerID = intent.getStringExtra("pcOwnerID").toString()
+            inviteCodeuserType = intent.getStringExtra("userType").toString()
 
         } catch (e: Exception) {
             logException(e)

@@ -215,7 +215,8 @@
             android:paddingTop="16dp"
             android:paddingRight="42dp"
             android:paddingBottom="15dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/messageTV"
@@ -296,7 +297,8 @@
             android:paddingTop="25dp"
             android:paddingRight="20dp"
             android:paddingBottom="25dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/ratingBTN"

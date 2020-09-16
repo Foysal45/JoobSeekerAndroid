@@ -7,6 +7,7 @@ interface HomeCommunicator {
     fun goToKeywordSuggestion()
     fun goToInterviewInvitation(from:String)
     fun goToVideoInvitation(from:String)
+    fun goToLiveInvitation(from:String)
     fun goToEmployerViewedMyResume(from:String)
     fun goToFollowedEmployerList(from:String)
     fun goToFavSearchFilters()

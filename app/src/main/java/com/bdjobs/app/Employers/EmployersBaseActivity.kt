@@ -204,17 +204,17 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
         try {
-            time = intent.getStringExtra("time")
+            time = intent.getStringExtra("time").toString()
         } catch (e: Exception) {
         }
 
         try {
-            jobId = intent.getStringExtra("jobId")
+            jobId = if (intent.getStringExtra("jobId") == null)  "" else intent.getStringExtra("jobId").toString()
         } catch (e: Exception) {
         }
 
         try {
-            value = intent.getStringExtra("from")
+            value = intent.getStringExtra("from").toString()
 
             //  value = "emplist"
         } catch (e: Exception) {
@@ -222,19 +222,19 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         }
 
         try {
-            companyid = intent.getStringExtra("companyid")
+            companyid = intent.getStringExtra("companyid").toString()
         } catch (e: Exception) {
             logException(e)
         }
 
         try {
-            companyname = intent.getStringExtra("companyname")
+            companyname = intent.getStringExtra("companyname").toString()
         } catch (e: Exception) {
             logException(e)
         }
 
         try {
-            nId = intent.getStringExtra("nid")
+            nId = intent.getStringExtra("nid").toString()
         } catch (e: Exception) {
             logException(e)
         }

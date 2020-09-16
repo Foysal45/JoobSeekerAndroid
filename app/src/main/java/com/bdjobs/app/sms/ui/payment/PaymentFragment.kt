@@ -15,7 +15,7 @@ import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 class PaymentFragment : Fragment() {
 
     private val args : PaymentFragmentArgs by navArgs()
-    private val paymentViewModel : PaymentViewModel by viewModels { ViewModelFactoryUtil.provideSMSPaymentViewModelFactory(this,args.totalSMS,args.totalTaka) }
+    private val paymentViewModel : PaymentViewModel by viewModels { ViewModelFactoryUtil.provideSMSPaymentViewModelFactory(this,args.totalSMS,args.totalTaka,args.isFree) }
     lateinit var binding : FragmentPaymentSmsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

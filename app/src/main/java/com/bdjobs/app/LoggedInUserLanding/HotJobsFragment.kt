@@ -96,7 +96,7 @@ class HotJobsFragment : Fragment() {
                             }
 
                             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                                view?.loadUrl(url)
+                                url?.let { view?.loadUrl(it) }
                                 return true
                             }
 

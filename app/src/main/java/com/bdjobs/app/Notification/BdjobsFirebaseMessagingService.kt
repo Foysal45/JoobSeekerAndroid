@@ -125,6 +125,30 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                         }
                     }
 
+                    Constants.NOTIFICATION_TYPE_LIVE_INTERVIEW ->{
+                        try {
+                            insertNotificationInToDatabase(payload)
+                            showNotification(commonNotificationModel)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                        try {
+//                            DatabaseUpdateJob.runJobImmediately()
+
+                            val constraints = Constraints.Builder()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
+
+                            val databaseUpdateRequest = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+                                    .setConstraints(constraints)
+                                    .build()
+
+                            WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
+                        } catch (e: Exception) {
+                        }
+                    }
+
                     Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
                         try {
                             insertNotificationInToDatabase(payload)
@@ -278,6 +302,13 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             Constants.NOTIFICATION_TYPE_VIDEO_INTERVIEW -> {
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_VIDEO_INTERVIEW, mNotificationHelper.prepareNotification(
+                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                } catch (e: Exception) {
+                }
+            }
+            Constants.NOTIFICATION_TYPE_LIVE_INTERVIEW -> {
+                try {
+                    mNotificationHelper.notify(Constants.NOTIFICATION_LIVE_INTERVIEW, mNotificationHelper.prepareNotification(
                             commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
                 } catch (e: Exception) {
                 }

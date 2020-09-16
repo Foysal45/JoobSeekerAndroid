@@ -8,13 +8,13 @@ apply plugin: 'io.fabric'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 102 //716 //101
-        versionName "2.5.0.1"  //703.0.1 internal test // 2.5.0.1
+        targetSdkVersion 30
+        versionCode 719 //716 //101
+        versionName "704.0.1"  //704.0.0 internal test // 2.5.0.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -189,6 +189,10 @@ dependencies {
 
     //ssl commerz
     implementation(name: 'sslCommerzSdk', ext: 'aar')
+
+    implementation "com.github.skydoves:balloon:1.2.3"
+
+    implementation "com.github.skydoves:balloon:1.2.3"
 
 
 }

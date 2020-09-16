@@ -134,10 +134,14 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:paddingTop="6dp"
                 android:id="@+id/rv_video_interview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="16dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                tools:listitem="@layout/item_vedio_interview_list"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"

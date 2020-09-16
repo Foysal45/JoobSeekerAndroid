@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
@@ -31,6 +32,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
+import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
 import com.bdjobs.app.assessment.AssesmentBaseActivity
 
@@ -45,6 +47,7 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.applied_jobs.*
 import kotlinx.android.synthetic.main.fragment_home_layout.*
+import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
@@ -58,6 +61,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,6 +82,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private lateinit var homeCommunicator: HomeCommunicator
     private var inviteInterviview: String? = ""
     private var videoInterviview: String? = ""
+    private var liveInterview: String? = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -156,23 +161,28 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.goToFavSearchFilters()
         }
         lastSearchView?.setOnClickListener {
-            Log.d("rakib","clicked")
+            Log.d("rakib", "clicked")
             homeCommunicator.goToJoblistFromLastSearch()
         }
-        jobInvitationView?.setOnClickListener {
+        cl_general_interview?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
             try {
                 NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
         }
-        videoInvitationView?.setOnClickListener {
+        cl_video_interview?.setOnClickListener {
             homeCommunicator.goToVideoInvitation("homePage")
             try {
                 NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
         }
+
+        cl_live_interview?.setOnClickListener {
+            homeCommunicator.goToLiveInvitation("homePage")
+        }
+
         searchBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
@@ -189,10 +199,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         Log.i("DatabaseUpdateJob", "Home Fragment Start: ${Calendar.getInstance().time}")
         if (favSearchFiltersSynced)
             showFavouriteSearchFilters()
-        if (jobInvitationSynced)
-            showJobInvitation()
-        if (videoInvitationSynced)
-            showVideoInvitation()
+        if (jobInvitationSynced) {
+            Timber.tag("home").d("general complete")
+            showAllInvitations()
+        }
+        //showJobInvitation()
+        if (videoInvitationSynced) {
+            Timber.tag("home").d("video complete")
+            showAllInvitations()
+        }
+        //showVideoInvitation()
+
+        if (liveInvitationSynced) {
+            Timber.tag("home").d("live complete")
+            showAllInvitations()
+        }
+
         /* if (certificationSynced)
              showCertificationInfo()*/
         if (followedEmployerSynced)
@@ -200,6 +222,21 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         showLastSearch()
 
+        if (jobInvitationSynced && videoInvitationSynced && liveInvitationSynced) {
+            Timber.tag("home").d("all complete")
+
+            //showAllInvitations()
+        }
+
+    }
+
+    private fun showAllInvitations() {
+        blankCL?.hide()
+        mainLL?.show()
+        allInterview?.show()
+        allInterview.findViewById<TextView>(R.id.tv_live_interview_count).text = Constants.liveInvitation
+        allInterview.findViewById<TextView>(R.id.tv_video_interview_count).text = Constants.videoInvitation
+        allInterview.findViewById<TextView>(R.id.tv_general_interview_count).text = Constants.generalInvitation
     }
 
     private fun showNotificationCount() {
@@ -239,12 +276,23 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun jobInvitationSyncComplete() {
         //Log.d("broadCastCheck", "jobInvitationSyncComplete")
-        showJobInvitation()
+        //showJobInvitation()
+        Timber.tag("home").d("general complete override")
+        showAllInvitations()
+
     }
 
     override fun videoInvitationSyncComplete() {
 //        Log.d("broadCastCheck", "videoInvitationSyncComplete")
-        showVideoInvitation()
+        //showVideoInvitation()
+        Timber.tag("home").d("video complete override")
+        showAllInvitations()
+
+    }
+
+    override fun liveInvitationSyncComplete() {
+        Timber.tag("home").d("live complete override")
+        showAllInvitations()
     }
 
     override fun certificationSyncComplete() {
@@ -395,6 +443,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 && favouriteSearchFilters.isNullOrEmpty()
                 && b2CCertificationList.isNullOrEmpty()
                 && lastSearch.isNullOrEmpty()
+                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
         ) {
             mainLL?.hide()
             blankCL?.show()
@@ -530,19 +579,37 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showInterviewInvitationPop() {
         val interviewInvitationDialog = Dialog(activity)
-        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
+
+        interviewInvitationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         interviewInvitationDialog?.setCancelable(true)
-        interviewInvitationDialog?.show()
+
+        interviewInvitationDialog?.setContentView(R.layout.interview_invitation_popup)
+        val InterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView2)
+        val VideoInterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView3)
+        val LiveInterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView4)
+
+
         val InterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv)
+        val VideoInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_3)
+        val LiveInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_4)
+
         val cancelBTN = interviewInvitationDialog?.findViewById(R.id.cancel) as ImageView
-        val interviewList_MBTN = interviewInvitationDialog?.findViewById(R.id.viewList_MBTN) as MaterialButton
 
         InterviewTVCount?.text = inviteInterviview
+        VideoInterviewTVCount?.text = videoInterviview
+        LiveInterviewTVCount?.text = liveInterview
+
+        if (inviteInterviview.equals("0")) InterviewCV.visibility = View.GONE
+        if (videoInterviview.equals("0")) VideoInterviewCV.visibility = View.GONE
+        if (liveInterview.equals("0")) LiveInterviewCV.visibility = View.GONE
+
+
 
         cancelBTN?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
         }
-        interviewList_MBTN?.setOnClickListener {
+
+        InterviewCV?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
             try {
@@ -550,6 +617,28 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             } catch (e: Exception) {
             }
         }
+
+        VideoInterviewCV?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
+            homeCommunicator.goToVideoInvitation("popup")
+            try {
+                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+            } catch (e: Exception) {
+            }
+        }
+
+        LiveInterviewCV?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
+            homeCommunicator.goToLiveInvitation("popup")
+//            try {
+//                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+//            } catch (e: Exception) {
+//            }
+        }
+
+
+        interviewInvitationDialog?.show()
+
     }
 
     private fun showVideoInterviewSlider() {
@@ -580,7 +669,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
 
-                    if (response.body()?.data?.get(0)?.subscriptionType == "1"){
+                    if (response.body()?.data?.get(0)?.subscriptionType == "1") {
                         catIds?.let {
                             try {
                                 for (item in it) {
@@ -592,7 +681,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             } catch (e: Exception) {
                             }
                         }
-                    } else if (response.body()?.data?.get(0)?.subscriptionType == "0"){
+                    } else if (response.body()?.data?.get(0)?.subscriptionType == "0") {
                         catIds?.let {
                             try {
                                 for (item in it) {
@@ -610,15 +699,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     //Log.d("rakib cat id", "${catIds?.size}")
 
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
+                    videoInterviview = response.body()?.data?.get(0)?.videoInterviview
+                    liveInterview = response.body()?.data?.get(0)?.liveInterview
+
                     //Log.d("google", "google = $inviteInterviview")
 
-                    if (inviteInterviview?.toInt()!! > 0) {
+                    if (inviteInterviview?.toInt()!! > 0 || videoInterviview?.toInt()!! > 0 || liveInterview?.toInt()!! > 0) {
                         showInterviewInvitationPop()
-                    }
-
-                    videoInterviview = response.body()?.data?.get(0)?.videoInterviview
-                    if (videoInterviview?.toInt()!! > 0) {
-                        showVideoInterviewSlider()
                     }
 
                     try {

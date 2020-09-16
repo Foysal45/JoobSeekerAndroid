@@ -189,7 +189,7 @@ class PhotoUploadActivity : Activity() {
 
             override fun onFailure(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray?, error: Throwable?) {
                 try {
-                    Log.e("photoAPI", error?.message)
+                    error?.message?.let { Log.e("photoAPI", it) }
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -289,7 +289,7 @@ class PhotoUploadActivity : Activity() {
 
                         override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
                             progressDialog.dismiss()
-                            Log.e("photoAPI", t.message)
+                            t.message?.let { Log.e("photoAPI", it) }
                         }
                     })
         }
@@ -351,7 +351,7 @@ class PhotoUploadActivity : Activity() {
 
                 try {
                     try {
-                        Log.e("Deltete", error.message)
+                        error.message?.let { Log.e("Deltete", it) }
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -463,11 +463,11 @@ class PhotoUploadActivity : Activity() {
                             if (`is` != null) {
                                 deleteCache(applicationContext)
 
-                                val options = BitmapFactory.Options()
-                                options.inSampleSize = 2
-                                bitmap = BitmapFactory.decodeStream(`is`,null,options)
+//                                val options = BitmapFactory.Options()
+//                                options.inSampleSize = 2
+//                                bitmap = BitmapFactory.decodeStream(`is`,null,options)
 
-//                                bitmap = BitmapFactory.decodeStream(`is`)
+                                bitmap = BitmapFactory.decodeStream(`is`)
 
                                 //Log.d("rakib", "${BitmapCompat.getAllocationByteCount(bitmap!!)}")
 
@@ -540,7 +540,7 @@ class PhotoUploadActivity : Activity() {
                                 options = BitmapFactory.Options()
                                 options.inSampleSize = 3
 
-                                bitmap = BitmapFactory.decodeFile(path, options)
+                                bitmap = BitmapFactory.decodeFile(path)
                                 val stream = ByteArrayOutputStream()
                                 // Must compress the Image to reduce image size to make upload easy
                                 bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)

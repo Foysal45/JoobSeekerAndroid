@@ -68,7 +68,7 @@ class WebActivity : Activity() {
         }
 
         try {
-            from = intent.getStringExtra("from")
+            from = intent.getStringExtra("from").toString()
         } catch (e: Exception) {
             logException(e)
         }
@@ -154,7 +154,7 @@ class WebActivity : Activity() {
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                view?.loadUrl(url)
+                url?.let { view?.loadUrl(it) }
                 return true
             }
 
@@ -228,7 +228,7 @@ class WebActivity : Activity() {
                             }
 
                             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                                view?.loadUrl(url)
+                                url?.let { view?.loadUrl(it) }
                                 return true
                             }
 
@@ -246,7 +246,7 @@ class WebActivity : Activity() {
                             }
                         }
 
-                        bdjobsWeb?.loadUrl(url)
+                        url?.let { bdjobsWeb?.loadUrl(it) }
                         val cookieGet = cookieManager.getCookie(url)
                         //Log.d("LOGTAG", "cookieGET ------>$cookieGet")
                     }
