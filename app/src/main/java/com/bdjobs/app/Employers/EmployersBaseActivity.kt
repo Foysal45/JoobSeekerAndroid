@@ -209,7 +209,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         }
 
         try {
-            jobId = intent.getStringExtra("jobId").toString()
+            jobId = if (intent.getStringExtra("jobId") == null)  "" else intent.getStringExtra("jobId").toString()
         } catch (e: Exception) {
         }
 
