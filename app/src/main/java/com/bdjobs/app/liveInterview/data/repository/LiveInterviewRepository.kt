@@ -33,7 +33,7 @@ class LiveInterviewRepository(val application: Application)  {
                     decodeId = session.decodId,
                     isActivityDate = activity,
                     pageNumber = "1",
-                    itemsPerPage = "100"
+                    itemsPerPage = "50"
             )
         }
     }
