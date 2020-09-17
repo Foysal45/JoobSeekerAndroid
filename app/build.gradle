@@ -192,8 +192,6 @@ dependencies {
 
     implementation "com.github.skydoves:balloon:1.2.3"
 
-    implementation "com.github.skydoves:balloon:1.2.3"
-
 
 }
 apply plugin: 'com.google.gms.google-services'
