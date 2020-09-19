@@ -231,12 +231,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showAllInvitations() {
-        blankCL?.hide()
-        mainLL?.show()
-        allInterview?.show()
-        allInterview.findViewById<TextView>(R.id.tv_live_interview_count).text = Constants.liveInvitation
-        allInterview.findViewById<TextView>(R.id.tv_video_interview_count).text = Constants.videoInvitation
-        allInterview.findViewById<TextView>(R.id.tv_general_interview_count).text = Constants.generalInvitation
+        try {
+            blankCL?.hide()
+            mainLL?.show()
+            allInterview?.show()
+            tv_live_interview_count.text = Constants.liveInvitation
+            tv_video_interview_count.text = Constants.videoInvitation
+            tv_general_interview_count.text = Constants.generalInvitation
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun showNotificationCount() {
