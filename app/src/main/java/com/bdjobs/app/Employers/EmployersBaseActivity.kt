@@ -204,7 +204,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
         try {
-            time = intent.getStringExtra("time").toString()
+            time = intent.getStringExtra("time") ?: "1"
         } catch (e: Exception) {
         }
 
