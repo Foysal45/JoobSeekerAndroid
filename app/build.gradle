@@ -13,8 +13,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 105 //719 //103
-        versionName "2.6.0.1"  //704.0.0 internal test // 2.6.0.0
+        versionCode 722 //719 //103
+        versionName "706.1.0"  //704.0.0 internal test // 2.6.0.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,9 +26,9 @@ android {
         }
 
         debug {
-            shrinkResources true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            shrinkResources true
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
     }

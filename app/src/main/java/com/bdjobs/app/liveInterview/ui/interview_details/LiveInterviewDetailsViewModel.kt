@@ -1,6 +1,13 @@
 package com.bdjobs.app.liveInterview.ui.interview_details
 
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+import android.database.Cursor
+import android.net.Uri
 import android.os.CountDownTimer
+import android.provider.CalendarContract
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,16 +15,26 @@ import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.anko.doAsync
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
+class LiveInterviewDetailsViewModel(
+        private val repository: LiveInterviewRepository,
+        private val contentResolver: ContentResolver,
+        val jobId: String) : ViewModel() {
 
-class LiveInterviewDetailsViewModel(private val repository: LiveInterviewRepository, val jobId: String) : ViewModel() {
+    val calendarInfos = MutableLiveData<ArrayList<String>>().apply {
+        value = arrayListOf()
+    }
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -61,8 +78,11 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
 
     val showToast = MutableLiveData<Event<String>>()
     val showUndoSnackbar = MutableLiveData<Event<Boolean>>()
+    val addToCalendarClickEvent = MutableLiveData<Event<Boolean>>()
+    val onAddedToCalendarEvent = MutableLiveData<Event<Boolean>>()
 
     init {
+        getAllCalendars()
         getLiveInterviewDetails()
     }
 
@@ -82,9 +102,6 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                 //for green section
                 showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
 
-
-
-
                 //exam date and time
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
                 examTime.value = liveInterviewDetailsData.value?.get(0)?.examTime
@@ -92,6 +109,8 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
 
                 applyId = commonData.value?.applyId.toString()
                 invitationId = liveInterviewDetailsData.value?.get(0)?.invitationId.toString()
+
+                eventAlreadyAdded("Live Interview - ${commonData.value?.jobTitle}")
 
                 if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1")
                     setTimer(interviewDateTime)
@@ -118,11 +137,22 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                     showTooltip.value = Event(false)
                 }
 
+
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
+    private fun getAllCalendars() {
+
+        viewModelScope.launch {
+            getAllCalendarInfoFromProvider()
+        }
+
+    }
+
 
     private fun setTimer(interviewDateTime: String) {
         Timber.tag("live").d("came here $interviewDateTime")
@@ -269,6 +299,142 @@ class LiveInterviewDetailsViewModel(private val repository: LiveInterviewReposit
                 showToast.value = Event(response.message.toString())
             }
         }
+    }
+
+    fun onAddToCalendarButtonClick(){
+        //addToCalendarClickEvent.value = Event(true)
+        viewModelScope.launch {
+            insertCalendarEvent(commonData.value)
+        }
+    }
+
+
+    private suspend fun getAllCalendarInfoFromProvider(){
+        return withContext(Dispatchers.IO){
+            val cur = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, EVENT_PROJECTION, null, null, null)
+
+            if (cur != null) {
+                while (cur.moveToNext()) {
+                    var calID: Long = 0
+                    var displayName = ""
+                    var accountName = ""
+                    var ownerName = ""
+                    // Get the field values
+                    calID = cur.getLong(PROJECTION_ID_INDEX)
+                    displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
+                    accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
+                    ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
+                    val calendarInfo = String.format("Calendar ID: %s\nDisplay Name: %s\nAccount Name: %s\nOwner Name: %s", calID, displayName, accountName, ownerName)
+                    calendarInfos.value?.add(calendarInfo)
+                }
+            } else {
+                Timber.d("cursor null")
+                cur?.close()
+                return@withContext
+            }
+            cur.close()
+        }
+    }
+
+    private suspend fun eventAlreadyAdded(invitationId : String?) {
+        return withContext(Dispatchers.IO){
+            val INSTANCE_PROJECTION = arrayOf(
+                    CalendarContract.Instances.EVENT_ID,  // 0
+                    CalendarContract.Instances.BEGIN,  // 1
+                    CalendarContract.Instances.TITLE, // 2
+                    CalendarContract.Instances.ORIGINAL_ID
+            )
+            val calendar = Calendar.getInstance()
+            val simpleDateFormat = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
+            calendar.time = simpleDateFormat.parse("${examDate.value} ${examTime.value}")
+
+            val calID: Long = 1
+            val startMillis: Long = calendar.timeInMillis
+
+            val endMillis: Long = calendar.run {
+                calendar.add(Calendar.HOUR,1)
+                timeInMillis
+            }
+
+            // The ID of the recurring event whose instances you are searching for in the Instances table
+            val selection = CalendarContract.Instances.TITLE + " = ?"
+            val selectionArgs = arrayOf(invitationId)
+
+            // Construct the query with the desired date range.
+            val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
+            ContentUris.appendId(builder, startMillis)
+            ContentUris.appendId(builder, endMillis)
+
+            // Submit the query
+            val cur: Cursor? = contentResolver.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs, null)
+
+            if (cur == null){
+                Timber.d("cursor null")
+                onAddedToCalendarEvent.postValue(Event(false))
+            } else{
+                if (cur.count > 0){
+                    Timber.d("cursor > 0")
+                    onAddedToCalendarEvent.postValue(Event(true))
+                    cur.close()
+
+                } else{
+                    Timber.d("cursor == 0")
+                    onAddedToCalendarEvent.postValue(Event(false))
+                    cur.close()
+                }
+            }
+        }
+
+    }
+
+    private suspend fun insertCalendarEvent(data : LiveInterviewDetails.Common?){
+
+
+
+        return withContext(Dispatchers.IO){
+
+            val calendar = Calendar.getInstance()
+            val simpleDateFormat = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
+            calendar.time = simpleDateFormat.parse("${examDate.value} ${examTime.value}")
+
+            val calID: Long = 1
+            val startMillis: Long = calendar.timeInMillis
+
+            val endMillis: Long = calendar.run {
+                calendar.add(Calendar.HOUR,1)
+                timeInMillis
+            }
+
+            val values = ContentValues().apply {
+                put(CalendarContract.Events.DTSTART, startMillis)
+                put(CalendarContract.Events.DTEND, endMillis)
+                put(CalendarContract.Events.TITLE, "Live Interview - ${data?.jobTitle}")
+                put(CalendarContract.Events.DESCRIPTION, "Live Interview from ${data?.companyName} for the position ${data?.jobTitle}")
+                put(CalendarContract.Events.CALENDAR_ID, calID)
+                put(CalendarContract.Events.ORIGINAL_ID, applyId)
+                put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Dhaka")
+            }
+            val uri: Uri? = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+
+            val eventID = uri?.lastPathSegment?.toLong()
+
+            onAddedToCalendarEvent.postValue(Event(true))
+        }
+    }
+
+    companion object{
+
+        private const val PROJECTION_ID_INDEX: Int = 0
+        private const val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
+        private const val PROJECTION_DISPLAY_NAME_INDEX: Int = 2
+        private const val PROJECTION_OWNER_ACCOUNT_INDEX: Int = 3
+
+        private val EVENT_PROJECTION: Array<String> = arrayOf(
+                CalendarContract.Calendars._ID,                     // 0
+                CalendarContract.Calendars.ACCOUNT_NAME,            // 1
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
+                CalendarContract.Calendars.OWNER_ACCOUNT            // 3
+        )
     }
 
 }

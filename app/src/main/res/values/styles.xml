@@ -189,4 +189,10 @@
         <item name="cornerSize">14dp</item>
     </style>
 
+    <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/color_states_materialbutton</item>
+        <item name="iconTint">@color/color_states_materialbutton</item>
+    </style>
+
 </resources>
