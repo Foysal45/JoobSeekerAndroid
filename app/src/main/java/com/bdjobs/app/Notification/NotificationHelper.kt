@@ -11,7 +11,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Build.VERSION_CODES.O
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -40,6 +42,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         const val MATCHED_JOB_CHANNEL = "matched_job"
         const val MESSAGE_CHANNEL = "message"
         const val SMS_CHANNEL = "sms"
+        const val ALERT_CHANNEL = "alert"
     }
 
     val mNotificationManager: NotificationManagerCompat by lazy {
@@ -51,115 +54,34 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
         // Create general notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            val generalChannel = NotificationChannel(
-                    GENERAL_CHANNEL,
-                    getString(R.string.notification_channel_general),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(generalChannel)
-
-            // Create interview invitation notification channel
-            val interviewInvitationChannel = NotificationChannel(
-                    INTERVIEW_INVITATION_CHANNEL,
-                    getString(R.string.notification_channel_interview_invitation),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(interviewInvitationChannel)
-
-            // Create video invitation notification channel
-            val videoInterviewChannel = NotificationChannel(
-                    VIDEO_INTERVIEW_CHANNEL,
-                    getString(R.string.notification_channel_video_interview),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(videoInterviewChannel)
-
-            // Create interview invitation notification channel
-            val liveInvitationChannel = NotificationChannel(
-                    LIVE_INTERVIEW_CHANNEL,
-                    getString(R.string.notification_channel_live_interview),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(liveInvitationChannel)
-
-            // Create cv viewed notification channel
-            val cvViewedChannel = NotificationChannel(
-                    CV_VIEWED_CHANNEL,
-                    getString(R.string.notification_channel_cv_viewed),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(cvViewedChannel)
-
-            // Create message notification channel
-            val messageChannel = NotificationChannel(
-                    MESSAGE_CHANNEL,
-                    getString(R.string.notification_channel_message),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(messageChannel)
-
-            // Create matched job notification channel
-            val matchedJobChannel = NotificationChannel(
-                    MATCHED_JOB_CHANNEL,
-                    getString(R.string.notification_channel_matched_job),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(matchedJobChannel)
-
-            // Create sms notification channel
-            val smsChannel = NotificationChannel(
-                    SMS_CHANNEL,
-                    getString(R.string.notification_channel_matched_job),
-                    NotificationManager.IMPORTANCE_HIGH)
-
-            // Configure the channel's initial settings
-            generalChannel.lightColor = Color.GREEN
-            generalChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
-
-            // Submit the notification channel object to the notification manager
-            mNotificationManager.createNotificationChannel(smsChannel)
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createChannel(GENERAL_CHANNEL, getString(R.string.notification_channel_general))
+                createChannel(INTERVIEW_INVITATION_CHANNEL, getString(R.string.notification_channel_interview_invitation))
+                createChannel(VIDEO_INTERVIEW_CHANNEL, getString(R.string.notification_channel_video_interview))
+                createChannel(LIVE_INTERVIEW_CHANNEL, getString(R.string.notification_channel_live_interview))
+                createChannel(CV_VIEWED_CHANNEL, getString(R.string.notification_channel_cv_viewed))
+                createChannel(MATCHED_JOB_CHANNEL, getString(R.string.notification_channel_matched_job))
+                createChannel(MESSAGE_CHANNEL, getString(R.string.notification_channel_message))
+                createChannel(SMS_CHANNEL, getString(R.string.notification_channel_sms))
+                createChannel(ALERT_CHANNEL,getString(R.string.notification_channel_alert))
+            }
         }
-
     }
 
 
-    fun prepareNotification(title: String?, body: String?, jobid: String?, companyName: String?, jobTitle: String?, type: String?, link: String?, imageLink: String?, nId: String?, lanType: String?, deadlineDB: String?): NotificationCompat.Builder {
+    fun prepareNotification(
+            title: String? = "",
+            body: String? = "",
+            jobid: String? = "",
+            companyName: String? = "",
+            jobTitle: String? = "",
+            type: String? = "",
+            link: String? = "",
+            imageLink: String? = "",
+            nId: String? = "",
+            lanType: String? = "",
+            deadlineDB: String? = ""
+    ): NotificationCompat.Builder {
 
         //Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
 
@@ -326,20 +248,19 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
             }
 
+            Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
 
-        Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
+                val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    putExtra("id", jobid)
+                    putExtra("nid", nId)
+                    putExtra("seen", true)
 
-            val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
-                putExtra("from", "notification")
-                putExtra("id", jobid)
-                putExtra("nid", nId)
-                putExtra("seen", true)
-
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
 
 
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
 //                var imageBitmap: Bitmap? = null
 //
@@ -361,61 +282,97 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
 //                //Log.d("rakib outside", "$imageBitmap $imageLink")
 
-            return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setSmallIcon(smallIcon)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setStyle(NotificationCompat.BigTextStyle()
-                            .bigText(body))
-                    .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+                return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
-        }
-
-        else -> {
-
-            val intent = Intent(this, MainLandingActivity::class.java)?.apply {
             }
 
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            Constants.NOTIFICATION_TYPE_ALERT_NOTIFICATION->{
 
-            val stackBuilder = TaskStackBuilder.create(this)
-            stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
-            stackBuilder.addNextIntent(intent)
-            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+                val intent = Intent(this, MainLandingActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
 
-            return NotificationCompat.Builder(applicationContext, GENERAL_CHANNEL)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setSmallIcon(smallIcon)
-                    .setAutoCancel(true)
-                    .setStyle(NotificationCompat.BigTextStyle()
-                            .bigText(body))
-                    .setContentIntent(pendingIntent)
-                    .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
 
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+
+                return NotificationCompat.Builder(applicationContext, ALERT_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(pendingIntent)
+
+            }
+
+            else -> {
+
+                val intent = Intent(this, MainLandingActivity::class.java)?.apply {
+                }
+
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val stackBuilder = TaskStackBuilder.create(this)
+                stackBuilder.addParentStack(InterviewInvitationBaseActivity::class.java)
+                stackBuilder.addNextIntent(intent)
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+
+                return NotificationCompat.Builder(applicationContext, GENERAL_CHANNEL)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setSmallIcon(smallIcon)
+                        .setAutoCancel(true)
+                        .setStyle(NotificationCompat.BigTextStyle()
+                                .bigText(body))
+                        .setContentIntent(pendingIntent)
+                        .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+
+            }
         }
     }
 
-
-}
-
-private val pendingIntent: PendingIntent
-    get() {
-        val intent = Intent(this, NotificationBaseActivity::class.java)
-        val stackBuilder = TaskStackBuilder.create(this)
-        stackBuilder.addParentStack(NotificationBaseActivity::class.java)
-        stackBuilder.addNextIntent(intent)
-        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+    @RequiresApi(O)
+    private fun createChannel(id: String, name: CharSequence) {
+        val channel = NotificationChannel(
+                id,
+                name,
+                NotificationManager.IMPORTANCE_HIGH
+        )
+        // Configure the channel's initial settings
+        channel.apply {
+            lightColor = Color.GREEN
+            vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 500, 200, 400, 500)
+        }
+        // Submit the notification channel object to the notification manager
+        mNotificationManager.createNotificationChannel(channel)
     }
 
+    private val pendingIntent: PendingIntent
+        get() {
+            val intent = Intent(this, NotificationBaseActivity::class.java)
+            val stackBuilder = TaskStackBuilder.create(this)
+            stackBuilder.addParentStack(NotificationBaseActivity::class.java)
+            stackBuilder.addNextIntent(intent)
+            return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
+        }
 
-fun notify(id: Int, notification: NotificationCompat.Builder) {
-    mNotificationManager.notify(id, notification.build())
-}
 
-private val smallIcon: Int
-    get() = R.drawable.bdjobs_app_logo
+    fun notify(id: Int, notification: NotificationCompat.Builder) {
+        mNotificationManager.notify(id, notification.build())
+    }
+
+    private val smallIcon: Int
+        get() = R.drawable.bdjobs_app_logo
 
 }

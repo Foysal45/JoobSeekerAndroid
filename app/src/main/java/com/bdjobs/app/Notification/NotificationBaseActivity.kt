@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_notification_base.backIV
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.Arrays.asList
-import io.fabric.sdk.android.services.settings.IconRequest.build
 import android.content.Intent.ACTION_VIEW
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager

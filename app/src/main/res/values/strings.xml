@@ -406,6 +406,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_message">Message</string>
     <string name="notification_channel_matched_job">Matched Job</string>
     <string name="notification_channel_sms">SMS</string>
+    <string name="notification_channel_alert">Alert</string>
 
     <string name="notification">Notifications</string>
 

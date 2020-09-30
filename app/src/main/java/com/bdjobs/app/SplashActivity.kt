@@ -22,10 +22,7 @@ import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
@@ -41,6 +38,7 @@ import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.Workmanager.AlertJobWorker
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.facebook.internal.WebDialog
 import com.fondesa.kpermissions.extension.listeners
@@ -73,6 +71,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.security.MessageDigest
+import java.util.concurrent.TimeUnit
 
 
 class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -255,6 +254,10 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
                 WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
 
+                val request = PeriodicWorkRequestBuilder<AlertJobWorker>(5, TimeUnit.MINUTES)
+                        .build()
+                WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("test",ExistingPeriodicWorkPolicy.REPLACE,request)
+
             }
             try {
                 mSnackBar?.dismiss()
@@ -392,6 +395,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         //Log.d("UpdateCheck", "requestCode= $requestCode\nresultCode= $resultCode ")
         if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK) {
             //Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")

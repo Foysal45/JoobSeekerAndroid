@@ -25,10 +25,12 @@ import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.Databases.External.DataStorage
 import com.bdjobs.app.Databases.Internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
+import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_ALERT_NOTIFICATION
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
@@ -83,6 +85,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var inviteInterviview: String? = ""
     private var videoInterviview: String? = ""
     private var liveInterview: String? = ""
+    lateinit var notificationHelper: NotificationHelper
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -755,49 +758,60 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
-                        val dialog = Dialog(activity)
-                        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        dialog?.setCancelable(true)
-                        dialog?.setContentView(R.layout.layout_shortlistedjob_pop_up)
-                        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                        val showButton = dialog?.findViewById<Button>(R.id.bcYesTV)
-                        val cancelIV = dialog?.findViewById<ImageView>(R.id.deleteIV)
-                        val jobCountTV = dialog?.findViewById<TextView>(R.id.textView49)
-                        val checkBox = dialog?.findViewById<CheckBox>(R.id.checkBox2)
+//                        notificationHelper = NotificationHelper(activity)
+//                        notificationHelper.notify(
+//                                Constants.NOTIFICATION_ALERT,
+//                                notificationHelper.prepareNotification(
+//                                        "test title",
+//                                        "You have ${shortlistedjobs.size} shortlisted jobs",
+//                                        type = NOTIFICATION_TYPE_ALERT_NOTIFICATION
+//                                )
+//                        )
 
-                        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
-
-                        Ads.showNativeAd(ad_small_template, activity)
-
-                        checkBox?.setOnCheckedChangeListener { _, isChecked ->
-                            if (isChecked) {
-                                val c = Calendar.getInstance().time
-                                val df = SimpleDateFormat("dd-MMM-yyyy")
-                                val formattedDate = df.format(c)
-                                //Log.d("formattedDate", "formattedDate: $formattedDate")
-                                bdjobsUserSession.insertShortlListedPopupDate(formattedDate)
-                            } else if (!isChecked) {
-                                bdjobsUserSession.insertShortlListedPopupDate("19-Mar-1919")
-                            }
-                        }
-
-                        var job = "Job"
-                        if (shortlistedjobs.size > 1)
-                            job = "Jobs"
-
-                        jobCountTV?.text = "${shortlistedjobs.size} $job found"
-
-                        cancelIV?.setOnClickListener {
-                            dialog.dismiss()
-                        }
-
-                        showButton?.setOnClickListener {
-                            homeCommunicator.setShortListFilter("Next 2 days")
-                            homeCommunicator.goToShortListedFragment(2)
-                            dialog.dismiss()
-                        }
-                        dialog?.show()
+//                        val dialog = Dialog(activity)
+//                        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//                        dialog?.setCancelable(true)
+//                        dialog?.setContentView(R.layout.layout_shortlistedjob_pop_up)
+//                        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//
+//                        val showButton = dialog?.findViewById<Button>(R.id.bcYesTV)
+//                        val cancelIV = dialog?.findViewById<ImageView>(R.id.deleteIV)
+//                        val jobCountTV = dialog?.findViewById<TextView>(R.id.textView49)
+//                        val checkBox = dialog?.findViewById<CheckBox>(R.id.checkBox2)
+//
+//                        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+//
+//                        Ads.showNativeAd(ad_small_template, activity)
+//
+//                        checkBox?.setOnCheckedChangeListener { _, isChecked ->
+//                            if (isChecked) {
+//                                val c = Calendar.getInstance().time
+//                                val df = SimpleDateFormat("dd-MMM-yyyy")
+//                                val formattedDate = df.format(c)
+//                                //Log.d("formattedDate", "formattedDate: $formattedDate")
+//                                bdjobsUserSession.insertShortlListedPopupDate(formattedDate)
+//                            } else if (!isChecked) {
+//                                bdjobsUserSession.insertShortlListedPopupDate("19-Mar-1919")
+//                            }
+//                        }
+//
+//                        var job = "Job"
+//                        if (shortlistedjobs.size > 1)
+//                            job = "Jobs"
+//
+//                        jobCountTV?.text = "${shortlistedjobs.size} $job found"
+//
+//                        cancelIV?.setOnClickListener {
+//                            dialog.dismiss()
+//                        }
+//
+//                        showButton?.setOnClickListener {
+//                            homeCommunicator.setShortListFilter("Next 2 days")
+//                            homeCommunicator.goToShortListedFragment(2)
+//                            dialog.dismiss()
+//                        }
+//                        dialog?.show()
                     }
                 } catch (e: Exception) {
                     logException(e)

@@ -47,13 +47,13 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
-import com.crashlytics.android.Crashlytics
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
@@ -65,6 +65,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
@@ -322,9 +323,16 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         broadcastReceiver = BackgroundJobBroadcastReceiver()
         mNotificationHelper = NotificationHelper(this)
         session = BdjobsUserSession(applicationContext)
-        Crashlytics.setUserIdentifier(session.userId)
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        crashlytics.setUserId(session.userId.toString())
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
+
+        if (intent.getStringExtra("from") == "notification"){
+            Timber.d("came here ")
+            setShortListFilter("Next 2 days")
+            goToShortListedFragment(2)
+        }
 
         try {
             createShortcut(this@MainLandingActivity)
@@ -437,6 +445,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                 }
             }
         }
+
+
     }
 
     private fun updateInviteCodeOwnerInformation() {
