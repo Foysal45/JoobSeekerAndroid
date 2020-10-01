@@ -114,7 +114,7 @@ data class FavouriteSearch(
         @ColumnInfo(name = "totaljobs")
         val totaljobs: String? = "",
         @ColumnInfo(name = "isSubscribed")
-        var isSubscribed : String? = ""
+        var isSubscribed: String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -158,6 +158,31 @@ data class VideoInvitation(@ColumnInfo(name = "companyName")
                            val dateStringForSubmission: Date?,
                            @ColumnInfo(name = "dateStringForInvitaion")
                            val dateStringForInvitaion: Date?
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+@Entity(tableName = "LiveInvitation", indices = [(Index(value = ["jobId"], unique = true))])
+@Keep
+data class LiveInvitation(@ColumnInfo(name = "companyName")
+                          val companyName: String?,
+                          @ColumnInfo(name = "jobTitle")
+                          val jobTitle: String? = null,
+                          @ColumnInfo(name = "jobId")
+                          val jobId: String? = null,
+                          @ColumnInfo(name = "liveInterviewStatusCode")
+                          val liveInterviewStatusCode: String? = null,
+                          @ColumnInfo(name = "liveInterviewStatus")
+                          val liveInterviewStatus: String? = null,
+                          @ColumnInfo(name = "userSeenLiveInterview")
+                          val userSeenLiveInterview: String?,
+                          @ColumnInfo(name = "liveInterviewDate")
+                          val liveInterviewDate: Date?,
+                          @ColumnInfo(name = "liveInterviewTime")
+                          val liveInterviewTime: String?,
+                          @ColumnInfo(name = "dateStringForInvitaion")
+                          val dateStringForInvitaion: Date?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

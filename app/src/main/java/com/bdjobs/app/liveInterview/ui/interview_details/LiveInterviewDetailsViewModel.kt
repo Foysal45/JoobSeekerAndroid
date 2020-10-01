@@ -150,7 +150,6 @@ class LiveInterviewDetailsViewModel(
         viewModelScope.launch {
             getAllCalendarInfoFromProvider()
         }
-
     }
 
 
@@ -302,37 +301,45 @@ class LiveInterviewDetailsViewModel(
     }
 
     fun onAddToCalendarButtonClick(){
-        //addToCalendarClickEvent.value = Event(true)
+        addToCalendarClickEvent.value = Event(true)
+
+    }
+
+    fun insert(){
         viewModelScope.launch {
             insertCalendarEvent(commonData.value)
         }
     }
 
 
-    private suspend fun getAllCalendarInfoFromProvider(){
+    private suspend fun getAllCalendarInfoFromProvider() {
         return withContext(Dispatchers.IO){
-            val cur = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, EVENT_PROJECTION, null, null, null)
+            try {
+                val cur = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, EVENT_PROJECTION, null, null, null)
 
-            if (cur != null) {
-                while (cur.moveToNext()) {
-                    var calID: Long = 0
-                    var displayName = ""
-                    var accountName = ""
-                    var ownerName = ""
-                    // Get the field values
-                    calID = cur.getLong(PROJECTION_ID_INDEX)
-                    displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
-                    accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
-                    ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
-                    val calendarInfo = String.format("Calendar ID: %s\nDisplay Name: %s\nAccount Name: %s\nOwner Name: %s", calID, displayName, accountName, ownerName)
-                    calendarInfos.value?.add(calendarInfo)
+                if (cur != null) {
+                    while (cur.moveToNext()) {
+                        var calID: Long = 0
+                        var displayName = ""
+                        var accountName = ""
+                        var ownerName = ""
+                        // Get the field values
+                        calID = cur.getLong(PROJECTION_ID_INDEX)
+                        displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
+                        accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
+                        ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
+                        val calendarInfo = String.format("Calendar ID: %s\nDisplay Name: %s\nAccount Name: %s\nOwner Name: %s", calID, displayName, accountName, ownerName)
+                        calendarInfos.value?.add(calendarInfo)
+                    }
+                } else {
+                    Timber.d("cursor null")
+                    cur?.close()
+                    return@withContext
                 }
-            } else {
-                Timber.d("cursor null")
-                cur?.close()
-                return@withContext
+                cur.close()
+            } catch (e:Exception){
+                e.printStackTrace()
             }
-            cur.close()
         }
     }
 

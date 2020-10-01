@@ -17,10 +17,11 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     AppliedJobs::class,
     JobInvitation::class,
     VideoInvitation::class,
+    LiveInvitation::class,
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 14, exportSchema = false)
+    Notification::class], version = 15, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -31,6 +32,7 @@ abstract class BdjobsDB : RoomDatabase() {
     abstract fun appliedJobDao(): AppliedJobDao
     abstract fun jobInvitationDao(): JobInvitationDao
     abstract fun videoInvitationDao(): VideoInvitationDao
+    abstract fun liveInvitationDao() : LiveInvitationDao
     abstract fun b2CCertificationDao(): B2CCertificationDao
     abstract fun lastSearchDao(): LastSearchDao
     abstract fun inviteCodeUserInfoDao(): InviteCodeUserInfoDao
@@ -127,6 +129,13 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_14_15 = object : Migration(14, 15) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE LiveInvitation (id INTEGER, companyName TEXT, jobTitle TEXT, jobId TEXT, liveInterviewStatusCode TEXT, liveInterviewStatus TEXT, userSeenInterview TEXT, liveInterviewDate INTEGER ,liveInterviewTime TEXT, dateStringForInvitaion INTEGER, PRIMARY KEY(id))")
+                database.execSQL("CREATE UNIQUE INDEX `index_LiveInvitation_jobId` ON `LiveInvitation` (`jobId`)")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
@@ -146,7 +155,8 @@ abstract class BdjobsDB : RoomDatabase() {
                         MIGRATION_10_11,
                         MIGRATION_11_12,
                         MIGRATION_12_13,
-                        MIGRATION_13_14
+                        MIGRATION_13_14,
+                        MIGRATION_14_15
                 ).build()
     }
 }

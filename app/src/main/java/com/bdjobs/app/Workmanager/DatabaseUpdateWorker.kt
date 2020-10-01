@@ -285,39 +285,30 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                         e.printStackTrace()
                                     }
 
-                                    var employerSeenDate: Date? = null
-//                                    try {
-//                                        if(item?.employerSeenDate != ""){
-//                                            employerSeenDate = SimpleDateFormat("dd MMM yyyy").parse(item?.employerSeenDate)
-//                                        }
-//
-//                                    } catch (e: Exception) {
-//                                        e.printStackTrace()
-//
-//                                    }
 
-                                    var dateStringForSubmission: Date? = null
-//                                    try {
-//                                        if(item?.dateStringForSubmission != ""){
-//                                            dateStringForSubmission = SimpleDateFormat("dd MMM yyyy").parse(item?.dateStringForSubmission)
-//                                        }
-//
-//                                    } catch (e: Exception) {
-//                                        e.printStackTrace()
-//                                    }
+                                    var liveInterviewDate: Date? = null
+                                    try {
+                                        if(item?.liveInterviewDate != ""){
+                                            liveInterviewDate = SimpleDateFormat("dd MMM yyyy").parse(item?.liveInterviewDate)
+                                        }
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
 
 
-//                                    val videoInvitation = VideoInvitation(companyName = item?.companyName,
-//                                            jobTitle = item?.jobTitle,
-//                                            jobId = item?.jobId,
-//                                            videoStatusCode = item?.videoStatusCode,
-//                                            videoStatus = item?.videoStatus,
-//                                            userSeenInterview = item?.userSeenInterview,
-//                                            employerSeenDate = employerSeenDate,
-//                                            dateStringForSubmission = dateStringForSubmission,
-//                                            dateStringForInvitaion = dateStringForInvitaion)
-//
-//                                    bdjobsInternalDB.videoInvitationDao().insertVideoInvitation(videoInvitation)
+                                    val liveInvitation = LiveInvitation(
+                                            companyName = item?.companyName,
+                                            jobTitle = item?.jobTitle,
+                                            jobId = item?.jobId,
+                                            liveInterviewStatusCode = item?.liveInterviewStatusCode,
+                                            liveInterviewStatus = item?.liveInterviewStatus,
+                                            userSeenLiveInterview = item?.userSeenLiveInterview,
+                                            liveInterviewDate = liveInterviewDate,
+                                            liveInterviewTime = item?.liveInterviewTime,
+                                            dateStringForInvitaion = dateStringForInvitaion)
+
+                                    bdjobsInternalDB.liveInvitationDao().insertLiveInvitation(liveInvitation)
 
                                 }
                                 uiThread {

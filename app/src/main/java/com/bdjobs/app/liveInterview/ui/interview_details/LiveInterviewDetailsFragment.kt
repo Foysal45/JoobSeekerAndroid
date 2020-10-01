@@ -162,89 +162,8 @@ class LiveInterviewDetailsFragment : Fragment() {
 
             addToCalendarClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
-                    //askForPermission()
-//                    val calendarEvent: Calendar = Calendar.getInstance()
-//                    val intent = Intent(Intent.ACTION_EDIT)
-//                    intent.type = "vnd.android.cursor.item/event"
-//                    intent.putExtra("beginTime", calendarEvent.timeInMillis)
-//                    intent.putExtra("allDay", true)
-//                    intent.putExtra("rule", "FREQ=YEARLY")
-//                    intent.putExtra("endTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
-//                    intent.putExtra("title", "Calendar Event")
-//                    startActivity(intent)
-
-                    if (isEventAlreadyExist(50000)) {
-                        toast("Event already exists")
-                    } else {
-
-                        Timber.d("calendar size ${liveInterviewDetailsViewModel.calendarInfos.value?.size}")
-
-//                        val calID: Long = 601
-//                        val startMillis: Long = Calendar.getInstance().run {
-//                            set(2020, 11, 14, 7, 30)
-//                            timeInMillis
-//                        }
-//                        val endMillis: Long = Calendar.getInstance().run {
-//                            set(2020, 11, 14, 8, 45)
-//                            timeInMillis
-//                        }
-//
-//                        val values = ContentValues().apply {
-//                            put(CalendarContract.Events.DTSTART, startMillis)
-//                            put(CalendarContract.Events.DTEND, endMillis)
-//                            put(CalendarContract.Events.TITLE, "Test1")
-//                            put(CalendarContract.Events.DESCRIPTION, "Group workout")
-//                            put(CalendarContract.Events.CALENDAR_ID, calID)
-//                            put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles")
-//                        }
-//                        val uri: Uri? = requireContext().contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-//
-//                        toast("inserted")
-//
-//                        val eventID: Long? = uri?.lastPathSegment?.toLong()
-//
-//
-//
-//                        Timber.d(" rr $calendarInfos")
-//                        Timber.d(" rr $eventID")
-
-//                        Timber.d("all size ${calendarInfos.size}")
-//                        calendarInfos?.forEach { s ->
-//                            Timber.d("all $s\n")
-//                        }
-
-
-//                        Timber.d("primary size ${primaryCalendarInfos.size}")
-//                        primaryCalendarInfos?.forEach { s ->
-//                            Timber.d("all $s\n")
-//                        }
-//
-//                        Timber.d("Event Id ${eventID}")
-
-
-//                        val startMillis: Long = Calendar.getInstance().run {
-//                            set(2020, 11, 19, 7, 30)
-//                            timeInMillis
-//                        }
-//                        val endMillis: Long = Calendar.getInstance().run {
-//                            set(2020, 11, 19, 8, 30)
-//                            timeInMillis
-//                        }
-//                        val intent = Intent(Intent.ACTION_INSERT)
-//                                .setData(CalendarContract.Events.CONTENT_URI)
-//                                .putExtra(CalendarContract.EXTRA_EVENT_ID,1000)
-//                                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-//                                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-//                                .putExtra(CalendarContract.Events.TITLE, "Yoga")
-//                                .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-//                                .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-//                                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-//                        startActivity(intent)
-
-                    }
+                    askForPermission()
                 }
-
-
             })
 
             onAddedToCalendarEvent.observe(viewLifecycleOwner, EventObserver {
@@ -488,34 +407,7 @@ class LiveInterviewDetailsFragment : Fragment() {
         permissionsBuilder(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR).build().send { result ->
             when {
                 result.allGranted() -> {
-                    val projection = arrayOf("_id", "name")
-                    val calendars = Uri.parse("content://com.android.calendar/events")
-
-                    val managedCursor: Cursor? = activity?.managedQuery(calendars, projection,
-                            "selected=1", null, null)
-
-                    if (managedCursor!!.moveToFirst()) {
-                        var calName: String?
-                        var calId: String?
-                        val nameColumn = managedCursor!!.getColumnIndex("name")
-                        val idColumn = managedCursor!!.getColumnIndex("_id")
-                        do {
-                            calName = managedCursor!!.getString(nameColumn)
-                            calId = managedCursor!!.getString(idColumn)
-                        } while (managedCursor!!.moveToNext())
-                    }
-
-                    val event = ContentValues()
-                    event.put("title", "Event Title");
-                    event.put("description", "Event Desc");
-                    event.put("eventLocation", "Event Location");
-                    val startTime = Calendar.DATE
-                    val endTime = Calendar.DATE
-                    event.put("dtstart", startTime)
-                    event.put("dtend", endTime)
-
-                    val eventsUri = Uri.parse("content://com.android.calendar/events")
-                    val url: Uri? = context?.contentResolver?.insert(eventsUri, event)
+                    insertEvent()
                 }
                 result.allDenied() || result.anyDenied() -> {
 

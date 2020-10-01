@@ -148,11 +148,11 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:17.0.0"
 
     //----ad manager
-    implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.google.android.gms:play-services-ads:19.4.0'
     implementation project(':NativeTemplatesAndroid-1.0.0')
 
     //-----google play core for app update
-    implementation 'com.google.android.play:core:1.8.0'
+    implementation 'com.google.android.play:core:1.8.2'
 
     //calendar library for year
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'

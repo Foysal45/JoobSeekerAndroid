@@ -4,6 +4,7 @@
     android:id="@+id/job_detail_job_application_status_card"
     android:layout_width="match_parent"
     android:layout_height="130dp"
+    android:layout_marginTop="15dp"
     android:layout_marginBottom="16dp"
     android:visibility="visible">
 
