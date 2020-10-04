@@ -1,27 +1,19 @@
 package com.bdjobs.app.transaction.ui
 
 import android.app.DatePickerDialog
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
-import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
-import kotlinx.android.synthetic.main.fragment_professional_ql_edit.*
+import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.databinding.TransactionFilterFragmentBinding
 import kotlinx.android.synthetic.main.transaction_filter_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
-import java.nio.channels.Selector
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,7 +44,7 @@ class TransactionFilterFragment : Fragment() {
 
         updateDateInView(1)
     }
-    private lateinit var itemSelector: Selector
+
     var startDate = ""
     var endDate = ""
 
@@ -60,7 +52,9 @@ class TransactionFilterFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.transaction_filter_fragment, container, false)
+        val binding = TransactionFilterFragmentBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -76,21 +70,23 @@ class TransactionFilterFragment : Fragment() {
     }
 
     private fun onClick() {
-        et_package_type.onClick {
+        packageTypeTIET.onClick {
 
             requireContext().selector("Select Transaction type", typeArray.toList()) { _, i ->
-                et_package_type.setText(typeArray[i])
+                packageTypeTIET.setText(typeArray[i])
 
                 til_package_type.requestFocus()
 
 
             }
 
+
+
         }
-        et_ts_start_date?.setOnClickListener {
+        startDateTIET?.setOnClickListener {
 
 
-            if (et_ts_start_date.text.toString().isEmpty())
+            if (startDateTIET.text.toString().isEmpty())
                 pickDate(requireContext(), cal, startDateSetListener)
             else {
                 date = formatter.parse(startDate)
@@ -99,10 +95,10 @@ class TransactionFilterFragment : Fragment() {
             }
 
         }
-        et_ts_end_date?.setOnClickListener {
+        endDateTIET?.setOnClickListener {
 
 
-            if (et_ts_end_date.text.toString().isNotEmpty()) {
+            if (endDateTIET.text.toString().isNotEmpty()) {
                 date = formatter.parse(endDate)
                 cal.time = date
                 pickDate(requireContext(), cal, endDateSetListener)
@@ -112,14 +108,14 @@ class TransactionFilterFragment : Fragment() {
 
 
         }
-        fab_transaction_filter?.setOnClickListener {
+        transactionFilterFab?.onClick {
 
               if (dateValidationCheck()){
                   val action = TransactionFilterFragmentDirections.actionTransactionFilterFragmentToTransactionListFragment()
                   action.from = "filter"
                   action.startDate = startDate
                   action.endDate = endDate
-                  action.transactionType = et_package_type.text.toString()
+                  action.transactionType = packageTypeTIET.text.toString()
 
                   findNavController().navigate(action)
               }
@@ -136,11 +132,11 @@ class TransactionFilterFragment : Fragment() {
         val apiSdf = SimpleDateFormat(apiFormat, Locale.US)
         val viewSdf = SimpleDateFormat(viewFormat, Locale.US)
         if (c == 0) {
-            et_ts_start_date.setText(viewSdf.format(now.time))
+            startDateTIET.setText(viewSdf.format(now.time))
             startDate = apiSdf.format(now.time)
 
         } else {
-            et_ts_end_date.setText(viewSdf.format(now.time))
+            endDateTIET.setText(viewSdf.format(now.time))
             endDate = apiSdf.format(now.time)
 
         }
