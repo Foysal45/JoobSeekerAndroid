@@ -9,6 +9,7 @@ import com.bdjobs.app.sms.ui.payment.PaymentViewModelFactory
 import com.bdjobs.app.sms.ui.payment_success.PaymentSuccessViewModelFactory
 import com.bdjobs.app.sms.ui.settings.SettingsViewModelFactory
 import com.bdjobs.app.transaction.data.TransactionRepository
+import com.bdjobs.app.transaction.ui.TransactionFilterModelFactory
 import com.bdjobs.app.transaction.ui.TransactionListModelFactory
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModelFactory
@@ -76,6 +77,11 @@ object ViewModelFactoryUtil {
     fun provideTransactionListViewModelFactory(fragment: Fragment) : TransactionListModelFactory{
         val repository = TransactionRepository(fragment.requireContext().applicationContext as Application)
         return TransactionListModelFactory(repository)
+    }
+
+    fun provideTransactionFilterViewModelFactory(fragment: Fragment) : TransactionFilterModelFactory {
+        var application = fragment.requireContext().applicationContext as Application
+        return TransactionFilterModelFactory(application)
     }
 
 }
