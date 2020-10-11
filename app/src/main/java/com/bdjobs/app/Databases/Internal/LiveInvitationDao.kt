@@ -9,9 +9,9 @@ import java.util.*
 @Dao
 interface LiveInvitationDao {
     @Query("SELECT * FROM LiveInvitation")
-    fun getAllVideoInvitation(): List<LiveInvitation>
+    fun getAllLiveInvitation(): List<LiveInvitation>
 
-    @Query("SELECT * FROM LiveInvitation WHERE dateStringForInvitaion>=:dt")
+    @Query("SELECT * FROM LiveInvitation WHERE liveInterviewDate>=:dt")
     fun getAllLiveInvitationByDate(dt:Date): List<LiveInvitation>
 
 

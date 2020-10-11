@@ -40,6 +40,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Workmanager.AlertJobWorker
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
+import com.bdjobs.app.Workmanager.LiveInterviewAlertWorker
 import com.facebook.internal.WebDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -257,6 +258,11 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
                 val request = PeriodicWorkRequestBuilder<AlertJobWorker>(5, TimeUnit.MINUTES)
                         .build()
                 WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("test",ExistingPeriodicWorkPolicy.REPLACE,request)
+
+                val liveInterviewRequest = OneTimeWorkRequestBuilder<LiveInterviewAlertWorker>()
+                        .addTag("live")
+                        .build()
+                WorkManager.getInstance(applicationContext).enqueue(liveInterviewRequest)
 
             }
             try {
