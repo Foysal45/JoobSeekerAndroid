@@ -144,7 +144,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         agreedBtn?.setOnClickListener {
 
 
-
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
             request.listeners {
@@ -256,7 +255,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
                 val request = PeriodicWorkRequestBuilder<AlertJobWorker>(5, TimeUnit.MINUTES)
                         .build()
-                WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("test",ExistingPeriodicWorkPolicy.REPLACE,request)
+                WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("test", ExistingPeriodicWorkPolicy.KEEP, request)
 
             }
             try {
