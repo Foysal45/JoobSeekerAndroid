@@ -274,6 +274,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         response.body()?.data?.let { items ->
                             Constants.liveInvitation = items.size.toString()
                             doAsync {
+                                bdjobsInternalDB.liveInvitationDao().deleteAllLiveInvitation()
                                 for (item in items) {
                                     var dateStringForInvitaion: Date? = null
                                     try {
@@ -289,7 +290,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     var liveInterviewDate: Date? = null
                                     try {
                                         if(item?.liveInterviewDate != ""){
-                                            liveInterviewDate = SimpleDateFormat("dd MMM yyyy").parse(item?.liveInterviewDate)
+                                            liveInterviewDate = SimpleDateFormat("dd MMM yyyy hh:mm:ss").parse("${item?.liveInterviewDate} ${item?.liveInterviewTime}")
                                         }
 
                                     } catch (e: Exception) {
