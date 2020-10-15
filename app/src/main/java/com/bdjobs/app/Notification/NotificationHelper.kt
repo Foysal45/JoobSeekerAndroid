@@ -291,7 +291,6 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
-
             }
 
             Constants.NOTIFICATION_TYPE_ALERT_NOTIFICATION->{
@@ -309,7 +308,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                         .setContentTitle(title)
                         .setContentText(body)
                         .setSmallIcon(smallIcon)
-                        .setAutoCancel(true)
+                        .setAutoCancel(false)
                         .setStyle(NotificationCompat.BigTextStyle()
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
@@ -337,7 +336,6 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                                 .bigText(body))
                         .setContentIntent(pendingIntent)
                         .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
-
             }
         }
     }
@@ -367,12 +365,10 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT)
         }
 
-
     fun notify(id: Int, notification: NotificationCompat.Builder) {
         mNotificationManager.notify(id, notification.build())
     }
 
     private val smallIcon: Int
         get() = R.drawable.bdjobs_app_logo
-
 }

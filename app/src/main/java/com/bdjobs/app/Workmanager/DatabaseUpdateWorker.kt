@@ -290,7 +290,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     var liveInterviewDate: Date? = null
                                     try {
                                         if(item?.liveInterviewDate != ""){
-                                            liveInterviewDate = SimpleDateFormat("dd MMM yyyy hh:mm:ss").parse("${item?.liveInterviewDate} ${item?.liveInterviewTime}")
+                                            liveInterviewDate = SimpleDateFormat("d MMM yyyy hh:mm:ss").parse("${item?.liveInterviewDate} ${item?.liveInterviewTime}")
                                         }
 
                                     } catch (e: Exception) {
