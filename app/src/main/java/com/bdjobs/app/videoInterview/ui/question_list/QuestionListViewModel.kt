@@ -152,23 +152,24 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     private fun startTimer(remainingSeconds: String) {
 
         _shouldShowOneHourInfo.value = false
+        _shouldEnableSubmitButtonAfterTimerEnd.value = true
 
-        timer = object : CountDownTimer(remainingSeconds.toLong().times(1000), 1000) {
-            override fun onFinish() {
-                _shouldShowRemainingTime.value = false
-                _shouldEnableSubmitButtonAfterTimerEnd.value = true
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                secondsRemaining = millisUntilFinished / 1000
-
-                minutes = (secondsRemaining % 3600) / 60
-                seconds = secondsRemaining % 60
-
-                _remainingTimeInString.value = "$minutes min $seconds sec"
-            }
-
-        }.start()
+//        timer = object : CountDownTimer(remainingSeconds.toLong().times(1000), 1000) {
+//            override fun onFinish() {
+//                _shouldShowRemainingTime.value = false
+//                _shouldEnableSubmitButtonAfterTimerEnd.value = true
+//            }
+//
+//            override fun onTick(millisUntilFinished: Long) {
+//                secondsRemaining = millisUntilFinished / 1000
+//
+//                minutes = (secondsRemaining % 3600) / 60
+//                seconds = secondsRemaining % 60
+//
+//                _remainingTimeInString.value = "$minutes min $seconds sec"
+//            }
+//
+//        }.start()
     }
 
     override fun onCleared() {

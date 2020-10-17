@@ -244,6 +244,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                DatabaseUpdateJob.runJobImmediately()
 
                 WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
+                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")
 
                 val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -259,10 +260,10 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                        .build()
 //                WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("test", ExistingPeriodicWorkPolicy.KEEP, request)
 
-                val liveInterviewRequest = OneTimeWorkRequestBuilder<LiveInterviewAlertWorker>()
-                        .addTag("live")
-                        .build()
-                WorkManager.getInstance(applicationContext).enqueue(liveInterviewRequest)
+//                val liveInterviewRequest = OneTimeWorkRequestBuilder<LiveInterviewAlertWorker>()
+//                        .addTag("live")
+//                        .build()
+//                WorkManager.getInstance(applicationContext).enqueue(liveInterviewRequest)
 
             }
             try {

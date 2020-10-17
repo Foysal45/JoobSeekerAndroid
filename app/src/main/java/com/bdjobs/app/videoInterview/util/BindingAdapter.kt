@@ -198,26 +198,28 @@ fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested
                     button.alpha = 1f
                     button.isEnabled = true
                 } else {
-                    button.isEnabled = (isInterested || enableAfterTimer).also { enabled ->
-                        //Log.d("rakib", "is Interested $isInterested enable after timer $enableAfterTimer")
-                        if (enabled)
-                            button.alpha = 1f
-                        else
-                            button.alpha = .5f
-
-                    }
+//                    button.isEnabled = (isInterested || enableAfterTimer).also { enabled ->
+//                        //Log.d("rakib", "is Interested $isInterested enable after timer $enableAfterTimer")
+//                        if (enabled)
+//                            button.alpha = 1f
+//                        else
+//                            button.alpha = .5f
+//
+//                    }
+                    button.alpha = .5f
+                    button.isEnabled = false
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-    remainingTime?.let {
-        if (it.toInt() == 0 && totalAnswers!!.toInt() > 0) {
-            button.alpha = 1f
-            button.isEnabled = true
-        }
-    }
+//    remainingTime?.let {
+//        if (it.toInt() == 0 && totalAnswers!!.toInt() > 0) {
+//            button.alpha = 1f
+//            button.isEnabled = true
+//        }
+//    }
 }
 
 // Video Interview List
