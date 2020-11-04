@@ -212,7 +212,7 @@
             <TextView
                 android:id="@+id/deadline_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="13dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="16dp"
@@ -250,6 +250,7 @@
                 android:layout_marginStart="8dp"
                 android:text="Interview Invitation"
                 android:textAllCaps="false"
+                android:letterSpacing="0"
                 android:textColor="#AC016D"
                 android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/interactionBTN"
