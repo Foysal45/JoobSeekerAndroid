@@ -79,8 +79,9 @@ interface ApiServiceJobs {
             @Query("rpp") rpp: String? = "",
             @Query("slno") slno: String? = "",
             @Query("version") version: String? = "",
-            @Query("appId") appId :String? = Constants.APP_ID
-
+            @Query("appId") appId :String? = Constants.APP_ID,
+            @Query("workplace") workPlace : String? = "",
+            @Query("pwd") personWithDisability : String? = ""
 
     ): Call<ResponseBody>
 
@@ -224,7 +225,9 @@ interface ApiServiceJobs {
             @Query("rpp") rpp: String? = "",
             @Query("slno") slno: String? = "",
             @Query("version") version: String? = "",
-            @Query("appId") appId :String? = Constants.APP_ID
+            @Query("appId") appId :String? = Constants.APP_ID,
+            @Query("workplace") workPlace: String? = "",
+            @Query("pwd") personWithDisability: String? = "",
     ): Call<LastSearchCountModel>
 
     @FormUrlEncoded
