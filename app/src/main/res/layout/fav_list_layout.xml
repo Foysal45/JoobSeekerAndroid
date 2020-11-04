@@ -113,13 +113,15 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
+            android:letterSpacing="0"
+            tools:text="1234"
             app:backgroundTint="#F7894A"
             app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="0" />
+            />
 
         <TextView
             android:id="@+id/favTitle1TV"
@@ -161,6 +163,7 @@
             app:layout_constraintGuide_begin="214dp" />
 
         <ProgressBar
+            tools:visibility="gone"
             android:id="@+id/progressBar2"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"

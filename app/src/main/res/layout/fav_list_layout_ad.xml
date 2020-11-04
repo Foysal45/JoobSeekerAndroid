@@ -199,6 +199,7 @@
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="#FFFFFF"
+                android:letterSpacing="0"
                 android:textSize="18sp"
                 app:backgroundTint="#F7894A"
                 app:cornerRadius="8dp"
