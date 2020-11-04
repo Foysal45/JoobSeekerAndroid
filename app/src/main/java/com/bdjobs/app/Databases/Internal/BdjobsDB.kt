@@ -21,7 +21,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 17, exportSchema = false)
+    Notification::class], version = 19, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -150,6 +150,20 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_17_18 = object : Migration(17, 18) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LastSearch ADD COLUMN `workPlace` TEXT")
+                database.execSQL("ALTER TABLE LastSearch ADD COLUMN `personWithDisability` TEXT")
+            }
+        }
+
+        val MIGRATION_18_19 = object : Migration(18, 19) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE FavouriteSearch ADD COLUMN `workPlace` TEXT")
+                database.execSQL("ALTER TABLE FavouriteSearch ADD COLUMN `personWithDisability` TEXT")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
@@ -172,7 +186,9 @@ abstract class BdjobsDB : RoomDatabase() {
                         MIGRATION_13_14,
                         MIGRATION_14_15,
                         MIGRATION_15_16,
-                        MIGRATION_16_17
+                        MIGRATION_16_17,
+                        MIGRATION_17_18,
+                        MIGRATION_18_19
                 ).build()
     }
 }

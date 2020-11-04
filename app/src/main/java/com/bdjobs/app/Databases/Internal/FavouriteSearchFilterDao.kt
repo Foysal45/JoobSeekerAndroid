@@ -33,7 +33,7 @@ interface FavouriteSearchFilterDao {
     @Query("DELETE FROM FavouriteSearch WHERE filterid = :filterid")
     fun deleteFavouriteSearchByID(filterid: String)
 
-    @Query("SELECT * FROM FavouriteSearch WHERE industrialCat =:icat and functionalCat=:fcat and location=:location and organization=:qOT and jobnature=:qJobNature and joblevel=:qJobLevel and postedon=:qPosted and deadline=:qDeadline and keyword =:txtsearch and experience =:qExp and gender=:qGender and genderb=:qGenderB and jobtype=:qJobSpecialSkill and retiredarmy=:qRetiredArmy and age=:qAge and newspaper=:newspaper")
+    @Query("SELECT * FROM FavouriteSearch WHERE industrialCat =:icat and functionalCat=:fcat and location=:location and organization=:qOT and jobnature=:qJobNature and joblevel=:qJobLevel and postedon=:qPosted and deadline=:qDeadline and keyword =:txtsearch and experience =:qExp and gender=:qGender and genderb=:qGenderB and jobtype=:qJobSpecialSkill and retiredarmy=:qRetiredArmy and age=:qAge and newspaper=:newspaper and workPlace=:workPlace and personWithDisability=:personWithDisability")
     fun getFavFilterByFilters(
             icat :String?,
             fcat :String?,
@@ -50,7 +50,9 @@ interface FavouriteSearchFilterDao {
             qJobSpecialSkill :String?,
             qRetiredArmy :String?,
             qAge :String?,
-            newspaper :String?
+            newspaper :String?,
+            workPlace : String?,
+            personWithDisability: String?,
     ):List<FavouriteSearch>
 
 }

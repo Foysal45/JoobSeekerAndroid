@@ -114,7 +114,11 @@ data class FavouriteSearch(
         @ColumnInfo(name = "totaljobs")
         val totaljobs: String? = "",
         @ColumnInfo(name = "isSubscribed")
-        var isSubscribed: String? = ""
+        var isSubscribed: String? = "",
+        @ColumnInfo(name = "workPlace")
+        val workPlace: String? = "",
+        @ColumnInfo(name = "personWithDisability")
+        val personWithDisability : String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -270,7 +274,11 @@ data class LastSearch(
         @ColumnInfo(name = "slno")
         val slno: String? = "",
         @ColumnInfo(name = "version")
-        val version: String? = ""
+        val version: String? = "",
+        @ColumnInfo(name = "workPlace")
+        val workPlace: String? = "",
+        @ColumnInfo(name = "personWithDisability")
+        val personWithDisability : String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
