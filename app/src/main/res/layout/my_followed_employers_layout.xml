@@ -73,6 +73,7 @@
                 android:fontFamily="@font/roboto_medium"
                 tools:text="122"
                 android:textColor="#FFFFFF"
+                android:letterSpacing="0"
                 android:textSize="18sp"
                 app:backgroundTint="#47D041"
                 app:cornerRadius="8dp"

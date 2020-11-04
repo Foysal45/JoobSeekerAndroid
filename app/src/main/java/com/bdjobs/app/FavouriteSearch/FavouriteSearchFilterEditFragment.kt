@@ -57,6 +57,10 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private var filterName:String? = ""
     private var createdOn: Date? = null
     private var gender:String? = ""
+
+    private var workPlace : String? = ""
+    private var personWithDisability : String ? = ""
+
     val genderList: MutableList<String> = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -434,6 +438,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.armyCG -> {
                         army = "1"
                     }
+                    R.id.chip_group_workplace ->{
+                        workPlace = "1"
+                    }
+                    R.id.chip_group_person_with_disability ->{
+                        personWithDisability = "1"
+                    }
                 }
             } else {
                 when (chipGroup.id) {
@@ -463,6 +473,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     }
                     R.id.armyCG -> {
                         army = "1"
+                    }
+                    R.id.chip_group_workplace ->{
+                        workPlace = "0"
+                    }
+                    R.id.chip_group_person_with_disability ->{
+                        personWithDisability = "0"
                     }
                 }
             }
@@ -551,6 +567,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(filterData.age))
                     if (filterData.retiredarmy == "1") {
                         selectChip(armyCG, "Yes")
+                    }
+                    if (filterData.workPlace == "1") {
+                        selectChip(chip_group_workplace, "Yes")
+                    }
+                    if (filterData.personWithDisability == "1") {
+                        selectChip(chip_group_person_with_disability, "Yes")
                     }
                 } catch (e: Exception) {
                     logException(e)
