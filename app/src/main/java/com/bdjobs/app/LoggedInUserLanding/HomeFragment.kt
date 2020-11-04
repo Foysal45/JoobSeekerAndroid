@@ -494,7 +494,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             qAge = searchData?.age,
                             rpp = searchData?.rpp,
                             slno = searchData?.slno,
-                            version = searchData?.version
+                            version = searchData?.version,
+                            workPlace = searchData?.workPlace,
+                            personWithDisability = searchData?.personWithDisability
                     ).enqueue(object : Callback<LastSearchCountModel> {
                         override fun onFailure(call: Call<LastSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
@@ -550,10 +552,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val jobtype = dataStorage.getJobTypeByID(search.jobType)
         val genderb = dataStorage.getGenderByID(search.genderB)
         var retiredArmy = ""
+        var workPlace = ""
+        var personWithDisability = ""
 
         search.armyp?.let { string ->
             if (string == "1")
                 retiredArmy = "Preferred Retired Army"
+        }
+
+        search.workPlace?.let {
+            if (it == "1")
+                workPlace = "Work From Home"
+        }
+
+        search.personWithDisability?.let {
+            if (it == "1")
+                personWithDisability = "Person With Disability"
         }
 
         var gender = ""
@@ -568,7 +582,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         //Log.d("gender", "genderb: ${search.genderB}")
 
-        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
+        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability")
         //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")

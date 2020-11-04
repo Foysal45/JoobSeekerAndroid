@@ -121,6 +121,9 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var nId = ""
     private var seen = false
 
+    private var workPlace: String? = ""
+    private var personWithDisability: String? = ""
+
 
     lateinit var dataStorage: DataStorage
     lateinit var bdjobsDB: BdjobsDB
@@ -342,7 +345,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     setDeadline(lastSearch.deadline)
                     setAge(lastSearch.age)
                     setArmy(lastSearch.armyp)
-
+                    setWorkPlace(lastSearch.workPlace)
+                    setPersonWithDisability(lastSearch.personWithDisability)
                     uiThread {
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
                     }
@@ -820,6 +824,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         return this.army
     }
 
+    override fun getWorkPlace(): String? {
+        return this.workPlace
+    }
+
+    override fun getPersonWithDisability(): String? {
+        return this.personWithDisability
+    }
+
     override fun setOrganization(value: String?) {
         this.organization = value
     }
@@ -858,6 +870,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun setArmy(value: String?) {
         this.army = value
+    }
+
+    override fun setWorkPlace(value: String?) {
+        this.workPlace = value
+    }
+
+    override fun setPersonWithDisability(value: String?) {
+        this.personWithDisability = value
     }
 
     override fun getNewsPaper(): String? {
