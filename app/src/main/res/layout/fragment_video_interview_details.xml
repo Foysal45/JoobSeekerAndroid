@@ -295,7 +295,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_done_double"
-                            android:tint="#0D47A1"
+                            app:tint="#0D47A1"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -441,6 +441,7 @@
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:text="View Video"
+                android:letterSpacing="0"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:visibility="gone"

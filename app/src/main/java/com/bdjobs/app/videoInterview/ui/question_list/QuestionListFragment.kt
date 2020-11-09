@@ -22,7 +22,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Web.WebActivity
@@ -30,7 +29,6 @@ import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
-import com.bdjobs.app.videoInterview.util.CustomLinearLayoutManager
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.fondesa.kpermissions.*
@@ -97,7 +95,6 @@ class QuestionListFragment : Fragment() {
         })
 
         rv_question?.adapter = adapter
-        rv_question?.requestLayout()
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(rv_question)
 
@@ -111,6 +108,9 @@ class QuestionListFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 val snapPosition = (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
                 Log.d("rakib", "snap position $snapPosition")
+
+                adapter.notifyDataSetChanged()
+
                 questionListViewModel._selectedItemPosition.value = snapPosition
                 updateStepperText(snapPosition)
                 updateIndicators(snapPosition)
@@ -119,7 +119,7 @@ class QuestionListFragment : Fragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                layoutManager?.requestLayout()
+                //layoutManager?.requestLayout()
                 //cl_root.invalidate()
             }
         })
@@ -157,7 +157,7 @@ class QuestionListFragment : Fragment() {
 
             onSubmissionDoneEvent.observe(viewLifecycleOwner, EventObserver { submitted ->
                 if (submitted) {
-                    Toast.makeText(requireContext(),"Your video interview has been submitted successfully",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Your video interview has been submitted successfully", Toast.LENGTH_SHORT).show()
 //                    cb_not_interested?.hide()
 //                    btn_submit?.hide()
 //                    btn_submit_later?.hide()
@@ -187,7 +187,7 @@ class QuestionListFragment : Fragment() {
 
         binding.btnGuide.setOnClickListener {
             //findNavController().navigate(R.id.action_questionListFragment_to_guidelineLandingFragment)
-            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/AppUserGuideFor_videoInterview.asp","from" to "video")
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/AppUserGuideFor_videoInterview.asp", "from" to "video")
         }
     }
 
