@@ -166,7 +166,6 @@ interface ApiServiceJobs {
             @Query("actType") actType: String? = "",
             @Query("decodeId") decodeId: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID
-
     ): Call<FollowUnfollowModelClass>
 
     @GET("companyotherjobs.asp")
@@ -253,6 +252,8 @@ interface ApiServiceJobs {
             @Field("qAge") qAge: String? = "",
             @Field("newspaper") newspaper: String? = "",
             @Field("encoded") encoded: String? = "",
+            @Field("qPWD") personWithDisability: String? = "",
+            @Field("qworkstation") workPlace: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<SaveUpdateFavFilterModel>
 

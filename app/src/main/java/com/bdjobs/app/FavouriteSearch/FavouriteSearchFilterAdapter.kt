@@ -144,11 +144,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         }.show()
                     }
 
-                    if (items[position].isSubscribed!!.equalIgnoreCase("True"))
-                    {
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
                         holder.subscribeButton.hide()
                         holder.unsubscribeButton.show()
-                    } else{
+                    } else {
                         holder.subscribeButton.show()
                         holder.unsubscribeButton.hide()
                     }
@@ -322,11 +321,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         }
                     }
 
-                    if (items[position].isSubscribed!!.equalIgnoreCase("True"))
-                    {
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
                         holder.subscribeButton.hide()
                         holder.unsubscribeButton.show()
-                    } else{
+                    } else {
                         holder.subscribeButton.show()
                         holder.unsubscribeButton.hide()
                     }
@@ -436,14 +434,13 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         response.body()?.statuscode?.let { status ->
                             if (status.equalIgnoreCase(api_request_result_code_ok)) {
                                 isNewPurchaseNeeded = response.body()?.data?.get(0)?.isNewSMSPurchaseNeeded
-                                if (type == 1){
+                                if (type == 1) {
                                     openSubscribeInfoDialog()
                                     item.isSubscribed = "True"
                                     doAsync {
                                         bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(item)
                                     }
-                                }
-                                else{
+                                } else {
                                     item.isSubscribed = "False"
                                     Toast.makeText(context, "Successfully unsubscribed", Toast.LENGTH_SHORT).show()
                                     doAsync {
@@ -571,10 +568,22 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         val jobtype = dataStorage.getJobTypeByID(favouriteSearch.jobtype)
         val genderb = dataStorage.getGenderByID(favouriteSearch.genderb)
         var retiredArmy = ""
+        var workPlace = ""
+        var personWithDisability = ""
 
         favouriteSearch.retiredarmy?.let { string ->
             if (string == "1")
                 retiredArmy = "Preferred Retired Army"
+        }
+
+        favouriteSearch.workPlace?.let { string ->
+            if (string == "1")
+                workPlace = "Work From Home"
+        }
+
+        favouriteSearch.retiredarmy?.let { string ->
+            if (string == "1")
+                personWithDisability = "Preferred Retired Army"
         }
 
         var gender = ""

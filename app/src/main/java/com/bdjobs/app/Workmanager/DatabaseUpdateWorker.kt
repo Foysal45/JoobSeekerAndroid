@@ -36,6 +36,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -120,7 +121,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     createdon = cratedOn,
                                     updatedon = updatedOn,
                                     totaljobs = item?.totaljobs,
-                                    isSubscribed = item?.isSubscribed
+                                    isSubscribed = item?.isSubscribed,
+
                             )
                             bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
                         }
@@ -202,7 +204,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     Constants.videoInvitation = items.size.toString()
                                     var dateStringForInvitaion: Date? = null
                                     try {
-                                        if(item?.dateStringForInvitaion != ""){
+                                        if (item?.dateStringForInvitaion != "") {
                                             dateStringForInvitaion = SimpleDateFormat("dd MMM yyyy").parse(item?.dateStringForInvitaion)
                                         }
 
@@ -212,7 +214,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                                     var employerSeenDate: Date? = null
                                     try {
-                                        if(item?.employerSeenDate != ""){
+                                        if (item?.employerSeenDate != "") {
                                             employerSeenDate = SimpleDateFormat("dd MMM yyyy").parse(item?.employerSeenDate)
                                         }
 
@@ -223,7 +225,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                                     var dateStringForSubmission: Date? = null
                                     try {
-                                        if(item?.dateStringForSubmission != ""){
+                                        if (item?.dateStringForSubmission != "") {
                                             dateStringForSubmission = SimpleDateFormat("dd MMM yyyy").parse(item?.dateStringForSubmission)
                                         }
 
@@ -262,7 +264,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
     }
 
-    fun insertLiveInvitation(){
+    fun insertLiveInvitation() {
         ApiServiceMyBdjobs.create().getLiveInvitationListHome(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId).enqueue(object : Callback<LiveInterviewList> {
             override fun onFailure(call: Call<LiveInterviewList>, t: Throwable) {
                 error("onFailure", t)
@@ -278,7 +280,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 for (item in items) {
                                     var dateStringForInvitaion: Date? = null
                                     try {
-                                        if(item?.dateStringForInvitaion != ""){
+                                        if (item?.dateStringForInvitaion != "") {
                                             dateStringForInvitaion = SimpleDateFormat("dd MMM yyyy").parse(item?.dateStringForInvitaion)
                                         }
 
@@ -289,7 +291,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                                     var liveInterviewDate: Date? = null
                                     try {
-                                        if(item?.liveInterviewDate != ""){
+                                        if (item?.liveInterviewDate != "") {
                                             liveInterviewDate = SimpleDateFormat("d MMM yyyy hh:mm:ss").parse("${item?.liveInterviewDate} ${item?.liveInterviewTime}")
                                         }
 
@@ -450,6 +452,18 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
             //Log.d("rakib", "notification count $count")
             bdjobsUserSession.updateNotificationCount(count)
         }
+
+//        doAsync {
+//            try {
+//                val aa: List<LiveInvitation> = bdjobsInternalDB.liveInvitationDao().getAllLiveInvitationByDate(Date())
+//                uiThread {
+//                    Timber.d("total live interview ${aa[0].liveInterviewTime}")
+//                }
+//            } catch (e: Exception) {
+//
+//            }
+//
+//        }
     }
 
     private fun getMybdjobsCountData(activityDate: String) {

@@ -1,7 +1,6 @@
 package com.bdjobs.app
 
-import android.app.Activity
-import android.app.Dialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -14,11 +13,13 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.view.Window
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
@@ -27,6 +28,8 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
+import com.bdjobs.app.BroadCastReceivers.LiveInterviewBroadcastReceiver
+import com.bdjobs.app.BroadCastReceivers.TestBroadcastReceiver
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
 import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
 import com.bdjobs.app.Databases.External.DataStorage
@@ -243,6 +246,8 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                }
 //                DatabaseUpdateJob.runJobImmediately()
 
+                scheduleNotification()
+
                 WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
                 WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")
 
@@ -312,6 +317,22 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun scheduleNotification() {
+        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, TestBroadcastReceiver::class.java).apply {
+            putExtra(TestBroadcastReceiver.serial, TestBroadcastReceiver.value.plus(1))
+        }.let {
+            PendingIntent.getBroadcast(this, 0, it, PendingIntent.FLAG_ONE_SHOT)
+        }
+
+        alarmManager?.setExactAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + 60 * 1000,
+                alarmIntent
+        )
+    }
+
 //    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
 //
 //        ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
@@ -347,6 +368,14 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
     fun showAdAndGoToNextActivity() {
         checkUpdate()
+    }
+
+    private fun getNotification(content: String): Notification {
+        val builder = Notification.Builder(this)
+        builder.setContentTitle("Scheduled Notification")
+        builder.setContentText(content)
+        builder.setSmallIcon(R.drawable.bdjobs_app_logo)
+        return builder.build()
     }
 
     private fun goToNextActivity() {

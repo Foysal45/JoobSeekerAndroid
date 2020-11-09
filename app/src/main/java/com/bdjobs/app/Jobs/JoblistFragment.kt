@@ -820,7 +820,10 @@ class JoblistFragment : Fragment() {
                 filterName = filterName?.trim(),
                 qAge = age,
                 newspaper = newsPaper,
-                encoded = Constants.ENCODED_JOBS
+                encoded = Constants.ENCODED_JOBS,
+                personWithDisability = personWithDisability,
+                workPlace = workPlace
+
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
